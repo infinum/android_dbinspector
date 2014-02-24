@@ -28,7 +28,7 @@ public class DbViewActivity extends Activity implements ActionBar.OnNavigationLi
 
         // Set up the action bar to show a dropdown list.
         final ActionBar actionBar = getActionBar();
-        actionBar.setDisplayShowTitleEnabled(false);
+//        actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
         // Set up the dropdown list navigation in the action bar.
@@ -96,4 +96,10 @@ public class DbViewActivity extends Activity implements ActionBar.OnNavigationLi
         return true;
     }
 
+    @Override
+    public boolean onNavigateUp() {
+        getFragmentManager().popBackStack();
+
+        return true;
+    }
 }

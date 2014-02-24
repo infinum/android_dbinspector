@@ -1,42 +1,35 @@
 package im.dino.dbview.helpers;
 
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.util.Log;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
-import im.dino.dbview.Constants;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by dino on 23/02/14.
  */
 public class DatabaseHelper {
 
-    public static final String META_KEY_DB_NAME = "DBVIEW_DB_NAME";
+    public static List<String> getAllTables(Context context, String databaseName) {
 
-    public static String getDatabaseName(Context context) {
+        File databasePath = context.getDatabasePath(databaseName);
 
-        try {
-            final ApplicationInfo ai = context.getPackageManager().getApplicationInfo(
-                    context.getPackageName(), PackageManager.GET_META_DATA);
+        SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase(databasePath, null);
 
-            if (ai.metaData != null) {
-                return ai.metaData.getString(META_KEY_DB_NAME);
+        List<String> tableList = new ArrayList<>();
+        Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
+
+        if (c.moveToFirst()) {
+            while (!c.isAfterLast()) {
+                tableList.add(c.getString(c.getColumnIndex("name")));
+                c.moveToNext();
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e(Constants.LOGTAG, "Couldn't find metadata: " + META_KEY_DB_NAME);
-            Log.d(Constants.LOGTAG, "Did you set the database name in you app manifest?");
         }
 
-        return null;
-    }
-
-    public static void getAllTables(Context context) {
-
-        String databasePath = context.getDatabasePath(getDatabaseName(context)).toString();
-
+        return tableList;
     }
 
 }
