@@ -9,6 +9,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import im.dino.dbview.R;
 
 /**
@@ -28,8 +31,16 @@ public class DatabaseListFragment extends ListFragment implements AdapterView.On
         getActivity().getActionBar().setTitle("Databases");
         getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
 
+        List<String> databaseList = new ArrayList<>();
+
+        for (String database : getActivity().databaseList()) {
+            if (!database.endsWith("-journal")) {
+                databaseList.add(database);
+            }
+        }
+
         ListAdapter adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1,
-                getActivity().databaseList());
+                databaseList);
 
         setListAdapter(adapter);
 

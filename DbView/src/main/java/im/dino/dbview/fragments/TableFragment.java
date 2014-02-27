@@ -5,6 +5,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+
+import java.util.List;
+
+import im.dino.dbview.R;
+import im.dino.dbview.adapters.TablePageAdapter;
 
 /**
  * Created by dino on 24/02/14.
@@ -18,6 +25,8 @@ public class TableFragment extends Fragment {
     private String mDatabaseName;
 
     private String mTableName;
+
+    private TableLayout mTableLayout;
 
     public static TableFragment newInstance(String databaseName, String tableName) {
 
@@ -44,7 +53,11 @@ public class TableFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+
+        View view = inflater.inflate(R.layout.fragment_table, null);
+        mTableLayout = (TableLayout) view.findViewById(R.id.table_layout);
+
+        return view;
     }
 
     @Override
@@ -55,5 +68,12 @@ public class TableFragment extends Fragment {
         getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 
         // TODO get table content and display it
+        TablePageAdapter adapter = new TablePageAdapter(getActivity(), mDatabaseName, mTableName);
+
+        List<TableRow> rows = adapter.getStructure();
+
+        for (TableRow row : rows) {
+            mTableLayout.addView(row);
+        }
     }
 }
