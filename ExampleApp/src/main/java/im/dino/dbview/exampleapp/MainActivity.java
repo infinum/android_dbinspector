@@ -45,19 +45,21 @@ public class MainActivity extends Activity {
 
         Calendar cal = Calendar.getInstance();
 
-        Article first = new Article();
-        first.title = "First post!";
-        first.text = "This is the first post of the example app";
-        first.publishedAt = cal;
-        first.user = admin;
-        first.save();
+        for (int i = 0; i < 50; i++) {
+            Article first = new Article();
+            first.title = "First post!";
+            first.text = "This is the first post of the example app";
+            first.publishedAt = cal;
+            first.user = admin;
+            first.save();
 
-        Article second = new Article();
-        second.title = "Second";
-        second.text = "Second article text";
-        second.publishedAt = cal;
-        second.user = jane;
-        second.save();
+            Article second = new Article();
+            second.title = "Second";
+            second.text = "Second article text";
+            second.publishedAt = cal;
+            second.user = jane;
+            second.save();
+        }
     }
 
 

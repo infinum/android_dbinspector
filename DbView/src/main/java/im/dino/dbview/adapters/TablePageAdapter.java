@@ -29,6 +29,8 @@ public class TablePageAdapter {
 
     private int mPosition = 0;
 
+    private int mCount = 0;
+
     private int paddingPx;
 
     public TablePageAdapter(Context context, String databaseName, String tableName) {
@@ -77,4 +79,79 @@ public class TablePageAdapter {
 
         return rows;
     }
+
+    public List<TableRow> getContentPage() {
+
+        List<TableRow> rows = new ArrayList<>();
+
+        Cursor cursor = mDatabase.query(mTableName, null, null, null, null, null, null);
+
+        mCount = cursor.getCount();
+
+        cursor.moveToFirst();
+
+        TableRow header = new TableRow(mContext);
+
+        for (int col = 0; col < cursor.getColumnCount(); col++) {
+            TextView textView = new TextView(mContext);
+            textView.setText(cursor.getColumnName(col));
+            textView.setPadding(paddingPx, paddingPx / 2, paddingPx, paddingPx / 2);
+            header.addView(textView);
+        }
+
+        rows.add(header);
+
+        cursor.moveToPosition(mPosition);
+
+        do {
+            TableRow row = new TableRow(mContext);
+
+            for (int col = 0; col < cursor.getColumnCount(); col++) {
+                TextView textView = new TextView(mContext);
+                textView.setText(cursor.getString(col));
+                textView.setPadding(paddingPx, paddingPx / 2, paddingPx, paddingPx / 2);
+                row.addView(textView);
+            }
+
+            rows.add(row);
+
+        } while (cursor.moveToNext() && rows.size() <= ROWS_PER_PAGE);
+
+        return rows;
+    }
+
+    public void nextPage() {
+
+        if (mPosition + ROWS_PER_PAGE < mCount) {
+            mPosition += ROWS_PER_PAGE;
+        }
+
+    }
+
+    public void previousPage() {
+
+        if (mPosition - ROWS_PER_PAGE >= 0) {
+            mPosition -= ROWS_PER_PAGE;
+        }
+
+    }
+
+    public boolean hasNext() {
+
+        return mPosition + ROWS_PER_PAGE < mCount;
+    }
+
+    public boolean hasPrevious() {
+
+        return mPosition - ROWS_PER_PAGE >= 0;
+    }
+
+    public int getPageCount() {
+        return (int) Math.ceil((float) mCount / ROWS_PER_PAGE);
+    }
+
+    public int getCurrentPage() {
+        return (mPosition / ROWS_PER_PAGE) + 1;
+    }
+
 }

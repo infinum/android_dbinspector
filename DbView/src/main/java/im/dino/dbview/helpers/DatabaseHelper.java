@@ -43,30 +43,4 @@ public class DatabaseHelper {
         return tableList;
     }
 
-    public static Cursor getTableContent(Context context, String databaseName, String tableName) {
-
-        SQLiteDatabase db = getDatabase(context, databaseName);
-
-        List<String> columns = new ArrayList<>();
-
-        // PRAGMA
-//        cid|name                 |type    |notnull |dflt_value |pk
-//        0  |id_fields_starring   |INTEGER |0       |           |1
-//        1  |fields_descriptor_id |INTEGER |1       |           |0
-//        2  |starring_id          |INTEGER |1       |           |0
-//        3  |form_mandatory       |INTEGER |1       |1          |0
-//        4  |form_visible         |INTEGER |1       |1          |0
-
-        Cursor ti = db.rawQuery("PRAGMA table_info(" + tableName + ")", null);
-        if (ti.moveToFirst()) {
-            do {
-                columns.add(ti.getString(1));
-            } while (ti.moveToNext());
-        }
-
-        Cursor cursor = db.query(tableName, null, null, null, null, null, null);
-
-        return cursor;
-    }
-
 }

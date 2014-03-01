@@ -1,14 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <TableLayout
-        android:id="@+id/table_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:id="@+id/layout_content_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
 
-</HorizontalScrollView>
+        <Button
+            android:id="@+id/button_previous"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/previous" />
+
+        <TextView
+            android:id="@+id/text_current_page"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center" />
+
+        <Button
+            android:id="@+id/button_next"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/next" />
+
+    </LinearLayout>
+
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TableLayout
+                android:id="@+id/table_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </ScrollView>
+
+    </HorizontalScrollView>
+
+</LinearLayout>

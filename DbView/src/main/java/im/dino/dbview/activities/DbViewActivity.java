@@ -1,19 +1,15 @@
 package im.dino.dbview.activities;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 
-import im.dino.dbview.Constants;
 import im.dino.dbview.R;
 import im.dino.dbview.fragments.DatabaseListFragment;
 
-public class DbViewActivity extends Activity implements ActionBar.OnNavigationListener {
+public class DbViewActivity extends Activity {
 
     /**
      * The serialization (saved instance state) Bundle key representing the
@@ -25,25 +21,6 @@ public class DbViewActivity extends Activity implements ActionBar.OnNavigationLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_db_view);
-
-        // Set up the action bar to show a dropdown list.
-        final ActionBar actionBar = getActionBar();
-//        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-
-        // Set up the dropdown list navigation in the action bar.
-        actionBar.setListNavigationCallbacks(
-                // Specify a SpinnerAdapter to populate the dropdown list.
-                new ArrayAdapter<>(
-                        actionBar.getThemedContext(),
-                        android.R.layout.simple_list_item_1,
-                        android.R.id.text1,
-                        new String[]{
-                                getString(R.string.title_section1),
-                                getString(R.string.title_section2),
-                                getString(R.string.title_section3),
-                        }),
-                this);
 
         if (savedInstanceState == null) {
             FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -85,15 +62,6 @@ public class DbViewActivity extends Activity implements ActionBar.OnNavigationLi
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(int position, long id) {
-        // When the given dropdown item is selected, show its contents in the
-        // container view.
-
-        Log.d(Constants.LOGTAG, "Selected position " + position);
-        return true;
     }
 
     @Override
