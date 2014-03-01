@@ -111,7 +111,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
     @Override
     public void onDestroyView() {
-        
+
         if (getActivity() != null) {
             getActivity().getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         }
@@ -173,6 +173,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         public void onClick(View v) {
             mAdapter.nextPage();
             showContent();
+            // TODO scroll to top
         }
     };
 
@@ -182,6 +183,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         public void onClick(View v) {
             mAdapter.previousPage();
             showContent();
+            // TODO scroll to top
         }
     };
 }
