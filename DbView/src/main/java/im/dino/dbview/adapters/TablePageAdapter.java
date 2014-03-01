@@ -5,12 +5,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.preference.PreferenceManager;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import im.dino.dbview.R;
 import im.dino.dbview.helpers.DatabaseHelper;
 import im.dino.dbview.helpers.DisplayHelper;
 
@@ -27,7 +29,7 @@ public class TablePageAdapter {
 
     private final SQLiteDatabase mDatabase;
 
-    private static final int ROWS_PER_PAGE = 25;
+    private int mRowsPerPage = 10;
 
     private int mPosition = 0;
 
@@ -43,6 +45,11 @@ public class TablePageAdapter {
 
         mDatabase = DatabaseHelper.getDatabase(mContext, mDatabaseName);
         paddingPx = DisplayHelper.dpToPx(mContext, 5);
+
+        String keyRowsPerPage = mContext.getString(R.string.pref_key_rows_per_page);
+        String rowsPerPage = PreferenceManager.getDefaultSharedPreferences(mContext)
+                .getString(keyRowsPerPage, "10");
+        mRowsPerPage = Integer.valueOf(rowsPerPage);
     }
 
     public List<TableRow> getStructure() {
@@ -103,43 +110,43 @@ public class TablePageAdapter {
 
             rows.add(row);
 
-        } while (cursor.moveToNext() && rows.size() <= ROWS_PER_PAGE);
+        } while (cursor.moveToNext() && rows.size() <= mRowsPerPage);
 
         return rows;
     }
 
     public void nextPage() {
 
-        if (mPosition + ROWS_PER_PAGE < mCount) {
-            mPosition += ROWS_PER_PAGE;
+        if (mPosition + mRowsPerPage < mCount) {
+            mPosition += mRowsPerPage;
         }
 
     }
 
     public void previousPage() {
 
-        if (mPosition - ROWS_PER_PAGE >= 0) {
-            mPosition -= ROWS_PER_PAGE;
+        if (mPosition - mRowsPerPage >= 0) {
+            mPosition -= mRowsPerPage;
         }
 
     }
 
     public boolean hasNext() {
 
-        return mPosition + ROWS_PER_PAGE < mCount;
+        return mPosition + mRowsPerPage < mCount;
     }
 
     public boolean hasPrevious() {
 
-        return mPosition - ROWS_PER_PAGE >= 0;
+        return mPosition - mRowsPerPage >= 0;
     }
 
     public int getPageCount() {
-        return (int) Math.ceil((float) mCount / ROWS_PER_PAGE);
+        return (int) Math.ceil((float) mCount / mRowsPerPage);
     }
 
     public int getCurrentPage() {
-        return (mPosition / ROWS_PER_PAGE) + 1;
+        return (mPosition / mRowsPerPage) + 1;
     }
 
 }

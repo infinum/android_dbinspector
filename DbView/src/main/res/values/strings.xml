@@ -7,5 +7,17 @@
     <string name="action_settings">Settings</string>
     <string name="previous">Previous</string>
     <string name="next">Next</string>
+    <string name="pref_key_rows_per_page">prefs_key_row_per_page</string>
+    <string name="rows_per_page">Rows per page</string>
+
+    <string name="rows_per_page_default">10</string>
+    <string-array name="rows_per_page_options">
+        <item>10</item>
+        <item>25</item>
+        <item>50</item>
+        <item>100</item>
+        <item>200</item>
+        <item>500</item>
+    </string-array>
 
 </resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:key="pref_rows_per_page"
+        android:title="@string/rows_per_page"
+        android:summary="%s"
+        android:dialogTitle="@string/rows_per_page"
+        android:entries="@array/rows_per_page_options"
+        android:entryValues="@array/rows_per_page_options"
+        android:defaultValue="@string/rows_per_page_default" />
+
+</PreferenceScreen>

@@ -35,11 +35,13 @@
 
     <HorizontalScrollView
         android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="horizontal">
 
         <ScrollView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical">
 
             <TableLayout
                 android:id="@+id/table_layout"

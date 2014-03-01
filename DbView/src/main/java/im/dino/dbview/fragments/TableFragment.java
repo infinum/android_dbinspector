@@ -2,8 +2,12 @@ package im.dino.dbview.fragments;
 
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -56,6 +60,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
         if (getArguments() != null) {
             mDatabaseName = getArguments().getString(KEY_DATABASE);
@@ -107,6 +112,24 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         mAdapter = new TablePageAdapter(getActivity(), mDatabaseName, mTableName);
 
         showStructure();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.fragment_table, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.action_settings) {
+            FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
+            ft.replace(R.id.container, new TableSettingsFragment()).addToBackStack(null).commit();
+            getActivity().getFragmentManager().executePendingTransactions();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
