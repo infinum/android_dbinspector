@@ -30,7 +30,7 @@
 
         <meta-data
             android:name="AA_DB_NAME"
-            android:value="Grassometer.db" />
+            android:value="Example.db" />
         <meta-data
             android:name="AA_DB_VERSION"
             android:value="1" />

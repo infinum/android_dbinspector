@@ -3,7 +3,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ListPreference
-        android:key="pref_rows_per_page"
+        android:key="@string/pref_key_rows_per_page"
         android:title="@string/rows_per_page"
         android:summary="%s"
         android:dialogTitle="@string/rows_per_page"

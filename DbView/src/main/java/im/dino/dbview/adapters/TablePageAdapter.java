@@ -23,8 +23,6 @@ public class TablePageAdapter {
 
     private final Context mContext;
 
-    private final String mDatabaseName;
-
     private final String mTableName;
 
     private final SQLiteDatabase mDatabase;
@@ -35,20 +33,20 @@ public class TablePageAdapter {
 
     private int mCount = 0;
 
-    private int paddingPx;
+    private int mPaddingPx;
 
     public TablePageAdapter(Context context, String databaseName, String tableName) {
 
         mContext = context;
-        mDatabaseName = databaseName;
         mTableName = tableName;
 
-        mDatabase = DatabaseHelper.getDatabase(mContext, mDatabaseName);
-        paddingPx = DisplayHelper.dpToPx(mContext, 5);
+        mDatabase = DatabaseHelper.getDatabase(mContext, databaseName);
+        mPaddingPx = DisplayHelper.dpToPx(mContext, 5);
 
         String keyRowsPerPage = mContext.getString(R.string.pref_key_rows_per_page);
+        String defaultRowsPerPage = mContext.getString(R.string.rows_per_page_default);
         String rowsPerPage = PreferenceManager.getDefaultSharedPreferences(mContext)
-                .getString(keyRowsPerPage, "10");
+                .getString(keyRowsPerPage, defaultRowsPerPage);
         mRowsPerPage = Integer.valueOf(rowsPerPage);
     }
 
@@ -82,7 +80,7 @@ public class TablePageAdapter {
         for (int col = 0; col < cursor.getColumnCount(); col++) {
             TextView textView = new TextView(mContext);
             textView.setText(cursor.getColumnName(col));
-            textView.setPadding(paddingPx, paddingPx / 2, paddingPx, paddingPx / 2);
+            textView.setPadding(mPaddingPx, mPaddingPx / 2, mPaddingPx, mPaddingPx / 2);
             textView.setTypeface(Typeface.DEFAULT_BOLD);
             header.addView(textView);
         }
@@ -97,7 +95,7 @@ public class TablePageAdapter {
             for (int col = 0; col < cursor.getColumnCount(); col++) {
                 TextView textView = new TextView(mContext);
                 textView.setText(cursor.getString(col));
-                textView.setPadding(paddingPx, paddingPx / 2, paddingPx, paddingPx / 2);
+                textView.setPadding(mPaddingPx, mPaddingPx / 2, mPaddingPx, mPaddingPx / 2);
 
                 if (alternate) {
                     textView.setBackgroundColor(Color.rgb(250, 250, 250));
