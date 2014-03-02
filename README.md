@@ -1,5 +1,5 @@
-DbView
-======
+Android DbView
+==============
 
 A small android library which enables you to take a look inside you in-app database.
 
