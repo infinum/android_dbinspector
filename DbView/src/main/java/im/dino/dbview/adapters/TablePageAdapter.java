@@ -89,6 +89,10 @@ public class TablePageAdapter {
 
         boolean alternate = true;
 
+        if(cursor.getCount() == 0) {
+            return rows;
+        }
+
         do {
             TableRow row = new TableRow(mContext);
 
