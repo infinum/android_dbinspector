@@ -1,13 +1,13 @@
 package im.dino.dbview.activities;
 
-import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBarActivity;
 
 import im.dino.dbview.R;
 import im.dino.dbview.fragments.DatabaseListFragment;
 
-public class DbViewActivity extends Activity {
+public class DbViewActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,14 +15,14 @@ public class DbViewActivity extends Activity {
         setContentView(R.layout.activity_db_view);
 
         if (savedInstanceState == null) {
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.container, new DatabaseListFragment()).commit();
         }
     }
 
     @Override
     public boolean onNavigateUp() {
-        getFragmentManager().popBackStack();
+        getSupportFragmentManager().popBackStack();
 
         return true;
     }

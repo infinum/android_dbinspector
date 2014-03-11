@@ -1,9 +1,10 @@
 package im.dino.dbview.fragments;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.app.ListFragment;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.ListFragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -28,8 +29,13 @@ public class DatabaseListFragment extends ListFragment implements AdapterView.On
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        getActivity().getActionBar().setTitle("Databases");
-        getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
+        if (getActivity() instanceof ActionBarActivity) {
+
+            ActionBarActivity activity = (ActionBarActivity) getActivity();
+
+            activity.getSupportActionBar().setTitle("Databases");
+            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
 
         List<String> databaseList = new ArrayList<>();
 
@@ -50,11 +56,11 @@ public class DatabaseListFragment extends ListFragment implements AdapterView.On
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        FragmentManager fm = getActivity().getFragmentManager();
+        FragmentManager fm = getActivity().getSupportFragmentManager();
 
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.container, TableListFragment.newInstance(
-                (String) getListAdapter().getItem(position)));
+        ft.replace(R.id.container,
+                TableListFragment.newInstance((String) getListAdapter().getItem(position)));
         ft.addToBackStack(null).commit();
 
         fm.executePendingTransactions();
