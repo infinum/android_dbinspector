@@ -34,14 +34,16 @@
     </LinearLayout>
 
     <HorizontalScrollView
+        android:id="@+id/horizontal_scrollview_table"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:scrollbars="horizontal">
+        android:scrollbarStyle="outsideOverlay">
 
         <ScrollView
+            android:id="@+id/scrollview_table"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scrollbars="vertical">
+            android:scrollbarStyle="outsideOverlay">
 
             <TableLayout
                 android:id="@+id/table_layout"
