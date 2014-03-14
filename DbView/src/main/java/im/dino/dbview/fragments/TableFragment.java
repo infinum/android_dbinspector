@@ -1,11 +1,11 @@
 package im.dino.dbview.fragments;
 
+import android.annotation.TargetApi;
+import android.app.ActionBar;
+import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.HorizontalScrollView;
+import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -25,6 +27,7 @@ import im.dino.dbview.adapters.TablePageAdapter;
 /**
  * Created by dino on 24/02/14.
  */
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TableFragment extends Fragment implements ActionBar.OnNavigationListener {
 
     private static final String KEY_DATABASE = "database_name";
@@ -46,6 +49,10 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
     private TextView mCurrentPageText;
 
     private View mContentHeader;
+
+    private ScrollView mScrollView;
+
+    private HorizontalScrollView mHorizontalScrollView;
 
     public static TableFragment newInstance(String databaseName, String tableName) {
 
@@ -80,6 +87,9 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         mNextButton = view.findViewById(R.id.button_next);
         mCurrentPageText = (TextView) view.findViewById(R.id.text_current_page);
         mContentHeader = view.findViewById(R.id.layout_content_header);
+        mScrollView = (ScrollView) view.findViewById(R.id.scrollview_table);
+        mHorizontalScrollView = (HorizontalScrollView) view
+                .findViewById(R.id.horizontal_scrollview_table);
 
         mPreviousButton.setOnClickListener(previousListener);
         mNextButton.setOnClickListener(nextListener);
@@ -87,36 +97,33 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         return view;
     }
 
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (getActivity() instanceof ActionBarActivity) {
+        final ActionBar actionBar = getActivity().getActionBar();
 
-            final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+        actionBar.setTitle(mTableName);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
-            actionBar.setTitle(mTableName);
-            actionBar.setDisplayHomeAsUpEnabled(true);
+        // Set up the action bar to show a dropdown list.
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
-            // Set up the action bar to show a dropdown list.
-            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-
-            // Set up the dropdown list navigation in the action bar.
-            actionBar.setListNavigationCallbacks(
-                    // Specify a SpinnerAdapter to populate the dropdown list.
-                    new ArrayAdapter<>(
-                            actionBar.getThemedContext(),
-                            android.R.layout.simple_list_item_1,
-                            android.R.id.text1,
-                            new String[]{
-                                    getString(R.string.structure),
-                                    getString(R.string.content),
-                            }
-                    ),
-                    this
-            );
-
-        }
+        // Set up the dropdown list navigation in the action bar.
+        actionBar.setListNavigationCallbacks(
+                // Specify a SpinnerAdapter to populate the dropdown list.
+                new ArrayAdapter<>(
+                        actionBar.getThemedContext(),
+                        android.R.layout.simple_list_item_1,
+                        android.R.id.text1,
+                        new String[]{
+                                getString(R.string.structure),
+                                getString(R.string.content),
+                        }
+                ),
+                this
+        );
 
         mAdapter = new TablePageAdapter(getActivity(), mDatabaseName, mTableName);
 
@@ -145,10 +152,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
     @Override
     public void onDestroyView() {
 
-        if (getActivity() != null && getActivity() instanceof ActionBarActivity) {
-            ((ActionBarActivity) getActivity()).getSupportActionBar()
-                    .setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        }
+        getActivity().getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 
         super.onDestroyView();
     }
@@ -205,9 +209,12 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
         @Override
         public void onClick(View v) {
+
             mAdapter.nextPage();
             showContent();
-            // TODO scroll to top
+
+            mScrollView.scrollTo(0, 0);
+            mHorizontalScrollView.scrollTo(0, 0);
         }
     };
 
@@ -215,9 +222,12 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
         @Override
         public void onClick(View v) {
+
             mAdapter.previousPage();
             showContent();
-            // TODO scroll to top
+
+            mScrollView.scrollTo(0, 0);
+            mHorizontalScrollView.scrollTo(0, 0);
         }
     };
 }

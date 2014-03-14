@@ -1,10 +1,12 @@
 package im.dino.dbview.fragments;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.app.ListFragment;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.ListFragment;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,6 +20,7 @@ import im.dino.dbview.helpers.DatabaseHelper;
 /**
  * Created by dino on 24/02/14.
  */
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TableListFragment extends ListFragment {
 
     private static final String KEY_DATABASE = "database_name";
@@ -48,13 +51,10 @@ public class TableListFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (getActivity() instanceof ActionBarActivity) {
+        Activity activity = getActivity();
 
-            ActionBarActivity activity = (ActionBarActivity) getActivity();
-
-            activity.getSupportActionBar().setTitle(mDatabaseName);
-            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+        activity.getActionBar().setTitle(mDatabaseName);
+        activity.getActionBar().setDisplayHomeAsUpEnabled(true);
 
         List<String> tableList = DatabaseHelper.getAllTables(getActivity(), mDatabaseName);
 
@@ -71,7 +71,7 @@ public class TableListFragment extends ListFragment {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            FragmentManager fm = getActivity().getSupportFragmentManager();
+            FragmentManager fm = getActivity().getFragmentManager();
 
             FragmentTransaction ft = fm.beginTransaction();
             ft.replace(R.id.container, TableFragment.newInstance(mDatabaseName,

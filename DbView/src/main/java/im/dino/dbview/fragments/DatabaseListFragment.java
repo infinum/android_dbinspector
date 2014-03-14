@@ -1,10 +1,12 @@
 package im.dino.dbview.fragments;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.app.ListFragment;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.ListFragment;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,6 +20,7 @@ import im.dino.dbview.R;
 /**
  * Created by dino on 23/02/14.
  */
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class DatabaseListFragment extends ListFragment implements AdapterView.OnItemClickListener {
 
     @Override
@@ -29,13 +32,10 @@ public class DatabaseListFragment extends ListFragment implements AdapterView.On
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (getActivity() instanceof ActionBarActivity) {
+        Activity activity = getActivity();
 
-            ActionBarActivity activity = (ActionBarActivity) getActivity();
-
-            activity.getSupportActionBar().setTitle("Databases");
-            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        }
+        activity.getActionBar().setTitle("Databases");
+        activity.getActionBar().setDisplayHomeAsUpEnabled(false);
 
         List<String> databaseList = new ArrayList<>();
 
@@ -56,7 +56,7 @@ public class DatabaseListFragment extends ListFragment implements AdapterView.On
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentManager fm = getActivity().getFragmentManager();
 
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.container,

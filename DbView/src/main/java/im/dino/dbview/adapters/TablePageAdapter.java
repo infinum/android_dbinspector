@@ -102,7 +102,7 @@ public class TablePageAdapter {
                 textView.setPadding(mPaddingPx, mPaddingPx / 2, mPaddingPx, mPaddingPx / 2);
 
                 if (alternate) {
-                    textView.setBackgroundColor(Color.rgb(250, 250, 250));
+                    textView.setBackgroundColor(Color.rgb(242, 242, 242));
                 }
 
                 row.addView(textView);
