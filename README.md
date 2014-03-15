@@ -29,6 +29,8 @@ Declare DbViewActivity in your debug manifest (`src/debug/AndroidManifest.xml`)
 
 Now you have a launcher icon for viewing you in-app database which appears only on debug builds.
 
+## Support
+
 DbView needs **minSdk 14** to run, but it declares **minSdk 7** so you can include it in your project which may support pre-ICS devices.
 
 ### Note
