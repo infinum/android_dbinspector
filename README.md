@@ -6,13 +6,13 @@ Provides a simple way to view the contents of the in-app database for debugging 
 
 ## Usage
 
-1. Add the library as a dependency to your ```build.gradle```
+Add the library as a dependency to your ```build.gradle```
 
 ```groovy
 debugCompile 'im.dino:DbView:1.0.1@aar'
 ```
 
-2. Declare DbViewActivity in your debug manifest (`src/debug/AndroidManifest.xml`)
+Declare DbViewActivity in your debug manifest (`src/debug/AndroidManifest.xml`)
 
 ```xml
 <activity
@@ -29,7 +29,7 @@ debugCompile 'im.dino:DbView:1.0.1@aar'
 
 Now you have a launcher icon for viewing you in-app database which appears only on debug builds.
 
-DbView needs **minSdk 14** to run, but it declares *minSdk 7* so you can include it in your project which may support pre-ICS devices.
+DbView needs **minSdk 14** to run, but it declares **minSdk 7** so you can include it in your project which may support pre-ICS devices.
 
 ### Note
 
