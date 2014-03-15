@@ -3,12 +3,15 @@ package im.dino.dbview.exampleapp;
 import com.activeandroid.query.Delete;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.util.Calendar;
 
+import im.dino.dbview.activities.DbViewActivity;
 import im.dino.dbview.exampleapp.models.Article;
 import im.dino.dbview.exampleapp.models.User;
 
@@ -20,6 +23,16 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         createData();
+
+        View showDbButton = findViewById(R.id.button_show_example_database);
+
+        showDbButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(MainActivity.this, DbViewActivity.class));
+            }
+        });
     }
 
     private void createData() {
