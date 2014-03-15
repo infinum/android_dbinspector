@@ -35,5 +35,5 @@ DbView needs **minSdk 14** to run, but it declares **minSdk 7** so you can inclu
 
 ### Note
 
-By default, Android Studio will launch ```DbViewActivity``` when you run the app.
+By default, when you run the app from Android Studio it will launch ```DbViewActivity```.
 You can override this behaviour by editing the run configurations, at the top next to the run button and selecting your apps entry activity.
