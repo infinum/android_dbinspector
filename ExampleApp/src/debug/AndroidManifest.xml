@@ -8,6 +8,8 @@
             android:label="Example DbView"
             android:icon="@drawable/ic_launcher_dbview">
             <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
