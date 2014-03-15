@@ -27,5 +27,6 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:support-v4:19.0.1'
+    //    compile 'im.dino:DbView:1.0.0'
     compile project(':DbView')
 }
