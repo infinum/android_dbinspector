@@ -12,7 +12,7 @@ Add the library as a dependency to your ```build.gradle```
 debugCompile 'im.dino:DbView:1.0.1@aar'
 ```
 
-Declare DbViewActivity in your debug manifest (`src/debug/AndroidManifest.xml`)
+Declare ```DbViewActivity``` in your debug manifest (`src/debug/AndroidManifest.xml`)
 
 ```xml
 <activity
