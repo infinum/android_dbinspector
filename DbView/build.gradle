@@ -60,12 +60,12 @@ uploadArchives {
             name 'Android DbView'
             packaging 'aar'
             description 'Android library for viewing in app databases.'
-            url 'https://github.com/reisub/dbview/'
+            url 'https://github.com/infinum/dbview/'
 
             scm {
                 url 'scm:git@github.com:reisub/dbview.git'
-                connection 'scm:git@github.com:reisub/dbview.git'
-                developerConnection 'scm:git@github.com:reisub/dbview.git'
+                connection 'scm:git@github.com:infinum/dbview.git'
+                developerConnection 'scm:git@github.com:infinum/dbview.git'
             }
 
             licenses {
