@@ -1,4 +1,4 @@
-package im.dino.dbview.fragments;
+package im.dino.dbinspector.fragments;
 
 import android.annotation.TargetApi;
 import android.app.ActionBar;
@@ -22,7 +22,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import im.dino.dbview.R;
-import im.dino.dbview.adapters.TablePageAdapter;
+import im.dino.dbinspector.adapters.TablePageAdapter;
 
 /**
  * Created by dino on 24/02/14.

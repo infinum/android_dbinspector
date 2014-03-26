@@ -4,7 +4,7 @@
     <application>
 
         <activity
-            android:name="im.dino.dbview.activities.DbViewActivity"
+            android:name="im.dino.dbinspector.activities.DbInspectorActivity"
             android:label="Example DbView"
             android:icon="@drawable/ic_launcher_dbview">
             <intent-filter>

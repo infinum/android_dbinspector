@@ -8,7 +8,7 @@ android {
         minSdkVersion 7
         targetSdkVersion 19
         versionCode 1
-        versionName '1.0.1'
+        versionName '1.0.2'
     }
 
     compileOptions {
@@ -32,7 +32,7 @@ dependencies {
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-version = '1.0.1'
+version = '1.0.2'
 group = 'im.dino'
 
 configurations {
@@ -57,15 +57,15 @@ uploadArchives {
         }
 
         pom.project {
-            name 'Android DbView'
+            name 'Android DbInspector'
             packaging 'aar'
             description 'Android library for viewing in app databases.'
-            url 'https://github.com/infinum/dbview/'
+            url 'https://github.com/infinum/dbinspector/'
 
             scm {
-                url 'scm:git@github.com:reisub/dbview.git'
-                connection 'scm:git@github.com:infinum/dbview.git'
-                developerConnection 'scm:git@github.com:infinum/dbview.git'
+                url 'scm:git@github.com:infinum/dbinspector.git'
+                connection 'scm:git@github.com:infinum/dbinspector.git'
+                developerConnection 'scm:git@github.com:infinum/dbinspector.git'
             }
 
             licenses {

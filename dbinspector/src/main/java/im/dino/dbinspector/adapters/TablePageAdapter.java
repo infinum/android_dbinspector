@@ -1,4 +1,4 @@
-package im.dino.dbview.adapters;
+package im.dino.dbinspector.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -12,9 +12,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import im.dino.dbinspector.helpers.DatabaseHelper;
+import im.dino.dbinspector.helpers.DisplayHelper;
 import im.dino.dbview.R;
-import im.dino.dbview.helpers.DatabaseHelper;
-import im.dino.dbview.helpers.DisplayHelper;
 
 /**
  * Created by dino on 27/02/14.
