@@ -1,4 +1,4 @@
-package im.dino.dbview.fragments;
+package im.dino.dbinspector.fragments;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -14,8 +14,8 @@ import android.widget.ListAdapter;
 
 import java.util.List;
 
+import im.dino.dbinspector.helpers.DatabaseHelper;
 import im.dino.dbview.R;
-import im.dino.dbview.helpers.DatabaseHelper;
 
 /**
  * Created by dino on 24/02/14.

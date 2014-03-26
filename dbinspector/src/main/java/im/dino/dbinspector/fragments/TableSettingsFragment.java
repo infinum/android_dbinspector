@@ -1,4 +1,4 @@
-package im.dino.dbview.fragments;
+package im.dino.dbinspector.fragments;
 
 import android.annotation.TargetApi;
 import android.app.Activity;

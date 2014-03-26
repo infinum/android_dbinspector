@@ -1,4 +1,4 @@
-package im.dino.dbview.activities;
+package im.dino.dbinspector.activities;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -6,10 +6,10 @@ import android.app.FragmentTransaction;
 import android.os.Build;
 import android.os.Bundle;
 
+import im.dino.dbinspector.fragments.DatabaseListFragment;
 import im.dino.dbview.R;
-import im.dino.dbview.fragments.DatabaseListFragment;
 
-public class DbViewActivity extends Activity {
+public class DbInspectorActivity extends Activity {
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override

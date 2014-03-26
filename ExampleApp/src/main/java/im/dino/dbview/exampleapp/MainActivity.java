@@ -11,7 +11,7 @@ import android.view.View;
 
 import java.util.Calendar;
 
-import im.dino.dbview.activities.DbViewActivity;
+import im.dino.dbinspector.activities.DbInspectorActivity;
 import im.dino.dbview.exampleapp.models.Article;
 import im.dino.dbview.exampleapp.models.User;
 
@@ -30,7 +30,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(MainActivity.this, DbViewActivity.class));
+                startActivity(new Intent(MainActivity.this, DbInspectorActivity.class));
             }
         });
     }

@@ -1,1 +1,1 @@
-include ':DbView', ':ExampleApp'
+include ':ExampleApp', 'dbinspector'

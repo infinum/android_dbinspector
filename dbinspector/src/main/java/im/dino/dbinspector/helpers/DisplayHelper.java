@@ -1,4 +1,4 @@
-package im.dino.dbview.helpers;
+package im.dino.dbinspector.helpers;
 
 import android.content.Context;
 import android.content.res.Resources;

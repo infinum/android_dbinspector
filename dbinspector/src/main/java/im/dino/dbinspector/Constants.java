@@ -1,4 +1,4 @@
-package im.dino.dbview;
+package im.dino.dbinspector;
 
 /**
  * Created by dino on 23/02/14.
