@@ -60,12 +60,12 @@ uploadArchives {
             name 'Android DbInspector'
             packaging 'aar'
             description 'Android library for viewing in app databases.'
-            url 'https://github.com/infinum/dbinspector/'
+            url 'https://github.com/infinum/android_dbinspector/'
 
             scm {
-                url 'scm:git@github.com:infinum/dbinspector.git'
-                connection 'scm:git@github.com:infinum/dbinspector.git'
-                developerConnection 'scm:git@github.com:infinum/dbinspector.git'
+                url 'scm:git@github.com:infinum/android_dbinspector.git'
+                connection 'scm:git@github.com:infinum/android_dbinspector.git'
+                developerConnection 'scm:git@github.com:infinum/android_dbinspector.git'
             }
 
             licenses {
