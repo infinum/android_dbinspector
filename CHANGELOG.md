@@ -1,6 +1,12 @@
 Changelog
 =========
 
+## Version 1.0.2
+
+_2014-03-26_
+
+ Renamed project and maven artifact.
+ 
 ## Version 1.0.1
 
 _2014-03-15_
