@@ -4,5 +4,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context="im.dino.dbview.DbViewActivity"
+    tools:context="im.dino.dbinspector.activities.DbInspectorActivity"
     tools:ignore="MergeRootFrame" />
