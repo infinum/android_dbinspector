@@ -7,26 +7,26 @@
     android:background="@android:color/white">
 
     <LinearLayout
-        android:id="@+id/layout_content_header"
+        android:id="@+id/dbinspector_layout_content_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp">
 
         <Button
-            android:id="@+id/button_previous"
+            android:id="@+id/dbinspector_button_previous"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="@string/previous" />
 
         <TextView
-            android:id="@+id/text_current_page"
+            android:id="@+id/dbinspector_text_current_page"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center" />
 
         <Button
-            android:id="@+id/button_next"
+            android:id="@+id/dbinspector_button_next"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="@string/next" />
@@ -34,19 +34,19 @@
     </LinearLayout>
 
     <HorizontalScrollView
-        android:id="@+id/horizontal_scrollview_table"
+        android:id="@+id/dbinspector_horizontal_scrollview_table"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:scrollbarStyle="outsideOverlay">
 
         <ScrollView
-            android:id="@+id/scrollview_table"
+            android:id="@+id/dbinspector_scrollview_table"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scrollbarStyle="outsideOverlay">
 
             <TableLayout
-                android:id="@+id/table_layout"
+                android:id="@+id/dbinspector_table_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

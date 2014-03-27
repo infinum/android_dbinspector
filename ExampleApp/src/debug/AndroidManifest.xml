@@ -5,8 +5,8 @@
 
         <activity
             android:name="im.dino.dbinspector.activities.DbInspectorActivity"
-            android:label="Example DbView"
-            android:icon="@drawable/ic_launcher_dbview">
+            android:label="Example DbInspector"
+            android:icon="@drawable/ic_launcher_dbinspector">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,3 +17,4 @@
     </application>
 
 </manifest>
+

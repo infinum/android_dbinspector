@@ -81,15 +81,16 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_table, null);
-        mTableLayout = (TableLayout) view.findViewById(R.id.table_layout);
-        mPreviousButton = view.findViewById(R.id.button_previous);
-        mNextButton = view.findViewById(R.id.button_next);
-        mCurrentPageText = (TextView) view.findViewById(R.id.text_current_page);
-        mContentHeader = view.findViewById(R.id.layout_content_header);
-        mScrollView = (ScrollView) view.findViewById(R.id.scrollview_table);
+        View view = inflater.inflate(R.layout.fragment_table, container, false);
+
+        mTableLayout = (TableLayout) view.findViewById(R.id.dbinspector_table_layout);
+        mPreviousButton = view.findViewById(R.id.dbinspector_button_previous);
+        mNextButton = view.findViewById(R.id.dbinspector_button_next);
+        mCurrentPageText = (TextView) view.findViewById(R.id.dbinspector_text_current_page);
+        mContentHeader = view.findViewById(R.id.dbinspector_layout_content_header);
+        mScrollView = (ScrollView) view.findViewById(R.id.dbinspector_scrollview_table);
         mHorizontalScrollView = (HorizontalScrollView) view
-                .findViewById(R.id.horizontal_scrollview_table);
+                .findViewById(R.id.dbinspector_horizontal_scrollview_table);
 
         mPreviousButton.setOnClickListener(previousListener);
         mNextButton.setOnClickListener(nextListener);
