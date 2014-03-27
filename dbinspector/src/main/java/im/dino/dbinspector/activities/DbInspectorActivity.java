@@ -19,7 +19,7 @@ public class DbInspectorActivity extends Activity {
 
         if (savedInstanceState == null) {
             FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.replace(R.id.container, new DatabaseListFragment()).commit();
+            ft.replace(R.id.dbinspector_container, new DatabaseListFragment()).commit();
         }
     }
 
