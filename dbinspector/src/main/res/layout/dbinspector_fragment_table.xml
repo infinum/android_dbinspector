@@ -16,7 +16,7 @@
             android:id="@+id/dbinspector_button_previous"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="@string/previous" />
+            android:text="@string/dbinspector_previous" />
 
         <TextView
             android:id="@+id/dbinspector_text_current_page"
@@ -29,7 +29,7 @@
             android:id="@+id/dbinspector_button_next"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="@string/next" />
+            android:text="@string/dbinspector_next" />
 
     </LinearLayout>
 

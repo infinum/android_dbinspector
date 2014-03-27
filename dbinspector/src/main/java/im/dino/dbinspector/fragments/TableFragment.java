@@ -81,7 +81,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_table, container, false);
+        View view = inflater.inflate(R.layout.dbinspector_fragment_table, container, false);
 
         mTableLayout = (TableLayout) view.findViewById(R.id.dbinspector_table_layout);
         mPreviousButton = view.findViewById(R.id.dbinspector_button_previous);
@@ -119,8 +119,8 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
                         android.R.layout.simple_list_item_1,
                         android.R.id.text1,
                         new String[]{
-                                getString(R.string.structure),
-                                getString(R.string.content),
+                                getString(R.string.dbinspector_structure),
+                                getString(R.string.dbinspector_content),
                         }
                 ),
                 this
@@ -133,7 +133,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.fragment_table, menu);
+        inflater.inflate(R.menu.dbinspector_fragment_table, menu);
     }
 
     @Override

@@ -15,7 +15,7 @@ public class DbInspectorActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_db_view);
+        setContentView(R.layout.dbinspector_activity);
 
         if (savedInstanceState == null) {
             FragmentTransaction ft = getFragmentManager().beginTransaction();
