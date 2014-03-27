@@ -15,16 +15,21 @@ debugCompile 'im.dino:dbinspector:1.0.2@aar'
 Declare ```DbInspectorActivity``` in your debug manifest (`src/debug/AndroidManifest.xml`)
 
 ```xml
-<activity
-    android:name="im.dino.dbinspector.activities.DbInspectorActivity"
-    android:label="Example DbInspector"
-    android:icon="@drawable/ic_launcher_dbview">
-    <intent-filter>
-        <action android:name="android.intent.action.MAIN" />
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <activity
+            android:name="im.dino.dbinspector.activities.DbInspectorActivity"
+            android:label="Example DbInspector"
+            android:icon="@drawable/ic_launcher_dbinspector">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-        <category android:name="android.intent.category.LAUNCHER" />
-    </intent-filter>
-</activity>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
 ```
 
 Now you have a launcher icon for viewing you in-app database which appears only on debug builds.
