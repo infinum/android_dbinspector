@@ -43,8 +43,8 @@ public class TablePageAdapter {
         mDatabase = DatabaseHelper.getDatabase(mContext, databaseName);
         mPaddingPx = DisplayHelper.dpToPx(mContext, 5);
 
-        String keyRowsPerPage = mContext.getString(R.string.pref_key_rows_per_page);
-        String defaultRowsPerPage = mContext.getString(R.string.rows_per_page_default);
+        String keyRowsPerPage = mContext.getString(R.string.dbinspector_pref_key_rows_per_page);
+        String defaultRowsPerPage = mContext.getString(R.string.dbinspector_rows_per_page_default);
         String rowsPerPage = PreferenceManager.getDefaultSharedPreferences(mContext)
                 .getString(keyRowsPerPage, defaultRowsPerPage);
         mRowsPerPage = Integer.valueOf(rowsPerPage);

@@ -18,8 +18,8 @@ public class TableSettingsFragment extends PreferenceFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Load the preferences from an XML resource
-        addPreferencesFromResource(R.xml.preferences);
+        // Load the dbinspector_preferences from an XML resource
+        addPreferencesFromResource(R.xml.dbinspector_preferences);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class TableSettingsFragment extends PreferenceFragment {
 
         Activity activity = getActivity();
 
-        activity.getActionBar().setTitle(R.string.action_settings);
+        activity.getActionBar().setTitle(R.string.dbinspector_action_settings);
         activity.getActionBar().setDisplayHomeAsUpEnabled(true);
 
     }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:key="@string/dbinspector_pref_key_rows_per_page"
+        android:title="@string/dbinspector_rows_per_page"
+        android:summary="%s"
+        android:dialogTitle="@string/dbinspector_rows_per_page"
+        android:entries="@array/dbinspector_rows_per_page_options"
+        android:entryValues="@array/dbinspector_rows_per_page_options"
+        android:defaultValue="@string/dbinspector_rows_per_page_default" />
+
+</PreferenceScreen>
