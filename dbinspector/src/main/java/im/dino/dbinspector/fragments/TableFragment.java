@@ -142,7 +142,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         if (item.getItemId() == R.id.dbinspector_action_settings
                 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
-            ft.replace(R.id.container, new TableSettingsFragment()).addToBackStack(null).commit();
+            ft.replace(R.id.dbinspector_container, new TableSettingsFragment()).addToBackStack(null).commit();
             getActivity().getFragmentManager().executePendingTransactions();
             return true;
         }

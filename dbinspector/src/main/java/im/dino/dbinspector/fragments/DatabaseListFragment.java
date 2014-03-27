@@ -59,7 +59,7 @@ public class DatabaseListFragment extends ListFragment implements AdapterView.On
         FragmentManager fm = getActivity().getFragmentManager();
 
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.container,
+        ft.replace(R.id.dbinspector_container,
                 TableListFragment.newInstance((String) getListAdapter().getItem(position)));
         ft.addToBackStack(null).commit();
 

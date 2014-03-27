@@ -74,7 +74,7 @@ public class TableListFragment extends ListFragment {
             FragmentManager fm = getActivity().getFragmentManager();
 
             FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.container, TableFragment.newInstance(mDatabaseName,
+            ft.replace(R.id.dbinspector_container, TableFragment.newInstance(mDatabaseName,
                     (String) getListAdapter().getItem(position)));
             ft.addToBackStack(null).commit();
 
