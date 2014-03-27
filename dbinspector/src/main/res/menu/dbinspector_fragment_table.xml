@@ -3,7 +3,7 @@
     tools:context="im.dino.dbview.DbViewActivity">
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/dbinspector_action_settings"
         android:title="@string/dbinspector_action_settings"
         android:orderInCategory="100"
         android:icon="@drawable/ic_action_dbinspector_settings"
