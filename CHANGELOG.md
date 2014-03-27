@@ -1,6 +1,12 @@
 Changelog
 =========
 
+## Version 1.0.4
+
+_2014-03-27_
+
+ * Fix: Prefixed almost all of the resources with _dbinspector__ to avoid overriding the id in the parent project
+
 ## Version 1.0.3
 
 _2014-03-27_
