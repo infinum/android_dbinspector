@@ -1,6 +1,12 @@
 Changelog
 =========
 
+## Version 1.0.3
+
+_2014-03-27_
+
+ * Fix: Prefixed view identifiers with _dbinspector__ to avoid overriding the id in the parent project
+
 ## Version 1.0.2
 
 _2014-03-26_
