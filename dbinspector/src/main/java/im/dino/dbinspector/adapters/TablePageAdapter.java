@@ -98,7 +98,11 @@ public class TablePageAdapter {
 
             for (int col = 0; col < cursor.getColumnCount(); col++) {
                 TextView textView = new TextView(mContext);
-                textView.setText(cursor.getString(col));
+                if (cursor.getType(col) == Cursor.FIELD_TYPE_BLOB) {
+                    textView.setText("(data)");
+                } else {
+                    textView.setText(cursor.getString(col));
+                }
                 textView.setPadding(mPaddingPx, mPaddingPx / 2, mPaddingPx, mPaddingPx / 2);
 
                 if (alternate) {
