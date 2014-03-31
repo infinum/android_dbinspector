@@ -9,7 +9,7 @@ Provides a simple way to view the contents of the in-app database for debugging 
 Add the library as a dependency to your ```build.gradle```
 
 ```groovy
-debugCompile 'im.dino:dbinspector:1.0.4@aar'
+debugCompile 'im.dino:dbinspector:(insert latest version)@aar'
 ```
 
 Declare ```DbInspectorActivity``` in your debug manifest (`src/debug/AndroidManifest.xml`)
