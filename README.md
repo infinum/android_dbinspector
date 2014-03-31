@@ -12,6 +12,8 @@ Add the library as a dependency to your ```build.gradle```
 debugCompile 'im.dino:dbinspector:(insert latest version)@aar'
 ```
 
+Check the latest version on [Maven Central](http://search.maven.org/#search|ga|1|a%3A%22dbinspector%22).
+
 Declare ```DbInspectorActivity``` in your debug manifest (`src/debug/AndroidManifest.xml`)
 
 ```xml
