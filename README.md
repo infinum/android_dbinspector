@@ -48,3 +48,5 @@ You can override this behaviour by editing the run configurations, at the top ne
 ## Contributing
 
 Feedback and code contributions are very much welcome. Just make a pull request with a short description of your changes. By making contributions to this project you give permission for your code to be used under the same [license](LICENSE).
+
+[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=reisub&url=https://github.com/infinum/android_dbinspector/&title=Android DbInspector&language=&tags=github&category=software) 
