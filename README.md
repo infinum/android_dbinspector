@@ -9,8 +9,10 @@ Provides a simple way to view the contents of the in-app database for debugging 
 Add the library as a dependency to your ```build.gradle```
 
 ```groovy
-debugCompile 'im.dino:dbinspector:1.0.4@aar'
+debugCompile 'im.dino:dbinspector:(insert latest version)@aar'
 ```
+
+Check the latest version on [Maven Central](http://search.maven.org/#search|ga|1|a%3A%22dbinspector%22).
 
 Declare ```DbInspectorActivity``` in your debug manifest (`src/debug/AndroidManifest.xml`)
 
@@ -21,6 +23,7 @@ Declare ```DbInspectorActivity``` in your debug manifest (`src/debug/AndroidMani
         <activity
             android:name="im.dino.dbinspector.activities.DbInspectorActivity"
             android:label="Example DbInspector"
+            android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
             android:icon="@drawable/ic_launcher_dbinspector">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,3 +49,5 @@ You can override this behaviour by editing the run configurations, at the top ne
 ## Contributing
 
 Feedback and code contributions are very much welcome. Just make a pull request with a short description of your changes. By making contributions to this project you give permission for your code to be used under the same [license](LICENSE).
+
+[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/profile/reisub) 
