@@ -1,6 +1,12 @@
 Changelog
 =========
 
+## Version 1.0.5
+
+_2014-03-31_
+
+ * Fix: Support blob type (thanks to user ```bclymer```)
+
 ## Version 1.0.4
 
 _2014-03-27_
