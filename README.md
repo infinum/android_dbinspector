@@ -37,6 +37,8 @@ Declare ```DbInspectorActivity``` in your debug manifest (`src/debug/AndroidMani
 
 Now you have a launcher icon for viewing you in-app database which appears only on debug builds.
 
+You could also omit the ```<intent-filter />``` and open the activity programmatically by calling ```startActivity()```. Feel free to use it however it suits you as long as you comply with the [license](LICENSE).
+
 ## Support
 
 DbInspector needs **minSdk 14** to run, but it declares **minSdk 7** so you can include it in your project which may support pre-ICS devices.
