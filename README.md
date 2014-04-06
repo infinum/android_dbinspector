@@ -45,7 +45,7 @@ DbInspector needs **minSdk 14** to run, but it declares **minSdk 7** so you can 
 
 ### Note
 
-By default, when you run the app from Android Studio it will launch ```DbInspectorActivity```.
+By default, when you run the app from Android Studio it may launch ```DbInspectorActivity``` instead of your launcher activity.
 You can override this behaviour by editing the run configurations, at the top next to the run button and selecting your apps entry activity.
 
 ## Contributing
