@@ -1,6 +1,12 @@
 Changelog
 =========
 
+## Version 1.0.6
+
+_2014-04-07_
+
+ * Fix: Don't truncate structure table to _rows per page_ number of rows
+
 ## Version 1.0.5
 
 _2014-03-31_
