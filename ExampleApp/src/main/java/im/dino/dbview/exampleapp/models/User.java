@@ -24,4 +24,25 @@ public class User extends Model {
 
     @Column(name = "nickname")
     public String nickname;
+
+    @Column(name = "col1")
+    public String col1;
+
+    @Column(name = "col2")
+    public String col2;
+
+    @Column(name = "col3")
+    public String col3;
+
+    @Column(name = "col4")
+    public String col4;
+
+    @Column(name = "col5")
+    public String col5;
+
+    @Column(name = "col6")
+    public String col6;
+
+    @Column(name = "col7")
+    public String col7;
 }
