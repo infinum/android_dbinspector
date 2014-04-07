@@ -57,7 +57,7 @@ public class TablePageAdapter {
 
         cursor.moveToFirst();
 
-        return getTableRows(cursor);
+        return getTableRows(cursor, true);
     }
 
     public List<TableRow> getContentPage() {
@@ -68,10 +68,10 @@ public class TablePageAdapter {
 
         cursor.moveToPosition(mPosition);
 
-        return getTableRows(cursor);
+        return getTableRows(cursor, false);
     }
 
-    private List<TableRow> getTableRows(Cursor cursor) {
+    private List<TableRow> getTableRows(Cursor cursor, boolean allRows) {
 
         List<TableRow> rows = new ArrayList<>();
 
@@ -116,7 +116,7 @@ public class TablePageAdapter {
 
             rows.add(row);
 
-        } while (cursor.moveToNext() && rows.size() <= mRowsPerPage);
+        } while (cursor.moveToNext() && (allRows || rows.size() <= mRowsPerPage));
 
         return rows;
     }
