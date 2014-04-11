@@ -1,5 +1,7 @@
 # Android DbInspector
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/im.dino/dbinspector/badge.svg)](https://maven-badges.herokuapp.com/maven-central/im.dino/dbinspector)
+
 Provides a simple way to view the contents of the in-app database for debugging purposes. No need to pull the database from a rooted phone.
 
 ![Screenshots](https://raw.github.com/infinum/android_dbinspector/master/screenshots.png)
