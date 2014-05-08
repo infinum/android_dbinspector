@@ -16,6 +16,8 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
 
+    resourcePrefix 'dbinspector_'
+
     buildTypes {
 
         release {
