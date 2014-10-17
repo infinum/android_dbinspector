@@ -1,10 +1,12 @@
 package im.dino.dbinspector.adapters;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -35,7 +37,7 @@ public class TablePageAdapter {
 
     private int mPaddingPx;
 
-    public TablePageAdapter(Context context, String databaseName, String tableName) {
+    public TablePageAdapter(Context context, String databaseName, String tableName, int startPage) {
 
         mContext = context;
         mTableName = tableName;
@@ -48,29 +50,24 @@ public class TablePageAdapter {
         String rowsPerPage = PreferenceManager.getDefaultSharedPreferences(mContext)
                 .getString(keyRowsPerPage, defaultRowsPerPage);
         mRowsPerPage = Integer.valueOf(rowsPerPage);
+        mPosition = mRowsPerPage * startPage;
     }
 
     public List<TableRow> getStructure() {
-
         Cursor cursor = mDatabase
                 .rawQuery(String.format(DatabaseHelper.PRAGMA_FORMAT, mTableName), null);
-
         cursor.moveToFirst();
-
         return getTableRows(cursor, true);
     }
 
     public List<TableRow> getContentPage() {
-
         Cursor cursor = mDatabase.query(mTableName, null, null, null, null, null, null);
-
         mCount = cursor.getCount();
-
         cursor.moveToPosition(mPosition);
-
         return getTableRows(cursor, false);
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private List<TableRow> getTableRows(Cursor cursor, boolean allRows) {
 
         List<TableRow> rows = new ArrayList<>();
@@ -122,28 +119,22 @@ public class TablePageAdapter {
     }
 
     public void nextPage() {
-
         if (mPosition + mRowsPerPage < mCount) {
             mPosition += mRowsPerPage;
         }
-
     }
 
     public void previousPage() {
-
         if (mPosition - mRowsPerPage >= 0) {
             mPosition -= mRowsPerPage;
         }
-
     }
 
     public boolean hasNext() {
-
         return mPosition + mRowsPerPage < mCount;
     }
 
     public boolean hasPrevious() {
-
         return mPosition - mRowsPerPage >= 0;
     }
 
