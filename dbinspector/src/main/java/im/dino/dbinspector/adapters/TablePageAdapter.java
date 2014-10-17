@@ -111,11 +111,11 @@ public class TablePageAdapter {
             }
 
             alternate = !alternate;
-
             rows.add(row);
 
         } while (cursor.moveToNext() && (allRows || rows.size() <= mRowsPerPage));
 
+        cursor.close();
         return rows;
     }
 
