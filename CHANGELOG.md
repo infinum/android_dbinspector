@@ -1,6 +1,14 @@
 Changelog
 =========
 
+## Version 1.1.0
+
+_2014-10-17_
+
+ * New: Support for inspecting sqlite database created internally by CouchBase Lite
+ * Fix: Show taable content by default and don't lose state on recreate
+ * Fix: Close cursor after database query to prevent leaking the connection
+
 ## Version 1.0.6
 
 _2014-04-07_
