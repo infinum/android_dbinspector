@@ -3,13 +3,14 @@ package im.dino.dbinspector.helpers;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Created by dino on 23/02/14.
@@ -31,25 +32,20 @@ public class DatabaseHelper {
     public static final String COLUMN_PRIMARY = "primary key";
 
     public static final String TABLE_LIST_QUERY
-            = "SELECT name FROM sqlite_master WHERE type='table'";
+        = "SELECT name FROM sqlite_master WHERE type='table'";
 
     public static final String PRAGMA_FORMAT = "PRAGMA table_info(%s)";
 
     public static String getSqliteDir(Context context) {
-        return context.getFilesDir().getParent() + File.separator +  "databases" + File.separator;
-    }
-
-    public static String getCbliteDir(Context context) {
-        return context.getFilesDir().getPath();
+        return context.getFilesDir().getParent() + File.separator + "databases" + File.separator;
     }
 
     public static List<File> getDatabaseList(Context context) {
         List<File> databaseList = new ArrayList<>();
 
         File sqliteDir = new File(DatabaseHelper.getSqliteDir(context));
-        File cbliteDir = new File(DatabaseHelper.getCbliteDir(context));
 
-        FilenameFilter mFilenameFilter = new FilenameFilter() {
+        FilenameFilter filenameFilter = new FilenameFilter() {
             @Override
             public boolean accept(File dir, String filename) {
                 return filename.endsWith(".sql")
@@ -59,12 +55,24 @@ public class DatabaseHelper {
             }
         };
 
-        databaseList.addAll(Arrays.asList(sqliteDir.listFiles(mFilenameFilter)));
-        databaseList.addAll(Arrays.asList(cbliteDir.listFiles(mFilenameFilter)));
+        // look for standard sqlite databases in the databases dir
+        File[] sqliteFiles = sqliteDir.listFiles(filenameFilter);
+        if (sqliteFiles != null) {
+            databaseList.addAll(Arrays.asList(sqliteFiles));
+        } else {
+            Log.e(LOGTAG, "Database file list is null!");
+        }
+
+        // CouchBase Lite stores the databases in the app files dir
+        String[] cbliteFiles = context.fileList();
+        for (String filename : cbliteFiles) {
+            if (filenameFilter.accept(context.getFilesDir(), filename)) {
+                databaseList.add(new File(context.getFilesDir(), filename));
+            }
+        }
 
         return databaseList;
     }
-
 
     public static SQLiteDatabase getDatabase(File database) {
         return SQLiteDatabase.openOrCreateDatabase(database, null);
