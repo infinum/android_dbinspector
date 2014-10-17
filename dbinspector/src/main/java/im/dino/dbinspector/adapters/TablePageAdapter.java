@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,12 +38,12 @@ public class TablePageAdapter {
 
     private int mPaddingPx;
 
-    public TablePageAdapter(Context context, String databaseName, String tableName, int startPage) {
+    public TablePageAdapter(Context context, File databaseFile, String tableName, int startPage) {
 
         mContext = context;
         mTableName = tableName;
 
-        mDatabase = DatabaseHelper.getDatabase(mContext, databaseName);
+        mDatabase = DatabaseHelper.getDatabase(databaseFile);
         mPaddingPx = DisplayHelper.dpToPx(mContext, 5);
 
         String keyRowsPerPage = mContext.getString(R.string.dbinspector_pref_key_rows_per_page);

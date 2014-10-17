@@ -19,6 +19,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.List;
 
 import im.dino.dbinspector.adapters.TablePageAdapter;
@@ -38,7 +39,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
     private static final String KEY_PAGE = "current_page";
 
-    private String mDatabaseName;
+    private File mDatabaseFile;
 
     private String mTableName;
 
@@ -62,10 +63,10 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
     private int mCurrentPage;
 
-    public static TableFragment newInstance(String databaseName, String tableName) {
+    public static TableFragment newInstance(File databaseFile, String tableName) {
 
         Bundle args = new Bundle();
-        args.putString(KEY_DATABASE, databaseName);
+        args.putSerializable(KEY_DATABASE, databaseFile);
         args.putString(KEY_TABLE, tableName);
 
         TableFragment tf = new TableFragment();
@@ -80,7 +81,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         setHasOptionsMenu(true);
 
         if (getArguments() != null) {
-            mDatabaseName = getArguments().getString(KEY_DATABASE);
+            mDatabaseFile = (File) getArguments().getSerializable(KEY_DATABASE);
             mTableName = getArguments().getString(KEY_TABLE);
         }
 
@@ -139,7 +140,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
             this
         );
 
-        mAdapter = new TablePageAdapter(getActivity(), mDatabaseName, mTableName, mCurrentPage);
+        mAdapter = new TablePageAdapter(getActivity(), mDatabaseFile, mTableName, mCurrentPage);
 
         if (mShowingContent) {
             showContent();
