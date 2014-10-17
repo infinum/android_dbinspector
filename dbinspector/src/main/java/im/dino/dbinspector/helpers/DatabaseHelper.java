@@ -60,7 +60,7 @@ public class DatabaseHelper {
         if (sqliteFiles != null) {
             databaseList.addAll(Arrays.asList(sqliteFiles));
         } else {
-            Log.e(LOGTAG, "Database file list is null!");
+            Log.d(LOGTAG, "Database file list is null!");
         }
 
         // CouchBase Lite stores the databases in the app files dir
