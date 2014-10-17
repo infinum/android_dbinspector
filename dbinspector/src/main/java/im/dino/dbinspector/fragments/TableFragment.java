@@ -36,6 +36,8 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
     private static final String KEY_SHOWING_CONTENT = "showing_content";
 
+    private static final String KEY_PAGE = "current_page";
+
     private String mDatabaseName;
 
     private String mTableName;
@@ -56,7 +58,9 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
     private HorizontalScrollView mHorizontalScrollView;
 
-    private boolean mShowingContent;
+    private boolean mShowingContent = true;
+
+    private int mCurrentPage;
 
     public static TableFragment newInstance(String databaseName, String tableName) {
 
@@ -82,6 +86,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
         if (savedInstanceState != null) {
             mShowingContent = savedInstanceState.getBoolean(KEY_SHOWING_CONTENT, true);
+            mCurrentPage = savedInstanceState.getInt(KEY_PAGE, 0);
         }
     }
 
@@ -134,7 +139,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
             this
         );
 
-        mAdapter = new TablePageAdapter(getActivity(), mDatabaseName, mTableName);
+        mAdapter = new TablePageAdapter(getActivity(), mDatabaseName, mTableName, mCurrentPage);
 
         if (mShowingContent) {
             showContent();
@@ -183,14 +188,13 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putBoolean(KEY_SHOWING_CONTENT, mShowingContent);
+        outState.putInt(KEY_PAGE, mCurrentPage);
         super.onSaveInstanceState(outState);
     }
 
     @Override
     public void onDestroyView() {
-
         getActivity().getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-
         super.onDestroyView();
     }
 
@@ -231,7 +235,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
         @Override
         public void onClick(View v) {
-
+            mCurrentPage++;
             mAdapter.nextPage();
             showContent();
 
@@ -244,7 +248,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
         @Override
         public void onClick(View v) {
-
+            mCurrentPage--;
             mAdapter.previousPage();
             showContent();
 
