@@ -12,9 +12,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import im.dino.dbinspector.helpers.DatabaseHelper;
 import im.dino.dbview.R;
 
 /**
@@ -37,16 +41,8 @@ public class DatabaseListFragment extends ListFragment implements AdapterView.On
         activity.getActionBar().setTitle("Databases");
         activity.getActionBar().setDisplayHomeAsUpEnabled(false);
 
-        List<String> databaseList = new ArrayList<>();
-
-        for (String database : getActivity().databaseList()) {
-            if (!database.endsWith("-journal")) {
-                databaseList.add(database);
-            }
-        }
-
         ListAdapter adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1,
-                databaseList);
+            DatabaseHelper.getDatabaseList(getActivity()));
 
         setListAdapter(adapter);
 
@@ -60,7 +56,7 @@ public class DatabaseListFragment extends ListFragment implements AdapterView.On
 
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.dbinspector_container,
-                TableListFragment.newInstance((String) getListAdapter().getItem(position)));
+            TableListFragment.newInstance((File) getListAdapter().getItem(position)));
         ft.addToBackStack(null).commit();
 
         fm.executePendingTransactions();

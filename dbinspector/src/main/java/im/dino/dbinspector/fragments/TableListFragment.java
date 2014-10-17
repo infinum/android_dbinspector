@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 
+import java.io.File;
 import java.util.List;
 
 import im.dino.dbinspector.helpers.DatabaseHelper;
@@ -25,12 +26,12 @@ public class TableListFragment extends ListFragment {
 
     private static final String KEY_DATABASE = "database_name";
 
-    private String mDatabaseName;
+    private File mDatabase;
 
-    public static TableListFragment newInstance(String databaseName) {
+    public static TableListFragment newInstance(File database) {
 
         Bundle args = new Bundle();
-        args.putString(KEY_DATABASE, databaseName);
+        args.putSerializable(KEY_DATABASE, database);
 
         TableListFragment tlf = new TableListFragment();
         tlf.setArguments(args);
@@ -43,7 +44,7 @@ public class TableListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mDatabaseName = getArguments().getString(KEY_DATABASE);
+            mDatabase = (File) getArguments().getSerializable(KEY_DATABASE);
         }
     }
 
@@ -53,10 +54,10 @@ public class TableListFragment extends ListFragment {
 
         Activity activity = getActivity();
 
-        activity.getActionBar().setTitle(mDatabaseName);
+        activity.getActionBar().setTitle(mDatabase.getName());
         activity.getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        List<String> tableList = DatabaseHelper.getAllTables(getActivity(), mDatabaseName);
+        List<String> tableList = DatabaseHelper.getAllTables(mDatabase);
 
         ListAdapter adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1,
                 tableList);
@@ -74,7 +75,7 @@ public class TableListFragment extends ListFragment {
             FragmentManager fm = getActivity().getFragmentManager();
 
             FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.dbinspector_container, TableFragment.newInstance(mDatabaseName,
+            ft.replace(R.id.dbinspector_container, TableFragment.newInstance(mDatabase,
                     (String) getListAdapter().getItem(position)));
             ft.addToBackStack(null).commit();
 
