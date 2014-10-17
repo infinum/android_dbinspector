@@ -21,8 +21,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import im.dino.dbview.R;
 import im.dino.dbinspector.adapters.TablePageAdapter;
+import im.dino.dbview.R;
 
 /**
  * Created by dino on 24/02/14.
@@ -33,6 +33,8 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
     private static final String KEY_DATABASE = "database_name";
 
     private static final String KEY_TABLE = "table_name";
+
+    private static final String KEY_SHOWING_CONTENT = "showing_content";
 
     private String mDatabaseName;
 
@@ -53,6 +55,8 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
     private ScrollView mScrollView;
 
     private HorizontalScrollView mHorizontalScrollView;
+
+    private boolean mShowingContent;
 
     public static TableFragment newInstance(String databaseName, String tableName) {
 
@@ -75,11 +79,15 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
             mDatabaseName = getArguments().getString(KEY_DATABASE);
             mTableName = getArguments().getString(KEY_TABLE);
         }
+
+        if (savedInstanceState != null) {
+            mShowingContent = savedInstanceState.getBoolean(KEY_SHOWING_CONTENT, true);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.dbinspector_fragment_table, container, false);
 
@@ -90,7 +98,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         mContentHeader = view.findViewById(R.id.dbinspector_layout_content_header);
         mScrollView = (ScrollView) view.findViewById(R.id.dbinspector_scrollview_table);
         mHorizontalScrollView = (HorizontalScrollView) view
-                .findViewById(R.id.dbinspector_horizontal_scrollview_table);
+            .findViewById(R.id.dbinspector_horizontal_scrollview_table);
 
         mPreviousButton.setOnClickListener(previousListener);
         mNextButton.setOnClickListener(nextListener);
@@ -113,22 +121,26 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
         // Set up the dropdown list navigation in the action bar.
         actionBar.setListNavigationCallbacks(
-                // Specify a SpinnerAdapter to populate the dropdown list.
-                new ArrayAdapter<>(
-                        actionBar.getThemedContext(),
-                        android.R.layout.simple_list_item_1,
-                        android.R.id.text1,
-                        new String[]{
-                                getString(R.string.dbinspector_structure),
-                                getString(R.string.dbinspector_content),
-                        }
-                ),
-                this
+            // Specify a SpinnerAdapter to populate the dropdown list.
+            new ArrayAdapter<>(
+                actionBar.getThemedContext(),
+                android.R.layout.simple_list_item_1,
+                android.R.id.text1,
+                new String[]{
+                    getString(R.string.dbinspector_content),
+                    getString(R.string.dbinspector_structure),
+                }
+            ),
+            this
         );
 
         mAdapter = new TablePageAdapter(getActivity(), mDatabaseName, mTableName);
 
-        showStructure();
+        if (mShowingContent) {
+            showContent();
+        } else {
+            showStructure();
+        }
     }
 
     @Override
@@ -140,14 +152,38 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.dbinspector_action_settings
-                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
-            ft.replace(R.id.dbinspector_container, new TableSettingsFragment()).addToBackStack(null).commit();
+            ft.replace(R.id.dbinspector_container, new TableSettingsFragment()).addToBackStack(null)
+                .commit();
             getActivity().getFragmentManager().executePendingTransactions();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+
+        switch (itemPosition) {
+            case 0:
+                showContent();
+                break;
+            case 1:
+                showStructure();
+                break;
+            default:
+                break;
+        }
+
+        return true;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean(KEY_SHOWING_CONTENT, mShowingContent);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -158,25 +194,9 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         super.onDestroyView();
     }
 
-    @Override
-    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-
-        switch (itemPosition) {
-            case 0:
-                showStructure();
-                break;
-            case 1:
-                showContent();
-                break;
-            default:
-                break;
-        }
-
-        return true;
-    }
-
     private void showContent() {
 
+        mShowingContent = true;
         mTableLayout.removeAllViews();
 
         List<TableRow> rows = mAdapter.getContentPage();
@@ -195,6 +215,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
     private void showStructure() {
 
+        mShowingContent = false;
         mTableLayout.removeAllViews();
 
         List<TableRow> rows = mAdapter.getStructure();
