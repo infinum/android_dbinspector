@@ -2,7 +2,7 @@
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/im.dino/dbinspector/badge.svg)](https://maven-badges.herokuapp.com/maven-central/im.dino/dbinspector)
 
-Provides a simple way to view the contents of the in-app database for debugging purposes. No need to pull the database from a rooted phone. Also supports inspecting of the sqlite databases created by CouchBase Lite since version 1.1.0.
+Provides a simple way to view the contents of the in-app database for debugging purposes. No need to pull the database from a rooted phone. Also supports inspecting of the sqlite databases created by CouchBase Lite since DbInspector version 1.1.0.
 
 ![Screenshots](https://raw.github.com/infinum/android_dbinspector/master/screenshots.png)
 
