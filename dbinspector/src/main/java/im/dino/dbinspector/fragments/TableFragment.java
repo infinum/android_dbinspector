@@ -39,29 +39,29 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
     private static final String KEY_PAGE = "current_page";
 
-    private File mDatabaseFile;
+    private File databaseFile;
 
-    private String mTableName;
+    private String tableName;
 
-    private TableLayout mTableLayout;
+    private TableLayout tableLayout;
 
-    private TablePageAdapter mAdapter;
+    private TablePageAdapter adapter;
 
-    private View mNextButton;
+    private View nextButton;
 
-    private View mPreviousButton;
+    private View previousButton;
 
-    private TextView mCurrentPageText;
+    private TextView currentPageText;
 
-    private View mContentHeader;
+    private View contentHeader;
 
-    private ScrollView mScrollView;
+    private ScrollView scrollView;
 
-    private HorizontalScrollView mHorizontalScrollView;
+    private HorizontalScrollView horizontalScrollView;
 
-    private boolean mShowingContent = true;
+    private boolean showingContent = true;
 
-    private int mCurrentPage;
+    private int currentPage;
 
     public static TableFragment newInstance(File databaseFile, String tableName) {
 
@@ -81,13 +81,13 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         setHasOptionsMenu(true);
 
         if (getArguments() != null) {
-            mDatabaseFile = (File) getArguments().getSerializable(KEY_DATABASE);
-            mTableName = getArguments().getString(KEY_TABLE);
+            databaseFile = (File) getArguments().getSerializable(KEY_DATABASE);
+            tableName = getArguments().getString(KEY_TABLE);
         }
 
         if (savedInstanceState != null) {
-            mShowingContent = savedInstanceState.getBoolean(KEY_SHOWING_CONTENT, true);
-            mCurrentPage = savedInstanceState.getInt(KEY_PAGE, 0);
+            showingContent = savedInstanceState.getBoolean(KEY_SHOWING_CONTENT, true);
+            currentPage = savedInstanceState.getInt(KEY_PAGE, 0);
         }
     }
 
@@ -97,17 +97,17 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
         View view = inflater.inflate(R.layout.dbinspector_fragment_table, container, false);
 
-        mTableLayout = (TableLayout) view.findViewById(R.id.dbinspector_table_layout);
-        mPreviousButton = view.findViewById(R.id.dbinspector_button_previous);
-        mNextButton = view.findViewById(R.id.dbinspector_button_next);
-        mCurrentPageText = (TextView) view.findViewById(R.id.dbinspector_text_current_page);
-        mContentHeader = view.findViewById(R.id.dbinspector_layout_content_header);
-        mScrollView = (ScrollView) view.findViewById(R.id.dbinspector_scrollview_table);
-        mHorizontalScrollView = (HorizontalScrollView) view
+        tableLayout = (TableLayout) view.findViewById(R.id.dbinspector_table_layout);
+        previousButton = view.findViewById(R.id.dbinspector_button_previous);
+        nextButton = view.findViewById(R.id.dbinspector_button_next);
+        currentPageText = (TextView) view.findViewById(R.id.dbinspector_text_current_page);
+        contentHeader = view.findViewById(R.id.dbinspector_layout_content_header);
+        scrollView = (ScrollView) view.findViewById(R.id.dbinspector_scrollview_table);
+        horizontalScrollView = (HorizontalScrollView) view
             .findViewById(R.id.dbinspector_horizontal_scrollview_table);
 
-        mPreviousButton.setOnClickListener(previousListener);
-        mNextButton.setOnClickListener(nextListener);
+        previousButton.setOnClickListener(previousListener);
+        nextButton.setOnClickListener(nextListener);
 
         return view;
     }
@@ -119,7 +119,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
         final ActionBar actionBar = getActivity().getActionBar();
 
-        actionBar.setTitle(mTableName);
+        actionBar.setTitle(tableName);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         // Set up the action bar to show a dropdown list.
@@ -140,9 +140,9 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
             this
         );
 
-        mAdapter = new TablePageAdapter(getActivity(), mDatabaseFile, mTableName, mCurrentPage);
+        adapter = new TablePageAdapter(getActivity(), databaseFile, tableName, currentPage);
 
-        if (mShowingContent) {
+        if (showingContent) {
             showContent();
         } else {
             showStructure();
@@ -188,8 +188,8 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putBoolean(KEY_SHOWING_CONTENT, mShowingContent);
-        outState.putInt(KEY_PAGE, mCurrentPage);
+        outState.putBoolean(KEY_SHOWING_CONTENT, showingContent);
+        outState.putInt(KEY_PAGE, currentPage);
         super.onSaveInstanceState(outState);
     }
 
@@ -201,47 +201,47 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
     private void showContent() {
 
-        mShowingContent = true;
-        mTableLayout.removeAllViews();
+        showingContent = true;
+        tableLayout.removeAllViews();
 
-        List<TableRow> rows = mAdapter.getContentPage();
+        List<TableRow> rows = adapter.getContentPage();
 
         for (TableRow row : rows) {
-            mTableLayout.addView(row);
+            tableLayout.addView(row);
         }
 
-        mCurrentPageText.setText(mAdapter.getCurrentPage() + "/" + mAdapter.getPageCount());
+        currentPageText.setText(adapter.getCurrentPage() + "/" + adapter.getPageCount());
 
-        mContentHeader.setVisibility(View.VISIBLE);
+        contentHeader.setVisibility(View.VISIBLE);
 
-        mNextButton.setEnabled(mAdapter.hasNext());
-        mPreviousButton.setEnabled(mAdapter.hasPrevious());
+        nextButton.setEnabled(adapter.hasNext());
+        previousButton.setEnabled(adapter.hasPrevious());
     }
 
     private void showStructure() {
 
-        mShowingContent = false;
-        mTableLayout.removeAllViews();
+        showingContent = false;
+        tableLayout.removeAllViews();
 
-        List<TableRow> rows = mAdapter.getStructure();
+        List<TableRow> rows = adapter.getStructure();
 
         for (TableRow row : rows) {
-            mTableLayout.addView(row);
+            tableLayout.addView(row);
         }
 
-        mContentHeader.setVisibility(View.GONE);
+        contentHeader.setVisibility(View.GONE);
     }
 
     private View.OnClickListener nextListener = new View.OnClickListener() {
 
         @Override
         public void onClick(View v) {
-            mCurrentPage++;
-            mAdapter.nextPage();
+            currentPage++;
+            adapter.nextPage();
             showContent();
 
-            mScrollView.scrollTo(0, 0);
-            mHorizontalScrollView.scrollTo(0, 0);
+            scrollView.scrollTo(0, 0);
+            horizontalScrollView.scrollTo(0, 0);
         }
     };
 
@@ -249,12 +249,12 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
         @Override
         public void onClick(View v) {
-            mCurrentPage--;
-            mAdapter.previousPage();
+            currentPage--;
+            adapter.previousPage();
             showContent();
 
-            mScrollView.scrollTo(0, 0);
-            mHorizontalScrollView.scrollTo(0, 0);
+            scrollView.scrollTo(0, 0);
+            horizontalScrollView.scrollTo(0, 0);
         }
     };
 }
