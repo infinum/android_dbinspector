@@ -15,6 +15,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import im.dino.dbinspector.helpers.CursorOperation;
 import im.dino.dbinspector.helpers.DatabaseHelper;
 import im.dino.dbinspector.helpers.DisplayHelper;
 import im.dino.dbview.R;
@@ -26,9 +27,9 @@ public class TablePageAdapter {
 
     private final Context mContext;
 
-    private final String mTableName;
+    private final File mDatabaseFile;
 
-    private final SQLiteDatabase mDatabase;
+    private final String mTableName;
 
     private int mRowsPerPage = 10;
 
@@ -41,9 +42,8 @@ public class TablePageAdapter {
     public TablePageAdapter(Context context, File databaseFile, String tableName, int startPage) {
 
         mContext = context;
+        mDatabaseFile = databaseFile;
         mTableName = tableName;
-
-        mDatabase = DatabaseHelper.getDatabase(databaseFile);
         mPaddingPx = DisplayHelper.dpToPx(mContext, 5);
 
         String keyRowsPerPage = mContext.getString(R.string.dbinspector_pref_key_rows_per_page);
@@ -55,17 +55,40 @@ public class TablePageAdapter {
     }
 
     public List<TableRow> getStructure() {
-        Cursor cursor = mDatabase
-                .rawQuery(String.format(DatabaseHelper.PRAGMA_FORMAT, mTableName), null);
-        cursor.moveToFirst();
-        return getTableRows(cursor, true);
+
+        CursorOperation<List<TableRow>> operation = new CursorOperation<List<TableRow>>(mDatabaseFile) {
+            @Override
+            public Cursor provideCursor(SQLiteDatabase database) {
+                return database.rawQuery(String.format(DatabaseHelper.PRAGMA_FORMAT, mTableName), null);
+            }
+
+            @Override
+            public List<TableRow> provideResult(SQLiteDatabase database, Cursor cursor) {
+                cursor.moveToFirst();
+                return getTableRows(cursor, true);
+            }
+        };
+
+        return operation.execute();
     }
 
     public List<TableRow> getContentPage() {
-        Cursor cursor = mDatabase.query(mTableName, null, null, null, null, null, null);
-        mCount = cursor.getCount();
-        cursor.moveToPosition(mPosition);
-        return getTableRows(cursor, false);
+
+        CursorOperation<List<TableRow>> operation = new CursorOperation<List<TableRow>>(mDatabaseFile) {
+            @Override
+            public Cursor provideCursor(SQLiteDatabase database) {
+                return database.query(mTableName, null, null, null, null, null, null);
+            }
+
+            @Override
+            public List<TableRow> provideResult(SQLiteDatabase database, Cursor cursor) {
+                mCount = cursor.getCount();
+                cursor.moveToPosition(mPosition);
+                return getTableRows(cursor, false);
+            }
+        };
+
+        return operation.execute();
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -87,7 +110,7 @@ public class TablePageAdapter {
 
         boolean alternate = true;
 
-        if(cursor.getCount() == 0) {
+        if (cursor.getCount() == 0) {
             return rows;
         }
 
@@ -115,7 +138,6 @@ public class TablePageAdapter {
 
         } while (cursor.moveToNext() && (allRows || rows.size() <= mRowsPerPage));
 
-        cursor.close();
         return rows;
     }
 

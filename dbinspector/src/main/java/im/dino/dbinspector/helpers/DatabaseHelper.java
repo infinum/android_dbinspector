@@ -74,25 +74,28 @@ public class DatabaseHelper {
         return databaseList;
     }
 
-    public static SQLiteDatabase getDatabase(File database) {
-        return SQLiteDatabase.openOrCreateDatabase(database, null);
-    }
-
     public static List<String> getAllTables(File database) {
 
-        SQLiteDatabase db = getDatabase(database);
-
-        List<String> tableList = new ArrayList<>();
-        Cursor c = db.rawQuery(TABLE_LIST_QUERY, null);
-
-        if (c.moveToFirst()) {
-            while (!c.isAfterLast()) {
-                tableList.add(c.getString(c.getColumnIndex(COLUMN_NAME)));
-                c.moveToNext();
+        CursorOperation<List<String>> operation = new CursorOperation<List<String>>(database) {
+            @Override
+            public Cursor provideCursor(SQLiteDatabase database) {
+                return database.rawQuery(TABLE_LIST_QUERY, null);
             }
-        }
 
-        return tableList;
+            @Override
+            public List<String> provideResult(SQLiteDatabase database, Cursor cursor) {
+                List<String> tableList = new ArrayList<>();
+                if (cursor.moveToFirst()) {
+                    while (!cursor.isAfterLast()) {
+                        tableList.add(cursor.getString(cursor.getColumnIndex(COLUMN_NAME)));
+                        cursor.moveToNext();
+                    }
+                }
+                return tableList;
+            }
+        };
+
+        return operation.execute();
     }
 
 }
