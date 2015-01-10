@@ -26,9 +26,7 @@ public class DbInspectorActivity extends Activity {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public boolean onNavigateUp() {
-
         getFragmentManager().popBackStack();
-
         return true;
     }
 }
