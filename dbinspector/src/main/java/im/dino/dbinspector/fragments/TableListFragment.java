@@ -26,7 +26,7 @@ public class TableListFragment extends ListFragment {
 
     private static final String KEY_DATABASE = "database_name";
 
-    private File mDatabase;
+    private File database;
 
     public static TableListFragment newInstance(File database) {
 
@@ -44,7 +44,7 @@ public class TableListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mDatabase = (File) getArguments().getSerializable(KEY_DATABASE);
+            database = (File) getArguments().getSerializable(KEY_DATABASE);
         }
     }
 
@@ -54,10 +54,10 @@ public class TableListFragment extends ListFragment {
 
         Activity activity = getActivity();
 
-        activity.getActionBar().setTitle(mDatabase.getName());
+        activity.getActionBar().setTitle(database.getName());
         activity.getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        List<String> tableList = DatabaseHelper.getAllTables(mDatabase);
+        List<String> tableList = DatabaseHelper.getAllTables(database);
 
         ListAdapter adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1,
                 tableList);
@@ -75,7 +75,7 @@ public class TableListFragment extends ListFragment {
             FragmentManager fm = getActivity().getFragmentManager();
 
             FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.dbinspector_container, TableFragment.newInstance(mDatabase,
+            ft.replace(R.id.dbinspector_container, TableFragment.newInstance(database,
                     (String) getListAdapter().getItem(position)));
             ft.addToBackStack(null).commit();
 

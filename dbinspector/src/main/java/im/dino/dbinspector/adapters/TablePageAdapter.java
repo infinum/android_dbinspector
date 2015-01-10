@@ -25,41 +25,41 @@ import im.dino.dbview.R;
  */
 public class TablePageAdapter {
 
-    private final Context mContext;
+    private final Context context;
 
-    private final File mDatabaseFile;
+    private final File databaseFile;
 
-    private final String mTableName;
+    private final String tableName;
 
-    private int mRowsPerPage = 10;
+    private int rowsPerPage = 10;
 
-    private int mPosition = 0;
+    private int position = 0;
 
-    private int mCount = 0;
+    private int count = 0;
 
-    private int mPaddingPx;
+    private int paddingPx;
 
     public TablePageAdapter(Context context, File databaseFile, String tableName, int startPage) {
 
-        mContext = context;
-        mDatabaseFile = databaseFile;
-        mTableName = tableName;
-        mPaddingPx = DisplayHelper.dpToPx(mContext, 5);
+        this.context = context;
+        this.databaseFile = databaseFile;
+        this.tableName = tableName;
+        paddingPx = DisplayHelper.dpToPx(this.context, 5);
 
-        String keyRowsPerPage = mContext.getString(R.string.dbinspector_pref_key_rows_per_page);
-        String defaultRowsPerPage = mContext.getString(R.string.dbinspector_rows_per_page_default);
-        String rowsPerPage = PreferenceManager.getDefaultSharedPreferences(mContext)
+        String keyRowsPerPage = this.context.getString(R.string.dbinspector_pref_key_rows_per_page);
+        String defaultRowsPerPage = this.context.getString(R.string.dbinspector_rows_per_page_default);
+        String rowsPerPage = PreferenceManager.getDefaultSharedPreferences(this.context)
                 .getString(keyRowsPerPage, defaultRowsPerPage);
-        mRowsPerPage = Integer.valueOf(rowsPerPage);
-        mPosition = mRowsPerPage * startPage;
+        this.rowsPerPage = Integer.valueOf(rowsPerPage);
+        position = this.rowsPerPage * startPage;
     }
 
     public List<TableRow> getStructure() {
 
-        CursorOperation<List<TableRow>> operation = new CursorOperation<List<TableRow>>(mDatabaseFile) {
+        CursorOperation<List<TableRow>> operation = new CursorOperation<List<TableRow>>(databaseFile) {
             @Override
             public Cursor provideCursor(SQLiteDatabase database) {
-                return database.rawQuery(String.format(DatabaseHelper.PRAGMA_FORMAT, mTableName), null);
+                return database.rawQuery(String.format(DatabaseHelper.PRAGMA_FORMAT, tableName), null);
             }
 
             @Override
@@ -74,16 +74,16 @@ public class TablePageAdapter {
 
     public List<TableRow> getContentPage() {
 
-        CursorOperation<List<TableRow>> operation = new CursorOperation<List<TableRow>>(mDatabaseFile) {
+        CursorOperation<List<TableRow>> operation = new CursorOperation<List<TableRow>>(databaseFile) {
             @Override
             public Cursor provideCursor(SQLiteDatabase database) {
-                return database.query(mTableName, null, null, null, null, null, null);
+                return database.query(tableName, null, null, null, null, null, null);
             }
 
             @Override
             public List<TableRow> provideResult(SQLiteDatabase database, Cursor cursor) {
-                mCount = cursor.getCount();
-                cursor.moveToPosition(mPosition);
+                count = cursor.getCount();
+                cursor.moveToPosition(position);
                 return getTableRows(cursor, false);
             }
         };
@@ -96,12 +96,12 @@ public class TablePageAdapter {
 
         List<TableRow> rows = new ArrayList<>();
 
-        TableRow header = new TableRow(mContext);
+        TableRow header = new TableRow(context);
 
         for (int col = 0; col < cursor.getColumnCount(); col++) {
-            TextView textView = new TextView(mContext);
+            TextView textView = new TextView(context);
             textView.setText(cursor.getColumnName(col));
-            textView.setPadding(mPaddingPx, mPaddingPx / 2, mPaddingPx, mPaddingPx / 2);
+            textView.setPadding(paddingPx, paddingPx / 2, paddingPx, paddingPx / 2);
             textView.setTypeface(Typeface.DEFAULT_BOLD);
             header.addView(textView);
         }
@@ -115,16 +115,16 @@ public class TablePageAdapter {
         }
 
         do {
-            TableRow row = new TableRow(mContext);
+            TableRow row = new TableRow(context);
 
             for (int col = 0; col < cursor.getColumnCount(); col++) {
-                TextView textView = new TextView(mContext);
+                TextView textView = new TextView(context);
                 if (cursor.getType(col) == Cursor.FIELD_TYPE_BLOB) {
                     textView.setText("(data)");
                 } else {
                     textView.setText(cursor.getString(col));
                 }
-                textView.setPadding(mPaddingPx, mPaddingPx / 2, mPaddingPx, mPaddingPx / 2);
+                textView.setPadding(paddingPx, paddingPx / 2, paddingPx, paddingPx / 2);
 
                 if (alternate) {
                     textView.setBackgroundColor(Color.rgb(242, 242, 242));
@@ -136,37 +136,37 @@ public class TablePageAdapter {
             alternate = !alternate;
             rows.add(row);
 
-        } while (cursor.moveToNext() && (allRows || rows.size() <= mRowsPerPage));
+        } while (cursor.moveToNext() && (allRows || rows.size() <= rowsPerPage));
 
         return rows;
     }
 
     public void nextPage() {
-        if (mPosition + mRowsPerPage < mCount) {
-            mPosition += mRowsPerPage;
+        if (position + rowsPerPage < count) {
+            position += rowsPerPage;
         }
     }
 
     public void previousPage() {
-        if (mPosition - mRowsPerPage >= 0) {
-            mPosition -= mRowsPerPage;
+        if (position - rowsPerPage >= 0) {
+            position -= rowsPerPage;
         }
     }
 
     public boolean hasNext() {
-        return mPosition + mRowsPerPage < mCount;
+        return position + rowsPerPage < count;
     }
 
     public boolean hasPrevious() {
-        return mPosition - mRowsPerPage >= 0;
+        return position - rowsPerPage >= 0;
     }
 
     public int getPageCount() {
-        return (int) Math.ceil((float) mCount / mRowsPerPage);
+        return (int) Math.ceil((float) count / rowsPerPage);
     }
 
     public int getCurrentPage() {
-        return (mPosition / mRowsPerPage) + 1;
+        return (position / rowsPerPage) + 1;
     }
 
 }
