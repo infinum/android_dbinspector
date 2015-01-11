@@ -7,6 +7,7 @@ import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -52,10 +53,10 @@ public class TableListFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Activity activity = getActivity();
+        ActionBarActivity activity = (ActionBarActivity) getActivity();
 
-        activity.getActionBar().setTitle(database.getName());
-        activity.getActionBar().setDisplayHomeAsUpEnabled(true);
+        activity.getSupportActionBar().setTitle(database.getName());
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         List<String> tableList = DatabaseHelper.getAllTables(database);
 
@@ -80,7 +81,6 @@ public class TableListFragment extends ListFragment {
             ft.addToBackStack(null).commit();
 
             fm.executePendingTransactions();
-
         }
     };
 }

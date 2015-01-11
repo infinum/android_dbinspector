@@ -9,6 +9,7 @@
     <string name="dbinspector_next">Next</string>
     <string name="dbinspector_pref_key_rows_per_page">prefs_key_row_per_page</string>
     <string name="dbinspector_rows_per_page">Rows per page</string>
+    <string name="dbinspector_databases">Databases</string>
 
     <string name="dbinspector_rows_per_page_default">10</string>
     <string-array name="dbinspector_rows_per_page_options">

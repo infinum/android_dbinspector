@@ -1,22 +1,18 @@
 package im.dino.dbinspector.fragments;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 
 import java.io.File;
-import java.io.FilenameFilter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import im.dino.dbinspector.helpers.DatabaseHelper;
 import im.dino.dbview.R;
@@ -36,10 +32,10 @@ public class DatabaseListFragment extends ListFragment implements AdapterView.On
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Activity activity = getActivity();
+        ActionBarActivity activity = (ActionBarActivity) getActivity();
 
-        activity.getActionBar().setTitle("Databases");
-        activity.getActionBar().setDisplayHomeAsUpEnabled(false);
+        activity.getSupportActionBar().setTitle(getString(R.string.dbinspector_databases));
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         ListAdapter adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1,
             DatabaseHelper.getDatabaseList(getActivity()));

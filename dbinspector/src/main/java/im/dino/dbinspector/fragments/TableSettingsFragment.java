@@ -1,10 +1,10 @@
 package im.dino.dbinspector.fragments;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+import android.support.v7.app.ActionBarActivity;
 
 import im.dino.dbview.R;
 
@@ -26,10 +26,10 @@ public class TableSettingsFragment extends PreferenceFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Activity activity = getActivity();
+        ActionBarActivity activity = (ActionBarActivity) getActivity();
 
-        activity.getActionBar().setTitle(R.string.dbinspector_action_settings);
-        activity.getActionBar().setDisplayHomeAsUpEnabled(true);
+        activity.getSupportActionBar().setTitle(R.string.dbinspector_action_settings);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 }
