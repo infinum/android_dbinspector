@@ -1,6 +1,13 @@
 Changelog
 =========
 
+## Version 2.0.0
+
+_2015-01-11_
+
+ * Fix: Closing both cursor and database after query to prevent leaking the connection
+ * Fix: DbInspector now uses ActionBarActivity so you can (and **need** to) use an AppCompat theme - this change is the reason for the major version bump
+
 ## Version 1.1.0
 
 _2014-10-17_
