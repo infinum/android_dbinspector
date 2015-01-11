@@ -27,6 +27,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-//    debugCompile 'im.dino:dbinspector:1.1.0@aar'
+//    debugCompile 'im.dino:dbinspector:2.0.0@aar'
     debugCompile project(':dbinspector')
 }
