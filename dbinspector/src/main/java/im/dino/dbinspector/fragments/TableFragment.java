@@ -1,11 +1,12 @@
 package im.dino.dbinspector.fragments;
 
 import android.annotation.TargetApi;
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -104,7 +105,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         contentHeader = view.findViewById(R.id.dbinspector_layout_content_header);
         scrollView = (ScrollView) view.findViewById(R.id.dbinspector_scrollview_table);
         horizontalScrollView = (HorizontalScrollView) view
-            .findViewById(R.id.dbinspector_horizontal_scrollview_table);
+                .findViewById(R.id.dbinspector_horizontal_scrollview_table);
 
         previousButton.setOnClickListener(previousListener);
         nextButton.setOnClickListener(nextListener);
@@ -117,7 +118,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        final ActionBar actionBar = getActivity().getActionBar();
+        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
 
         actionBar.setTitle(tableName);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -127,17 +128,17 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
         // Set up the dropdown list navigation in the action bar.
         actionBar.setListNavigationCallbacks(
-            // Specify a SpinnerAdapter to populate the dropdown list.
-            new ArrayAdapter<>(
-                actionBar.getThemedContext(),
-                android.R.layout.simple_list_item_1,
-                android.R.id.text1,
-                new String[]{
-                    getString(R.string.dbinspector_content),
-                    getString(R.string.dbinspector_structure),
-                }
-            ),
-            this
+                // Specify a SpinnerAdapter to populate the dropdown list.
+                new ArrayAdapter<>(
+                        actionBar.getThemedContext(),
+                        android.R.layout.simple_list_item_1,
+                        android.R.id.text1,
+                        new String[]{
+                                getString(R.string.dbinspector_content),
+                                getString(R.string.dbinspector_structure),
+                        }
+                ),
+                this
         );
 
         adapter = new TablePageAdapter(getActivity(), databaseFile, tableName, currentPage);
@@ -158,10 +159,10 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.dbinspector_action_settings
-            && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
             ft.replace(R.id.dbinspector_container, new TableSettingsFragment()).addToBackStack(null)
-                .commit();
+                    .commit();
             getActivity().getFragmentManager().executePendingTransactions();
             return true;
         }
@@ -195,7 +196,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
     @Override
     public void onDestroyView() {
-        getActivity().getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        ((ActionBarActivity) getActivity()).getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         super.onDestroyView();
     }
 

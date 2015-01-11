@@ -25,7 +25,7 @@ Declare ```DbInspectorActivity``` in your debug manifest (`src/debug/AndroidMani
         <activity
             android:name="im.dino.dbinspector.activities.DbInspectorActivity"
             android:label="Example DbInspector"
-            android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
             android:icon="@drawable/ic_launcher_dbinspector">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
