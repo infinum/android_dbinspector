@@ -10,7 +10,6 @@ import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * Created by dino on 23/02/14.
@@ -32,7 +31,7 @@ public class DatabaseHelper {
     public static final String COLUMN_PRIMARY = "primary key";
 
     public static final String TABLE_LIST_QUERY
-        = "SELECT name FROM sqlite_master WHERE type='table'";
+            = "SELECT name FROM sqlite_master WHERE type='table'";
 
     public static final String PRAGMA_FORMAT = "PRAGMA table_info(%s)";
 
@@ -49,9 +48,9 @@ public class DatabaseHelper {
             @Override
             public boolean accept(File dir, String filename) {
                 return filename.endsWith(".sql")
-                    || filename.endsWith(".sqlite")
-                    || filename.endsWith(".db")
-                    || filename.endsWith(".cblite");
+                        || filename.endsWith(".sqlite")
+                        || filename.endsWith(".db")
+                        || filename.endsWith(".cblite");
             }
         };
 
