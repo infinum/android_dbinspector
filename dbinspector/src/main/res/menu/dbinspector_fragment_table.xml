@@ -1,11 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="im.dino.dbview.DbViewActivity">
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context="im.dino.dbview.DbViewActivity">
 
     <item
-        android:id="@+id/dbinspector_action_settings"
-        android:title="@string/dbinspector_action_settings"
-        android:orderInCategory="100"
-        android:icon="@drawable/ic_action_dbinspector_settings"
-        android:showAsAction="ifRoom" />
+            android:id="@+id/dbinspector_action_settings"
+            android:title="@string/dbinspector_action_settings"
+            android:orderInCategory="100"
+            android:icon="@drawable/ic_action_dbinspector_settings"
+            android:showAsAction="ifRoom"/>
 </menu>

@@ -38,7 +38,7 @@ public class DatabaseListFragment extends ListFragment implements AdapterView.On
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         ListAdapter adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1,
-            DatabaseHelper.getDatabaseList(getActivity()));
+                DatabaseHelper.getDatabaseList(getActivity()));
 
         setListAdapter(adapter);
 
@@ -52,7 +52,7 @@ public class DatabaseListFragment extends ListFragment implements AdapterView.On
 
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.dbinspector_container,
-            TableListFragment.newInstance((File) getListAdapter().getItem(position)));
+                TableListFragment.newInstance((File) getListAdapter().getItem(position)));
         ft.addToBackStack(null).commit();
 
         fm.executePendingTransactions();
