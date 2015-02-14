@@ -1,10 +1,10 @@
 package im.dino.dbinspector.fragments;
 
 import android.annotation.TargetApi;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
@@ -19,243 +19,240 @@ import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
-import java.io.File;
-import java.util.List;
-
 import im.dino.dbinspector.adapters.TablePageAdapter;
 import im.dino.dbview.R;
+import java.io.File;
+import java.util.List;
 
 /**
  * Created by dino on 24/02/14.
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class TableFragment extends Fragment implements ActionBar.OnNavigationListener {
+public class TableFragment
+		extends Fragment
+		implements ActionBar.OnNavigationListener {
 
-    private static final String KEY_DATABASE = "database_name";
+	private static final String KEY_DATABASE = "database_name";
 
-    private static final String KEY_TABLE = "table_name";
+	private static final String KEY_TABLE = "table_name";
 
-    private static final String KEY_SHOWING_CONTENT = "showing_content";
+	private static final String KEY_SHOWING_CONTENT = "showing_content";
 
-    private static final String KEY_PAGE = "current_page";
+	private static final String KEY_PAGE = "current_page";
 
-    private File databaseFile;
+	private File databaseFile;
 
-    private String tableName;
+	private String tableName;
 
-    private TableLayout tableLayout;
+	private TableLayout tableLayout;
 
-    private TablePageAdapter adapter;
+	private TablePageAdapter adapter;
 
-    private View nextButton;
+	private View nextButton;
 
-    private View previousButton;
+	private View previousButton;
 
-    private TextView currentPageText;
+	private TextView currentPageText;
 
-    private View contentHeader;
+	private View contentHeader;
 
-    private ScrollView scrollView;
+	private ScrollView scrollView;
 
-    private HorizontalScrollView horizontalScrollView;
+	private HorizontalScrollView horizontalScrollView;
 
-    private boolean showingContent = true;
+	private boolean showingContent = true;
 
-    private int currentPage;
+	private int currentPage;
+	private View.OnClickListener nextListener = new View.OnClickListener() {
 
-    public static TableFragment newInstance(File databaseFile, String tableName) {
+		@Override
+		public void onClick(View v) {
+			currentPage++;
+			adapter.nextPage();
+			showContent();
 
-        Bundle args = new Bundle();
-        args.putSerializable(KEY_DATABASE, databaseFile);
-        args.putString(KEY_TABLE, tableName);
+			scrollView.scrollTo(0, 0);
+			horizontalScrollView.scrollTo(0, 0);
+		}
+	};
+	private View.OnClickListener previousListener = new View.OnClickListener() {
 
-        TableFragment tf = new TableFragment();
-        tf.setArguments(args);
+		@Override
+		public void onClick(View v) {
+			currentPage--;
+			adapter.previousPage();
+			showContent();
 
-        return tf;
-    }
+			scrollView.scrollTo(0, 0);
+			horizontalScrollView.scrollTo(0, 0);
+		}
+	};
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+	public static TableFragment newInstance(File databaseFile, String tableName) {
 
-        if (getArguments() != null) {
-            databaseFile = (File) getArguments().getSerializable(KEY_DATABASE);
-            tableName = getArguments().getString(KEY_TABLE);
-        }
+		Bundle args = new Bundle();
+		args.putSerializable(KEY_DATABASE, databaseFile);
+		args.putString(KEY_TABLE, tableName);
 
-        if (savedInstanceState != null) {
-            showingContent = savedInstanceState.getBoolean(KEY_SHOWING_CONTENT, true);
-            currentPage = savedInstanceState.getInt(KEY_PAGE, 0);
-        }
-    }
+		TableFragment tf = new TableFragment();
+		tf.setArguments(args);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+		return tf;
+	}
 
-        View view = inflater.inflate(R.layout.dbinspector_fragment_table, container, false);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
 
-        tableLayout = (TableLayout) view.findViewById(R.id.dbinspector_table_layout);
-        previousButton = view.findViewById(R.id.dbinspector_button_previous);
-        nextButton = view.findViewById(R.id.dbinspector_button_next);
-        currentPageText = (TextView) view.findViewById(R.id.dbinspector_text_current_page);
-        contentHeader = view.findViewById(R.id.dbinspector_layout_content_header);
-        scrollView = (ScrollView) view.findViewById(R.id.dbinspector_scrollview_table);
-        horizontalScrollView = (HorizontalScrollView) view
-                .findViewById(R.id.dbinspector_horizontal_scrollview_table);
+		if (getArguments() != null) {
+			databaseFile = (File) getArguments().getSerializable(KEY_DATABASE);
+			tableName = getArguments().getString(KEY_TABLE);
+		}
 
-        previousButton.setOnClickListener(previousListener);
-        nextButton.setOnClickListener(nextListener);
+		if (savedInstanceState != null) {
+			showingContent = savedInstanceState.getBoolean(KEY_SHOWING_CONTENT, true);
+			currentPage = savedInstanceState.getInt(KEY_PAGE, 0);
+		}
+	}
 
-        return view;
-    }
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+		View view = inflater.inflate(R.layout.dbinspector_fragment_table, container, false);
 
-        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+		tableLayout = (TableLayout) view.findViewById(R.id.dbinspector_table_layout);
+		previousButton = view.findViewById(R.id.dbinspector_button_previous);
+		nextButton = view.findViewById(R.id.dbinspector_button_next);
+		currentPageText = (TextView) view.findViewById(R.id.dbinspector_text_current_page);
+		contentHeader = view.findViewById(R.id.dbinspector_layout_content_header);
+		scrollView = (ScrollView) view.findViewById(R.id.dbinspector_scrollview_table);
+		horizontalScrollView = (HorizontalScrollView) view.findViewById(R.id.dbinspector_horizontal_scrollview_table);
 
-        actionBar.setTitle(tableName);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+		previousButton.setOnClickListener(previousListener);
+		nextButton.setOnClickListener(nextListener);
 
-        // Set up the action bar to show a dropdown list.
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+		return view;
+	}
 
-        // Set up the dropdown list navigation in the action bar.
-        actionBar.setListNavigationCallbacks(
-                // Specify a SpinnerAdapter to populate the dropdown list.
-                new ArrayAdapter<>(
-                        actionBar.getThemedContext(),
-                        android.R.layout.simple_list_item_1,
-                        android.R.id.text1,
-                        new String[]{
-                                getString(R.string.dbinspector_content),
-                                getString(R.string.dbinspector_structure),
-                        }
-                ),
-                this
-        );
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 
-        adapter = new TablePageAdapter(getActivity(), databaseFile, tableName, currentPage);
+		setUpActionBar();
+		adapter = new TablePageAdapter(getActivity(), databaseFile, tableName, currentPage);
+		if (showingContent) {
+			showContent();
+		} else {
+			showStructure();
+		}
+	}
 
-        if (showingContent) {
-            showContent();
-        } else {
-            showStructure();
-        }
-    }
+	@Override
+	public void onResume() {
+		super.onResume();
+		setUpActionBar();
+	}
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.dbinspector_fragment_table, menu);
-    }
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		outState.putBoolean(KEY_SHOWING_CONTENT, showingContent);
+		outState.putInt(KEY_PAGE, currentPage);
+		super.onSaveInstanceState(outState);
+	}
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+	@Override
+	public void onDestroyView() {
+		((ActionBarActivity) getActivity()).getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+		super.onDestroyView();
+	}
 
-        if (item.getItemId() == R.id.dbinspector_action_settings
-                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
-            ft.replace(R.id.dbinspector_container, new TableSettingsFragment()).addToBackStack(null)
-                    .commit();
-            getActivity().getFragmentManager().executePendingTransactions();
-            return true;
-        }
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.dbinspector_fragment_table, menu);
+	}
 
-        return super.onOptionsItemSelected(item);
-    }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
 
-    @Override
-    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+		boolean b = item.getItemId() == R.id.dbinspector_action_settings;
+		if (item.getItemId() == R.id.dbinspector_action_settings) {
+			FragmentTransaction ft = getFragmentManager().beginTransaction();
+			ft.replace(R.id.dbinspector_container, PreferenceListFragment.newInstance(R.xml.dbinspector_preferences)).addToBackStack("Settings")
+			  .commit();
+			getFragmentManager().executePendingTransactions();
+			return true;
 
-        switch (itemPosition) {
-            case 0:
-                showContent();
-                break;
-            case 1:
-                showStructure();
-                break;
-            default:
-                break;
-        }
+		}
 
-        return true;
-    }
+		return super.onOptionsItemSelected(item);
+	}
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putBoolean(KEY_SHOWING_CONTENT, showingContent);
-        outState.putInt(KEY_PAGE, currentPage);
-        super.onSaveInstanceState(outState);
-    }
+	private void setUpActionBar() {
+		final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
 
-    @Override
-    public void onDestroyView() {
-        ((ActionBarActivity) getActivity()).getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        super.onDestroyView();
-    }
+		actionBar.setTitle(tableName);
+		actionBar.setDisplayHomeAsUpEnabled(true);
 
-    private void showContent() {
+		// Set up the action bar to show a dropdown list.
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
-        showingContent = true;
-        tableLayout.removeAllViews();
+		// Set up the dropdown list navigation in the action bar.
+		actionBar.setListNavigationCallbacks(
+				                                    // Specify a SpinnerAdapter to populate the dropdown list.
+				                                    new ArrayAdapter<>(actionBar.getThemedContext(), android.R.layout.simple_list_item_1,
+				                                                       android.R.id.text1, new String[]{getString(R.string.dbinspector_content),
+				                                                                                        getString(R.string.dbinspector_structure),}),
+				                                    this);
+	}
 
-        List<TableRow> rows = adapter.getContentPage();
+	private void showContent() {
 
-        for (TableRow row : rows) {
-            tableLayout.addView(row);
-        }
+		showingContent = true;
+		tableLayout.removeAllViews();
 
-        currentPageText.setText(adapter.getCurrentPage() + "/" + adapter.getPageCount());
+		List<TableRow> rows = adapter.getContentPage();
 
-        contentHeader.setVisibility(View.VISIBLE);
+		for (TableRow row : rows) {
+			tableLayout.addView(row);
+		}
 
-        nextButton.setEnabled(adapter.hasNext());
-        previousButton.setEnabled(adapter.hasPrevious());
-    }
+		currentPageText.setText(adapter.getCurrentPage() + "/" + adapter.getPageCount());
 
-    private void showStructure() {
+		contentHeader.setVisibility(View.VISIBLE);
 
-        showingContent = false;
-        tableLayout.removeAllViews();
+		nextButton.setEnabled(adapter.hasNext());
+		previousButton.setEnabled(adapter.hasPrevious());
+	}
 
-        List<TableRow> rows = adapter.getStructure();
+	private void showStructure() {
 
-        for (TableRow row : rows) {
-            tableLayout.addView(row);
-        }
+		showingContent = false;
+		tableLayout.removeAllViews();
 
-        contentHeader.setVisibility(View.GONE);
-    }
+		List<TableRow> rows = adapter.getStructure();
 
-    private View.OnClickListener nextListener = new View.OnClickListener() {
+		for (TableRow row : rows) {
+			tableLayout.addView(row);
+		}
 
-        @Override
-        public void onClick(View v) {
-            currentPage++;
-            adapter.nextPage();
-            showContent();
+		contentHeader.setVisibility(View.GONE);
+	}
 
-            scrollView.scrollTo(0, 0);
-            horizontalScrollView.scrollTo(0, 0);
-        }
-    };
+	@Override
+	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
 
-    private View.OnClickListener previousListener = new View.OnClickListener() {
+		switch (itemPosition) {
+			case 0:
+				showContent();
+				break;
+			case 1:
+				showStructure();
+				break;
+			default:
+				break;
+		}
 
-        @Override
-        public void onClick(View v) {
-            currentPage--;
-            adapter.previousPage();
-            showContent();
-
-            scrollView.scrollTo(0, 0);
-            horizontalScrollView.scrollTo(0, 0);
-        }
-    };
+		return true;
+	}
 }

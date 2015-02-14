@@ -1,86 +1,148 @@
 package im.dino.dbinspector.fragments;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.app.ListFragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.ListFragment;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.SearchView.OnQueryTextListener;
+import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
-
+import android.widget.Toast;
+import im.dino.dbinspector.helpers.DatabaseHelper;
+import im.dino.dbview.CopyDbIntentService;
+import im.dino.dbview.R;
 import java.io.File;
 import java.util.List;
-
-import im.dino.dbinspector.helpers.DatabaseHelper;
-import im.dino.dbview.R;
 
 /**
  * Created by dino on 24/02/14.
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class TableListFragment extends ListFragment {
+public class TableListFragment
+		extends ListFragment {
 
-    private static final String KEY_DATABASE = "database_name";
+	private static final String KEY_DATABASE = "database_name";
 
-    private File database;
+	private File database;
+	private AdapterView.OnItemClickListener tableClickListener = new AdapterView.OnItemClickListener() {
 
-    public static TableListFragment newInstance(File database) {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        Bundle args = new Bundle();
-        args.putSerializable(KEY_DATABASE, database);
+			FragmentManager fm = getActivity().getSupportFragmentManager();
 
-        TableListFragment tlf = new TableListFragment();
-        tlf.setArguments(args);
+			FragmentTransaction ft = fm.beginTransaction();
+			String item = (String) getListAdapter().getItem(position);
+			ft.replace(R.id.dbinspector_container, TableFragment.newInstance(database, item));
+			ft.addToBackStack(item).commit();
 
-        return tlf;
-    }
+			fm.executePendingTransactions();
+		}
+	};
+	private ArrayAdapter<String> adapter;
+	private BroadcastReceiver dbCopiedreceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			Toast.makeText(context, "Database copied", Toast.LENGTH_SHORT).show();
+		}
+	};
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	public static TableListFragment newInstance(File database) {
 
-        if (getArguments() != null) {
-            database = (File) getArguments().getSerializable(KEY_DATABASE);
-        }
-    }
+		Bundle args = new Bundle();
+		args.putSerializable(KEY_DATABASE, database);
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+		TableListFragment tlf = new TableListFragment();
+		tlf.setArguments(args);
 
-        ActionBarActivity activity = (ActionBarActivity) getActivity();
+		return tlf;
+	}
 
-        activity.getSupportActionBar().setTitle(database.getName());
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
+		if (getArguments() != null) {
+			database = (File) getArguments().getSerializable(KEY_DATABASE);
+		}
+		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(dbCopiedreceiver, new IntentFilter("DatabaseCopied"));
+	}
 
-        List<String> tableList = DatabaseHelper.getAllTables(database);
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 
-        ListAdapter adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1,
-                tableList);
+		ActionBarActivity activity = (ActionBarActivity) getActivity();
 
-        setListAdapter(adapter);
-        getListView().setOnItemClickListener(tableClickListener);
-    }
 
-    private AdapterView.OnItemClickListener tableClickListener
-            = new AdapterView.OnItemClickListener() {
+		List<String> tableList = DatabaseHelper.getAllTables(database);
+		String version = DatabaseHelper.getVersion(database);
+		ActionBar bar = activity.getSupportActionBar();
+		if (bar != null) {
 
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			bar.setTitle(database.getName());
+			if (!TextUtils.isEmpty(version)) bar.setSubtitle("v" + version);
+			bar.setDisplayHomeAsUpEnabled(true);
+		}
 
-            FragmentManager fm = getActivity().getFragmentManager();
 
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.dbinspector_container, TableFragment.newInstance(database,
-                    (String) getListAdapter().getItem(position)));
-            ft.addToBackStack(null).commit();
+		adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, tableList);
 
-            fm.executePendingTransactions();
-        }
-    };
+		setListAdapter(adapter);
+		getListView().setOnItemClickListener(tableClickListener);
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		super.onCreateOptionsMenu(menu, inflater);
+		inflater.inflate(R.menu.dbinspector_fragment_table_list, menu);
+
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == R.id.dbinspector_action_search) {
+			SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+			searchView.setOnQueryTextListener(new OnQueryTextListener() {
+				@Override
+				public boolean onQueryTextSubmit(String s) {
+					search(s);
+					return true;
+				}
+
+				@Override
+				public boolean onQueryTextChange(String s) {
+					search(s);
+					return true;
+				}
+			});
+		} else if (item.getItemId() == R.id.dbinspector_action_copy) {
+			CopyDbIntentService.startService(getActivity(), database);
+
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+
+	private void search(String queryString) {
+		if (adapter != null) {
+			adapter.getFilter().filter(queryString);
+		}
+	}
 }
