@@ -4,14 +4,14 @@
     <application>
 
         <activity
-            android:name="im.dino.dbinspector.activities.DbInspectorActivity"
-            android:label="Example DbInspector"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
-            android:icon="@drawable/ic_launcher_dbinspector">
+                android:name="im.dino.dbinspector.activities.DbInspectorActivity"
+                android:label="Example DbInspector"
+                android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+                android:icon="@drawable/ic_launcher_dbinspector">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 

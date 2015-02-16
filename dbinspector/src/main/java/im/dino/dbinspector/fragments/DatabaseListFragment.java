@@ -11,17 +11,19 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
+
+import java.io.File;
+
 import im.dino.dbinspector.helpers.DatabaseHelper;
 import im.dino.dbview.R;
-import java.io.File;
 
 /**
  * Created by dino on 23/02/14.
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class DatabaseListFragment
-		extends ListFragment
-		implements AdapterView.OnItemClickListener {
+        extends ListFragment
+        implements AdapterView.OnItemClickListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +40,7 @@ public class DatabaseListFragment
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         ListAdapter adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1,
-            DatabaseHelper.getDatabaseList(getActivity()));
+                DatabaseHelper.getDatabaseList(getActivity()));
 
         setListAdapter(adapter);
 
@@ -48,11 +50,11 @@ public class DatabaseListFragment
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-	    FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentManager fm = getActivity().getSupportFragmentManager();
 
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.dbinspector_container,
-            TableListFragment.newInstance((File) getListAdapter().getItem(position)));
+                TableListFragment.newInstance((File) getListAdapter().getItem(position)));
         ft.addToBackStack(null).commit();
 
         fm.executePendingTransactions();

@@ -3,6 +3,7 @@ package im.dino.dbinspector.fragments;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.ActionBarActivity;
+
 import im.dino.dbview.R;
 
 /**
