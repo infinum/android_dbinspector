@@ -193,8 +193,7 @@ public class TableFragment
 
         return super.onOptionsItemSelected(item);
     }
-    
-    
+
 
     private void setUpActionBar() {
         final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
