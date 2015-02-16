@@ -121,7 +121,8 @@ public class TableFragment
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.dbinspector_fragment_table, container, false);
 
@@ -192,6 +193,8 @@ public class TableFragment
 
         return super.onOptionsItemSelected(item);
     }
+    
+    
 
     private void setUpActionBar() {
         final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();

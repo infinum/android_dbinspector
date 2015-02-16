@@ -30,7 +30,8 @@ public class DatabaseHelper {
 
     public static final String COLUMN_PRIMARY = "primary key";
 
-    public static final String TABLE_LIST_QUERY = "SELECT name FROM sqlite_master WHERE type='table'";
+    public static final String TABLE_LIST_QUERY
+            = "SELECT name FROM sqlite_master WHERE type='table'";
 
     public static final String PRAGMA_FORMAT = "PRAGMA table_info(%s)";
 
@@ -42,8 +43,10 @@ public class DatabaseHelper {
         FilenameFilter filenameFilter = new FilenameFilter() {
             @Override
             public boolean accept(File dir, String filename) {
-                return filename.endsWith(".sql") || filename.endsWith(".sqlite") || filename.endsWith(".db") || filename
-                        .endsWith(".cblite");
+                return filename.endsWith(".sql")
+                        || filename.endsWith(".sqlite")
+                        || filename.endsWith(".db")
+                        || filename.endsWith(".cblite");
             }
         };
 
