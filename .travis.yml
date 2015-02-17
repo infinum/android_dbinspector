@@ -15,4 +15,3 @@ script:
 cache:
   directories:
     - $HOME/.gradle
-  x    
