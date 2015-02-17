@@ -7,7 +7,7 @@
                 android:name="im.dino.dbinspector.activities.DbInspectorActivity"
                 android:label="Example DbInspector"
                 android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
-                android:icon="@drawable/ic_launcher_dbinspector">
+                android:icon="@drawable/dbinspector_ic_launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

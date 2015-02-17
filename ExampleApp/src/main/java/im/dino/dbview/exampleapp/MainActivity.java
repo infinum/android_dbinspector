@@ -11,7 +11,6 @@ import android.view.View;
 
 import java.util.Calendar;
 
-import im.dino.dbinspector.activities.DbInspectorActivity;
 import im.dino.dbview.exampleapp.models.Article;
 import im.dino.dbview.exampleapp.models.User;
 
@@ -23,15 +22,6 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         createData();
-
-        View showDbButton = findViewById(R.id.button_show_example_database);
-
-        showDbButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, DbInspectorActivity.class));
-            }
-        });
     }
 
     private void createData() {
