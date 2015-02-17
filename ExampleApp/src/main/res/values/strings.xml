@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">DbInspector Example App</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="data_created">The test data was created, open DbInspectorActivity to view it</string>
     <string name="action_settings">Settings</string>
 
 </resources>
