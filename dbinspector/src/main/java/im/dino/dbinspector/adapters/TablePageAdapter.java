@@ -50,7 +50,7 @@ public class TablePageAdapter {
         String defaultRowsPerPage = this.context.getString(R.string.dbinspector_rows_per_page_default);
         String rowsPerPage = PreferenceManager.getDefaultSharedPreferences(this.context)
                 .getString(keyRowsPerPage, defaultRowsPerPage);
-        this.rowsPerPage = Integer.valueOf(rowsPerPage);
+        this.rowsPerPage = Integer.parseInt(rowsPerPage);
         position = this.rowsPerPage * startPage;
     }
 
