@@ -9,6 +9,7 @@ import android.os.Message;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.support.annotation.Nullable;
 import android.support.annotation.XmlRes;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -25,8 +26,7 @@ import im.dino.dbview.R;
 /**
  * Original Thread http://forum.xda-developers.com/showthread.php?t=1363906 Created by Prasham on 12-02-2015.
  */
-public class PreferenceListFragment
-        extends ListFragment {
+public class PreferenceListFragment extends ListFragment {
 
     /**
      * The starting request code given out to preference framework.
@@ -34,6 +34,8 @@ public class PreferenceListFragment
     private static final int FIRST_REQUEST_CODE = 100;
 
     private static final int MSG_BIND_PREFERENCES = 0;
+
+    public static final String XML_ID = "xml_id";
 
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -52,8 +54,12 @@ public class PreferenceListFragment
 
     private int xmlId;
 
-    public PreferenceListFragment(int xmlId) {
-        this.xmlId = xmlId;
+    public static PreferenceListFragment newInstance(@XmlRes int xmlId) {
+        Bundle args = new Bundle();
+        args.putInt(XML_ID, xmlId);
+        PreferenceListFragment prefListFragment = new PreferenceListFragment();
+        prefListFragment.setArguments(args);
+        return prefListFragment;
     }
 
     //must be provided
@@ -61,16 +67,9 @@ public class PreferenceListFragment
 
     }
 
-    /**
-     * Instantiates new fragment.
-     *
-     * @param bundle : Any extra data to be passed to fragment, pass null if you don't want to pass anything.
-     * @return : Instance of current fragment.
-     */
-    public static PreferenceListFragment newInstance(@XmlRes int xmlId) {
-        PreferenceListFragment prefListFragment = new PreferenceListFragment(xmlId);
-
-        return prefListFragment;
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
     }
 
     private void bindPreferences() {
@@ -112,6 +111,7 @@ public class PreferenceListFragment
         return mPreferenceManager;
     }
 
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         try {
@@ -123,10 +123,11 @@ public class PreferenceListFragment
         }
     }
 
+    @Override
     public void onCreate(Bundle b) {
         super.onCreate(b);
-        if (b != null) {
-            xmlId = b.getInt("xml");
+        if (getArguments() != null) {
+            xmlId = getArguments().getInt(XML_ID);
         }
         mPreferenceManager = onCreatePreferenceManager();
         lv = (ListView) LayoutInflater.from(getActivity()).inflate(R.layout.dbinspector_preference_list_content, null);
@@ -135,17 +136,14 @@ public class PreferenceListFragment
         postBindPreferences();
         try {
             ((OnPreferenceAttachedListener) getActivity()).onPreferenceAttached(getPreferenceScreen(), xmlId);
+        } catch (ClassCastException e) {
+            // the activity does not implement OnPreferenceAttachedListener - we don't care
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putInt("xml", xmlId);
-        super.onSaveInstanceState(outState);
-
-    }
-
+    @Override
     public void onStop() {
         super.onStop();
         try {
@@ -157,6 +155,7 @@ public class PreferenceListFragment
         }
     }
 
+    @Override
     public void onDestroy() {
         super.onDestroy();
         lv = null;
@@ -237,11 +236,13 @@ public class PreferenceListFragment
         }
     }
 
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle b) {
         postBindPreferences();
         return lv;
     }
 
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         ViewParent p = lv.getParent();
@@ -266,5 +267,4 @@ public class PreferenceListFragment
 
         public void onPreferenceAttached(PreferenceScreen root, int xmlId);
     }
-
 }
