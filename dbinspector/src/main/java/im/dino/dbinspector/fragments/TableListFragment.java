@@ -131,6 +131,7 @@ public class TableListFragment extends ListFragment {
             });
         } else if (item.getItemId() == R.id.dbinspector_action_copy) {
             CopyDbIntentService.startService(getActivity(), database);
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
