@@ -1,7 +1,5 @@
 package im.dino.dbinspector.fragments;
 
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -29,10 +27,7 @@ import im.dino.dbview.R;
 /**
  * Created by dino on 24/02/14.
  */
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class TableFragment
-        extends Fragment
-        implements ActionBar.OnNavigationListener {
+public class TableFragment extends Fragment implements ActionBar.OnNavigationListener {
 
     private static final String KEY_DATABASE = "database_name";
 
@@ -179,8 +174,6 @@ public class TableFragment
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        boolean b = item.getItemId() == R.id.dbinspector_action_settings;
         if (item.getItemId() == R.id.dbinspector_action_settings) {
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.replace(R.id.dbinspector_container, PreferenceListFragment.newInstance(R.xml.dbinspector_preferences))
@@ -188,7 +181,6 @@ public class TableFragment
                     .commit();
             getFragmentManager().executePendingTransactions();
             return true;
-
         }
 
         return super.onOptionsItemSelected(item);
