@@ -26,8 +26,8 @@ import java.io.File;
 import java.util.List;
 
 import im.dino.dbinspector.helpers.DatabaseHelper;
-import im.dino.dbview.CopyDbIntentService;
-import im.dino.dbview.R;
+import im.dino.dbinspector.services.CopyDbIntentService;
+import im.dino.dbinspector.R;
 
 /**
  * Created by dino on 24/02/14.

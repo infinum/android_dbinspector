@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.ActionBarActivity;
 
-import im.dino.dbview.R;
+import im.dino.dbinspector.R;
 
 /**
  * Created by dino on 01/03/14.

@@ -1,4 +1,4 @@
-package im.dino.dbview;
+package im.dino.dbinspector.services;
 
 import android.app.IntentService;
 import android.content.Context;

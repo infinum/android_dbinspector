@@ -6,7 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 
 import im.dino.dbinspector.fragments.DatabaseListFragment;
-import im.dino.dbview.R;
+import im.dino.dbinspector.R;
 
 public class DbInspectorActivity extends ActionBarActivity {
 

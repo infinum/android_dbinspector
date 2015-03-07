@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
         xmlns:android="http://schemas.android.com/apk/res/android"
-        package="im.dino.dbview">
+        package="im.dino.dbinspector">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <application>
+        <activity
+                android:name="im.dino.dbinspector.activities.DbInspectorActivity"
+                android:label="Example DbInspector"
+                android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+                android:icon="@drawable/dbinspector_ic_launcher">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
         <service
-                android:name=".CopyDbIntentService"
+                android:name="im.dino.dbinspector.services.CopyDbIntentService"
                 android:exported="false" />
     </application>
 
