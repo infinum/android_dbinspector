@@ -1,12 +1,10 @@
 package im.dino.dbinspector.adapters;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -91,11 +89,9 @@ public class TablePageAdapter {
         return operation.execute();
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private List<TableRow> getTableRows(Cursor cursor, boolean allRows) {
 
         List<TableRow> rows = new ArrayList<>();
-
         TableRow header = new TableRow(context);
 
         for (int col = 0; col < cursor.getColumnCount(); col++) {
@@ -119,7 +115,7 @@ public class TablePageAdapter {
 
             for (int col = 0; col < cursor.getColumnCount(); col++) {
                 TextView textView = new TextView(context);
-                if (cursor.getType(col) == Cursor.FIELD_TYPE_BLOB) {
+                if (DatabaseHelper.getColumnType(cursor, col) == DatabaseHelper.FIELD_TYPE_BLOB) {
                     textView.setText("(data)");
                 } else {
                     textView.setText(cursor.getString(col));

@@ -2,7 +2,11 @@ package im.dino.dbinspector.helpers;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.CursorWindow;
+import android.database.CursorWrapper;
+import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.util.Log;
 
 import java.io.File;
@@ -15,6 +19,16 @@ import java.util.List;
  * Created by dino on 23/02/14.
  */
 public class DatabaseHelper {
+
+    public static final int FIELD_TYPE_NULL = 0;
+
+    public static final int FIELD_TYPE_INTEGER = 1;
+
+    public static final int FIELD_TYPE_FLOAT = 2;
+
+    public static final int FIELD_TYPE_STRING = 3;
+
+    public static final int FIELD_TYPE_BLOB = 4;
 
     public static final String LOGTAG = "DBINSPECTOR";
 
@@ -34,10 +48,6 @@ public class DatabaseHelper {
             = "SELECT name FROM sqlite_master WHERE type='table'";
 
     public static final String PRAGMA_FORMAT = "PRAGMA table_info(%s)";
-
-    public static String getSqliteDir(Context context) {
-        return context.getFilesDir().getParent() + File.separator + "databases" + File.separator;
-    }
 
     public static List<File> getDatabaseList(Context context) {
         List<File> databaseList = new ArrayList<>();
@@ -73,6 +83,31 @@ public class DatabaseHelper {
         return databaseList;
     }
 
+    public static String getSqliteDir(Context context) {
+        return context.getFilesDir().getParent() + File.separator + "databases" + File.separator;
+    }
+
+    public static String getVersion(File database) {
+        CursorOperation<String> operation = new CursorOperation<String>(database) {
+            @Override
+            public Cursor provideCursor(SQLiteDatabase database) {
+                return database.rawQuery("PRAGMA user_version", null);
+            }
+
+            @Override
+            public String provideResult(SQLiteDatabase database, Cursor cursor) {
+                String result = "";
+                if (cursor.moveToFirst()) {
+                    result = cursor.getString(0);
+                }
+                return result;
+            }
+        };
+        return operation.execute();
+
+
+    }
+
     public static List<String> getAllTables(File database) {
 
         CursorOperation<List<String>> operation = new CursorOperation<List<String>>(database) {
@@ -97,4 +132,31 @@ public class DatabaseHelper {
         return operation.execute();
     }
 
+    /**
+     * Compat method so we can get type of column on API < 11
+     * Source: http://stackoverflow.com/a/20685546/2643666
+     */
+    public static int getColumnType(Cursor cursor, int col) {
+
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+            SQLiteCursor sqLiteCursor = (SQLiteCursor) cursor;
+            CursorWindow cursorWindow = sqLiteCursor.getWindow();
+            int pos = cursor.getPosition();
+            int type = -1;
+            if (cursorWindow.isNull(pos, col)) {
+                type = FIELD_TYPE_NULL;
+            } else if (cursorWindow.isLong(pos, col)) {
+                type = FIELD_TYPE_INTEGER;
+            } else if (cursorWindow.isFloat(pos, col)) {
+                type = FIELD_TYPE_FLOAT;
+            } else if (cursorWindow.isString(pos, col)) {
+                type = FIELD_TYPE_STRING;
+            } else if (cursorWindow.isBlob(pos, col)) {
+                type = FIELD_TYPE_BLOB;
+            }
+            return type;
+        } else {
+            return cursor.getType(col);
+        }
+    }
 }
