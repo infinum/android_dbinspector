@@ -16,16 +16,7 @@ import java.io.OutputStream;
 
 import im.dino.dbinspector.helpers.DatabaseHelper;
 
-
-/**
- * An {@link IntentService} subclass for handling asynchronous task requests in a service on a separate handler thread.
- * <p/>
- * TODO: Customize class - update intent actions and extra parameters.
- */
-public class CopyDbIntentService
-        extends IntentService {
-
-    public static final String EXTRA_PATH = "PATH";
+public class CopyDbIntentService extends IntentService {
 
     public static final String EXTRA_FILE = "File";
 
@@ -54,20 +45,24 @@ public class CopyDbIntentService
             File database = (File) intent.getSerializableExtra(EXTRA_FILE);
             String directoryName = getString(getApplicationInfo().labelRes);
             File appDirectory = new File(Environment.getExternalStorageDirectory().toString(), directoryName);
-            if (!appDirectory.exists() || !appDirectory.isDirectory()) {
-                appDirectory.mkdir();
-            }
-            String path = appDirectory.getAbsolutePath();
 
-            File sqliteDir = new File(DatabaseHelper.getSqliteDir(this));
+            if (!appDirectory.exists() || !appDirectory.isDirectory()) {
+                boolean dirCreated = appDirectory.mkdir();
+
+                if (!dirCreated) {
+                    Log.d(DatabaseHelper.LOGTAG, "Failed creating directory for storing db!");
+                    return;
+                }
+            }
+
             if (database != null) {
                 InputStream in;
                 OutputStream out;
                 try {
                     String databaseFileName = database.getName();
-                    File opFile = new File(appDirectory, databaseFileName);
+                    File outFile = new File(appDirectory, databaseFileName);
                     in = new FileInputStream(database);
-                    out = new FileOutputStream(opFile);
+                    out = new FileOutputStream(outFile);
 
                     byte[] buffer = new byte[1024];
                     int read;
