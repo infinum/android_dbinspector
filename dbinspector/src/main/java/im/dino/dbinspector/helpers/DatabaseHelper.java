@@ -35,10 +35,6 @@ public class DatabaseHelper {
 
     public static final String PRAGMA_FORMAT = "PRAGMA table_info(%s)";
 
-    public static String getSqliteDir(Context context) {
-        return context.getFilesDir().getParent() + File.separator + "databases" + File.separator;
-    }
-
     public static List<File> getDatabaseList(Context context) {
         List<File> databaseList = new ArrayList<>();
 
@@ -71,6 +67,31 @@ public class DatabaseHelper {
         }
 
         return databaseList;
+    }
+
+    public static String getSqliteDir(Context context) {
+        return context.getFilesDir().getParent() + File.separator + "databases" + File.separator;
+    }
+
+    public static String getVersion(File database) {
+        CursorOperation<String> operation = new CursorOperation<String>(database) {
+            @Override
+            public Cursor provideCursor(SQLiteDatabase database) {
+                return database.rawQuery("PRAGMA user_version", null);
+            }
+
+            @Override
+            public String provideResult(SQLiteDatabase database, Cursor cursor) {
+                String result = "";
+                if (cursor.moveToFirst()) {
+                    result = cursor.getString(0);
+                }
+                return result;
+            }
+        };
+        return operation.execute();
+
+
     }
 
     public static List<String> getAllTables(File database) {
