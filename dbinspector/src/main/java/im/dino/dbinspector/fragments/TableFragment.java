@@ -1,10 +1,8 @@
 package im.dino.dbinspector.fragments;
 
-import android.annotation.TargetApi;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
@@ -29,7 +27,6 @@ import im.dino.dbview.R;
 /**
  * Created by dino on 24/02/14.
  */
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TableFragment extends Fragment implements ActionBar.OnNavigationListener {
 
     private static final String KEY_DATABASE = "database_name";
@@ -63,6 +60,32 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
     private boolean showingContent = true;
 
     private int currentPage;
+
+    private View.OnClickListener nextListener = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            currentPage++;
+            adapter.nextPage();
+            showContent();
+
+            scrollView.scrollTo(0, 0);
+            horizontalScrollView.scrollTo(0, 0);
+        }
+    };
+
+    private View.OnClickListener previousListener = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            currentPage--;
+            adapter.previousPage();
+            showContent();
+
+            scrollView.scrollTo(0, 0);
+            horizontalScrollView.scrollTo(0, 0);
+        }
+    };
 
     public static TableFragment newInstance(File databaseFile, String tableName) {
 
@@ -104,8 +127,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         currentPageText = (TextView) view.findViewById(R.id.dbinspector_text_current_page);
         contentHeader = view.findViewById(R.id.dbinspector_layout_content_header);
         scrollView = (ScrollView) view.findViewById(R.id.dbinspector_scrollview_table);
-        horizontalScrollView = (HorizontalScrollView) view
-                .findViewById(R.id.dbinspector_horizontal_scrollview_table);
+        horizontalScrollView = (HorizontalScrollView) view.findViewById(R.id.dbinspector_horizontal_scrollview_table);
 
         previousButton.setOnClickListener(previousListener);
         nextButton.setOnClickListener(nextListener);
@@ -113,36 +135,12 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         return view;
     }
 
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
-
-        actionBar.setTitle(tableName);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
-        // Set up the action bar to show a dropdown list.
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-
-        // Set up the dropdown list navigation in the action bar.
-        actionBar.setListNavigationCallbacks(
-                // Specify a SpinnerAdapter to populate the dropdown list.
-                new ArrayAdapter<>(
-                        actionBar.getThemedContext(),
-                        android.R.layout.simple_list_item_1,
-                        android.R.id.text1,
-                        new String[]{
-                                getString(R.string.dbinspector_content),
-                                getString(R.string.dbinspector_structure),
-                        }
-                ),
-                this
-        );
-
+        setUpActionBar();
         adapter = new TablePageAdapter(getActivity(), databaseFile, tableName, currentPage);
-
         if (showingContent) {
             showContent();
         } else {
@@ -151,40 +149,9 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.dbinspector_fragment_table, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (item.getItemId() == R.id.dbinspector_action_settings
-                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
-            ft.replace(R.id.dbinspector_container, new TableSettingsFragment()).addToBackStack(null)
-                    .commit();
-            getActivity().getFragmentManager().executePendingTransactions();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-
-        switch (itemPosition) {
-            case 0:
-                showContent();
-                break;
-            case 1:
-                showStructure();
-                break;
-            default:
-                break;
-        }
-
-        return true;
+    public void onResume() {
+        super.onResume();
+        setUpActionBar();
     }
 
     @Override
@@ -198,6 +165,44 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
     public void onDestroyView() {
         ((ActionBarActivity) getActivity()).getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         super.onDestroyView();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.dbinspector_fragment_table, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.dbinspector_action_settings) {
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.replace(R.id.dbinspector_container, PreferenceListFragment.newInstance(R.xml.dbinspector_preferences))
+                    .addToBackStack("Settings")
+                    .commit();
+            getFragmentManager().executePendingTransactions();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    private void setUpActionBar() {
+        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+
+        actionBar.setTitle(tableName);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        // Set up the action bar to show a dropdown list.
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+
+        // Set up the dropdown list navigation in the action bar.
+        actionBar.setListNavigationCallbacks(
+                // Specify a SpinnerAdapter to populate the dropdown list.
+                new ArrayAdapter<>(actionBar.getThemedContext(), android.R.layout.simple_list_item_1,
+                        android.R.id.text1, new String[]{getString(R.string.dbinspector_content),
+                        getString(R.string.dbinspector_structure),}),
+                this);
     }
 
     private void showContent() {
@@ -233,29 +238,20 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         contentHeader.setVisibility(View.GONE);
     }
 
-    private View.OnClickListener nextListener = new View.OnClickListener() {
+    @Override
+    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
 
-        @Override
-        public void onClick(View v) {
-            currentPage++;
-            adapter.nextPage();
-            showContent();
-
-            scrollView.scrollTo(0, 0);
-            horizontalScrollView.scrollTo(0, 0);
+        switch (itemPosition) {
+            case 0:
+                showContent();
+                break;
+            case 1:
+                showStructure();
+                break;
+            default:
+                break;
         }
-    };
 
-    private View.OnClickListener previousListener = new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            currentPage--;
-            adapter.previousPage();
-            showContent();
-
-            scrollView.scrollTo(0, 0);
-            horizontalScrollView.scrollTo(0, 0);
-        }
-    };
+        return true;
+    }
 }
