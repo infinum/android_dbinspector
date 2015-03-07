@@ -13,7 +13,7 @@ import android.widget.ListAdapter;
 import java.io.File;
 
 import im.dino.dbinspector.helpers.DatabaseHelper;
-import im.dino.dbview.R;
+import im.dino.dbinspector.R;
 
 /**
  * Created by dino on 23/02/14.

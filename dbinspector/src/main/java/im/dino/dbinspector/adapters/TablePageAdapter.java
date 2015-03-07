@@ -16,7 +16,7 @@ import java.util.List;
 import im.dino.dbinspector.helpers.CursorOperation;
 import im.dino.dbinspector.helpers.DatabaseHelper;
 import im.dino.dbinspector.helpers.DisplayHelper;
-import im.dino.dbview.R;
+import im.dino.dbinspector.R;
 
 /**
  * Created by dino on 27/02/14.
