@@ -77,7 +77,8 @@ public class TableListFragment extends ListFragment {
         if (getArguments() != null) {
             database = (File) getArguments().getSerializable(KEY_DATABASE);
         }
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(dbCopiedReceiver, new IntentFilter("DatabaseCopied"));
+        LocalBroadcastManager.getInstance(getActivity())
+                .registerReceiver(dbCopiedReceiver, new IntentFilter(CopyDbIntentService.INTENT_DATABASE_COPIED));
     }
 
     @Override

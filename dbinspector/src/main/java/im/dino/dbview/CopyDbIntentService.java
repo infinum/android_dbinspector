@@ -27,6 +27,10 @@ public class CopyDbIntentService
 
     public static final String EXTRA_PATH = "PATH";
 
+    public static final String EXTRA_FILE = "File";
+
+    public static final String INTENT_DATABASE_COPIED = "DatabaseCopied";
+
     public CopyDbIntentService() {
         super("CopyDbIntentService");
     }
@@ -38,7 +42,7 @@ public class CopyDbIntentService
      */
     public static void startService(Context context, File database) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable("File", database);
+        bundle.putSerializable(EXTRA_FILE, database);
         Intent intent = new Intent(context, CopyDbIntentService.class);
         intent.putExtras(bundle);
         context.startService(intent);
@@ -47,7 +51,7 @@ public class CopyDbIntentService
     @Override
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {
-            File database = (File) intent.getSerializableExtra("File");
+            File database = (File) intent.getSerializableExtra(EXTRA_FILE);
             String directoryName = getString(getApplicationInfo().labelRes);
             File appDirectory = new File(Environment.getExternalStorageDirectory().toString(), directoryName);
             if (!appDirectory.exists() || !appDirectory.isDirectory()) {
@@ -57,8 +61,8 @@ public class CopyDbIntentService
 
             File sqliteDir = new File(DatabaseHelper.getSqliteDir(this));
             if (database != null) {
-                InputStream in = null;
-                OutputStream out = null;
+                InputStream in;
+                OutputStream out;
                 try {
                     String databaseFileName = database.getName();
                     File opFile = new File(appDirectory, databaseFileName);
@@ -71,23 +75,15 @@ public class CopyDbIntentService
                         out.write(buffer, 0, read);
                     }
                     in.close();
-                    in = null;
 
                     // write the output file
                     out.flush();
                     out.close();
-                    out = null;
-
-
                 } catch (Exception e) {
-                    Log.e("tag", e.getMessage());
+                    e.printStackTrace();
                 }
-
-                LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent("DatabaseCopied"));
-
+                LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(INTENT_DATABASE_COPIED));
             }
         }
     }
-
-
 }

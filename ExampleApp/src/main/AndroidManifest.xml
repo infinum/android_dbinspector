@@ -24,11 +24,6 @@
         <meta-data
                 android:name="AA_DB_VERSION"
                 android:value="1"/>
-
-        <service
-                android:name=".MyIntentService"
-                android:exported="false">
-        </service>
     </application>
 
 </manifest>
