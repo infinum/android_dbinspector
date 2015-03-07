@@ -1,5 +1,6 @@
 package im.dino.dbinspector.helpers;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.CursorWindow;
@@ -136,8 +137,8 @@ public class DatabaseHelper {
      * Compat method so we can get type of column on API < 11
      * Source: http://stackoverflow.com/a/20685546/2643666
      */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static int getColumnType(Cursor cursor, int col) {
-
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
             SQLiteCursor sqLiteCursor = (SQLiteCursor) cursor;
             CursorWindow cursorWindow = sqLiteCursor.getWindow();
