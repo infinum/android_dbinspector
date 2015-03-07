@@ -1,7 +1,5 @@
 package im.dino.dbinspector.activities;
 
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
@@ -10,7 +8,6 @@ import android.view.MenuItem;
 import im.dino.dbinspector.fragments.DatabaseListFragment;
 import im.dino.dbview.R;
 
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class DbInspectorActivity extends ActionBarActivity {
 
     @Override
@@ -26,8 +23,8 @@ public class DbInspectorActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed() {
-        if (getFragmentManager().getBackStackEntryCount() > 0) {
-            getFragmentManager().popBackStack();
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStack();
         } else {
             super.onBackPressed();
         }
