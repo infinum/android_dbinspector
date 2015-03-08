@@ -13,7 +13,7 @@ _2015-03-07_
 
  * New: Support for older devices (thanks to @PrashamTrivedi)
  * New: Search on the table list (thanks to @PrashamTrivedi)
- * New: The database can now be copied to the app folder for easy access with `adb pull` (Thanks to @PrashamTrivedi)
+ * New: The database can now be copied to the app folder for easy access with `adb pull` (thanks to @PrashamTrivedi)
  * New: No need to add the DbInspectorActivity declaration to the app manifest anymore, this declaration is now in the library manifest - this change is the reason for the major version bump
 
 ## Version 2.0.0
