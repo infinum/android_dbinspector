@@ -12,6 +12,6 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-//        maven { url 'https://oss.sonatype.org/content/repositories/imdino-1012/' }
+//        maven { url 'https://oss.sonatype.org/content/repositories/imdino-1013/' }
     }
 }
