@@ -8,7 +8,7 @@ android {
         minSdkVersion 7
         targetSdkVersion 21
         versionCode 1
-        versionName '3.0.0'
+        versionName '3.0.1'
     }
 
     compileOptions {
@@ -35,7 +35,7 @@ dependencies {
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-version = '3.0.0'
+version = '3.0.1'
 group = 'im.dino'
 
 configurations {
