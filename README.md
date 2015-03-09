@@ -29,11 +29,11 @@ It should also work on devices with API 7-9, but that's not tested.
 
 ## Upgrading 2.x -> 3.x
 
-Remove the `DbInspectorActivity` declaration from your manifest, this declaration is now included in the library manifest and it gets merged in with your app manifest during the build process.
+Remove the `DbInspectorActivity` declaration from your app manifest, this declaration is now included in the library manifest and it gets merged in with your app manifest during the build process.
 
 ## Upgrading 1.x -> 2.x
 
-Change the theme set to DbInspectorActivity in the manifest to an `AppCompat` theme. `DbInspectorActivity` extends `ActionBarActivity` since 2.0.0.
+Change the theme set to DbInspectorActivity your app manifest to an `AppCompat` theme. `DbInspectorActivity` extends `ActionBarActivity` since 2.0.0.
 
 ## Contributing
 
