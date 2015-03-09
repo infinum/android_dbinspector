@@ -20,6 +20,8 @@ Check the latest version on [Maven Central](http://search.maven.org/#search|ga|1
 Now you have a launcher icon for viewing you in-app database which appears only on debug builds.
 You can define `@string/dbinspector_app_name` to change the launcher icon label and `@drawable/dbinspector_ic_launcher` to change the launcher icon.
 
+You probably want to define at least `@string/dbinspector_app_name` in your `strings.xml` to avoid confusion in case of multiple apps using DbInspector on the same device.
+
 We also maintain a [changelog](https://github.com/infinum/android_dbinspector/blob/master/CHANGELOG.md).
 
 ## Support
