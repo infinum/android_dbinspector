@@ -5,7 +5,7 @@ Changelog
 
 _2015-03-08_
 
- * Fix: Added a way to set DbInspector launcher label from app via @string/dbinspector_app_name
+ * Fix: Added a way to set DbInspector launcher label from app via `@string/dbinspector_app_name`
 
 ## Version 3.0.0
 
