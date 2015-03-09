@@ -18,12 +18,22 @@ debugCompile 'im.dino:dbinspector:(insert latest version)@aar'
 Check the latest version on [Maven Central](http://search.maven.org/#search|ga|1|a%3A%22dbinspector%22).
 
 Now you have a launcher icon for viewing you in-app database which appears only on debug builds.
-You can override `@string/dbinspector_app_name` to change the launcher icon label and `@drawable/dbinspector_ic_launcher` to change the launcher icon.
+You can define `@string/dbinspector_app_name` to change the launcher icon label and `@drawable/dbinspector_ic_launcher` to change the launcher icon.
+
+We also maintain a [changelog](https://github.com/infinum/android_dbinspector/blob/master/CHANGELOG.md).
 
 ## Support
 
 As of version 3.0.0, DbInspector can be used with your apps on devices all the way back to Android 2.3 (API 10).
 It should also work on devices with API 7-9, but that's not tested.
+
+## Upgrading 2.x -> 3.x
+
+Remove the `DbInspectorActivity` declaration from your manifest, this declaration is now included in the library manifest and it gets merged in with your app manifest during the build process.
+
+## Upgrading 1.x -> 2.x
+
+Change the theme set to DbInspectorActivity in the manifest to an `AppCompat` theme. `DbInspectorActivity` extends `ActionBarActivity` since 2.0.0.
 
 ## Contributing
 
