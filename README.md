@@ -24,6 +24,20 @@ You probably want to define at least `@string/dbinspector_app_name` in your `str
 
 We also maintain a [changelog](https://github.com/infinum/android_dbinspector/blob/master/CHANGELOG.md).
 
+### Removing launcher icon
+
+If you don't want the launcher icon to be shown, add this to your debug manifest:
+
+```xml
+<activity
+    android:name="im.dino.dbinspector.activities.DbInspectorActivity">
+    <intent-filter tools:node="removeAll">
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+    </intent-filter>
+</activity>
+```
+
 ## Support
 
 As of version 3.0.0, DbInspector can be used with your apps on devices all the way back to Android 2.3 (API 10).
