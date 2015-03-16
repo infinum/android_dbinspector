@@ -12,7 +12,7 @@ import java.util.Calendar;
 @Table(name = "articles")
 public class Article extends Model {
 
-    @Column(name = "title")
+    @Column(name = "title", index = true)
     public String title;
 
     @Column(name = "text")
