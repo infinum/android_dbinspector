@@ -10,7 +10,7 @@ import com.activeandroid.annotation.Table;
 @Table(name = "users")
 public class User extends Model {
 
-    @Column(name = "first_name")
+    @Column(name = "first_name", index = true)
     public String firstName;
 
     @Column(name = "last_name")
