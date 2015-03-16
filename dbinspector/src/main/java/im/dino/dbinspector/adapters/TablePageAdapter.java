@@ -17,6 +17,7 @@ import im.dino.dbinspector.helpers.CursorOperation;
 import im.dino.dbinspector.helpers.DatabaseHelper;
 import im.dino.dbinspector.helpers.DisplayHelper;
 import im.dino.dbinspector.R;
+import im.dino.dbinspector.helpers.PragmaType;
 
 /**
  * Created by dino on 27/02/14.
@@ -37,6 +38,8 @@ public class TablePageAdapter {
 
     private int paddingPx;
 
+    private String pragma;
+
     public TablePageAdapter(Context context, File databaseFile, String tableName, int startPage) {
 
         this.context = context;
@@ -52,12 +55,23 @@ public class TablePageAdapter {
         position = this.rowsPerPage * startPage;
     }
 
-    public List<TableRow> getStructure() {
+    public List<TableRow> getByPragma(PragmaType pragmaType) {
+        switch (pragmaType) {
+            case FOREIGN_KEY:
+                pragma = String.format(DatabaseHelper.PRAGMA_FORMAT_FOREIGN_KEYS, tableName);
+                break;
+            case INDEX_LIST:
+                pragma = String.format(DatabaseHelper.PRAGMA_FORMAT_INDEX, tableName);
+                break;
+            case TABLE_INFO:
+                pragma = String.format(DatabaseHelper.PRAGMA_FORMAT_TABLE_INFO, tableName);
+                break;
+        }
 
         CursorOperation<List<TableRow>> operation = new CursorOperation<List<TableRow>>(databaseFile) {
             @Override
             public Cursor provideCursor(SQLiteDatabase database) {
-                return database.rawQuery(String.format(DatabaseHelper.PRAGMA_FORMAT, tableName), null);
+                return database.rawQuery(pragma, null);
             }
 
             @Override
