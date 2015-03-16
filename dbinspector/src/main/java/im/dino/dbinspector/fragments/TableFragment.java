@@ -23,6 +23,7 @@ import java.util.List;
 
 import im.dino.dbinspector.adapters.TablePageAdapter;
 import im.dino.dbinspector.R;
+import im.dino.dbinspector.helpers.PragmaType;
 
 /**
  * Created by dino on 24/02/14.
@@ -36,6 +37,8 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
     private static final String KEY_SHOWING_CONTENT = "showing_content";
 
     private static final String KEY_PAGE = "current_page";
+
+    private static final String KEY_LAST_PRAGMA = "last_pragma";
 
     private File databaseFile;
 
@@ -58,6 +61,8 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
     private HorizontalScrollView horizontalScrollView;
 
     private boolean showingContent = true;
+
+    private PragmaType lastPragmaType = PragmaType.TABLE_INFO;
 
     private int currentPage;
 
@@ -111,6 +116,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
         if (savedInstanceState != null) {
             showingContent = savedInstanceState.getBoolean(KEY_SHOWING_CONTENT, true);
+            lastPragmaType = PragmaType.values()[savedInstanceState.getInt(KEY_LAST_PRAGMA, 1)];
             currentPage = savedInstanceState.getInt(KEY_PAGE, 0);
         }
     }
@@ -144,7 +150,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         if (showingContent) {
             showContent();
         } else {
-            showStructure();
+            showByPragma(lastPragmaType);
         }
     }
 
@@ -158,6 +164,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
     public void onSaveInstanceState(Bundle outState) {
         outState.putBoolean(KEY_SHOWING_CONTENT, showingContent);
         outState.putInt(KEY_PAGE, currentPage);
+        outState.putInt(KEY_LAST_PRAGMA, lastPragmaType.ordinal());
         super.onSaveInstanceState(outState);
     }
 
@@ -201,7 +208,8 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
                 // Specify a SpinnerAdapter to populate the dropdown list.
                 new ArrayAdapter<>(actionBar.getThemedContext(), android.R.layout.simple_list_item_1,
                         android.R.id.text1, new String[]{getString(R.string.dbinspector_content),
-                        getString(R.string.dbinspector_structure),}),
+                        getString(R.string.dbinspector_structure), getString(R.string.dbinspector_foreign_keys),
+                        getString(R.string.dbinspector_indexes)}),
                 this);
     }
 
@@ -224,12 +232,12 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         previousButton.setEnabled(adapter.hasPrevious());
     }
 
-    private void showStructure() {
-
+    private void showByPragma(PragmaType pragmaType){
+        lastPragmaType = pragmaType;
         showingContent = false;
         tableLayout.removeAllViews();
 
-        List<TableRow> rows = adapter.getStructure();
+        List<TableRow> rows = adapter.getByPragma(pragmaType);
 
         for (TableRow row : rows) {
             tableLayout.addView(row);
@@ -246,7 +254,13 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
                 showContent();
                 break;
             case 1:
-                showStructure();
+                showByPragma(PragmaType.TABLE_INFO);
+                break;
+            case 2:
+                showByPragma(PragmaType.FOREIGN_KEY);
+                break;
+            case 3:
+                showByPragma(PragmaType.INDEX_LIST);
                 break;
             default:
                 break;

@@ -48,7 +48,11 @@ public class DatabaseHelper {
     public static final String TABLE_LIST_QUERY
             = "SELECT name FROM sqlite_master WHERE type='table'";
 
-    public static final String PRAGMA_FORMAT = "PRAGMA table_info(%s)";
+    public static final String PRAGMA_FORMAT_TABLE_INFO = "PRAGMA table_info(%s)";
+
+    public static final String PRAGMA_FORMAT_INDEX = "PRAGMA index_list(%s)";
+
+    public static final String PRAGMA_FORMAT_FOREIGN_KEYS = "PRAGMA foreign_key_list(%s)";
 
     public static List<File> getDatabaseList(Context context) {
         List<File> databaseList = new ArrayList<>();
