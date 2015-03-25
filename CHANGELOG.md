@@ -5,7 +5,7 @@ Changelog
 
 _2015-03-25_
 
- * Fix: #14 Database chooser doesn't show db with name without extension
+ * Fix: [#14 Database chooser doesn't show db with name without extension](/../../issues/14)
  * New: New table views - `Foreign keys` and `Indexes` (thanks to @zplesac)
 
 ## Version 3.0.1
