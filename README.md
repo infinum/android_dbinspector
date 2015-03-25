@@ -15,7 +15,7 @@ Add the library as a dependency to your ```build.gradle```
 debugCompile 'im.dino:dbinspector:(insert latest version)@aar'
 ```
 
-Check the latest version on [Maven Central](http://search.maven.org/#search|ga|1|a%3A%22dbinspector%22).
+Check the latest version on [Maven Central](http://search.maven.org/#search|ga|1|g%3A%22im.dino%22%20a%3A%22dbinspector%22).
 
 Now you have a launcher icon for viewing you in-app database which appears only on debug builds.
 You can define `@string/dbinspector_app_name` to change the launcher icon label and `@drawable/dbinspector_ic_launcher` to change the launcher icon.
