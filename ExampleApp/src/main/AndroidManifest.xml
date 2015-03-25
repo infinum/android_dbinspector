@@ -20,7 +20,7 @@
 
         <meta-data
                 android:name="AA_DB_NAME"
-                android:value="Example.db"/>
+                android:value="Example-db-name"/>
         <meta-data
                 android:name="AA_DB_VERSION"
                 android:value="1"/>

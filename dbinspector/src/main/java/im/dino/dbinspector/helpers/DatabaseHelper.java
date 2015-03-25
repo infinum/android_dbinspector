@@ -4,16 +4,13 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.CursorWindow;
-import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
-import android.util.Log;
 
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -57,7 +54,14 @@ public class DatabaseHelper {
     public static List<File> getDatabaseList(Context context) {
         List<File> databaseList = new ArrayList<>();
 
-        File sqliteDir = new File(DatabaseHelper.getSqliteDir(context));
+        // look for standard sqlite databases in the databases dir
+        String[] contextDatabases = context.databaseList();
+        for (String database : contextDatabases) {
+            // don't show *-journal databases, they only hold temporary rollback data
+            if (!database.endsWith("-journal")) {
+                databaseList.add(context.getDatabasePath(database));
+            }
+        }
 
         FilenameFilter filenameFilter = new FilenameFilter() {
             @Override
@@ -69,14 +73,6 @@ public class DatabaseHelper {
             }
         };
 
-        // look for standard sqlite databases in the databases dir
-        File[] sqliteFiles = sqliteDir.listFiles(filenameFilter);
-        if (sqliteFiles != null) {
-            databaseList.addAll(Arrays.asList(sqliteFiles));
-        } else {
-            Log.d(LOGTAG, "Database file list is null!");
-        }
-
         // CouchBase Lite stores the databases in the app files dir
         String[] cbliteFiles = context.fileList();
         for (String filename : cbliteFiles) {
@@ -86,10 +82,6 @@ public class DatabaseHelper {
         }
 
         return databaseList;
-    }
-
-    public static String getSqliteDir(Context context) {
-        return context.getFilesDir().getParent() + File.separator + "databases" + File.separator;
     }
 
     public static String getVersion(File database) {
@@ -143,7 +135,7 @@ public class DatabaseHelper {
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static int getColumnType(Cursor cursor, int col) {
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
             SQLiteCursor sqLiteCursor = (SQLiteCursor) cursor;
             CursorWindow cursorWindow = sqLiteCursor.getWindow();
             int pos = cursor.getPosition();
