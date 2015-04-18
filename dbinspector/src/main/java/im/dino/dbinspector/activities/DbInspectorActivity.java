@@ -7,8 +7,9 @@ import android.view.MenuItem;
 
 import im.dino.dbinspector.fragments.DatabaseListFragment;
 import im.dino.dbinspector.R;
+import im.dino.dbinspector.interfaces.DbInspectorCommunicator;
 
-public class DbInspectorActivity extends ActionBarActivity {
+public class DbInspectorActivity extends ActionBarActivity implements DbInspectorCommunicator {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,13 @@ public class DbInspectorActivity extends ActionBarActivity {
             getSupportFragmentManager().popBackStack();
         } else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void recordDeleted() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStack();
         }
     }
 

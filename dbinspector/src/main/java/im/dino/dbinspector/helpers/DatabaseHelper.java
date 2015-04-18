@@ -4,14 +4,20 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.CursorWindow;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import im.dino.dbinspector.R;
+import im.dino.dbinspector.helpers.models.TableRowModel;
 
 /**
  * Created by dino on 23/02/14.
@@ -101,8 +107,6 @@ public class DatabaseHelper {
             }
         };
         return operation.execute();
-
-
     }
 
     public static List<String> getAllTables(File database) {
@@ -127,6 +131,72 @@ public class DatabaseHelper {
         };
 
         return operation.execute();
+    }
+
+    public static List<TableRowModel> getAllowedColumnsFromTable(final Context context, File database, String tableName) {
+        final String query = String.format(DatabaseHelper.PRAGMA_FORMAT_TABLE_INFO, tableName);
+
+        CursorOperation<List<TableRowModel>> operation = new CursorOperation<List<TableRowModel>>(database) {
+            @Override
+            public Cursor provideCursor(SQLiteDatabase database) {
+                return database.rawQuery(query, null);
+            }
+
+            @Override
+            public List<TableRowModel> provideResult(SQLiteDatabase database, Cursor cursor) {
+                List<TableRowModel> columnList = new ArrayList<>();
+                String[] allowedDataTypes = context.getResources().getStringArray(R.array.dbinspector_crud_allowed_data_types);
+
+                if (cursor.moveToFirst()) {
+                    while (!cursor.isAfterLast()) {
+                        String dataType = cursor.getString(cursor.getColumnIndex(COLUMN_TYPE));
+
+                        if (isAllowedDataType(allowedDataTypes, dataType)) {
+                            columnList.add(new TableRowModel(cursor.getString(cursor.getColumnIndex(COLUMN_TYPE)), cursor.getString(cursor.getColumnIndex(COLUMN_NAME))));
+                        }
+
+                        cursor.moveToNext();
+                    }
+                }
+                return columnList;
+            }
+        };
+
+        return operation.execute();
+    }
+
+    public static boolean isAllowedDataType(String[] dataTypes, String targetValue) {
+        return Arrays.asList(dataTypes).contains(targetValue);
+    }
+
+    public static String getPrimaryKeyName(File database, String tableName) {
+        final String query = String.format(DatabaseHelper.PRAGMA_FORMAT_TABLE_INFO, tableName);
+
+        CursorOperation<String> operation = new CursorOperation<String>(database) {
+            @Override
+            public Cursor provideCursor(SQLiteDatabase database) {
+                return database.rawQuery(query, null);
+            }
+
+            @Override
+            public String provideResult(SQLiteDatabase database, Cursor cursor) {
+                cursor.moveToFirst();
+                return getPrimaryKey(cursor);
+            }
+        };
+
+        return operation.execute();
+    }
+
+    private static String getPrimaryKey(Cursor cursor) {
+        do {
+            if (cursor.getString(5).equals("1")) {
+                return cursor.getString(1);
+            }
+
+        } while (cursor.moveToNext());
+
+        return null;
     }
 
     /**
@@ -155,5 +225,21 @@ public class DatabaseHelper {
         } else {
             return cursor.getType(col);
         }
+    }
+
+    public static boolean deleteRow(File databaseFile, String tableName, String primaryKey, String primaryKeyValue) {
+        try {
+            SQLiteDatabase database = SQLiteDatabase.openOrCreateDatabase(databaseFile, null);
+            String whereCause = primaryKey + "=" + primaryKeyValue;
+
+            int affectedRows = database.delete(tableName, whereCause, null);
+            database.close();
+
+            return affectedRows != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
     }
 }
