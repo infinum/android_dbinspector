@@ -39,6 +39,13 @@ public class DbInspectorActivity extends ActionBarActivity implements DbInspecto
     }
 
     @Override
+    public void recordUpdated() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStack();
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button

@@ -1,6 +1,7 @@
 package im.dino.dbinspector.helpers;
 
 import android.annotation.TargetApi;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.CursorWindow;
@@ -240,6 +241,27 @@ public class DatabaseHelper {
             e.printStackTrace();
             return false;
         }
+    }
 
+    public static boolean updateRow(File databaseFile, String tableName, String primaryKey, String primaryKeyValue,
+                                            ArrayList<String> columnNames, ArrayList<String> columnValues){
+        try {
+            SQLiteDatabase database = SQLiteDatabase.openOrCreateDatabase(databaseFile, null);
+            ContentValues contentValues = new ContentValues();
+
+            for(int i = 0; i< columnNames.size(); i++){
+                contentValues.put(columnNames.get(i), columnValues.get(i));
+            }
+
+            String whereCause = primaryKey + "=" + primaryKeyValue;
+
+            int affectedRows = database.update(tableName, contentValues, whereCause, null);
+            database.close();
+
+            return affectedRows != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

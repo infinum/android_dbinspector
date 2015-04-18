@@ -48,6 +48,8 @@ public class RecordFragment extends Fragment {
 
     private DbInspectorCommunicator mCallback;
 
+    private LinearLayout containerLayout;
+
     public RecordFragment() {
 
     }
@@ -108,6 +110,9 @@ public class RecordFragment extends Fragment {
         if (item.getItemId() == R.id.dbinspector_action_delete) {
             deleteRecord();
             return true;
+        } else if (item.getItemId() == R.id.dbinspector_action_save) {
+            updateRecord();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -117,7 +122,7 @@ public class RecordFragment extends Fragment {
     private void init(View view, LayoutInflater inflater) {
         primaryKeyName = DatabaseHelper.getPrimaryKeyName(databaseFile, tableName);
 
-        LinearLayout dataContainer = (LinearLayout) view.findViewById(R.id.dbinspector_data_container);
+        containerLayout = (LinearLayout) view.findViewById(R.id.dbinspector_data_container);
 
         for (int i = 0; i < columnNames.size(); i++) {
             LinearLayout recordView = (LinearLayout) inflater.inflate(R.layout.dbinspector_record_row, null);
@@ -127,7 +132,7 @@ public class RecordFragment extends Fragment {
             tvName.setText(columnNames.get(i));
             etValue.setText(columnValues.get(i));
 
-            dataContainer.addView(recordView);
+            containerLayout.addView(recordView);
 
         }
 
@@ -143,10 +148,26 @@ public class RecordFragment extends Fragment {
     }
 
     private void deleteRecord() {
-        if (DatabaseHelper.deleteRow(databaseFile, tableName, primaryKeyName, primaryKeyValue)){
+        if (DatabaseHelper.deleteRow(databaseFile, tableName, primaryKeyName, primaryKeyValue)) {
             mCallback.recordDeleted();
+        } else {
+            Toast.makeText(getActivity(), getString(R.string.dbinspector_query_fail), Toast.LENGTH_LONG).show();
         }
-        else{
+    }
+
+    private void updateRecord() {
+        int k = 0;
+
+        for (int i = 0; i < containerLayout.getChildCount(); i++) {
+            LinearLayout recordRow = (LinearLayout) containerLayout.getChildAt(i);
+            EditText et = (EditText) recordRow.getChildAt(1);
+            columnValues.set(k, et.getText().toString());
+            k++;
+        }
+
+        if (DatabaseHelper.updateRow(databaseFile, tableName, primaryKeyName, primaryKeyValue, columnNames, columnValues)) {
+            mCallback.recordUpdated();
+        } else {
             Toast.makeText(getActivity(), getString(R.string.dbinspector_query_fail), Toast.LENGTH_LONG).show();
         }
     }

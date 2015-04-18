@@ -11,4 +11,11 @@
         android:icon="@android:drawable/ic_delete"
         app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/dbinspector_action_save"
+        android:title="@string/dbinspector_action_save"
+        android:orderInCategory="100"
+        android:icon="@android:drawable/ic_menu_save"
+        app:showAsAction="ifRoom" />
+
 </menu>

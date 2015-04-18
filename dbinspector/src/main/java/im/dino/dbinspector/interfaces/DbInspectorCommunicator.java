@@ -6,4 +6,6 @@ package im.dino.dbinspector.interfaces;
 public interface DbInspectorCommunicator {
 
     public void recordDeleted();
+
+    public void recordUpdated();
 }
