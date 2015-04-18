@@ -18,5 +18,12 @@
             android:icon="@drawable/dbinspector_ic_action_settings"
             app:showAsAction="ifRoom"/>
 
+    <item
+        android:id="@+id/dbinspector_action_add"
+        android:title="@string/dbinspector_action_add"
+        android:orderInCategory="100"
+        android:icon="@android:drawable/ic_menu_add"
+        app:showAsAction="ifRoom"/>
+
 
 </menu>

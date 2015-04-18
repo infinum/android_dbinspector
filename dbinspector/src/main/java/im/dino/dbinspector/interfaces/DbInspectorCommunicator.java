@@ -8,4 +8,6 @@ public interface DbInspectorCommunicator {
     public void recordDeleted();
 
     public void recordUpdated();
+
+    public void recordInserted();
 }

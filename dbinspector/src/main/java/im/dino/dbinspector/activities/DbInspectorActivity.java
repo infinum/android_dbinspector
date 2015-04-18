@@ -33,16 +33,19 @@ public class DbInspectorActivity extends ActionBarActivity implements DbInspecto
 
     @Override
     public void recordDeleted() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-            getSupportFragmentManager().popBackStack();
-        }
+        popBackStack();
     }
 
     @Override
     public void recordUpdated() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-            getSupportFragmentManager().popBackStack();
-        }
+        popBackStack();
+
+    }
+
+    @Override
+    public void recordInserted() {
+        popBackStack();
+
     }
 
     @Override
@@ -54,5 +57,11 @@ public class DbInspectorActivity extends ActionBarActivity implements DbInspecto
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void popBackStack(){
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStack();
+        }
     }
 }

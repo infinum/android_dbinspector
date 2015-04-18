@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 import im.dino.dbinspector.R;
 import im.dino.dbinspector.helpers.DatabaseHelper;
+import im.dino.dbinspector.helpers.RecordScreenType;
 import im.dino.dbinspector.interfaces.DbInspectorCommunicator;
 
 /**
@@ -33,6 +34,8 @@ public class RecordFragment extends Fragment {
     private static final String KEY_NAMES = "key_names";
 
     private static final String KEY_VALUES = "key_values";
+
+    private static final String KEY_SCREEN_TYPE = "scren_type";
 
     private File databaseFile;
 
@@ -50,17 +53,22 @@ public class RecordFragment extends Fragment {
 
     private LinearLayout containerLayout;
 
+    private RecordScreenType screenType;
+
+    private MenuItem menuItemDelete;
+
     public RecordFragment() {
 
     }
 
-    public static RecordFragment newInstance(File databaseFile, String tableName, ArrayList<String> columnNames, ArrayList<String> columnValues) {
+    public static RecordFragment newInstance(RecordScreenType recordScreenType, File databaseFile, String tableName, ArrayList<String> columnNames, ArrayList<String> columnValues) {
 
         Bundle args = new Bundle();
         args.putSerializable(KEY_DATABASE, databaseFile);
         args.putString(KEY_TABLE, tableName);
         args.putStringArrayList(KEY_NAMES, columnNames);
         args.putStringArrayList(KEY_VALUES, columnValues);
+        args.putSerializable(KEY_SCREEN_TYPE, recordScreenType);
         RecordFragment tf = new RecordFragment();
         tf.setArguments(args);
 
@@ -77,6 +85,7 @@ public class RecordFragment extends Fragment {
             tableName = getArguments().getString(KEY_TABLE);
             columnNames = getArguments().getStringArrayList(KEY_NAMES);
             columnValues = getArguments().getStringArrayList(KEY_VALUES);
+            screenType = (RecordScreenType) getArguments().getSerializable(KEY_SCREEN_TYPE);
         }
     }
 
@@ -106,12 +115,23 @@ public class RecordFragment extends Fragment {
     }
 
     @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+       // menu.findItem(1).setVisible(false);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.dbinspector_action_delete) {
             deleteRecord();
             return true;
         } else if (item.getItemId() == R.id.dbinspector_action_save) {
-            updateRecord();
+            if (screenType== RecordScreenType.CREATE){
+                insertRecord();
+            }
+            else{
+                updateRecord();
+            }
             return true;
         }
 
@@ -130,13 +150,19 @@ public class RecordFragment extends Fragment {
             EditText etValue = (EditText) recordView.findViewById(R.id.dbinspector_column_value);
 
             tvName.setText(columnNames.get(i));
-            etValue.setText(columnValues.get(i));
+
+            if(screenType == RecordScreenType.UPDATE){
+                etValue.setText(columnValues.get(i));
+            }
 
             containerLayout.addView(recordView);
 
         }
 
-        setupPrimaryKey();
+        if(screenType == RecordScreenType.UPDATE){
+            setupPrimaryKey();
+
+        }
     }
 
     private void setupPrimaryKey() {
@@ -167,6 +193,23 @@ public class RecordFragment extends Fragment {
 
         if (DatabaseHelper.updateRow(databaseFile, tableName, primaryKeyName, primaryKeyValue, columnNames, columnValues)) {
             mCallback.recordUpdated();
+        } else {
+            Toast.makeText(getActivity(), getString(R.string.dbinspector_query_fail), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void insertRecord() {
+        int k = 0;
+        columnValues = new ArrayList<>();
+        for (int i = 0; i < containerLayout.getChildCount(); i++) {
+            LinearLayout recordRow = (LinearLayout) containerLayout.getChildAt(i);
+            EditText et = (EditText) recordRow.getChildAt(1);
+            columnValues.add(et.getText().toString());
+            k++;
+        }
+
+        if (DatabaseHelper.insertRow(databaseFile, tableName, primaryKeyName, primaryKeyValue, columnNames, columnValues)) {
+            mCallback.recordInserted();
         } else {
             Toast.makeText(getActivity(), getString(R.string.dbinspector_query_fail), Toast.LENGTH_LONG).show();
         }

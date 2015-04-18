@@ -5,6 +5,7 @@
     <string name="dbinspector_structure">Structure</string>
     <string name="dbinspector_content">Content</string>
     <string name="dbinspector_action_settings">Settings</string>
+    <string name="dbinspector_action_add">Add</string>
     <string name="dbinspector_action_delete">Delete</string>
     <string name="dbinspector_action_save">Save</string>
     <string name="dbinspector_action_search">Search</string>

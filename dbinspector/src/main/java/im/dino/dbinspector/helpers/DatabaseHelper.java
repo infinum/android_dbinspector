@@ -264,4 +264,28 @@ public class DatabaseHelper {
             return false;
         }
     }
+
+    public static boolean insertRow(File databaseFile, String tableName, String primaryKey, String primaryKeyValue,
+                                    ArrayList<String> columnNames, ArrayList<String> columnValues){
+        try {
+            SQLiteDatabase database = SQLiteDatabase.openOrCreateDatabase(databaseFile, null);
+            ContentValues contentValues = new ContentValues();
+
+            for(int i = 0; i< columnNames.size(); i++){
+                if(!columnValues.get(i).isEmpty()){
+                    contentValues.put(columnNames.get(i), columnValues.get(i));
+                }
+            }
+
+            String whereCause = primaryKey + "=" + primaryKeyValue;
+
+            long affectedRows = database.insert(tableName, "NULL", contentValues);
+            database.close();
+
+            return affectedRows != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

@@ -27,6 +27,7 @@ import im.dino.dbinspector.adapters.TablePageAdapter;
 import im.dino.dbinspector.R;
 import im.dino.dbinspector.helpers.DialogHelper;
 import im.dino.dbinspector.helpers.PragmaType;
+import im.dino.dbinspector.helpers.RecordScreenType;
 
 /**
  * Created by dino on 24/02/14.
@@ -196,6 +197,9 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         } else if (item.getItemId() == R.id.dbinspector_action_search) {
             DialogHelper.showSearchDialog(getActivity(), databaseFile, tableName);
         }
+        else if(item.getItemId() == R.id.dbinspector_action_add){
+            showRecord(RecordScreenType.CREATE, null);
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -234,12 +238,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
                 @Override
                 public void onClick(View v) {
                     ArrayList<String> columnValues = getTableRowValues(tableLayout.indexOfChild(v));
-
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.replace(R.id.dbinspector_container, RecordFragment.newInstance(databaseFile, tableName, columnNames, columnValues))
-                            .addToBackStack("Record")
-                            .commit();
-                    getFragmentManager().executePendingTransactions();
+                    showRecord(RecordScreenType.UPDATE, columnValues);
                 }
             });
         }
@@ -305,5 +304,13 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         }
 
         return values;
+    }
+
+    private void showRecord(RecordScreenType screenType, ArrayList<String> columnValues){
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.dbinspector_container, RecordFragment.newInstance(screenType, databaseFile, tableName, columnNames, columnValues))
+                .addToBackStack("Record")
+                .commit();
+        getFragmentManager().executePendingTransactions();
     }
 }
