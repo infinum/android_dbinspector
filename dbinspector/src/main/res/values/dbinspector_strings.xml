@@ -21,6 +21,8 @@
     <string name="dbinspector_rows_per_page_default">10</string>
     <string name="dbinspector_add_new_selection">Add new selection</string>
     <string name="dbinspector_query_fail">SQL query failed</string>
+    <string name="dbinspector_cancel">Cancel</string>
+    <string name="dbinspector_search_builder">Search query builder</string>
     <string-array name="dbinspector_rows_per_page_options">
         <item>10</item>
         <item>25</item>
@@ -35,4 +37,22 @@
         <item>REAL</item>
         <item>TEXT</item>
     </string-array>
+
+    <string-array name="dbinspector_sql_actions">
+        <item>AND</item>
+        <item>OR</item>
+        <item>NOT</item>
+    </string-array>
+
+    <string-array name="dbinspector_conditions_number">
+        <item>==</item>
+        <item>&lt;</item>
+        <item>&gt;</item>
+    </string-array>
+
+    <string-array name="dbinspector_conditions_text">
+        <item>==</item>
+        <item>!=</item>
+    </string-array>
+
 </resources>

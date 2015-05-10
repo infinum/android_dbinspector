@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import im.dino.dbinspector.R;
 import im.dino.dbinspector.helpers.DatabaseHelper;
 import im.dino.dbinspector.helpers.RecordScreenType;
-import im.dino.dbinspector.interfaces.DbInspectorCommunicator;
+import im.dino.dbinspector.interfaces.DbInspectorSqlCommunicator;
 
 /**
  * Created by Zeljko Plesac on 18/04/15.
@@ -49,7 +49,7 @@ public class RecordFragment extends Fragment {
 
     private ArrayList<String> columnValues;
 
-    private DbInspectorCommunicator mCallback;
+    private DbInspectorSqlCommunicator mCallback;
 
     private LinearLayout containerLayout;
 
@@ -94,7 +94,7 @@ public class RecordFragment extends Fragment {
         super.onAttach(activity);
 
         try {
-            mCallback = (DbInspectorCommunicator) activity;
+            mCallback = (DbInspectorSqlCommunicator) activity;
         } catch (Exception e) {
             throw new ClassCastException(activity.toString() + " must implement DbInspectorCommunicator");
         }

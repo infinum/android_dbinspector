@@ -272,12 +272,10 @@ public class DatabaseHelper {
             ContentValues contentValues = new ContentValues();
 
             for(int i = 0; i< columnNames.size(); i++){
-                if(!columnValues.get(i).isEmpty()){
+                if(columnValues.get(i) != null && columnValues.get(i) != ""){
                     contentValues.put(columnNames.get(i), columnValues.get(i));
                 }
             }
-
-            String whereCause = primaryKey + "=" + primaryKeyValue;
 
             long affectedRows = database.insert(tableName, "NULL", contentValues);
             database.close();

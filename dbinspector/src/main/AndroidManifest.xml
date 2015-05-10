@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <application>
         <activity
-                android:name="im.dino.dbinspector.activities.DbInspectorActivity"
+                android:name=".activities.DbInspectorSqlActivity"
                 android:label="@string/dbinspector_app_name"
                 android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
                 android:icon="@drawable/dbinspector_ic_launcher">

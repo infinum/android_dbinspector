@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import im.dino.dbinspector.helpers.models.TableRowModel;
 
 /**
- * Created by Zeljko Plesac on 07/04/15.
+ * Created by Zeljko Plesac on 10/05/15.
  */
-public class TableColumnSelectionAdapter extends ArrayAdapter<TableRowModel>{
+public class TableColumnsAdapter extends ArrayAdapter<TableRowModel>{
 
-    public TableColumnSelectionAdapter(Context mContext, ArrayList<TableRowModel> items) {
+    public TableColumnsAdapter(Context mContext, ArrayList<TableRowModel> items) {
         super(mContext, 0, items);
     }
 
@@ -29,16 +29,17 @@ public class TableColumnSelectionAdapter extends ArrayAdapter<TableRowModel>{
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
             holder = new ViewHolder();
-            holder.text = (TextView) convertView.findViewById(android.R.id.text1);
+            holder.name = (TextView) convertView.findViewById(android.R.id.text1);
             convertView.setTag(holder);
         }
 
-        holder.text.setText(getItem(position).getName());
+        holder.name.setText(getItem(position).getName());
 
         return convertView;
     }
 
     static class ViewHolder {
-         TextView text;
+        TextView name;
     }
 }
+

@@ -7,9 +7,9 @@ import android.view.MenuItem;
 
 import im.dino.dbinspector.fragments.DatabaseListFragment;
 import im.dino.dbinspector.R;
-import im.dino.dbinspector.interfaces.DbInspectorCommunicator;
+import im.dino.dbinspector.interfaces.DbInspectorSqlCommunicator;
 
-public class DbInspectorActivity extends ActionBarActivity implements DbInspectorCommunicator {
+public class DbInspectorSqlActivity extends ActionBarActivity implements DbInspectorSqlCommunicator {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
