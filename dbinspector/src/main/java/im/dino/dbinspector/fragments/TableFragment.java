@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,11 +20,14 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import im.dino.dbinspector.adapters.TablePageAdapter;
 import im.dino.dbinspector.R;
+import im.dino.dbinspector.helpers.DialogHelper;
 import im.dino.dbinspector.helpers.PragmaType;
+import im.dino.dbinspector.helpers.RecordScreenType;
 
 /**
  * Created by dino on 24/02/14.
@@ -65,6 +69,8 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
     private PragmaType lastPragmaType = PragmaType.TABLE_INFO;
 
     private int currentPage;
+
+    private ArrayList<String> columnNames;
 
     private View.OnClickListener nextListener = new View.OnClickListener() {
 
@@ -123,7 +129,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.dbinspector_fragment_table, container, false);
 
@@ -188,6 +194,11 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
                     .commit();
             getFragmentManager().executePendingTransactions();
             return true;
+        } else if (item.getItemId() == R.id.dbinspector_action_search) {
+            DialogHelper.showSearchDialog(getActivity(), databaseFile, tableName);
+        }
+        else if(item.getItemId() == R.id.dbinspector_action_add){
+            showRecord(RecordScreenType.CREATE, null);
         }
 
         return super.onOptionsItemSelected(item);
@@ -220,8 +231,16 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
         List<TableRow> rows = adapter.getContentPage();
 
-        for (TableRow row : rows) {
+        for (final TableRow row : rows) {
             tableLayout.addView(row);
+
+            row.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ArrayList<String> columnValues = getTableRowValues(tableLayout.indexOfChild(v));
+                    showRecord(RecordScreenType.UPDATE, columnValues);
+                }
+            });
         }
 
         currentPageText.setText(adapter.getCurrentPage() + "/" + adapter.getPageCount());
@@ -230,9 +249,11 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
         nextButton.setEnabled(adapter.hasNext());
         previousButton.setEnabled(adapter.hasPrevious());
+
+        columnNames = getTableRowValues(0);;
     }
 
-    private void showByPragma(PragmaType pragmaType){
+    private void showByPragma(PragmaType pragmaType) {
         lastPragmaType = pragmaType;
         showingContent = false;
         tableLayout.removeAllViews();
@@ -267,5 +288,29 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         }
 
         return true;
+    }
+
+    private ArrayList<String> getTableRowValues(int rowIndex) {
+        TableRow tableRow = (TableRow) tableLayout.getChildAt(rowIndex);
+        return getTableRowValues(tableRow);
+    }
+
+    private ArrayList<String> getTableRowValues(TableRow tableRow) {
+        ArrayList<String> values = new ArrayList<>();
+
+        for (int i = 0; i < tableRow.getChildCount(); i++) {
+            TextView textView = (TextView) tableRow.getChildAt(i);
+            values.add(textView.getText().toString());
+        }
+
+        return values;
+    }
+
+    private void showRecord(RecordScreenType screenType, ArrayList<String> columnValues){
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.dbinspector_container, RecordFragment.newInstance(screenType, databaseFile, tableName, columnNames, columnValues))
+                .addToBackStack("Record")
+                .commit();
+        getFragmentManager().executePendingTransactions();
     }
 }
