@@ -2,13 +2,13 @@ package im.dino.dbinspector.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import im.dino.dbinspector.fragments.DatabaseListFragment;
 import im.dino.dbinspector.R;
+import im.dino.dbinspector.fragments.DatabaseListFragment;
 
-public class DbInspectorActivity extends ActionBarActivity {
+public class DbInspectorActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
