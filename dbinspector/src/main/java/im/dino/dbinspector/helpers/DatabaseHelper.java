@@ -7,6 +7,7 @@ import android.database.CursorWindow;
 import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
+import android.os.Environment;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -73,6 +74,15 @@ public class DatabaseHelper {
             }
         };
 
+        //Add External Databases if Present
+        if(isExternalAvailable()){
+            final File absoluteFile = context.getExternalFilesDir(null).getAbsoluteFile();
+            String[] externalDatabases= absoluteFile.list(filenameFilter);
+            for (String db:externalDatabases){
+                databaseList.add(new File(absoluteFile,db));
+            }
+        }
+
         // CouchBase Lite stores the databases in the app files dir
         String[] cbliteFiles = context.fileList();
         for (String filename : cbliteFiles) {
@@ -82,6 +92,27 @@ public class DatabaseHelper {
         }
 
         return databaseList;
+    }
+
+    /**
+     * @return true if External Storage Present
+     */
+    private static boolean isExternalAvailable() {
+        boolean mExternalStorageAvailable = false;
+        String state = Environment.getExternalStorageState();
+
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            // We can read and write the media
+            mExternalStorageAvailable = true;
+        } else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            // We can only read the media
+            mExternalStorageAvailable = true;
+        } else {
+            // Something else is wrong. It may be one of many other states, but all we need
+            //  to know is we can neither read nor write
+            mExternalStorageAvailable  = false;
+        }
+        return mExternalStorageAvailable;
     }
 
     public static String getVersion(File database) {
