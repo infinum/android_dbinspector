@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,8 +21,8 @@ import android.widget.TextView;
 import java.io.File;
 import java.util.List;
 
-import im.dino.dbinspector.adapters.TablePageAdapter;
 import im.dino.dbinspector.R;
+import im.dino.dbinspector.adapters.TablePageAdapter;
 import im.dino.dbinspector.helpers.PragmaType;
 
 /**
@@ -170,7 +170,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
     @Override
     public void onDestroyView() {
-        ((ActionBarActivity) getActivity()).getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         super.onDestroyView();
     }
 
@@ -195,7 +195,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
 
     private void setUpActionBar() {
-        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+        final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
 
         actionBar.setTitle(tableName);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -232,7 +232,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         previousButton.setEnabled(adapter.hasPrevious());
     }
 
-    private void showByPragma(PragmaType pragmaType){
+    private void showByPragma(PragmaType pragmaType) {
         lastPragmaType = pragmaType;
         showingContent = false;
         tableLayout.removeAllViews();

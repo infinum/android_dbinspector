@@ -1,10 +1,8 @@
 package im.dino.dbinspector.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,8 +11,8 @@ import android.widget.ListAdapter;
 
 import java.io.File;
 
-import im.dino.dbinspector.helpers.DatabaseHelper;
 import im.dino.dbinspector.R;
+import im.dino.dbinspector.helpers.DatabaseHelper;
 
 /**
  * Created by dino on 23/02/14.
