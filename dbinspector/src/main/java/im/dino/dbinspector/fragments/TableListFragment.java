@@ -91,7 +91,7 @@ public class TableListFragment extends ListFragment {
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(dbCopiedReceiver);
         super.onPause();
     }
-    
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

@@ -3,9 +3,9 @@ package im.dino.dbinspector.adapters;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.TableRow;
 import android.widget.TextView;
 
@@ -15,7 +15,6 @@ import java.util.List;
 
 import im.dino.dbinspector.helpers.CursorOperation;
 import im.dino.dbinspector.helpers.DatabaseHelper;
-import im.dino.dbinspector.helpers.DisplayHelper;
 import im.dino.dbinspector.R;
 import im.dino.dbinspector.helpers.PragmaType;
 
@@ -24,13 +23,15 @@ import im.dino.dbinspector.helpers.PragmaType;
  */
 public class TablePageAdapter {
 
+    public static final int DEFAULT_ROWS_PER_PAGE = 10;
+
     private final Context context;
 
     private final File databaseFile;
 
     private final String tableName;
 
-    private int rowsPerPage = 10;
+    private int rowsPerPage = DEFAULT_ROWS_PER_PAGE;
 
     private int position = 0;
 
@@ -45,7 +46,7 @@ public class TablePageAdapter {
         this.context = context;
         this.databaseFile = databaseFile;
         this.tableName = tableName;
-        paddingPx = DisplayHelper.dpToPx(this.context, 5);
+        paddingPx = context.getResources().getDimensionPixelSize(R.dimen.dbinspector_row_padding);
 
         String keyRowsPerPage = this.context.getString(R.string.dbinspector_pref_key_rows_per_page);
         String defaultRowsPerPage = this.context.getString(R.string.dbinspector_rows_per_page_default);
@@ -66,6 +67,8 @@ public class TablePageAdapter {
             case TABLE_INFO:
                 pragma = String.format(DatabaseHelper.PRAGMA_FORMAT_TABLE_INFO, tableName);
                 break;
+            default:
+                Log.w(DatabaseHelper.LOGTAG, "Pragma type unknown: " + pragmaType);
         }
 
         CursorOperation<List<TableRow>> operation = new CursorOperation<List<TableRow>>(databaseFile) {
@@ -137,7 +140,7 @@ public class TablePageAdapter {
                 textView.setPadding(paddingPx, paddingPx / 2, paddingPx, paddingPx / 2);
 
                 if (alternate) {
-                    textView.setBackgroundColor(Color.rgb(242, 242, 242));
+                    textView.setBackgroundColor(context.getResources().getColor(R.color.dbinspector_alternate_row_background));
                 }
 
                 row.addView(textView);

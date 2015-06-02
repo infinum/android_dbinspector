@@ -22,6 +22,8 @@ public class CopyDbIntentService extends IntentService {
 
     public static final String INTENT_DATABASE_COPIED = "DatabaseCopied";
 
+    public static final int BYTES_IN_KIBIBYTE = 1024;
+
     public CopyDbIntentService() {
         super("CopyDbIntentService");
     }
@@ -64,7 +66,7 @@ public class CopyDbIntentService extends IntentService {
                     in = new FileInputStream(database);
                     out = new FileOutputStream(outFile);
 
-                    byte[] buffer = new byte[1024];
+                    byte[] buffer = new byte[BYTES_IN_KIBIBYTE];
                     int read;
                     while ((read = in.read(buffer)) != -1) {
                         out.write(buffer, 0, read);

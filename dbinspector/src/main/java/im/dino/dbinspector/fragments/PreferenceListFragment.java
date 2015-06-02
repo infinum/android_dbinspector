@@ -18,10 +18,10 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.ListView;
 
-import im.dino.dbinspector.R;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+
+import im.dino.dbinspector.R;
 
 /**
  * Original Thread http://forum.xda-developers.com/showthread.php?t=1363906 Created by Prasham on 12-02-2015.
@@ -44,6 +44,9 @@ public class PreferenceListFragment extends ListFragment {
                 case MSG_BIND_PREFERENCES:
                     bindPreferences();
                     break;
+
+                default:
+                    // nothing to do
             }
         }
     };
@@ -265,6 +268,6 @@ public class PreferenceListFragment extends ListFragment {
 
     public interface OnPreferenceAttachedListener {
 
-        public void onPreferenceAttached(PreferenceScreen root, int xmlId);
+        void onPreferenceAttached(PreferenceScreen root, int xmlId);
     }
 }

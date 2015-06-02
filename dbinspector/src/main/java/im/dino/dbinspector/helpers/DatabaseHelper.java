@@ -43,14 +43,17 @@ public class DatabaseHelper {
 
     public static final String COLUMN_PRIMARY = "primary key";
 
-    public static final String TABLE_LIST_QUERY
-            = "SELECT name FROM sqlite_master WHERE type='table'";
+    public static final String TABLE_LIST_QUERY = "SELECT name FROM sqlite_master WHERE type='table'";
 
     public static final String PRAGMA_FORMAT_TABLE_INFO = "PRAGMA table_info(%s)";
 
     public static final String PRAGMA_FORMAT_INDEX = "PRAGMA index_list(%s)";
 
     public static final String PRAGMA_FORMAT_FOREIGN_KEYS = "PRAGMA foreign_key_list(%s)";
+
+    private DatabaseHelper() {
+        // no instantiations
+    }
 
     public static List<File> getDatabaseList(Context context) {
         List<File> databaseList = new ArrayList<>();
@@ -75,11 +78,11 @@ public class DatabaseHelper {
         };
 
         //Add External Databases if Present
-        if(isExternalAvailable()){
+        if (isExternalAvailable()) {
             final File absoluteFile = context.getExternalFilesDir(null).getAbsoluteFile();
-            String[] externalDatabases= absoluteFile.list(filenameFilter);
-            for (String db:externalDatabases){
-                databaseList.add(new File(absoluteFile,db));
+            String[] externalDatabases = absoluteFile.list(filenameFilter);
+            for (String db : externalDatabases) {
+                databaseList.add(new File(absoluteFile, db));
             }
         }
 
@@ -110,7 +113,7 @@ public class DatabaseHelper {
         } else {
             // Something else is wrong. It may be one of many other states, but all we need
             //  to know is we can neither read nor write
-            mExternalStorageAvailable  = false;
+            mExternalStorageAvailable = false;
         }
         return mExternalStorageAvailable;
     }
@@ -161,7 +164,7 @@ public class DatabaseHelper {
     }
 
     /**
-     * Compat method so we can get type of column on API < 11
+     * Compat method so we can get type of column on API < 11.
      * Source: http://stackoverflow.com/a/20685546/2643666
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
