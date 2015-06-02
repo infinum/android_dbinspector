@@ -77,10 +77,21 @@ public class TableListFragment extends ListFragment {
         if (getArguments() != null) {
             database = (File) getArguments().getSerializable(KEY_DATABASE);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         LocalBroadcastManager.getInstance(getActivity())
                 .registerReceiver(dbCopiedReceiver, new IntentFilter(CopyDbIntentService.INTENT_DATABASE_COPIED));
     }
 
+    @Override
+    public void onPause() {
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(dbCopiedReceiver);
+        super.onPause();
+    }
+    
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
