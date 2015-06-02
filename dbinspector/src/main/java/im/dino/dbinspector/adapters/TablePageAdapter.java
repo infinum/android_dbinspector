@@ -13,9 +13,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import im.dino.dbinspector.R;
 import im.dino.dbinspector.helpers.CursorOperation;
 import im.dino.dbinspector.helpers.DatabaseHelper;
-import im.dino.dbinspector.R;
 import im.dino.dbinspector.helpers.PragmaType;
 
 /**
@@ -179,7 +179,6 @@ public class TablePageAdapter {
     }
 
     public int getCurrentPage() {
-        return (position / rowsPerPage) + 1;
+        return position / rowsPerPage + 1;
     }
-
 }

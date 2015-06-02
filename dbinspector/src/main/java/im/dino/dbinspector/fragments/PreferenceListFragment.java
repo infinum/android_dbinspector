@@ -9,7 +9,6 @@ import android.os.Message;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
-import android.support.annotation.Nullable;
 import android.support.annotation.XmlRes;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -68,11 +67,6 @@ public class PreferenceListFragment extends ListFragment {
     //must be provided
     public PreferenceListFragment() {
 
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
     }
 
     private void bindPreferences() {
@@ -139,8 +133,6 @@ public class PreferenceListFragment extends ListFragment {
         postBindPreferences();
         try {
             ((OnPreferenceAttachedListener) getActivity()).onPreferenceAttached(getPreferenceScreen(), xmlId);
-        } catch (ClassCastException e) {
-            // the activity does not implement OnPreferenceAttachedListener - we don't care
         } catch (Exception e) {
             e.printStackTrace();
         }
