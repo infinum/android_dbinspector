@@ -20,11 +20,6 @@ import im.dino.dbinspector.helpers.DatabaseHelper;
 public class DatabaseListFragment extends ListFragment implements AdapterView.OnItemClickListener {
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
