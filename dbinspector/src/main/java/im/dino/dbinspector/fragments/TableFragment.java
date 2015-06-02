@@ -40,6 +40,14 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
     private static final String KEY_LAST_PRAGMA = "last_pragma";
 
+    public static final int DROPDOWN_CONTENT_POSITION = 0;
+
+    public static final int DROPDOWN_INFO_POSITION = 1;
+
+    public static final int DROPDOWN_FOREIGN_KEYS_POSITION = 2;
+
+    public static final int DROPDOWN_INDEXES_POSITION = 3;
+
     private File databaseFile;
 
     private String tableName;
@@ -250,16 +258,16 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
 
         switch (itemPosition) {
-            case 0:
+            case DROPDOWN_CONTENT_POSITION:
                 showContent();
                 break;
-            case 1:
+            case DROPDOWN_INFO_POSITION:
                 showByPragma(PragmaType.TABLE_INFO);
                 break;
-            case 2:
+            case DROPDOWN_FOREIGN_KEYS_POSITION:
                 showByPragma(PragmaType.FOREIGN_KEY);
                 break;
-            case 3:
+            case DROPDOWN_INDEXES_POSITION:
                 showByPragma(PragmaType.INDEX_LIST);
                 break;
             default:

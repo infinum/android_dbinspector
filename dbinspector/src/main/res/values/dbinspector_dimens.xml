@@ -2,5 +2,6 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="dbinspector_activity_horizontal_margin">16dp</dimen>
     <dimen name="dbinspector_activity_vertical_margin">16dp</dimen>
+    <dimen name="dbinspector_row_padding">5dp</dimen>
 
 </resources>
