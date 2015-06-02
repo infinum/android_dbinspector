@@ -10,7 +10,7 @@ import android.support.v4.app.ListFragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.text.TextUtils;
@@ -25,9 +25,9 @@ import android.widget.Toast;
 import java.io.File;
 import java.util.List;
 
+import im.dino.dbinspector.R;
 import im.dino.dbinspector.helpers.DatabaseHelper;
 import im.dino.dbinspector.services.CopyDbIntentService;
-import im.dino.dbinspector.R;
 
 /**
  * Created by dino on 24/02/14.
@@ -77,15 +77,26 @@ public class TableListFragment extends ListFragment {
         if (getArguments() != null) {
             database = (File) getArguments().getSerializable(KEY_DATABASE);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         LocalBroadcastManager.getInstance(getActivity())
                 .registerReceiver(dbCopiedReceiver, new IntentFilter(CopyDbIntentService.INTENT_DATABASE_COPIED));
+    }
+
+    @Override
+    public void onPause() {
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(dbCopiedReceiver);
+        super.onPause();
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        ActionBarActivity activity = (ActionBarActivity) getActivity();
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
 
         List<String> tableList = DatabaseHelper.getAllTables(database);
         String version = DatabaseHelper.getVersion(database);
@@ -147,7 +158,7 @@ public class TableListFragment extends ListFragment {
     public void onDestroyView() {
         super.onDestroyView();
         try {
-            ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
             actionBar.setSubtitle("");
         } catch (Exception e) {
             e.printStackTrace();

@@ -14,7 +14,7 @@ import im.dino.dbinspector.helpers.models.TableRowModel;
 /**
  * Created by Zeljko Plesac on 10/05/15.
  */
-public class TableColumnsAdapter extends ArrayAdapter<TableRowModel>{
+public class TableColumnsAdapter extends ArrayAdapter<TableRowModel> {
 
     public TableColumnsAdapter(Context mContext, ArrayList<TableRowModel> items) {
         super(mContext, 0, items);
@@ -39,6 +39,7 @@ public class TableColumnsAdapter extends ArrayAdapter<TableRowModel>{
     }
 
     static class ViewHolder {
+
         TextView name;
     }
 }

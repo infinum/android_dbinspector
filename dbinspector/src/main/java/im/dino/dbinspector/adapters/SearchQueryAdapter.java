@@ -1,7 +1,6 @@
 package im.dino.dbinspector.adapters;
 
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +22,8 @@ import im.dino.dbinspector.interfaces.DbInspectorListCommunicator;
 public class SearchQueryAdapter extends ArrayAdapter<TableRowModel> {
 
     private ArrayAdapter<CharSequence> sqlActionsAdapter;
-    private DbInspectorListCommunicator listener;
 
+    private DbInspectorListCommunicator listener;
 
     public SearchQueryAdapter(Context mContext, ArrayList<TableRowModel> items) {
         super(mContext, 0, items);
@@ -42,7 +41,7 @@ public class SearchQueryAdapter extends ArrayAdapter<TableRowModel> {
             holder = (ViewHolder) convertView.getTag();
         } else {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.list_item_search_dialog, parent, false);
+            convertView = inflater.inflate(R.layout.dbinspector_list_item_search_dialog, parent, false);
             holder = new ViewHolder();
             holder.spAction = (Spinner) convertView.findViewById(R.id.dbinspector_sql_action_spinner);
             holder.tvName = (TextView) convertView.findViewById(R.id.dbinspector_field_name);
@@ -52,10 +51,9 @@ public class SearchQueryAdapter extends ArrayAdapter<TableRowModel> {
             convertView.setTag(holder);
         }
 
-        if(position == 0){
+        if (position == 0) {
             holder.spAction.setVisibility(View.INVISIBLE);
-        }
-        else{
+        } else {
             holder.spAction.setVisibility(View.VISIBLE);
         }
 
@@ -63,7 +61,7 @@ public class SearchQueryAdapter extends ArrayAdapter<TableRowModel> {
 
         ArrayAdapter<CharSequence> sqlConditions;
 
-        switch (getItem(position).getType()){
+        switch (getItem(position).getType()) {
             case INTEGER:
                 sqlConditions = ArrayAdapter.createFromResource(getContext(),
                         R.array.dbinspector_conditions_number, android.R.layout.simple_spinner_item);
@@ -79,11 +77,10 @@ public class SearchQueryAdapter extends ArrayAdapter<TableRowModel> {
         }
         sqlConditions.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-
         holder.spAction.setAdapter(sqlActionsAdapter);
         holder.spCondition.setAdapter(sqlConditions);
 
-        if(listener != null){
+        if (listener != null) {
             holder.ivDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -95,14 +92,19 @@ public class SearchQueryAdapter extends ArrayAdapter<TableRowModel> {
     }
 
     static class ViewHolder {
+
         TextView tvName;
+
         EditText etValue;
+
         Spinner spAction;
+
         Spinner spCondition;
+
         ImageView ivDelete;
     }
 
-    public void setListener(DbInspectorListCommunicator listener){
+    public void setListener(DbInspectorListCommunicator listener) {
         this.listener = listener;
     }
 }

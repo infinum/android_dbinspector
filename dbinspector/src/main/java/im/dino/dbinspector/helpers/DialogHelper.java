@@ -30,7 +30,11 @@ public class DialogHelper {
 
     private static ArrayList<TableRowModel> conditionList;
 
-    public static void showSearchDialog(final Activity activity , File databaseFile, String tableName) {
+    private DialogHelper() {
+        // no instantiations
+    }
+
+    public static void showSearchDialog(final Activity activity, File databaseFile, String tableName) {
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(activity, R.style.dbinspector_dialog_theme));
 
         conditionList = new ArrayList<>();
@@ -86,12 +90,13 @@ public class DialogHelper {
 
         Dialog searchDialog = builder.create();
 
-        if(!activity.isFinishing()){
+        if (!activity.isFinishing()) {
             searchDialog.show();
         }
     }
 
-    private static void showSelectionDialog(Activity activity, List<TableRowModel> allowedColumns, final DbInspectorDialogCommunicator listener){
+    private static void showSelectionDialog(Activity activity, List<TableRowModel> allowedColumns,
+            final DbInspectorDialogCommunicator listener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle(R.string.dbinspector_available_data_types);
 
@@ -114,7 +119,7 @@ public class DialogHelper {
             }
         });
 
-        if(!activity.isFinishing()){
+        if (!activity.isFinishing()) {
             dialog.show();
         }
     }

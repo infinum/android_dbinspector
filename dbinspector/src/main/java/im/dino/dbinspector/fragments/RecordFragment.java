@@ -55,13 +55,12 @@ public class RecordFragment extends Fragment {
 
     private RecordScreenType screenType;
 
-    private MenuItem menuItemDelete;
-
     public RecordFragment() {
 
     }
 
-    public static RecordFragment newInstance(RecordScreenType recordScreenType, File databaseFile, String tableName, ArrayList<String> columnNames, ArrayList<String> columnValues) {
+    public static RecordFragment newInstance(RecordScreenType recordScreenType, File databaseFile, String tableName,
+            ArrayList<String> columnNames, ArrayList<String> columnValues) {
 
         Bundle args = new Bundle();
         args.putSerializable(KEY_DATABASE, databaseFile);
@@ -115,21 +114,14 @@ public class RecordFragment extends Fragment {
     }
 
     @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-       // menu.findItem(1).setVisible(false);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.dbinspector_action_delete) {
             deleteRecord();
             return true;
         } else if (item.getItemId() == R.id.dbinspector_action_save) {
-            if (screenType== RecordScreenType.CREATE){
+            if (screenType == RecordScreenType.CREATE) {
                 insertRecord();
-            }
-            else{
+            } else {
                 updateRecord();
             }
             return true;
@@ -151,7 +143,7 @@ public class RecordFragment extends Fragment {
 
             tvName.setText(columnNames.get(i));
 
-            if(screenType == RecordScreenType.UPDATE){
+            if (screenType == RecordScreenType.UPDATE) {
                 etValue.setText(columnValues.get(i));
             }
 
@@ -159,7 +151,7 @@ public class RecordFragment extends Fragment {
 
         }
 
-        if(screenType == RecordScreenType.UPDATE){
+        if (screenType == RecordScreenType.UPDATE) {
             setupPrimaryKey();
 
         }
@@ -182,13 +174,10 @@ public class RecordFragment extends Fragment {
     }
 
     private void updateRecord() {
-        int k = 0;
-
         for (int i = 0; i < containerLayout.getChildCount(); i++) {
             LinearLayout recordRow = (LinearLayout) containerLayout.getChildAt(i);
             EditText et = (EditText) recordRow.getChildAt(1);
-            columnValues.set(k, et.getText().toString());
-            k++;
+            columnValues.set(i, et.getText().toString());
         }
 
         if (DatabaseHelper.updateRow(databaseFile, tableName, primaryKeyName, primaryKeyValue, columnNames, columnValues)) {
@@ -199,13 +188,11 @@ public class RecordFragment extends Fragment {
     }
 
     private void insertRecord() {
-        int k = 0;
         columnValues = new ArrayList<>();
         for (int i = 0; i < containerLayout.getChildCount(); i++) {
             LinearLayout recordRow = (LinearLayout) containerLayout.getChildAt(i);
             EditText et = (EditText) recordRow.getChildAt(1);
             columnValues.add(et.getText().toString());
-            k++;
         }
 
         if (DatabaseHelper.insertRow(databaseFile, tableName, primaryKeyName, primaryKeyValue, columnNames, columnValues)) {

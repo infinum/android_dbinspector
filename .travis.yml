@@ -6,8 +6,13 @@ jdk:
 
 android:
   components:
-    - build-tools-21.1.2
-    - android-21
+    - platform-tools
+    - tools
+    - build-tools-22.0.1
+    - android-22
+    - extra-google-google_play_services
+    - extra-google-m2repository
+    - extra-android-m2repository
 
 script:
   - ./gradlew clean check -Dpre-dex=false

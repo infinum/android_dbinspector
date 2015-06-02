@@ -6,10 +6,9 @@
 
     <LinearLayout
         android:padding="@dimen/dbinspector_activity_horizontal_margin"
-
         android:id="@+id/dbinspector_data_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical" />
 
 </ScrollView>

@@ -2,14 +2,14 @@ package im.dino.dbinspector.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import im.dino.dbinspector.fragments.DatabaseListFragment;
 import im.dino.dbinspector.R;
+import im.dino.dbinspector.fragments.DatabaseListFragment;
 import im.dino.dbinspector.interfaces.DbInspectorSqlCommunicator;
 
-public class DbInspectorSqlActivity extends ActionBarActivity implements DbInspectorSqlCommunicator {
+public class DbInspectorSqlActivity extends AppCompatActivity implements DbInspectorSqlCommunicator {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +39,11 @@ public class DbInspectorSqlActivity extends ActionBarActivity implements DbInspe
     @Override
     public void recordUpdated() {
         popBackStack();
-
     }
 
     @Override
     public void recordInserted() {
         popBackStack();
-
     }
 
     @Override
@@ -55,11 +53,12 @@ public class DbInspectorSqlActivity extends ActionBarActivity implements DbInspe
             case android.R.id.home:
                 onBackPressed();
                 return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
-    private void popBackStack(){
+    private void popBackStack() {
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
             getSupportFragmentManager().popBackStack();
         }

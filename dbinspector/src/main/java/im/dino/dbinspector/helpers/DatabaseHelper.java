@@ -9,7 +9,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
-import android.util.Log;
+import android.os.Environment;
+import android.text.TextUtils;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -49,14 +50,19 @@ public class DatabaseHelper {
 
     public static final String COLUMN_PRIMARY = "primary key";
 
-    public static final String TABLE_LIST_QUERY
-            = "SELECT name FROM sqlite_master WHERE type='table'";
+    public static final String TABLE_LIST_QUERY = "SELECT name FROM sqlite_master WHERE type='table'";
 
     public static final String PRAGMA_FORMAT_TABLE_INFO = "PRAGMA table_info(%s)";
 
     public static final String PRAGMA_FORMAT_INDEX = "PRAGMA index_list(%s)";
 
     public static final String PRAGMA_FORMAT_FOREIGN_KEYS = "PRAGMA foreign_key_list(%s)";
+
+    public static final int PRIMARY_KEY_COLUMN_INDEX = 5;
+
+    private DatabaseHelper() {
+        // no instantiations
+    }
 
     public static List<File> getDatabaseList(Context context) {
         List<File> databaseList = new ArrayList<>();
@@ -80,6 +86,15 @@ public class DatabaseHelper {
             }
         };
 
+        //Add External Databases if Present
+        if (isExternalAvailable()) {
+            final File absoluteFile = context.getExternalFilesDir(null).getAbsoluteFile();
+            String[] externalDatabases = absoluteFile.list(filenameFilter);
+            for (String db : externalDatabases) {
+                databaseList.add(new File(absoluteFile, db));
+            }
+        }
+
         // CouchBase Lite stores the databases in the app files dir
         String[] cbliteFiles = context.fileList();
         for (String filename : cbliteFiles) {
@@ -89,6 +104,27 @@ public class DatabaseHelper {
         }
 
         return databaseList;
+    }
+
+    /**
+     * @return true if External Storage Present
+     */
+    private static boolean isExternalAvailable() {
+        boolean mExternalStorageAvailable = false;
+        String state = Environment.getExternalStorageState();
+
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            // We can read and write the media
+            mExternalStorageAvailable = true;
+        } else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            // We can only read the media
+            mExternalStorageAvailable = true;
+        } else {
+            // Something else is wrong. It may be one of many other states, but all we need
+            //  to know is we can neither read nor write
+            mExternalStorageAvailable = false;
+        }
+        return mExternalStorageAvailable;
     }
 
     public static String getVersion(File database) {
@@ -153,7 +189,8 @@ public class DatabaseHelper {
                         String dataType = cursor.getString(cursor.getColumnIndex(COLUMN_TYPE));
 
                         if (isAllowedDataType(allowedDataTypes, dataType)) {
-                            columnList.add(new TableRowModel(cursor.getString(cursor.getColumnIndex(COLUMN_TYPE)), cursor.getString(cursor.getColumnIndex(COLUMN_NAME))));
+                            columnList.add(new TableRowModel(cursor.getString(cursor.getColumnIndex(COLUMN_TYPE)),
+                                    cursor.getString(cursor.getColumnIndex(COLUMN_NAME))));
                         }
 
                         cursor.moveToNext();
@@ -191,7 +228,7 @@ public class DatabaseHelper {
 
     private static String getPrimaryKey(Cursor cursor) {
         do {
-            if (cursor.getString(5).equals("1")) {
+            if (cursor.getString(PRIMARY_KEY_COLUMN_INDEX).equals("1")) {
                 return cursor.getString(1);
             }
 
@@ -201,7 +238,7 @@ public class DatabaseHelper {
     }
 
     /**
-     * Compat method so we can get type of column on API < 11
+     * Compat method so we can get type of column on API < 11.
      * Source: http://stackoverflow.com/a/20685546/2643666
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -244,12 +281,12 @@ public class DatabaseHelper {
     }
 
     public static boolean updateRow(File databaseFile, String tableName, String primaryKey, String primaryKeyValue,
-                                            ArrayList<String> columnNames, ArrayList<String> columnValues){
+            ArrayList<String> columnNames, ArrayList<String> columnValues) {
         try {
             SQLiteDatabase database = SQLiteDatabase.openOrCreateDatabase(databaseFile, null);
             ContentValues contentValues = new ContentValues();
 
-            for(int i = 0; i< columnNames.size(); i++){
+            for (int i = 0; i < columnNames.size(); i++) {
                 contentValues.put(columnNames.get(i), columnValues.get(i));
             }
 
@@ -266,13 +303,13 @@ public class DatabaseHelper {
     }
 
     public static boolean insertRow(File databaseFile, String tableName, String primaryKey, String primaryKeyValue,
-                                    ArrayList<String> columnNames, ArrayList<String> columnValues){
+            ArrayList<String> columnNames, ArrayList<String> columnValues) {
         try {
             SQLiteDatabase database = SQLiteDatabase.openOrCreateDatabase(databaseFile, null);
             ContentValues contentValues = new ContentValues();
 
-            for(int i = 0; i< columnNames.size(); i++){
-                if(columnValues.get(i) != null && columnValues.get(i) != ""){
+            for (int i = 0; i < columnNames.size(); i++) {
+                if (!TextUtils.isEmpty(columnValues.get(i))) {
                     contentValues.put(columnNames.get(i), columnValues.get(i));
                 }
             }

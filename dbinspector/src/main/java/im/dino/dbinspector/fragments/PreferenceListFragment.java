@@ -9,7 +9,6 @@ import android.os.Message;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
-import android.support.annotation.Nullable;
 import android.support.annotation.XmlRes;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -18,10 +17,10 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.ListView;
 
-import im.dino.dbinspector.R;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+
+import im.dino.dbinspector.R;
 
 /**
  * Original Thread http://forum.xda-developers.com/showthread.php?t=1363906 Created by Prasham on 12-02-2015.
@@ -44,6 +43,9 @@ public class PreferenceListFragment extends ListFragment {
                 case MSG_BIND_PREFERENCES:
                     bindPreferences();
                     break;
+
+                default:
+                    // nothing to do
             }
         }
     };
@@ -65,11 +67,6 @@ public class PreferenceListFragment extends ListFragment {
     //must be provided
     public PreferenceListFragment() {
 
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
     }
 
     private void bindPreferences() {
@@ -136,8 +133,6 @@ public class PreferenceListFragment extends ListFragment {
         postBindPreferences();
         try {
             ((OnPreferenceAttachedListener) getActivity()).onPreferenceAttached(getPreferenceScreen(), xmlId);
-        } catch (ClassCastException e) {
-            // the activity does not implement OnPreferenceAttachedListener - we don't care
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -265,6 +260,6 @@ public class PreferenceListFragment extends ListFragment {
 
     public interface OnPreferenceAttachedListener {
 
-        public void onPreferenceAttached(PreferenceScreen root, int xmlId);
+        void onPreferenceAttached(PreferenceScreen root, int xmlId);
     }
 }

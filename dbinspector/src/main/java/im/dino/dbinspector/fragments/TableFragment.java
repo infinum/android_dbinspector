@@ -4,8 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,8 +22,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import im.dino.dbinspector.adapters.TablePageAdapter;
 import im.dino.dbinspector.R;
+import im.dino.dbinspector.adapters.TablePageAdapter;
 import im.dino.dbinspector.helpers.DialogHelper;
 import im.dino.dbinspector.helpers.PragmaType;
 import im.dino.dbinspector.helpers.RecordScreenType;
@@ -43,6 +42,14 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
     private static final String KEY_PAGE = "current_page";
 
     private static final String KEY_LAST_PRAGMA = "last_pragma";
+
+    public static final int DROPDOWN_CONTENT_POSITION = 0;
+
+    public static final int DROPDOWN_INFO_POSITION = 1;
+
+    public static final int DROPDOWN_FOREIGN_KEYS_POSITION = 2;
+
+    public static final int DROPDOWN_INDEXES_POSITION = 3;
 
     private File databaseFile;
 
@@ -129,7 +136,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.dbinspector_fragment_table, container, false);
 
@@ -176,7 +183,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
     @Override
     public void onDestroyView() {
-        ((ActionBarActivity) getActivity()).getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         super.onDestroyView();
     }
 
@@ -196,8 +203,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
             return true;
         } else if (item.getItemId() == R.id.dbinspector_action_search) {
             DialogHelper.showSearchDialog(getActivity(), databaseFile, tableName);
-        }
-        else if(item.getItemId() == R.id.dbinspector_action_add){
+        } else if (item.getItemId() == R.id.dbinspector_action_add) {
             showRecord(RecordScreenType.CREATE, null);
         }
 
@@ -206,7 +212,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
 
     private void setUpActionBar() {
-        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+        final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
 
         actionBar.setTitle(tableName);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -250,7 +256,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         nextButton.setEnabled(adapter.hasNext());
         previousButton.setEnabled(adapter.hasPrevious());
 
-        columnNames = getTableRowValues(0);;
+        columnNames = getTableRowValues(0);
     }
 
     private void showByPragma(PragmaType pragmaType) {
@@ -271,16 +277,16 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
 
         switch (itemPosition) {
-            case 0:
+            case DROPDOWN_CONTENT_POSITION:
                 showContent();
                 break;
-            case 1:
+            case DROPDOWN_INFO_POSITION:
                 showByPragma(PragmaType.TABLE_INFO);
                 break;
-            case 2:
+            case DROPDOWN_FOREIGN_KEYS_POSITION:
                 showByPragma(PragmaType.FOREIGN_KEY);
                 break;
-            case 3:
+            case DROPDOWN_INDEXES_POSITION:
                 showByPragma(PragmaType.INDEX_LIST);
                 break;
             default:
@@ -306,8 +312,8 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         return values;
     }
 
-    private void showRecord(RecordScreenType screenType, ArrayList<String> columnValues){
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
+    private void showRecord(RecordScreenType screenType, ArrayList<String> columnValues) {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.dbinspector_container, RecordFragment.newInstance(screenType, databaseFile, tableName, columnNames, columnValues))
                 .addToBackStack("Record")
                 .commit();
