@@ -9,6 +9,12 @@ public class TableRowModel {
 
     private String name;
 
+    private String value;
+
+    private String sqlAction;
+
+    private String condition;
+
     public TableRowModel(String type, String name) {
 
         switch (type) {
@@ -28,6 +34,14 @@ public class TableRowModel {
         this.name = name;
     }
 
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
     public TableRowType getType() {
         return type;
     }
@@ -42,5 +56,21 @@ public class TableRowModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSqlAction() {
+        return sqlAction;
+    }
+
+    public void setSqlAction(String sqlAction) {
+        this.sqlAction = sqlAction;
+    }
+
+    public String getCondition() {
+        return condition;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
     }
 }

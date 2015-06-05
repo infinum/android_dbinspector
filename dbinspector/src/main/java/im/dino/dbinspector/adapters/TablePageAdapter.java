@@ -17,6 +17,7 @@ import im.dino.dbinspector.R;
 import im.dino.dbinspector.helpers.CursorOperation;
 import im.dino.dbinspector.helpers.DatabaseHelper;
 import im.dino.dbinspector.helpers.PragmaType;
+import im.dino.dbinspector.helpers.models.TableRowModel;
 
 /**
  * Created by dino on 27/02/14.
@@ -40,6 +41,10 @@ public class TablePageAdapter {
     private int paddingPx;
 
     private String pragma;
+
+    private String whereClause;
+
+    private String[] whereArgs;
 
     public TablePageAdapter(Context context, File databaseFile, String tableName, int startPage) {
 
@@ -104,6 +109,46 @@ public class TablePageAdapter {
         };
 
         return operation.execute();
+    }
+
+    public List<TableRow> getContentPage(ArrayList<TableRowModel> conditionList){
+        try{
+
+            whereClause = "";
+            whereArgs = new String[conditionList.size()];
+
+            for(int i = 0; i<conditionList.size(); i++){
+
+                if(i != 0){
+                    whereClause = whereClause + " " + conditionList.get(i).getSqlAction();
+                }
+
+                whereClause = whereClause + " " + conditionList.get(i).getName() + conditionList.get(i).getCondition() + "?";
+                whereArgs[i] = conditionList.get(i).getValue();
+            }
+
+            int isus = 1;
+
+            CursorOperation<List<TableRow>> operation = new CursorOperation<List<TableRow>>(databaseFile) {
+                @Override
+                public Cursor provideCursor(SQLiteDatabase database) {
+                    return database.query(tableName, null, whereClause, whereArgs, null, null, null);
+                }
+
+                @Override
+                public List<TableRow> provideResult(SQLiteDatabase database, Cursor cursor) {
+                    count = cursor.getCount();
+                    cursor.moveToPosition(position);
+                    return getTableRows(cursor, false);
+                }
+            };
+
+            return operation.execute();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return new ArrayList<TableRow>();
+        }
     }
 
     private List<TableRow> getTableRows(Cursor cursor, boolean allRows) {

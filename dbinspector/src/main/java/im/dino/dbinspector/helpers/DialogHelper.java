@@ -10,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,11 +32,16 @@ public class DialogHelper {
 
     private static ArrayList<TableRowModel> conditionList;
 
+    public interface SearchQueryListener{
+
+        void onQuerySubmited(ArrayList<TableRowModel> conditionList);
+    }
+
     private DialogHelper() {
         // no instantiations
     }
 
-    public static void showSearchDialog(final Activity activity, File databaseFile, String tableName) {
+    public static void showSearchDialog(final Activity activity, File databaseFile, String tableName, final SearchQueryListener callback) {
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(activity, R.style.dbinspector_dialog_theme));
 
         conditionList = new ArrayList<>();
@@ -45,7 +52,7 @@ public class DialogHelper {
                 Context.LAYOUT_INFLATER_SERVICE);
         View dialogView = inflater.inflate(R.layout.dbinspector_search_layout, null);
         Button button = (Button) dialogView.findViewById(R.id.dbinspector_add_new_selection);
-        ListView listView = (ListView) dialogView.findViewById(R.id.dbinspector_list_conditions);
+        final ListView listView = (ListView) dialogView.findViewById(R.id.dbinspector_list_conditions);
         listView.setAdapter(adapter);
 
         adapter.setListener(new DbInspectorListCommunicator() {
@@ -83,6 +90,19 @@ public class DialogHelper {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+
+                for(int i = 0; i< listView.getChildCount(); i++){
+                    EditText etValue = (EditText) listView.getChildAt(i).findViewById(R.id.dbinspector_field_value);
+                    Spinner spSqlAction = (Spinner) listView.getChildAt(i).findViewById(R.id.dbinspector_sql_action_spinner);
+                    Spinner spCondition = (Spinner) listView.getChildAt(i).findViewById(R.id.dbinspector_field_condition);
+                    conditionList.get(i).setValue(etValue.getText().toString());
+
+                    if(i != 0){
+                        conditionList.get(i).setSqlAction(spSqlAction.getSelectedItem().toString());
+                    }
+                    conditionList.get(i).setCondition(spCondition.getSelectedItem().toString());
+                }
+                callback.onQuerySubmited(conditionList);
             }
         });
 

@@ -27,6 +27,7 @@ import im.dino.dbinspector.adapters.TablePageAdapter;
 import im.dino.dbinspector.helpers.DialogHelper;
 import im.dino.dbinspector.helpers.PragmaType;
 import im.dino.dbinspector.helpers.RecordScreenType;
+import im.dino.dbinspector.helpers.models.TableRowModel;
 
 /**
  * Created by dino on 24/02/14.
@@ -85,7 +86,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         public void onClick(View v) {
             currentPage++;
             adapter.nextPage();
-            showContent();
+            showContent(adapter.getContentPage());
 
             scrollView.scrollTo(0, 0);
             horizontalScrollView.scrollTo(0, 0);
@@ -98,7 +99,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         public void onClick(View v) {
             currentPage--;
             adapter.previousPage();
-            showContent();
+            showContent(adapter.getContentPage());
 
             scrollView.scrollTo(0, 0);
             horizontalScrollView.scrollTo(0, 0);
@@ -136,7 +137,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.dbinspector_fragment_table, container, false);
 
@@ -161,7 +162,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         setUpActionBar();
         adapter = new TablePageAdapter(getActivity(), databaseFile, tableName, currentPage);
         if (showingContent) {
-            showContent();
+            showContent(adapter.getContentPage());
         } else {
             showByPragma(lastPragmaType);
         }
@@ -202,7 +203,13 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
             getFragmentManager().executePendingTransactions();
             return true;
         } else if (item.getItemId() == R.id.dbinspector_action_search) {
-            DialogHelper.showSearchDialog(getActivity(), databaseFile, tableName);
+            DialogHelper.showSearchDialog(getActivity(), databaseFile, tableName, new DialogHelper.SearchQueryListener() {
+                @Override
+                public void onQuerySubmited(ArrayList<TableRowModel> conditionList) {
+                    List<TableRow> rows = adapter.getContentPage(conditionList);
+                    showContent(rows);
+                }
+            });
         } else if (item.getItemId() == R.id.dbinspector_action_add) {
             showRecord(RecordScreenType.CREATE, null);
         }
@@ -230,12 +237,10 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
                 this);
     }
 
-    private void showContent() {
+    private void showContent(List<TableRow> rows) {
 
         showingContent = true;
         tableLayout.removeAllViews();
-
-        List<TableRow> rows = adapter.getContentPage();
 
         for (final TableRow row : rows) {
             tableLayout.addView(row);
@@ -278,7 +283,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
         switch (itemPosition) {
             case DROPDOWN_CONTENT_POSITION:
-                showContent();
+                showContent(adapter.getContentPage());
                 break;
             case DROPDOWN_INFO_POSITION:
                 showByPragma(PragmaType.TABLE_INFO);

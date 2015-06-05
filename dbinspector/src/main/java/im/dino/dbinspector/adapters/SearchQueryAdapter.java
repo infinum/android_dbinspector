@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,6 +26,8 @@ public class SearchQueryAdapter extends ArrayAdapter<TableRowModel> {
 
     private DbInspectorListCommunicator listener;
 
+    private  ArrayAdapter<CharSequence> sqlConditions;
+
     public SearchQueryAdapter(Context mContext, ArrayList<TableRowModel> items) {
         super(mContext, 0, items);
 
@@ -36,7 +39,7 @@ public class SearchQueryAdapter extends ArrayAdapter<TableRowModel> {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+        final ViewHolder holder;
         if (convertView != null) {
             holder = (ViewHolder) convertView.getTag();
         } else {
@@ -59,7 +62,6 @@ public class SearchQueryAdapter extends ArrayAdapter<TableRowModel> {
 
         holder.tvName.setText(getItem(position).getName());
 
-        ArrayAdapter<CharSequence> sqlConditions;
 
         switch (getItem(position).getType()) {
             case INTEGER:
@@ -79,6 +81,7 @@ public class SearchQueryAdapter extends ArrayAdapter<TableRowModel> {
 
         holder.spAction.setAdapter(sqlActionsAdapter);
         holder.spCondition.setAdapter(sqlConditions);
+
 
         if (listener != null) {
             holder.ivDelete.setOnClickListener(new View.OnClickListener() {

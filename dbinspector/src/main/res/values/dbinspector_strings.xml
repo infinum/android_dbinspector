@@ -45,13 +45,13 @@
     </string-array>
 
     <string-array name="dbinspector_conditions_number">
-        <item>==</item>
+        <item>=</item>
         <item>&lt;</item>
         <item>&gt;</item>
     </string-array>
 
     <string-array name="dbinspector_conditions_text">
-        <item>==</item>
+        <item>=</item>
         <item>!=</item>
     </string-array>
 
