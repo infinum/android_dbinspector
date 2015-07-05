@@ -31,6 +31,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.1.1'
+    compile 'commons-io:commons-io:2.4'
 }
 
 apply plugin: 'maven'
