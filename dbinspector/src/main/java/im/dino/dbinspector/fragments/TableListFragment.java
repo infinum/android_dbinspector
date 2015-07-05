@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
@@ -55,7 +56,15 @@ public class TableListFragment extends ListFragment {
     private BroadcastReceiver dbCopiedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Toast.makeText(context, "Database copied", Toast.LENGTH_SHORT).show();
+            File databaseToShare = (File) intent.getSerializableExtra(CopyDbIntentService.EXTRA_SHAREABLE_FILE);
+            if (databaseToShare != null && databaseToShare.isFile()) {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("application/octet-stream");
+                shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(databaseToShare));
+                startActivity(Intent.createChooser(shareIntent, getString(R.string.abc_shareactionprovider_share_with, "...")));
+            } else {
+                Toast.makeText(context, "Database copied", Toast.LENGTH_SHORT).show();
+            }
         }
     };
 
@@ -142,6 +151,9 @@ public class TableListFragment extends ListFragment {
             });
         } else if (item.getItemId() == R.id.dbinspector_action_copy) {
             CopyDbIntentService.startService(getActivity(), database);
+            return true;
+        } else if (item.getItemId() == R.id.dbinspector_action_share) {
+            CopyDbIntentService.startService(getActivity(), database, true);
             return true;
         }
 
