@@ -16,4 +16,12 @@
             android:orderInCategory="101"
             android:icon="@drawable/abc_ic_menu_copy_mtrl_am_alpha"
             app:showAsAction="ifRoom"/>
+
+    <item
+            android:id="@+id/dbinspector_action_share"
+            android:title="@string/dbinspector_action_share"
+            android:orderInCategory="102"
+            android:icon="@drawable/abc_ic_menu_share_mtrl_alpha"
+            app:showAsAction="ifRoom"/>
+
 </menu>
