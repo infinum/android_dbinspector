@@ -21,6 +21,6 @@
             android:id="@+id/dbinspector_action_import"
             android:title="@string/dbinspector_action_import"
             android:orderInCategory="102"
-            android:icon="@drawable/ic_file_download_white_24dp"
+            android:icon="@drawable/dbinspector_file_upload"
             app:showAsAction="ifRoom"/>
 </menu>
