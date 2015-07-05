@@ -18,10 +18,9 @@
             app:showAsAction="ifRoom"/>
 
     <item
-            android:id="@+id/dbinspector_action_share"
-            android:title="@string/dbinspector_action_share"
+            android:id="@+id/dbinspector_action_import"
+            android:title="@string/dbinspector_action_import"
             android:orderInCategory="102"
-            android:icon="@drawable/abc_ic_menu_share_mtrl_alpha"
+            android:icon="@drawable/dbinspector_file_upload"
             app:showAsAction="ifRoom"/>
-
 </menu>
