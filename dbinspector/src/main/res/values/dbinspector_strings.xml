@@ -7,7 +7,6 @@
     <string name="dbinspector_action_settings">Settings</string>
     <string name="dbinspector_action_search">Search</string>
     <string name="dbinspector_action_copy">Copy</string>
-    <string name="dbinspector_action_share">Share</string>
     <string name="dbinspector_previous">Previous</string>
     <string name="dbinspector_next">Next</string>
     <string name="dbinspector_pref_key_rows_per_page">prefs_key_row_per_page</string>
@@ -17,6 +16,7 @@
     <string name="dbinspector_indexes">Indexes</string>
 
     <string name="dbinspector_rows_per_page_default">10</string>
+    <string name="dbinspector_action_import">Import</string>
     <string-array name="dbinspector_rows_per_page_options">
         <item>10</item>
         <item>25</item>
