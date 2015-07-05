@@ -42,6 +42,7 @@ import im.dino.dbinspector.services.ImportDbIntentService;
 public class TableListFragment extends ListFragment {
 
     private static final String KEY_DATABASE = "database_name";
+
     private static final int REQUEST_FILE_CODE = 10;
 
     private File database;
@@ -67,12 +68,13 @@ public class TableListFragment extends ListFragment {
         }
     };
 
-    private BroadcastReceiver dbImporteddReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver dbImportedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             Toast.makeText(context, "Database imported", Toast.LENGTH_SHORT).show();
         }
     };
+
     private LocalBroadcastManager localBroadcastManager;
 
 
@@ -103,13 +105,13 @@ public class TableListFragment extends ListFragment {
         localBroadcastManager
                 .registerReceiver(dbCopiedReceiver, new IntentFilter(CopyDbIntentService.INTENT_DATABASE_COPIED));
         localBroadcastManager
-                .registerReceiver(dbImporteddReceiver, new IntentFilter(ImportDbIntentService.DATABASE_IMPORTED_ACTION));
+                .registerReceiver(dbImportedReceiver, new IntentFilter(ImportDbIntentService.DATABASE_IMPORTED_ACTION));
     }
 
     @Override
     public void onPause() {
         localBroadcastManager.unregisterReceiver(dbCopiedReceiver);
-        localBroadcastManager.unregisterReceiver(dbImporteddReceiver);
+        localBroadcastManager.unregisterReceiver(dbImportedReceiver);
         super.onPause();
     }
 
@@ -194,20 +196,18 @@ public class TableListFragment extends ListFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_FILE_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                //Start a new intent service to replace the file
-                Uri returnUri = data.getData();
-                ParcelFileDescriptor parcelFileDescriptor;
-                try {
-                    parcelFileDescriptor = getActivity().getContentResolver().openFileDescriptor(returnUri, "r");
-                } catch (FileNotFoundException e) {
-                    Log.e(TableListFragment.class.getName(), "File not found.");
-                    return;
-                }
-                InMemoryFileDescriptorCache.getInstance().store(parcelFileDescriptor.getFileDescriptor());
-                ImportDbIntentService.startService(getActivity(), database);
+        if (requestCode == REQUEST_FILE_CODE && resultCode == Activity.RESULT_OK) {
+            //Start a new intent service to replace the file
+            Uri returnUri = data.getData();
+            ParcelFileDescriptor parcelFileDescriptor;
+            try {
+                parcelFileDescriptor = getActivity().getContentResolver().openFileDescriptor(returnUri, "r");
+            } catch (FileNotFoundException e) {
+                Log.e(TableListFragment.class.getName(), "File not found.");
+                return;
             }
+            InMemoryFileDescriptorCache.getInstance().store(parcelFileDescriptor.getFileDescriptor());
+            ImportDbIntentService.startService(getActivity(), database);
         }
     }
 }
