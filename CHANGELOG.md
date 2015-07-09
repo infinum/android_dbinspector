@@ -1,6 +1,15 @@
 Changelog
 =========
 
+## Version 3.2.0
+
+_2015-07-09_
+
+* New: Show external databases if in folder returned by `context.getExternalFilesDir(null)` (thanks to @Aexyn)
+* New: Add option to share selected database (thanks to @dmarin)
+* New: Import database from file (thanks to @dmarin)
+* Fix: Set taskAffinity for `DbInspectorActivity` so the launcher opens DbInspector and not the app (thanks to @nicopico-dev)
+
 ## Version 3.1.0
 
 _2015-03-25_
@@ -48,7 +57,7 @@ _2014-04-07_
 
 _2014-03-31_
 
- * Fix: Support blob type (thanks to user ```bclymer```)
+ * Fix: Support blob type (thanks to @bclymer)
 
 ## Version 1.0.4
 
