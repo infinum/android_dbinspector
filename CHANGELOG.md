@@ -1,6 +1,12 @@
 Changelog
 =========
 
+## Version 3.2.1
+
+_2015-07-12_
+
+* Fix: Resolved crash that happened if you were on the last page of the content and switched the display to show more rows per page
+
 ## Version 3.2.0
 
 _2015-07-09_
