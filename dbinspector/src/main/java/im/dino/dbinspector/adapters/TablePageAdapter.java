@@ -53,6 +53,11 @@ public class TablePageAdapter {
         String rowsPerPage = PreferenceManager.getDefaultSharedPreferences(this.context)
                 .getString(keyRowsPerPage, defaultRowsPerPage);
         this.rowsPerPage = Integer.parseInt(rowsPerPage);
+
+        int pageCount = getPageCount();
+        if (startPage > pageCount) {
+            startPage = pageCount;
+        }
         position = this.rowsPerPage * startPage;
     }
 
