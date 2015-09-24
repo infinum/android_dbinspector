@@ -5,6 +5,7 @@ import java.io.FileDescriptor;
 public class InMemoryFileDescriptorCache implements Cache<FileDescriptor> {
 
     private static InMemoryFileDescriptorCache instance;
+
     private FileDescriptor fileDescriptor;
 
     private InMemoryFileDescriptorCache() {

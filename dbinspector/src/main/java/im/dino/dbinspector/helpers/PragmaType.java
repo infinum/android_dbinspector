@@ -9,5 +9,5 @@ public enum PragmaType {
 
     FOREIGN_KEY,
 
-    INDEX_LIST;
+    INDEX_LIST
 }
