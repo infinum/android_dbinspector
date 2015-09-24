@@ -73,7 +73,8 @@ public class DatabaseHelper {
                 return filename.endsWith(".sql")
                         || filename.endsWith(".sqlite")
                         || filename.endsWith(".db")
-                        || filename.endsWith(".cblite");
+                        || filename.endsWith(".cblite")
+                        || filename.endsWith(".cblite2");
             }
         };
 
