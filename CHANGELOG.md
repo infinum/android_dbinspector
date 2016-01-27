@@ -1,6 +1,12 @@
 Changelog
 =========
 
+## Version 3.2.2
+
+_2016-01-27_
+
+* New: Support new CBL file suffix (.cblite2)
+
 ## Version 3.2.1
 
 _2015-07-12_
