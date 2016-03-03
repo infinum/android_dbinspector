@@ -1,6 +1,12 @@
 Changelog
 =========
 
+## Version 3.2.3
+
+_2016-03-03_
+
+* Fix: Using in app which uses support libs 23.2.0+ (thanks @MarcBernstein)
+
 ## Version 3.2.2
 
 _2016-01-27_
