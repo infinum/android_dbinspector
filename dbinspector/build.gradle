@@ -1,6 +1,9 @@
 apply plugin: 'com.android.library'
 apply from: '../config/quality.gradle'
 
+version = '3.2.3'
+group = 'im.dino'
+
 android {
     compileSdkVersion 23
     buildToolsVersion '23.0.2'
@@ -9,7 +12,7 @@ android {
         minSdkVersion 10
         targetSdkVersion 23
         versionCode 1
-        versionName '3.2.3'
+        versionName version
     }
 
     compileOptions {
@@ -36,9 +39,6 @@ dependencies {
 
 apply plugin: 'maven'
 apply plugin: 'signing'
-
-version = '3.2.3'
-group = 'im.dino'
 
 configurations {
     archives {
