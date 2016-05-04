@@ -10,9 +10,12 @@ import android.os.Build;
 import android.os.Environment;
 
 import java.io.File;
-import java.io.FilenameFilter;
+import java.io.FileFilter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by dino on 23/02/14.
@@ -56,67 +59,88 @@ public class DatabaseHelper {
     }
 
     public static List<File> getDatabaseList(Context context) {
-        List<File> databaseList = new ArrayList<>();
+        Set<File> databases = new HashSet<>();
 
         // look for standard sqlite databases in the databases dir
         String[] contextDatabases = context.databaseList();
         for (String database : contextDatabases) {
             // don't show *-journal databases, they only hold temporary rollback data
             if (!database.endsWith("-journal")) {
-                databaseList.add(context.getDatabasePath(database));
+                databases.add(context.getDatabasePath(database));
             }
         }
 
-        FilenameFilter filenameFilter = new FilenameFilter() {
+        FileFilter dbFileFilter = new FileFilter() {
             @Override
-            public boolean accept(File dir, String filename) {
-                return filename.endsWith(".sql")
+            public boolean accept(File file) {
+                String filename = file.getName();
+                return file.isFile() && file.canRead()
+                        && (filename.endsWith(".sql")
                         || filename.endsWith(".sqlite")
+                        || filename.endsWith(".sqlite3")
                         || filename.endsWith(".db")
                         || filename.endsWith(".cblite")
-                        || filename.endsWith(".cblite2");
+                        || filename.endsWith(".cblite2"));
             }
         };
 
-        //Add External Databases if Present
+        // Add External Databases if present
         if (isExternalAvailable()) {
             final File absoluteFile = context.getExternalFilesDir(null).getAbsoluteFile();
-            String[] externalDatabases = absoluteFile.list(filenameFilter);
-            for (String db : externalDatabases) {
-                databaseList.add(new File(absoluteFile, db));
-            }
+            File[] externalDatabases = absoluteFile.listFiles(dbFileFilter);
+            databases.addAll(Arrays.asList(externalDatabases));
         }
 
         // CouchBase Lite stores the databases in the app files dir
-        String[] cbliteFiles = context.fileList();
-        for (String filename : cbliteFiles) {
-            if (filenameFilter.accept(context.getFilesDir(), filename)) {
-                databaseList.add(new File(context.getFilesDir(), filename));
+        // we get all files recursively because .cblite2 is a dir with the actual sqlite db
+        List<File> internalStorageFiles = getFiles(context.getFilesDir());
+        for (File internalFile : internalStorageFiles) {
+            if (dbFileFilter.accept(internalFile)) {
+                databases.add(internalFile);
             }
         }
 
-        return databaseList;
+        return new ArrayList<>(databases);
+    }
+
+    /**
+     * Recursively builds a list of all the files in the directory and subdirectories.
+     */
+    private static List<File> getFiles(File filesDir) {
+        List<File> files = new ArrayList<>();
+        findFiles(filesDir, files);
+        return files;
+    }
+
+    private static void findFiles(File file, List<File> fileList) {
+        if (file.isFile() && file.canRead()) {
+            fileList.add(file);
+        } else if (file.isDirectory()) {
+            for (File fileInDir : file.listFiles()) {
+                findFiles(fileInDir, fileList);
+            }
+        }
     }
 
     /**
      * @return true if External Storage Present
      */
     private static boolean isExternalAvailable() {
-        boolean mExternalStorageAvailable = false;
+        boolean externalStorageAvailable = false;
         String state = Environment.getExternalStorageState();
 
         if (Environment.MEDIA_MOUNTED.equals(state)) {
             // We can read and write the media
-            mExternalStorageAvailable = true;
+            externalStorageAvailable = true;
         } else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
             // We can only read the media
-            mExternalStorageAvailable = true;
+            externalStorageAvailable = true;
         } else {
             // Something else is wrong. It may be one of many other states, but all we need
             //  to know is we can neither read nor write
-            mExternalStorageAvailable = false;
+            externalStorageAvailable = false;
         }
-        return mExternalStorageAvailable;
+        return externalStorageAvailable;
     }
 
     public static String getVersion(File database) {
