@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 apply from: '../config/quality.gradle'
 
-version = '3.2.3'
+version = '3.2.4'
 group = 'im.dino'
 
 android {
