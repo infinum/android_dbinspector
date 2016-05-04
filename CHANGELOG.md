@@ -1,6 +1,12 @@
 Changelog
 =========
 
+## Version 3.2.4
+
+_2016-05-04_
+
+* Fix: The new CBL format is now properly supported (.cblite2 directory)
+
 ## Version 3.2.3
 
 _2016-03-04_
