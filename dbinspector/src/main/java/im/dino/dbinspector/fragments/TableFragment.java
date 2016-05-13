@@ -1,5 +1,8 @@
 package im.dino.dbinspector.fragments;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -24,6 +27,7 @@ import java.util.List;
 import im.dino.dbinspector.R;
 import im.dino.dbinspector.adapters.TablePageAdapter;
 import im.dino.dbinspector.helpers.PragmaType;
+import im.dino.dbinspector.services.ClearTableIntentService;
 
 /**
  * Created by dino on 24/02/14.
@@ -74,6 +78,8 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
     private int currentPage;
 
+    private BroadcastReceiver mClearTableReceiver = new ClearTableReceiver();
+
     private View.OnClickListener nextListener = new View.OnClickListener() {
 
         @Override
@@ -86,7 +92,6 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
             horizontalScrollView.scrollTo(0, 0);
         }
     };
-
     private View.OnClickListener previousListener = new View.OnClickListener() {
 
         @Override
@@ -131,7 +136,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.dbinspector_fragment_table, container, false);
 
@@ -166,6 +171,13 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
     public void onResume() {
         super.onResume();
         setUpActionBar();
+        ClearTableIntentService.registerListener(getActivity(), mClearTableReceiver);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        ClearTableIntentService.unregisterListener(getActivity(), mClearTableReceiver);
     }
 
     @Override
@@ -196,6 +208,8 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
                     .commit();
             getFragmentManager().executePendingTransactions();
             return true;
+        } else if (item.getItemId() == R.id.dbinspector_action_clear_table) {
+            ClearTableIntentService.deleteTable(getActivity(), databaseFile, tableName);
         }
 
         return super.onOptionsItemSelected(item);
@@ -275,5 +289,18 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         }
 
         return true;
+    }
+
+    /**
+     * Listen for the result of deleting the content of a table.
+     */
+    private class ClearTableReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(ClearTableIntentService.isSuccess(intent)) {
+                adapter.resetPage();
+                showContent();
+            }
+        }
     }
 }

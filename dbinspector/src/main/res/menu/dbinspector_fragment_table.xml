@@ -9,4 +9,10 @@
             android:orderInCategory="100"
             android:icon="@drawable/dbinspector_ic_action_settings"
             app:showAsAction="ifRoom"/>
+    <item
+            android:id="@+id/dbinspector_action_clear_table"
+            android:title="@string/dbinspector_action_settings"
+            android:orderInCategory="100"
+            android:icon="@android:drawable/ic_delete"
+            app:showAsAction="ifRoom"/>
 </menu>
