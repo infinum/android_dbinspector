@@ -23,6 +23,9 @@
         <service
                 android:name="im.dino.dbinspector.services.ImportDbIntentService"
                 android:exported="false" />
+        <service
+                android:name="im.dino.dbinspector.services.ClearTableIntentService"
+                android:exported="false" />
     </application>
 
 </manifest>

@@ -186,4 +186,8 @@ public class TablePageAdapter {
     public int getCurrentPage() {
         return position / rowsPerPage + 1;
     }
+
+    public void resetPage() {
+        position = 0;
+    }
 }
