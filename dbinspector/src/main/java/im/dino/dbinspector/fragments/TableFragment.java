@@ -209,12 +209,13 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
             getFragmentManager().executePendingTransactions();
             return true;
         } else if (item.getItemId() == R.id.dbinspector_action_clear_table) {
-            ClearTableIntentService.deleteTable(getActivity(), databaseFile, tableName);
+            ClearTableAlertDialogFragment fragment = ClearTableAlertDialogFragment.newInstance(databaseFile, tableName);
+            fragment.show(getFragmentManager(), "CONFIRM_DIALOG");
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
-
 
     private void setUpActionBar() {
         final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
