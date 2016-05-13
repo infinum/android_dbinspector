@@ -9,7 +9,6 @@ import android.support.v7.app.AlertDialog;
 import java.io.File;
 
 import im.dino.dbinspector.R;
-import im.dino.dbinspector.services.ClearTableIntentService;
 
 import static im.dino.dbinspector.services.ClearTableIntentService.deleteTable;
 
