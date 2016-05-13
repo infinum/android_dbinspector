@@ -75,7 +75,7 @@ public class ClearTableIntentService extends IntentService {
     }
 
     /**
-     * Unregisters a listener registered with {@link #registerListener(Context, BroadcastReceiver)}
+     * Unregisters a listener registered with {@link #registerListener(Context, BroadcastReceiver)}.
      * @param context the current context
      * @param receiver the receiver to unregister
      */

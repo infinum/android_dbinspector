@@ -297,7 +297,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
     private class ClearTableReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(ClearTableIntentService.isSuccess(intent)) {
+            if (ClearTableIntentService.isSuccess(intent)) {
                 adapter.resetPage();
                 showContent();
             }
