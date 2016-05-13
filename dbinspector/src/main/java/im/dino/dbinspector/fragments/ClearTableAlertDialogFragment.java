@@ -11,6 +11,8 @@ import java.io.File;
 import im.dino.dbinspector.R;
 import im.dino.dbinspector.services.ClearTableIntentService;
 
+import static im.dino.dbinspector.services.ClearTableIntentService.deleteTable;
+
 /**
  * Shows a confirmation dialog before deleting the content of a table.
  */
@@ -30,12 +32,14 @@ public class ClearTableAlertDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        final File databaseFile = (File) getArguments().getSerializable(KEY_DATABASE);
+        final String tableName = getArguments().getString(KEY_TABLE);
         return new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.dbinspector_clear_table_confirm)
                 .setPositiveButton(android.R.string.ok,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                ClearTableIntentService.deleteTable(getActivity(), (File) getArguments().getSerializable(KEY_DATABASE), getArguments().getString(KEY_TABLE));
+                                deleteTable(getActivity(), databaseFile, tableName);
                             }
                         }
                 )
