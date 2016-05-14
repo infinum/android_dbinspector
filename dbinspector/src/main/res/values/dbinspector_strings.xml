@@ -5,6 +5,8 @@
     <string name="dbinspector_structure">Structure</string>
     <string name="dbinspector_content">Content</string>
     <string name="dbinspector_action_settings">Settings</string>
+    <string name="dbinspector_action_clear_table">Clear Table</string>
+    <string name="dbinspector_clear_table_confirm">Do you want to delete the content of the table?</string>
     <string name="dbinspector_action_search">Search</string>
     <string name="dbinspector_action_copy">Copy</string>
     <string name="dbinspector_action_share">Share</string>
