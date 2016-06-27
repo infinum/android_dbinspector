@@ -22,6 +22,10 @@ android {
 
     resourcePrefix 'dbinspector_'
 
+    lintOptions {
+        abortOnError false
+    }
+
     buildTypes {
 
         release {
