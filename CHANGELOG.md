@@ -1,6 +1,11 @@
 Changelog
 =========
 
+## Version 3.3.0
+
+* New: Action to delete contents of a table (thanks @ignaciotcrespo)
+* Fix: Build error when using support lib 24.0.0 (thanks @rkrsgithub and @gmbett)
+
 ## Version 3.2.4
 
 _2016-05-04_

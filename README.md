@@ -12,7 +12,7 @@ Provides a simple way to view the contents of the in-app database for debugging 
 Add the library as a dependency to your ```build.gradle```
 
 ```groovy
-debugCompile 'im.dino:dbinspector:(insert latest version)@aar'
+debugCompile 'im.dino:dbinspector:3.3.0@aar'
 ```
 
 Check the latest version on [Maven Central](http://search.maven.org/#search|ga|1|g%3A%22im.dino%22%20a%3A%22dbinspector%22).
