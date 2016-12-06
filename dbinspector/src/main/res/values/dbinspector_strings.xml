@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <string name="dbinspector_app_name">DbInspector</string>
+    <string name="dbinspector_app_name">@string/app_name</string>
     <string name="dbinspector_structure">Structure</string>
     <string name="dbinspector_content">Content</string>
     <string name="dbinspector_action_settings">Settings</string>
@@ -29,4 +29,6 @@
         <item>500</item>
     </string-array>
 
+    <!-- Placeholder app name, will be overridden by the app_name from app strings so it will just work (TM) -->
+    <string name="app_name" tools:ignore="ResourceName">DbInspector</string>
 </resources>
