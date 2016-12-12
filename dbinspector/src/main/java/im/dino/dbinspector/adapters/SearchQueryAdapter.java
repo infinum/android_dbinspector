@@ -26,7 +26,7 @@ public class SearchQueryAdapter extends ArrayAdapter<TableRowModel> {
 
     private DbInspectorListCommunicator listener;
 
-    private  ArrayAdapter<CharSequence> sqlConditions;
+    private ArrayAdapter<CharSequence> sqlConditions;
 
     public SearchQueryAdapter(Context mContext, ArrayList<TableRowModel> items) {
         super(mContext, 0, items);
@@ -82,6 +82,8 @@ public class SearchQueryAdapter extends ArrayAdapter<TableRowModel> {
         holder.spAction.setAdapter(sqlActionsAdapter);
         holder.spCondition.setAdapter(sqlConditions);
 
+        holder.spAction.setOnItemSelectedListener(onItemSelectedListener);
+        holder.spCondition.setOnItemSelectedListener(onItemSelectedListener);
 
         if (listener != null) {
             holder.ivDelete.setOnClickListener(new View.OnClickListener() {
@@ -110,4 +112,16 @@ public class SearchQueryAdapter extends ArrayAdapter<TableRowModel> {
     public void setListener(DbInspectorListCommunicator listener) {
         this.listener = listener;
     }
+
+    public AdapterView.OnItemSelectedListener onItemSelectedListener = new AdapterView.OnItemSelectedListener() {
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            parent.setSelection(position);
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+        }
+    };
 }
