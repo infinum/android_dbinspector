@@ -4,7 +4,7 @@
               xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              tools:context="im.dino.dbinspector.activities.DbInspectorActivity">
+              tools:context="im.dino.dbinspector.activities.DbInspectorSqlActivity">
 
     <LinearLayout
             android:id="@+id/dbinspector_layout_content_header"

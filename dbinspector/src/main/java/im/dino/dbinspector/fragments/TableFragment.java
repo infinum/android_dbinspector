@@ -22,11 +22,15 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import im.dino.dbinspector.R;
 import im.dino.dbinspector.adapters.TablePageAdapter;
+import im.dino.dbinspector.helpers.DialogHelper;
 import im.dino.dbinspector.helpers.PragmaType;
+import im.dino.dbinspector.helpers.RecordScreenType;
+import im.dino.dbinspector.helpers.models.TableRowModel;
 import im.dino.dbinspector.services.ClearTableIntentService;
 
 /**
@@ -79,6 +83,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
     private int currentPage;
 
     private BroadcastReceiver mClearTableReceiver = new ClearTableReceiver();
+    private ArrayList<String> columnNames;
 
     private View.OnClickListener nextListener = new View.OnClickListener() {
 
@@ -86,7 +91,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         public void onClick(View v) {
             currentPage++;
             adapter.nextPage();
-            showContent();
+            showContent(adapter.getContentPage());
 
             scrollView.scrollTo(0, 0);
             horizontalScrollView.scrollTo(0, 0);
@@ -98,7 +103,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         public void onClick(View v) {
             currentPage--;
             adapter.previousPage();
-            showContent();
+            showContent(adapter.getContentPage());
 
             scrollView.scrollTo(0, 0);
             horizontalScrollView.scrollTo(0, 0);
@@ -161,7 +166,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         setUpActionBar();
         adapter = new TablePageAdapter(getActivity(), databaseFile, tableName, currentPage);
         if (showingContent) {
-            showContent();
+            showContent(adapter.getContentPage());
         } else {
             showByPragma(lastPragmaType);
         }
@@ -208,10 +213,17 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
                     .commit();
             getFragmentManager().executePendingTransactions();
             return true;
-        } else if (item.getItemId() == R.id.dbinspector_action_clear_table) {
-            ClearTableAlertDialogFragment fragment = ClearTableAlertDialogFragment.newInstance(databaseFile, tableName);
-            fragment.show(getFragmentManager(), "CONFIRM_DIALOG");
-            return true;
+
+        } else if (item.getItemId() == R.id.dbinspector_action_search) {
+            DialogHelper.showSearchDialog(getActivity(), databaseFile, tableName, new DialogHelper.SearchQueryListener() {
+                @Override
+                public void onQuerySubmited(ArrayList<TableRowModel> conditionList) {
+                    List<TableRow> rows = adapter.getContentPage(conditionList);
+                    showContent(rows);
+                }
+            });
+        } else if (item.getItemId() == R.id.dbinspector_action_add) {
+            showRecord(RecordScreenType.CREATE, null);
         }
 
         return super.onOptionsItemSelected(item);
@@ -236,15 +248,21 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
                 this);
     }
 
-    private void showContent() {
+    private void showContent(List<TableRow> rows) {
 
         showingContent = true;
         tableLayout.removeAllViews();
 
-        List<TableRow> rows = adapter.getContentPage();
-
-        for (TableRow row : rows) {
+        for (final TableRow row : rows) {
             tableLayout.addView(row);
+
+            row.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ArrayList<String> columnValues = getTableRowValues(tableLayout.indexOfChild(v));
+                    showRecord(RecordScreenType.UPDATE, columnValues);
+                }
+            });
         }
 
         currentPageText.setText(adapter.getCurrentPage() + "/" + adapter.getPageCount());
@@ -253,6 +271,8 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
         nextButton.setEnabled(adapter.hasNext());
         previousButton.setEnabled(adapter.hasPrevious());
+
+        columnNames = getTableRowValues(0);
     }
 
     private void showByPragma(PragmaType pragmaType) {
@@ -274,7 +294,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
         switch (itemPosition) {
             case DROPDOWN_CONTENT_POSITION:
-                showContent();
+                showContent(adapter.getContentPage());
                 break;
             case DROPDOWN_INFO_POSITION:
                 showByPragma(PragmaType.TABLE_INFO);
@@ -300,8 +320,37 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         public void onReceive(Context context, Intent intent) {
             if (ClearTableIntentService.isSuccess(intent)) {
                 adapter.resetPage();
-                showContent();
+                showContent(adapter.getContentPage());
             }
+
         }
+
     }
+
+    private ArrayList<String> getTableRowValues(int rowIndex) {
+        TableRow tableRow = (TableRow) tableLayout.getChildAt(rowIndex);
+        return getTableRowValues(tableRow);
+    }
+
+    private ArrayList<String> getTableRowValues(TableRow tableRow) {
+        ArrayList<String> values = new ArrayList<>();
+
+        for (int i = 0; i < tableRow.getChildCount(); i++) {
+            TextView textView = (TextView) tableRow.getChildAt(i);
+            values.add(textView.getText().toString());
+        }
+
+        return values;
+    }
+
+    private void showRecord(RecordScreenType screenType, ArrayList<String> columnValues) {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.dbinspector_container, RecordFragment.newInstance(screenType, databaseFile, tableName, columnNames, columnValues))
+                .addToBackStack("Record")
+                .commit();
+        getFragmentManager().executePendingTransactions();
+    }
+
 }
+
+
