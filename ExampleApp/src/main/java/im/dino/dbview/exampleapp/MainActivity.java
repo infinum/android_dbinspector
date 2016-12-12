@@ -1,7 +1,5 @@
 package im.dino.dbview.exampleapp;
 
-import com.activeandroid.query.Delete;
-
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -23,10 +21,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createData() {
-
-        new Delete().from(Article.class).execute();
-        new Delete().from(User.class).execute();
-
         User admin = new User();
         admin.firstName = "John";
         admin.lastName = "Doe";
