@@ -112,8 +112,10 @@ public class DialogHelper {
 
         if (!activity.isFinishing()) {
             searchDialog.show();
-            if (searchDialog.getWindow() != null)
-                searchDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+            if (searchDialog.getWindow() != null) {
+                searchDialog.getWindow()
+                        .clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+            }
         }
     }
 

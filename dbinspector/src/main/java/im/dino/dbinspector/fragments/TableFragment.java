@@ -339,7 +339,9 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
     private ArrayList<String> getTableRowValues(TableRow tableRow) {
         ArrayList<String> values = new ArrayList<>();
 
-        if (tableRow == null) return values;
+        if (tableRow == null) {
+            return values;
+        }
 
         for (int i = 0; i < tableRow.getChildCount(); i++) {
             TextView textView = (TextView) tableRow.getChildAt(i);

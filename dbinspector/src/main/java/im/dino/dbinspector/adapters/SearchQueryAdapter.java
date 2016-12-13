@@ -120,6 +120,7 @@ public class SearchQueryAdapter extends ArrayAdapter<TableRowModel> {
         }
 
         @Override
-        public void onNothingSelected(AdapterView<?> parent) {}
+        public void onNothingSelected(AdapterView<?> parent) {
+        }
     };
 }

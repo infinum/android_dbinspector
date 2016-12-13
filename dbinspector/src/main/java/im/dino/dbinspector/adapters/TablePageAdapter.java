@@ -116,23 +116,21 @@ public class TablePageAdapter {
         return operation.execute();
     }
 
-    public List<TableRow> getContentPage(ArrayList<TableRowModel> conditionList){
-        try{
+    public List<TableRow> getContentPage(ArrayList<TableRowModel> conditionList) {
+        try {
 
             whereClause = "";
             whereArgs = new String[conditionList.size()];
 
-            for(int i = 0; i<conditionList.size(); i++){
+            for (int i = 0; i < conditionList.size(); i++) {
 
-                if(i != 0){
+                if (i != 0) {
                     whereClause = whereClause + " " + conditionList.get(i).getSqlAction();
                 }
 
                 whereClause = whereClause + " " + conditionList.get(i).getName() + conditionList.get(i).getCondition() + "?";
                 whereArgs[i] = conditionList.get(i).getValue();
             }
-
-            int isus = 1;
 
             CursorOperation<List<TableRow>> operation = new CursorOperation<List<TableRow>>(databaseFile) {
                 @Override
@@ -149,10 +147,9 @@ public class TablePageAdapter {
             };
 
             return operation.execute();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            return new ArrayList<TableRow>();
+            return new ArrayList<>();
         }
     }
 
