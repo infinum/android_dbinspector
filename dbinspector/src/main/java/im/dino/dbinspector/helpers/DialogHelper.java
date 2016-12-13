@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,7 +33,7 @@ public class DialogHelper {
 
     private static ArrayList<TableRowModel> conditionList;
 
-    public interface SearchQueryListener{
+    public interface SearchQueryListener {
 
         void onQuerySubmited(ArrayList<TableRowModel> conditionList);
     }
@@ -91,13 +92,13 @@ public class DialogHelper {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
 
-                for(int i = 0; i< listView.getChildCount(); i++){
+                for (int i = 0; i < listView.getChildCount(); i++) {
                     EditText etValue = (EditText) listView.getChildAt(i).findViewById(R.id.dbinspector_field_value);
                     Spinner spSqlAction = (Spinner) listView.getChildAt(i).findViewById(R.id.dbinspector_sql_action_spinner);
                     Spinner spCondition = (Spinner) listView.getChildAt(i).findViewById(R.id.dbinspector_field_condition);
                     conditionList.get(i).setValue(etValue.getText().toString());
 
-                    if(i != 0){
+                    if (i != 0) {
                         conditionList.get(i).setSqlAction(spSqlAction.getSelectedItem().toString());
                     }
                     conditionList.get(i).setCondition(spCondition.getSelectedItem().toString());
@@ -112,11 +113,12 @@ public class DialogHelper {
 
         if (!activity.isFinishing()) {
             searchDialog.show();
+            searchDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         }
     }
 
     private static void showSelectionDialog(Activity activity, List<TableRowModel> allowedColumns,
-            final DbInspectorDialogCommunicator listener) {
+                                            final DbInspectorDialogCommunicator listener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle(R.string.dbinspector_available_data_types);
 
