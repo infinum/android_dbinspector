@@ -36,7 +36,7 @@ import im.dino.dbinspector.services.ClearTableIntentService;
 /**
  * Created by dino on 24/02/14.
  */
-public class TableFragment extends Fragment implements ActionBar.OnNavigationListener {
+public class TableFragment extends Fragment implements ActionBar.OnNavigationListener, DialogHelper.SearchQueryListener {
 
     private static final String KEY_DATABASE = "database_name";
 
@@ -82,6 +82,8 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
     private int currentPage;
 
+    private ArrayList<TableRowModel> conditionList = new ArrayList<>();
+
     private BroadcastReceiver mClearTableReceiver = new ClearTableReceiver();
     private ArrayList<String> columnNames;
 
@@ -91,7 +93,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         public void onClick(View v) {
             currentPage++;
             adapter.nextPage();
-            showContent(adapter.getContentPage());
+            showContent(conditionList.isEmpty() ? adapter.getContentPage() : adapter.getContentPage(conditionList));
 
             scrollView.scrollTo(0, 0);
             horizontalScrollView.scrollTo(0, 0);
@@ -103,7 +105,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         public void onClick(View v) {
             currentPage--;
             adapter.previousPage();
-            showContent(adapter.getContentPage());
+            showContent(conditionList.isEmpty() ? adapter.getContentPage() : adapter.getContentPage(conditionList));
 
             scrollView.scrollTo(0, 0);
             horizontalScrollView.scrollTo(0, 0);
@@ -215,13 +217,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
             return true;
 
         } else if (item.getItemId() == R.id.dbinspector_action_search) {
-            DialogHelper.showSearchDialog(getActivity(), databaseFile, tableName, new DialogHelper.SearchQueryListener() {
-                @Override
-                public void onQuerySubmited(ArrayList<TableRowModel> conditionList) {
-                    List<TableRow> rows = adapter.getContentPage(conditionList);
-                    showContent(rows);
-                }
-            });
+            DialogHelper.showSearchDialog(getActivity(), databaseFile, tableName, this);
         } else if (item.getItemId() == R.id.dbinspector_action_add) {
             showRecord(RecordScreenType.CREATE, null);
         }
@@ -312,6 +308,13 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         return true;
     }
 
+    @Override
+    public void onQuerySubmited(ArrayList<TableRowModel> conditionList) {
+        this.conditionList = conditionList;
+        List<TableRow> rows = adapter.getContentPage(conditionList);
+        showContent(rows);
+     }
+
     /**
      * Listen for the result of deleting the content of a table.
      */
@@ -334,6 +337,8 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
 
     private ArrayList<String> getTableRowValues(TableRow tableRow) {
         ArrayList<String> values = new ArrayList<>();
+
+        if (tableRow == null) return values;
 
         for (int i = 0; i < tableRow.getChildCount(); i++) {
             TextView textView = (TextView) tableRow.getChildAt(i);
