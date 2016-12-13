@@ -214,12 +214,13 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
                     .addToBackStack("Settings")
                     .commit();
             getFragmentManager().executePendingTransactions();
-            return true;
-
         } else if (item.getItemId() == R.id.dbinspector_action_search) {
             DialogHelper.showSearchDialog(getActivity(), databaseFile, tableName, this);
         } else if (item.getItemId() == R.id.dbinspector_action_add) {
             showRecord(RecordScreenType.CREATE, null);
+        } else if (item.getItemId() == R.id.dbinspector_action_clear_table) {
+            ClearTableAlertDialogFragment fragment = ClearTableAlertDialogFragment.newInstance(databaseFile, tableName);
+            fragment.show(getFragmentManager(), "CONFIRM_DIALOG");
         }
 
         return super.onOptionsItemSelected(item);
@@ -313,7 +314,7 @@ public class TableFragment extends Fragment implements ActionBar.OnNavigationLis
         this.conditionList = conditionList;
         List<TableRow> rows = adapter.getContentPage(conditionList);
         showContent(rows);
-     }
+    }
 
     /**
      * Listen for the result of deleting the content of a table.

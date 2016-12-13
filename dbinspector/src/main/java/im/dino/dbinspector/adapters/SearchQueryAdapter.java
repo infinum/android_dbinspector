@@ -62,7 +62,6 @@ public class SearchQueryAdapter extends ArrayAdapter<TableRowModel> {
 
         holder.tvName.setText(getItem(position).getName());
 
-
         switch (getItem(position).getType()) {
             case INTEGER:
                 sqlConditions = ArrayAdapter.createFromResource(getContext(),
@@ -113,7 +112,7 @@ public class SearchQueryAdapter extends ArrayAdapter<TableRowModel> {
         this.listener = listener;
     }
 
-    public AdapterView.OnItemSelectedListener onItemSelectedListener = new AdapterView.OnItemSelectedListener() {
+    private AdapterView.OnItemSelectedListener onItemSelectedListener = new AdapterView.OnItemSelectedListener() {
 
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -121,7 +120,6 @@ public class SearchQueryAdapter extends ArrayAdapter<TableRowModel> {
         }
 
         @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-        }
+        public void onNothingSelected(AdapterView<?> parent) {}
     };
 }
