@@ -1,41 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:background="@android:color/white"
-              android:orientation="horizontal"
-              android:gravity="center_vertical"
               android:layout_width="match_parent"
-              android:layout_height="?listPreferredItemHeight">
+              android:layout_height="?listPreferredItemHeight"
+              android:background="@android:color/white"
+              android:gravity="center_vertical"
+              android:orientation="horizontal">
 
     <Spinner
-            android:id="@+id/dbinspector_sql_action_spinner"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+        android:id="@+id/dbinspector_sql_action_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <TextView
-            android:id="@+id/dbinspector_field_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-
+        android:id="@+id/dbinspector_field_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <Spinner
-            android:layout_weight="1"
-            android:id="@+id/dbinspector_field_condition"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
+        android:id="@+id/dbinspector_field_condition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 
     <EditText
-            android:id="@+id/dbinspector_field_value"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+        android:id="@+id/dbinspector_field_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:imeOptions="actionDone"/>
 
     <ImageView
-            android:id="@+id/dbinspector_field_delete"
-            android:src="@android:drawable/ic_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        android:id="@+id/dbinspector_field_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_delete"/>
 
 </LinearLayout>
