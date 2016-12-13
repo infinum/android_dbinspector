@@ -74,7 +74,6 @@ public class DialogHelper {
                     public void onItemClicked(int position) {
                         conditionList.add(allowedColumns.get(position));
                         adapter.notifyDataSetChanged();
-
                     }
                 });
             }
@@ -113,7 +112,8 @@ public class DialogHelper {
 
         if (!activity.isFinishing()) {
             searchDialog.show();
-            searchDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+            if (searchDialog.getWindow() != null)
+                searchDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         }
     }
 
