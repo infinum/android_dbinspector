@@ -10,6 +10,7 @@
                 android:label="@string/dbinspector_app_name"
                 android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
                 android:icon="@drawable/dbinspector_ic_launcher"
+                android:windowSoftInputMode="adjustResize"
                 android:taskAffinity="im.dino.dbinspector">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
