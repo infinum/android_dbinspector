@@ -24,6 +24,9 @@
         <meta-data
                 android:name="AA_DB_VERSION"
                 android:value="1"/>
+        <meta-data
+            android:name="AA_MODELS"
+            android:value="im.dino.dbview.exampleapp.models.Article, im.dino.dbview.exampleapp.models.User"/>
     </application>
 
 </manifest>

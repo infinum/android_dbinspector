@@ -22,10 +22,6 @@ public class CopyDbIntentService extends IntentService {
 
     public static final String INTENT_DATABASE_COPIED = "DatabaseCopied";
 
-    public static final String EXTRA_SHAREABLE_FILE = "ShareableFile";
-
-    private static final String EXTRA_SHARING = "Sharing";
-
     public static final int BYTES_IN_KIBIBYTE = 1024;
 
     public CopyDbIntentService() {
@@ -37,12 +33,10 @@ public class CopyDbIntentService extends IntentService {
      *
      * @param context  : Context to start service
      * @param database : File with the database that we want to copy
-     * @param sharing  : true if we want to share the db after copying it.
      */
-    public static void startService(Context context, File database, boolean sharing) {
+    public static void startService(Context context, File database) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(EXTRA_FILE, database);
-        bundle.putBoolean(EXTRA_SHARING, sharing);
         Intent intent = new Intent(context, CopyDbIntentService.class);
         intent.putExtras(bundle);
         context.startService(intent);
@@ -84,9 +78,6 @@ public class CopyDbIntentService extends IntentService {
                     out.flush();
                     out.close();
                     Intent successIntent = new Intent(INTENT_DATABASE_COPIED);
-                    if (intent.getBooleanExtra(EXTRA_SHARING, false)) {
-                        successIntent.putExtra(EXTRA_SHAREABLE_FILE, outFile);
-                    }
                     LocalBroadcastManager.getInstance(this).sendBroadcast(successIntent);
                 } catch (Exception e) {
                     e.printStackTrace();

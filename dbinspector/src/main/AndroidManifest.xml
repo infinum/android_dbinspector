@@ -17,15 +17,22 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <service
                 android:name="im.dino.dbinspector.services.CopyDbIntentService"
-                android:exported="false" />
+                android:exported="false"/>
         <service
                 android:name="im.dino.dbinspector.services.ImportDbIntentService"
-                android:exported="false" />
+                android:exported="false"/>
         <service
                 android:name="im.dino.dbinspector.services.ClearTableIntentService"
-                android:exported="false" />
+                android:exported="false"/>
+
+        <provider
+                android:authorities="@string/dbinspector_authority"
+                android:name=".providers.DatabaseProvider"
+                android:exported="false"
+                android:grantUriPermissions="true"/>
     </application>
 
 </manifest>

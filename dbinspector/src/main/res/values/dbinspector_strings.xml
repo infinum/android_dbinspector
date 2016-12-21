@@ -17,6 +17,8 @@
     <string name="dbinspector_databases">Databases</string>
     <string name="dbinspector_foreign_keys">Foreign keys</string>
     <string name="dbinspector_indexes">Indexes</string>
+    <string name="dbinspector_no_activity_to_handle_intent">You don\'t have application on your device that can share your Database.</string>
+    <string name="dbinspector_authority">im.dino.dbinspector</string>
 
     <string name="dbinspector_rows_per_page_default">10</string>
     <string name="dbinspector_action_import">Import</string>

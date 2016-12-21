@@ -64,16 +64,7 @@ public class TableListFragment extends ListFragment {
     private BroadcastReceiver dbCopiedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
-            File databaseToShare = (File) intent.getSerializableExtra(CopyDbIntentService.EXTRA_SHAREABLE_FILE);
-            if (databaseToShare != null && databaseToShare.isFile()) {
-                Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.setType("application/octet-stream");
-                shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(databaseToShare));
-                startActivity(Intent.createChooser(shareIntent, getString(R.string.abc_shareactionprovider_share_with, "...")));
-            } else {
-                Toast.makeText(context, "Database copied", Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(context, "Database copied", Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -173,9 +164,10 @@ public class TableListFragment extends ListFragment {
                 }
             });
         } else if (item.getItemId() == R.id.dbinspector_action_share) {
-            CopyDbIntentService.startService(getActivity(), database, true);
+            shareDatabase();
         } else if (item.getItemId() == R.id.dbinspector_action_copy) {
-            CopyDbIntentService.startService(getActivity(), database, false);
+            //handle permission
+            CopyDbIntentService.startService(getActivity(), database);
             return true;
         } else if (item.getItemId() == R.id.dbinspector_action_import) {
             Intent requestFileIntent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -187,15 +179,28 @@ public class TableListFragment extends ListFragment {
         return super.onOptionsItemSelected(item);
     }
 
+    private void shareDatabase() {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setType("application/octet-stream");
+        Uri uri = Uri.parse(String.format("content://%s%s", getString(R.string.dbinspector_authority), database.getAbsolutePath()));
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
+            startActivity(intent);
+        } else {
+            Toast.makeText(getContext(), R.string.dbinspector_no_activity_to_handle_intent, Toast.LENGTH_LONG).show();
+        }
+    }
+
     private void search(String queryString) {
         if (adapter != null) {
             adapter.getFilter().filter(queryString);
         }
     }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+
         try {
             ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
             actionBar.setSubtitle("");

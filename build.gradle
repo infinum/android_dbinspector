@@ -5,13 +5,14 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath 'com.android.tools.build:gradle:2.2.3'
     }
 }
 
 allprojects {
     repositories {
         jcenter()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 //        maven { url 'https://oss.sonatype.org/content/repositories/imdino-1016/' }
     }
 }
