@@ -1,15 +1,19 @@
 package im.dino.dbinspector.fragments;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
@@ -44,6 +48,8 @@ public class TableListFragment extends ListFragment {
     private static final String KEY_DATABASE = "database_name";
 
     private static final int REQUEST_FILE_CODE = 10;
+
+    private static final int REQUEST_PERMISSION_CODE = 13;
 
     private File database;
 
@@ -166,8 +172,11 @@ public class TableListFragment extends ListFragment {
         } else if (item.getItemId() == R.id.dbinspector_action_share) {
             shareDatabase();
         } else if (item.getItemId() == R.id.dbinspector_action_copy) {
-            //handle permission
-            CopyDbIntentService.startService(getActivity(), database);
+            if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                CopyDbIntentService.startService(getActivity(), database);
+            } else {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_PERMISSION_CODE);
+            }
             return true;
         } else if (item.getItemId() == R.id.dbinspector_action_import) {
             Intent requestFileIntent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -177,6 +186,16 @@ public class TableListFragment extends ListFragment {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_PERMISSION_CODE) {
+            if (Manifest.permission.WRITE_EXTERNAL_STORAGE.equals(permissions[0])
+                    && PackageManager.PERMISSION_GRANTED == grantResults[0]) {
+                CopyDbIntentService.startService(getActivity(), database);
+            }
+        }
     }
 
     private void shareDatabase() {
