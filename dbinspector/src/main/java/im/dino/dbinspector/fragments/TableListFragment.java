@@ -191,9 +191,12 @@ public class TableListFragment extends ListFragment {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_PERMISSION_CODE) {
-            if (Manifest.permission.WRITE_EXTERNAL_STORAGE.equals(permissions[0])
-                    && PackageManager.PERMISSION_GRANTED == grantResults[0]) {
-                CopyDbIntentService.startService(getActivity(), database);
+            if (Manifest.permission.WRITE_EXTERNAL_STORAGE.equals(permissions[0])) {
+                if (PackageManager.PERMISSION_GRANTED == grantResults[0]) {
+                    CopyDbIntentService.startService(getActivity(), database);
+                } else {
+                    Toast.makeText(getContext(), getString(R.string.dbinspector_permission_denied), Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
