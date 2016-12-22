@@ -24,9 +24,11 @@
         <meta-data
                 android:name="AA_DB_VERSION"
                 android:value="1"/>
+
+        <!-- This is needed because otherwise AA does not recognize models if Instant run is turned on. Don't ask me why. -->
         <meta-data
-            android:name="AA_MODELS"
-            android:value="im.dino.dbview.exampleapp.models.Article, im.dino.dbview.exampleapp.models.User"/>
+                android:name="AA_MODELS"
+                android:value="im.dino.dbview.exampleapp.models.Article, im.dino.dbview.exampleapp.models.User"/>
     </application>
 
 </manifest>
