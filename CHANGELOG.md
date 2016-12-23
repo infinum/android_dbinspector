@@ -7,6 +7,7 @@ _2016-12-23_
 
 * Fix: Add permission handling, fixes #42 (thanks @domagojkorman)
 * Fix: Fix exception while while sharing db, fixes #43 (thanks @domagojkorman)
+* New: Make dbinspector launcher icon have same name as app if not overridden
 
 ## Version 3.3.0
 
