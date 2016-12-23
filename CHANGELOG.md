@@ -5,8 +5,8 @@ Changelog
 
 _2016-12-23_
 
-* New: Action to delete contents of a table (thanks @ignaciotcrespo)
-* Fix: Build error when using support lib 24.0.0 (thanks @rkrsgithub and @gmbett)
+* Fix: Add permission handling, fixes #42 (thanks @domagojkorman)
+* Fix: Fix exception while while sharing db, fixes #43 (thanks @domagojkorman)
 
 ## Version 3.3.0
 
