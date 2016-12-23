@@ -77,15 +77,6 @@ public class PreferenceListFragment extends ListFragment {
     }
 
     /**
-     * Adds preferences from activities that match the given {@link Intent}.
-     *
-     * @param intent The {@link Intent} to query activities.
-     */
-    public void addPreferencesFromIntent(Intent intent) {
-        throw new RuntimeException("too lazy to include this bs");
-    }
-
-    /**
      * Finds a {@link Preference} based on its key.
      *
      * @param key The key of the preference to retrieve.
@@ -131,11 +122,6 @@ public class PreferenceListFragment extends ListFragment {
         lv.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         addPreferencesFromResource(xmlId);
         postBindPreferences();
-        try {
-            ((OnPreferenceAttachedListener) getActivity()).onPreferenceAttached(getPreferenceScreen(), xmlId);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -256,10 +242,5 @@ public class PreferenceListFragment extends ListFragment {
             return;
         }
         mHandler.obtainMessage(MSG_BIND_PREFERENCES).sendToTarget();
-    }
-
-    public interface OnPreferenceAttachedListener {
-
-        void onPreferenceAttached(PreferenceScreen root, int xmlId);
     }
 }

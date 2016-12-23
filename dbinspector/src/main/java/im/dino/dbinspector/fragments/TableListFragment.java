@@ -1,15 +1,19 @@
 package im.dino.dbinspector.fragments;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
@@ -45,6 +49,8 @@ public class TableListFragment extends ListFragment {
 
     private static final int REQUEST_FILE_CODE = 10;
 
+    private static final int REQUEST_PERMISSION_CODE = 13;
+
     private File database;
 
     private AdapterView.OnItemClickListener tableClickListener = new AdapterView.OnItemClickListener() {
@@ -64,16 +70,7 @@ public class TableListFragment extends ListFragment {
     private BroadcastReceiver dbCopiedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
-            File databaseToShare = (File) intent.getSerializableExtra(CopyDbIntentService.EXTRA_SHAREABLE_FILE);
-            if (databaseToShare != null && databaseToShare.isFile()) {
-                Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.setType("application/octet-stream");
-                shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(databaseToShare));
-                startActivity(Intent.createChooser(shareIntent, getString(R.string.abc_shareactionprovider_share_with, "...")));
-            } else {
-                Toast.makeText(context, "Database copied", Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(context, "Database copied", Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -173,9 +170,15 @@ public class TableListFragment extends ListFragment {
                 }
             });
         } else if (item.getItemId() == R.id.dbinspector_action_share) {
-            CopyDbIntentService.startService(getActivity(), database, true);
+            shareDatabase();
         } else if (item.getItemId() == R.id.dbinspector_action_copy) {
-            CopyDbIntentService.startService(getActivity(), database, false);
+            if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+
+                CopyDbIntentService.startService(getActivity(), database);
+            } else {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_PERMISSION_CODE);
+            }
             return true;
         } else if (item.getItemId() == R.id.dbinspector_action_import) {
             Intent requestFileIntent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -187,6 +190,30 @@ public class TableListFragment extends ListFragment {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_PERMISSION_CODE && Manifest.permission.WRITE_EXTERNAL_STORAGE.equals(permissions[0])) {
+            if (PackageManager.PERMISSION_GRANTED == grantResults[0]) {
+                CopyDbIntentService.startService(getActivity(), database);
+            } else {
+                Toast.makeText(getContext(), getString(R.string.dbinspector_permission_denied), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void shareDatabase() {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setType("application/octet-stream");
+        Uri uri = Uri.parse(String.format("content://%s%s", getString(R.string.dbinspector_authority), database.getAbsolutePath()));
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
+            startActivity(intent);
+        } else {
+            Toast.makeText(getContext(), R.string.dbinspector_no_activity_to_handle_intent, Toast.LENGTH_LONG).show();
+        }
+    }
+
     private void search(String queryString) {
         if (adapter != null) {
             adapter.getFilter().filter(queryString);
@@ -196,6 +223,7 @@ public class TableListFragment extends ListFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+
         try {
             ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
             actionBar.setSubtitle("");
