@@ -1,7 +1,16 @@
 Changelog
 =========
 
+## Version 3.4.0
+
+_2016-12-23_
+
+* New: Action to delete contents of a table (thanks @ignaciotcrespo)
+* Fix: Build error when using support lib 24.0.0 (thanks @rkrsgithub and @gmbett)
+
 ## Version 3.3.0
+
+_2016-06-27_
 
 * New: Action to delete contents of a table (thanks @ignaciotcrespo)
 * Fix: Build error when using support lib 24.0.0 (thanks @rkrsgithub and @gmbett)

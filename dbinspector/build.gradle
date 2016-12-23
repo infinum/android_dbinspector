@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 apply from: '../config/quality.gradle'
 
-version = '3.3.0'
+version = '3.4.0'
 group = 'im.dino'
 
 android {
@@ -51,7 +51,6 @@ configurations {
 }
 
 signing {
-    required { has("release") && gradle.taskGraph.hasTask("uploadArchives") }
     sign configurations.archives
 }
 
