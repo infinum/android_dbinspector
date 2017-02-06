@@ -29,7 +29,7 @@
                 android:exported="false"/>
 
         <provider
-                android:authorities="${applicationId}"
+                android:authorities="dbInspector_${applicationId}"
                 android:name=".providers.DatabaseProvider"
                 android:exported="false"
                 android:grantUriPermissions="true"/>

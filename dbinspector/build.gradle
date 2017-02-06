@@ -13,6 +13,8 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName version
+
+        buildConfigField 'String', 'AUTHORITY_PREFIX', '"dbInspector_"'
     }
 
     compileOptions {

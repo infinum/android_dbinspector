@@ -206,7 +206,8 @@ public class TableListFragment extends ListFragment {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.setType("application/octet-stream");
-        Uri uri = Uri.parse(String.format("content://%s%s", BuildConfig.APPLICATION_ID, database.getAbsolutePath()));
+        Uri uri = Uri.parse(String.format("content://%s%s%s", BuildConfig.AUTHORITY_PREFIX,
+                getActivity().getApplicationInfo().packageName, database.getAbsolutePath()));
         intent.putExtra(Intent.EXTRA_STREAM, uri);
         if (intent.resolveActivity(getContext().getPackageManager()) != null) {
             startActivity(intent);
