@@ -1,6 +1,12 @@
 Changelog
 =========
 
+## Version 3.4.1
+
+_2017-02-08_
+
+* Fix: Sharing content provider authority is now per-app specific and prefixed with dbinspector (thanks @domagojkorman)
+
 ## Version 3.4.0
 
 _2016-12-23_
