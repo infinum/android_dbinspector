@@ -1,12 +1,19 @@
 Changelog
 =========
 
+## Version 3.4.1
+
+_2017-02-08_
+
+* Fix: Sharing content provider authority is now per-app specific and prefixed with dbinspector (thanks @domagojkorman)
+
 ## Version 3.4.0
 
 _2016-12-23_
 
 * Fix: Add permission handling, fixes #42 (thanks @domagojkorman)
 * Fix: Fix exception while while sharing db, fixes #43 (thanks @domagojkorman)
+* New: Make dbinspector launcher icon have same name as app if not overridden
 
 ## Version 3.3.0
 
