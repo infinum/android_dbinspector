@@ -1,5 +1,7 @@
 package im.dino.dbinspector.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +11,10 @@ import im.dino.dbinspector.R;
 import im.dino.dbinspector.fragments.DatabaseListFragment;
 
 public class DbInspectorActivity extends AppCompatActivity {
+
+    public static Intent launch(Context context) {
+        return new Intent(context, DbInspectorActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
