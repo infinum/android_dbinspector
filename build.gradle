@@ -5,7 +5,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0-beta3'
+        classpath 'com.android.tools.build:gradle:2.3.0'
     }
 }
 
@@ -27,4 +27,11 @@ subprojects {
             project.android.dexOptions.preDexLibraries = rootProject.ext.preDexLibs
         }
     }
+}
+
+ext {
+    compile_sdk = 25
+    target_sdk = 25
+    build_tools = '25.0.2'
+    support_lib = '25.3.0'
 }
