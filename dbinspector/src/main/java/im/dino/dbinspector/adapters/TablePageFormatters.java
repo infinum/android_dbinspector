@@ -223,11 +223,11 @@ public class TablePageFormatters {
     /**
      * Convert a <code>long</code> timestamp to a short date in YY-MM-dd
      */
-    public static final ICellValueFormatter shortDate = new DateTimeFormatter("YY-MM-dd");
+    public static final ICellValueFormatter shortDate = new DateTimeFormatter("yy-MM-dd");
 
     /**
      * Convert a <code>long</code> timestamp to a short timestamp string
      */
-    public static final ICellValueFormatter shortTimeStamp = new DateTimeFormatter("YY-MM-dd HH:mm:ss");
+    public static final ICellValueFormatter shortTimeStamp = new DateTimeFormatter("yy-MM-dd HH:mm:ss");
 
 }
