@@ -17,7 +17,7 @@ android:
     - extra-android-m2repository
 
 script:
-  - ./gradlew clean check -PdisablePreDex
+  - ./gradlew clean buildDebug check -PdisablePreDex
 
 cache:
   directories:
