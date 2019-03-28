@@ -6,7 +6,6 @@ group = 'im.dino'
 
 android {
     compileSdkVersion rootProject.ext.compile_sdk
-    buildToolsVersion rootProject.ext.build_tools
 
     defaultConfig {
         minSdkVersion 10
@@ -38,9 +37,9 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "com.android.support:appcompat-v7:$support_lib"
-    compile 'commons-io:commons-io:2.4'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "com.android.support:appcompat-v7:$support_lib"
+    implementation 'commons-io:commons-io:2.4'
 }
 
 apply plugin: 'maven'
