@@ -14,6 +14,9 @@ import java.text.SimpleDateFormat;
 import java.util.Map;
 
 public class TablePageFormatters {
+
+    private TablePageFormatters() { } // the class serves as a namespace for the interfaces and default helpers
+
     private static ITablesFormatter nooOpTablesFormatter = new ITablesFormatter() {
         @Nullable
         @Override
@@ -30,6 +33,9 @@ public class TablePageFormatters {
 
     private static ITablesFormatterFactory tablesFormatterFactory = null;
 
+    /**
+     * Used by apps that integrated with DbInspector to customize content table output.
+     */
     public static void setTablesFormatterFactory(ITablesFormatterFactory tablesFormatterFactory) {
         TablePageFormatters.tablesFormatterFactory = tablesFormatterFactory;
     }
@@ -43,10 +49,8 @@ public class TablePageFormatters {
         }
     }
 
-    private TablePageFormatters() { } // the class serves as a namespace for the interfaces and default helpers
-
     /**
-     * Provider formatter for a collection of tables.
+     * Provide formatters that can style / format the output of a collection of tables.
      */
     public interface ITablesFormatter {
         @Nullable
@@ -72,11 +76,26 @@ public class TablePageFormatters {
     }
 
     public interface ICellValueFormatter {
+        /**
+         *
+         * Given the cell value defined by the cursor and column position,
+         * return a formatted value, e.g., convert a unix epoch time in <code>long</code>
+         * to human-readable string.
+         *
+         * The caller should use the cursor to access the cell value only, e.g.,
+         * <code>cursor.getLong(col)</code>, and MUST not change its state, e.g.,
+         * moving to the next row.
+         */
         @NonNull
         String formatValue(Cursor cursor, int col);
     }
 
     public interface ICellViewFormatter {
+        /**
+         * Styles a given cell, e.g., width, text appearance, etc.
+         * It should not change the actual cell value, which is customized
+         * with a #ICellValueFormatter
+         */
         void formatView(TextView view);
     }
 
@@ -85,6 +104,12 @@ public class TablePageFormatters {
         @Nullable
         private ICellViewFormatter defaultCellViewFormatter = null;
 
+        /**
+         * Specify the formatters for a collection of tables.
+         *
+         * @param tableNameFormatterPairs a list of #java.lang.String tableName , #IRowFormatter rowFormatter pairs,
+         *                                defining the customization for the tables
+         */
         public TablesFormatter(Object... tableNameFormatterPairs) {
             for (int i = 0; i < tableNameFormatterPairs.length; i += 2) {
                 try {
@@ -97,6 +122,10 @@ public class TablePageFormatters {
             }
         }
 
+        /**
+         * Specify an optional #ICellViewFormatter used to style all table cells.
+         * It is used only when no specific ones are present in the table / column definition.
+         */
         public TablesFormatter setDefaultCellViewFormatter(@Nullable ICellViewFormatter defaultCellViewFormatter) {
             this.defaultCellViewFormatter = defaultCellViewFormatter;
             return this;
@@ -122,6 +151,10 @@ public class TablePageFormatters {
 
         public RowFormatter() { }
 
+        /**
+         *
+         * @param columnNameFormatterPairs a list of {@link String} columnName - #ICellValueFormatter valueFormatter pairs.
+         */
         public RowFormatter setValueFormatters(Object... columnNameFormatterPairs) {
             valueConfig.clear();
             for (int i = 0; i < columnNameFormatterPairs.length; i += 2) {
@@ -137,6 +170,12 @@ public class TablePageFormatters {
             return this;
         }
 
+        /**
+         *
+         * @param columnNameFormatterPairs a list of {@link String} columnName - #ICellViewFormatter headerViewFormatter
+         *                                 - #ICellViewFormatter cellViewFormatter triples.
+         *                                 The view formatters can be null if no specific styling is to be applied.
+         */
         @SuppressWarnings("checkstyle:MagicNumber")
         public RowFormatter setViewFormatters(Object... columnNameFormatterPairs) {
             headerViewConfig.clear();
