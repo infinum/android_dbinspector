@@ -1,5 +1,6 @@
 package im.dino.dbinspector.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
@@ -179,9 +180,12 @@ public class TablePageFormatters {
     //
 
     public static class DateTimeFormatter implements ICellValueFormatter {
-        //    private static final DateFormat formatter = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss.SSS");
         private final DateFormat formatter;
 
+
+        @SuppressLint("SimpleDateFormat")
+        // SuppressLint reason: the API allows callers to specify the format to present to end users.
+        // Hence locale is the system default, without the need of specifying it.
         public DateTimeFormatter(String formatPattern) {
             formatter = new SimpleDateFormat(formatPattern);
         }
