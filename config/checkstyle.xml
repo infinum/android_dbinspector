@@ -105,7 +105,7 @@
         <module name="IllegalInstantiation"/>
         <!--module name="InnerAssignment"/-->
         <module name="MagicNumber"/>
-        <module name="RedundantThrows"/>
+        <!--<module name="RedundantThrows"/>  the module was removed in newer (v6.2+) checkstyle -->
         <module name="SimplifyBooleanExpression"/>
         <module name="SimplifyBooleanReturn"/>
         <module name="MissingSwitchDefault"/>
