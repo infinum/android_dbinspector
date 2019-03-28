@@ -40,8 +40,11 @@ public class TablePageFormatters {
         TablePageFormatters.tablesFormatterFactory = tablesFormatterFactory;
     }
 
+    /**
+     * Used by {@link TablePageAdapter} to get table-specific formatters.
+     */
     @NonNull
-    public static ITablesFormatter createTablesFormatter(Context context) {
+    static ITablesFormatter createTablesFormatter(Context context) {
         if (tablesFormatterFactory != null) {
             return tablesFormatterFactory.create(context);
         } else {
@@ -90,12 +93,16 @@ public class TablePageFormatters {
         String formatValue(Cursor cursor, int col);
     }
 
+    // OPEN: Consider to rename it to ICellStyler, to differentiate it from ICellValueFormatter
     public interface ICellViewFormatter {
         /**
          * Styles a given cell, e.g., width, text appearance, etc.
          * It should not change the actual cell value, which is customized
          * with a #ICellValueFormatter
          */
+        // The parameter needs to be a TextView, rather than just View, so that
+        // TextView-specific styling can be applied.
+        // The downside is implementation could break the contract, and modify the value with TextView#setText()
         void formatView(TextView view);
     }
 
