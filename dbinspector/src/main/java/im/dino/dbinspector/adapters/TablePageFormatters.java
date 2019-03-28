@@ -42,10 +42,10 @@ public class TablePageFormatters {
         }
     }
 
-    private TablePageFormatters() {} // the class serves as a namespace for the interfaces and default helpers
+    private TablePageFormatters() { } // the class serves as a namespace for the interfaces and default helpers
 
     /**
-     * Provider formatter for a collection of tables
+     * Provider formatter for a collection of tables.
      */
     public interface ITablesFormatter {
         @Nullable
@@ -61,7 +61,7 @@ public class TablePageFormatters {
     }
 
     /**
-     * Format the values of a table row
+     * Format the values of a table row.
      */
     public interface IRowFormatter {
         @Nullable
@@ -91,7 +91,7 @@ public class TablePageFormatters {
                     IRowFormatter formatter = (IRowFormatter) tableNameFormatterPairs[i + 1];
                     config.put(tableName, formatter);
                 } catch (ClassCastException cce) {
-                    throw new IllegalArgumentException("TablesFormatter() - arguments must be in tableName - rowFormatter pairs. Incorrect type at " + i, cce);
+                    throw new IllegalArgumentException("Arguments must be in tableName - rowFormatter pairs. Incorrect type at " + i, cce);
                 }
             }
         }
@@ -119,7 +119,7 @@ public class TablePageFormatters {
         private final Map<String, ICellViewFormatter> headerViewConfig = new ArrayMap<String, ICellViewFormatter>();
         private final Map<String, ICellViewFormatter> viewConfig = new ArrayMap<String, ICellViewFormatter>();
 
-        public RowFormatter() {}
+        public RowFormatter() { }
 
         public RowFormatter setValueFormatters(Object... columnNameFormatterPairs) {
             valueConfig.clear();
@@ -129,12 +129,14 @@ public class TablePageFormatters {
                     ICellValueFormatter cellFormatter = (ICellValueFormatter) columnNameFormatterPairs[i + 1];
                     valueConfig.put(columnName, cellFormatter);
                 } catch (ClassCastException cce) {
-                    throw new IllegalArgumentException("Arguments must be in columnName - cellFormatter pairs. Incorrect type at " + i, cce);
+                    throw new IllegalArgumentException("Arguments must be in columnName - cellFormatter pairs. Incorrect type at " + i,
+                            cce);
                 }
             }
             return this;
         }
 
+        @SuppressWarnings("checkstyle:MagicNumber")
         public RowFormatter setViewFormatters(Object... columnNameFormatterPairs) {
             headerViewConfig.clear();
             viewConfig.clear();
@@ -147,7 +149,9 @@ public class TablePageFormatters {
                     headerViewConfig.put(columnName, headerFormatter);
                     viewConfig.put(columnName, cellFormatter);
                 } catch (ClassCastException cce) {
-                    throw new IllegalArgumentException("Arguments must be in columnName - headerViewFormatter - cellViewFormatter triples. Incorrect type at " + i, cce);
+                    String errMsg = "Arguments must be in columnName - headerViewFormatter - cellViewFormatter triples. "
+                            + "Incorrect type at " + i;
+                    throw new IllegalArgumentException(errMsg, cce);
                 }
             }
             return this;
@@ -184,7 +188,7 @@ public class TablePageFormatters {
 
         @NonNull
         @Override
-        final public String formatValue(Cursor cursor, int col) {
+        public final String formatValue(Cursor cursor, int col) {
             long value = cursor.getLong(col);
             return (value > 0) ? formatter.format(value) : "";
         }
@@ -213,7 +217,7 @@ public class TablePageFormatters {
     }
 
     /**
-     * Use cases: express max width of a view in the unit of dp
+     * Use cases: express max width of a view in the unit of dp.
      * @return the pixels of the given amount of dp
      */
     public static int dpToPx(int dp, @NonNull Context context) {
@@ -221,12 +225,12 @@ public class TablePageFormatters {
     }
 
     /**
-     * Convert a <code>long</code> timestamp to a short date in YY-MM-dd
+     * Convert a <code>long</code> timestamp to a short date in YY-MM-dd.
      */
     public static final ICellValueFormatter shortDate = new DateTimeFormatter("yy-MM-dd");
 
     /**
-     * Convert a <code>long</code> timestamp to a short timestamp string
+     * Convert a <code>long</code> timestamp to a short timestamp string (up to seconds).
      */
     public static final ICellValueFormatter shortTimeStamp = new DateTimeFormatter("yy-MM-dd HH:mm:ss");
 

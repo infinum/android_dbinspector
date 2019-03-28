@@ -124,5 +124,9 @@
         <!--module name="FinalParameters"/-->
         <!--module name="TodoComment"/-->
         <module name="UpperEll"/>
+
+        <module name="SuppressWarningsHolder" />
     </module>
+    <!-- support @SuppressWarnings annotation -->
+    <module name="SuppressWarningsFilter" />
 </module>
