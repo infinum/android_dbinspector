@@ -190,7 +190,7 @@ public class TablePageFormatters {
         @Override
         public final String formatValue(Cursor cursor, int col) {
             long value = cursor.getLong(col);
-            return (value > 0) ? formatter.format(value) : "";
+            return value > 0 ? formatter.format(value) : "";
         }
     };
 
