@@ -64,8 +64,12 @@ public class DatabaseHelper {
         // look for standard sqlite databases in the databases dir
         String[] contextDatabases = context.databaseList();
         for (String database : contextDatabases) {
-            // don't show *-journal databases, they only hold temporary rollback data
-            if (!database.endsWith("-journal")) {
+            // don't show various sqlite-internal file databases
+            // see https://www.sqlite.org/tempfiles.html
+            if (!database.endsWith("-journal") && //  they only hold temporary rollback data
+                    !database.endsWith("-wal") && // write-ahead log for WAL modes
+                    !database.endsWith("-shm") // shared-memory files in WAL mode with multiple connections
+            ) {
                 databases.add(context.getDatabasePath(database));
             }
         }
