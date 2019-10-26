@@ -42,7 +42,8 @@ dependencies {
     implementation "org.jetbrains.anko:anko-common:0.10.8"
     kapt "androidx.room:room-compiler:2.2.1"
 
-//    debugImplementation "im.dino:dbinspector:3.2.1@aar"
+    // uncomment to test with staging or published version
+//    debugImplementation "im.dino:dbinspector:4.0.0"
     debugImplementation project(":dbinspector")
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

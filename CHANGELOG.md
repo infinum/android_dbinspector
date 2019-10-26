@@ -6,6 +6,7 @@ Changelog
 _2019-10-26_
 
 * Fix: #57
+* Fix: #55 (thanks @orionlee)
 * Migrated project and example app to androidx
 * minSdk is now 19
 * The example app is now all Kotlin and uses Room
