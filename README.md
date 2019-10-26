@@ -36,10 +36,9 @@ If you don't want the launcher icon to be shown, add this to your debug manifest
 </activity>
 ```
 
-## Support
+## Upgrading 3.x -> 4.x
 
-As of version 3.0.0, DbInspector can be used with your apps on devices all the way back to Android 2.3 (API 10).
-It should also work on devices with API 7-9, but that's not tested.
+DbInspector now uses androidx so you might have dependency clashes if you still use the legacy support lib, it's recommended to migrate to androidx.
 
 ## Upgrading 2.x -> 3.x
 
