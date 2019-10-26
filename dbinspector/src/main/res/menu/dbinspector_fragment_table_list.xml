@@ -7,7 +7,7 @@
             android:id="@+id/dbinspector_action_search"
             android:title="@string/dbinspector_action_search"
             android:orderInCategory="100"
-            app:actionViewClass="android.support.v7.widget.SearchView"
+            app:actionViewClass="androidx.appcompat.widget.SearchView"
             android:icon="@android:drawable/ic_menu_search"
             app:showAsAction="collapseActionView|always"/>
 

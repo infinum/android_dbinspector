@@ -9,13 +9,14 @@ import android.os.Message;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
-import android.support.annotation.XmlRes;
-import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.ListView;
+
+import androidx.annotation.XmlRes;
+import androidx.fragment.app.ListFragment;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;

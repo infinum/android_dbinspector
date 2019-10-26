@@ -1,13 +1,13 @@
 package im.dino.dbinspector.providers;
 
-
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
 import android.provider.OpenableColumns;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 import java.io.File;
 

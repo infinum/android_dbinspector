@@ -1,19 +1,19 @@
-apply plugin: 'com.android.library'
-apply from: '../config/quality.gradle'
+apply plugin: "com.android.library"
+apply from: "../config/quality.gradle"
 
-version = '3.4.1'
-group = 'im.dino'
+version = "3.4.1"
+group = "im.dino"
 
 android {
     compileSdkVersion rootProject.ext.compile_sdk
 
     defaultConfig {
-        minSdkVersion 10
+        minSdkVersion 19
         targetSdkVersion rootProject.ext.target_sdk
         versionCode 1
         versionName version
 
-        buildConfigField 'String', 'AUTHORITY_PREFIX', '"dbInspector_"'
+        buildConfigField "String", "AUTHORITY_PREFIX", "\"dbInspector_\""
     }
 
     compileOptions {
@@ -21,7 +21,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
 
-    resourcePrefix 'dbinspector_'
+    resourcePrefix "dbinspector_"
 
     lintOptions {
         abortOnError false
@@ -31,19 +31,20 @@ android {
 
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt"
         }
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "com.android.support:appcompat-v7:$support_lib"
-    implementation 'commons-io:commons-io:2.4'
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "androidx.appcompat:appcompat:1.1.0"
+    implementation "androidx.localbroadcastmanager:localbroadcastmanager:1.0.0"
+    implementation "commons-io:commons-io:2.4"
 }
 
-apply plugin: 'maven'
-apply plugin: 'signing'
+apply plugin: "maven"
+apply plugin: "signing"
 
 configurations {
     archives {
@@ -66,29 +67,29 @@ uploadArchives {
         }
 
         pom.project {
-            name 'Android DbInspector'
-            packaging 'aar'
-            description 'Android library for viewing in app databases.'
-            url 'https://github.com/infinum/android_dbinspector/'
+            name "Android DbInspector"
+            packaging "aar"
+            description "Android library for viewing in app databases."
+            url "https://github.com/infinum/android_dbinspector/"
 
             scm {
-                url 'scm:git@github.com:infinum/android_dbinspector.git'
-                connection 'scm:git@github.com:infinum/android_dbinspector.git'
-                developerConnection 'scm:git@github.com:infinum/android_dbinspector.git'
+                url "scm:git@github.com:infinum/android_dbinspector.git"
+                connection "scm:git@github.com:infinum/android_dbinspector.git"
+                developerConnection "scm:git@github.com:infinum/android_dbinspector.git"
             }
 
             licenses {
                 license {
-                    name 'The Apache Software License, Version 2.0'
-                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    distribution 'repo'
+                    name "The Apache Software License, Version 2.0"
+                    url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                    distribution "repo"
                 }
             }
 
             developers {
                 developer {
-                    id 'reisub'
-                    name 'Dino Kovač'
+                    id "reisub"
+                    name "Dino Kovač"
                 }
             }
         }

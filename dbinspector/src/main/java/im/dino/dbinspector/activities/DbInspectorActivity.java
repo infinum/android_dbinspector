@@ -1,9 +1,10 @@
 package im.dino.dbinspector.activities;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import im.dino.dbinspector.R;
 import im.dino.dbinspector.fragments.DatabaseListFragment;
