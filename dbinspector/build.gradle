@@ -40,7 +40,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "androidx.appcompat:appcompat:1.1.0"
     implementation "androidx.localbroadcastmanager:localbroadcastmanager:1.0.0"
-    implementation "commons-io:commons-io:2.4"
+    implementation "commons-io:commons-io:2.6"
 }
 
 apply plugin: "maven"
