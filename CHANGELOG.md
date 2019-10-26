@@ -1,6 +1,15 @@
 Changelog
 =========
 
+## Version 4.0.0
+
+_2019-10-26_
+
+* Fix: #57
+* Migrated project and example app to androidx
+* minSdk is now 19
+* The example app is now all Kotlin and uses Room
+
 ## Version 3.4.1
 
 _2017-02-08_
