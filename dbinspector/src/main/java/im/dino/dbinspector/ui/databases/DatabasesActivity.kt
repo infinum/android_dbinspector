@@ -1,45 +1,47 @@
-package im.dino.dbinspector.activities;
+package im.dino.dbinspector.ui.databases
 
-import android.os.Bundle;
-import android.view.MenuItem;
+import android.content.Intent
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import im.dino.dbinspector.data.source.local.DatabaseHelper
+import im.dino.dbinspector.databinding.DbinspectorActivityDatabasesBinding
+import im.dino.dbinspector.domain.database.models.Database
+import im.dino.dbinspector.domain.database.VersionOperation
+import im.dino.dbinspector.ui.shared.Constants
+import im.dino.dbinspector.ui.tables.TablesActivity
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
+class DatabasesActivity : AppCompatActivity() {
 
-import im.dino.dbinspector.R;
-import im.dino.dbinspector.fragments.DatabaseListFragment;
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-public class DbInspectorActivity extends AppCompatActivity {
+        val viewBinding = DbinspectorActivityDatabasesBinding.inflate(layoutInflater)
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.dbinspector_activity);
+        setContentView(viewBinding.root)
 
-        if (savedInstanceState == null) {
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.dbinspector_container, new DatabaseListFragment()).commit();
-        }
+        DatabaseHelper.getDatabaseList(this)
+            .map {
+                Database(
+                    absolutePath = it.absolutePath,
+                    path = it.parentFile?.absolutePath.orEmpty(),
+                    name = it.nameWithoutExtension,
+                    version = VersionOperation()(it.absolutePath, null)
+                )
+            }
+            .let {
+                with(viewBinding.recyclerView) {
+                    layoutManager = LinearLayoutManager(this@DatabasesActivity, LinearLayoutManager.VERTICAL, false)
+                    adapter = DatabasesAdapter(it) { showTables(it) }
+                }
+            }
     }
 
-    @Override
-    public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-            getSupportFragmentManager().popBackStack();
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+    private fun showTables(database: Database) =
+        startActivity(
+            Intent(this, TablesActivity::class.java)
+                .apply {
+                    putExtra(Constants.Keys.DATABASE, database)
+                }
+        )
 }

@@ -1,17 +1,13 @@
-package im.dino.dbinspector.providers;
+package im.dino.dbinspector.ui.providers
 
-import android.content.ContentProvider;
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.MatrixCursor;
-import android.net.Uri;
-import android.provider.OpenableColumns;
-
-import androidx.annotation.Nullable;
-
-import java.io.File;
-
-import static java.util.Arrays.copyOf;
+import android.content.ContentProvider
+import android.content.ContentValues
+import android.database.Cursor
+import android.database.MatrixCursor
+import android.net.Uri
+import android.provider.OpenableColumns
+import java.io.File
+import java.util.Arrays
 
 /**
  * Class that is similar to FileProvider. The issue was
@@ -19,65 +15,51 @@ import static java.util.Arrays.copyOf;
  * storage database directory so we need this class to
  * share any directory.
  */
-public class DatabaseProvider extends ContentProvider {
+class DatabaseProvider : ContentProvider() {
 
-    private static final String[] COLUMNS = {OpenableColumns.DISPLAY_NAME, OpenableColumns.SIZE};
-
-    @Override
-    public boolean onCreate() {
-        return true;
+    companion object {
+        private val COLUMNS = arrayOf(OpenableColumns.DISPLAY_NAME, OpenableColumns.SIZE)
     }
 
-    @Nullable
-    @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+    override fun onCreate(): Boolean = true
+
+    override fun query(
+        uri: Uri,
+        projection: Array<String>?,
+        selection: String?,
+        selectionArgs: Array<String>?,
+        sortOrder: String?
+    ): Cursor? {
         // Code from FileProvider
-        File file = new File(uri.getPath());
-        if (projection == null) {
-            projection = COLUMNS;
+        var projection1 = projection
+        val file = File(uri.path)
+        if (projection1 == null) {
+            projection1 = COLUMNS
         }
-
-        String[] cols = new String[projection.length];
-        Object[] values = new Object[projection.length];
-
-        int i = 0;
-        for (String col : projection) {
-            if (OpenableColumns.DISPLAY_NAME.equals(col)) {
-                cols[i] = OpenableColumns.DISPLAY_NAME;
-                values[i++] = file.getName();
-            } else if (OpenableColumns.SIZE.equals(col)) {
-                cols[i] = OpenableColumns.SIZE;
-                values[i++] = file.length();
+        var cols = arrayOfNulls<String>(projection1.size)
+        var values = arrayOfNulls<Any>(projection1.size)
+        var i = 0
+        for (col in projection1) {
+            if (OpenableColumns.DISPLAY_NAME == col) {
+                cols[i] = OpenableColumns.DISPLAY_NAME
+                values[i++] = file.name
+            } else if (OpenableColumns.SIZE == col) {
+                cols[i] = OpenableColumns.SIZE
+                values[i++] = file.length()
             }
         }
-
-        cols = copyOf(cols, i);
-        values = copyOf(values, i);
-
-        final MatrixCursor cursor = new MatrixCursor(cols, 1);
-        cursor.addRow(values);
-        return cursor;
+        cols = Arrays.copyOf(cols, i)
+        values = Arrays.copyOf(values, i)
+        val cursor = MatrixCursor(cols, 1)
+        cursor.addRow(values)
+        return cursor
     }
 
-    @Nullable
-    @Override
-    public String getType(Uri uri) {
-        return "application/octet-stream";
-    }
+    override fun getType(uri: Uri): String? = "application/octet-stream"
 
-    @Nullable
-    @Override
-    public Uri insert(Uri uri, ContentValues values) {
-        return null;
-    }
+    override fun insert(uri: Uri, values: ContentValues?): Uri? = null
 
-    @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
-        return 0;
-    }
+    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int = 0
 
-    @Override
-    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        return 0;
-    }
+    override fun update(uri: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<String>?): Int = 0
 }

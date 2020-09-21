@@ -1,13 +1,10 @@
-package im.dino.dbinspector.helpers;
+package im.dino.dbinspector.domain.pragma.models
 
-/**
- * Created by zeljkoplesac on 16/03/15.
- */
-public enum PragmaType {
+import androidx.annotation.StringRes
+import im.dino.dbinspector.R
 
-    TABLE_INFO,
-
-    FOREIGN_KEY,
-
-    INDEX_LIST
+enum class PragmaType(@StringRes val nameRes: Int) {
+    TABLE_INFO(R.string.dbinspector_pragma_table_info),
+    FOREIGN_KEY(R.string.dbinspector_pragma_foreign_key),
+    INDEX(R.string.dbinspector_pragma_index)
 }

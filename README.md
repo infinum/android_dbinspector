@@ -28,7 +28,7 @@ If you don't want the launcher icon to be shown, add this to your debug manifest
 
 ```xml
 <activity
-    android:name="im.dino.dbinspector.activities.DbInspectorActivity">
+    android:name="im.dino.dbinspector.databases.DbInspectorActivity">
     <intent-filter tools:node="removeAll">
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />

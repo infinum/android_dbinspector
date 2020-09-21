@@ -1,23 +1,33 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingLeft="@dimen/dbinspector_activity_horizontal_margin"
-                android:paddingRight="@dimen/dbinspector_activity_horizontal_margin"
-                android:paddingTop="@dimen/dbinspector_activity_vertical_margin"
-                android:paddingBottom="@dimen/dbinspector_activity_vertical_margin"
-                tools:context="im.dino.dbview.exampleapp.MainActivity">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/dbinspector_activity_horizontal_margin"
+    android:paddingTop="@dimen/dbinspector_activity_vertical_margin"
+    android:paddingRight="@dimen/dbinspector_activity_horizontal_margin"
+    android:paddingBottom="@dimen/dbinspector_activity_vertical_margin"
+    tools:context="im.dino.dbview.exampleapp.MainActivity">
 
-    <TextView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
             android:id="@+id/button_show_example_database"
-            android:text="@string/data_created"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            android:text="@string/data_created" />
 
-    <View
-            android:id="@+id/table_layout"
+        <Button
+            android:id="@+id/show"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="Show" />
 
-</RelativeLayout>
+    </LinearLayout>
+
+</FrameLayout>

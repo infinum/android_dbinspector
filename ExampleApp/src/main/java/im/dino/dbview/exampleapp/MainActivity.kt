@@ -5,6 +5,8 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.annotation.WorkerThread
 import androidx.appcompat.app.AppCompatActivity
+import im.dino.dbinspector.DbInspector
+import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.doAsync
 import org.threeten.bp.ZonedDateTime
 
@@ -13,6 +15,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        show.setOnClickListener {
+            DbInspector.launch(this)
+        }
     }
 
     override fun onStart() {

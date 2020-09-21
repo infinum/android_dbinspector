@@ -1,38 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        package="im.dino.dbinspector">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="im.dino.dbinspector">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application>
+
         <activity
-                android:name="im.dino.dbinspector.activities.DbInspectorActivity"
-                android:label="@string/dbinspector_app_name"
-                android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
-                android:icon="@drawable/dbinspector_ic_launcher"
-                android:taskAffinity="im.dino.dbinspector">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+            android:name="im.dino.dbinspector.ui.databases.DatabasesActivity"
+            android:taskAffinity="im.dino.dbinspector"
+            android:theme="@style/DbInspector.BaseTheme" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
+        <activity
+            android:name="im.dino.dbinspector.ui.tables.TablesActivity"
+            android:taskAffinity="im.dino.dbinspector"
+            android:theme="@style/DbInspector.BaseTheme" />
+
+        <activity
+            android:name="im.dino.dbinspector.ui.tables.content.ContentActivity"
+            android:taskAffinity="im.dino.dbinspector"
+            android:theme="@style/DbInspector.BaseTheme" />
+
+        <activity
+            android:name="im.dino.dbinspector.ui.tables.pragma.PragmaActivity"
+            android:taskAffinity="im.dino.dbinspector"
+            android:theme="@style/DbInspector.BaseTheme" />
 
         <service
-                android:name="im.dino.dbinspector.services.CopyDbIntentService"
-                android:exported="false"/>
+            android:name="im.dino.dbinspector.ui.services.CopyDbIntentService"
+            android:exported="false" />
         <service
-                android:name="im.dino.dbinspector.services.ImportDbIntentService"
-                android:exported="false"/>
+            android:name="im.dino.dbinspector.ui.services.ImportDbIntentService"
+            android:exported="false" />
         <service
-                android:name="im.dino.dbinspector.services.ClearTableIntentService"
-                android:exported="false"/>
+            android:name="im.dino.dbinspector.ui.services.ClearTableIntentService"
+            android:exported="false" />
 
         <provider
-                android:authorities="dbInspector_${applicationId}"
-                android:name=".providers.DatabaseProvider"
-                android:exported="false"
-                android:grantUriPermissions="true"/>
+            android:name=".ui.providers.DatabaseProvider"
+            android:authorities="dbInspector_${applicationId}"
+            android:exported="false"
+            android:grantUriPermissions="true" />
+
     </application>
 
 </manifest>

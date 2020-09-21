@@ -1,14 +1,20 @@
 apply plugin: "com.android.library"
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-android-extensions"
 apply from: "../config/quality.gradle"
 
 version = "4.0.0"
 group = "im.dino"
 
 android {
+    buildFeatures {
+        viewBinding true
+    }
+
     compileSdkVersion rootProject.ext.compile_sdk
 
     defaultConfig {
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion rootProject.ext.target_sdk
         versionCode 1
         versionName version
@@ -16,15 +22,19 @@ android {
         buildConfigField "String", "AUTHORITY_PREFIX", "\"dbInspector_\""
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
-    }
-
     resourcePrefix "dbinspector_"
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
     lintOptions {
         abortOnError false
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
     buildTypes {
@@ -37,8 +47,15 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "androidx.appcompat:appcompat:1.1.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "androidx.appcompat:appcompat:1.2.0"
+    implementation "com.google.android.material:material:1.2.1"
+    implementation "androidx.fragment:fragment-ktx:1.2.5"
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation "androidx.viewpager:viewpager:1.0.0"
+    implementation "androidx.lifecycle:lifecycle-common-java8:2.2.0"
+    implementation "androidx.paging:paging-runtime:3.0.0-alpha06"
+
     implementation "androidx.localbroadcastmanager:localbroadcastmanager:1.0.0"
     implementation "commons-io:commons-io:2.6"
 }
@@ -63,7 +80,7 @@ uploadArchives {
 
         repository(url: sonatypeRepo) {
             authentication(userName: sonatypeUsername,
-                    password: sonatypePassword)
+                password: sonatypePassword)
         }
 
         pom.project {

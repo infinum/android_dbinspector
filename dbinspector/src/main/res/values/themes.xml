@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="DbInspector.BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/dbinspector_color_primary</item>
+        <item name="colorPrimaryDark">@color/dbinspector_color_primary_dark</item>
+    </style>
+
+</resources>

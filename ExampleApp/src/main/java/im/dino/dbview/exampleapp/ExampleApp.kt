@@ -1,7 +1,5 @@
 package im.dino.dbview.exampleapp
 
-import com.squareup.leakcanary.LeakCanary
-
 import android.app.Application
 import com.jakewharton.threetenabp.AndroidThreeTen
 
@@ -13,6 +11,5 @@ class ExampleApp : Application() {
     override fun onCreate() {
         super.onCreate()
         AndroidThreeTen.init(this)
-        LeakCanary.install(this)
     }
 }
