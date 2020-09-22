@@ -9,7 +9,12 @@
         android:id="@+id/valueView"
         style="@style/TextAppearance.MaterialComponents.Caption"
         android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:paddingStart="2dp"
+        android:maxWidth="150dp"
+        android:paddingEnd="2dp"
         android:layout_gravity="center"
+        android:minHeight="40dp"
         android:layout_height="wrap_content" />
 
 </LinearLayout>

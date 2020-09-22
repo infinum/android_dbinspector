@@ -26,6 +26,7 @@ internal class ContentActivity : AppCompatActivity() {
         setContentView(viewBinding.root)
 
         intent.extras?.let {
+            val databaseName = it.getString(Constants.Keys.DATABASE_NAME)
             val databasePath = it.getString(Constants.Keys.DATABASE_PATH)
             val table = it.getParcelable<Table>(Constants.Keys.TABLE)
             if (databasePath.isNullOrBlank().not() && table != null) {
@@ -33,19 +34,19 @@ internal class ContentActivity : AppCompatActivity() {
                     this,
                     ContentViewModelFactory(databasePath.orEmpty(), table.name)
                 ).get(ContentViewModel::class.java)
-                setupUi(table)
+                setupUi(databaseName, table)
             } else {
                 showError()
             }
         } ?: showError()
     }
 
-    private fun setupUi(table: Table) {
+    private fun setupUi(databaseName: String?, table: Table) {
         val tableHeaders = viewModel.header()
 
         with(viewBinding) {
             toolbar.setNavigationOnClickListener { finish() }
-            toolbar.subtitle = table.name
+            toolbar.subtitle = listOfNotNull(databaseName, table.name).joinToString(" / ")
 
             headerView.weightSum = tableHeaders.size.toFloat()
 
@@ -58,7 +59,6 @@ internal class ContentActivity : AppCompatActivity() {
                         .root
                 )
             }
-
 
             val adapter = ContentAdapter(tableHeaders.size)
             recyclerView.layoutManager = GridLayoutManager(recyclerView.context, tableHeaders.size)

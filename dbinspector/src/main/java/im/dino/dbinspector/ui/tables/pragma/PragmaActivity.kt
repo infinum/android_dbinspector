@@ -18,20 +18,21 @@ class PragmaActivity : AppCompatActivity() {
         setContentView(viewBinding.root)
 
         intent.extras?.let {
+            val databaseName = it.getString(Constants.Keys.DATABASE_NAME)
             val databasePath = it.getString(Constants.Keys.DATABASE_PATH)
             val table = it.getParcelable<Table>(Constants.Keys.TABLE)
             if (databasePath.isNullOrBlank().not() && table != null) {
-                setupUi(databasePath.orEmpty(), table)
+                setupUi(databaseName, databasePath.orEmpty(), table)
             } else {
                 showError()
             }
         } ?: showError()
     }
 
-    private fun setupUi(databasePath: String, table: Table) {
+    private fun setupUi(databaseName: String?, databasePath: String, table: Table) {
         with(viewBinding) {
             toolbar.setNavigationOnClickListener { finish() }
-            toolbar.subtitle = table.name
+            toolbar.subtitle = listOfNotNull(databaseName, table.name).joinToString(" / ")
 
             tabLayout.setupWithViewPager(viewPager)
             viewPager.adapter = PragmaTypeAdapter(

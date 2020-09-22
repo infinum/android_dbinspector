@@ -42,10 +42,10 @@ class TablesActivity : AppCompatActivity() {
 
             val adapter = TablesAdapter(
                 onClick = {
-                    showTableContent(database.absolutePath, it)
+                    showTableContent(database.name, database.absolutePath, it)
                 },
                 onLongClick = {
-                    showTablePragma(database.absolutePath, it)
+                    showTablePragma(database.name, database.absolutePath, it)
                     true
                 }
             )
@@ -65,20 +65,22 @@ class TablesActivity : AppCompatActivity() {
         // TODO
     }
 
-    private fun showTableContent(databasePath: String, table: Table) {
+    private fun showTableContent(databaseName: String, databasePath: String, table: Table) {
         startActivity(
             Intent(this, ContentActivity::class.java)
                 .apply {
+                    putExtra(Constants.Keys.DATABASE_NAME, databaseName)
                     putExtra(Constants.Keys.DATABASE_PATH, databasePath)
                     putExtra(Constants.Keys.TABLE, table)
                 }
         )
     }
 
-    private fun showTablePragma(databasePath: String, table: Table) {
+    private fun showTablePragma(databaseName: String, databasePath: String, table: Table) {
         startActivity(
             Intent(this, PragmaActivity::class.java)
                 .apply {
+                    putExtra(Constants.Keys.DATABASE_NAME, databaseName)
                     putExtra(Constants.Keys.DATABASE_PATH, databasePath)
                     putExtra(Constants.Keys.TABLE, table)
                 }
