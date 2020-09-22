@@ -27,13 +27,6 @@
             android:taskAffinity="im.dino.dbinspector"
             android:theme="@style/DbInspector.BaseTheme" />
 
-        <service
-            android:name="im.dino.dbinspector.ui.services.CopyDbIntentService"
-            android:exported="false" />
-        <service
-            android:name="im.dino.dbinspector.ui.services.ImportDbIntentService"
-            android:exported="false" />
-
         <provider
             android:name=".ui.providers.DatabaseProvider"
             android:authorities="dbInspector_${applicationId}"

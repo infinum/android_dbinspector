@@ -13,9 +13,11 @@
         app:liftOnScrollTargetViewId="@id/recyclerView">
 
         <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:menu="@menu/dbinspector_menu"
+            app:navigationIcon="@drawable/dbinspector_ic_close"
             app:subtitle="@string/dbinspector_databases"
             app:title="@string/dbinspector_name" />
 

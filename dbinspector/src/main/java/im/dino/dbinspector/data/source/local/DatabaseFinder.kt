@@ -1,6 +1,7 @@
 package im.dino.dbinspector.data.source.local
 
 import android.content.Context
+import im.dino.dbinspector.ui.shared.Constants
 import java.io.File
 import java.io.FileFilter
 import java.util.ArrayList
@@ -10,36 +11,25 @@ import java.util.ArrayList
  */
 object DatabaseFinder {
 
-    private val includeExtensions = listOf(
-        "sql",
-        "sqlite",
-        "sqlite3",
-        "db",
-        "cblite",
-        "cblite2"
-    )
-
-    // don't show various sqlite-internal file databases
-    // see https://www.sqlite.org/tempfiles.html
-    private val ignoredFiles = listOf(
-        "-journal", //  they only hold temporary rollback data
-        "-wal", // write-ahead log for WAL modes
-        "-shm" // shared-memory files in WAL mode with multiple connections
-    )
+    private lateinit var context: Context
 
     private var databases: MutableSet<File> = mutableSetOf()
 
+    fun initialise(context: Context) {
+        this.context = context
+    }
+
     fun get(): List<File> = databases.toList()
 
-    fun find(context: Context) {
+    fun find() {
         // look for standard sqlite databases in the databases dir
         databases = context.databaseList()
-            .filter { name -> ignoredFiles.none { name.endsWith(it) } }
+            .filter { name -> Constants.Extensions.IGNORED.none { name.endsWith(it) } }
             .map { context.getDatabasePath(it) }
             .toMutableSet()
 
         val filter = FileFilter { file ->
-            (file.isFile && file.canRead() && (file.extension in includeExtensions))
+            (file.isFile && file.canRead() && (file.extension in Constants.Extensions.ALLOWED))
         }
         // CouchBase Lite stores the databases in the app files dir
         // we get all files recursively because .cblite2 is a dir with the actual sqlite db

@@ -7,7 +7,8 @@ import im.dino.dbinspector.data.source.local.DatabaseFinder
 class DbInspectorInitializer : Initializer<Class<DbInspectorInitializer>> {
 
     override fun create(context: Context): Class<DbInspectorInitializer> {
-        DatabaseFinder.find(context)
+        DatabaseFinder.initialise(context)
+        DatabaseFinder.find()
         return DbInspectorInitializer::class.java
     }
 

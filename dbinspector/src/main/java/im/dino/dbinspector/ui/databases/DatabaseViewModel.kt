@@ -11,6 +11,7 @@ class DatabaseViewModel : ViewModel() {
     val databases: MutableLiveData<List<Database>> = MutableLiveData()
 
     fun find() {
+        DatabaseFinder.find()
         databases.value = DatabaseFinder.get().map {
             Database(
                 absolutePath = it.absolutePath,

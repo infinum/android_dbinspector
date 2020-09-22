@@ -7,15 +7,13 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class CopyDbIntentService extends IntentService {
+public class CopyDbIntentService {
 
     public static final String EXTRA_FILE = "File";
 
@@ -24,7 +22,7 @@ public class CopyDbIntentService extends IntentService {
     public static final int BYTES_IN_KIBIBYTE = 1024;
 
     public CopyDbIntentService() {
-        super("CopyDbIntentService");
+
     }
 
     /**
@@ -41,11 +39,10 @@ public class CopyDbIntentService extends IntentService {
         context.startService(intent);
     }
 
-    @Override
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {
             File database = (File) intent.getSerializableExtra(EXTRA_FILE);
-            String directoryName = getString(getApplicationInfo().labelRes);
+            String directoryName = ""; // getString(getApplicationInfo().labelRes);
             File appDirectory = new File(Environment.getExternalStorageDirectory().toString(), directoryName);
 
             if (!appDirectory.exists() || !appDirectory.isDirectory()) {
@@ -77,7 +74,7 @@ public class CopyDbIntentService extends IntentService {
                     out.flush();
                     out.close();
                     Intent successIntent = new Intent(INTENT_DATABASE_COPIED);
-                    LocalBroadcastManager.getInstance(this).sendBroadcast(successIntent);
+//                    LocalBroadcastManager.getInstance(this).sendBroadcast(successIntent);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
