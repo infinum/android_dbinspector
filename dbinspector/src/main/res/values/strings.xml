@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="dbinspector_name">DbInspector</string>
 
     <string name="dbinspector_databases">Databases</string>
@@ -21,7 +20,4 @@
 
     <string name="dbinspector_delete_database_confirm">Delete database %s?</string>
     <string name="dbinspector_clear_table_confirm">Delete the content of the table %s?</string>
-
-    <string name="dbinspector_no_activity_to_handle_intent">You don\'t have application on your device that can share your Database.</string>
-    <string name="dbinspector_permission_denied">The application needs permission to copy the database to your external storage.</string>
 </resources>

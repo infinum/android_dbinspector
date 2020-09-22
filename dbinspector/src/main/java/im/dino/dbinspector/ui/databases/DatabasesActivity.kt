@@ -7,6 +7,8 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ShareCompat
+import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import im.dino.dbinspector.R
@@ -87,7 +89,10 @@ class DatabasesActivity : AppCompatActivity() {
             adapter = DatabasesAdapter(
                 items = databases,
                 onClick = { showTables(it) },
-                onDelete = { removeDatabase(it) }
+                onDelete = { removeDatabase(it) },
+                onRename = { renameDatabase(it) },
+                onCopy = { copyDatabase(it) },
+                onShare = { shareDatabase(it) }
             )
         }
     }
@@ -140,7 +145,7 @@ class DatabasesActivity : AppCompatActivity() {
         }
     }
 
-    private fun removeDatabase(database: Database) {
+    private fun removeDatabase(database: Database) =
         MaterialAlertDialogBuilder(this)
             .setMessage(String.format(getString(R.string.dbinspector_delete_database_confirm), database.name))
             .setPositiveButton(android.R.string.ok) { dialog: DialogInterface, _: Int ->
@@ -157,5 +162,22 @@ class DatabasesActivity : AppCompatActivity() {
             }
             .create()
             .show()
+
+    private fun renameDatabase(database: Database) {
+
     }
+
+    private fun copyDatabase(database: Database) {
+
+    }
+
+    private fun shareDatabase(database: Database) =
+        startActivity(
+            ShareCompat.IntentBuilder.from(this)
+                .setType("application/octet-stream")
+                .setStream(FileProvider.getUriForFile(this, "${this.packageName}.provider.database", File(database.absolutePath)))
+                .intent.apply {
+                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                }
+        )
 }

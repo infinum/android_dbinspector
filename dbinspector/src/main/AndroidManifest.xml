@@ -43,6 +43,16 @@
                 android:value="androidx.startup" />
         </provider>
 
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider.database"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/dbinspector_filepaths" />
+        </provider>
+
     </application>
 
 </manifest>
