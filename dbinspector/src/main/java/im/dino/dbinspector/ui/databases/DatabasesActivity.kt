@@ -1,12 +1,14 @@
 package im.dino.dbinspector.ui.databases
 
 import android.app.Activity
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivityDatabasesBinding
 import im.dino.dbinspector.domain.database.models.Database
@@ -82,7 +84,11 @@ class DatabasesActivity : AppCompatActivity() {
     private fun showDatabases(databases: List<Database>) {
         with(viewBinding.recyclerView) {
             layoutManager = LinearLayoutManager(this@DatabasesActivity, LinearLayoutManager.VERTICAL, false)
-            adapter = DatabasesAdapter(databases) { showTables(it) }
+            adapter = DatabasesAdapter(
+                items = databases,
+                onClick = { showTables(it) },
+                onDelete = { removeDatabase(it) }
+            )
         }
     }
 
@@ -132,5 +138,24 @@ class DatabasesActivity : AppCompatActivity() {
         }.also {
             viewModel.find()
         }
+    }
+
+    private fun removeDatabase(database: Database) {
+        MaterialAlertDialogBuilder(this)
+            .setMessage(String.format(getString(R.string.dbinspector_delete_database_confirm), database.name))
+            .setPositiveButton(android.R.string.ok) { dialog: DialogInterface, _: Int ->
+                val ok = this.deleteDatabase("${database.name}.${database.extension}")
+                if (ok) {
+                    viewModel.find()
+                } else {
+                    showError()
+                }
+                dialog.dismiss()
+            }
+            .setNegativeButton(android.R.string.cancel) { dialog: DialogInterface, _: Int ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
     }
 }

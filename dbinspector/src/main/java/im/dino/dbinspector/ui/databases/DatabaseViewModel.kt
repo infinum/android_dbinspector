@@ -17,6 +17,7 @@ class DatabaseViewModel : ViewModel() {
                 absolutePath = it.absolutePath,
                 path = it.parentFile?.absolutePath.orEmpty(),
                 name = it.nameWithoutExtension,
+                extension = it.extension,
                 version = VersionOperation()(it.absolutePath, null)
             )
         }

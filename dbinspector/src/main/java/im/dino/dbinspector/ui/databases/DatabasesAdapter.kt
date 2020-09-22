@@ -8,14 +8,15 @@ import im.dino.dbinspector.domain.database.models.Database
 
 class DatabasesAdapter(
     private val items: List<Database> = listOf(),
-    private val onClick: (Database) -> Unit
+    private val onClick: (Database) -> Unit,
+    private val onDelete: (Database) -> Unit
 ) : RecyclerView.Adapter<DatabaseViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DatabaseViewHolder =
         DatabaseViewHolder(DbinspectorItemDatabaseBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
     override fun onBindViewHolder(holder: DatabaseViewHolder, position: Int) =
-        holder.bind(items[position], onClick)
+        holder.bind(items[position], onClick, onDelete)
 
     override fun onViewRecycled(holder: DatabaseViewHolder) =
         with(holder) {
