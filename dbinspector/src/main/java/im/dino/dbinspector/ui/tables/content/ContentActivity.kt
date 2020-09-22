@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import im.dino.dbinspector.databinding.DbinspectorActivityContentBinding
-import im.dino.dbinspector.databinding.DbinspectorItemHeaderBinding
 import im.dino.dbinspector.domain.table.models.Table
 import im.dino.dbinspector.ui.shared.Constants
 import kotlinx.coroutines.flow.collectLatest
@@ -48,19 +47,7 @@ internal class ContentActivity : AppCompatActivity() {
             toolbar.setNavigationOnClickListener { finish() }
             toolbar.subtitle = listOfNotNull(databaseName, table.name).joinToString(" / ")
 
-            headerView.weightSum = tableHeaders.size.toFloat()
-
-            tableHeaders.forEach {
-                headerView.addView(
-                    DbinspectorItemHeaderBinding.inflate(layoutInflater, headerView, false)
-                        .apply {
-                            this.valueView.text = it
-                        }
-                        .root
-                )
-            }
-
-            val adapter = ContentAdapter(tableHeaders.size)
+            val adapter = ContentAdapter(tableHeaders)
             recyclerView.layoutManager = GridLayoutManager(recyclerView.context, tableHeaders.size)
             recyclerView.adapter = adapter
 
