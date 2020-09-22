@@ -1,33 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="im.dino.dbview.exampleapp">
+    package="im.dino.dbview.exampleapp">
 
     <application
-            android:name=".ExampleApp"
-            android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
-            android:theme="@style/AppTheme">
+        android:icon="@mipmap/ic_launcher"
+        android:theme="@style/AppTheme">
         <activity
-                android:name="im.dino.dbview.exampleapp.MainActivity"
-                android:label="@string/app_name">
+            android:name="im.dino.dbview.exampleapp.MainActivity"
+            android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <meta-data
-                android:name="AA_DB_NAME"
-                android:value="Example-db-name"/>
+            android:name="AA_DB_NAME"
+            android:value="Example-db-name" />
         <meta-data
-                android:name="AA_DB_VERSION"
-                android:value="1"/>
+            android:name="AA_DB_VERSION"
+            android:value="1" />
 
         <!-- This is needed because otherwise AA does not recognize models if Instant run is turned on. Don't ask me why. -->
         <meta-data
-                android:name="AA_MODELS"
-                android:value="im.dino.dbview.exampleapp.models.Article, im.dino.dbview.exampleapp.models.User"/>
+            android:name="AA_MODELS"
+            android:value="im.dino.dbview.exampleapp.models.Article, im.dino.dbview.exampleapp.models.User" />
     </application>
 
 </manifest>

@@ -2,10 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/dbinspector_activity_horizontal_margin"
-    android:paddingTop="@dimen/dbinspector_activity_vertical_margin"
-    android:paddingRight="@dimen/dbinspector_activity_horizontal_margin"
-    android:paddingBottom="@dimen/dbinspector_activity_vertical_margin"
     tools:context="im.dino.dbview.exampleapp.MainActivity">
 
     <LinearLayout
@@ -13,16 +9,20 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/button_show_example_database"
-            android:layout_width="wrap_content"
+            style="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="16dp"
+            android:gravity="center_horizontal"
             android:text="@string/data_created" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/show"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
