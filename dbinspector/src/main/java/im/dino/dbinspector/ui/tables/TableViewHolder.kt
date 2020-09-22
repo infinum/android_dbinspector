@@ -8,12 +8,11 @@ class TableViewHolder(
     private val viewBinding: DbinspectorItemTableBinding
 ) : RecyclerView.ViewHolder(viewBinding.root) {
 
-    fun bind(item: Table?, onClick: (Table) -> Unit, onLongClick: (Table) -> Boolean) {
+    fun bind(item: Table?, onClick: (Table) -> Unit) {
         item?.let { table ->
             with(viewBinding) {
                 this.name.text = table.name
                 this.root.setOnClickListener { onClick(table) }
-                this.root.setOnLongClickListener { onLongClick(table) }
             }
         }
     }
@@ -21,7 +20,6 @@ class TableViewHolder(
     fun unbind() {
         with(viewBinding) {
             this.root.setOnClickListener(null)
-            this.root.setOnLongClickListener(null)
         }
     }
 }

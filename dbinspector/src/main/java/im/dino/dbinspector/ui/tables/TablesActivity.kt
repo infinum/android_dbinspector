@@ -13,7 +13,6 @@ import im.dino.dbinspector.domain.database.models.Database
 import im.dino.dbinspector.domain.table.models.Table
 import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.tables.content.ContentActivity
-import im.dino.dbinspector.ui.tables.pragma.PragmaActivity
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -43,10 +42,6 @@ class TablesActivity : AppCompatActivity() {
             val adapter = TablesAdapter(
                 onClick = {
                     showTableContent(database.name, database.absolutePath, it)
-                },
-                onLongClick = {
-                    showTablePragma(database.name, database.absolutePath, it)
-                    true
                 }
             )
             recyclerView.layoutManager = LinearLayoutManager(recyclerView.context, LinearLayoutManager.VERTICAL, false)
@@ -68,17 +63,6 @@ class TablesActivity : AppCompatActivity() {
     private fun showTableContent(databaseName: String, databasePath: String, table: Table) {
         startActivity(
             Intent(this, ContentActivity::class.java)
-                .apply {
-                    putExtra(Constants.Keys.DATABASE_NAME, databaseName)
-                    putExtra(Constants.Keys.DATABASE_PATH, databasePath)
-                    putExtra(Constants.Keys.TABLE, table)
-                }
-        )
-    }
-
-    private fun showTablePragma(databaseName: String, databasePath: String, table: Table) {
-        startActivity(
-            Intent(this, PragmaActivity::class.java)
                 .apply {
                     putExtra(Constants.Keys.DATABASE_NAME, databaseName)
                     putExtra(Constants.Keys.DATABASE_PATH, databasePath)

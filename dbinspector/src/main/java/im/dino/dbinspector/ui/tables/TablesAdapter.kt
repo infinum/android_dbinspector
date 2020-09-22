@@ -7,13 +7,18 @@ import im.dino.dbinspector.databinding.DbinspectorItemTableBinding
 import im.dino.dbinspector.domain.table.models.Table
 
 class TablesAdapter(
-    private val onClick: (Table) -> Unit,
-    private val onLongClick: (Table) -> Boolean
+    private val onClick: (Table) -> Unit
 ) : PagingDataAdapter<Table, TableViewHolder>(TablesDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TableViewHolder =
         TableViewHolder(DbinspectorItemTableBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
     override fun onBindViewHolder(holder: TableViewHolder, position: Int) =
-        holder.bind(getItem(position), onClick, onLongClick)
+        holder.bind(getItem(position), onClick)
+
+    override fun onViewRecycled(holder: TableViewHolder) =
+        with(holder) {
+            unbind()
+            super.onViewRecycled(this)
+        }
 }
