@@ -1,10 +1,12 @@
 package im.dino.dbinspector.ui.databases
 
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ShareCompat
@@ -172,12 +174,17 @@ class DatabasesActivity : AppCompatActivity() {
     }
 
     private fun shareDatabase(database: Database) =
-        startActivity(
-            ShareCompat.IntentBuilder.from(this)
-                .setType("application/octet-stream")
-                .setStream(FileProvider.getUriForFile(this, "${this.packageName}.provider.database", File(database.absolutePath)))
-                .intent.apply {
-                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                }
-        )
+        try {
+            startActivity(
+                ShareCompat.IntentBuilder.from(this)
+                    .setType("application/octet-stream")
+                    .setStream(FileProvider.getUriForFile(this, "${this.packageName}.provider.database", File(database.absolutePath)))
+                    .intent.apply {
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    }
+            )
+        } catch (exception: ActivityNotFoundException) {
+            exception.printStackTrace()
+            Toast.makeText(this, getString(R.string.dbinspector_name), Toast.LENGTH_SHORT).show()
+        }
 }

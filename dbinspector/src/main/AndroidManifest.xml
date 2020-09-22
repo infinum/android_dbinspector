@@ -28,12 +28,6 @@
             android:theme="@style/DbInspector.BaseTheme" />
 
         <provider
-            android:name=".ui.providers.DatabaseProvider"
-            android:authorities="dbInspector_${applicationId}"
-            android:exported="false"
-            android:grantUriPermissions="true" />
-
-        <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
             android:exported="false"
