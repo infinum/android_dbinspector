@@ -53,19 +53,7 @@ internal class TableInfoFragment : BaseFragment(R.layout.dbinspector_fragment_pr
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            headerView.weightSum = TableInfoColumns.values().size.toFloat()
-            TableInfoColumns.values().forEach {
-                headerView.addView(
-                    DbinspectorItemHeaderBinding.inflate(layoutInflater, headerView, false)
-                        .apply {
-                            this.valueView.text = it.name.toLowerCase()
-                        }
-                        .root
-                )
-            }
-
-
-            val adapter = PragmaAdapter(TableInfoColumns.values().size)
+            val adapter = PragmaAdapter(TableInfoColumns.values().map { it.name.toLowerCase() })
             recyclerView.layoutManager = GridLayoutManager(recyclerView.context, TableInfoColumns.values().size)
             recyclerView.adapter = adapter
 

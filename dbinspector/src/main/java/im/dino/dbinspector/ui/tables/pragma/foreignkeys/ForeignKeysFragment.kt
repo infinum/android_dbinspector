@@ -7,7 +7,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorFragmentPragmaBinding
-import im.dino.dbinspector.databinding.DbinspectorItemHeaderBinding
 import im.dino.dbinspector.domain.pragma.models.ForeignKeyListColumns
 import im.dino.dbinspector.ui.shared.BaseFragment
 import im.dino.dbinspector.ui.shared.Constants
@@ -53,18 +52,7 @@ internal class ForeignKeysFragment : BaseFragment(R.layout.dbinspector_fragment_
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            headerView.weightSum = ForeignKeyListColumns.values().size.toFloat()
-            ForeignKeyListColumns.values().forEach {
-                headerView.addView(
-                    DbinspectorItemHeaderBinding.inflate(layoutInflater, headerView, false)
-                        .apply {
-                            this.valueView.text = it.name.toLowerCase()
-                        }
-                        .root
-                )
-            }
-
-            val adapter = PragmaAdapter(ForeignKeyListColumns.values().size)
+            val adapter = PragmaAdapter(ForeignKeyListColumns.values().map { it.name.toLowerCase() })
             recyclerView.layoutManager = GridLayoutManager(recyclerView.context, ForeignKeyListColumns.values().size)
             recyclerView.adapter = adapter
 

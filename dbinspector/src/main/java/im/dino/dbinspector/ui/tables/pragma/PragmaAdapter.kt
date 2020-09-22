@@ -3,15 +3,58 @@ package im.dino.dbinspector.ui.tables.pragma
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.RecyclerView
 import im.dino.dbinspector.databinding.DbinspectorItemCellBinding
+import im.dino.dbinspector.databinding.DbinspectorItemHeaderBinding
+import im.dino.dbinspector.ui.tables.shared.HeaderViewHolder
 
 class PragmaAdapter(
-    private val rowCount: Int
-) : PagingDataAdapter<String, PragmaViewHolder>(PragmaDiffUtil()) {
+    private val headerItems: List<String>,
+) : PagingDataAdapter<String, RecyclerView.ViewHolder>(PragmaDiffUtil()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PragmaViewHolder =
-        PragmaViewHolder(DbinspectorItemCellBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+    companion object {
+        private const val HEADER = 0
+        private const val ITEM = 1
+    }
 
-    override fun onBindViewHolder(holder: PragmaViewHolder, position: Int) =
-        holder.bind(getItem(position), position / rowCount)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
+        if (viewType == HEADER) {
+            HeaderViewHolder(DbinspectorItemHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        } else if (viewType == ITEM) {
+            PragmaViewHolder(DbinspectorItemCellBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        } else {
+            throw NotImplementedError()
+        }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (getItemViewType(position)) {
+            HEADER -> (holder as? HeaderViewHolder)?.bind(headerItems[position % headerItems.size])
+            ITEM -> {
+                val itemPosition = position - headerItems.size
+                val item = getItem(itemPosition)
+                (holder as? PragmaViewHolder)?.bind(item, itemPosition / headerItems.size)
+            }
+        }
+    }
+
+    override fun onViewRecycled(holder: RecyclerView.ViewHolder) =
+        with(holder) {
+            when (holder) {
+                is HeaderViewHolder -> (holder as? HeaderViewHolder)?.unbind()
+                is PragmaViewHolder -> (holder as? PragmaViewHolder)?.unbind()
+            }
+            super.onViewRecycled(this)
+        }
+
+    override fun getItemViewType(position: Int): Int =
+        if (position < headerItems.size) {
+            HEADER
+        } else {
+            ITEM
+        }
+
+    override fun getItemCount(): Int {
+        val items = super.getItemCount()
+        return items + headerItems.size
+    }
 }

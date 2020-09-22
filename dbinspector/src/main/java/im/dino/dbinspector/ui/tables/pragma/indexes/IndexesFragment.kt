@@ -53,18 +53,7 @@ internal class IndexesFragment : BaseFragment(R.layout.dbinspector_fragment_prag
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            headerView.weightSum = IndexListColumns.values().size.toFloat()
-            IndexListColumns.values().forEach {
-                headerView.addView(
-                    DbinspectorItemHeaderBinding.inflate(layoutInflater, headerView, false)
-                        .apply {
-                            this.valueView.text = it.name.toLowerCase()
-                        }
-                        .root
-                )
-            }
-
-            val adapter = PragmaAdapter(IndexListColumns.values().size)
+            val adapter = PragmaAdapter(IndexListColumns.values().map { it.name.toLowerCase() })
             recyclerView.layoutManager = GridLayoutManager(recyclerView.context, IndexListColumns.values().size)
             recyclerView.adapter = adapter
 

@@ -1,6 +1,5 @@
-package im.dino.dbinspector.ui.tables.content
+package im.dino.dbinspector.ui.tables.shared
 
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import im.dino.dbinspector.databinding.DbinspectorItemHeaderBinding
 
