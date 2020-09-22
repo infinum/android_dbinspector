@@ -6,15 +6,18 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.InputFilter
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivityDatabasesBinding
+import im.dino.dbinspector.databinding.DbinspectorDialogRenameBinding
 import im.dino.dbinspector.domain.database.models.Database
 import im.dino.dbinspector.extensions.databaseDir
 import im.dino.dbinspector.ui.shared.Constants
@@ -166,7 +169,42 @@ class DatabasesActivity : AppCompatActivity() {
             .show()
 
     private fun renameDatabase(database: Database) {
-//        File(database.absolutePath).renameTo()
+        val filter = InputFilter { source, _, _, _, _, _ ->
+            if (source.isEmpty()) return@InputFilter null
+            val last = source[source.length - 1]
+            val reservedChars = "?:\"*|/\\<>"
+            if (reservedChars.indexOf(last) > -1) source.subSequence(0, source.length - 1) else null
+        }
+
+        DbinspectorDialogRenameBinding.inflate(layoutInflater)
+            .apply {
+                nameInput.filters = arrayOf(filter)
+                nameInput.setText(database.name)
+                nameInput.doOnTextChanged { text, _, _, _ ->
+                    if (text.isNullOrBlank()) {
+                        inputLayout.error = getString(R.string.dbinspector_rename_database_error_blank)
+                    } else {
+                        inputLayout.error = null
+                    }
+                }
+            }
+            .let {
+                MaterialAlertDialogBuilder(this)
+                    .setView(it.root)
+                    .setPositiveButton(android.R.string.ok) { dialog: DialogInterface, _: Int ->
+                        File(database.absolutePath)
+                            .renameTo(
+                                File("${database.path}/${it.nameInput.text?.toString().orEmpty().trim()}.${database.extension}")
+                            )
+                        viewModel.find()
+                        dialog.dismiss()
+                    }
+                    .setNegativeButton(android.R.string.cancel) { dialog: DialogInterface, _: Int ->
+                        dialog.dismiss()
+                    }
+                    .create()
+                    .show()
+            }
     }
 
     private fun copyDatabase(database: Database) {
@@ -181,6 +219,7 @@ class DatabasesActivity : AppCompatActivity() {
             targetFile = File(fileName)
             counter++
         }
+
         destination.copyTo(target = targetFile, overwrite = true)
 
         viewModel.find()
