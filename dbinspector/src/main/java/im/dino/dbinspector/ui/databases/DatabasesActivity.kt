@@ -166,11 +166,24 @@ class DatabasesActivity : AppCompatActivity() {
             .show()
 
     private fun renameDatabase(database: Database) {
-
+//        File(database.absolutePath).renameTo()
     }
 
     private fun copyDatabase(database: Database) {
+        val destination = File(database.absolutePath)
 
+        var counter = 1
+        var fileName = "${database.path}/${database.name}_$counter.${database.extension}"
+
+        var targetFile = File(fileName)
+        while (targetFile.exists()) {
+            fileName = "${database.path}/${database.name}_$counter.${database.extension}"
+            targetFile = File(fileName)
+            counter++
+        }
+        destination.copyTo(target = targetFile, overwrite = true)
+
+        viewModel.find()
     }
 
     private fun shareDatabase(database: Database) =
@@ -185,6 +198,10 @@ class DatabasesActivity : AppCompatActivity() {
             )
         } catch (exception: ActivityNotFoundException) {
             exception.printStackTrace()
-            Toast.makeText(this, getString(R.string.dbinspector_name), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                String.format(getString(R.string.dbinspector_share_database_failed), database.name),
+                Toast.LENGTH_SHORT
+            ).show()
         }
 }

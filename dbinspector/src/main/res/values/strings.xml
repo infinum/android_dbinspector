@@ -20,4 +20,7 @@
 
     <string name="dbinspector_delete_database_confirm">Delete database %s?</string>
     <string name="dbinspector_clear_table_confirm">Delete the content of the table %s?</string>
+    <string name="dbinspector_share_database_failed">Cannot share database %s</string>
+    <string name="dbinspector_copy_database_info">Database copied to application directory</string>
+    <string name="dbinspector_copy_database_failed">Cannot copy database %s</string>
 </resources>
