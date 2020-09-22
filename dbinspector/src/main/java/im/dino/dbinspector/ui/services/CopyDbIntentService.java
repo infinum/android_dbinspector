@@ -15,8 +15,6 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import im.dino.dbinspector.data.source.local.DatabaseHelper;
-
 public class CopyDbIntentService extends IntentService {
 
     public static final String EXTRA_FILE = "File";

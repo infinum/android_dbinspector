@@ -1,10 +1,14 @@
 package im.dino.dbinspector.ui.tables.content
 
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivityContentBinding
 import im.dino.dbinspector.domain.table.models.Table
 import im.dino.dbinspector.ui.shared.Constants
@@ -46,6 +50,15 @@ internal class ContentActivity : AppCompatActivity() {
         with(viewBinding) {
             toolbar.setNavigationOnClickListener { finish() }
             toolbar.subtitle = listOfNotNull(databaseName, table.name).joinToString(" / ")
+            toolbar.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.clear -> {
+                        clearTable(table.name)
+                        true
+                    }
+                    else -> false
+                }
+            }
 
             val adapter = ContentAdapter(tableHeaders)
             recyclerView.layoutManager = GridLayoutManager(recyclerView.context, tableHeaders.size)
@@ -68,4 +81,22 @@ internal class ContentActivity : AppCompatActivity() {
             // TODO: push or show error views or Fragment
         }
     }
+
+    private fun clearTable(name: String) =
+        MaterialAlertDialogBuilder(this)
+            .setMessage(String.format(getString(R.string.dbinspector_clear_table_confirm), name))
+            .setPositiveButton(android.R.string.ok) { dialog: DialogInterface, _: Int ->
+                val ok = viewModel.clear()
+                if (ok) {
+                    (viewBinding.recyclerView.adapter as ContentAdapter).submitData(lifecycle, PagingData.empty())
+                } else {
+                    showError()
+                }
+                dialog.dismiss()
+            }
+            .setNegativeButton(android.R.string.cancel) { dialog: DialogInterface, _: Int ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
 }

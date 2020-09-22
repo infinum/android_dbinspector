@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <string name="dbinspector_name">DbInspector</string>
 
@@ -12,30 +12,15 @@
     <string name="dbinspector_pragma_foreign_key">Foreign keys</string>
     <string name="dbinspector_pragma_index">Indexes</string>
 
-    <string name="dbinspector_structure">Structure</string>
-    <string name="dbinspector_content">Content</string>
-    <string name="dbinspector_action_settings">Settings</string>
-    <string name="dbinspector_action_clear_table">Clear Table</string>
-    <string name="dbinspector_clear_table_confirm">Do you want to delete the content of the table?</string>
+    <string name="dbinspector_action_import">Import</string>
+    <string name="dbinspector_action_clear">Clear</string>
     <string name="dbinspector_action_search">Search</string>
     <string name="dbinspector_action_rename">Rename</string>
     <string name="dbinspector_action_copy">Copy</string>
     <string name="dbinspector_action_share">Share</string>
-    <string name="dbinspector_previous">Previous</string>
-    <string name="dbinspector_next">Next</string>
-    <string name="dbinspector_pref_key_rows_per_page">prefs_key_row_per_page</string>
-    <string name="dbinspector_rows_per_page">Rows per page</string>
+
+    <string name="dbinspector_clear_table_confirm">Delete the content of the table %s?</string>
+
     <string name="dbinspector_no_activity_to_handle_intent">You don\'t have application on your device that can share your Database.</string>
     <string name="dbinspector_permission_denied">The application needs permission to copy the database to your external storage.</string>
-
-    <string name="dbinspector_rows_per_page_default">10</string>
-    <string name="dbinspector_action_import">Import</string>
-    <string-array name="dbinspector_rows_per_page_options">
-        <item>10</item>
-        <item>25</item>
-        <item>50</item>
-        <item>100</item>
-        <item>200</item>
-        <item>500</item>
-    </string-array>
 </resources>

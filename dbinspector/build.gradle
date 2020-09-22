@@ -55,6 +55,7 @@ dependencies {
     implementation "androidx.viewpager:viewpager:1.0.0"
     implementation "androidx.lifecycle:lifecycle-common-java8:2.2.0"
     implementation "androidx.paging:paging-runtime:3.0.0-alpha06"
+    implementation "androidx.startup:startup-runtime:1.0.0-beta01"
 
     implementation "androidx.localbroadcastmanager:localbroadcastmanager:1.0.0"
     implementation "commons-io:commons-io:2.6"

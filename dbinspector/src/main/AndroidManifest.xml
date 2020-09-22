@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="im.dino.dbinspector">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -32,15 +33,22 @@
         <service
             android:name="im.dino.dbinspector.ui.services.ImportDbIntentService"
             android:exported="false" />
-        <service
-            android:name="im.dino.dbinspector.ui.services.ClearTableIntentService"
-            android:exported="false" />
 
         <provider
             android:name=".ui.providers.DatabaseProvider"
             android:authorities="dbInspector_${applicationId}"
             android:exported="false"
             android:grantUriPermissions="true" />
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="im.dino.dbinspector.ui.DbInspectorInitializer"
+                android:value="androidx.startup" />
+        </provider>
 
     </application>
 

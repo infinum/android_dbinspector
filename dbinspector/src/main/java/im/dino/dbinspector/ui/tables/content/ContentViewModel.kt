@@ -7,9 +7,10 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import im.dino.dbinspector.domain.pragma.TableInfoOperation
 import im.dino.dbinspector.domain.pragma.models.TableInfoColumns
+import im.dino.dbinspector.domain.table.ClearTableOperation
 
 class ContentViewModel(
-    path: String,
+    private val path: String,
     name: String
 ) : ViewModel() {
 
@@ -20,6 +21,8 @@ class ContentViewModel(
     private val infoDataSource = TableInfoOperation(name, PAGE_SIZE)(path, null)
 
     private val dataSource = ContentDataSource(path, name, PAGE_SIZE)
+
+    private val clearTableOperation = ClearTableOperation(name)
 
     fun header() = infoDataSource.map { it.fields[TableInfoColumns.NAME.ordinal] }
 
@@ -34,4 +37,6 @@ class ContentViewModel(
             dataSource
         }
             .flow.cachedIn(viewModelScope)
+
+    fun clear() = clearTableOperation(path, null)
 }
