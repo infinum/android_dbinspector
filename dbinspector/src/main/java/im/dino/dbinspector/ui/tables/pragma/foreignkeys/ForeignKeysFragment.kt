@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorFragmentPragmaBinding
 import im.dino.dbinspector.domain.pragma.models.ForeignKeyListColumns
@@ -15,7 +17,7 @@ import im.dino.dbinspector.ui.tables.pragma.PragmaAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-internal class ForeignKeysFragment : BaseFragment(R.layout.dbinspector_fragment_pragma) {
+internal class ForeignKeysFragment : BaseFragment(R.layout.dbinspector_fragment_pragma), SwipeRefreshLayout.OnRefreshListener {
 
     companion object {
 
@@ -37,6 +39,8 @@ internal class ForeignKeysFragment : BaseFragment(R.layout.dbinspector_fragment_
 
     private val viewModel by viewModels<ForeignKeyViewModel>()
 
+    private val adapter = PragmaAdapter(ForeignKeyListColumns.values().map { it.name.toLowerCase() })
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -52,10 +56,23 @@ internal class ForeignKeysFragment : BaseFragment(R.layout.dbinspector_fragment_
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            val adapter = PragmaAdapter(ForeignKeyListColumns.values().map { it.name.toLowerCase() })
+            swipeRefresh.setOnRefreshListener(this@ForeignKeysFragment)
+
             recyclerView.layoutManager = GridLayoutManager(recyclerView.context, ForeignKeyListColumns.values().size)
             recyclerView.adapter = adapter
 
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.query(databasePath, tableName).collectLatest {
+                    adapter.submitData(it)
+                }
+            }
+        }
+    }
+
+    override fun onRefresh() {
+        with(binding) {
+            swipeRefresh.isRefreshing = false
+            adapter.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
             viewLifecycleOwner.lifecycleScope.launch {
                 viewModel.query(databasePath, tableName).collectLatest {
                     adapter.submitData(it)

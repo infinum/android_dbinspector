@@ -13,6 +13,7 @@
 
     <string name="dbinspector_database_name">Name</string>
 
+    <string name="dbinspector_action_refresh">Refresh</string>
     <string name="dbinspector_action_import">Import</string>
     <string name="dbinspector_action_clear">Clear</string>
     <string name="dbinspector_action_search">Search</string>

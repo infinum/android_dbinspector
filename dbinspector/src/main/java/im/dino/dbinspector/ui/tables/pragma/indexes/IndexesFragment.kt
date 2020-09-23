@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorFragmentPragmaBinding
 import im.dino.dbinspector.databinding.DbinspectorItemHeaderBinding
@@ -16,7 +18,7 @@ import im.dino.dbinspector.ui.tables.pragma.PragmaAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-internal class IndexesFragment : BaseFragment(R.layout.dbinspector_fragment_pragma) {
+internal class IndexesFragment : BaseFragment(R.layout.dbinspector_fragment_pragma), SwipeRefreshLayout.OnRefreshListener {
 
     companion object {
 
@@ -38,6 +40,8 @@ internal class IndexesFragment : BaseFragment(R.layout.dbinspector_fragment_prag
 
     private val viewModel by viewModels<IndexViewModel>()
 
+    private val adapter = PragmaAdapter(IndexListColumns.values().map { it.name.toLowerCase() })
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -53,10 +57,23 @@ internal class IndexesFragment : BaseFragment(R.layout.dbinspector_fragment_prag
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            val adapter = PragmaAdapter(IndexListColumns.values().map { it.name.toLowerCase() })
+            swipeRefresh.setOnRefreshListener(this@IndexesFragment)
+
             recyclerView.layoutManager = GridLayoutManager(recyclerView.context, IndexListColumns.values().size)
             recyclerView.adapter = adapter
 
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.query(databasePath, tableName).collectLatest {
+                    adapter.submitData(it)
+                }
+            }
+        }
+    }
+
+    override fun onRefresh() {
+        with(binding) {
+            swipeRefresh.isRefreshing = false
+            adapter.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
             viewLifecycleOwner.lifecycleScope.launch {
                 viewModel.query(databasePath, tableName).collectLatest {
                     adapter.submitData(it)

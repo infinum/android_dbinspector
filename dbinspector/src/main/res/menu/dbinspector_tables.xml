@@ -4,12 +4,6 @@
     tools:ignore="AlwaysShowAction">
 
     <item
-        android:id="@+id/dbImport"
-        android:icon="@drawable/dbinspector_ic_import"
-        android:title="@string/dbinspector_action_import"
-        app:showAsAction="always" />
-
-    <item
         android:id="@+id/refresh"
         android:icon="@drawable/dbinspector_ic_refresh"
         android:title="@string/dbinspector_action_refresh"

@@ -2,6 +2,8 @@ package im.dino.dbinspector.ui.tables.pragma
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivityPragmaBinding
 import im.dino.dbinspector.domain.table.models.Table
 import im.dino.dbinspector.ui.shared.Constants
@@ -33,6 +35,15 @@ class PragmaActivity : AppCompatActivity() {
         with(viewBinding) {
             toolbar.setNavigationOnClickListener { finish() }
             toolbar.subtitle = listOfNotNull(databaseName, table.name).joinToString(" / ")
+            toolbar.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.refresh -> {
+                        refreshChildren()
+                        true
+                    }
+                    else -> false
+                }
+            }
 
             tabLayout.setupWithViewPager(viewPager)
             viewPager.adapter = PragmaTypeAdapter(
@@ -52,4 +63,10 @@ class PragmaActivity : AppCompatActivity() {
             // TODO: push or show error views or Fragment
         }
     }
+
+    private fun refreshChildren() =
+        supportFragmentManager
+            .fragments
+            .filterIsInstance<SwipeRefreshLayout.OnRefreshListener>()
+            .forEach(SwipeRefreshLayout.OnRefreshListener::onRefresh)
 }

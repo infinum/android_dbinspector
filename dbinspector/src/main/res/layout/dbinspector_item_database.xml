@@ -72,7 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_marginTop="16dp"
-            app:menu="@menu/dbinspector_database"
+            app:menu="@menu/dbinspector_item_database"
             app:navigationIcon="@drawable/dbinspector_ic_remove" />
 
     </LinearLayout>

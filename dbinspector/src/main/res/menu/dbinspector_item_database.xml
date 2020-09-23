@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="AlwaysShowAction">
+
+    <item
+        android:id="@+id/rename"
+        android:title="@string/dbinspector_action_rename"
+        android:icon="@drawable/dbinspector_ic_rename"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/copy"
+        android:title="@string/dbinspector_action_copy"
+        android:icon="@drawable/dbinspector_ic_copy"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/share"
+        android:title="@string/dbinspector_action_share"
+        android:icon="@drawable/dbinspector_ic_share"
+        app:showAsAction="always"/>
+
+</menu>

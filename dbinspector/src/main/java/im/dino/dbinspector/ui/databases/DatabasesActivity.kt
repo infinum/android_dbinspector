@@ -82,6 +82,10 @@ class DatabasesActivity : AppCompatActivity() {
                         importDatabase()
                         true
                     }
+                    R.id.refresh -> {
+                        viewModel.find()
+                        true
+                    }
                     else -> false
                 }
             }

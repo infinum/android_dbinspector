@@ -6,8 +6,10 @@ import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivityTablesBinding
 import im.dino.dbinspector.domain.database.models.Database
 import im.dino.dbinspector.domain.table.models.Table
@@ -36,14 +38,39 @@ class TablesActivity : AppCompatActivity() {
 
     private fun setupUi(database: Database) {
         with(viewBinding) {
-            toolbar.setNavigationOnClickListener { finish() }
-            toolbar.subtitle = database.name
-
             val adapter = TablesAdapter(
                 onClick = {
                     showTableContent(database.name, database.absolutePath, it)
                 }
             )
+
+            toolbar.setNavigationOnClickListener { finish() }
+            toolbar.subtitle = database.name
+            toolbar.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.refresh -> {
+                        adapter.submitData(lifecycle, PagingData.empty())
+                        lifecycleScope.launch {
+                            viewModel.query(database.absolutePath).collectLatest {
+                                adapter.submitData(it)
+                            }
+                        }
+                        true
+                    }
+                    else -> false
+                }
+            }
+
+            swipeRefresh.setOnRefreshListener {
+                swipeRefresh.isRefreshing = false
+                adapter.submitData(lifecycle, PagingData.empty())
+                lifecycleScope.launch {
+                    viewModel.query(database.absolutePath).collectLatest {
+                        adapter.submitData(it)
+                    }
+                }
+            }
+
             recyclerView.layoutManager = LinearLayoutManager(recyclerView.context, LinearLayoutManager.VERTICAL, false)
             recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, LinearLayout.VERTICAL))
             recyclerView.adapter = adapter

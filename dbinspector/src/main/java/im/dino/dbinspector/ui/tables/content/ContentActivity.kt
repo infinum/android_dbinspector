@@ -49,25 +49,45 @@ internal class ContentActivity : AppCompatActivity() {
 
     private fun setupUi(databasePath: String?, databaseName: String?, table: Table) {
         val tableHeaders = viewModel.header()
+        val adapter = ContentAdapter(tableHeaders)
 
         with(viewBinding) {
             toolbar.setNavigationOnClickListener { finish() }
             toolbar.subtitle = listOfNotNull(databaseName, table.name).joinToString(" / ")
             toolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
+                    R.id.clear -> {
+                        clearTable(table.name)
+                        true
+                    }
                     R.id.pragma -> {
                         showTablePragma(databaseName, databasePath, table)
                         true
                     }
-                    R.id.clear -> {
-                        clearTable(table.name)
+                    R.id.refresh -> {
+                        adapter.submitData(lifecycle, PagingData.empty())
+                        lifecycleScope.launch {
+                            viewModel.query().collectLatest { data ->
+                                adapter.submitData(data)
+                            }
+                        }
                         true
                     }
                     else -> false
                 }
             }
 
-            val adapter = ContentAdapter(tableHeaders)
+            swipeRefresh.setOnRefreshListener {
+                swipeRefresh.isRefreshing = false
+                adapter.submitData(lifecycle, PagingData.empty())
+                lifecycleScope.launch {
+                    viewModel.query().collectLatest {
+                        adapter.submitData(it)
+
+                    }
+                }
+            }
+
             recyclerView.layoutManager = GridLayoutManager(recyclerView.context, tableHeaders.size)
             recyclerView.adapter = adapter
 
