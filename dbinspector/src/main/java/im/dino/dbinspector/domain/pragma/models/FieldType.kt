@@ -9,6 +9,6 @@ enum class FieldType {
 
     companion object {
 
-        operator fun invoke(value: Int) = values().firstOrNull { it.ordinal == value }
+        operator fun invoke(value: Int) = values().single { it.ordinal == value }
     }
 }

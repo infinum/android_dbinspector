@@ -17,5 +17,4 @@ abstract class AbstractTableOperation<T>(
             }
         }
     }
-
 }

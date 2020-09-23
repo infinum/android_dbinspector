@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="dbinspector_allowed">
+        <item>sql</item>
+        <item>sqlite</item>
+        <item>sqlite3</item>
+        <item>db</item>
+        <item>cblite</item>
+        <item>cblite2</item>
+    </string-array>
+
+    <string-array name="dbinspector_ignored">
+        <item>-journal</item>
+        <item>-wal</item>
+        <item>-shm</item>
+    </string-array>
+
+</resources>

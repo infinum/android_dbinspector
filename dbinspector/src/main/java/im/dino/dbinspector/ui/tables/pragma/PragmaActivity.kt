@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivityPragmaBinding
-import im.dino.dbinspector.domain.table.models.Table
 import im.dino.dbinspector.ui.shared.Constants
 
 class PragmaActivity : AppCompatActivity() {
@@ -22,19 +21,19 @@ class PragmaActivity : AppCompatActivity() {
         intent.extras?.let {
             val databaseName = it.getString(Constants.Keys.DATABASE_NAME)
             val databasePath = it.getString(Constants.Keys.DATABASE_PATH)
-            val table = it.getParcelable<Table>(Constants.Keys.TABLE)
-            if (databasePath.isNullOrBlank().not() && table != null) {
-                setupUi(databaseName, databasePath.orEmpty(), table)
+            val tableName = it.getString(Constants.Keys.TABLE_NAME)
+            if (databaseName.isNullOrBlank().not() && databasePath.isNullOrBlank().not() && tableName.isNullOrBlank().not()) {
+                setupUi(databaseName!!, databasePath!!, tableName!!)
             } else {
                 showError()
             }
         } ?: showError()
     }
 
-    private fun setupUi(databaseName: String?, databasePath: String, table: Table) {
+    private fun setupUi(databaseName: String, databasePath: String, tableName: String) {
         with(viewBinding) {
             toolbar.setNavigationOnClickListener { finish() }
-            toolbar.subtitle = listOfNotNull(databaseName, table.name).joinToString(" / ")
+            toolbar.subtitle = listOf(databaseName, tableName).joinToString(" / ")
             toolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.refresh -> {
@@ -50,7 +49,7 @@ class PragmaActivity : AppCompatActivity() {
                 context = this@PragmaActivity,
                 fragmentManager = supportFragmentManager,
                 databasePath = databasePath,
-                tableName = table.name
+                tableName = tableName
             )
         }
     }

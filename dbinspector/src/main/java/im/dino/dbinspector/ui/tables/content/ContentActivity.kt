@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivityContentBinding
-import im.dino.dbinspector.domain.table.models.Table
 import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.tables.pragma.PragmaActivity
 import kotlinx.coroutines.flow.collectLatest
@@ -33,35 +32,35 @@ internal class ContentActivity : AppCompatActivity() {
         intent.extras?.let {
             val databaseName = it.getString(Constants.Keys.DATABASE_NAME)
             val databasePath = it.getString(Constants.Keys.DATABASE_PATH)
-            val table = it.getParcelable<Table>(Constants.Keys.TABLE)
-            if (databasePath.isNullOrBlank().not() && table != null) {
+            val tableName = it.getString(Constants.Keys.TABLE_NAME)
+            if (databaseName.isNullOrBlank().not() && databasePath.isNullOrBlank().not() && tableName.isNullOrBlank().not()) {
                 viewModel = ViewModelProvider(
                     this,
-                    ContentViewModelFactory(databasePath.orEmpty(), table.name)
+                    ContentViewModelFactory(databasePath!!, tableName!!)
                 ).get(ContentViewModel::class.java)
 
-                setupUi(databasePath, databaseName, table)
+                setupUi(databasePath, databaseName!!, tableName)
             } else {
                 showError()
             }
         } ?: showError()
     }
 
-    private fun setupUi(databasePath: String?, databaseName: String?, table: Table) {
+    private fun setupUi(databasePath: String, databaseName: String, tableName: String) {
         val tableHeaders = viewModel.header()
         val adapter = ContentAdapter(tableHeaders)
 
         with(viewBinding) {
             toolbar.setNavigationOnClickListener { finish() }
-            toolbar.subtitle = listOfNotNull(databaseName, table.name).joinToString(" / ")
+            toolbar.subtitle = listOf(databaseName, tableName).joinToString(" / ")
             toolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.clear -> {
-                        clearTable(table.name)
+                        clearTable(tableName)
                         true
                     }
                     R.id.pragma -> {
-                        showTablePragma(databaseName, databasePath, table)
+                        showTablePragma(databaseName, databasePath, tableName)
                         true
                     }
                     R.id.refresh -> {
@@ -109,13 +108,13 @@ internal class ContentActivity : AppCompatActivity() {
         }
     }
 
-    private fun showTablePragma(databaseName: String?, databasePath: String?, table: Table) {
+    private fun showTablePragma(databaseName: String?, databasePath: String?, tableName: String) {
         startActivity(
             Intent(this, PragmaActivity::class.java)
                 .apply {
                     putExtra(Constants.Keys.DATABASE_NAME, databaseName)
                     putExtra(Constants.Keys.DATABASE_PATH, databasePath)
-                    putExtra(Constants.Keys.TABLE, table)
+                    putExtra(Constants.Keys.TABLE_NAME, tableName)
                 }
         )
     }

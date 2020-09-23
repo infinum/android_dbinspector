@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivityTablesBinding
 import im.dino.dbinspector.domain.database.models.Database
-import im.dino.dbinspector.domain.table.models.Table
 import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.tables.content.ContentActivity
 import kotlinx.coroutines.flow.collectLatest
@@ -123,13 +122,13 @@ class TablesActivity : AppCompatActivity() {
         // TODO
     }
 
-    private fun showTableContent(databaseName: String, databasePath: String, table: Table) {
+    private fun showTableContent(databaseName: String, databasePath: String, tableName: String) {
         startActivity(
             Intent(this, ContentActivity::class.java)
                 .apply {
                     putExtra(Constants.Keys.DATABASE_NAME, databaseName)
                     putExtra(Constants.Keys.DATABASE_PATH, databasePath)
-                    putExtra(Constants.Keys.TABLE, table)
+                    putExtra(Constants.Keys.TABLE_NAME, tableName)
                 }
         )
     }

@@ -27,30 +27,34 @@ import im.dino.dbinspector.databinding.DbinspectorActivityDatabasesBinding
 import im.dino.dbinspector.databinding.DbinspectorDialogRenameBinding
 import im.dino.dbinspector.domain.database.models.Database
 import im.dino.dbinspector.extensions.databaseDir
+import im.dino.dbinspector.extensions.scale
 import im.dino.dbinspector.ui.shared.Constants
+import im.dino.dbinspector.ui.shared.Searchable
 import im.dino.dbinspector.ui.tables.TablesActivity
 import java.io.File
 import java.io.FileOutputStream
 
 
-class DatabasesActivity : AppCompatActivity() {
+class DatabasesActivity : AppCompatActivity(), Searchable {
 
     companion object {
         private const val REQUEST_CODE_IMPORT = 666
     }
 
-    lateinit var viewBinding: DbinspectorActivityDatabasesBinding
+    lateinit var binding: DbinspectorActivityDatabasesBinding
 
     private val viewModel: DatabaseViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewBinding = DbinspectorActivityDatabasesBinding.inflate(layoutInflater)
+        binding = DbinspectorActivityDatabasesBinding.inflate(layoutInflater)
 
-        setContentView(viewBinding.root)
+        setContentView(binding.root)
 
-        setupUi()
+        setupToolbar()
+        setupSwipeRefresh()
+        setupRecyclerView()
 
         viewModel.databases.observeForever {
             showDatabases(it)
@@ -64,14 +68,10 @@ class DatabasesActivity : AppCompatActivity() {
         if (requestCode == REQUEST_CODE_IMPORT) {
             when (resultCode) {
                 Activity.RESULT_OK -> {
-                    data?.clipData?.let {
-                        val uris = mutableListOf<Uri>()
-                        for (i in 0 until it.itemCount) {
-                            uris.add(it.getItemAt(i).uri)
-                        }
-                        importFiles(uris.toList())
+                    data?.clipData?.let { clipData ->
+                        importDatabases((0 until clipData.itemCount).map { clipData.getItemAt(it).uri })
                     } ?: data?.data?.let {
-                        importFiles(listOf(it))
+                        importDatabases(listOf(it))
                     } ?: showError()
                 }
                 Activity.RESULT_CANCELED -> Unit
@@ -80,16 +80,29 @@ class DatabasesActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupUi() {
-        with(viewBinding) {
-            toolbar.navigationIcon = shrinkAppIcon()
+    override fun onSearchOpened() {
+        with(binding.toolbar) {
+            menu.findItem(R.id.dbImport).isVisible = false
+            menu.findItem(R.id.refresh).isVisible = false
+        }
+    }
 
-            toolbar.setNavigationOnClickListener { finish() }
-            toolbar.setOnMenuItemClickListener {
+    override fun onSearchClosed() {
+        with(binding.toolbar) {
+            menu.findItem(R.id.dbImport).isVisible = true
+            menu.findItem(R.id.refresh).isVisible = true
+        }
+    }
+
+    private fun setupToolbar() =
+        with(binding.toolbar) {
+            navigationIcon = applicationInfo.loadIcon(packageManager)
+                .scale(this@DatabasesActivity, R.dimen.dbinspector_app_icon_size, R.dimen.dbinspector_app_icon_size)
+            setNavigationOnClickListener { finish() }
+            setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.search -> {
-                        toolbar.menu.findItem(R.id.dbImport).isVisible = false
-                        toolbar.menu.findItem(R.id.refresh).isVisible = false
+                        onSearchOpened()
                         true
                     }
                     R.id.dbImport -> {
@@ -97,22 +110,21 @@ class DatabasesActivity : AppCompatActivity() {
                         true
                     }
                     R.id.refresh -> {
-                        viewModel.find()
+                        refreshDatabases()
                         true
                     }
                     else -> false
                 }
             }
             val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-            (toolbar.menu.findItem(R.id.search).actionView as SearchView).apply {
+            (menu.findItem(R.id.search).actionView as SearchView).apply {
                 setSearchableInfo(searchManager.getSearchableInfo(componentName))
                 setIconifiedByDefault(true)
                 isSubmitButtonEnabled = false
                 isQueryRefinementEnabled = true
                 maxWidth = Integer.MAX_VALUE
                 setOnCloseListener {
-                    toolbar.menu.findItem(R.id.dbImport).isVisible = true
-                    toolbar.menu.findItem(R.id.refresh).isVisible = true
+                    onSearchClosed()
                     false
                 }
                 setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -128,12 +140,20 @@ class DatabasesActivity : AppCompatActivity() {
                     }
                 })
             }
-            swipeRefresh.setOnRefreshListener {
-                swipeRefresh.isRefreshing = false
-                viewModel.find()
+        }
+
+    private fun setupSwipeRefresh() =
+        with(binding.swipeRefresh) {
+            setOnRefreshListener {
+                isRefreshing = false
+                refreshDatabases()
             }
         }
-    }
+
+    private fun setupRecyclerView() =
+        with(binding.recyclerView) {
+            layoutManager = LinearLayoutManager(this@DatabasesActivity, LinearLayoutManager.VERTICAL, false)
+        }
 
     private fun shrinkAppIcon(): Drawable {
         val drawable = applicationInfo.loadIcon(packageManager)
@@ -147,17 +167,14 @@ class DatabasesActivity : AppCompatActivity() {
     }
 
     private fun showDatabases(databases: List<Database>) {
-        with(viewBinding.recyclerView) {
-            layoutManager = LinearLayoutManager(this@DatabasesActivity, LinearLayoutManager.VERTICAL, false)
-            adapter = DatabasesAdapter(
-                items = databases,
-                onClick = { showTables(it) },
-                onDelete = { removeDatabase(it) },
-                onRename = { renameDatabase(it) },
-                onCopy = { copyDatabase(it) },
-                onShare = { shareDatabase(it) }
-            )
-        }
+        binding.recyclerView.adapter = DatabasesAdapter(
+            items = databases,
+            onClick = { showTables(it) },
+            onDelete = { removeDatabase(it) },
+            onRename = { renameDatabase(it) },
+            onCopy = { copyDatabase(it) },
+            onShare = { shareDatabase(it) }
+        )
     }
 
     private fun showTables(database: Database) =
@@ -167,6 +184,11 @@ class DatabasesActivity : AppCompatActivity() {
                     putExtra(Constants.Keys.DATABASE, database)
                 }
         )
+
+    private fun refreshDatabases() {
+        viewModel.find()
+        search((binding.toolbar.menu.findItem(R.id.search).actionView as SearchView).query?.toString())
+    }
 
     private fun importDatabase() =
         startActivityForResult(
@@ -185,7 +207,7 @@ class DatabasesActivity : AppCompatActivity() {
         )
 
     private fun showError() {
-        with(viewBinding) {
+        with(binding) {
             toolbar.setNavigationOnClickListener { finish() }
             toolbar.subtitle = "Error"
 
@@ -193,7 +215,7 @@ class DatabasesActivity : AppCompatActivity() {
         }
     }
 
-    private fun importFiles(uris: List<Uri>) {
+    private fun importDatabases(uris: List<Uri>) {
         uris.forEach {
             it.lastPathSegment?.split("/")?.last()?.let { filename ->
                 contentResolver.openInputStream(it)?.use { inputStream ->
@@ -303,6 +325,6 @@ class DatabasesActivity : AppCompatActivity() {
         }
 
     private fun search(query: String?) {
-        (viewBinding.recyclerView.adapter as? DatabasesAdapter)?.filter?.filter(query)
+        (binding.recyclerView.adapter as? DatabasesAdapter)?.filter?.filter(query)
     }
 }

@@ -6,7 +6,6 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import im.dino.dbinspector.domain.table.models.Table
 import kotlinx.coroutines.flow.Flow
 
 class TablesViewModel : ViewModel() {
@@ -15,7 +14,7 @@ class TablesViewModel : ViewModel() {
         private const val PAGE_SIZE = 100
     }
 
-    fun query(path: String, args: String? = null): Flow<PagingData<Table>> {
+    fun query(path: String, args: String? = null): Flow<PagingData<String>> {
         return Pager(
             PagingConfig(pageSize = PAGE_SIZE)
         ) {

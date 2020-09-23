@@ -2,19 +2,18 @@ package im.dino.dbinspector.ui.tables
 
 import androidx.paging.PagingSource
 import im.dino.dbinspector.domain.database.AllTablesOperation
-import im.dino.dbinspector.domain.table.models.Table
 
 class TablesDataSource(
     private val path: String,
     pageSize: Int,
     args: String?
-) : PagingSource<Int, Table>() {
+) : PagingSource<Int, String>() {
 
     private val source = AllTablesOperation(pageSize, args)
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Table> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, String> {
         val result = source(path, params.key).map {
-            Table(name = it.fields.first())
+            it.fields.first()
         }
         return LoadResult.Page(
             data = result,

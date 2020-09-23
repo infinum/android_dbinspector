@@ -7,7 +7,6 @@ import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import im.dino.dbinspector.databinding.DbinspectorItemDatabaseBinding
 import im.dino.dbinspector.domain.database.models.Database
-import java.util.Locale
 
 class DatabasesAdapter(
     private val items: List<Database> = listOf(),
@@ -45,24 +44,8 @@ class DatabasesAdapter(
 
     override fun getItemCount(): Int = filteredItems.size
 
-    override fun getFilter(): Filter = object : Filter() {
-
-        override fun performFiltering(constraint: CharSequence?): FilterResults =
-            FilterResults().apply {
-                values = if (constraint.isNullOrBlank()) {
-                    items
-                } else {
-                    items.filter { it.name.toLowerCase(Locale.getDefault()).contains(constraint.toString().toLowerCase(Locale.getDefault())) }
-                }
-            }
-
-        @Suppress("UNCHECKED_CAST")
-        override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-            results?.let {
-                filteredItems = it.values as List<Database>
-
-                notifyDataSetChanged()
-            }
-        }
+    override fun getFilter(): Filter = DatabasesFilter(items) {
+        filteredItems = it
+        notifyDataSetChanged()
     }
 }

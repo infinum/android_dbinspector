@@ -2,8 +2,12 @@ package im.dino.dbinspector.domain.shared
 
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import androidx.core.database.getFloatOrNull
+import androidx.core.database.getIntOrNull
+import androidx.core.database.getStringOrNull
 import im.dino.dbinspector.data.models.Row
 import im.dino.dbinspector.domain.pragma.models.FieldType
+import java.util.Locale
 import kotlin.math.ceil
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -27,10 +31,6 @@ abstract class AbstractDatabaseOperation<T> : DatabaseOperation<T> {
 
     private var currentPage: Int = 1
 
-    abstract fun query(): String
-
-    abstract fun pageSize(): Int
-
     internal fun database(path: String): SQLiteDatabase =
         SQLiteDatabase.openOrCreateDatabase(path, null)
 
@@ -49,38 +49,32 @@ abstract class AbstractDatabaseOperation<T> : DatabaseOperation<T> {
 
     @Suppress("UNCHECKED_CAST")
     override fun collect(cursor: Cursor, page: Int?): T {
-        val rowCount = cursor.count
-        val columnCount = cursor.columnCount
-
         val startRow = page?.let {
             pageSize() * it
         } ?: 0
-        val endRow = min(startRow + pageSize(), rowCount)
+        val endRow = min(startRow + pageSize(), cursor.count)
 
-        val rows: MutableList<Row> = mutableListOf()
-        if (cursor.moveToPosition(startRow)) {
-            for (row in startRow until endRow) {
-
-                val fields: MutableList<String> = mutableListOf()
-                for (column in 0 until columnCount) {
-                    fields.add(
-                        when (FieldType(cursor.getType(column)) == FieldType.BLOB) {
-                            true -> COLUMN_BLOB_VALUE
-                            false -> cursor.getString(column) ?: "null"
+        return if (cursor.moveToPosition(startRow)) {
+            (startRow until endRow).map { row ->
+                Row(
+                    position = row,
+                    fields = (0 until cursor.columnCount).map { column ->
+                        when (FieldType(cursor.getType(column))) {
+                            FieldType.NULL -> FieldType.NULL.name.toLowerCase(Locale.getDefault())
+                            FieldType.INTEGER -> cursor.getIntOrNull(column)?.toString()
+                                ?: FieldType.NULL.name.toLowerCase(Locale.getDefault())
+                            FieldType.FLOAT -> cursor.getFloatOrNull(column)?.toString()
+                                ?: FieldType.NULL.name.toLowerCase(Locale.getDefault())
+                            FieldType.STRING -> cursor.getStringOrNull(column) ?: FieldType.NULL.name.toLowerCase(Locale.getDefault())
+                            FieldType.BLOB -> COLUMN_BLOB_VALUE
                         }
-                    )
+                    }
+                ).also {
+                    cursor.moveToNext()
                 }
-
-                rows.add(
-                    Row(
-                        fields = fields
-                    )
-                )
-
-                cursor.moveToNext()
             }
-        }
-
-        return rows as T
+        } else {
+            listOf()
+        } as T
     }
 }

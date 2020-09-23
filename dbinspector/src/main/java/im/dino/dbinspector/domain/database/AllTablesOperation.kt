@@ -1,8 +1,13 @@
 package im.dino.dbinspector.domain.database
 
 import android.database.Cursor
+import androidx.core.database.getFloatOrNull
+import androidx.core.database.getIntOrNull
+import androidx.core.database.getStringOrNull
 import im.dino.dbinspector.data.models.Row
+import im.dino.dbinspector.domain.pragma.models.FieldType
 import im.dino.dbinspector.domain.shared.AbstractDatabaseOperation
+import java.util.Locale
 import kotlin.math.min
 
 class AllTablesOperation(
@@ -10,7 +15,11 @@ class AllTablesOperation(
     private val args: String?
 ) : AbstractDatabaseOperation<List<Row>>() {
 
-    override fun query(): String = if (args.isNullOrBlank()) ALL_TABLES else String.format(FORMAT_ALL_TABLES, args)
+    override fun query(): String = if (args.isNullOrBlank()) {
+        ALL_TABLES
+    } else {
+        String.format(FORMAT_ALL_TABLES, args)
+    }
 
     override fun pageSize(): Int = pageSize
 
@@ -27,33 +36,24 @@ class AllTablesOperation(
     }
 
     override fun collect(cursor: Cursor, page: Int?): List<Row> {
-        val rowCount = cursor.count
-        val columnCount = cursor.columnCount
-
         val startRow = page?.let {
             pageSize() * it
         } ?: 0
-        val endRow = min(startRow + pageSize(), rowCount)
+        val endRow = min(startRow + pageSize(), cursor.count)
 
-        val rows: MutableList<Row> = mutableListOf()
-        if (cursor.moveToPosition(startRow)) {
-            for (row in startRow until endRow) {
-
-                val fields: MutableList<String> = mutableListOf()
-                for (column in 0 until columnCount) {
-                    fields.add(cursor.getString(cursor.getColumnIndex(COLUMN_NAME)))
+        return if (cursor.moveToPosition(startRow)) {
+            (startRow until endRow).map { row ->
+                Row(
+                    position = row,
+                    fields = (0 until cursor.columnCount).map {
+                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME))
+                    }
+                ).also {
+                    cursor.moveToNext()
                 }
-
-                rows.add(
-                    Row(
-                        fields = fields
-                    )
-                )
-
-                cursor.moveToNext()
             }
+        } else {
+            listOf()
         }
-
-        return rows
     }
 }
