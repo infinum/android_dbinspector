@@ -27,7 +27,7 @@ import java.io.File
 import java.io.FileOutputStream
 
 
-class DatabasesActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
+class DatabasesActivity : AppCompatActivity() {
 
     companion object {
         private const val REQUEST_CODE_IMPORT = 666
@@ -74,13 +74,6 @@ class DatabasesActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListe
         }
     }
 
-    override fun onRefresh() {
-        with(viewBinding) {
-            swipeRefresh.isRefreshing = false
-            viewModel.find()
-        }
-    }
-
     private fun setupUi() {
         with(viewBinding) {
             toolbar.setNavigationOnClickListener { finish() }
@@ -93,7 +86,10 @@ class DatabasesActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListe
                     else -> false
                 }
             }
-            swipeRefresh.setOnRefreshListener(this@DatabasesActivity)
+            swipeRefresh.setOnRefreshListener {
+                swipeRefresh.isRefreshing = false
+                viewModel.find()
+            }
         }
     }
 
