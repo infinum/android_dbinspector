@@ -1,16 +1,21 @@
 package im.dino.dbinspector.ui.databases
 
 import android.app.Activity
+import android.app.SearchManager
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.InputFilter
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.app.ShareCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -78,6 +83,11 @@ class DatabasesActivity : AppCompatActivity() {
             toolbar.setNavigationOnClickListener { finish() }
             toolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
+                    R.id.search -> {
+                        toolbar.menu.findItem(R.id.dbImport).isVisible = false
+                        toolbar.menu.findItem(R.id.refresh).isVisible = false
+                        true
+                    }
                     R.id.dbImport -> {
                         importDatabase()
                         true
@@ -88,6 +98,31 @@ class DatabasesActivity : AppCompatActivity() {
                     }
                     else -> false
                 }
+            }
+            val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+            (toolbar.menu.findItem(R.id.search).actionView as SearchView).apply {
+                setSearchableInfo(searchManager.getSearchableInfo(componentName))
+                setIconifiedByDefault(true)
+                isSubmitButtonEnabled = false
+                isQueryRefinementEnabled = true
+                maxWidth = Integer.MAX_VALUE
+                setOnCloseListener {
+                    toolbar.menu.findItem(R.id.dbImport).isVisible = true
+                    toolbar.menu.findItem(R.id.refresh).isVisible = true
+                    false
+                }
+                setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        search(query)
+                        return true
+                    }
+
+                    override fun onQueryTextChange(newText: String?): Boolean {
+                        search(newText)
+                        return true
+                    }
+                })
             }
             swipeRefresh.setOnRefreshListener {
                 swipeRefresh.isRefreshing = false
@@ -251,4 +286,8 @@ class DatabasesActivity : AppCompatActivity() {
                 Toast.LENGTH_SHORT
             ).show()
         }
+
+    private fun search(query: String?) {
+        (viewBinding.recyclerView.adapter as? DatabasesAdapter)?.filter?.filter(query)
+    }
 }

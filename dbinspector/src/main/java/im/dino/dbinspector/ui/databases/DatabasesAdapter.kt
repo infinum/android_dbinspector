@@ -2,9 +2,12 @@ package im.dino.dbinspector.ui.databases
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import im.dino.dbinspector.databinding.DbinspectorItemDatabaseBinding
 import im.dino.dbinspector.domain.database.models.Database
+import java.util.Locale
 
 class DatabasesAdapter(
     private val items: List<Database> = listOf(),
@@ -13,14 +16,20 @@ class DatabasesAdapter(
     private val onRename: (Database) -> Unit,
     private val onCopy: (Database) -> Unit,
     private val onShare: (Database) -> Unit
-) : RecyclerView.Adapter<DatabaseViewHolder>() {
+) : RecyclerView.Adapter<DatabaseViewHolder>(), Filterable {
+
+    private var filteredItems: List<Database> = listOf()
+
+    init {
+        filteredItems = items
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DatabaseViewHolder =
         DatabaseViewHolder(DbinspectorItemDatabaseBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
     override fun onBindViewHolder(holder: DatabaseViewHolder, position: Int) =
         holder.bind(
-            item = items[position],
+            item = filteredItems[position],
             onClick = onClick,
             onDelete = onDelete,
             onRename = onRename,
@@ -34,5 +43,26 @@ class DatabasesAdapter(
             super.onViewRecycled(this)
         }
 
-    override fun getItemCount(): Int = items.size
+    override fun getItemCount(): Int = filteredItems.size
+
+    override fun getFilter(): Filter = object : Filter() {
+
+        override fun performFiltering(constraint: CharSequence?): FilterResults =
+            FilterResults().apply {
+                values = if (constraint.isNullOrBlank()) {
+                    items
+                } else {
+                    items.filter { it.name.toLowerCase(Locale.getDefault()).contains(constraint.toString().toLowerCase(Locale.getDefault())) }
+                }
+            }
+
+        @Suppress("UNCHECKED_CAST")
+        override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+            results?.let {
+                filteredItems = it.values as List<Database>
+
+                notifyDataSetChanged()
+            }
+        }
+    }
 }
