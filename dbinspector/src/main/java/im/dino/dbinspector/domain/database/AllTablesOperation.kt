@@ -6,10 +6,11 @@ import im.dino.dbinspector.domain.shared.AbstractDatabaseOperation
 import kotlin.math.min
 
 class AllTablesOperation(
-    private val pageSize: Int
+    private val pageSize: Int,
+    private val args: String?
 ) : AbstractDatabaseOperation<List<Row>>() {
 
-    override fun query(): String = ALL_TABLES
+    override fun query(): String = if (args.isNullOrBlank()) ALL_TABLES else String.format(FORMAT_ALL_TABLES, args)
 
     override fun pageSize(): Int = pageSize
 

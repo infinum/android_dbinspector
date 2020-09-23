@@ -6,10 +6,11 @@ import im.dino.dbinspector.domain.table.models.Table
 
 class TablesDataSource(
     private val path: String,
-    pageSize: Int
+    pageSize: Int,
+    args: String?
 ) : PagingSource<Int, Table>() {
 
-    private val source = AllTablesOperation(pageSize)
+    private val source = AllTablesOperation(pageSize, args)
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Table> {
         val result = source(path, params.key).map {

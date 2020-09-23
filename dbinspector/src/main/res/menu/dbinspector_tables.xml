@@ -4,6 +4,12 @@
     tools:ignore="AlwaysShowAction">
 
     <item
+        android:id="@+id/search"
+        android:title="@string/dbinspector_action_search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/refresh"
         android:icon="@drawable/dbinspector_ic_refresh"
         android:title="@string/dbinspector_action_refresh"

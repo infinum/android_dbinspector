@@ -1,10 +1,13 @@
 package im.dino.dbinspector.ui.tables
 
+import android.app.SearchManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -48,10 +51,14 @@ class TablesActivity : AppCompatActivity() {
             toolbar.subtitle = database.name
             toolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
+                    R.id.search -> {
+                        toolbar.menu.findItem(R.id.refresh).isVisible = false
+                        true
+                    }
                     R.id.refresh -> {
                         adapter.submitData(lifecycle, PagingData.empty())
                         lifecycleScope.launch {
-                            viewModel.query(database.absolutePath).collectLatest {
+                            viewModel.query(database.absolutePath, (toolbar.menu.findItem(R.id.search).actionView as SearchView).query?.toString()).collectLatest {
                                 adapter.submitData(it)
                             }
                         }
@@ -61,11 +68,40 @@ class TablesActivity : AppCompatActivity() {
                 }
             }
 
+            val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+            (toolbar.menu.findItem(R.id.search).actionView as SearchView).apply {
+                setSearchableInfo(searchManager.getSearchableInfo(componentName))
+                setIconifiedByDefault(true)
+                isSubmitButtonEnabled = false
+                isQueryRefinementEnabled = true
+                maxWidth = Integer.MAX_VALUE
+                setOnCloseListener {
+                    toolbar.menu.findItem(R.id.refresh).isVisible = true
+                    false
+                }
+                setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        search(database, query)
+                        return true
+                    }
+
+                    override fun onQueryTextChange(newText: String?): Boolean {
+                        search(database, newText)
+                        return true
+                    }
+                })
+            }
+
             swipeRefresh.setOnRefreshListener {
                 swipeRefresh.isRefreshing = false
                 adapter.submitData(lifecycle, PagingData.empty())
                 lifecycleScope.launch {
-                    viewModel.query(database.absolutePath).collectLatest {
+                    viewModel.query(
+                        database.absolutePath,
+                        (toolbar.menu.findItem(R.id.search).actionView as SearchView).query?.toString()
+
+                    ).collectLatest {
                         adapter.submitData(it)
                     }
                 }
@@ -96,5 +132,13 @@ class TablesActivity : AppCompatActivity() {
                     putExtra(Constants.Keys.TABLE, table)
                 }
         )
+    }
+
+    private fun search(database: Database, query: String?) {
+        lifecycleScope.launch {
+            viewModel.query(database.absolutePath, query).collectLatest {
+                (viewBinding.recyclerView.adapter as TablesAdapter).submitData(it)
+            }
+        }
     }
 }
