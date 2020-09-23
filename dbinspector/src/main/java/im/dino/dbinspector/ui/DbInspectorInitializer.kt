@@ -2,13 +2,12 @@ package im.dino.dbinspector.ui
 
 import android.content.Context
 import androidx.startup.Initializer
-import im.dino.dbinspector.data.source.local.DatabaseFinder
+import im.dino.dbinspector.data.source.local.DatabaseManager
 
 class DbInspectorInitializer : Initializer<Class<DbInspectorInitializer>> {
 
     override fun create(context: Context): Class<DbInspectorInitializer> {
-        DatabaseFinder.initialise(context)
-        DatabaseFinder.find()
+        DatabaseManager.initialise(context)
         return DbInspectorInitializer::class.java
     }
 

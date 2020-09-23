@@ -2,7 +2,5 @@ package im.dino.dbinspector.extensions
 
 import android.content.Context
 
-internal fun Context.databaseDir(): String {
-    val destPath = this.filesDir.path
-    return "${destPath.substring(0, destPath.lastIndexOf("/"))}/databases"
-}
+internal val Context.databaseDir: String
+    get() = "${filesDir.path.substring(0, filesDir.path.lastIndexOf("/"))}/databases"

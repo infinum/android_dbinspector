@@ -1,13 +1,10 @@
 package im.dino.dbinspector.ui.tables
 
-import android.app.SearchManager
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -15,31 +12,42 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivityTablesBinding
 import im.dino.dbinspector.domain.database.models.Database
+import im.dino.dbinspector.extensions.searchView
+import im.dino.dbinspector.extensions.setup
 import im.dino.dbinspector.ui.shared.Constants
+import im.dino.dbinspector.ui.shared.Searchable
 import im.dino.dbinspector.ui.tables.content.ContentActivity
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class TablesActivity : AppCompatActivity() {
+class TablesActivity : AppCompatActivity(), Searchable {
 
     private val viewModel by viewModels<TablesViewModel>()
 
-    lateinit var viewBinding: DbinspectorActivityTablesBinding
+    lateinit var binding: DbinspectorActivityTablesBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewBinding = DbinspectorActivityTablesBinding.inflate(layoutInflater)
+        binding = DbinspectorActivityTablesBinding.inflate(layoutInflater)
 
-        setContentView(viewBinding.root)
+        setContentView(binding.root)
 
         intent.extras?.getParcelable<Database>(Constants.Keys.DATABASE)?.let {
             setupUi(it)
         } ?: showError()
     }
 
+    override fun onSearchOpened() {
+        binding.toolbar.menu.findItem(R.id.refresh).isVisible = false
+    }
+
+    override fun onSearchClosed() {
+        binding.toolbar.menu.findItem(R.id.refresh).isVisible = true
+    }
+
     private fun setupUi(database: Database) {
-        with(viewBinding) {
+        with(binding) {
             val adapter = TablesAdapter(
                 onClick = {
                     showTableContent(database.name, database.absolutePath, it)
@@ -51,15 +59,17 @@ class TablesActivity : AppCompatActivity() {
             toolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.search -> {
-                        toolbar.menu.findItem(R.id.refresh).isVisible = false
+                        onSearchOpened()
                         true
                     }
                     R.id.refresh -> {
                         adapter.submitData(lifecycle, PagingData.empty())
-                        lifecycleScope.launch {
-                            viewModel.query(database.absolutePath, (toolbar.menu.findItem(R.id.search).actionView as SearchView).query?.toString()).collectLatest {
-                                adapter.submitData(it)
-                            }
+                        viewModel.query(
+                            lifecycleScope,
+                            database.absolutePath,
+                            toolbar.menu.searchView?.query?.toString()
+                        ) {
+                            adapter.submitData(it)
                         }
                         true
                     }
@@ -67,42 +77,20 @@ class TablesActivity : AppCompatActivity() {
                 }
             }
 
-            val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-            (toolbar.menu.findItem(R.id.search).actionView as SearchView).apply {
-                setSearchableInfo(searchManager.getSearchableInfo(componentName))
-                setIconifiedByDefault(true)
-                isSubmitButtonEnabled = false
-                isQueryRefinementEnabled = true
-                maxWidth = Integer.MAX_VALUE
-                setOnCloseListener {
-                    toolbar.menu.findItem(R.id.refresh).isVisible = true
-                    false
-                }
-                setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-
-                    override fun onQueryTextSubmit(query: String?): Boolean {
-                        search(database, query)
-                        return true
-                    }
-
-                    override fun onQueryTextChange(newText: String?): Boolean {
-                        search(database, newText)
-                        return true
-                    }
-                })
-            }
+            toolbar.menu.searchView?.setup(
+                onSearchClosed = { onSearchClosed() },
+                onQueryTextChanged = { search(database, it) }
+            )
 
             swipeRefresh.setOnRefreshListener {
                 swipeRefresh.isRefreshing = false
                 adapter.submitData(lifecycle, PagingData.empty())
-                lifecycleScope.launch {
-                    viewModel.query(
-                        database.absolutePath,
-                        (toolbar.menu.findItem(R.id.search).actionView as SearchView).query?.toString()
-
-                    ).collectLatest {
-                        adapter.submitData(it)
-                    }
+                viewModel.query(
+                    lifecycleScope,
+                    database.absolutePath,
+                    toolbar.menu.searchView?.query?.toString()
+                ) {
+                    adapter.submitData(it)
                 }
             }
 
@@ -110,10 +98,8 @@ class TablesActivity : AppCompatActivity() {
             recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, LinearLayout.VERTICAL))
             recyclerView.adapter = adapter
 
-            lifecycleScope.launch {
-                viewModel.query(database.absolutePath).collectLatest {
-                    adapter.submitData(it)
-                }
+            viewModel.query(lifecycleScope, database.absolutePath) {
+                adapter.submitData(it)
             }
         }
     }
@@ -134,10 +120,8 @@ class TablesActivity : AppCompatActivity() {
     }
 
     private fun search(database: Database, query: String?) {
-        lifecycleScope.launch {
-            viewModel.query(database.absolutePath, query).collectLatest {
-                (viewBinding.recyclerView.adapter as TablesAdapter).submitData(it)
-            }
+        viewModel.query(lifecycleScope, database.absolutePath, query) {
+            (binding.recyclerView.adapter as TablesAdapter).submitData(it)
         }
     }
 }
