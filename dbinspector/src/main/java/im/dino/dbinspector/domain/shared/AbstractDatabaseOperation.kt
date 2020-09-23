@@ -12,7 +12,7 @@ abstract class AbstractDatabaseOperation<T> : DatabaseOperation<T> {
 
     companion object {
         internal const val DATABASE_VERSION = "PRAGMA user_version"
-        internal const val ALL_TABLES = "SELECT name FROM sqlite_master WHERE type='table'"
+        internal const val ALL_TABLES = "SELECT name FROM sqlite_master WHERE type='table' ORDER by name asc"
 
         internal const val FORMAT_TABLE_INFO = "PRAGMA table_info(\"%s\")"
         internal const val FORMAT_FOREIGN_KEYS = "PRAGMA foreign_key_list(\"%s\")"

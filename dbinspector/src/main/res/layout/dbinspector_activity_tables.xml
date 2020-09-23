@@ -32,6 +32,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"
+            app:fastScrollEnabled="true"
+            app:fastScrollHorizontalThumbDrawable="@drawable/dbinspector_selector_fastscroll_thumb"
+            app:fastScrollHorizontalTrackDrawable="@drawable/dbinspector_selector_fastscroll_line"
+            app:fastScrollVerticalThumbDrawable="@drawable/dbinspector_selector_fastscroll_thumb"
+            app:fastScrollVerticalTrackDrawable="@drawable/dbinspector_selector_fastscroll_line"
             tools:listitem="@layout/dbinspector_item_table" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

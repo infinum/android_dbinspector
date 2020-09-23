@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -32,6 +32,12 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            app:fastScrollEnabled="true"
+            app:fastScrollHorizontalThumbDrawable="@drawable/dbinspector_selector_fastscroll_thumb"
+            app:fastScrollHorizontalTrackDrawable="@drawable/dbinspector_selector_fastscroll_line"
+            app:fastScrollVerticalThumbDrawable="@drawable/dbinspector_selector_fastscroll_thumb"
+            app:fastScrollVerticalTrackDrawable="@drawable/dbinspector_selector_fastscroll_line"
             tools:listitem="@layout/dbinspector_item_database" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
