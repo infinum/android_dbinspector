@@ -14,6 +14,7 @@ import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivityDatabasesBinding
@@ -26,7 +27,7 @@ import java.io.File
 import java.io.FileOutputStream
 
 
-class DatabasesActivity : AppCompatActivity() {
+class DatabasesActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
 
     companion object {
         private const val REQUEST_CODE_IMPORT = 666
@@ -73,6 +74,13 @@ class DatabasesActivity : AppCompatActivity() {
         }
     }
 
+    override fun onRefresh() {
+        with(viewBinding) {
+            swipeRefresh.isRefreshing = false
+            viewModel.find()
+        }
+    }
+
     private fun setupUi() {
         with(viewBinding) {
             toolbar.setNavigationOnClickListener { finish() }
@@ -85,6 +93,7 @@ class DatabasesActivity : AppCompatActivity() {
                     else -> false
                 }
             }
+            swipeRefresh.setOnRefreshListener(this@DatabasesActivity)
         }
     }
 
