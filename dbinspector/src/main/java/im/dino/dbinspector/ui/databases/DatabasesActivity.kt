@@ -6,16 +6,18 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.text.InputFilter
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.app.ShareCompat
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -80,6 +82,8 @@ class DatabasesActivity : AppCompatActivity() {
 
     private fun setupUi() {
         with(viewBinding) {
+            toolbar.navigationIcon = shrinkAppIcon()
+
             toolbar.setNavigationOnClickListener { finish() }
             toolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
@@ -129,6 +133,17 @@ class DatabasesActivity : AppCompatActivity() {
                 viewModel.find()
             }
         }
+    }
+
+    private fun shrinkAppIcon(): Drawable {
+        val drawable = applicationInfo.loadIcon(packageManager)
+        val size = resources.getDimensionPixelSize(R.dimen.dbinspector_app_icon_size)
+        val bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        Canvas(bitmap).apply {
+            drawable.setBounds(0, 0, width, height)
+            drawable.draw(this)
+        }
+        return BitmapDrawable(resources, Bitmap.createScaledBitmap(bitmap, size, size, true))
     }
 
     private fun showDatabases(databases: List<Database>) {
