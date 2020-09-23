@@ -15,9 +15,9 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            app:title="@string/dbinspector_pragma"
             android:layout_height="?attr/actionBarSize"
-            app:navigationIcon="@drawable/dbinspector_ic_close" />
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:title="@string/dbinspector_pragma" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

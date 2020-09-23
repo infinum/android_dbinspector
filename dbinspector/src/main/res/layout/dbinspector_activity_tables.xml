@@ -15,7 +15,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:navigationIcon="@drawable/dbinspector_ic_close"
+            app:navigationIcon="?attr/homeAsUpIndicator"
             app:title="@string/dbinspector_tables" />
 
     </com.google.android.material.appbar.AppBarLayout>
