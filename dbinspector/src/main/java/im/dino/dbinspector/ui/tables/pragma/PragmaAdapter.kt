@@ -8,7 +8,7 @@ import im.dino.dbinspector.databinding.DbinspectorItemCellBinding
 import im.dino.dbinspector.databinding.DbinspectorItemHeaderBinding
 import im.dino.dbinspector.ui.tables.shared.HeaderViewHolder
 
-class PragmaAdapter(
+internal class PragmaAdapter(
     private val headerItems: List<String>,
 ) : PagingDataAdapter<String, RecyclerView.ViewHolder>(PragmaDiffUtil()) {
 

@@ -7,7 +7,7 @@ import im.dino.dbinspector.domain.database.VersionOperation
 import im.dino.dbinspector.domain.database.models.Database
 import im.dino.dbinspector.ui.shared.BaseViewModel
 
-class DatabaseViewModel : BaseViewModel() {
+internal class DatabaseViewModel : BaseViewModel() {
 
     val databases: MutableLiveData<List<Database>> = MutableLiveData()
 

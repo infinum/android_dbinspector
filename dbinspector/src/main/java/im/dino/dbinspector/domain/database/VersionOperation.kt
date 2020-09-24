@@ -3,7 +3,7 @@ package im.dino.dbinspector.domain.database
 import android.database.Cursor
 import im.dino.dbinspector.domain.shared.AbstractDatabaseOperation
 
-class VersionOperation : AbstractDatabaseOperation<String>() {
+internal class VersionOperation : AbstractDatabaseOperation<String>() {
 
     override fun query(): String = DATABASE_VERSION
 

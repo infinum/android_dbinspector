@@ -2,7 +2,7 @@ package im.dino.dbinspector.domain.table
 
 import im.dino.dbinspector.domain.shared.AbstractDatabaseOperation
 
-class ClearTableOperation(
+internal class ClearTableOperation(
     private val name: String,
 ) : AbstractDatabaseOperation<Boolean>() {
 

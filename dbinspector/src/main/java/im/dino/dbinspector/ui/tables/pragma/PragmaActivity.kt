@@ -7,7 +7,7 @@ import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivityPragmaBinding
 import im.dino.dbinspector.ui.shared.Constants
 
-class PragmaActivity : AppCompatActivity() {
+internal class PragmaActivity : AppCompatActivity() {
 
     lateinit var viewBinding: DbinspectorActivityPragmaBinding
 

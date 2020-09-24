@@ -8,7 +8,7 @@ import androidx.paging.cachedIn
 import im.dino.dbinspector.ui.shared.BaseViewModel
 import kotlinx.coroutines.flow.collectLatest
 
-class TableInfoViewModel : BaseViewModel() {
+internal class TableInfoViewModel : BaseViewModel() {
 
     fun query(path: String, name: String, action: suspend (value: PagingData<String>) -> Unit) {
         launch {

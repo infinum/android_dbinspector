@@ -3,7 +3,7 @@ package im.dino.dbinspector.ui.tables
 import androidx.recyclerview.widget.RecyclerView
 import im.dino.dbinspector.databinding.DbinspectorItemTableBinding
 
-class TableViewHolder(
+internal class TableViewHolder(
     private val viewBinding: DbinspectorItemTableBinding
 ) : RecyclerView.ViewHolder(viewBinding.root) {
 

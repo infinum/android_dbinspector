@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import im.dino.dbinspector.databinding.DbinspectorItemDatabaseBinding
 import im.dino.dbinspector.domain.database.models.Database
 
-class DatabasesAdapter(
+internal class DatabasesAdapter(
     private val items: List<Database> = listOf(),
     private val onClick: (Database) -> Unit,
     private val onDelete: (Database) -> Unit,

@@ -3,7 +3,7 @@ package im.dino.dbinspector.ui.tables.shared
 import androidx.recyclerview.widget.RecyclerView
 import im.dino.dbinspector.databinding.DbinspectorItemHeaderBinding
 
-class HeaderViewHolder(
+internal class HeaderViewHolder(
     private val viewBinding: DbinspectorItemHeaderBinding
 ) : RecyclerView.ViewHolder(viewBinding.root) {
 

@@ -1,6 +1,6 @@
 package im.dino.dbinspector.domain.shared
 
-abstract class AbstractTableOperation<T>(
+internal abstract class AbstractTableOperation<T>(
     private val pageSize: Int
 ) : AbstractDatabaseOperation<T>() {
 

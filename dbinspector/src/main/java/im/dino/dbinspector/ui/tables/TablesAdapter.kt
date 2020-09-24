@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import im.dino.dbinspector.databinding.DbinspectorItemTableBinding
 
-class TablesAdapter(
+internal class TablesAdapter(
     private val onClick: (String) -> Unit
 ) : PagingDataAdapter<String, TableViewHolder>(TablesDiffUtil()) {
 

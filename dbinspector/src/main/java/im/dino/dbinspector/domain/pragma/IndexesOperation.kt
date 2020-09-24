@@ -3,7 +3,7 @@ package im.dino.dbinspector.domain.pragma
 import im.dino.dbinspector.data.models.Row
 import im.dino.dbinspector.domain.shared.AbstractTableOperation
 
-class IndexesOperation(
+internal class IndexesOperation(
     private val name: String,
     pageSize: Int
 ) : AbstractTableOperation<List<Row>>(pageSize) {

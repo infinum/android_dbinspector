@@ -9,7 +9,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-abstract class BaseViewModel : ViewModel() {
+internal abstract class BaseViewModel : ViewModel() {
 
     companion object {
         internal const val PAGE_SIZE = 100

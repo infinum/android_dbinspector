@@ -3,7 +3,7 @@ package im.dino.dbinspector.ui.tables.pragma.indexes
 import androidx.paging.PagingSource
 import im.dino.dbinspector.domain.pragma.IndexesOperation
 
-class IndexDataSource(
+internal class IndexDataSource(
     private val path: String,
     name: String,
     pageSize: Int

@@ -8,7 +8,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import androidx.annotation.DimenRes
 
-fun Drawable.scale(context: Context, @DimenRes widthResId: Int, @DimenRes heightResId: Int): Drawable {
+internal fun Drawable.scale(context: Context, @DimenRes widthResId: Int, @DimenRes heightResId: Int): Drawable {
     val bitmap = Bitmap.createBitmap(this.intrinsicWidth, this.intrinsicHeight, Bitmap.Config.ARGB_8888)
     Canvas(bitmap).apply {
         this@scale.setBounds(0, 0, width, height)

@@ -1,6 +1,6 @@
 package im.dino.dbinspector.domain.pragma.models
 
-enum class FieldType {
+internal enum class FieldType {
     NULL,
     INTEGER,
     FLOAT,

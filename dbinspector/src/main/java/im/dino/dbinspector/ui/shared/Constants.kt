@@ -1,6 +1,6 @@
 package im.dino.dbinspector.ui.shared
 
-object Constants {
+internal object Constants {
 
     object Keys {
 

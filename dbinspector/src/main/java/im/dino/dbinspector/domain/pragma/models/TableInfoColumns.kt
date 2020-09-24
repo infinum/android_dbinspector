@@ -1,6 +1,6 @@
 package im.dino.dbinspector.domain.pragma.models
 
-enum class TableInfoColumns {
+internal enum class TableInfoColumns {
     CID,
     NAME,
     TYPE,

@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorItemCellBinding
 
-class PragmaViewHolder(
+internal class PragmaViewHolder(
     private val viewBinding: DbinspectorItemCellBinding
 ) : RecyclerView.ViewHolder(viewBinding.root) {
 

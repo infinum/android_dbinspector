@@ -12,7 +12,7 @@ import im.dino.dbinspector.ui.shared.BaseViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 
-class ContentViewModel(
+internal class ContentViewModel(
     private val path: String,
     name: String
 ) : BaseViewModel() {

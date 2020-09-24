@@ -10,7 +10,7 @@ import im.dino.dbinspector.domain.shared.AbstractDatabaseOperation
 import java.util.Locale
 import kotlin.math.min
 
-class AllTablesOperation(
+internal class AllTablesOperation(
     private val pageSize: Int,
     private val args: String?
 ) : AbstractDatabaseOperation<List<Row>>() {

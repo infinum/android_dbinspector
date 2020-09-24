@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Database(
+internal data class Database(
     val absolutePath: String,
     val path: String,
     val name: String,

@@ -3,7 +3,7 @@ package im.dino.dbinspector.ui.tables.pragma.foreignkeys
 import androidx.paging.PagingSource
 import im.dino.dbinspector.domain.pragma.ForeignKeysOperation
 
-class ForeignKeyDataSource(
+internal class ForeignKeyDataSource(
     private val path: String,
     name: String,
     pageSize: Int

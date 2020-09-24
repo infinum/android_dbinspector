@@ -27,8 +27,7 @@ import im.dino.dbinspector.ui.shared.Searchable
 import im.dino.dbinspector.ui.tables.TablesActivity
 import java.io.File
 
-
-class DatabasesActivity : AppCompatActivity(), Searchable {
+internal class DatabasesActivity : AppCompatActivity(), Searchable {
 
     companion object {
         private const val REQUEST_CODE_IMPORT = 666

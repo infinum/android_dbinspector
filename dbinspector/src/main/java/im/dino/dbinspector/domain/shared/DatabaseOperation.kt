@@ -2,7 +2,7 @@ package im.dino.dbinspector.domain.shared
 
 import android.database.Cursor
 
-interface DatabaseOperation<T> {
+internal interface DatabaseOperation<T> {
 
     fun query(): String
 

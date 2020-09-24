@@ -1,6 +1,6 @@
 package im.dino.dbinspector.domain.pragma.models
 
-enum class ForeignKeyListColumns {
+internal enum class ForeignKeyListColumns {
     ID,
     SEQ,
     TABLE,

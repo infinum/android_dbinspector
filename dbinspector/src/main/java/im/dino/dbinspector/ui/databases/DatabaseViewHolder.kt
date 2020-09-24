@@ -5,7 +5,7 @@ import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorItemDatabaseBinding
 import im.dino.dbinspector.domain.database.models.Database
 
-class DatabaseViewHolder(
+internal class DatabaseViewHolder(
     private val viewBinding: DbinspectorItemDatabaseBinding
 ) : RecyclerView.ViewHolder(viewBinding.root) {
 

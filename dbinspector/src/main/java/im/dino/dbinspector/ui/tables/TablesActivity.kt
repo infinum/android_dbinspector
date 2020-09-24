@@ -17,7 +17,7 @@ import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.shared.Searchable
 import im.dino.dbinspector.ui.tables.content.ContentActivity
 
-class TablesActivity : AppCompatActivity(), Searchable {
+internal class TablesActivity : AppCompatActivity(), Searchable {
 
     private val viewModel by viewModels<TablesViewModel>()
 

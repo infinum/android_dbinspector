@@ -4,7 +4,7 @@ import im.dino.dbinspector.data.models.Row
 import im.dino.dbinspector.domain.shared.AbstractDatabaseOperation
 import im.dino.dbinspector.domain.shared.AbstractTableOperation
 
-class ForeignKeysOperation(
+internal class ForeignKeysOperation(
     private val name: String,
     pageSize: Int
 ) : AbstractTableOperation<List<Row>>(pageSize) {

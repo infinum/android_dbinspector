@@ -1,6 +1,6 @@
 package im.dino.dbinspector.domain.pragma.models
 
-enum class IndexListColumns {
+internal enum class IndexListColumns {
     SEQ,
     NAME,
     UNIQUE;

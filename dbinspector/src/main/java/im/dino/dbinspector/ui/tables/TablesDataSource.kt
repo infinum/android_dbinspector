@@ -3,7 +3,7 @@ package im.dino.dbinspector.ui.tables
 import androidx.paging.PagingSource
 import im.dino.dbinspector.domain.database.AllTablesOperation
 
-class TablesDataSource(
+internal class TablesDataSource(
     private val path: String,
     pageSize: Int,
     args: String?

@@ -3,7 +3,7 @@ package im.dino.dbinspector.ui.tables.pragma.tableinfo
 import androidx.paging.PagingSource
 import im.dino.dbinspector.domain.pragma.TableInfoOperation
 
-class TableInfoDataSource(
+internal class TableInfoDataSource(
     private val path: String,
     name: String,
     pageSize: Int

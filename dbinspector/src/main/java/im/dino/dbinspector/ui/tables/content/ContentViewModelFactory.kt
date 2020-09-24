@@ -3,7 +3,7 @@ package im.dino.dbinspector.ui.tables.content
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
-class ContentViewModelFactory(
+internal class ContentViewModelFactory(
     private val path: String,
     private val name: String
 ) : ViewModelProvider.NewInstanceFactory() {

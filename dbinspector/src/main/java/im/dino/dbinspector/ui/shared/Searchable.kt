@@ -1,6 +1,6 @@
 package im.dino.dbinspector.ui.shared
 
-interface Searchable {
+internal interface Searchable {
 
     fun onSearchOpened()
 

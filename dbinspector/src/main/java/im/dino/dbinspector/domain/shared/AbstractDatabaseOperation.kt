@@ -12,7 +12,7 @@ import kotlin.math.ceil
 import kotlin.math.min
 import kotlin.math.roundToInt
 
-abstract class AbstractDatabaseOperation<T> : DatabaseOperation<T> {
+internal abstract class AbstractDatabaseOperation<T> : DatabaseOperation<T> {
 
     companion object {
         internal const val DATABASE_VERSION = "PRAGMA user_version"

@@ -1,6 +1,6 @@
 package im.dino.dbinspector.data.models
 
-data class Row(
+internal data class Row(
     val position: Int,
     val fields: List<String>
 )

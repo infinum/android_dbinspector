@@ -12,9 +12,6 @@ import java.util.ArrayList
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
-/**
- * Created by dino on 23/02/14.
- */
 internal object DatabaseManager {
 
     private lateinit var context: Context

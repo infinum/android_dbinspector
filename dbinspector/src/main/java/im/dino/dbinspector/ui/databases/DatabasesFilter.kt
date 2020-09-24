@@ -4,7 +4,7 @@ import android.widget.Filter
 import im.dino.dbinspector.domain.database.models.Database
 import java.util.Locale
 
-class DatabasesFilter(
+internal class DatabasesFilter(
     private val items: List<Database>,
     private val onFiltered: (List<Database>) -> Unit
 ) : Filter() {

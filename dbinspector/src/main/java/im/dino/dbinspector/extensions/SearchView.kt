@@ -2,7 +2,7 @@ package im.dino.dbinspector.extensions
 
 import androidx.appcompat.widget.SearchView
 
-fun SearchView.setup(
+internal fun SearchView.setup(
     onSearchClosed: () -> Unit,
     onQueryTextChanged: (String?) -> Unit
 ) {

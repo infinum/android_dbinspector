@@ -10,7 +10,7 @@ import im.dino.dbinspector.ui.tables.pragma.indexes.IndexesFragment
 import im.dino.dbinspector.ui.tables.pragma.tableinfo.TableInfoFragment
 import java.util.Locale
 
-class PragmaTypeAdapter(
+internal class PragmaTypeAdapter(
     private val context: Context,
     fragmentManager: FragmentManager,
     private val databasePath: String,
