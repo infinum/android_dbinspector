@@ -3,7 +3,6 @@ package im.dino.dbinspector.ui.tables.pragma.foreignkeys
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -14,8 +13,6 @@ import im.dino.dbinspector.ui.shared.BaseFragment
 import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.shared.viewBinding
 import im.dino.dbinspector.ui.tables.pragma.PragmaAdapter
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 internal class ForeignKeysFragment : BaseFragment(R.layout.dbinspector_fragment_pragma), SwipeRefreshLayout.OnRefreshListener {
 
@@ -61,23 +58,22 @@ internal class ForeignKeysFragment : BaseFragment(R.layout.dbinspector_fragment_
             recyclerView.layoutManager = GridLayoutManager(recyclerView.context, ForeignKeyListColumns.values().size)
             recyclerView.adapter = adapter
 
-            viewLifecycleOwner.lifecycleScope.launch {
-                viewModel.query(databasePath, tableName).collectLatest {
-                    adapter.submitData(it)
-                }
-            }
+            query()
         }
     }
 
     override fun onRefresh() {
         with(binding) {
             swipeRefresh.isRefreshing = false
+
             adapter.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
-            viewLifecycleOwner.lifecycleScope.launch {
-                viewModel.query(databasePath, tableName).collectLatest {
-                    adapter.submitData(it)
-                }
-            }
+
+            query()
         }
     }
+
+    private fun query() =
+        viewModel.query(databasePath, tableName) {
+            adapter.submitData(it)
+        }
 }

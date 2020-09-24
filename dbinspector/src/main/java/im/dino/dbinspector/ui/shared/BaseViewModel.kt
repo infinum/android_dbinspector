@@ -11,6 +11,10 @@ import kotlinx.coroutines.withContext
 
 abstract class BaseViewModel : ViewModel() {
 
+    companion object {
+        internal const val PAGE_SIZE = 100
+    }
+
     private val dispatchersIo = Dispatchers.IO
 
     private val errorHandler = CoroutineExceptionHandler { _, throwable ->

@@ -3,20 +3,16 @@ package im.dino.dbinspector.ui.tables.pragma.tableinfo
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorFragmentPragmaBinding
-import im.dino.dbinspector.databinding.DbinspectorItemHeaderBinding
 import im.dino.dbinspector.domain.pragma.models.TableInfoColumns
 import im.dino.dbinspector.ui.shared.BaseFragment
 import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.shared.viewBinding
 import im.dino.dbinspector.ui.tables.pragma.PragmaAdapter
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 internal class TableInfoFragment : BaseFragment(R.layout.dbinspector_fragment_pragma), SwipeRefreshLayout.OnRefreshListener {
 
@@ -62,23 +58,22 @@ internal class TableInfoFragment : BaseFragment(R.layout.dbinspector_fragment_pr
             recyclerView.layoutManager = GridLayoutManager(recyclerView.context, TableInfoColumns.values().size)
             recyclerView.adapter = adapter
 
-            viewLifecycleOwner.lifecycleScope.launch {
-                viewModel.query(databasePath, tableName).collectLatest {
-                    adapter.submitData(it)
-                }
-            }
+            query()
         }
     }
 
     override fun onRefresh() {
         with(binding) {
             swipeRefresh.isRefreshing = false
+
             adapter.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
-            viewLifecycleOwner.lifecycleScope.launch {
-                viewModel.query(databasePath, tableName).collectLatest {
-                    adapter.submitData(it)
-                }
-            }
+
+            query()
         }
     }
+
+    private fun query() =
+        viewModel.query(databasePath, tableName) {
+            adapter.submitData(it)
+        }
 }

@@ -10,6 +10,7 @@ import java.io.FileFilter
 import java.io.FileOutputStream
 import java.util.ArrayList
 import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 /**
  * Created by dino on 23/02/14.
@@ -30,71 +31,90 @@ internal object DatabaseManager {
 
     suspend fun find(): MutableSet<File> =
         suspendCancellableCoroutine {
-            // look for standard sqlite databases in the databases dir
-            val databases: MutableSet<File> = context.databaseList()
-                .filter { name -> ignored.none { name.endsWith(it) } }
-                .map { context.getDatabasePath(it) }
-                .toMutableSet()
+            try {
+                // look for standard sqlite databases in the databases dir
+                val databases: MutableSet<File> = context.databaseList()
+                    .filter { name -> ignored.none { name.endsWith(it) } }
+                    .map { context.getDatabasePath(it) }
+                    .toMutableSet()
 
-            val filter = FileFilter { file ->
-                (file.isFile && file.canRead() && (file.extension in allowed))
-            }
-            // CouchBase Lite stores the databases in the app files dir
-            // we get all files recursively because .cblite2 is a dir with the actual sqlite db
-            getFiles(context.filesDir)
-                .filter { filter.accept(it) }
-                .forEach {
-                    databases.add(it)
+                val filter = FileFilter { file ->
+                    (file.isFile && file.canRead() && (file.extension in allowed))
                 }
-
-            it.resume(databases)
+                // CouchBase Lite stores the databases in the app files dir
+                // we get all files recursively because .cblite2 is a dir with the actual sqlite db
+                getFiles(context.filesDir)
+                    .filter { filter.accept(it) }
+                    .forEach {
+                        databases.add(it)
+                    }
+                it.resume(databases)
+            } catch (exception: Exception) {
+                it.resumeWithException(exception)
+            }
         }
 
     suspend fun import(uris: List<Uri>): Unit =
         suspendCancellableCoroutine {
-            uris.forEach { uri ->
-                uri.lastPathSegment?.split("/")?.last()?.let { filename ->
-                    context.contentResolver.openInputStream(uri)?.use { inputStream ->
-                        FileOutputStream(File(context.databaseDir, filename))
-                            .use { outputStream ->
-                                outputStream.write(inputStream.readBytes())
-                            }
+            try {
+                uris.forEach { uri ->
+                    uri.lastPathSegment?.split("/")?.last()?.let { filename ->
+                        context.contentResolver.openInputStream(uri)?.use { inputStream ->
+                            FileOutputStream(File(context.databaseDir, filename))
+                                .use { outputStream ->
+                                    outputStream.write(inputStream.readBytes())
+                                }
+                        }
                     }
                 }
+                it.resume(Unit)
+            } catch (exception: Exception) {
+                it.resumeWithException(exception)
             }
-            it.resume(Unit)
         }
 
     suspend fun remove(name: String): Boolean =
         suspendCancellableCoroutine {
-            val ok = context.deleteDatabase(name)
-            it.resume(ok)
+            try {
+                val ok = context.deleteDatabase(name)
+                it.resume(ok)
+            } catch (exception: Exception) {
+                it.resumeWithException(exception)
+            }
         }
 
 
     suspend fun rename(databasePath: String, databaseFilename: String): Boolean =
         suspendCancellableCoroutine {
-            val ok = File(databasePath)
-                .renameTo(
-                    File(databaseFilename)
-                )
-            it.resume(ok)
+            try {
+                val ok = File(databasePath)
+                    .renameTo(
+                        File(databaseFilename)
+                    )
+                it.resume(ok)
+            } catch (exception: Exception) {
+                it.resumeWithException(exception)
+            }
         }
 
     suspend fun copy(databaseAbsolutePath: String, databasePath: String, databaseName: String, databaseExtension: String): Boolean =
         suspendCancellableCoroutine {
-            var counter = 1
-            var fileName = "$databasePath/${databaseName}_$counter.$databaseExtension"
+            try {
+                var counter = 1
+                var fileName = "$databasePath/${databaseName}_$counter.$databaseExtension"
 
-            var targetFile = File(fileName)
-            while (targetFile.exists()) {
-                fileName = "$databasePath/${databaseName}_$counter.$databaseExtension"
-                targetFile = File(fileName)
-                counter++
+                var targetFile = File(fileName)
+                while (targetFile.exists()) {
+                    fileName = "$databasePath/${databaseName}_$counter.$databaseExtension"
+                    targetFile = File(fileName)
+                    counter++
+                }
+
+                val newFile = File(databaseAbsolutePath).copyTo(target = targetFile, overwrite = true)
+                it.resume(newFile.exists())
+            } catch (exception: Exception) {
+                it.resumeWithException(exception)
             }
-
-            val newFile = File(databaseAbsolutePath).copyTo(target = targetFile, overwrite = true)
-            it.resume(newFile.exists())
         }
 
     /**

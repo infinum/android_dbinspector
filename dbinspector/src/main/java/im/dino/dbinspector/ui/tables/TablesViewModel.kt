@@ -6,27 +6,12 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import im.dino.dbinspector.ui.shared.BaseViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 class TablesViewModel : BaseViewModel() {
 
-    companion object {
-        private const val PAGE_SIZE = 100
-    }
-
-    private var job: Job? = null
-
-    override fun onCleared() {
-        super.onCleared()
-        job?.cancel()
-        job = null
-    }
-
-    fun query(scope: CoroutineScope, path: String, args: String? = null, action: suspend (value: PagingData<String>) -> Unit) {
-        job = scope.launch {
+    fun query(path: String, args: String? = null, action: suspend (value: PagingData<String>) -> Unit) {
+        launch {
             Pager(PagingConfig(pageSize = PAGE_SIZE)) {
                 TablesDataSource(path, PAGE_SIZE, args)
             }

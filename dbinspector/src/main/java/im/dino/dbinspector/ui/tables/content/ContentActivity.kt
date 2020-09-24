@@ -13,21 +13,19 @@ import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivityContentBinding
 import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.tables.pragma.PragmaActivity
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 internal class ContentActivity : AppCompatActivity() {
 
-    lateinit var viewBinding: DbinspectorActivityContentBinding
+    lateinit var binding: DbinspectorActivityContentBinding
 
     private lateinit var viewModel: ContentViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewBinding = DbinspectorActivityContentBinding.inflate(layoutInflater)
+        binding = DbinspectorActivityContentBinding.inflate(layoutInflater)
 
-        setContentView(viewBinding.root)
+        setContentView(binding.root)
 
         intent.extras?.let {
             val databaseName = it.getString(Constants.Keys.DATABASE_NAME)
@@ -39,21 +37,20 @@ internal class ContentActivity : AppCompatActivity() {
                     ContentViewModelFactory(databasePath!!, tableName!!)
                 ).get(ContentViewModel::class.java)
 
-                setupUi(databasePath, databaseName!!, tableName)
+                setupToolbar(databasePath, databaseName!!, tableName)
+                setupSwipeRefresh()
+                setupRecyclerView()
             } else {
                 showError()
             }
         } ?: showError()
     }
 
-    private fun setupUi(databasePath: String, databaseName: String, tableName: String) {
-        val tableHeaders = viewModel.header()
-        val adapter = ContentAdapter(tableHeaders)
-
-        with(viewBinding) {
-            toolbar.setNavigationOnClickListener { finish() }
-            toolbar.subtitle = listOf(databaseName, tableName).joinToString(" / ")
-            toolbar.setOnMenuItemClickListener {
+    private fun setupToolbar(databasePath: String, databaseName: String, tableName: String) =
+        with(binding.toolbar) {
+            setNavigationOnClickListener { finish() }
+            subtitle = listOf(databaseName, tableName).joinToString(" / ")
+            setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.clear -> {
                         clearTable(tableName)
@@ -64,48 +61,39 @@ internal class ContentActivity : AppCompatActivity() {
                         true
                     }
                     R.id.refresh -> {
-                        adapter.submitData(lifecycle, PagingData.empty())
-                        lifecycleScope.launch {
-                            viewModel.query().collectLatest { data ->
-                                adapter.submitData(data)
-                            }
-                        }
+                        (binding.recyclerView.adapter as? ContentAdapter)?.submitData(lifecycle, PagingData.empty())
+                        query()
                         true
                     }
                     else -> false
                 }
             }
+        }
 
-            swipeRefresh.setOnRefreshListener {
-                swipeRefresh.isRefreshing = false
-                adapter.submitData(lifecycle, PagingData.empty())
-                lifecycleScope.launch {
-                    viewModel.query().collectLatest {
-                        adapter.submitData(it)
+    private fun setupSwipeRefresh() =
+        with(binding.swipeRefresh) {
+            setOnRefreshListener {
+                isRefreshing = false
 
-                    }
-                }
-            }
-
-            recyclerView.layoutManager = GridLayoutManager(recyclerView.context, tableHeaders.size)
-            recyclerView.adapter = adapter
-
-            lifecycleScope.launch {
-                viewModel.query().collectLatest {
-                    adapter.submitData(it)
-
+                (binding.recyclerView.adapter as? ContentAdapter)?.let { adapter ->
+                    adapter.submitData(lifecycle, PagingData.empty())
+                    query()
                 }
             }
         }
-    }
+
+    private fun setupRecyclerView() =
+        with(binding.recyclerView) {
+            viewModel.header { tableHeaders ->
+                layoutManager = GridLayoutManager(context, tableHeaders.size)
+                adapter = ContentAdapter(tableHeaders)
+
+                query()
+            }
+        }
 
     private fun showError() {
-        with(viewBinding) {
-            toolbar.setNavigationOnClickListener { finish() }
-            toolbar.subtitle = "Error"
 
-            // TODO: push or show error views or Fragment
-        }
     }
 
     private fun showTablePragma(databaseName: String?, databasePath: String?, tableName: String) {
@@ -123,12 +111,7 @@ internal class ContentActivity : AppCompatActivity() {
         MaterialAlertDialogBuilder(this)
             .setMessage(String.format(getString(R.string.dbinspector_clear_table_confirm), name))
             .setPositiveButton(android.R.string.ok) { dialog: DialogInterface, _: Int ->
-                val ok = viewModel.clear()
-                if (ok) {
-                    (viewBinding.recyclerView.adapter as ContentAdapter).submitData(lifecycle, PagingData.empty())
-                } else {
-                    showError()
-                }
+                clear()
                 dialog.dismiss()
             }
             .setNegativeButton(android.R.string.cancel) { dialog: DialogInterface, _: Int ->
@@ -136,4 +119,14 @@ internal class ContentActivity : AppCompatActivity() {
             }
             .create()
             .show()
+
+    private fun query() =
+        viewModel.query() {
+            (binding.recyclerView.adapter as? ContentAdapter)?.submitData(it)
+        }
+
+    private fun clear() =
+        viewModel.clear() {
+            (binding.recyclerView.adapter as? ContentAdapter)?.submitData(it)
+        }
 }
