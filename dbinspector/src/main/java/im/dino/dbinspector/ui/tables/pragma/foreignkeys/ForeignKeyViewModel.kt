@@ -13,7 +13,7 @@ class ForeignKeyViewModel : BaseViewModel() {
     fun query(path: String, name: String, action: suspend (value: PagingData<String>) -> Unit) {
         launch {
             Pager(
-                PagingConfig(pageSize = PAGE_SIZE)
+                PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = true)
             ) {
                 ForeignKeyDataSource(path, name, PAGE_SIZE)
             }

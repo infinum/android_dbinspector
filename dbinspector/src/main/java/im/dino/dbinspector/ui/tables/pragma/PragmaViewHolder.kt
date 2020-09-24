@@ -10,17 +10,22 @@ class PragmaViewHolder(
 ) : RecyclerView.ViewHolder(viewBinding.root) {
 
     fun bind(item: String?, row: Int) {
-        with(viewBinding) {
-            this.valueView.text = item
-            this.root.setBackgroundColor(
-                if (row % 2 == 0) {
-                    ContextCompat.getColor(this.root.context, R.color.dbinspector_alternate_row_background)
-                } else {
-                    ContextCompat.getColor(this.root.context, android.R.color.transparent)
+        item?.let {
+            with(viewBinding) {
+                this.valueView.text = it
+                this.root.setBackgroundColor(
+                    if (row % 2 == 0) {
+                        ContextCompat.getColor(this.root.context, R.color.dbinspector_alternate_row_background)
+                    } else {
+                        ContextCompat.getColor(this.root.context, android.R.color.transparent)
 
-                }
-            )
+                    }
+                )
 //            this.content.setOnClickListener { onClick(item) }
+            }
+        } ?: with(viewBinding) {
+            this.valueView.text = null
+            this.root.setBackgroundColor(ContextCompat.getColor(this.root.context, android.R.color.transparent))
         }
     }
 

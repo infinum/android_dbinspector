@@ -12,7 +12,7 @@ class TablesViewModel : BaseViewModel() {
 
     fun query(path: String, args: String? = null, action: suspend (value: PagingData<String>) -> Unit) {
         launch {
-            Pager(PagingConfig(pageSize = PAGE_SIZE)) {
+            Pager(PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = true)) {
                 TablesDataSource(path, PAGE_SIZE, args)
             }
                 .flow

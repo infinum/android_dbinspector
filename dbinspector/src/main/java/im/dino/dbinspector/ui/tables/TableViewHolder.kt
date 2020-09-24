@@ -13,6 +13,9 @@ class TableViewHolder(
                 this.name.text = table
                 this.root.setOnClickListener { onClick(table) }
             }
+        } ?: with(viewBinding) {
+            this.name.text = null
+            this.root.setOnClickListener(null)
         }
     }
 
