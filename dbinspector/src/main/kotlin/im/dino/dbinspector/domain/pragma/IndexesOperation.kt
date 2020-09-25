@@ -8,5 +8,5 @@ internal class IndexesOperation(
     pageSize: Int
 ) : AbstractTableOperation<List<Row>>(pageSize) {
 
-    override fun query(): String = String.format(FORMAT_INDEXES, name)
+    override fun query(): String = String.format(FORMAT_PRAGMA_INDEXES, name)
 }

@@ -6,9 +6,10 @@ import im.dino.dbinspector.ui.databases.DatabasesActivity
 
 object DbInspector {
 
-    fun launch(context: Context) {
+    fun show(context: Context) =
         context.startActivity(
-            Intent(context, DatabasesActivity::class.java)
+            Intent(context, DatabasesActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
         )
-    }
 }

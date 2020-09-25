@@ -5,7 +5,7 @@ import im.dino.dbinspector.domain.shared.AbstractDatabaseOperation
 
 internal class VersionOperation : AbstractDatabaseOperation<String>() {
 
-    override fun query(): String = DATABASE_VERSION
+    override fun query(): String = PRAGMA_DATABASE_VERSION
 
     override fun pageSize(): Int = 1
 

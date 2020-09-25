@@ -6,7 +6,7 @@ import androidx.core.database.getFloatOrNull
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getStringOrNull
 import im.dino.dbinspector.data.models.Row
-import im.dino.dbinspector.domain.pragma.models.FieldType
+import im.dino.dbinspector.domain.shared.models.FieldType
 import java.util.Locale
 import kotlin.math.ceil
 import kotlin.math.min
@@ -15,13 +15,19 @@ import kotlin.math.roundToInt
 internal abstract class AbstractDatabaseOperation<T> : DatabaseOperation<T> {
 
     companion object {
-        internal const val DATABASE_VERSION = "PRAGMA user_version"
-        internal const val ALL_TABLES = "SELECT name FROM sqlite_master WHERE type='table' ORDER by name asc"
+        internal const val PRAGMA_DATABASE_VERSION = "PRAGMA user_version"
 
-        internal const val FORMAT_ALL_TABLES = "SELECT name FROM sqlite_master WHERE type='table' AND name LIKE \"%%%s%%\" ORDER by name asc"
-        internal const val FORMAT_TABLE_INFO = "PRAGMA table_info(\"%s\")"
-        internal const val FORMAT_FOREIGN_KEYS = "PRAGMA foreign_key_list(\"%s\")"
-        internal const val FORMAT_INDEXES = "PRAGMA index_list(\"%s\")"
+        internal const val FORMAT_ALL_TABLES = "SELECT name FROM sqlite_master WHERE type = 'table' ORDER BY name %s"
+        internal const val FORMAT_ALL_VIEWS = "SELECT name, sql FROM sqlite_master WHERE type = 'view' ORDER BY name %s"
+        internal const val FORMAT_ALL_TRIGGERS = "SELECT name, sql FROM sqlite_master WHERE type='trigger' ORDER BY name %s"
+
+        internal const val FORMAT_SEARCH_TABLES = "SELECT name FROM sqlite_master WHERE type='table' AND name LIKE \"%%%s%%\" ORDER BY name %s"
+        internal const val FORMAT_SEARCH_VIEWS = "SELECT name, sql FROM sqlite_master WHERE type = 'view' AND name LIKE \"%%%s%%\" ORDER BY name %s"
+        internal const val FORMAT_SEARCH_TRIGGERS = "SELECT name, sql FROM sqlite_master WHERE type = 'trigger' AND name LIKE \"%%%s%%\" ORDER BY name %s"
+
+        internal const val FORMAT_PRAGMA_TABLE_INFO = "PRAGMA table_info(\"%s\")"
+        internal const val FORMAT_PRAGMA_FOREIGN_KEYS = "PRAGMA foreign_key_list(\"%s\")"
+        internal const val FORMAT_PRAGMA_INDEXES = "PRAGMA index_list(\"%s\")"
 
         internal const val COLUMN_NAME = "name"
         internal const val COLUMN_BLOB_VALUE = "(data)"

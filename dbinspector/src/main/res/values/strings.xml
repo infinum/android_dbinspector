@@ -3,7 +3,13 @@
     <string name="dbinspector_name">DbInspector</string>
 
     <string name="dbinspector_databases">Databases</string>
-    <string name="dbinspector_tables">Tables</string>
+
+    <string name="dbinspector_schema">Schema</string>
+
+    <string name="dbinspector_schema_tables">Tables</string>
+    <string name="dbinspector_schema_views">Views</string>
+    <string name="dbinspector_schema_triggers">Triggers</string>
+
     <string name="dbinspector_table">Table</string>
     <string name="dbinspector_pragma">Pragma</string>
 

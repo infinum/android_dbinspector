@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         show.setOnClickListener {
-            DbInspector.launch(this)
+            DbInspector.show(this)
         }
 
         copy()
@@ -27,6 +27,12 @@ class MainActivity : AppCompatActivity() {
 
         var databasesDir = this.filesDir.path
         databasesDir = databasesDir.substring(0, databasesDir.lastIndexOf("/")) + "/databases"
+
+        File(databasesDir).let {
+            if (it.exists().not()) {
+                it.mkdir()
+            }
+        }
 
         listOf(
             "articles.db",

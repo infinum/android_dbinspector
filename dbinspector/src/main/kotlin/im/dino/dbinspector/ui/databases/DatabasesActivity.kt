@@ -24,7 +24,7 @@ import im.dino.dbinspector.extensions.searchView
 import im.dino.dbinspector.extensions.setup
 import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.shared.Searchable
-import im.dino.dbinspector.ui.tables.TablesActivity
+import im.dino.dbinspector.ui.schema.SchemaActivity
 import java.io.File
 
 internal class DatabasesActivity : AppCompatActivity(), Searchable {
@@ -134,7 +134,7 @@ internal class DatabasesActivity : AppCompatActivity(), Searchable {
     private fun showDatabases(databases: List<Database>) {
         binding.recyclerView.adapter = DatabasesAdapter(
             items = databases,
-            onClick = { showTables(it) },
+            onClick = { showSchema(it) },
             onDelete = { removeDatabase(it) },
             onRename = { renameDatabase(it) },
             onCopy = { copyDatabase(it) },
@@ -142,11 +142,12 @@ internal class DatabasesActivity : AppCompatActivity(), Searchable {
         )
     }
 
-    private fun showTables(database: Database) =
+    private fun showSchema(database: Database) =
         startActivity(
-            Intent(this, TablesActivity::class.java)
+            Intent(this, SchemaActivity::class.java)
                 .apply {
-                    putExtra(Constants.Keys.DATABASE, database)
+                    putExtra(Constants.Keys.DATABASE_PATH, database.absolutePath)
+                    putExtra(Constants.Keys.DATABASE_NAME, database.name)
                 }
         )
 

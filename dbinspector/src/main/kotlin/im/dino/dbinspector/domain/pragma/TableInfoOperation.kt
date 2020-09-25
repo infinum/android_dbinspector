@@ -8,5 +8,5 @@ internal class TableInfoOperation(
     pageSize: Int
 ) : AbstractTableOperation<List<Row>>(pageSize) {
 
-    override fun query(): String = String.format(FORMAT_TABLE_INFO, name)
+    override fun query(): String = String.format(FORMAT_PRAGMA_TABLE_INFO, name)
 }

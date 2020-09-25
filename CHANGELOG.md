@@ -6,9 +6,12 @@ Changelog
 _2020-10-01_
 
 * minSdk is now 21
-* The example app now provides 3 test
+* Example now provides 3 test databases
 * Refactor codebase
+* Replace manual pagination with automatic paging
+* Add a no op package
 * Redesign all screens
+* Streamline deployment
 
 ## Version 4.0.0
 
