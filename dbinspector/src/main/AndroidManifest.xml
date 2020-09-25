@@ -3,8 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="im.dino.dbinspector">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <application>
 
         <activity

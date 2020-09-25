@@ -1,0 +1,46 @@
+apply plugin: "org.jetbrains.dokka"
+
+dokka {
+    outputFormat = 'html'
+    outputDirectory = "$buildDir/javadoc"
+
+    subProjects = ["dbinspector", "dbinspector-no-op"]
+
+    disableAutoconfiguration = false
+    cacheRoot = 'default'
+    configuration {
+        moduleName = 'data'
+        includeNonPublic = false
+        skipDeprecated = true
+        reportUndocumented = true
+        skipEmptyPackages = true
+        // Specifies the location of the project source code on the Web.
+        // If provided, Dokka generates "source" links for each declaration.
+        // Repeat for multiple mappings
+        sourceLink {
+            // Unix based directory relative path to the root of the project (where you execute gradle respectively).
+            path = "src/main/kotlin" // or simply "./"
+
+            // URL showing where the source code can be accessed through the web browser
+            url = "https://github.com/infinum/android_dbinspector/"
+            //remove src/main/kotlin if you use "./" above
+
+            // Suffix which is used to append the line number to the URL. Use #L for GitHub
+            lineSuffix = "#L"
+        }
+        jdkVersion = 8
+        noStdlibLink = false
+        noJdkLink = false
+        noAndroidSdkLink = false
+        androidVariants = ["debug"]
+
+        perPackageOption {
+            prefix = "im.dino.dbinspector.extensions"
+            suppress = true
+        }
+        perPackageOption {
+            prefix = "im.dino.dbinspector.ui.shared"
+            suppress = true
+        }
+    }
+}

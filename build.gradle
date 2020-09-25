@@ -1,24 +1,80 @@
 buildscript {
-    ext.kotlin_version = '1.4.10'
+
+    ext.buildConfig = [
+        "minSdk"    : 21,
+        "compileSdk": 30,
+        "targetSdk" : 30,
+
+        "buildTools": "30.0.2"
+    ]
+
+    apply from: "dependencies.gradle"
+
     repositories {
         google()
         jcenter()
+        maven { url "https://dl.bintray.com/infinum/android" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath packages.gradle
+        classpath packages.maven.plugin
+        classpath packages.bintray
+        classpath packages.kotlin.plugin
+        classpath packages.detekt.plugin
+        classpath packages.dokka.plugin
     }
 }
 
 allprojects {
+
     repositories {
         google()
         jcenter()
+        maven { url "https://jitpack.io" }
+        maven { url "https://dl.bintray.com/infinum/android" }
+    }
+
+    def buildProperties = new Properties()
+    file(rootDir.absolutePath+"/build.properties").withInputStream { buildProperties.load(it) }
+    if (buildProperties.getProperty("build.debug").toBoolean()) {
+        configurations.all {
+            resolutionStrategy {
+                dependencySubstitution {
+                    substitute module(packages.dbinspector.dbinspector) with project(':dbinspector')
+                    substitute module(packages.dbinspector.dbinspector_no_op) with project(':dbinspector-no-op')
+                }
+            }
+        }
     }
 }
 
-ext {
-    compile_sdk = 30
-    target_sdk = 30
-    build_tools = '30.0.2'
+subprojects {
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+        maven { url "https://dl.bintray.com/infinum/android" }
+    }
+
+    apply from: "../detekt.gradle"
 }
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs += ["--release", "8"]
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+task detektAll(dependsOn: [
+    ':dbinspector:detekt',
+    ':dbinspector-no-op:detekt'
+]) {
+    group = "Verification"
+    description = "Run detekt on all modules"
+}
+
+apply from: "deploy.gradle"
+
+apply from: "dokka.gradle"

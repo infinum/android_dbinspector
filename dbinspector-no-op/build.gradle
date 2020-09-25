@@ -1,6 +1,5 @@
 apply plugin: "com.android.library"
 apply plugin: "kotlin-android"
-apply plugin: "kotlin-android-extensions"
 
 android {
     compileSdkVersion buildConfig.compileSdk
@@ -35,25 +34,10 @@ android {
     sourceSets.each {
         it.java.srcDirs += "src/$it.name/kotlin"
     }
-
-    buildFeatures {
-        viewBinding true
-    }
 }
 
 dependencies {
     implementation packages.kotlin.core
-    implementation packages.androidx.core
-    implementation packages.androidx.appcompat
-    implementation packages.androidx.fragment
-    implementation packages.androidx.lifecycle.common
-    implementation packages.androidx.recyclerview
-    implementation packages.androidx.viewpager
-    implementation packages.androidx.paging
-    implementation packages.androidx.startup
-    implementation packages.androidx.swiperefreshlayout
-    implementation packages.google.design
-    implementation packages.kotlinx.coroutines
 }
 
 apply from: "bintray.gradle"

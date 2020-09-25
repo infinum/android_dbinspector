@@ -1,0 +1,25 @@
+task deployAll(dependsOn: [
+        'deployDbInspector',
+        'deployDbInspectorNoOp'
+]) {
+    group = "Deploy"
+    description = "Deploy all modules to Bintray"
+}
+
+task deployDbInspector(dependsOn: [
+        ':dbinspector:build',
+        ':dbinspector:install',
+        ':dbinspector:bintrayUpload'
+]) {
+    group = "Deploy"
+    description = "Deploy module to Bintray"
+}
+
+task deployDbInspectorNoOp(dependsOn: [
+        ':dbinspector-no-op:build',
+        ':dbinspector-no-op:install',
+        ':dbinspector-no-op:bintrayUpload'
+]) {
+    group = "Deploy"
+    description = "Deploy module to Bintray"
+}

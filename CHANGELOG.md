@@ -1,6 +1,15 @@
 Changelog
 =========
 
+## Version 5.0.0
+
+_2020-10-01_
+
+* minSdk is now 21
+* The example app now provides 3 test
+* Refactor codebase
+* Redesign all screens
+
 ## Version 4.0.0
 
 _2019-10-26_

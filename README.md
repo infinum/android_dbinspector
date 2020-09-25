@@ -55,6 +55,6 @@ Feedback and code contributions are very much welcome. Just make a pull request 
 ## Credits
 
 Maintained and sponsored by
-[Infinum](http://www.infinum.co).
+[Infinum](http://www.infinum.com).
 
-<img src="https://infinum.co/infinum.png" width="264">
+<img src="https://infinum.com/infinum.png" width="264">
