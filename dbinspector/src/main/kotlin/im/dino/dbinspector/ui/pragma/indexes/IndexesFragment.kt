@@ -2,6 +2,7 @@ package im.dino.dbinspector.ui.pragma.indexes
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.viewModels
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
@@ -51,6 +52,12 @@ internal class IndexesFragment : BaseFragment(R.layout.dbinspector_fragment_prag
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        with(binding.recyclerView) {
+            updateLayoutParams {
+                minimumWidth = resources.displayMetrics.widthPixels
+            }
+        }
 
         with(binding) {
             swipeRefresh.setOnRefreshListener(this@IndexesFragment)

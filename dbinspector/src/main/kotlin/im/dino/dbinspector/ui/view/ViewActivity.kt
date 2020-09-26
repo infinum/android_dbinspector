@@ -4,6 +4,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
@@ -87,6 +88,10 @@ internal class ViewActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() =
         with(binding.recyclerView) {
+            updateLayoutParams {
+                minimumWidth = resources.displayMetrics.widthPixels
+            }
+
             viewModel.header { tableHeaders ->
                 layoutManager = GridLayoutManager(context, tableHeaders.size)
                 adapter = ContentAdapter(tableHeaders)
