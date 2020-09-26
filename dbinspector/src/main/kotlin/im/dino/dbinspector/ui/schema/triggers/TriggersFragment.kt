@@ -16,7 +16,12 @@ import im.dino.dbinspector.ui.schema.shared.SchemaFragment
 import im.dino.dbinspector.ui.table.TableActivity
 import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.shared.delegates.viewBinding
+import im.dino.dbinspector.ui.trigger.TriggerActivity
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 
+@ExperimentalCoroutinesApi
+@FlowPreview
 internal class TriggersFragment :
     SchemaFragment(R.layout.dbinspector_fragment_schema),
     SwipeRefreshLayout.OnRefreshListener {
@@ -69,6 +74,8 @@ internal class TriggersFragment :
 
             query()
         }
+
+        observe()
     }
 
     override fun onRefresh() {
@@ -88,13 +95,20 @@ internal class TriggersFragment :
 
     private fun showTriggerContent(databaseName: String, databasePath: String, triggerName: String) =
         startActivity(
-            Intent(requireContext(), TableActivity::class.java)
+            Intent(requireContext(), TriggerActivity::class.java)
                 .apply {
                     putExtra(Constants.Keys.DATABASE_NAME, databaseName)
                     putExtra(Constants.Keys.DATABASE_PATH, databasePath)
                     putExtra(Constants.Keys.TRIGGER_NAME, triggerName)
                 }
         )
+
+    private fun observe() =
+        viewModel.observe {
+            (binding.recyclerView.adapter as? SchemaAdapter)?.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
+
+            query()
+        }
 
     private fun query() {
         with(binding) {

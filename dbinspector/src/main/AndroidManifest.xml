@@ -26,6 +26,12 @@
             android:theme="@style/DbInspector.BaseTheme" />
 
         <activity
+            android:name="im.dino.dbinspector.ui.trigger.TriggerActivity"
+            android:taskAffinity="im.dino.dbinspector"
+            android:theme="@style/DbInspector.BaseTheme" />
+
+
+        <activity
             android:name="im.dino.dbinspector.ui.pragma.PragmaActivity"
             android:taskAffinity="im.dino.dbinspector"
             android:theme="@style/DbInspector.BaseTheme" />

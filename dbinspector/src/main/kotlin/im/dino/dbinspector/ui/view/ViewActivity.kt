@@ -131,7 +131,7 @@ internal class ViewActivity : AppCompatActivity() {
     @ExperimentalCoroutinesApi
     private fun drop() =
         viewModel.drop() {
-            EventBus.send(Event.Refresh())
+            EventBus.send(Event.RefreshViews())
             finish()
         }
 }

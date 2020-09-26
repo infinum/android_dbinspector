@@ -18,11 +18,11 @@ internal abstract class AbstractDatabaseOperation<T> : DatabaseOperation<T> {
         internal const val PRAGMA_DATABASE_VERSION = "PRAGMA user_version"
 
         internal const val FORMAT_ALL_TABLES = "SELECT name FROM sqlite_master WHERE type = 'table' ORDER BY name %s"
-        internal const val FORMAT_ALL_VIEWS = "SELECT name, sql FROM sqlite_master WHERE type = 'view' ORDER BY name %s"
+        internal const val FORMAT_ALL_VIEWS = "SELECT name FROM sqlite_master WHERE type = 'view' ORDER BY name %s"
         internal const val FORMAT_ALL_TRIGGERS = "SELECT name, sql FROM sqlite_master WHERE type='trigger' ORDER BY name %s"
 
         internal const val FORMAT_SEARCH_TABLES = "SELECT name FROM sqlite_master WHERE type='table' AND name LIKE \"%%%s%%\" ORDER BY name %s"
-        internal const val FORMAT_SEARCH_VIEWS = "SELECT name, sql FROM sqlite_master WHERE type = 'view' AND name LIKE \"%%%s%%\" ORDER BY name %s"
+        internal const val FORMAT_SEARCH_VIEWS = "SELECT name FROM sqlite_master WHERE type = 'view' AND name LIKE \"%%%s%%\" ORDER BY name %s"
         internal const val FORMAT_SEARCH_TRIGGERS = "SELECT name, sql FROM sqlite_master WHERE type = 'trigger' AND name LIKE \"%%%s%%\" ORDER BY name %s"
 
         internal const val FORMAT_PRAGMA_TABLE_INFO = "PRAGMA table_info(\"%s\")"
@@ -31,6 +31,9 @@ internal abstract class AbstractDatabaseOperation<T> : DatabaseOperation<T> {
 
         internal const val FORMAT_CONTENT_VIEW = "SELECT * FROM \"%s\""
         internal const val FORMAT_DROP_VIEW = "DROP VIEW \"%s\""
+
+        internal const val FORMAT_CONTENT_TRIGGER = "SELECT name, sql FROM sqlite_master WHERE type = 'trigger' AND name = \"%s\" LIMIT 1"
+        internal const val FORMAT_DROP_TRIGGER = "DROP TRIGGER \"%s\""
 
         internal const val COLUMN_NAME = "name"
         internal const val COLUMN_BLOB_VALUE = "(data)"

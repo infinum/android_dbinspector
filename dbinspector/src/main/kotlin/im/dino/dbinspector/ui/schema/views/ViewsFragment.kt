@@ -19,6 +19,8 @@ import im.dino.dbinspector.ui.shared.delegates.viewBinding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 
+@ExperimentalCoroutinesApi
+@FlowPreview
 internal class ViewsFragment :
     SchemaFragment(R.layout.dbinspector_fragment_schema),
     SwipeRefreshLayout.OnRefreshListener {
@@ -100,8 +102,6 @@ internal class ViewsFragment :
                 }
         )
 
-    @ExperimentalCoroutinesApi
-    @FlowPreview
     private fun observe() =
         viewModel.observe {
             (binding.recyclerView.adapter as? SchemaAdapter)?.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())

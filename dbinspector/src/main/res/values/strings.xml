@@ -12,6 +12,7 @@
 
     <string name="dbinspector_table">Table</string>
     <string name="dbinspector_view">View</string>
+    <string name="dbinspector_trigger">Trigger</string>
     <string name="dbinspector_pragma">Pragma</string>
 
     <string name="dbinspector_pragma_table_info">Table info</string>
@@ -32,6 +33,7 @@
     <string name="dbinspector_delete_database_confirm">Delete database %s?</string>
     <string name="dbinspector_clear_table_confirm">Delete the content of the table %s?</string>
     <string name="dbinspector_drop_view_confirm">Drop view %s?</string>
+    <string name="dbinspector_drop_trigger_confirm">Drop trigger %s?</string>
     <string name="dbinspector_share_database_failed">Cannot share database %s</string>
     <string name="dbinspector_copy_database_info">Database copied to application directory</string>
     <string name="dbinspector_copy_database_failed">Cannot copy database %s</string>

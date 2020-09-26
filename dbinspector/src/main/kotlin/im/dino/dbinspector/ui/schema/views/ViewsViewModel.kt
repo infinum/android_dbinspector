@@ -19,7 +19,7 @@ internal class ViewsViewModel : BaseViewModel() {
     fun observe(action: suspend () -> Unit) =
         launch {
             io {
-                EventBus.on<Event.Refresh>().collectLatest { action() }
+                EventBus.on<Event.RefreshViews>().collectLatest { action() }
             }
         }
 
