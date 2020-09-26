@@ -16,6 +16,8 @@ import im.dino.dbinspector.ui.schema.shared.SchemaFragment
 import im.dino.dbinspector.ui.view.ViewActivity
 import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.shared.delegates.viewBinding
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 
 internal class ViewsFragment :
     SchemaFragment(R.layout.dbinspector_fragment_schema),
@@ -69,6 +71,8 @@ internal class ViewsFragment :
 
             query()
         }
+
+        observe()
     }
 
     override fun onRefresh() {
@@ -95,6 +99,15 @@ internal class ViewsFragment :
                     putExtra(Constants.Keys.VIEW_NAME, viewName)
                 }
         )
+
+    @ExperimentalCoroutinesApi
+    @FlowPreview
+    private fun observe() =
+        viewModel.observe {
+            (binding.recyclerView.adapter as? SchemaAdapter)?.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
+
+            query()
+        }
 
     private fun query() {
         with(binding) {

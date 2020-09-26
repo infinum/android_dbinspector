@@ -12,7 +12,10 @@ import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivityViewBinding
 import im.dino.dbinspector.ui.pragma.PragmaActivity
 import im.dino.dbinspector.ui.shared.Constants
+import im.dino.dbinspector.ui.shared.bus.EventBus
+import im.dino.dbinspector.ui.shared.bus.models.Event
 import im.dino.dbinspector.ui.shared.content.ContentAdapter
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 internal class ViewActivity : AppCompatActivity() {
 
@@ -30,14 +33,14 @@ internal class ViewActivity : AppCompatActivity() {
         intent.extras?.let {
             val databaseName = it.getString(Constants.Keys.DATABASE_NAME)
             val databasePath = it.getString(Constants.Keys.DATABASE_PATH)
-            val tableName = it.getString(Constants.Keys.VIEW_NAME)
-            if (databaseName.isNullOrBlank().not() && databasePath.isNullOrBlank().not() && tableName.isNullOrBlank().not()) {
+            val viewName = it.getString(Constants.Keys.VIEW_NAME)
+            if (databaseName.isNullOrBlank().not() && databasePath.isNullOrBlank().not() && viewName.isNullOrBlank().not()) {
                 viewModel = ViewModelProvider(
                     this,
-                    ViewViewModelFactory(databasePath!!, tableName!!)
+                    ViewViewModelFactory(databasePath!!, viewName!!)
                 ).get(ViewViewModel::class.java)
 
-                setupToolbar(databasePath, databaseName!!, tableName)
+                setupToolbar(databasePath, databaseName!!, viewName)
                 setupSwipeRefresh()
                 setupRecyclerView()
             } else {
@@ -46,18 +49,18 @@ internal class ViewActivity : AppCompatActivity() {
         } ?: showError()
     }
 
-    private fun setupToolbar(databasePath: String, databaseName: String, tableName: String) =
+    private fun setupToolbar(databasePath: String, databaseName: String, viewName: String) =
         with(binding.toolbar) {
             setNavigationOnClickListener { finish() }
-            subtitle = listOf(databaseName, tableName).joinToString(" / ")
+            subtitle = listOf(databaseName, viewName).joinToString(" / ")
             setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.drop -> {
-                        dropView(tableName)
+                        dropView(viewName)
                         true
                     }
                     R.id.pragma -> {
-                        showPragma(databaseName, databasePath, tableName)
+                        showPragma(databaseName, databasePath, viewName)
                         true
                     }
                     R.id.refresh -> {
@@ -125,8 +128,10 @@ internal class ViewActivity : AppCompatActivity() {
             (binding.recyclerView.adapter as? ContentAdapter)?.submitData(it)
         }
 
+    @ExperimentalCoroutinesApi
     private fun drop() =
         viewModel.drop() {
+            EventBus.send(Event.Refresh())
             finish()
         }
 }
