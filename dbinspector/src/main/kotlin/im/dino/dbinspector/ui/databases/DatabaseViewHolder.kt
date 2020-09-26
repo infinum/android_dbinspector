@@ -21,23 +21,20 @@ internal class DatabaseViewHolder(
             this.path.text = item.path
             this.name.text = item.name
             this.version.text = item.version
-            this.toolbar.setNavigationOnClickListener { onDelete(item) }
-            this.toolbar.setOnMenuItemClickListener {
-                when (it.itemId) {
-                    R.id.rename -> onRename(item)
-                    R.id.copy -> onCopy(item)
-                    R.id.share -> onShare(item)
-                }
-                true
-            }
+            this.removeButton.setOnClickListener { onDelete(item) }
+            this.renameButton.setOnClickListener { onRename(item) }
+            this.copyButton.setOnClickListener { onCopy(item) }
+            this.shareButton.setOnClickListener { onShare(item) }
             this.content.setOnClickListener { onClick(item) }
         }
     }
 
     fun unbind() {
         with(viewBinding) {
-            this.toolbar.setNavigationOnClickListener(null)
-            this.toolbar.setOnMenuItemClickListener(null)
+            this.removeButton.setOnClickListener(null)
+            this.renameButton.setOnClickListener(null)
+            this.copyButton.setOnClickListener(null)
+            this.shareButton.setOnClickListener(null)
             this.content.setOnClickListener(null)
         }
     }

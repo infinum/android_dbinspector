@@ -10,9 +10,9 @@
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
-        android:background="?attr/selectableItemBackgroundBorderless"
         android:orientation="vertical">
 
         <com.google.android.material.textview.MaterialTextView
@@ -67,13 +67,60 @@
             android:layout_marginEnd="16dp"
             tools:text="/data/user/0/im.dino.dbinspector.example/databases" />
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            app:menu="@menu/dbinspector_item_database"
-            app:navigationIcon="@drawable/dbinspector_ic_remove" />
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/removeButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:icon="@drawable/dbinspector_ic_remove"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:strokeWidth="0dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/renameButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:icon="@drawable/dbinspector_ic_rename"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:strokeWidth="0dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/copyButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:icon="@drawable/dbinspector_ic_copy"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:strokeWidth="0dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/shareButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:icon="@drawable/dbinspector_ic_share"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:strokeWidth="0dp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
