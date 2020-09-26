@@ -22,9 +22,9 @@ import im.dino.dbinspector.domain.database.models.Database
 import im.dino.dbinspector.extensions.scale
 import im.dino.dbinspector.extensions.searchView
 import im.dino.dbinspector.extensions.setup
+import im.dino.dbinspector.ui.schema.SchemaActivity
 import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.shared.Searchable
-import im.dino.dbinspector.ui.schema.SchemaActivity
 import java.io.File
 
 internal class DatabasesActivity : AppCompatActivity(), Searchable {
@@ -78,6 +78,13 @@ internal class DatabasesActivity : AppCompatActivity(), Searchable {
             menu.findItem(R.id.refresh).isVisible = false
         }
     }
+
+    override fun search(query: String?) {
+        (binding.recyclerView.adapter as? DatabasesAdapter)?.filter?.filter(query)
+    }
+
+    override fun searchQuery(): String? =
+        binding.toolbar.menu.searchView?.query?.toString()
 
     override fun onSearchClosed() {
         with(binding.toolbar) {
@@ -153,7 +160,7 @@ internal class DatabasesActivity : AppCompatActivity(), Searchable {
 
     private fun refreshDatabases() {
         viewModel.find()
-        search(binding.toolbar.menu.searchView?.query?.toString())
+        search(searchQuery())
     }
 
     private fun importDatabase() =
@@ -253,8 +260,4 @@ internal class DatabasesActivity : AppCompatActivity(), Searchable {
                 Toast.LENGTH_SHORT
             ).show()
         }
-
-    private fun search(query: String?) {
-        (binding.recyclerView.adapter as? DatabasesAdapter)?.filter?.filter(query)
-    }
 }

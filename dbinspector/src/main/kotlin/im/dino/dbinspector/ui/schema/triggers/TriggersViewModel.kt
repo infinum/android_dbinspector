@@ -5,7 +5,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import im.dino.dbinspector.ui.shared.BaseViewModel
+import im.dino.dbinspector.ui.shared.base.BaseViewModel
 import kotlinx.coroutines.flow.collectLatest
 
 internal class TriggersViewModel : BaseViewModel() {

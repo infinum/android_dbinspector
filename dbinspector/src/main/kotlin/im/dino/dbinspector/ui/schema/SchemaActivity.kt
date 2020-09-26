@@ -1,17 +1,16 @@
 package im.dino.dbinspector.ui.schema
 
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivitySchemaBinding
-import im.dino.dbinspector.ui.schema.tables.TablesViewModel
+import im.dino.dbinspector.extensions.searchView
+import im.dino.dbinspector.extensions.setup
 import im.dino.dbinspector.ui.shared.Constants
+import im.dino.dbinspector.ui.shared.Searchable
 
-internal class SchemaActivity : AppCompatActivity() {
-
-    private val viewModel by viewModels<TablesViewModel>()
+internal class SchemaActivity : AppCompatActivity(), Searchable {
 
     lateinit var binding: DbinspectorActivitySchemaBinding
 
@@ -33,12 +32,33 @@ internal class SchemaActivity : AppCompatActivity() {
         } ?: showError()
     }
 
+    override fun onSearchOpened() {
+        binding.toolbar.menu.findItem(R.id.refresh).isVisible = false
+    }
+
+    override fun search(query: String?) =
+        supportFragmentManager
+            .fragments
+            .filterIsInstance<Searchable>()
+            .forEach { it.search(query) }
+
+    override fun searchQuery(): String? =
+        binding.toolbar.menu.searchView?.query?.toString()
+
+    override fun onSearchClosed() {
+        binding.toolbar.menu.findItem(R.id.refresh).isVisible = true
+    }
+
     private fun setupUi(databaseName: String, databasePath: String) {
         with(binding) {
             toolbar.setNavigationOnClickListener { finish() }
             toolbar.subtitle = databaseName
             toolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
+                    R.id.search -> {
+                        onSearchOpened()
+                        true
+                    }
                     R.id.refresh -> {
                         refreshChildren()
                         true
@@ -46,6 +66,11 @@ internal class SchemaActivity : AppCompatActivity() {
                     else -> false
                 }
             }
+
+            toolbar.menu.searchView?.setup(
+                onSearchClosed = { onSearchClosed() },
+                onQueryTextChanged = { search(it) }
+            )
 
             tabLayout.setupWithViewPager(viewPager)
             viewPager.adapter = SchemaTypeAdapter(
@@ -60,7 +85,6 @@ internal class SchemaActivity : AppCompatActivity() {
     private fun showError() {
         with(binding) {
             toolbar.setNavigationOnClickListener { finish() }
-            toolbar.subtitle = "Error"
 
             // TODO: push or show error views or Fragment
         }
@@ -71,71 +95,4 @@ internal class SchemaActivity : AppCompatActivity() {
             .fragments
             .filterIsInstance<SwipeRefreshLayout.OnRefreshListener>()
             .forEach(SwipeRefreshLayout.OnRefreshListener::onRefresh)
-
-    /*
-    private fun setupToolbar(database: Database) =
-        with(binding.toolbar) {
-            setNavigationOnClickListener { finish() }
-            subtitle = database.name
-            setOnMenuItemClickListener {
-                when (it.itemId) {
-                    R.id.search -> {
-                        onSearchOpened()
-                        true
-                    }
-                    R.id.refresh -> {
-                        (binding.recyclerView.adapter as? TablesAdapter)?.submitData(lifecycle, PagingData.empty())
-                        query(database.absolutePath)
-                        true
-                    }
-                    else -> false
-                }
-            }
-
-            menu.searchView?.setup(
-                onSearchClosed = { onSearchClosed() },
-                onQueryTextChanged = { search(database, it) }
-            )
-        }
-
-    private fun setupSwipeRefresh(database: Database) =
-        with(binding.swipeRefresh) {
-            setOnRefreshListener {
-                isRefreshing = false
-
-                (binding.recyclerView.adapter as? TablesAdapter)?.submitData(lifecycle, PagingData.empty())
-
-                query(database.absolutePath)
-            }
-        }
-
-
-    private fun showTableContent(databaseName: String, databasePath: String, tableName: String) {
-        startActivity(
-            Intent(this, ContentActivity::class.java)
-                .apply {
-                    putExtra(Constants.Keys.DATABASE_NAME, databaseName)
-                    putExtra(Constants.Keys.DATABASE_PATH, databasePath)
-                    putExtra(Constants.Keys.TABLE_NAME, tableName)
-                }
-        )
-    }
-
-    private fun search(database: Database, query: String?) =
-        viewModel.query(database.absolutePath, query) {
-            (binding.recyclerView.adapter as? TablesAdapter)?.submitData(it)
-        }
-
-    private fun query(databasePath: String) {
-        with(binding) {
-            viewModel.query(
-                databasePath,
-                toolbar.menu.searchView?.query?.toString()
-            ) {
-                (recyclerView.adapter as? TablesAdapter)?.submitData(it)
-            }
-        }
-    }
-
-     */
 }

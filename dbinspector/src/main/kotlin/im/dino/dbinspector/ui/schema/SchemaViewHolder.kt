@@ -1,10 +1,10 @@
 package im.dino.dbinspector.ui.schema
 
 import androidx.recyclerview.widget.RecyclerView
-import im.dino.dbinspector.databinding.DbinspectorItemTableBinding
+import im.dino.dbinspector.databinding.DbinspectorItemSchemaBinding
 
 internal class SchemaViewHolder(
-    private val viewBinding: DbinspectorItemTableBinding
+    private val viewBinding: DbinspectorItemSchemaBinding
 ) : RecyclerView.ViewHolder(viewBinding.root) {
 
     fun bind(item: String?, onClick: (String) -> Unit) {

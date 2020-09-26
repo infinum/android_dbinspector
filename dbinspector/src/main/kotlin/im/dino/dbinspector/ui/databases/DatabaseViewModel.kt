@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import im.dino.dbinspector.data.source.local.DatabaseManager
 import im.dino.dbinspector.domain.database.VersionOperation
 import im.dino.dbinspector.domain.database.models.Database
-import im.dino.dbinspector.ui.shared.BaseViewModel
+import im.dino.dbinspector.ui.shared.base.BaseViewModel
 
 internal class DatabaseViewModel : BaseViewModel() {
 

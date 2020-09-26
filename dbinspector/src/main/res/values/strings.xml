@@ -11,6 +11,7 @@
     <string name="dbinspector_schema_triggers">Triggers</string>
 
     <string name="dbinspector_table">Table</string>
+    <string name="dbinspector_view">View</string>
     <string name="dbinspector_pragma">Pragma</string>
 
     <string name="dbinspector_pragma_table_info">Table info</string>

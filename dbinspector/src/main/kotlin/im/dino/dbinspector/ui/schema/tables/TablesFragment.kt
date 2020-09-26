@@ -12,12 +12,14 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorFragmentSchemaBinding
 import im.dino.dbinspector.ui.schema.SchemaAdapter
-import im.dino.dbinspector.ui.schema.tables.content.ContentActivity
-import im.dino.dbinspector.ui.shared.BaseFragment
+import im.dino.dbinspector.ui.schema.shared.SchemaFragment
+import im.dino.dbinspector.ui.table.TableActivity
 import im.dino.dbinspector.ui.shared.Constants
-import im.dino.dbinspector.ui.shared.viewBinding
+import im.dino.dbinspector.ui.shared.delegates.viewBinding
 
-internal class TablesFragment : BaseFragment(R.layout.dbinspector_fragment_schema), SwipeRefreshLayout.OnRefreshListener {
+internal class TablesFragment :
+    SchemaFragment(R.layout.dbinspector_fragment_schema),
+    SwipeRefreshLayout.OnRefreshListener {
 
     companion object {
 
@@ -31,6 +33,7 @@ internal class TablesFragment : BaseFragment(R.layout.dbinspector_fragment_schem
     }
 
     private lateinit var databasePath: String
+
     private lateinit var databaseName: String
 
     private val viewModel by viewModels<TablesViewModel>()
@@ -64,7 +67,7 @@ internal class TablesFragment : BaseFragment(R.layout.dbinspector_fragment_schem
                 }
             )
 
-            query(databasePath)
+            query()
         }
     }
 
@@ -74,32 +77,30 @@ internal class TablesFragment : BaseFragment(R.layout.dbinspector_fragment_schem
 
             (recyclerView.adapter as? SchemaAdapter)?.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
 
-            query(databasePath)
+            query()
         }
     }
 
-    private fun showTableContent(databaseName: String, databasePath: String, tableName: String) {
+    override fun search(query: String?) =
+        viewModel.query(databasePath, query) {
+            (binding.recyclerView.adapter as? SchemaAdapter)?.submitData(it)
+        }
+
+    private fun showTableContent(databaseName: String, databasePath: String, tableName: String) =
         startActivity(
-            Intent(requireContext(), ContentActivity::class.java)
+            Intent(requireContext(), TableActivity::class.java)
                 .apply {
                     putExtra(Constants.Keys.DATABASE_NAME, databaseName)
                     putExtra(Constants.Keys.DATABASE_PATH, databasePath)
                     putExtra(Constants.Keys.TABLE_NAME, tableName)
                 }
         )
-    }
 
-//    private fun search(database: Database, query: String?) =
-//        viewModel.query(database.absolutePath, query) {
-//            (binding.recyclerView.adapter as? TablesAdapter)?.submitData(it)
-//        }
-
-    private fun query(databasePath: String) {
+    private fun query() {
         with(binding) {
             viewModel.query(
                 databasePath,
-                null
-//                toolbar.menu.searchView?.query?.toString()
+                parentSearchable?.searchQuery()
             ) {
                 (recyclerView.adapter as? SchemaAdapter)?.submitData(it)
             }

@@ -12,12 +12,14 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorFragmentSchemaBinding
 import im.dino.dbinspector.ui.schema.SchemaAdapter
-import im.dino.dbinspector.ui.schema.tables.content.ContentActivity
-import im.dino.dbinspector.ui.shared.BaseFragment
+import im.dino.dbinspector.ui.schema.shared.SchemaFragment
+import im.dino.dbinspector.ui.table.TableActivity
 import im.dino.dbinspector.ui.shared.Constants
-import im.dino.dbinspector.ui.shared.viewBinding
+import im.dino.dbinspector.ui.shared.delegates.viewBinding
 
-internal class TriggersFragment : BaseFragment(R.layout.dbinspector_fragment_schema), SwipeRefreshLayout.OnRefreshListener {
+internal class TriggersFragment :
+    SchemaFragment(R.layout.dbinspector_fragment_schema),
+    SwipeRefreshLayout.OnRefreshListener {
 
     companion object {
 
@@ -31,6 +33,7 @@ internal class TriggersFragment : BaseFragment(R.layout.dbinspector_fragment_sch
     }
 
     private lateinit var databasePath: String
+
     private lateinit var databaseName: String
 
     private val viewModel by viewModels<TriggersViewModel>()
@@ -60,11 +63,11 @@ internal class TriggersFragment : BaseFragment(R.layout.dbinspector_fragment_sch
             recyclerView.addItemDecoration(DividerItemDecoration(context, LinearLayout.VERTICAL))
             recyclerView.adapter = SchemaAdapter(
                 onClick = {
-                    showTableContent(databaseName, databasePath, it)
+                    showTriggerContent(databaseName, databasePath, it)
                 }
             )
 
-            query(databasePath)
+            query()
         }
     }
 
@@ -74,32 +77,30 @@ internal class TriggersFragment : BaseFragment(R.layout.dbinspector_fragment_sch
 
             (recyclerView.adapter as? SchemaAdapter)?.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
 
-            query(databasePath)
+            query()
         }
     }
 
-    private fun showTableContent(databaseName: String, databasePath: String, tableName: String) {
+    override fun search(query: String?) =
+        viewModel.query(databasePath, query) {
+            (binding.recyclerView.adapter as? SchemaAdapter)?.submitData(it)
+        }
+
+    private fun showTriggerContent(databaseName: String, databasePath: String, triggerName: String) =
         startActivity(
-            Intent(requireContext(), ContentActivity::class.java)
+            Intent(requireContext(), TableActivity::class.java)
                 .apply {
                     putExtra(Constants.Keys.DATABASE_NAME, databaseName)
                     putExtra(Constants.Keys.DATABASE_PATH, databasePath)
-                    putExtra(Constants.Keys.TABLE_NAME, tableName)
+                    putExtra(Constants.Keys.TRIGGER_NAME, triggerName)
                 }
         )
-    }
 
-//    private fun search(database: Database, query: String?) =
-//        viewModel.query(database.absolutePath, query) {
-//            (binding.recyclerView.adapter as? TablesAdapter)?.submitData(it)
-//        }
-
-    private fun query(databasePath: String) {
+    private fun query() {
         with(binding) {
             viewModel.query(
                 databasePath,
-                null
-//                toolbar.menu.searchView?.query?.toString()
+                parentSearchable?.searchQuery()
             ) {
                 (recyclerView.adapter as? SchemaAdapter)?.submitData(it)
             }

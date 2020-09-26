@@ -1,12 +1,12 @@
 package im.dino.dbinspector.domain.pragma
 
 import im.dino.dbinspector.data.models.Row
-import im.dino.dbinspector.domain.shared.AbstractTableOperation
+import im.dino.dbinspector.domain.shared.AbstractSchemaOperation
 
 internal class ForeignKeysOperation(
     private val name: String,
     pageSize: Int
-) : AbstractTableOperation<List<Row>>(pageSize) {
+) : AbstractSchemaOperation<List<Row>>(pageSize) {
 
     override fun query(): String = String.format(FORMAT_PRAGMA_FOREIGN_KEYS, name)
 }
