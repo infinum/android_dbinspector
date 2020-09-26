@@ -20,6 +20,8 @@
     <string name="dbinspector_pragma_index">Indexes</string>
 
     <string name="dbinspector_database_name">Name</string>
+    <string name="dbinspector_database_version">Version</string>
+    <string name="dbinspector_database_path">Path</string>
 
     <string name="dbinspector_action_refresh">Refresh</string>
     <string name="dbinspector_action_import">Import</string>

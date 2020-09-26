@@ -25,47 +25,63 @@
             android:layout_marginEnd="16dp"
             tools:text="articles" />
 
-        <com.google.android.material.textview.MaterialTextView
-            style="@style/TextAppearance.MaterialComponents.Caption"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:text="Version"
-            android:textAllCaps="true"
-            android:textColor="@color/dbinspector_color_primary" />
+            android:orientation="horizontal">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/version"
-            style="@style/TextAppearance.MaterialComponents.Caption"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="16dp"
-            tools:text="1" />
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="start|top"
+                android:text="@string/dbinspector_database_version"
+                android:textAllCaps="true"
+                android:textColor="@color/dbinspector_color_primary" />
 
-        <com.google.android.material.textview.MaterialTextView
-            style="@style/TextAppearance.MaterialComponents.Caption"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/version"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:gravity="start|center_vertical"
+                tools:text="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:text="Path"
-            android:textAllCaps="true"
-            android:textColor="@color/dbinspector_color_primary" />
+            android:orientation="horizontal">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/path"
-            style="@style/TextAppearance.MaterialComponents.Caption"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="16dp"
-            tools:text="/data/user/0/im.dino.dbinspector.example/databases" />
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start|top"
+                android:text="@string/dbinspector_database_path"
+                android:textAllCaps="true"
+                android:textColor="@color/dbinspector_color_primary" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/path"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:gravity="start|center_vertical"
+                tools:text="/data/user/0/im.dino.dbinspector.example/databases" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
