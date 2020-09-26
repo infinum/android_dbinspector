@@ -23,6 +23,7 @@
     <string name="dbinspector_action_refresh">Refresh</string>
     <string name="dbinspector_action_import">Import</string>
     <string name="dbinspector_action_clear">Clear</string>
+    <string name="dbinspector_action_drop">Drop</string>
     <string name="dbinspector_action_search">Search</string>
     <string name="dbinspector_action_rename">Rename</string>
     <string name="dbinspector_action_copy">Copy</string>
@@ -30,6 +31,7 @@
 
     <string name="dbinspector_delete_database_confirm">Delete database %s?</string>
     <string name="dbinspector_clear_table_confirm">Delete the content of the table %s?</string>
+    <string name="dbinspector_drop_view_confirm">Drop view %s?</string>
     <string name="dbinspector_share_database_failed">Cannot share database %s</string>
     <string name="dbinspector_copy_database_info">Database copied to application directory</string>
     <string name="dbinspector_copy_database_failed">Cannot copy database %s</string>

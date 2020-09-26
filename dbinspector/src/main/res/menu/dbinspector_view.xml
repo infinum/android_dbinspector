@@ -4,9 +4,9 @@
     tools:ignore="AlwaysShowAction">
 
     <item
-        android:id="@+id/clear"
-        android:icon="@drawable/dbinspector_ic_clear"
-        android:title="@string/dbinspector_action_clear"
+        android:id="@+id/drop"
+        android:icon="@drawable/dbinspector_ic_drop"
+        android:title="@string/dbinspector_action_drop"
         app:showAsAction="always" />
 
     <item

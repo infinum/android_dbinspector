@@ -29,7 +29,8 @@ internal abstract class AbstractDatabaseOperation<T> : DatabaseOperation<T> {
         internal const val FORMAT_PRAGMA_FOREIGN_KEYS = "PRAGMA foreign_key_list(\"%s\")"
         internal const val FORMAT_PRAGMA_INDEXES = "PRAGMA index_list(\"%s\")"
 
-        internal const val CONTENT_VIEW = "SELECT * FROM \"%s\""
+        internal const val FORMAT_CONTENT_VIEW = "SELECT * FROM \"%s\""
+        internal const val FORMAT_DROP_VIEW = "DROP VIEW \"%s\""
 
         internal const val COLUMN_NAME = "name"
         internal const val COLUMN_BLOB_VALUE = "(data)"

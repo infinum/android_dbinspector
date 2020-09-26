@@ -7,7 +7,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import im.dino.dbinspector.domain.pragma.TableInfoOperation
 import im.dino.dbinspector.domain.pragma.models.TableInfoColumns
-import im.dino.dbinspector.domain.schema.table.ClearTableOperation
+import im.dino.dbinspector.domain.schema.view.DropViewOperation
 import im.dino.dbinspector.ui.shared.base.BaseViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
@@ -23,7 +23,7 @@ internal class ViewViewModel(
 
     private val dataSource = ViewDataSource(path, name, PAGE_SIZE)
 
-    private val clearTableOperation = ClearTableOperation(name)
+    private val dropViewOperation = DropViewOperation(name, PAGE_SIZE)
 
     override fun onCleared() {
         super.onCleared()
@@ -55,13 +55,11 @@ internal class ViewViewModel(
         }
     }
 
-    fun clear(action: suspend (value: PagingData<String>) -> Unit) =
+    fun drop(action: suspend () -> Unit) =
         launch {
-            val ok = io {
-                clearTableOperation(path, null)
+            io {
+                dropViewOperation(path, null)
             }
-            if (ok) {
-                query(action)
-            }
+            action()
         }
 }

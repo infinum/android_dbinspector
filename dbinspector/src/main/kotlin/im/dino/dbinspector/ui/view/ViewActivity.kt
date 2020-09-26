@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivityViewBinding
-import im.dino.dbinspector.ui.shared.content.ContentAdapter
 import im.dino.dbinspector.ui.pragma.PragmaActivity
 import im.dino.dbinspector.ui.shared.Constants
+import im.dino.dbinspector.ui.shared.content.ContentAdapter
 
 internal class ViewActivity : AppCompatActivity() {
 
@@ -52,8 +52,8 @@ internal class ViewActivity : AppCompatActivity() {
             subtitle = listOf(databaseName, tableName).joinToString(" / ")
             setOnMenuItemClickListener {
                 when (it.itemId) {
-                    R.id.clear -> {
-                        clearTable(tableName)
+                    R.id.drop -> {
+                        dropView(tableName)
                         true
                     }
                     R.id.pragma -> {
@@ -107,11 +107,11 @@ internal class ViewActivity : AppCompatActivity() {
         )
     }
 
-    private fun clearTable(name: String) =
+    private fun dropView(name: String) =
         MaterialAlertDialogBuilder(this)
-            .setMessage(String.format(getString(R.string.dbinspector_clear_table_confirm), name))
+            .setMessage(String.format(getString(R.string.dbinspector_drop_view_confirm), name))
             .setPositiveButton(android.R.string.ok) { dialog: DialogInterface, _: Int ->
-                clear()
+                drop()
                 dialog.dismiss()
             }
             .setNegativeButton(android.R.string.cancel) { dialog: DialogInterface, _: Int ->
@@ -125,8 +125,8 @@ internal class ViewActivity : AppCompatActivity() {
             (binding.recyclerView.adapter as? ContentAdapter)?.submitData(it)
         }
 
-    private fun clear() =
-        viewModel.clear() {
-            (binding.recyclerView.adapter as? ContentAdapter)?.submitData(it)
+    private fun drop() =
+        viewModel.drop() {
+            finish()
         }
 }
