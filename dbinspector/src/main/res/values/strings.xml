@@ -19,18 +19,17 @@
     <string name="dbinspector_pragma_foreign_key">Foreign keys</string>
     <string name="dbinspector_pragma_index">Indexes</string>
 
+    <string name="dbinspector_edit">Edit</string>
     <string name="dbinspector_database_name">Name</string>
     <string name="dbinspector_database_version">Version</string>
     <string name="dbinspector_database_path">Path</string>
 
+    <string name="dbinspector_action_save">Save</string>
     <string name="dbinspector_action_refresh">Refresh</string>
     <string name="dbinspector_action_import">Import</string>
     <string name="dbinspector_action_clear">Clear</string>
     <string name="dbinspector_action_drop">Drop</string>
     <string name="dbinspector_action_search">Search</string>
-    <string name="dbinspector_action_rename">Rename</string>
-    <string name="dbinspector_action_copy">Copy</string>
-    <string name="dbinspector_action_share">Share</string>
 
     <string name="dbinspector_delete_database_confirm">Delete database %s?</string>
     <string name="dbinspector_clear_table_confirm">Delete the content of the table %s?</string>

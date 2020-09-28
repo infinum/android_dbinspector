@@ -12,7 +12,7 @@ internal class DatabasesAdapter(
     private val items: List<Database> = listOf(),
     private val onClick: (Database) -> Unit,
     private val onDelete: (Database) -> Unit,
-    private val onRename: (Database) -> Unit,
+    private val onEdit: (Database) -> Unit,
     private val onCopy: (Database) -> Unit,
     private val onShare: (Database) -> Unit
 ) : RecyclerView.Adapter<DatabaseViewHolder>(), Filterable {
@@ -31,7 +31,7 @@ internal class DatabasesAdapter(
             item = filteredItems[position],
             onClick = onClick,
             onDelete = onDelete,
-            onRename = onRename,
+            onEdit = onEdit,
             onCopy = onCopy,
             onShare = onShare
         )

@@ -13,7 +13,7 @@ import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivityTableBinding
 import im.dino.dbinspector.ui.shared.content.ContentAdapter
 import im.dino.dbinspector.ui.shared.Constants
-import im.dino.dbinspector.ui.pragma.PragmaActivity
+import im.dino.dbinspector.ui.pragma.schema.PragmaActivity
 
 internal class TableActivity : AppCompatActivity() {
 

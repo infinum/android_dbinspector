@@ -6,27 +6,29 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.text.InputFilter
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
-import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivityDatabasesBinding
-import im.dino.dbinspector.databinding.DbinspectorDialogRenameBinding
 import im.dino.dbinspector.domain.database.models.Database
 import im.dino.dbinspector.extensions.scale
 import im.dino.dbinspector.extensions.searchView
 import im.dino.dbinspector.extensions.setup
+import im.dino.dbinspector.ui.pragma.database.EditActivity
 import im.dino.dbinspector.ui.schema.SchemaActivity
 import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.shared.Searchable
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import java.io.File
 
+@ExperimentalCoroutinesApi
+@FlowPreview
 internal class DatabasesActivity : AppCompatActivity(), Searchable {
 
     companion object {
@@ -53,6 +55,10 @@ internal class DatabasesActivity : AppCompatActivity(), Searchable {
         }
 
         viewModel.find()
+
+        viewModel.observe {
+            refreshDatabases()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -143,7 +149,7 @@ internal class DatabasesActivity : AppCompatActivity(), Searchable {
             items = databases,
             onClick = { showSchema(it) },
             onDelete = { removeDatabase(it) },
-            onRename = { renameDatabase(it) },
+            onEdit = { editDatabase(it) },
             onCopy = { copyDatabase(it) },
             onShare = { shareDatabase(it) }
         )
@@ -196,42 +202,16 @@ internal class DatabasesActivity : AppCompatActivity(), Searchable {
             .create()
             .show()
 
-    private fun renameDatabase(database: Database) {
-        val filter = InputFilter { source, _, _, _, _, _ ->
-            if (source.isEmpty()) return@InputFilter null
-            val last = source[source.length - 1]
-            val reservedChars = "?:\"*|/\\<>"
-            if (reservedChars.indexOf(last) > -1) source.subSequence(0, source.length - 1) else null
-        }
-
-        DbinspectorDialogRenameBinding.inflate(layoutInflater)
-            .apply {
-                nameInput.filters = arrayOf(filter)
-                nameInput.setText(database.name)
-                nameInput.doOnTextChanged { text, _, _, _ ->
-                    if (text.isNullOrBlank()) {
-                        inputLayout.error = getString(R.string.dbinspector_rename_database_error_blank)
-                    } else {
-                        inputLayout.error = null
-                    }
+    private fun editDatabase(database: Database) {
+        startActivity(
+            Intent(this, EditActivity::class.java)
+                .apply {
+                    putExtra(Constants.Keys.DATABASE_PATH, database.absolutePath)
+                    putExtra(Constants.Keys.DATABASE_FILEPATH, database.path)
+                    putExtra(Constants.Keys.DATABASE_NAME, database.name)
+                    putExtra(Constants.Keys.DATABASE_EXTENSION, database.extension)
                 }
-            }
-            .let {
-                MaterialAlertDialogBuilder(this)
-                    .setView(it.root)
-                    .setPositiveButton(android.R.string.ok) { dialog: DialogInterface, _: Int ->
-                        viewModel.rename(
-                            database.absolutePath,
-                            "${database.path}/${it.nameInput.text?.toString().orEmpty().trim()}.${database.extension}"
-                        )
-                        dialog.dismiss()
-                    }
-                    .setNegativeButton(android.R.string.cancel) { dialog: DialogInterface, _: Int ->
-                        dialog.dismiss()
-                    }
-                    .create()
-                    .show()
-            }
+        )
     }
 
     private fun copyDatabase(database: Database) =

@@ -5,8 +5,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import im.dino.dbinspector.domain.pragma.TableInfoOperation
-import im.dino.dbinspector.domain.pragma.models.TableInfoColumns
+import im.dino.dbinspector.domain.pragma.schema.TableInfoOperation
+import im.dino.dbinspector.domain.pragma.schema.models.TableInfoColumns
 import im.dino.dbinspector.domain.schema.table.ClearTableOperation
 import im.dino.dbinspector.ui.shared.base.BaseViewModel
 import kotlinx.coroutines.Job

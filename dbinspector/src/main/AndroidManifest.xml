@@ -11,6 +11,11 @@
             android:theme="@style/DbInspector.BaseTheme" />
 
         <activity
+            android:name="im.dino.dbinspector.ui.pragma.database.EditActivity"
+            android:taskAffinity="im.dino.dbinspector"
+            android:theme="@style/DbInspector.BaseTheme" />
+
+        <activity
             android:name="im.dino.dbinspector.ui.schema.SchemaActivity"
             android:taskAffinity="im.dino.dbinspector"
             android:theme="@style/DbInspector.BaseTheme" />
@@ -30,9 +35,8 @@
             android:taskAffinity="im.dino.dbinspector"
             android:theme="@style/DbInspector.BaseTheme" />
 
-
         <activity
-            android:name="im.dino.dbinspector.ui.pragma.PragmaActivity"
+            android:name="im.dino.dbinspector.ui.pragma.schema.PragmaActivity"
             android:taskAffinity="im.dino.dbinspector"
             android:theme="@style/DbInspector.BaseTheme" />
 

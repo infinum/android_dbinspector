@@ -13,7 +13,6 @@ import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorFragmentSchemaBinding
 import im.dino.dbinspector.ui.schema.SchemaAdapter
 import im.dino.dbinspector.ui.schema.shared.SchemaFragment
-import im.dino.dbinspector.ui.table.TableActivity
 import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.shared.delegates.viewBinding
 import im.dino.dbinspector.ui.trigger.TriggerActivity

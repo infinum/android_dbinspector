@@ -3,13 +3,27 @@ package im.dino.dbinspector.ui.databases
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import im.dino.dbinspector.data.source.local.DatabaseManager
-import im.dino.dbinspector.domain.database.VersionOperation
+import im.dino.dbinspector.domain.pragma.database.VersionOperation
 import im.dino.dbinspector.domain.database.models.Database
 import im.dino.dbinspector.ui.shared.base.BaseViewModel
+import im.dino.dbinspector.ui.shared.bus.EventBus
+import im.dino.dbinspector.ui.shared.bus.models.Event
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.collectLatest
 
 internal class DatabaseViewModel : BaseViewModel() {
 
     val databases: MutableLiveData<List<Database>> = MutableLiveData()
+
+    @FlowPreview
+    @ExperimentalCoroutinesApi
+    fun observe(action: suspend () -> Unit) =
+        launch {
+            io {
+                EventBus.on<Event.RefreshDatabases>().collectLatest { action() }
+            }
+        }
 
     fun find() {
         launch {
@@ -39,16 +53,6 @@ internal class DatabaseViewModel : BaseViewModel() {
         launch {
             val ok = io {
                 DatabaseManager.remove(databaseFilename)
-            }
-            if (ok) {
-                find()
-            }
-        }
-
-    fun rename(databasePath: String, databaseFilename: String) =
-        launch {
-            val ok = io {
-                DatabaseManager.rename(databasePath, databaseFilename)
             }
             if (ok) {
                 find()

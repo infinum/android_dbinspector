@@ -15,8 +15,6 @@ import kotlin.math.roundToInt
 internal abstract class AbstractDatabaseOperation<T> : DatabaseOperation<T> {
 
     companion object {
-        internal const val PRAGMA_DATABASE_VERSION = "PRAGMA user_version"
-
         internal const val FORMAT_ALL_TABLES = "SELECT name FROM sqlite_master WHERE type = 'table' ORDER BY name %s"
         internal const val FORMAT_ALL_VIEWS = "SELECT name FROM sqlite_master WHERE type = 'view' ORDER BY name %s"
         internal const val FORMAT_ALL_TRIGGERS = "SELECT name, sql FROM sqlite_master WHERE type='trigger' ORDER BY name %s"
@@ -28,6 +26,11 @@ internal abstract class AbstractDatabaseOperation<T> : DatabaseOperation<T> {
         internal const val FORMAT_PRAGMA_TABLE_INFO = "PRAGMA table_info(\"%s\")"
         internal const val FORMAT_PRAGMA_FOREIGN_KEYS = "PRAGMA foreign_key_list(\"%s\")"
         internal const val FORMAT_PRAGMA_INDEXES = "PRAGMA index_list(\"%s\")"
+
+        internal const val PRAGMA_USER_VERSION = "PRAGMA user_version"
+        internal const val FORMAT_PRAGMA_USER_VERSION = "PRAGMA user_version = '%s'"
+        internal const val PRAGMA_JOURNAL_MODE = "PRAGMA journal_mode"
+        internal const val FORMAT_PRAGMA_JOURNAL_MODE = "PRAGMA journal_mode = '%s'"
 
         internal const val FORMAT_CONTENT_VIEW = "SELECT * FROM \"%s\""
         internal const val FORMAT_DROP_VIEW = "DROP VIEW \"%s\""
