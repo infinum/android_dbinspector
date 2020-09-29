@@ -5,4 +5,5 @@
 
     <color name="dbinspector_header_background">#bbbbbb</color>
     <color name="dbinspector_alternate_row_background">#F2F2F2</color>
+    <color name="dbinspector_status_bar">#003b57</color>
 </resources>

@@ -5,6 +5,7 @@
         <item name="colorPrimary">@color/dbinspector_color_primary</item>
         <item name="colorPrimaryDark">@color/dbinspector_color_primary_dark</item>
         <item name="android:statusBarColor">@color/dbinspector_status_bar</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
 </resources>
