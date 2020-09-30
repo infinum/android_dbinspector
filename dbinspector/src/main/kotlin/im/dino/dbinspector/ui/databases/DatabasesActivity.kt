@@ -11,6 +11,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import im.dino.dbinspector.R
@@ -49,6 +50,7 @@ internal class DatabasesActivity : AppCompatActivity(), Searchable {
         setupToolbar()
         setupSwipeRefresh()
         setupRecyclerView()
+        setupEmptyView()
 
         viewModel.databases.observeForever {
             showDatabases(it)
@@ -86,7 +88,9 @@ internal class DatabasesActivity : AppCompatActivity(), Searchable {
     }
 
     override fun search(query: String?) {
-        (binding.recyclerView.adapter as? DatabasesAdapter)?.filter?.filter(query)
+        with(binding) {
+            (recyclerView.adapter as? DatabasesAdapter)?.filter?.filter(query)
+        }
     }
 
     override fun searchQuery(): String? =
@@ -97,6 +101,7 @@ internal class DatabasesActivity : AppCompatActivity(), Searchable {
             menu.findItem(R.id.dbImport).isVisible = true
             menu.findItem(R.id.refresh).isVisible = true
         }
+        refreshDatabases()
     }
 
     private fun setupToolbar() =
@@ -144,15 +149,31 @@ internal class DatabasesActivity : AppCompatActivity(), Searchable {
             )
         }
 
+    private fun setupEmptyView() {
+        with(binding) {
+            emptyLayout.retryButton.setOnClickListener {
+                refreshDatabases()
+            }
+        }
+    }
+
     private fun showDatabases(databases: List<Database>) {
-        binding.recyclerView.adapter = DatabasesAdapter(
-            items = databases,
-            onClick = { showSchema(it) },
-            onDelete = { removeDatabase(it) },
-            onEdit = { editDatabase(it) },
-            onCopy = { copyDatabase(it) },
-            onShare = { shareDatabase(it) }
-        )
+        with(binding) {
+            recyclerView.adapter = DatabasesAdapter(
+                items = databases,
+                onClick = { showSchema(it) },
+                onDelete = { removeDatabase(it) },
+                onEdit = { editDatabase(it) },
+                onCopy = { copyDatabase(it) },
+                onShare = { shareDatabase(it) },
+                onEmpty = {
+                    emptyLayout.root.isVisible = it
+                    swipeRefresh.isVisible = it.not()
+                }
+            )
+            emptyLayout.root.isVisible = databases.isEmpty()
+            swipeRefresh.isVisible = databases.isNotEmpty()
+        }
     }
 
     private fun showSchema(database: Database) =

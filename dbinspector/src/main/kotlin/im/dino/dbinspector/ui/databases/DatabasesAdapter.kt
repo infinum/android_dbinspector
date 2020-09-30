@@ -14,7 +14,8 @@ internal class DatabasesAdapter(
     private val onDelete: (Database) -> Unit,
     private val onEdit: (Database) -> Unit,
     private val onCopy: (Database) -> Unit,
-    private val onShare: (Database) -> Unit
+    private val onShare: (Database) -> Unit,
+    private val onEmpty: (Boolean) -> Unit
 ) : RecyclerView.Adapter<DatabaseViewHolder>(), Filterable {
 
     private var filteredItems: List<Database> = listOf()
@@ -46,6 +47,7 @@ internal class DatabasesAdapter(
 
     override fun getFilter(): Filter = DatabasesFilter(items) {
         filteredItems = it
+        onEmpty(it.isEmpty())
         notifyDataSetChanged()
     }
 }
