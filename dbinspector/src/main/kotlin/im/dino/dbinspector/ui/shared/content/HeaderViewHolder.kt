@@ -10,14 +10,6 @@ internal class HeaderViewHolder(
     fun bind(item: String) {
         with(viewBinding) {
             this.valueView.text = item
-//            this.content.setOnClickListener { onClick(it) }
-        }
-
-    }
-
-    fun unbind() {
-        with(viewBinding) {
-//            this.content.setOnClickListener(null)
         }
     }
 }

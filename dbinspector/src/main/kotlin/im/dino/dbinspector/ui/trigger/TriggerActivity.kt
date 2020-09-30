@@ -32,7 +32,7 @@ internal class TriggerActivity : AppCompatActivity() {
         intent.extras?.let {
             val databaseName = it.getString(Constants.Keys.DATABASE_NAME)
             val databasePath = it.getString(Constants.Keys.DATABASE_PATH)
-            val triggerName = it.getString(Constants.Keys.TRIGGER_NAME)
+            val triggerName = it.getString(Constants.Keys.SCHEMA_NAME)
             if (databaseName.isNullOrBlank().not() && databasePath.isNullOrBlank().not() && triggerName.isNullOrBlank().not()) {
                 viewModel = ViewModelProvider(
                     this,

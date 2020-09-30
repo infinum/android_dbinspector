@@ -39,4 +39,7 @@
     <string name="dbinspector_copy_database_info">Database copied to application directory</string>
     <string name="dbinspector_copy_database_failed">Cannot copy database %s</string>
     <string name="dbinspector_rename_database_error_blank">Cannot be blank</string>
+    <string name="dbinspector_nothing_found">Nothing found</string>
+    <string name="dbinspector_give_it_another_try">Give it another try...</string>
+    <string name="dbinspector_retry">Retry</string>
 </resources>

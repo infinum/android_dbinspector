@@ -7,6 +7,7 @@ import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivitySchemaBinding
 import im.dino.dbinspector.extensions.searchView
 import im.dino.dbinspector.extensions.setup
+import im.dino.dbinspector.ui.schema.shared.SchemaTypeAdapter
 import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.shared.Searchable
 

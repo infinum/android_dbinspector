@@ -13,8 +13,8 @@ internal object EventBus {
 
     private val bus = ConflatedBroadcastChannel<Any>(object {})
 
-    suspend fun send(o: Any) =
-        bus.send(o)
+    suspend fun send(anyObject: Any) =
+        bus.send(anyObject)
 
     @FlowPreview
     inline fun <reified T> on() =

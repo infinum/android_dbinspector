@@ -26,7 +26,7 @@ internal object DatabaseManager {
         ignored = context.resources.getStringArray(R.array.dbinspector_ignored).toList()
     }
 
-    suspend fun find(): MutableSet<File> =
+    suspend fun browse(): MutableSet<File> =
         suspendCancellableCoroutine {
             try {
                 // look for standard sqlite databases in the databases dir

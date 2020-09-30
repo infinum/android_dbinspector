@@ -25,10 +25,10 @@ internal class DatabaseViewModel : BaseViewModel() {
             }
         }
 
-    fun find() {
+    fun browse() {
         launch {
             databases.value = io {
-                DatabaseManager.find().map {
+                DatabaseManager.browse().map {
                     Database(
                         absolutePath = it.absolutePath,
                         path = it.parentFile?.absolutePath.orEmpty(),
@@ -46,7 +46,7 @@ internal class DatabaseViewModel : BaseViewModel() {
             io {
                 DatabaseManager.import(uris)
             }
-            find()
+            browse()
         }
 
     fun remove(databaseFilename: String) =
@@ -55,7 +55,7 @@ internal class DatabaseViewModel : BaseViewModel() {
                 DatabaseManager.remove(databaseFilename)
             }
             if (ok) {
-                find()
+                browse()
             }
         }
 
@@ -70,7 +70,7 @@ internal class DatabaseViewModel : BaseViewModel() {
                 )
             }
             if (ok) {
-                find()
+                browse()
             }
         }
 }

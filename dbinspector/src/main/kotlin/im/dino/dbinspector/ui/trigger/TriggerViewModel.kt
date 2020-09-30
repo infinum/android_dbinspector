@@ -16,17 +16,9 @@ internal class TriggerViewModel(
     name: String
 ) : BaseViewModel() {
 
-    private var job: Job? = null
-
     private val dataSource = TriggerDataSource(path, name, PAGE_SIZE)
 
     private val dropTriggerOperation = DropTriggerOperation(name, PAGE_SIZE)
-
-    override fun onCleared() {
-        super.onCleared()
-        job?.cancel()
-        job = null
-    }
 
     fun header(action: suspend (value: List<String>) -> Unit) =
         launch {

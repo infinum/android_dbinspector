@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivityTableBinding
-import im.dino.dbinspector.ui.shared.content.ContentAdapter
-import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.pragma.schema.PragmaActivity
+import im.dino.dbinspector.ui.shared.Constants
+import im.dino.dbinspector.ui.shared.content.ContentAdapter
 
 internal class TableActivity : AppCompatActivity() {
 
@@ -31,7 +31,7 @@ internal class TableActivity : AppCompatActivity() {
         intent.extras?.let {
             val databaseName = it.getString(Constants.Keys.DATABASE_NAME)
             val databasePath = it.getString(Constants.Keys.DATABASE_PATH)
-            val tableName = it.getString(Constants.Keys.TABLE_NAME)
+            val tableName = it.getString(Constants.Keys.SCHEMA_NAME)
             if (databaseName.isNullOrBlank().not() && databasePath.isNullOrBlank().not() && tableName.isNullOrBlank().not()) {
                 viewModel = ViewModelProvider(
                     this,

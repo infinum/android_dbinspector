@@ -38,7 +38,7 @@ internal class PragmaAdapter(
     override fun onViewRecycled(holder: RecyclerView.ViewHolder) =
         with(holder) {
             when (holder) {
-                is HeaderViewHolder -> (holder as? HeaderViewHolder)?.unbind()
+                is HeaderViewHolder -> Unit
                 is PragmaViewHolder -> (holder as? PragmaViewHolder)?.unbind()
             }
             super.onViewRecycled(this)

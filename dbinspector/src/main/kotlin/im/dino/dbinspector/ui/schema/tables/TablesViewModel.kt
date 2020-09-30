@@ -5,19 +5,26 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import im.dino.dbinspector.ui.shared.base.BaseViewModel
+import im.dino.dbinspector.ui.schema.shared.SchemaViewModel
 import kotlinx.coroutines.flow.collectLatest
 
-internal class TablesViewModel : BaseViewModel() {
+internal class TablesViewModel : SchemaViewModel() {
 
-    fun query(path: String, args: String? = null, action: suspend (value: PagingData<String>) -> Unit) {
+    override fun observe(action: suspend () -> Unit) = Unit
+
+    override fun query(
+        path: String,
+        argument: String?,
+        onData: suspend (value: PagingData<String>) -> Unit,
+        onEmpty: suspend (value: Boolean) -> Unit
+    ) {
         launch {
-            Pager(PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = true)) {
-                TablesDataSource(path, PAGE_SIZE, args)
+            Pager(PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = false)) {
+                TablesDataSource(path, PAGE_SIZE, argument, onEmpty)
             }
                 .flow
                 .cachedIn(viewModelScope)
-                .collectLatest { action(it) }
+                .collectLatest { onData(it) }
         }
     }
 }

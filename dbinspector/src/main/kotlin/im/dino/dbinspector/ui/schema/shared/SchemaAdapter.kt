@@ -1,4 +1,4 @@
-package im.dino.dbinspector.ui.schema
+package im.dino.dbinspector.ui.schema.shared
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

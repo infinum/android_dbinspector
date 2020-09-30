@@ -17,19 +17,11 @@ internal class ViewViewModel(
     name: String
 ) : BaseViewModel() {
 
-    private var job: Job? = null
-
     private val infoDataSource = TableInfoOperation(name, PAGE_SIZE)(path, null)
 
     private val dataSource = ViewDataSource(path, name, PAGE_SIZE)
 
     private val dropViewOperation = DropViewOperation(name, PAGE_SIZE)
-
-    override fun onCleared() {
-        super.onCleared()
-        job?.cancel()
-        job = null
-    }
 
     fun header(action: suspend (value: List<String>) -> Unit) =
         launch {

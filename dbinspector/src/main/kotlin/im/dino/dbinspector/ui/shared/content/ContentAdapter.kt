@@ -39,7 +39,7 @@ internal class ContentAdapter(
     override fun onViewRecycled(holder: RecyclerView.ViewHolder) =
         with(holder) {
             when (holder) {
-                is HeaderViewHolder -> (holder as? HeaderViewHolder)?.unbind()
+                is HeaderViewHolder -> Unit
                 is ContentViewHolder -> (holder as? ContentViewHolder)?.unbind()
             }
             super.onViewRecycled(this)

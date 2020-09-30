@@ -54,7 +54,7 @@ internal class DatabasesActivity : AppCompatActivity(), Searchable {
             showDatabases(it)
         }
 
-        viewModel.find()
+        viewModel.browse()
 
         viewModel.observe {
             refreshDatabases()
@@ -165,7 +165,7 @@ internal class DatabasesActivity : AppCompatActivity(), Searchable {
         )
 
     private fun refreshDatabases() {
-        viewModel.find()
+        viewModel.browse()
         search(searchQuery())
     }
 

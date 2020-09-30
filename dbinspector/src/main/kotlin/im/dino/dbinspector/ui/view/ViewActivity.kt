@@ -34,7 +34,7 @@ internal class ViewActivity : AppCompatActivity() {
         intent.extras?.let {
             val databaseName = it.getString(Constants.Keys.DATABASE_NAME)
             val databasePath = it.getString(Constants.Keys.DATABASE_PATH)
-            val viewName = it.getString(Constants.Keys.VIEW_NAME)
+            val viewName = it.getString(Constants.Keys.SCHEMA_NAME)
             if (databaseName.isNullOrBlank().not() && databasePath.isNullOrBlank().not() && viewName.isNullOrBlank().not()) {
                 viewModel = ViewModelProvider(
                     this,
