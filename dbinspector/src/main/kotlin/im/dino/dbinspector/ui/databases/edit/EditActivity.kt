@@ -1,4 +1,4 @@
-package im.dino.dbinspector.ui.pragma.database
+package im.dino.dbinspector.ui.databases.edit
 
 import android.os.Bundle
 import android.text.InputFilter

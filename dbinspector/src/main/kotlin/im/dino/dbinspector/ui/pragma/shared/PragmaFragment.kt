@@ -1,50 +1,49 @@
-package im.dino.dbinspector.ui.pragma.schema.tableinfo
+package im.dino.dbinspector.ui.pragma.shared
 
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.updateLayoutParams
-import androidx.fragment.app.viewModels
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorFragmentPragmaBinding
-import im.dino.dbinspector.domain.pragma.schema.models.TableInfoColumns
-import im.dino.dbinspector.ui.shared.base.BaseFragment
+import im.dino.dbinspector.domain.pragma.schema.models.IndexListColumns
 import im.dino.dbinspector.ui.shared.Constants
+import im.dino.dbinspector.ui.shared.base.BaseFragment
 import im.dino.dbinspector.ui.shared.delegates.viewBinding
-import im.dino.dbinspector.ui.pragma.schema.PragmaAdapter
 
-internal class TableInfoFragment : BaseFragment(R.layout.dbinspector_fragment_pragma), SwipeRefreshLayout.OnRefreshListener {
+internal abstract class PragmaFragment :
+    BaseFragment(R.layout.dbinspector_fragment_pragma),
+    SwipeRefreshLayout.OnRefreshListener {
 
     companion object {
 
-        fun newInstance(databasePath: String, tableName: String): TableInfoFragment =
-            TableInfoFragment().apply {
-                arguments = Bundle().apply {
-                    putString(Constants.Keys.DATABASE_PATH, databasePath)
-                    putString(Constants.Keys.SCHEMA_NAME, tableName)
-                }
+        fun bundle(databasePath: String, tableName: String): Bundle =
+            Bundle().apply {
+                putString(Constants.Keys.DATABASE_PATH, databasePath)
+                putString(Constants.Keys.SCHEMA_NAME, tableName)
             }
     }
 
     private lateinit var databasePath: String
-    private lateinit var schemaName: String
+
+    private lateinit var tableName: String
+
+    abstract val viewModel: PragmaViewModel
+
+    abstract fun headers(): List<String>
 
     override val binding: DbinspectorFragmentPragmaBinding by viewBinding(
         DbinspectorFragmentPragmaBinding::bind
     )
-
-    private val viewModel by viewModels<TableInfoViewModel>()
-
-    private val adapter = PragmaAdapter(TableInfoColumns.values().map { it.name.toLowerCase() })
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
             databasePath = it.getString(Constants.Keys.DATABASE_PATH, "")
-            schemaName = it.getString(Constants.Keys.SCHEMA_NAME, "")
+            tableName = it.getString(Constants.Keys.SCHEMA_NAME, "")
         } ?: run {
             // TODO: Show error state
         }
@@ -60,10 +59,10 @@ internal class TableInfoFragment : BaseFragment(R.layout.dbinspector_fragment_pr
         }
 
         with(binding) {
-            swipeRefresh.setOnRefreshListener(this@TableInfoFragment)
+            swipeRefresh.setOnRefreshListener(this@PragmaFragment)
 
-            recyclerView.layoutManager = GridLayoutManager(recyclerView.context, TableInfoColumns.values().size)
-            recyclerView.adapter = adapter
+            recyclerView.layoutManager = GridLayoutManager(recyclerView.context, headers().size)
+            recyclerView.adapter = PragmaAdapter(headers())
 
             query()
         }
@@ -73,14 +72,14 @@ internal class TableInfoFragment : BaseFragment(R.layout.dbinspector_fragment_pr
         with(binding) {
             swipeRefresh.isRefreshing = false
 
-            adapter.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
+            (recyclerView.adapter as? PragmaAdapter)?.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
 
             query()
         }
     }
 
     private fun query() =
-        viewModel.query(databasePath, schemaName) {
-            adapter.submitData(it)
+        viewModel.query(databasePath, tableName) {
+            (binding.recyclerView.adapter as? PragmaAdapter)?.submitData(it)
         }
 }

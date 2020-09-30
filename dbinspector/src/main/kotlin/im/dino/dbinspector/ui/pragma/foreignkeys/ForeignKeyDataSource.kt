@@ -1,15 +1,15 @@
-package im.dino.dbinspector.ui.pragma.schema.tableinfo
+package im.dino.dbinspector.ui.pragma.foreignkeys
 
 import androidx.paging.PagingSource
-import im.dino.dbinspector.domain.pragma.schema.TableInfoOperation
+import im.dino.dbinspector.domain.pragma.schema.ForeignKeysOperation
 
-internal class TableInfoDataSource(
+internal class ForeignKeyDataSource(
     private val path: String,
     name: String,
     pageSize: Int
 ) : PagingSource<Int, String>() {
 
-    private val operation = TableInfoOperation(name, pageSize)
+    private val operation = ForeignKeysOperation(name, pageSize)
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, String> {
         val response = operation(path, params.key)

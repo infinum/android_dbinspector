@@ -1,4 +1,4 @@
-package im.dino.dbinspector.ui.pragma.database
+package im.dino.dbinspector.ui.databases.edit
 
 import im.dino.dbinspector.data.source.local.DatabaseManager
 import im.dino.dbinspector.ui.shared.base.BaseViewModel

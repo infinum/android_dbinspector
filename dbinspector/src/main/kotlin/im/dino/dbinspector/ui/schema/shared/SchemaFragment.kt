@@ -31,9 +31,9 @@ internal abstract class SchemaFragment :
             }
     }
 
-    internal lateinit var databasePath: String
+    private lateinit var databasePath: String
 
-    internal lateinit var databaseName: String
+    private lateinit var databaseName: String
 
     private var parentSearchable: Searchable? = null
 

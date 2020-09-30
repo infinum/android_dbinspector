@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivityViewBinding
-import im.dino.dbinspector.ui.pragma.schema.PragmaActivity
+import im.dino.dbinspector.ui.pragma.PragmaActivity
 import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.shared.bus.EventBus
 import im.dino.dbinspector.ui.shared.bus.models.Event

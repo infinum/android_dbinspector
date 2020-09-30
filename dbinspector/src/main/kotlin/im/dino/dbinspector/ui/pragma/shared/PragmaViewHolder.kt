@@ -1,4 +1,4 @@
-package im.dino.dbinspector.ui.pragma.schema
+package im.dino.dbinspector.ui.pragma.shared
 
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView

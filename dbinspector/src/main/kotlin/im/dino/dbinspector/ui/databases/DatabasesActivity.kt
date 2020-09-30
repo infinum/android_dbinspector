@@ -20,7 +20,7 @@ import im.dino.dbinspector.domain.database.models.Database
 import im.dino.dbinspector.extensions.scale
 import im.dino.dbinspector.extensions.searchView
 import im.dino.dbinspector.extensions.setup
-import im.dino.dbinspector.ui.pragma.database.EditActivity
+import im.dino.dbinspector.ui.databases.edit.EditActivity
 import im.dino.dbinspector.ui.schema.SchemaActivity
 import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.shared.Searchable

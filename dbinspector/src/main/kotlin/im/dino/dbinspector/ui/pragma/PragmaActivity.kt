@@ -1,10 +1,11 @@
-package im.dino.dbinspector.ui.pragma.schema
+package im.dino.dbinspector.ui.pragma
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivityPragmaBinding
+import im.dino.dbinspector.ui.pragma.shared.PragmaTypeAdapter
 import im.dino.dbinspector.ui.shared.Constants
 
 internal class PragmaActivity : AppCompatActivity() {
