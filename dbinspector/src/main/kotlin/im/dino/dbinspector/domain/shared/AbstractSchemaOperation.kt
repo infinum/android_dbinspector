@@ -1,10 +1,11 @@
 package im.dino.dbinspector.domain.shared
 
+import im.dino.dbinspector.ui.shared.base.BaseViewModel.Companion.PAGE_SIZE
+
 internal abstract class AbstractSchemaOperation<T>(
-    private val pageSize: Int
 ) : AbstractDatabaseOperation<T>() {
 
-    override fun pageSize(): Int = pageSize
+    override fun pageSize(): Int = PAGE_SIZE
 
     override fun invoke(path: String, nextPage: Int?): T {
         database(path).use { database ->
@@ -12,7 +13,6 @@ internal abstract class AbstractSchemaOperation<T>(
                 query(),
                 null
             ).use { cursor ->
-                pageCount(cursor.count)
                 return collect(cursor, nextPage)
             }
         }

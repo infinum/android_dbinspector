@@ -1,67 +1,105 @@
-package im.dino.dbinspector.ui.view
+package im.dino.dbinspector.ui.content.shared
 
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import androidx.annotation.MenuRes
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.updateLayoutParams
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import im.dino.dbinspector.R
-import im.dino.dbinspector.databinding.DbinspectorActivityViewBinding
+import im.dino.dbinspector.databinding.DbinspectorActivityContentBinding
+import im.dino.dbinspector.domain.schema.models.SchemaType
+import im.dino.dbinspector.ui.content.table.TableViewModel
+import im.dino.dbinspector.ui.content.trigger.TriggerViewModel
+import im.dino.dbinspector.ui.content.view.ViewViewModel
 import im.dino.dbinspector.ui.pragma.PragmaActivity
 import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.shared.bus.EventBus
 import im.dino.dbinspector.ui.shared.bus.models.Event
-import im.dino.dbinspector.ui.shared.content.ContentAdapter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-internal class ViewActivity : AppCompatActivity() {
+@ExperimentalCoroutinesApi
+internal abstract class ContentActivity<T : ContentViewModel> : AppCompatActivity() {
 
-    lateinit var binding: DbinspectorActivityViewBinding
+    lateinit var binding: DbinspectorActivityContentBinding
 
-    private lateinit var viewModel: ViewViewModel
+    private lateinit var viewModel: ContentViewModel
+
+    abstract val type: SchemaType
+
+    @get:StringRes
+    abstract val title: Int
+
+    @get:MenuRes
+    abstract val menu: Int
+
+    @get:StringRes
+    abstract val drop: Int
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = DbinspectorActivityViewBinding.inflate(layoutInflater)
+        binding = DbinspectorActivityContentBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
 
         intent.extras?.let {
             val databaseName = it.getString(Constants.Keys.DATABASE_NAME)
             val databasePath = it.getString(Constants.Keys.DATABASE_PATH)
-            val viewName = it.getString(Constants.Keys.SCHEMA_NAME)
-            if (databaseName.isNullOrBlank().not() && databasePath.isNullOrBlank().not() && viewName.isNullOrBlank().not()) {
-                viewModel = ViewModelProvider(
-                    this,
-                    ViewViewModelFactory(databasePath!!, viewName!!)
-                ).get(ViewViewModel::class.java)
+            val tableName = it.getString(Constants.Keys.SCHEMA_NAME)
+            if (databaseName.isNullOrBlank().not() && databasePath.isNullOrBlank().not() && tableName.isNullOrBlank().not()) {
+                viewModel = resolveViewModel(databasePath!!, tableName!!)
 
-                setupToolbar(databasePath, databaseName!!, viewName)
+                setupToolbar(databasePath, databaseName!!, tableName)
                 setupSwipeRefresh()
                 setupRecyclerView()
+
+                viewModel.header { tableHeaders ->
+                    binding.recyclerView.layoutManager = GridLayoutManager(this, tableHeaders.size)
+                    binding.recyclerView.adapter = ContentAdapter(tableHeaders)
+
+                    query()
+                }
             } else {
                 showError()
             }
         } ?: showError()
     }
 
-    private fun setupToolbar(databasePath: String, databaseName: String, viewName: String) =
+    private inline fun <reified T : ViewModel> resolveViewModel(databasePath: String, tableName: String): T =
+        ViewModelProvider(
+            this,
+            ContentViewModelFactory(
+                type,
+                databasePath,
+                tableName
+            )
+        ).get(T::class.java)
+
+    private fun setupToolbar(databasePath: String, databaseName: String, schemaName: String) =
         with(binding.toolbar) {
             setNavigationOnClickListener { finish() }
-            subtitle = listOf(databaseName, viewName).joinToString(" / ")
+            title = getString(this@ContentActivity.title)
+            subtitle = listOf(databaseName, schemaName).joinToString(" / ")
+            menuInflater.inflate(this@ContentActivity.menu, menu)
             setOnMenuItemClickListener {
                 when (it.itemId) {
+                    R.id.clear -> {
+                        promptDrop(schemaName)
+                        true
+                    }
                     R.id.drop -> {
-                        dropView(viewName)
+                        promptDrop(schemaName)
                         true
                     }
                     R.id.pragma -> {
-                        showPragma(databaseName, databasePath, viewName)
+                        pragma(databaseName, databasePath, schemaName)
                         true
                     }
                     R.id.refresh -> {
@@ -91,20 +129,13 @@ internal class ViewActivity : AppCompatActivity() {
             updateLayoutParams {
                 minimumWidth = resources.displayMetrics.widthPixels
             }
-
-            viewModel.header { tableHeaders ->
-                layoutManager = GridLayoutManager(context, tableHeaders.size)
-                adapter = ContentAdapter(tableHeaders)
-
-                query()
-            }
         }
 
     private fun showError() {
 
     }
 
-    private fun showPragma(databaseName: String?, databasePath: String?, schemaName: String) {
+    private fun pragma(databaseName: String?, databasePath: String?, schemaName: String) {
         startActivity(
             Intent(this, PragmaActivity::class.java)
                 .apply {
@@ -115,9 +146,9 @@ internal class ViewActivity : AppCompatActivity() {
         )
     }
 
-    private fun dropView(name: String) =
+    private fun promptDrop(name: String) =
         MaterialAlertDialogBuilder(this)
-            .setMessage(String.format(getString(R.string.dbinspector_drop_view_confirm), name))
+            .setMessage(String.format(getString(drop), name))
             .setPositiveButton(android.R.string.ok) { dialog: DialogInterface, _: Int ->
                 drop()
                 dialog.dismiss()
@@ -133,10 +164,25 @@ internal class ViewActivity : AppCompatActivity() {
             (binding.recyclerView.adapter as? ContentAdapter)?.submitData(it)
         }
 
-    @ExperimentalCoroutinesApi
     private fun drop() =
         viewModel.drop() {
-            EventBus.send(Event.RefreshViews())
-            finish()
+            when (viewModel) {
+                is TableViewModel -> clearTable(it)
+                is TriggerViewModel -> dropTrigger()
+                is ViewViewModel -> dropView()
+            }
         }
+
+    private suspend fun clearTable(data: PagingData<String>) =
+        (binding.recyclerView.adapter as? ContentAdapter)?.submitData(data)
+
+    private suspend fun dropTrigger() {
+        EventBus.send(Event.RefreshTriggers())
+        finish()
+    }
+
+    private suspend fun dropView() {
+        EventBus.send(Event.RefreshViews())
+        finish()
+    }
 }

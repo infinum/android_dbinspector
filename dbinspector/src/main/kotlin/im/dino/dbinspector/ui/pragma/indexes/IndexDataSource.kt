@@ -1,24 +1,14 @@
 package im.dino.dbinspector.ui.pragma.indexes
 
-import androidx.paging.PagingSource
 import im.dino.dbinspector.domain.pragma.schema.IndexesOperation
+import im.dino.dbinspector.ui.pragma.shared.PragmaDataSource
 
 internal class IndexDataSource(
-    private val path: String,
-    name: String,
-    pageSize: Int
-) : PagingSource<Int, String>() {
+    path: String,
+    private val name: String
+) : PragmaDataSource(path) {
 
-    private val operation = IndexesOperation(name, pageSize)
-
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, String> {
-        val response = operation(path, params.key)
-            .map { it.fields.toList() }
-            .flatten()
-        return LoadResult.Page(
-            data = response,
-            prevKey = null,
-            nextKey = operation.nextPage()
-        )
+    override fun operation() = lazy {
+        IndexesOperation(name)
     }
 }

@@ -8,6 +8,7 @@ import im.dino.dbinspector.domain.schema.models.SchemaType
 import im.dino.dbinspector.ui.schema.tables.TablesFragment
 import im.dino.dbinspector.ui.schema.triggers.TriggersFragment
 import im.dino.dbinspector.ui.schema.views.ViewsFragment
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.util.Locale
 
 internal class SchemaTypeAdapter(
@@ -20,6 +21,7 @@ internal class SchemaTypeAdapter(
     override fun getPageTitle(position: Int): CharSequence =
         context.getString(SchemaType.values()[position].nameRes).toUpperCase(Locale.getDefault())
 
+    @ExperimentalCoroutinesApi
     override fun getItem(position: Int): Fragment =
         when (SchemaType.values()[position]) {
             SchemaType.TABLE -> TablesFragment.newInstance(databasePath, databaseName)

@@ -1,27 +1,14 @@
 package im.dino.dbinspector.ui.schema.tables
 
-import androidx.paging.PagingSource
 import im.dino.dbinspector.domain.schema.table.AllTablesOperation
+import im.dino.dbinspector.ui.schema.shared.SchemaDataSource
 
 internal class TablesDataSource(
-    private val path: String,
-    pageSize: Int,
-    args: String?,
-    private val empty: suspend (value: Boolean) -> Unit
-) : PagingSource<Int, String>() {
+    path: String,
+    private val pageSize: Int,
+    private val args: String?,
+    empty: suspend (value: Boolean) -> Unit
+) : SchemaDataSource(path, empty) {
 
-    private val source = AllTablesOperation(pageSize, args)
-
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, String> {
-        val result = source(path, params.key)
-            .map { it.fields.first() }
-
-        empty(params.key == null && result.isEmpty())
-
-        return LoadResult.Page(
-            data = result,
-            prevKey = null,
-            nextKey = source.nextPage()
-        )
-    }
+    override fun source() = lazy { AllTablesOperation(pageSize, args) }
 }

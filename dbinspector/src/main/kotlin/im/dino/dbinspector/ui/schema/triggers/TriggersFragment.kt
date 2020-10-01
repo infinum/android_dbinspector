@@ -2,8 +2,10 @@ package im.dino.dbinspector.ui.schema.triggers
 
 import androidx.fragment.app.viewModels
 import im.dino.dbinspector.ui.schema.shared.SchemaFragment
-import im.dino.dbinspector.ui.trigger.TriggerActivity
+import im.dino.dbinspector.ui.content.trigger.TriggerActivity
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 internal class TriggersFragment : SchemaFragment() {
 
     companion object {

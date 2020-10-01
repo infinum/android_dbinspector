@@ -1,12 +1,12 @@
 package im.dino.dbinspector.domain.schema.table
 
 import im.dino.dbinspector.data.models.Row
-import im.dino.dbinspector.domain.shared.AbstractDatabaseOperation
+import im.dino.dbinspector.domain.shared.AbstractSchemaOperation
 
 internal class TableContentOperation(
     private val name: String,
     private val pageSize: Int
-) : AbstractDatabaseOperation<List<Row>>() {
+) : AbstractSchemaOperation<List<Row>>() {
 
     override fun query(): String = "\"$name\""
 

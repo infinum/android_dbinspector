@@ -1,27 +1,14 @@
 package im.dino.dbinspector.ui.schema.triggers
 
-import androidx.paging.PagingSource
 import im.dino.dbinspector.domain.schema.trigger.AllTriggersOperation
+import im.dino.dbinspector.ui.schema.shared.SchemaDataSource
 
 internal class TriggersDataSource(
-    private val path: String,
-    pageSize: Int,
-    args: String?,
-    private val empty: suspend (value: Boolean) -> Unit
-) : PagingSource<Int, String>() {
+    path: String,
+    private val pageSize: Int,
+    private val args: String?,
+    empty: suspend (value: Boolean) -> Unit
+) : SchemaDataSource(path, empty) {
 
-    private val source = AllTriggersOperation(pageSize, args)
-
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, String> {
-        val result = source(path, params.key)
-            .map { it.fields.first() }
-
-        empty(params.key == null && result.isEmpty())
-
-        return LoadResult.Page(
-            data = result,
-            prevKey = null,
-            nextKey = source.nextPage()
-        )
-    }
+    override fun source() = lazy { AllTriggersOperation(pageSize, args) }
 }

@@ -28,9 +28,6 @@ internal abstract class AbstractDatabaseOperation<T> : DatabaseOperation<T> {
         internal const val FORMAT_PRAGMA_INDEXES = "PRAGMA index_list(\"%s\")"
 
         internal const val PRAGMA_USER_VERSION = "PRAGMA user_version"
-        internal const val FORMAT_PRAGMA_USER_VERSION = "PRAGMA user_version = '%s'"
-        internal const val PRAGMA_JOURNAL_MODE = "PRAGMA journal_mode"
-        internal const val FORMAT_PRAGMA_JOURNAL_MODE = "PRAGMA journal_mode = '%s'"
 
         internal const val FORMAT_CONTENT_VIEW = "SELECT * FROM \"%s\""
         internal const val FORMAT_DROP_VIEW = "DROP VIEW \"%s\""

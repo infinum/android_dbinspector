@@ -6,7 +6,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import im.dino.dbinspector.databinding.DbinspectorItemCellBinding
 import im.dino.dbinspector.databinding.DbinspectorItemHeaderBinding
-import im.dino.dbinspector.ui.shared.content.HeaderViewHolder
+import im.dino.dbinspector.ui.content.shared.HeaderViewHolder
 
 internal class PragmaAdapter(
     private val headerItems: List<String>,

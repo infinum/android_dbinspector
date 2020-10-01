@@ -1,4 +1,4 @@
-package im.dino.dbinspector.ui.shared.content
+package im.dino.dbinspector.ui.content.shared
 
 import androidx.recyclerview.widget.DiffUtil
 

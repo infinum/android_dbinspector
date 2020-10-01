@@ -21,17 +21,17 @@
             android:theme="@style/DbInspector.BaseTheme" />
 
         <activity
-            android:name="im.dino.dbinspector.ui.table.TableActivity"
+            android:name="im.dino.dbinspector.ui.content.table.TableActivity"
             android:taskAffinity="im.dino.dbinspector"
             android:theme="@style/DbInspector.BaseTheme" />
 
         <activity
-            android:name="im.dino.dbinspector.ui.view.ViewActivity"
+            android:name="im.dino.dbinspector.ui.content.view.ViewActivity"
             android:taskAffinity="im.dino.dbinspector"
             android:theme="@style/DbInspector.BaseTheme" />
 
         <activity
-            android:name="im.dino.dbinspector.ui.trigger.TriggerActivity"
+            android:name="im.dino.dbinspector.ui.content.trigger.TriggerActivity"
             android:taskAffinity="im.dino.dbinspector"
             android:theme="@style/DbInspector.BaseTheme" />
 

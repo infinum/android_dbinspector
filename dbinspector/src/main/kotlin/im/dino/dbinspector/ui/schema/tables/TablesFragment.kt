@@ -2,8 +2,10 @@ package im.dino.dbinspector.ui.schema.tables
 
 import androidx.fragment.app.viewModels
 import im.dino.dbinspector.ui.schema.shared.SchemaFragment
-import im.dino.dbinspector.ui.table.TableActivity
+import im.dino.dbinspector.ui.content.table.TableActivity
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 internal class TablesFragment : SchemaFragment() {
 
     companion object {

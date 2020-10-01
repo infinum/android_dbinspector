@@ -4,9 +4,8 @@ import im.dino.dbinspector.data.models.Row
 import im.dino.dbinspector.domain.shared.AbstractSchemaOperation
 
 internal class TableInfoOperation(
-    private val name: String,
-    pageSize: Int
-) : AbstractSchemaOperation<List<Row>>(pageSize) {
+    private val name: String
+) : AbstractSchemaOperation<List<Row>>() {
 
     override fun query(): String = String.format(FORMAT_PRAGMA_TABLE_INFO, name)
 }
