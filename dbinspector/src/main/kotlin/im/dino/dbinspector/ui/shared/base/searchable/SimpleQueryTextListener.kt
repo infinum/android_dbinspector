@@ -1,4 +1,4 @@
-package im.dino.dbinspector.ui.shared
+package im.dino.dbinspector.ui.shared.base.searchable
 
 import androidx.appcompat.widget.SearchView
 

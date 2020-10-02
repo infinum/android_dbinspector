@@ -1,9 +1,9 @@
-package im.dino.dbinspector.ui.shared.base
+package im.dino.dbinspector.ui.shared.base.searchable
 
 import android.content.Context
 import androidx.annotation.LayoutRes
 import androidx.annotation.RestrictTo
-import im.dino.dbinspector.ui.shared.Searchable
+import im.dino.dbinspector.ui.shared.base.BaseFragment
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 internal abstract class BaseSearchableFragment(

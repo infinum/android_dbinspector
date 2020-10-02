@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
@@ -23,34 +22,29 @@ import im.dino.dbinspector.extensions.setup
 import im.dino.dbinspector.ui.databases.edit.EditActivity
 import im.dino.dbinspector.ui.schema.SchemaActivity
 import im.dino.dbinspector.ui.shared.Constants
-import im.dino.dbinspector.ui.shared.Searchable
+import im.dino.dbinspector.ui.shared.base.BaseActivity
+import im.dino.dbinspector.ui.shared.base.searchable.Searchable
+import im.dino.dbinspector.ui.shared.delegates.viewBinding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import java.io.File
 
 @ExperimentalCoroutinesApi
 @FlowPreview
-internal class DatabasesActivity : AppCompatActivity(), Searchable {
+internal class DatabasesActivity : BaseActivity(), Searchable {
 
     companion object {
         private const val REQUEST_CODE_IMPORT = 666
     }
 
-    lateinit var binding: DbinspectorActivityDatabasesBinding
+    override val binding by viewBinding(DbinspectorActivityDatabasesBinding::inflate)
 
     private val viewModel: DatabaseViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = DbinspectorActivityDatabasesBinding.inflate(layoutInflater)
-
-        setContentView(binding.root)
-
-        setupToolbar()
-        setupSwipeRefresh()
-        setupRecyclerView()
-        setupEmptyView()
+        setupUi()
 
         viewModel.databases.observeForever {
             showDatabases(it)
@@ -104,7 +98,7 @@ internal class DatabasesActivity : AppCompatActivity(), Searchable {
         refreshDatabases()
     }
 
-    private fun setupToolbar() =
+    private fun setupUi() {
         with(binding.toolbar) {
             navigationIcon = applicationInfo.loadIcon(packageManager)
                 .scale(this@DatabasesActivity, R.dimen.dbinspector_app_icon_size, R.dimen.dbinspector_app_icon_size)
@@ -131,16 +125,12 @@ internal class DatabasesActivity : AppCompatActivity(), Searchable {
                 onQueryTextChanged = { search(it) }
             )
         }
-
-    private fun setupSwipeRefresh() =
         with(binding.swipeRefresh) {
             setOnRefreshListener {
                 isRefreshing = false
                 refreshDatabases()
             }
         }
-
-    private fun setupRecyclerView() =
         with(binding.recyclerView) {
             layoutManager = LinearLayoutManager(
                 this@DatabasesActivity,
@@ -148,10 +138,8 @@ internal class DatabasesActivity : AppCompatActivity(), Searchable {
                 false
             )
         }
-
-    private fun setupEmptyView() {
-        with(binding) {
-            emptyLayout.retryButton.setOnClickListener {
+        with(binding.emptyLayout) {
+            retryButton.setOnClickListener {
                 refreshDatabases()
             }
         }

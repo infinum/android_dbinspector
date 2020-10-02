@@ -1,23 +1,20 @@
 package im.dino.dbinspector.ui.pragma
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivityPragmaBinding
 import im.dino.dbinspector.ui.pragma.shared.PragmaTypeAdapter
 import im.dino.dbinspector.ui.shared.Constants
+import im.dino.dbinspector.ui.shared.base.BaseActivity
+import im.dino.dbinspector.ui.shared.delegates.viewBinding
 
-internal class PragmaActivity : AppCompatActivity() {
+internal class PragmaActivity : BaseActivity() {
 
-    lateinit var viewBinding: DbinspectorActivityPragmaBinding
+    override val binding by viewBinding(DbinspectorActivityPragmaBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        viewBinding = DbinspectorActivityPragmaBinding.inflate(layoutInflater)
-
-        setContentView(viewBinding.root)
 
         intent.extras?.let {
             val databaseName = it.getString(Constants.Keys.DATABASE_NAME)
@@ -36,7 +33,7 @@ internal class PragmaActivity : AppCompatActivity() {
     }
 
     private fun setupUi(databaseName: String, databasePath: String, tableName: String) {
-        with(viewBinding) {
+        with(binding) {
             toolbar.setNavigationOnClickListener { finish() }
             toolbar.subtitle = listOf(databaseName, tableName).joinToString(" / ")
             toolbar.setOnMenuItemClickListener {
@@ -60,7 +57,7 @@ internal class PragmaActivity : AppCompatActivity() {
     }
 
     private fun showError() {
-        with(viewBinding) {
+        with(binding) {
             toolbar.setNavigationOnClickListener { finish() }
         }
     }

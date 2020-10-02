@@ -12,7 +12,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorFragmentSchemaBinding
 import im.dino.dbinspector.ui.shared.Constants
-import im.dino.dbinspector.ui.shared.base.BaseSearchableFragment
+import im.dino.dbinspector.ui.shared.base.searchable.BaseSearchableFragment
 import im.dino.dbinspector.ui.shared.delegates.viewBinding
 
 internal abstract class SchemaFragment :

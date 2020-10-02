@@ -11,10 +11,11 @@ import androidx.viewbinding.ViewBinding
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-internal class FragmentViewBindingDelegate<T : ViewBinding>(
+internal class ViewBindingDelegate<T : ViewBinding>(
     val fragment: Fragment,
     val viewBindingFactory: (View) -> T
 ) : ReadOnlyProperty<Fragment, T> {
+
     private var binding: T? = null
 
     init {
@@ -51,7 +52,7 @@ internal class FragmentViewBindingDelegate<T : ViewBinding>(
 }
 
 internal fun <T : ViewBinding> Fragment.viewBinding(viewBindingFactory: (View) -> T) =
-    FragmentViewBindingDelegate(this, viewBindingFactory)
+    ViewBindingDelegate(this, viewBindingFactory)
 
 inline fun <T : ViewBinding> AppCompatActivity.viewBinding(
     crossinline bindingInflater: (LayoutInflater) -> T

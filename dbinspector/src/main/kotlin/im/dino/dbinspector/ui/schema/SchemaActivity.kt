@@ -1,7 +1,6 @@
 package im.dino.dbinspector.ui.schema
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivitySchemaBinding
@@ -9,18 +8,16 @@ import im.dino.dbinspector.extensions.searchView
 import im.dino.dbinspector.extensions.setup
 import im.dino.dbinspector.ui.schema.shared.SchemaTypeAdapter
 import im.dino.dbinspector.ui.shared.Constants
-import im.dino.dbinspector.ui.shared.Searchable
+import im.dino.dbinspector.ui.shared.base.BaseActivity
+import im.dino.dbinspector.ui.shared.base.searchable.Searchable
+import im.dino.dbinspector.ui.shared.delegates.viewBinding
 
-internal class SchemaActivity : AppCompatActivity(), Searchable {
+internal class SchemaActivity : BaseActivity(), Searchable {
 
-    lateinit var binding: DbinspectorActivitySchemaBinding
+    override val binding by viewBinding(DbinspectorActivitySchemaBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = DbinspectorActivitySchemaBinding.inflate(layoutInflater)
-
-        setContentView(binding.root)
 
         intent.extras?.let {
             val databaseName = it.getString(Constants.Keys.DATABASE_NAME)

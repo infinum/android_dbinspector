@@ -4,19 +4,20 @@ import android.os.Bundle
 import android.text.InputFilter
 import android.view.inputmethod.EditorInfo
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivityEditBinding
 import im.dino.dbinspector.ui.shared.Constants
+import im.dino.dbinspector.ui.shared.base.BaseActivity
 import im.dino.dbinspector.ui.shared.bus.EventBus
 import im.dino.dbinspector.ui.shared.bus.models.Event
+import im.dino.dbinspector.ui.shared.delegates.viewBinding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
-internal class EditActivity : AppCompatActivity() {
+internal class EditActivity : BaseActivity() {
 
-    lateinit var binding: DbinspectorActivityEditBinding
+    override val binding by viewBinding(DbinspectorActivityEditBinding::inflate)
 
     private val viewModel: EditViewModel by viewModels()
 
@@ -34,10 +35,6 @@ internal class EditActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = DbinspectorActivityEditBinding.inflate(layoutInflater)
-
-        setContentView(binding.root)
 
         intent.extras?.let {
             databasePath = it.getString(Constants.Keys.DATABASE_PATH)

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.MenuRes
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -20,14 +19,16 @@ import im.dino.dbinspector.ui.content.trigger.TriggerViewModel
 import im.dino.dbinspector.ui.content.view.ViewViewModel
 import im.dino.dbinspector.ui.pragma.PragmaActivity
 import im.dino.dbinspector.ui.shared.Constants
+import im.dino.dbinspector.ui.shared.base.BaseActivity
 import im.dino.dbinspector.ui.shared.bus.EventBus
 import im.dino.dbinspector.ui.shared.bus.models.Event
+import im.dino.dbinspector.ui.shared.delegates.viewBinding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
-internal abstract class ContentActivity<T : ContentViewModel> : AppCompatActivity() {
+internal abstract class ContentActivity<T : ContentViewModel> : BaseActivity() {
 
-    lateinit var binding: DbinspectorActivityContentBinding
+    override val binding by viewBinding(DbinspectorActivityContentBinding::inflate)
 
     private lateinit var viewModel: ContentViewModel
 
@@ -44,10 +45,6 @@ internal abstract class ContentActivity<T : ContentViewModel> : AppCompatActivit
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = DbinspectorActivityContentBinding.inflate(layoutInflater)
-
-        setContentView(binding.root)
 
         intent.extras?.let {
             val databaseName = it.getString(Constants.Keys.DATABASE_NAME)
