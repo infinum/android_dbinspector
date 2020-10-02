@@ -1,15 +1,10 @@
 package im.dino.dbinspector.ui.content.shared
 
-import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.PagingSource
-import androidx.paging.cachedIn
 import im.dino.dbinspector.data.models.Row
 import im.dino.dbinspector.domain.shared.AbstractDatabaseOperation
 import im.dino.dbinspector.ui.shared.base.BaseViewModel
-import kotlinx.coroutines.flow.collectLatest
 
 internal abstract class ContentViewModel(
     private val path: String
@@ -31,15 +26,13 @@ internal abstract class ContentViewModel(
             action(result)
         }
 
-    fun query(action: suspend (value: PagingData<String>) -> Unit) {
+    fun query(onData: suspend (value: PagingData<String>) -> Unit) {
         launch {
-            Pager(
-                config = PagingConfig(pageSize = PAGE_SIZE, prefetchDistance = PAGE_SIZE * 3),
-                pagingSourceFactory = this@ContentViewModel::source
-            )
-                .flow
-                .cachedIn(viewModelScope)
-                .collectLatest { action(it) }
+            flow(
+                source()
+            ) {
+                onData(it)
+            }
         }
     }
 

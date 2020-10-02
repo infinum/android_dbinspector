@@ -24,7 +24,7 @@ internal class AllTriggersOperation(
                 query(),
                 null
             ).use { cursor ->
-                pageCount(cursor.count)
+                pageCount(cursor.count, cursor.columnCount)
                 return collect(cursor, nextPage)
             }
         }

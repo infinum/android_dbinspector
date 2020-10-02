@@ -92,7 +92,7 @@ internal class EditActivity : AppCompatActivity() {
         ) {
             this.databasePath = "$databaseFilepath/$newDatabaseName.$databaseExtension"
             this.databaseName = newDatabaseName
-            EventBus.send(Event.RefreshDatabases())
+            EventBus.publish(Event.RefreshDatabases())
         }
     }
 }

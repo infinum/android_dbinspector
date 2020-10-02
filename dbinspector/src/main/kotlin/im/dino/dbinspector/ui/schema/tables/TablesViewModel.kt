@@ -1,14 +1,16 @@
 package im.dino.dbinspector.ui.schema.tables
 
-import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
+import androidx.paging.PagingSource
 import im.dino.dbinspector.ui.schema.shared.SchemaViewModel
-import kotlinx.coroutines.flow.collectLatest
 
 internal class TablesViewModel : SchemaViewModel() {
+
+    override fun source(
+        path: String,
+        argument: String?,
+        onEmpty: suspend (value: Boolean) -> Unit
+    ) = TablesDataSource(path, PAGE_SIZE, argument, onEmpty)
 
     override fun observe(action: suspend () -> Unit) = Unit
 
@@ -19,12 +21,11 @@ internal class TablesViewModel : SchemaViewModel() {
         onEmpty: suspend (value: Boolean) -> Unit
     ) {
         launch {
-            Pager(PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = false)) {
-                TablesDataSource(path, PAGE_SIZE, argument, onEmpty)
+            flow(
+                source(path, argument, onEmpty)
+            ) {
+                onData(it)
             }
-                .flow
-                .cachedIn(viewModelScope)
-                .collectLatest { onData(it) }
         }
     }
 }

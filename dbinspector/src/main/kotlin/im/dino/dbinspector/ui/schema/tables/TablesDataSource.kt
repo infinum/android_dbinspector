@@ -10,5 +10,5 @@ internal class TablesDataSource(
     empty: suspend (value: Boolean) -> Unit
 ) : SchemaDataSource(path, empty) {
 
-    override fun source() = lazy { AllTablesOperation(pageSize, args) }
+    override val source = lazyOf(AllTablesOperation(pageSize, args))
 }

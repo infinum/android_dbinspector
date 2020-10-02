@@ -46,18 +46,25 @@ internal abstract class AbstractDatabaseOperation<T> : DatabaseOperation<T> {
     internal fun database(path: String): SQLiteDatabase =
         SQLiteDatabase.openOrCreateDatabase(path, null)
 
-    internal fun pageCount(rowCount: Int) {
-        pageCount = ceil(rowCount.toDouble() / pageSize()).roundToInt()
+    internal fun pageCount(rowCount: Int, columnCount: Int) {
+        pageCount = ceil((rowCount.toDouble() * columnCount) / pageSize()).roundToInt()
+        println("${query()} --- rowCount: $rowCount columnCount: $columnCount rowCount x columnCount: ${rowCount * columnCount} pageSize: ${pageSize()} pageCount: $pageCount")
     }
 
-    fun nextPage(): Int? =
-        when (currentPage == pageCount) {
+    fun nextPage(): Int? {
+        println("${query()} --- currentPage: $currentPage pageCount: $pageCount ")
+        val next = when (currentPage == pageCount) {
             true -> null
             false -> {
                 currentPage = currentPage.inc()
                 currentPage
             }
         }
+
+        println("${query()} --- currentPage: $currentPage pageCount: $pageCount nextPage: $next")
+
+        return next
+    }
 
     @Suppress("UNCHECKED_CAST")
     override fun collect(cursor: Cursor, page: Int?): T {

@@ -9,10 +9,10 @@ internal abstract class SchemaDataSource(
     private val empty: suspend (value: Boolean) -> Unit
 ) : PagingSource<Int, String>() {
 
-    abstract fun source(): Lazy<AbstractDatabaseOperation<List<Row>>>
+    abstract val source: Lazy<AbstractDatabaseOperation<List<Row>>>
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, String> {
-        val result = source().value(path, params.key)
+        val result = source.value(path, params.key)
             .map { it.fields.first() }
 
         empty(params.key == null && result.isEmpty())
@@ -20,7 +20,7 @@ internal abstract class SchemaDataSource(
         return LoadResult.Page(
             data = result,
             prevKey = null,
-            nextKey = source().value.nextPage()
+            nextKey = source.value.nextPage()
         )
     }
 }

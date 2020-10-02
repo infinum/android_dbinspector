@@ -5,10 +5,8 @@ import im.dino.dbinspector.ui.pragma.shared.PragmaDataSource
 
 internal class ForeignKeyDataSource(
     path: String,
-    private val name: String
+    name: String
 ) : PragmaDataSource(path) {
 
-    override fun operation() = lazy {
-        ForeignKeysOperation(name)
-    }
+    override val operation = lazyOf(ForeignKeysOperation(name))
 }

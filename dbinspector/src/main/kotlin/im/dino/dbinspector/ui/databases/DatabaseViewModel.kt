@@ -21,7 +21,7 @@ internal class DatabaseViewModel : BaseViewModel() {
     fun observe(action: suspend () -> Unit) =
         launch {
             io {
-                EventBus.on<Event.RefreshDatabases>().collectLatest { action() }
+                EventBus.receive<Event.RefreshDatabases>().collectLatest { action() }
             }
         }
 

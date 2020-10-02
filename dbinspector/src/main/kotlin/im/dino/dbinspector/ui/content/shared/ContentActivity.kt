@@ -177,12 +177,12 @@ internal abstract class ContentActivity<T : ContentViewModel> : AppCompatActivit
         (binding.recyclerView.adapter as? ContentAdapter)?.submitData(data)
 
     private suspend fun dropTrigger() {
-        EventBus.send(Event.RefreshTriggers())
+        EventBus.publish(Event.RefreshTriggers())
         finish()
     }
 
     private suspend fun dropView() {
-        EventBus.send(Event.RefreshViews())
+        EventBus.publish(Event.RefreshViews())
         finish()
     }
 }

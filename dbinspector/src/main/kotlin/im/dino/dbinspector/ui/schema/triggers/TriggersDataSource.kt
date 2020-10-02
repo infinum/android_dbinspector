@@ -10,5 +10,5 @@ internal class TriggersDataSource(
     empty: suspend (value: Boolean) -> Unit
 ) : SchemaDataSource(path, empty) {
 
-    override fun source() = lazy { AllTriggersOperation(pageSize, args) }
+    override val source = lazyOf(AllTriggersOperation(pageSize, args))
 }

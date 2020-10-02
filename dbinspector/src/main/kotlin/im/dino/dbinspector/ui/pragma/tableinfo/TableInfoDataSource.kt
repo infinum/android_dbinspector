@@ -5,10 +5,8 @@ import im.dino.dbinspector.ui.pragma.shared.PragmaDataSource
 
 internal class TableInfoDataSource(
     path: String,
-    private val name: String
+    name: String
 ) : PragmaDataSource(path) {
 
-    override fun operation() = lazy {
-        TableInfoOperation(name)
-    }
+    override val operation = lazyOf(TableInfoOperation(name))
 }
