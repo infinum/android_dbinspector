@@ -33,13 +33,13 @@ internal abstract class BaseViewModel : ViewModel() {
         dispatchersIo.cancel()
     }
 
-    fun launch(block: suspend CoroutineScope.() -> Unit) =
+    internal fun launch(block: suspend CoroutineScope.() -> Unit) =
         viewModelScope.launch(errorHandler + Dispatchers.Main) { block.invoke(this) }
 
-    suspend fun <T> io(block: suspend CoroutineScope.() -> T) =
+    internal suspend fun <T> io(block: suspend CoroutineScope.() -> T) =
         withContext(context = dispatchersIo) { block.invoke(this) }
 
-    suspend fun flow(pagingSource: PagingSource<Int, String>, onData: suspend (value: PagingData<String>) -> Unit) =
+    internal suspend fun flow(pagingSource: PagingSource<Int, String>, onData: suspend (value: PagingData<String>) -> Unit) =
         Pager(pagingConfig) {
             pagingSource
         }

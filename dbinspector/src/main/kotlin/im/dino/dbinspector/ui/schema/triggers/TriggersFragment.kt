@@ -18,5 +18,5 @@ internal class TriggersFragment : SchemaFragment() {
 
     override val viewModel by viewModels<TriggersViewModel>()
 
-    override fun itemClass() = TriggerActivity::class.java
+    override fun childView() = TriggerActivity::class.java
 }

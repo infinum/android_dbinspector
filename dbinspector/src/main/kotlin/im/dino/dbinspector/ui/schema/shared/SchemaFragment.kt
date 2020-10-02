@@ -39,7 +39,7 @@ internal abstract class SchemaFragment :
 
     abstract val viewModel: SchemaViewModel
 
-    abstract fun itemClass(): Class<*>
+    abstract fun childView(): Class<*>
 
     override val binding: DbinspectorFragmentSchemaBinding by viewBinding(
         DbinspectorFragmentSchemaBinding::bind
@@ -133,7 +133,7 @@ internal abstract class SchemaFragment :
 
     private fun show(name: String) =
         startActivity(
-            Intent(requireContext(), itemClass())
+            Intent(requireContext(), childView())
                 .apply {
                     putExtra(Constants.Keys.DATABASE_NAME, databaseName)
                     putExtra(Constants.Keys.DATABASE_PATH, databasePath)

@@ -18,5 +18,5 @@ internal class ViewsFragment : SchemaFragment() {
 
     override val viewModel by viewModels<ViewsViewModel>()
 
-    override fun itemClass() = ViewActivity::class.java
+    override fun childView() = ViewActivity::class.java
 }

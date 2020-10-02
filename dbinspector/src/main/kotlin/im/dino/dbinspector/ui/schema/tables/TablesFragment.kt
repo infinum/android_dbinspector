@@ -18,5 +18,5 @@ internal class TablesFragment : SchemaFragment() {
 
     override val viewModel by viewModels<TablesViewModel>()
 
-    override fun itemClass() = TableActivity::class.java
+    override fun childView() = TableActivity::class.java
 }
