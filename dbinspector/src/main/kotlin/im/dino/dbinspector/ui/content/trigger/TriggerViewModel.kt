@@ -11,7 +11,7 @@ internal class TriggerViewModel(
 
     override val nameOrdinal: Int = 0
 
-    override fun source() = TriggerDataSource(path, name)
+    override fun source() = TriggerDataSource(path, name, PAGE_SIZE)
 
     override fun info() = TriggerInfoOperation()
 

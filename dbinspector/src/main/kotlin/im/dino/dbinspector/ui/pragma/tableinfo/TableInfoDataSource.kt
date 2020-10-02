@@ -5,8 +5,9 @@ import im.dino.dbinspector.ui.pragma.shared.PragmaDataSource
 
 internal class TableInfoDataSource(
     path: String,
-    name: String
+    name: String,
+    pageSize: Int
 ) : PragmaDataSource(path) {
 
-    override val operation = lazyOf(TableInfoOperation(name))
+    override val operation = lazyOf(TableInfoOperation(name, pageSize))
 }

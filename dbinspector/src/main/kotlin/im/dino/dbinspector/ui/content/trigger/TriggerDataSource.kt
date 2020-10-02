@@ -5,8 +5,9 @@ import im.dino.dbinspector.ui.content.shared.ContentDataSource
 
 internal class TriggerDataSource(
     path: String,
-    name: String
+    name: String,
+    pageSize: Int
 ) : ContentDataSource(path) {
 
-    override val operation = lazyOf(TriggerContentOperation(name))
+    override val operation = lazyOf(TriggerContentOperation(name, pageSize))
 }

@@ -5,8 +5,9 @@ import im.dino.dbinspector.ui.pragma.shared.PragmaDataSource
 
 internal class ForeignKeyDataSource(
     path: String,
-    name: String
+    name: String,
+    pageSize: Int
 ) : PragmaDataSource(path) {
 
-    override val operation = lazyOf(ForeignKeysOperation(name))
+    override val operation = lazyOf(ForeignKeysOperation(name, pageSize))
 }

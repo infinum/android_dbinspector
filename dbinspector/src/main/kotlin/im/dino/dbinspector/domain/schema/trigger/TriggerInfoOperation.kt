@@ -5,7 +5,7 @@ import im.dino.dbinspector.domain.schema.models.TriggerColumns
 import im.dino.dbinspector.domain.shared.AbstractSchemaOperation
 import java.util.Locale
 
-internal class TriggerInfoOperation : AbstractSchemaOperation<List<Row>>() {
+internal class TriggerInfoOperation : AbstractSchemaOperation<List<Row>>(1) {
 
     override fun query(): String = ""
 

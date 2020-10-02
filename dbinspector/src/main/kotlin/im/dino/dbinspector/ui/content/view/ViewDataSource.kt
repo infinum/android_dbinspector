@@ -5,8 +5,9 @@ import im.dino.dbinspector.ui.content.shared.ContentDataSource
 
 internal class ViewDataSource(
     path: String,
-    name: String
+    name: String,
+    pageSize: Int
 ) : ContentDataSource(path) {
 
-    override val operation = lazyOf(ViewContentOperation(name))
+    override val operation = lazyOf(ViewContentOperation(name, pageSize))
 }

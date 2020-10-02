@@ -5,12 +5,10 @@ import im.dino.dbinspector.domain.shared.AbstractSchemaOperation
 
 internal class TableContentOperation(
     private val name: String,
-    private val pageSize: Int
-) : AbstractSchemaOperation<List<Row>>() {
+    pageSize: Int
+) : AbstractSchemaOperation<List<Row>>(pageSize) {
 
     override fun query(): String = "\"$name\""
-
-    override fun pageSize(): Int = pageSize
 
     override fun invoke(path: String, nextPage: Int?): List<Row> {
         database(path).use { database ->

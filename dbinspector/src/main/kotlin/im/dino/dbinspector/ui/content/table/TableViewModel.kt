@@ -12,9 +12,9 @@ internal class TableViewModel(
 
     override val nameOrdinal: Int = TableInfoColumns.NAME.ordinal
 
-    override fun source() = TableDataSource(path, name)
+    override fun source() = TableDataSource(path, name, PAGE_SIZE)
 
-    override fun info() = TableInfoOperation(name)
+    override fun info() = TableInfoOperation(name, PAGE_SIZE)
 
     override fun drop() = ClearTableOperation(name)
 }

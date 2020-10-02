@@ -5,5 +5,5 @@ import im.dino.dbinspector.ui.pragma.shared.PragmaViewModel
 internal class ForeignKeyViewModel : PragmaViewModel() {
 
     override fun source(path: String, name: String) =
-        ForeignKeyDataSource(path, name)
+        ForeignKeyDataSource(path, name, PAGE_SIZE)
 }
