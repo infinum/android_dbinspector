@@ -13,7 +13,11 @@ internal class DatabasesFilter(
             values = if (constraint.isNullOrBlank()) {
                 items
             } else {
-                items.filter { it.name.toLowerCase(Locale.getDefault()).contains(constraint.toString().toLowerCase(Locale.getDefault())) }
+                items.filter {
+                    it.name
+                        .toLowerCase(Locale.getDefault())
+                        .contains(constraint.toString().toLowerCase(Locale.getDefault()))
+                }
             }
         }
 

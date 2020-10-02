@@ -21,7 +21,10 @@ internal abstract class BaseViewModel : ViewModel() {
         internal const val PAGE_SIZE = 100
     }
 
-    private val pagingConfig = PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = true)
+    private val pagingConfig = PagingConfig(
+        pageSize = PAGE_SIZE,
+        enablePlaceholders = true
+    )
 
     private val dispatchersIo = Dispatchers.IO
 
@@ -39,7 +42,10 @@ internal abstract class BaseViewModel : ViewModel() {
     internal suspend fun <T> io(block: suspend CoroutineScope.() -> T) =
         withContext(context = dispatchersIo) { block.invoke(this) }
 
-    internal suspend fun flow(pagingSource: PagingSource<Int, String>, onData: suspend (value: PagingData<String>) -> Unit) =
+    internal suspend fun flow(
+        pagingSource: PagingSource<Int, String>,
+        onData: suspend (value: PagingData<String>) -> Unit
+    ) =
         Pager(pagingConfig) {
             pagingSource
         }

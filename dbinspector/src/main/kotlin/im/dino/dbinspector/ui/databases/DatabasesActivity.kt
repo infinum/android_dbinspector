@@ -162,10 +162,12 @@ internal class DatabasesActivity : AppCompatActivity(), Searchable {
             recyclerView.adapter = DatabasesAdapter(
                 items = databases,
                 onClick = { showSchema(it) },
-                onDelete = { removeDatabase(it) },
-                onEdit = { editDatabase(it) },
-                onCopy = { copyDatabase(it) },
-                onShare = { shareDatabase(it) },
+                interactions = DatabaseInteractions(
+                    onDelete = { removeDatabase(it) },
+                    onEdit = { editDatabase(it) },
+                    onCopy = { copyDatabase(it) },
+                    onShare = { shareDatabase(it) },
+                ),
                 onEmpty = {
                     emptyLayout.root.isVisible = it
                     swipeRefresh.isVisible = it.not()
@@ -209,7 +211,6 @@ internal class DatabasesActivity : AppCompatActivity(), Searchable {
     private fun importDatabases(uris: List<Uri>) =
         viewModel.import(uris)
 
-
     private fun removeDatabase(database: Database) =
         MaterialAlertDialogBuilder(this)
             .setMessage(String.format(getString(R.string.dbinspector_delete_database_confirm), database.name))
@@ -248,7 +249,13 @@ internal class DatabasesActivity : AppCompatActivity(), Searchable {
             startActivity(
                 ShareCompat.IntentBuilder.from(this)
                     .setType("application/octet-stream")
-                    .setStream(FileProvider.getUriForFile(this, "${this.packageName}.provider.database", File(database.absolutePath)))
+                    .setStream(
+                        FileProvider.getUriForFile(
+                            this,
+                            "${this.packageName}.provider.database",
+                            File(database.absolutePath)
+                        )
+                    )
                     .intent.apply {
                         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     }

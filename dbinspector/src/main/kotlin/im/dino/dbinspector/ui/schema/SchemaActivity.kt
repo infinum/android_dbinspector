@@ -86,8 +86,6 @@ internal class SchemaActivity : AppCompatActivity(), Searchable {
     private fun showError() {
         with(binding) {
             toolbar.setNavigationOnClickListener { finish() }
-
-            // TODO: push or show error views or Fragment
         }
     }
 

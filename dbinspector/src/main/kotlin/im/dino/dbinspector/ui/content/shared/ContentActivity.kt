@@ -53,12 +53,14 @@ internal abstract class ContentActivity<T : ContentViewModel> : AppCompatActivit
             val databaseName = it.getString(Constants.Keys.DATABASE_NAME)
             val databasePath = it.getString(Constants.Keys.DATABASE_PATH)
             val tableName = it.getString(Constants.Keys.SCHEMA_NAME)
-            if (databaseName.isNullOrBlank().not() && databasePath.isNullOrBlank().not() && tableName.isNullOrBlank().not()) {
+            if (
+                databaseName.isNullOrBlank().not() &&
+                databasePath.isNullOrBlank().not() &&
+                tableName.isNullOrBlank().not()
+            ) {
                 viewModel = resolveViewModel(databasePath!!, tableName!!)
 
-                setupToolbar(databasePath, databaseName!!, tableName)
-                setupSwipeRefresh()
-                setupRecyclerView()
+                setupUi(databasePath, databaseName!!, tableName)
 
                 viewModel.header { tableHeaders ->
                     binding.recyclerView.layoutManager = GridLayoutManager(this, tableHeaders.size)
@@ -82,7 +84,7 @@ internal abstract class ContentActivity<T : ContentViewModel> : AppCompatActivit
             )
         ).get(T::class.java)
 
-    private fun setupToolbar(databasePath: String, databaseName: String, schemaName: String) =
+    private fun setupUi(databasePath: String, databaseName: String, schemaName: String) {
         with(binding.toolbar) {
             setNavigationOnClickListener { finish() }
             title = getString(this@ContentActivity.title)
@@ -91,11 +93,11 @@ internal abstract class ContentActivity<T : ContentViewModel> : AppCompatActivit
             setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.clear -> {
-                        promptDrop(schemaName)
+                        drop(schemaName)
                         true
                     }
                     R.id.drop -> {
-                        promptDrop(schemaName)
+                        drop(schemaName)
                         true
                     }
                     R.id.pragma -> {
@@ -111,8 +113,6 @@ internal abstract class ContentActivity<T : ContentViewModel> : AppCompatActivit
                 }
             }
         }
-
-    private fun setupSwipeRefresh() =
         with(binding.swipeRefresh) {
             setOnRefreshListener {
                 isRefreshing = false
@@ -123,16 +123,15 @@ internal abstract class ContentActivity<T : ContentViewModel> : AppCompatActivit
                 }
             }
         }
-
-    private fun setupRecyclerView() =
         with(binding.recyclerView) {
             updateLayoutParams {
                 minimumWidth = resources.displayMetrics.widthPixels
             }
         }
+    }
 
     private fun showError() {
-
+        println("Some error")
     }
 
     private fun pragma(databaseName: String?, databasePath: String?, schemaName: String) {
@@ -146,11 +145,17 @@ internal abstract class ContentActivity<T : ContentViewModel> : AppCompatActivit
         )
     }
 
-    private fun promptDrop(name: String) =
+    private fun drop(name: String) =
         MaterialAlertDialogBuilder(this)
             .setMessage(String.format(getString(drop), name))
             .setPositiveButton(android.R.string.ok) { dialog: DialogInterface, _: Int ->
-                drop()
+                viewModel.drop() {
+                    when (viewModel) {
+                        is TableViewModel -> clearTable(it)
+                        is TriggerViewModel -> dropTrigger()
+                        is ViewViewModel -> dropView()
+                    }
+                }
                 dialog.dismiss()
             }
             .setNegativeButton(android.R.string.cancel) { dialog: DialogInterface, _: Int ->
@@ -162,15 +167,6 @@ internal abstract class ContentActivity<T : ContentViewModel> : AppCompatActivit
     private fun query() =
         viewModel.query() {
             (binding.recyclerView.adapter as? ContentAdapter)?.submitData(it)
-        }
-
-    private fun drop() =
-        viewModel.drop() {
-            when (viewModel) {
-                is TableViewModel -> clearTable(it)
-                is TriggerViewModel -> dropTrigger()
-                is ViewViewModel -> dropView()
-            }
         }
 
     private suspend fun clearTable(data: PagingData<String>) =

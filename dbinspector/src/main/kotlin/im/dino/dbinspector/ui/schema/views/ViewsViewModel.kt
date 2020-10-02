@@ -8,7 +8,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collectLatest
 
-internal class ViewsViewModel: SchemaViewModel() {
+internal class ViewsViewModel : SchemaViewModel() {
 
     override fun source(
         path: String,

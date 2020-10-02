@@ -18,7 +18,6 @@ internal class PragmaViewHolder(
                         ContextCompat.getColor(this.root.context, R.color.dbinspector_alternate_row_background)
                     } else {
                         ContextCompat.getColor(this.root.context, android.R.color.transparent)
-
                     }
                 )
 //            this.content.setOnClickListener { onClick(item) }

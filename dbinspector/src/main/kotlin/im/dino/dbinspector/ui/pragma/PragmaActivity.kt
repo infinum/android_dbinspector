@@ -23,7 +23,11 @@ internal class PragmaActivity : AppCompatActivity() {
             val databaseName = it.getString(Constants.Keys.DATABASE_NAME)
             val databasePath = it.getString(Constants.Keys.DATABASE_PATH)
             val tableName = it.getString(Constants.Keys.SCHEMA_NAME)
-            if (databaseName.isNullOrBlank().not() && databasePath.isNullOrBlank().not() && tableName.isNullOrBlank().not()) {
+            if (
+                databaseName.isNullOrBlank().not() &&
+                databasePath.isNullOrBlank().not() &&
+                tableName.isNullOrBlank().not()
+            ) {
                 setupUi(databaseName!!, databasePath!!, tableName!!)
             } else {
                 showError()
@@ -58,9 +62,6 @@ internal class PragmaActivity : AppCompatActivity() {
     private fun showError() {
         with(viewBinding) {
             toolbar.setNavigationOnClickListener { finish() }
-            toolbar.subtitle = "Error"
-
-            // TODO: push or show error views or Fragment
         }
     }
 

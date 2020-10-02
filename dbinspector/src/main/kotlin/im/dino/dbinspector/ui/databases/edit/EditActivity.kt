@@ -20,10 +20,10 @@ internal class EditActivity : AppCompatActivity() {
 
     private val viewModel: EditViewModel by viewModels()
 
-    private lateinit var databasePath: String
-    private lateinit var databaseFilepath: String
-    private lateinit var databaseName: String
-    private lateinit var databaseExtension: String
+    private var databasePath: String? = null
+    private var databaseFilepath: String? = null
+    private var databaseName: String? = null
+    private var databaseExtension: String? = null
 
     private val nameFilter = InputFilter { source, _, _, _, _, _ ->
         if (source.isEmpty()) return@InputFilter null
@@ -40,11 +40,18 @@ internal class EditActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         intent.extras?.let {
-            databasePath = it.getString(Constants.Keys.DATABASE_PATH)!!
-            databaseFilepath = it.getString(Constants.Keys.DATABASE_FILEPATH)!!
-            databaseName = it.getString(Constants.Keys.DATABASE_NAME)!!
-            databaseExtension = it.getString(Constants.Keys.DATABASE_EXTENSION)!!
-            if (databasePath.isBlank().not() && databaseFilepath.isBlank().not() && databaseName.isBlank().not() && databaseExtension.isBlank().not()) {
+            databasePath = it.getString(Constants.Keys.DATABASE_PATH)
+            databaseFilepath = it.getString(Constants.Keys.DATABASE_FILEPATH)
+            databaseName = it.getString(Constants.Keys.DATABASE_NAME)
+            databaseExtension = it.getString(Constants.Keys.DATABASE_EXTENSION)
+            if (
+                listOf(
+                    databasePath,
+                    databaseFilepath,
+                    databaseName,
+                    databaseExtension
+                ).none { parameter -> parameter.isNullOrBlank() }
+            ) {
                 setupUi()
             } else {
                 showError()
@@ -79,20 +86,20 @@ internal class EditActivity : AppCompatActivity() {
     private fun showError() {
         with(binding) {
             toolbar.setNavigationOnClickListener { finish() }
-
-            // TODO: push or show error views or Fragment
         }
     }
 
     private fun rename() {
-        val newDatabaseName = binding.nameInput.text?.toString().orEmpty().trim()
-        viewModel.rename(
-            databasePath,
-            "$databaseFilepath/$newDatabaseName.$databaseExtension"
-        ) {
-            this.databasePath = "$databaseFilepath/$newDatabaseName.$databaseExtension"
-            this.databaseName = newDatabaseName
-            EventBus.publish(Event.RefreshDatabases())
-        }
+        databasePath?.let {
+            val newDatabaseName = binding.nameInput.text?.toString().orEmpty().trim()
+            viewModel.rename(
+                it,
+                "$databaseFilepath/$newDatabaseName.$databaseExtension"
+            ) {
+                this.databasePath = "$databaseFilepath/$newDatabaseName.$databaseExtension"
+                this.databaseName = newDatabaseName
+                EventBus.publish(Event.RefreshDatabases())
+            }
+        } ?: showError()
     }
 }

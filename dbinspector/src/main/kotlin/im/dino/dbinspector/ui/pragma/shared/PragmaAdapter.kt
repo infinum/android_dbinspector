@@ -19,8 +19,20 @@ internal class PragmaAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         when (viewType) {
-            HEADER -> HeaderViewHolder(DbinspectorItemHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false))
-            ITEM -> PragmaViewHolder(DbinspectorItemCellBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+            HEADER -> HeaderViewHolder(
+                DbinspectorItemHeaderBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            )
+            ITEM -> PragmaViewHolder(
+                DbinspectorItemCellBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            )
             else -> throw NotImplementedError()
         }
 

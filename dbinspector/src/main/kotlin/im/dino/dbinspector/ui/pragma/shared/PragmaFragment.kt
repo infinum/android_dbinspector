@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorFragmentPragmaBinding
-import im.dino.dbinspector.domain.pragma.schema.models.IndexListColumns
 import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.shared.base.BaseFragment
 import im.dino.dbinspector.ui.shared.delegates.viewBinding
@@ -45,7 +44,7 @@ internal abstract class PragmaFragment :
             databasePath = it.getString(Constants.Keys.DATABASE_PATH, "")
             tableName = it.getString(Constants.Keys.SCHEMA_NAME, "")
         } ?: run {
-            // TODO: Show error state
+            showError()
         }
     }
 
@@ -82,4 +81,8 @@ internal abstract class PragmaFragment :
         viewModel.query(databasePath, tableName) {
             (binding.recyclerView.adapter as? PragmaAdapter)?.submitData(it)
         }
+
+    private fun showError() {
+        println("Some error")
+    }
 }

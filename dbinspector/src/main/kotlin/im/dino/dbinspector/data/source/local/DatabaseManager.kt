@@ -7,7 +7,9 @@ import im.dino.dbinspector.extensions.databaseDir
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.File
 import java.io.FileFilter
+import java.io.FileNotFoundException
 import java.io.FileOutputStream
+import java.io.IOException
 import java.util.ArrayList
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -32,7 +34,7 @@ internal object DatabaseManager {
                 // look for standard sqlite databases in the databases dir
                 val databases: MutableSet<File> = context.databaseList()
                     .filter { name -> ignored.none { name.endsWith(it) } }
-                    .map { context.getDatabasePath(it) }
+                    .map { path -> context.getDatabasePath(path) }
                     .toMutableSet()
 
                 val filter = FileFilter { file ->
@@ -46,7 +48,7 @@ internal object DatabaseManager {
                         databases.add(it)
                     }
                 it.resume(databases)
-            } catch (exception: Exception) {
+            } catch (exception: IOException) {
                 it.resumeWithException(exception)
             }
         }
@@ -65,7 +67,9 @@ internal object DatabaseManager {
                     }
                 }
                 it.resume(Unit)
-            } catch (exception: Exception) {
+            } catch (exception: FileNotFoundException) {
+                it.resumeWithException(exception)
+            } catch (exception: SecurityException) {
                 it.resumeWithException(exception)
             }
         }
@@ -75,12 +79,12 @@ internal object DatabaseManager {
             try {
                 val ok = context.deleteDatabase(name)
                 it.resume(ok)
-            } catch (exception: Exception) {
+            } catch (exception: IOException) {
                 it.resumeWithException(exception)
             }
         }
 
-
+    @Suppress("TooGenericExceptionCaught")
     suspend fun rename(databasePath: String, databaseFilename: String): Boolean =
         suspendCancellableCoroutine {
             try {
@@ -89,12 +93,19 @@ internal object DatabaseManager {
                         File(databaseFilename)
                     )
                 it.resume(ok)
-            } catch (exception: Exception) {
+            } catch (exception: NullPointerException) {
+                it.resumeWithException(exception)
+            } catch (exception: SecurityException) {
                 it.resumeWithException(exception)
             }
         }
 
-    suspend fun copy(databaseAbsolutePath: String, databasePath: String, databaseName: String, databaseExtension: String): Boolean =
+    suspend fun copy(
+        databaseAbsolutePath: String,
+        databasePath: String,
+        databaseName: String,
+        databaseExtension: String
+    ): Boolean =
         suspendCancellableCoroutine {
             try {
                 var counter = 1
@@ -109,7 +120,11 @@ internal object DatabaseManager {
 
                 val newFile = File(databaseAbsolutePath).copyTo(target = targetFile, overwrite = true)
                 it.resume(newFile.exists())
-            } catch (exception: Exception) {
+            } catch (exception: NoSuchFileException) {
+                it.resumeWithException(exception)
+            } catch (exception: FileAlreadyExistsException) {
+                it.resumeWithException(exception)
+            } catch (exception: IOException) {
                 it.resumeWithException(exception)
             }
         }

@@ -11,10 +11,7 @@ import im.dino.dbinspector.domain.database.models.Database
 internal class DatabasesAdapter(
     private val items: List<Database> = listOf(),
     private val onClick: (Database) -> Unit,
-    private val onDelete: (Database) -> Unit,
-    private val onEdit: (Database) -> Unit,
-    private val onCopy: (Database) -> Unit,
-    private val onShare: (Database) -> Unit,
+    private val interactions: DatabaseInteractions,
     private val onEmpty: (Boolean) -> Unit
 ) : RecyclerView.Adapter<DatabaseViewHolder>(), Filterable {
 
@@ -31,10 +28,7 @@ internal class DatabasesAdapter(
         holder.bind(
             item = filteredItems[position],
             onClick = onClick,
-            onDelete = onDelete,
-            onEdit = onEdit,
-            onCopy = onCopy,
-            onShare = onShare
+            interactions = interactions
         )
 
     override fun onViewRecycled(holder: DatabaseViewHolder) =

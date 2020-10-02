@@ -1,6 +1,7 @@
 package im.dino.dbinspector.extensions
 
 import androidx.appcompat.widget.SearchView
+import im.dino.dbinspector.ui.shared.SimpleQueryTextListener
 
 internal fun SearchView.setup(
     onSearchClosed: () -> Unit,
@@ -14,16 +15,7 @@ internal fun SearchView.setup(
         onSearchClosed()
         false
     }
-    setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-
-        override fun onQueryTextSubmit(query: String?): Boolean {
-            onQueryTextChanged(query)
-            return true
-        }
-
-        override fun onQueryTextChange(newText: String?): Boolean {
-            onQueryTextChanged(newText)
-            return true
-        }
-    })
+    setOnQueryTextListener(
+        SimpleQueryTextListener(onQueryTextChanged)
+    )
 }

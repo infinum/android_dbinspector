@@ -1,6 +1,5 @@
 package im.dino.dbinspector.ui.schema.shared
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -13,14 +12,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorFragmentSchemaBinding
 import im.dino.dbinspector.ui.shared.Constants
-import im.dino.dbinspector.ui.shared.Searchable
-import im.dino.dbinspector.ui.shared.base.BaseFragment
+import im.dino.dbinspector.ui.shared.base.BaseSearchableFragment
 import im.dino.dbinspector.ui.shared.delegates.viewBinding
 
 internal abstract class SchemaFragment :
-    BaseFragment(R.layout.dbinspector_fragment_schema),
-    SwipeRefreshLayout.OnRefreshListener,
-    Searchable {
+    BaseSearchableFragment(R.layout.dbinspector_fragment_schema),
+    SwipeRefreshLayout.OnRefreshListener {
 
     companion object {
 
@@ -35,8 +32,6 @@ internal abstract class SchemaFragment :
 
     private lateinit var databaseName: String
 
-    private var parentSearchable: Searchable? = null
-
     abstract val viewModel: SchemaViewModel
 
     abstract fun childView(): Class<*>
@@ -45,12 +40,6 @@ internal abstract class SchemaFragment :
         DbinspectorFragmentSchemaBinding::bind
     )
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        parentSearchable = (context as? Searchable)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -58,7 +47,7 @@ internal abstract class SchemaFragment :
             databasePath = it.getString(Constants.Keys.DATABASE_PATH, "")
             databaseName = it.getString(Constants.Keys.DATABASE_NAME, "")
         } ?: run {
-            // TODO: Show error state
+            showError()
         }
     }
 
@@ -77,15 +66,10 @@ internal abstract class SchemaFragment :
                 refresh()
             }
 
-            query(parentSearchable?.searchQuery())
+            query(searchQuery())
         }
 
         observe()
-    }
-
-    override fun onDetach() {
-        parentSearchable = null
-        super.onDetach()
     }
 
     override fun onRefresh() {
@@ -95,14 +79,8 @@ internal abstract class SchemaFragment :
         }
     }
 
-    override fun onSearchOpened() = Unit
-
     override fun search(query: String?) =
         query(query)
-
-    override fun searchQuery(): String? = null
-
-    override fun onSearchClosed() = Unit
 
     private fun observe() {
         viewModel.observe {
@@ -112,7 +90,7 @@ internal abstract class SchemaFragment :
 
     private fun refresh() {
         (binding.recyclerView.adapter as? SchemaAdapter)?.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
-        query(parentSearchable?.searchQuery())
+        query(searchQuery())
     }
 
     private fun query(query: String?) {
@@ -140,4 +118,8 @@ internal abstract class SchemaFragment :
                     putExtra(Constants.Keys.SCHEMA_NAME, name)
                 }
         )
+
+    private fun showError() {
+        println("Some error")
+    }
 }

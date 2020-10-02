@@ -1,7 +1,6 @@
 package im.dino.dbinspector.ui.schema.tables
 
 import androidx.paging.PagingData
-import androidx.paging.PagingSource
 import im.dino.dbinspector.ui.schema.shared.SchemaViewModel
 
 internal class TablesViewModel : SchemaViewModel() {

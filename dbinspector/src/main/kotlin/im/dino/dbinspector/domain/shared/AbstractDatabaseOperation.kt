@@ -17,11 +17,15 @@ internal abstract class AbstractDatabaseOperation<T> : DatabaseOperation<T> {
     companion object {
         internal const val FORMAT_ALL_TABLES = "SELECT name FROM sqlite_master WHERE type = 'table' ORDER BY name %s"
         internal const val FORMAT_ALL_VIEWS = "SELECT name FROM sqlite_master WHERE type = 'view' ORDER BY name %s"
-        internal const val FORMAT_ALL_TRIGGERS = "SELECT name, sql FROM sqlite_master WHERE type='trigger' ORDER BY name %s"
+        internal const val FORMAT_ALL_TRIGGERS = "SELECT name, sql FROM sqlite_master WHERE type='trigger' " +
+            "ORDER BY name %s"
 
-        internal const val FORMAT_SEARCH_TABLES = "SELECT name FROM sqlite_master WHERE type='table' AND name LIKE \"%%%s%%\" ORDER BY name %s"
-        internal const val FORMAT_SEARCH_VIEWS = "SELECT name FROM sqlite_master WHERE type = 'view' AND name LIKE \"%%%s%%\" ORDER BY name %s"
-        internal const val FORMAT_SEARCH_TRIGGERS = "SELECT name, sql FROM sqlite_master WHERE type = 'trigger' AND name LIKE \"%%%s%%\" ORDER BY name %s"
+        internal const val FORMAT_SEARCH_TABLES = "SELECT name FROM sqlite_master WHERE type='table' " +
+            "AND name LIKE \"%%%s%%\" ORDER BY name %s"
+        internal const val FORMAT_SEARCH_VIEWS = "SELECT name FROM sqlite_master WHERE type = 'view' " +
+            "AND name LIKE \"%%%s%%\" ORDER BY name %s"
+        internal const val FORMAT_SEARCH_TRIGGERS = "SELECT name, sql FROM sqlite_master WHERE type = 'trigger' " +
+            "AND name LIKE \"%%%s%%\" ORDER BY name %s"
 
         internal const val FORMAT_PRAGMA_TABLE_INFO = "PRAGMA table_info(\"%s\")"
         internal const val FORMAT_PRAGMA_FOREIGN_KEYS = "PRAGMA foreign_key_list(\"%s\")"
@@ -32,7 +36,8 @@ internal abstract class AbstractDatabaseOperation<T> : DatabaseOperation<T> {
         internal const val FORMAT_CONTENT_VIEW = "SELECT * FROM \"%s\""
         internal const val FORMAT_DROP_VIEW = "DROP VIEW \"%s\""
 
-        internal const val FORMAT_CONTENT_TRIGGER = "SELECT name, sql FROM sqlite_master WHERE type = 'trigger' AND name = \"%s\" LIMIT 1"
+        internal const val FORMAT_CONTENT_TRIGGER = "SELECT name, sql FROM sqlite_master WHERE type = 'trigger' " +
+            "AND name = \"%s\" LIMIT 1"
         internal const val FORMAT_DROP_TRIGGER = "DROP TRIGGER \"%s\""
 
         internal const val COLUMN_NAME = "name"
@@ -48,11 +53,17 @@ internal abstract class AbstractDatabaseOperation<T> : DatabaseOperation<T> {
 
     internal fun pageCount(rowCount: Int, columnCount: Int) {
         pageCount = ceil((rowCount.toDouble() * columnCount) / pageSize()).roundToInt()
-        println("${query()} --- rowCount: $rowCount columnCount: $columnCount rowCount x columnCount: ${rowCount * columnCount} pageSize: ${pageSize()} pageCount: $pageCount")
+//        println("${query()} --- " +
+//            "rowCount: $rowCount " +
+//            "columnCount: $columnCount " +
+//            "rowCount x columnCount: ${rowCount * columnCount} " +
+//            "pageSize: ${pageSize()} " +
+//            "pageCount: $pageCount"
+//        )
     }
 
     fun nextPage(): Int? {
-        println("${query()} --- currentPage: $currentPage pageCount: $pageCount ")
+//        println("${query()} --- currentPage: $currentPage pageCount: $pageCount ")
         val next = when (currentPage == pageCount) {
             true -> null
             false -> {
@@ -61,7 +72,7 @@ internal abstract class AbstractDatabaseOperation<T> : DatabaseOperation<T> {
             }
         }
 
-        println("${query()} --- currentPage: $currentPage pageCount: $pageCount nextPage: $next")
+//        println("${query()} --- currentPage: $currentPage pageCount: $pageCount nextPage: $next")
 
         return next
     }
@@ -84,7 +95,8 @@ internal abstract class AbstractDatabaseOperation<T> : DatabaseOperation<T> {
                                 ?: FieldType.NULL.name.toLowerCase(Locale.getDefault())
                             FieldType.FLOAT -> cursor.getFloatOrNull(column)?.toString()
                                 ?: FieldType.NULL.name.toLowerCase(Locale.getDefault())
-                            FieldType.STRING -> cursor.getStringOrNull(column) ?: FieldType.NULL.name.toLowerCase(Locale.getDefault())
+                            FieldType.STRING -> cursor.getStringOrNull(column)
+                                ?: FieldType.NULL.name.toLowerCase(Locale.getDefault())
                             FieldType.BLOB -> COLUMN_BLOB_VALUE
                         }
                     }

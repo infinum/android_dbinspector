@@ -11,19 +11,16 @@ internal class DatabaseViewHolder(
     fun bind(
         item: Database,
         onClick: (Database) -> Unit,
-        onDelete: (Database) -> Unit,
-        onEdit: (Database) -> Unit,
-        onCopy: (Database) -> Unit,
-        onShare: (Database) -> Unit
+        interactions: DatabaseInteractions
     ) {
         with(viewBinding) {
             this.path.text = item.path
             this.name.text = item.name
             this.version.text = item.version
-            this.removeButton.setOnClickListener { onDelete(item) }
-            this.editButton.setOnClickListener { onEdit(item) }
-            this.copyButton.setOnClickListener { onCopy(item) }
-            this.shareButton.setOnClickListener { onShare(item) }
+            this.removeButton.setOnClickListener { interactions.onDelete(item) }
+            this.editButton.setOnClickListener { interactions.onEdit(item) }
+            this.copyButton.setOnClickListener { interactions.onCopy(item) }
+            this.shareButton.setOnClickListener { interactions.onShare(item) }
             this.content.setOnClickListener { onClick(item) }
         }
     }
