@@ -5,10 +5,10 @@ import im.dino.dbinspector.ui.schema.shared.SchemaDataSource
 
 internal class TablesDataSource(
     path: String,
-    private val pageSize: Int,
-    private val args: String?,
-    empty: suspend (value: Boolean) -> Unit
-) : SchemaDataSource(path, empty) {
+    pageSize: Int,
+    argument: String?,
+    onEmpty: suspend (value: Boolean) -> Unit
+) : SchemaDataSource(path, onEmpty) {
 
-    override val source = lazyOf(AllTablesOperation(pageSize, args))
+    override val source = lazyOf(AllTablesOperation(pageSize, argument))
 }

@@ -6,7 +6,7 @@ import im.dino.dbinspector.domain.shared.AbstractDatabaseOperation
 
 internal abstract class SchemaDataSource(
     private val path: String,
-    private val empty: suspend (value: Boolean) -> Unit
+    private val onEmpty: suspend (value: Boolean) -> Unit
 ) : PagingSource<Int, String>() {
 
     abstract val source: Lazy<AbstractDatabaseOperation<List<Row>>>
@@ -15,7 +15,7 @@ internal abstract class SchemaDataSource(
         val result = source.value(path, params.key)
             .map { it.fields.first() }
 
-        empty(params.key == null && result.isEmpty())
+        onEmpty(params.key == null && result.isEmpty())
 
         return LoadResult.Page(
             data = result,

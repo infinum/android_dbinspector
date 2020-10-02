@@ -1,4 +1,4 @@
-package im.dino.dbinspector.data.source.local
+package im.dino.dbinspector.data.source.raw
 
 import android.content.Context
 import android.net.Uri
@@ -33,7 +33,7 @@ internal object DatabaseManager {
             try {
                 // look for standard sqlite databases in the databases dir
                 val databases: MutableSet<File> = context.databaseList()
-                    .filter { name -> ignored.none { name.endsWith(it) } }
+                    .filter { name -> ignored.none { extension -> name.endsWith(extension) } }
                     .map { path -> context.getDatabasePath(path) }
                     .toMutableSet()
 
@@ -43,9 +43,9 @@ internal object DatabaseManager {
                 // CouchBase Lite stores the databases in the app files dir
                 // we get all files recursively because .cblite2 is a dir with the actual sqlite db
                 getFiles(context.filesDir)
-                    .filter { filter.accept(it) }
-                    .forEach {
-                        databases.add(it)
+                    .filter { file -> filter.accept(file) }
+                    .forEach { file ->
+                        databases.add(file)
                     }
                 it.resume(databases)
             } catch (exception: IOException) {

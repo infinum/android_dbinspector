@@ -17,12 +17,22 @@ internal class ContentAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
-        if (viewType == HEADER) {
-            HeaderViewHolder(DbinspectorItemHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false))
-        } else if (viewType == ITEM) {
-            ContentViewHolder(DbinspectorItemCellBinding.inflate(LayoutInflater.from(parent.context), parent, false))
-        } else {
-            throw NotImplementedError()
+        when (viewType) {
+            HEADER -> HeaderViewHolder(
+                DbinspectorItemHeaderBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            )
+            ITEM -> ContentViewHolder(
+                DbinspectorItemCellBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            )
+            else -> throw NotImplementedError()
         }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

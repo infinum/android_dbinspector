@@ -1,6 +1,6 @@
 package im.dino.dbinspector.ui.databases.edit
 
-import im.dino.dbinspector.data.source.local.DatabaseManager
+import im.dino.dbinspector.data.source.raw.DatabaseManager
 import im.dino.dbinspector.ui.shared.base.BaseViewModel
 
 internal class EditViewModel : BaseViewModel() {

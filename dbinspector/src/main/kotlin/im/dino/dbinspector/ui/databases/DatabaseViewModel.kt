@@ -2,9 +2,9 @@ package im.dino.dbinspector.ui.databases
 
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
-import im.dino.dbinspector.data.source.local.DatabaseManager
-import im.dino.dbinspector.domain.pragma.database.VersionOperation
+import im.dino.dbinspector.data.source.raw.DatabaseManager
 import im.dino.dbinspector.domain.database.models.Database
+import im.dino.dbinspector.domain.pragma.database.VersionOperation
 import im.dino.dbinspector.ui.shared.base.BaseViewModel
 import im.dino.dbinspector.ui.shared.bus.EventBus
 import im.dino.dbinspector.ui.shared.bus.models.Event
@@ -30,7 +30,6 @@ internal class DatabaseViewModel : BaseViewModel() {
             databases.value = io {
                 DatabaseManager.browse().map {
                     Database(
-                        absolutePath = it.absolutePath,
                         path = it.parentFile?.absolutePath.orEmpty(),
                         name = it.nameWithoutExtension,
                         extension = it.extension,

@@ -72,9 +72,9 @@ internal abstract class PragmaFragment :
             swipeRefresh.isRefreshing = false
 
             (recyclerView.adapter as? PragmaAdapter)?.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
-
-            query()
         }
+
+        query()
     }
 
     private fun query() =

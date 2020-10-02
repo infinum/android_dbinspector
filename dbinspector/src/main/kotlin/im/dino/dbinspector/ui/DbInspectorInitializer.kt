@@ -2,7 +2,7 @@ package im.dino.dbinspector.ui
 
 import android.content.Context
 import androidx.startup.Initializer
-import im.dino.dbinspector.data.source.local.DatabaseManager
+import im.dino.dbinspector.data.source.raw.DatabaseManager
 
 class DbInspectorInitializer : Initializer<Class<DbInspectorInitializer>> {
 

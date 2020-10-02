@@ -146,7 +146,7 @@ internal abstract class ContentActivity<T : ContentViewModel> : BaseActivity() {
         MaterialAlertDialogBuilder(this)
             .setMessage(String.format(getString(drop), name))
             .setPositiveButton(android.R.string.ok) { dialog: DialogInterface, _: Int ->
-                viewModel.drop() {
+                viewModel.drop {
                     when (viewModel) {
                         is TableViewModel -> clearTable(it)
                         is TriggerViewModel -> dropTrigger()
@@ -162,7 +162,7 @@ internal abstract class ContentActivity<T : ContentViewModel> : BaseActivity() {
             .show()
 
     private fun query() =
-        viewModel.query() {
+        viewModel.query {
             (binding.recyclerView.adapter as? ContentAdapter)?.submitData(it)
         }
 
