@@ -51,4 +51,12 @@ internal interface UseCases {
 
     interface DropTrigger : BaseUseCase<Query, Page>
     // endregion
+
+    // region Pragma
+    interface GetTablePragma : BaseUseCase<Query, Page>
+
+    interface GetForeignKeys : BaseUseCase<Query, Page>
+
+    interface GetIndexes : BaseUseCase<Query, Page>
+    // endregion
 }

@@ -1,16 +1,16 @@
-package im.dino.dbinspector.ui.pragma.indexes
+package im.dino.dbinspector.ui.pragma.foreignkeys
 
 import im.dino.dbinspector.domain.UseCases
 import im.dino.dbinspector.domain.shared.models.Statements
 import im.dino.dbinspector.ui.pragma.shared.PragmaSourceViewModel
 
-internal class IndexViewModel(
-    private val getPragma: UseCases.GetIndexes
+internal class ForeignKeysViewModel(
+    private val getPragma: UseCases.GetForeignKeys
 ) : PragmaSourceViewModel() {
 
     override fun pragmaStatement(name: String) =
-        Statements.Pragma.indexes(name)
+        Statements.Pragma.foreignKeys(name)
 
     override fun dataSource(databasePath: String, statement: String) =
-        IndexDataSource(databasePath, statement, getPragma)
+        ForeignKeysDataSource(databasePath, statement, getPragma)
 }

@@ -29,7 +29,7 @@ internal abstract class PragmaFragment :
 
     private lateinit var tableName: String
 
-    abstract val viewModel: PragmaViewModel
+    abstract val viewModel: PragmaSourceViewModel
 
     abstract fun headers(): List<String>
 
@@ -43,6 +43,8 @@ internal abstract class PragmaFragment :
         arguments?.let {
             databasePath = it.getString(Constants.Keys.DATABASE_PATH, "")
             tableName = it.getString(Constants.Keys.SCHEMA_NAME, "")
+
+            viewModel.databasePath = databasePath
         } ?: run {
             showError()
         }
@@ -78,7 +80,7 @@ internal abstract class PragmaFragment :
     }
 
     private fun query() =
-        viewModel.query(databasePath, tableName) {
+        viewModel.query(tableName) {
             (binding.recyclerView.adapter as? PragmaAdapter)?.submitData(it)
         }
 

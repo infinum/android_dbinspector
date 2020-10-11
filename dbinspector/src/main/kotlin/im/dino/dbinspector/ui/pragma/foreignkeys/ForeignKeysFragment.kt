@@ -1,8 +1,8 @@
 package im.dino.dbinspector.ui.pragma.foreignkeys
 
-import androidx.fragment.app.viewModels
 import im.dino.dbinspector.domain.pragma.models.ForeignKeyListColumns
 import im.dino.dbinspector.ui.pragma.shared.PragmaFragment
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Locale
 
 internal class ForeignKeysFragment : PragmaFragment() {
@@ -15,7 +15,7 @@ internal class ForeignKeysFragment : PragmaFragment() {
             }
     }
 
-    override val viewModel by viewModels<ForeignKeyViewModel>()
+    override val viewModel: ForeignKeysViewModel by viewModel()
 
     override fun headers() =
         ForeignKeyListColumns.values().map { it.name.toLowerCase(Locale.getDefault()) }

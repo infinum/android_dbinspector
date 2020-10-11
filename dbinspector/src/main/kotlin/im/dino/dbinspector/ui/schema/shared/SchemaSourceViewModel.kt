@@ -1,13 +1,13 @@
-package im.dino.dbinspector.ui.shared.base
+package im.dino.dbinspector.ui.schema.shared
 
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import im.dino.dbinspector.ui.schema.shared.SchemaDataSource
+import im.dino.dbinspector.ui.shared.base.BaseViewModel
 import kotlinx.coroutines.flow.collectLatest
 
-internal abstract class DataSourceViewModel : BaseViewModel() {
+internal abstract class SchemaSourceViewModel : BaseViewModel() {
 
     abstract fun dataSource(databasePath: String): SchemaDataSource
 

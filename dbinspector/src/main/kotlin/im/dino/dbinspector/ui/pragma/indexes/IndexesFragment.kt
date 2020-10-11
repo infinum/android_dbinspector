@@ -1,8 +1,8 @@
 package im.dino.dbinspector.ui.pragma.indexes
 
-import androidx.fragment.app.viewModels
 import im.dino.dbinspector.domain.pragma.models.IndexListColumns
 import im.dino.dbinspector.ui.pragma.shared.PragmaFragment
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Locale
 
 internal class IndexesFragment : PragmaFragment() {
@@ -15,7 +15,7 @@ internal class IndexesFragment : PragmaFragment() {
             }
     }
 
-    override val viewModel by viewModels<IndexViewModel>()
+    override val viewModel: IndexViewModel by viewModel()
 
     override fun headers() =
         IndexListColumns.values().map { it.name.toLowerCase(Locale.getDefault()) }

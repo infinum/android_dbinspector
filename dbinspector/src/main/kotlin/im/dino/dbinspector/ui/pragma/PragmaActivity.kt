@@ -1,6 +1,7 @@
 package im.dino.dbinspector.ui.pragma
 
 import android.os.Bundle
+import androidx.lifecycle.lifecycleScope
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivityPragmaBinding
@@ -8,10 +9,13 @@ import im.dino.dbinspector.ui.pragma.shared.PragmaTypeAdapter
 import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.shared.base.BaseActivity
 import im.dino.dbinspector.ui.shared.delegates.viewBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 internal class PragmaActivity : BaseActivity() {
 
     override val binding by viewBinding(DbinspectorActivityPragmaBinding::inflate)
+
+    private val viewModel: PragmaViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +36,15 @@ internal class PragmaActivity : BaseActivity() {
         } ?: showError()
     }
 
+    override fun onStop() {
+        super.onStop()
+        viewModel.close(lifecycleScope)
+    }
+
     private fun setupUi(databaseName: String, databasePath: String, tableName: String) {
+        viewModel.databasePath = databasePath
+        viewModel.open(lifecycleScope)
+
         with(binding) {
             toolbar.setNavigationOnClickListener { finish() }
             toolbar.subtitle = listOf(databaseName, tableName).joinToString(" / ")

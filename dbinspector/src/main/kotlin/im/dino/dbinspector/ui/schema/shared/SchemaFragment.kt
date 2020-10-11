@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorFragmentSchemaBinding
-import im.dino.dbinspector.ui.shared.base.DataSourceViewModel
 import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.shared.base.Refreshable
 import im.dino.dbinspector.ui.shared.base.searchable.BaseSearchableFragment
@@ -35,7 +34,7 @@ internal abstract class SchemaFragment :
 
     abstract var statement: String
 
-    abstract val viewModel: DataSourceViewModel
+    abstract val viewModel: SchemaSourceViewModel
 
     abstract fun childView(): Class<*>
 

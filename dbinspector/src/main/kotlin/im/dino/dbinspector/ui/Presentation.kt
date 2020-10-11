@@ -6,6 +6,10 @@ import im.dino.dbinspector.ui.content.trigger.TriggerViewModel
 import im.dino.dbinspector.ui.content.view.ViewViewModel
 import im.dino.dbinspector.ui.databases.DatabaseViewModel
 import im.dino.dbinspector.ui.databases.edit.EditViewModel
+import im.dino.dbinspector.ui.pragma.PragmaViewModel
+import im.dino.dbinspector.ui.pragma.foreignkeys.ForeignKeysViewModel
+import im.dino.dbinspector.ui.pragma.indexes.IndexViewModel
+import im.dino.dbinspector.ui.pragma.tableinfo.TableInfoViewModel
 import im.dino.dbinspector.ui.schema.SchemaViewModel
 import im.dino.dbinspector.ui.schema.tables.TablesViewModel
 import im.dino.dbinspector.ui.schema.triggers.TriggersViewModel
@@ -36,5 +40,12 @@ object Presentation {
         viewModel { TableViewModel(get(), get(), get(), get(), get()) }
         viewModel { ViewViewModel(get(), get(), get(), get(), get()) }
         viewModel { TriggerViewModel(get(), get(), get(), get(), get()) }
+
+        viewModel { PragmaViewModel(get(), get()) }
+
+        viewModel { TableInfoViewModel(get()) }
+        viewModel { ForeignKeysViewModel(get()) }
+        viewModel { IndexViewModel(get()) }
+
     }
 }

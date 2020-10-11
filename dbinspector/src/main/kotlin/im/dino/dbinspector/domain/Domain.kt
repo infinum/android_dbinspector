@@ -4,47 +4,50 @@ import im.dino.dbinspector.data.Data
 import im.dino.dbinspector.domain.connection.ConnectionRepository
 import im.dino.dbinspector.domain.connection.interactors.CloseConnectionInteractor
 import im.dino.dbinspector.domain.connection.interactors.OpenConnectionInteractor
+import im.dino.dbinspector.domain.connection.usecases.CloseConnectionUseCase
+import im.dino.dbinspector.domain.connection.usecases.OpenConnectionUseCase
 import im.dino.dbinspector.domain.database.DatabaseRepository
 import im.dino.dbinspector.domain.database.interactors.CopyDatabaseInteractor
 import im.dino.dbinspector.domain.database.interactors.GetDatabasesInteractor
 import im.dino.dbinspector.domain.database.interactors.ImportDatabasesInteractor
 import im.dino.dbinspector.domain.database.interactors.RemoveDatabaseInteractor
 import im.dino.dbinspector.domain.database.interactors.RenameDatabaseInteractor
+import im.dino.dbinspector.domain.database.usecases.CopyDatabaseUseCase
+import im.dino.dbinspector.domain.database.usecases.GetDatabasesUseCase
+import im.dino.dbinspector.domain.database.usecases.ImportDatabasesUseCase
+import im.dino.dbinspector.domain.database.usecases.RemoveDatabaseUseCase
+import im.dino.dbinspector.domain.database.usecases.RenameDatabaseUseCase
 import im.dino.dbinspector.domain.pragma.PragmaRepository
 import im.dino.dbinspector.domain.pragma.interactors.GetForeignKeysInteractor
 import im.dino.dbinspector.domain.pragma.interactors.GetIndexesInteractor
 import im.dino.dbinspector.domain.pragma.interactors.GetTableInfoInteractor
 import im.dino.dbinspector.domain.pragma.interactors.GetUserVersionInteractor
+import im.dino.dbinspector.domain.pragma.usecases.GetForeignKeysUseCase
+import im.dino.dbinspector.domain.pragma.usecases.GetIndexesUseCase
+import im.dino.dbinspector.domain.pragma.usecases.GetTableInfoUseCase
+import im.dino.dbinspector.domain.pragma.usecases.GetTablePragmaUseCase
+import im.dino.dbinspector.domain.pragma.usecases.GetTriggerInfoUseCase
 import im.dino.dbinspector.domain.schema.table.TableRepository
 import im.dino.dbinspector.domain.schema.table.interactors.DropTableContentByNameInteractor
 import im.dino.dbinspector.domain.schema.table.interactors.GetTableByNameInteractor
 import im.dino.dbinspector.domain.schema.table.interactors.GetTablesInteractor
+import im.dino.dbinspector.domain.schema.table.usecases.DropTableContentUseCase
+import im.dino.dbinspector.domain.schema.table.usecases.GetTableUseCase
+import im.dino.dbinspector.domain.schema.table.usecases.GetTablesUseCase
 import im.dino.dbinspector.domain.schema.trigger.TriggerRepository
 import im.dino.dbinspector.domain.schema.trigger.interactors.DropTriggerByNameInteractor
 import im.dino.dbinspector.domain.schema.trigger.interactors.GetTriggerByNameInteractor
 import im.dino.dbinspector.domain.schema.trigger.interactors.GetTriggersInteractor
+import im.dino.dbinspector.domain.schema.trigger.usecases.DropTriggerUseCase
+import im.dino.dbinspector.domain.schema.trigger.usecases.GetTriggerUseCase
+import im.dino.dbinspector.domain.schema.trigger.usecases.GetTriggersUseCase
 import im.dino.dbinspector.domain.schema.view.ViewRepository
 import im.dino.dbinspector.domain.schema.view.interactors.DropViewByNameInteractor
 import im.dino.dbinspector.domain.schema.view.interactors.GetViewByNameInteractor
 import im.dino.dbinspector.domain.schema.view.interactors.GetViewsInteractor
-import im.dino.dbinspector.domain.connection.usecases.CloseConnectionUseCase
-import im.dino.dbinspector.domain.database.usecases.CopyDatabaseUseCase
-import im.dino.dbinspector.domain.schema.table.usecases.DropTableContentUseCase
-import im.dino.dbinspector.domain.schema.trigger.usecases.DropTriggerUseCase
 import im.dino.dbinspector.domain.schema.view.usecases.DropViewUseCase
-import im.dino.dbinspector.domain.database.usecases.GetDatabasesUseCase
-import im.dino.dbinspector.domain.pragma.usecases.GetTableInfoUseCase
-import im.dino.dbinspector.domain.schema.table.usecases.GetTableUseCase
-import im.dino.dbinspector.domain.schema.table.usecases.GetTablesUseCase
-import im.dino.dbinspector.domain.pragma.usecases.GetTriggerInfoUseCase
-import im.dino.dbinspector.domain.schema.trigger.usecases.GetTriggerUseCase
-import im.dino.dbinspector.domain.schema.trigger.usecases.GetTriggersUseCase
 import im.dino.dbinspector.domain.schema.view.usecases.GetViewUseCase
 import im.dino.dbinspector.domain.schema.view.usecases.GetViewsUseCase
-import im.dino.dbinspector.domain.database.usecases.ImportDatabasesUseCase
-import im.dino.dbinspector.domain.connection.usecases.OpenConnectionUseCase
-import im.dino.dbinspector.domain.database.usecases.RemoveDatabaseUseCase
-import im.dino.dbinspector.domain.database.usecases.RenameDatabaseUseCase
 import org.koin.core.module.Module
 import org.koin.core.qualifier.StringQualifier
 import org.koin.dsl.module
@@ -128,5 +131,9 @@ object Domain {
         factory<Interactors.GetIndexes> { GetIndexesInteractor(get()) }
 
         factory<Repositories.Pragma> { PragmaRepository(get(), get(), get(), get()) }
+
+        factory<UseCases.GetTablePragma> { GetTablePragmaUseCase(get(), get()) }
+        factory<UseCases.GetForeignKeys> { GetForeignKeysUseCase(get(), get()) }
+        factory<UseCases.GetIndexes> { GetIndexesUseCase(get(), get()) }
     }
 }

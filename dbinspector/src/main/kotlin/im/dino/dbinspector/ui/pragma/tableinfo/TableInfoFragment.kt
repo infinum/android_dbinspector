@@ -1,8 +1,8 @@
 package im.dino.dbinspector.ui.pragma.tableinfo
 
-import androidx.fragment.app.viewModels
 import im.dino.dbinspector.domain.pragma.models.TableInfoColumns
 import im.dino.dbinspector.ui.pragma.shared.PragmaFragment
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Locale
 
 internal class TableInfoFragment : PragmaFragment() {
@@ -15,7 +15,7 @@ internal class TableInfoFragment : PragmaFragment() {
             }
     }
 
-    override val viewModel by viewModels<TableInfoViewModel>()
+    override val viewModel: TableInfoViewModel by viewModel()
 
     override fun headers() =
         TableInfoColumns.values().map { it.name.toLowerCase(Locale.getDefault()) }

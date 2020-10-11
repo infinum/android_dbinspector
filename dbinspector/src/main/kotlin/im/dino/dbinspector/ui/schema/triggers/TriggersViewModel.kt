@@ -2,7 +2,7 @@ package im.dino.dbinspector.ui.schema.triggers
 
 import androidx.paging.PagingData
 import im.dino.dbinspector.domain.UseCases
-import im.dino.dbinspector.ui.shared.base.DataSourceViewModel
+import im.dino.dbinspector.ui.schema.shared.SchemaSourceViewModel
 import im.dino.dbinspector.ui.shared.bus.EventBus
 import im.dino.dbinspector.ui.shared.bus.models.Event
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 internal class TriggersViewModel(
     private val getSchema: UseCases.GetTriggers
-) : DataSourceViewModel() {
+) : SchemaSourceViewModel() {
 
     override fun dataSource(databasePath: String) = TriggersDataSource(databasePath, getSchema)
 
