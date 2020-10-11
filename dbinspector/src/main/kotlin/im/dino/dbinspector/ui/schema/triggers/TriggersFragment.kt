@@ -1,9 +1,10 @@
 package im.dino.dbinspector.ui.schema.triggers
 
-import androidx.fragment.app.viewModels
-import im.dino.dbinspector.ui.schema.shared.SchemaFragment
+import im.dino.dbinspector.domain.shared.models.Statements
 import im.dino.dbinspector.ui.content.trigger.TriggerActivity
+import im.dino.dbinspector.ui.schema.shared.SchemaFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @ExperimentalCoroutinesApi
 internal class TriggersFragment : SchemaFragment() {
@@ -16,7 +17,9 @@ internal class TriggersFragment : SchemaFragment() {
             }
     }
 
-    override val viewModel by viewModels<TriggersViewModel>()
+    override var statement: String = Statements.Schema.triggers()
+
+    override val viewModel: TriggersViewModel by viewModel()
 
     override fun childView() = TriggerActivity::class.java
 }

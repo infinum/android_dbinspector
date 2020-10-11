@@ -53,6 +53,9 @@ dependencies {
     implementation packages.androidx.swiperefreshlayout
     implementation packages.google.design
     implementation packages.kotlinx.coroutines
+    implementation "org.koin:koin-android:2.1.6"
+    implementation "org.koin:koin-androidx-scope:2.1.6"
+    implementation "org.koin:koin-androidx-viewmodel:2.1.6"
 }
 
 apply from: "bintray.gradle"

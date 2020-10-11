@@ -1,19 +1,30 @@
 package im.dino.dbinspector.ui.content.trigger
 
-import im.dino.dbinspector.domain.schema.trigger.DropTriggerOperation
-import im.dino.dbinspector.domain.schema.trigger.TriggerInfoOperation
+import im.dino.dbinspector.domain.UseCases
+import im.dino.dbinspector.domain.shared.models.Statements
 import im.dino.dbinspector.ui.content.shared.ContentViewModel
 
 internal class TriggerViewModel(
-    private val path: String,
-    private val name: String
-) : ContentViewModel(path) {
+    openConnection: UseCases.OpenConnection,
+    closeConnection: UseCases.CloseConnection,
+    triggerInfo: UseCases.GetTriggerInfo,
+    private val trigger: UseCases.GetTrigger,
+    dropTrigger: UseCases.DropTrigger
+) : ContentViewModel(
+    openConnection,
+    closeConnection,
+    triggerInfo,
+    dropTrigger
+) {
 
-    override val nameOrdinal: Int = 0
+    override fun headerStatement(name: String) = ""
 
-    override fun source() = TriggerDataSource(path, name, PAGE_SIZE)
+    override fun schemaStatement(name: String) =
+        Statements.Schema.trigger(name)
 
-    override fun info() = TriggerInfoOperation()
+    override fun dropStatement(name: String) =
+        Statements.Schema.dropTrigger(name)
 
-    override fun drop() = DropTriggerOperation(name)
+    override fun dataSource(databasePath: String, statement: String) =
+        TriggerDataSource(databasePath, statement, trigger)
 }

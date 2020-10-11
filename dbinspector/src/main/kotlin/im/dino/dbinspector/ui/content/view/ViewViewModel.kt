@@ -1,20 +1,31 @@
 package im.dino.dbinspector.ui.content.view
 
-import im.dino.dbinspector.domain.pragma.schema.TableInfoOperation
-import im.dino.dbinspector.domain.pragma.schema.models.TableInfoColumns
-import im.dino.dbinspector.domain.schema.view.DropViewOperation
+import im.dino.dbinspector.domain.UseCases
+import im.dino.dbinspector.domain.shared.models.Statements
 import im.dino.dbinspector.ui.content.shared.ContentViewModel
 
 internal class ViewViewModel(
-    private val path: String,
-    private val name: String
-) : ContentViewModel(path) {
+    openConnection: UseCases.OpenConnection,
+    closeConnection: UseCases.CloseConnection,
+    tableInfo: UseCases.GetTableInfo,
+    private val view: UseCases.GetView,
+    dropView: UseCases.DropView
+) : ContentViewModel(
+    openConnection,
+    closeConnection,
+    tableInfo,
+    dropView
+) {
 
-    override val nameOrdinal: Int = TableInfoColumns.NAME.ordinal
+    override fun headerStatement(name: String) =
+        Statements.Pragma.tableInfo(name)
 
-    override fun source() = ViewDataSource(path, name, PAGE_SIZE)
+    override fun schemaStatement(name: String) =
+        Statements.Schema.view(name)
 
-    override fun info() = TableInfoOperation(name, PAGE_SIZE)
+    override fun dropStatement(name: String) =
+        Statements.Schema.dropView(name)
 
-    override fun drop() = DropViewOperation(name)
+    override fun dataSource(databasePath: String, statement: String) =
+        ViewDataSource(databasePath, statement, view)
 }

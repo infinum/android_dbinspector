@@ -6,14 +6,12 @@ import android.os.Bundle
 import androidx.annotation.MenuRes
 import androidx.annotation.StringRes
 import androidx.core.view.updateLayoutParams
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivityContentBinding
-import im.dino.dbinspector.domain.schema.models.SchemaType
 import im.dino.dbinspector.ui.content.table.TableViewModel
 import im.dino.dbinspector.ui.content.trigger.TriggerViewModel
 import im.dino.dbinspector.ui.content.view.ViewViewModel
@@ -26,13 +24,11 @@ import im.dino.dbinspector.ui.shared.delegates.viewBinding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
-internal abstract class ContentActivity<T : ContentViewModel> : BaseActivity() {
+internal abstract class ContentActivity : BaseActivity() {
 
     override val binding by viewBinding(DbinspectorActivityContentBinding::inflate)
 
-    private lateinit var viewModel: ContentViewModel
-
-    abstract val type: SchemaType
+    abstract val viewModel: ContentViewModel
 
     @get:StringRes
     abstract val title: Int
@@ -49,21 +45,23 @@ internal abstract class ContentActivity<T : ContentViewModel> : BaseActivity() {
         intent.extras?.let {
             val databaseName = it.getString(Constants.Keys.DATABASE_NAME)
             val databasePath = it.getString(Constants.Keys.DATABASE_PATH)
-            val tableName = it.getString(Constants.Keys.SCHEMA_NAME)
+            val schemaName = it.getString(Constants.Keys.SCHEMA_NAME)
             if (
                 databaseName.isNullOrBlank().not() &&
                 databasePath.isNullOrBlank().not() &&
-                tableName.isNullOrBlank().not()
+                schemaName.isNullOrBlank().not()
             ) {
-                viewModel = resolveViewModel(databasePath!!, tableName!!)
+                viewModel.databasePath = databasePath!!
 
-                setupUi(databasePath, databaseName!!, tableName)
+                viewModel.open(lifecycleScope)
 
-                viewModel.header { tableHeaders ->
+                setupUi(databasePath, databaseName!!, schemaName!!)
+
+                viewModel.header(schemaName) { tableHeaders ->
                     binding.recyclerView.layoutManager = GridLayoutManager(this, tableHeaders.size)
                     binding.recyclerView.adapter = ContentAdapter(tableHeaders)
 
-                    query()
+                    query(schemaName)
                 }
             } else {
                 showError()
@@ -71,15 +69,10 @@ internal abstract class ContentActivity<T : ContentViewModel> : BaseActivity() {
         } ?: showError()
     }
 
-    private inline fun <reified T : ViewModel> resolveViewModel(databasePath: String, tableName: String): T =
-        ViewModelProvider(
-            this,
-            ContentViewModelFactory(
-                type,
-                databasePath,
-                tableName
-            )
-        ).get(T::class.java)
+    override fun onDestroy() {
+        viewModel.close(lifecycleScope)
+        super.onDestroy()
+    }
 
     private fun setupUi(databasePath: String, databaseName: String, schemaName: String) {
         with(binding.toolbar) {
@@ -103,7 +96,7 @@ internal abstract class ContentActivity<T : ContentViewModel> : BaseActivity() {
                     }
                     R.id.refresh -> {
                         (binding.recyclerView.adapter as? ContentAdapter)?.submitData(lifecycle, PagingData.empty())
-                        query()
+//                        query()
                         true
                     }
                     else -> false
@@ -116,7 +109,7 @@ internal abstract class ContentActivity<T : ContentViewModel> : BaseActivity() {
 
                 (binding.recyclerView.adapter as? ContentAdapter)?.let { adapter ->
                     adapter.submitData(lifecycle, PagingData.empty())
-                    query()
+//                    query()
                 }
             }
         }
@@ -146,9 +139,9 @@ internal abstract class ContentActivity<T : ContentViewModel> : BaseActivity() {
         MaterialAlertDialogBuilder(this)
             .setMessage(String.format(getString(drop), name))
             .setPositiveButton(android.R.string.ok) { dialog: DialogInterface, _: Int ->
-                viewModel.drop {
+                viewModel.drop(name) {
                     when (viewModel) {
-                        is TableViewModel -> clearTable(it)
+                        is TableViewModel -> clearTable()
                         is TriggerViewModel -> dropTrigger()
                         is ViewViewModel -> dropView()
                     }
@@ -161,13 +154,13 @@ internal abstract class ContentActivity<T : ContentViewModel> : BaseActivity() {
             .create()
             .show()
 
-    private fun query() =
-        viewModel.query {
+    private fun query(name: String) =
+        viewModel.query(name) {
             (binding.recyclerView.adapter as? ContentAdapter)?.submitData(it)
         }
 
-    private suspend fun clearTable(data: PagingData<String>) =
-        (binding.recyclerView.adapter as? ContentAdapter)?.submitData(data)
+    private fun clearTable() =
+        (binding.recyclerView.adapter as? ContentAdapter)?.refresh()
 
     private suspend fun dropTrigger() {
         EventBus.publish(Event.RefreshTriggers())

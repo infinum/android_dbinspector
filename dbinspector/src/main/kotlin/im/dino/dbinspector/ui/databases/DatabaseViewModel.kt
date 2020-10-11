@@ -1,10 +1,11 @@
 package im.dino.dbinspector.ui.databases
 
+import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
-import im.dino.dbinspector.data.source.raw.DatabaseManager
-import im.dino.dbinspector.domain.database.models.Database
-import im.dino.dbinspector.domain.pragma.database.VersionOperation
+import im.dino.dbinspector.domain.UseCases
+import im.dino.dbinspector.domain.database.models.DatabaseDescriptor
+import im.dino.dbinspector.domain.database.models.Operation
 import im.dino.dbinspector.ui.shared.base.BaseViewModel
 import im.dino.dbinspector.ui.shared.bus.EventBus
 import im.dino.dbinspector.ui.shared.bus.models.Event
@@ -12,9 +13,15 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collectLatest
 
-internal class DatabaseViewModel : BaseViewModel() {
+internal class DatabaseViewModel(
+    private val context: Context,
+    private val getDatabases: UseCases.GetDatabases,
+    private val importDatabases: UseCases.ImportDatabases,
+    private val removeDatabase: UseCases.RemoveDatabase,
+    private val copyDatabase: UseCases.CopyDatabase
+) : BaseViewModel() {
 
-    val databases: MutableLiveData<List<Database>> = MutableLiveData()
+    val databases: MutableLiveData<List<DatabaseDescriptor>> = MutableLiveData()
 
     @FlowPreview
     @ExperimentalCoroutinesApi
@@ -28,47 +35,52 @@ internal class DatabaseViewModel : BaseViewModel() {
     fun browse() {
         launch {
             databases.value = io {
-                DatabaseManager.browse().map {
-                    Database(
-                        path = it.parentFile?.absolutePath.orEmpty(),
-                        name = it.nameWithoutExtension,
-                        extension = it.extension,
-                        version = VersionOperation()(it.absolutePath, null)
+                getDatabases(
+                    Operation(
+                        context = context
                     )
-                }
+                )
             }
         }
     }
 
     fun import(uris: List<Uri>) =
         launch {
-            io {
-                DatabaseManager.import(uris)
-            }
+            importDatabases(
+                Operation(
+                    context = context,
+                    importUris = uris
+                )
+            )
             browse()
         }
 
-    fun remove(databaseFilename: String) =
+    fun remove(database: DatabaseDescriptor) =
         launch {
-            val ok = io {
-                DatabaseManager.remove(databaseFilename)
+            val result = io {
+                removeDatabase(
+                    Operation(
+                        context = context,
+                        databaseDescriptor = database
+                    )
+                )
             }
-            if (ok) {
+            if (result.isNotEmpty()) {
                 browse()
             }
         }
 
-    fun copy(databaseAbsolutePath: String, databasePath: String, databaseName: String, databaseExtension: String) =
+    fun copy(database: DatabaseDescriptor) =
         launch {
             val ok = io {
-                DatabaseManager.copy(
-                    databaseAbsolutePath,
-                    databasePath,
-                    databaseName,
-                    databaseExtension
+                copyDatabase(
+                    Operation(
+                        context = context,
+                        databaseDescriptor = database
+                    )
                 )
             }
-            if (ok) {
+            if (ok.isNotEmpty()) {
                 browse()
             }
         }

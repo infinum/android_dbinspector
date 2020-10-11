@@ -5,19 +5,20 @@ import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.core.view.isVisible
-import androidx.paging.PagingData
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorFragmentSchemaBinding
+import im.dino.dbinspector.ui.shared.base.DataSourceViewModel
 import im.dino.dbinspector.ui.shared.Constants
+import im.dino.dbinspector.ui.shared.base.Refreshable
 import im.dino.dbinspector.ui.shared.base.searchable.BaseSearchableFragment
 import im.dino.dbinspector.ui.shared.delegates.viewBinding
 
 internal abstract class SchemaFragment :
     BaseSearchableFragment(R.layout.dbinspector_fragment_schema),
-    SwipeRefreshLayout.OnRefreshListener {
+    Refreshable {
 
     companion object {
 
@@ -32,7 +33,9 @@ internal abstract class SchemaFragment :
 
     private lateinit var databaseName: String
 
-    abstract val viewModel: SchemaViewModel
+    abstract var statement: String
+
+    abstract val viewModel: DataSourceViewModel
 
     abstract fun childView(): Class<*>
 
@@ -55,57 +58,61 @@ internal abstract class SchemaFragment :
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            swipeRefresh.setOnRefreshListener(this@SchemaFragment)
+            val adapter = SchemaAdapter(
+                onClick = this@SchemaFragment::show
+            )
+            adapter.addLoadStateListener { loadState ->
+                if (loadState.append.endOfPaginationReached) {
+                    val isEmpty = adapter.itemCount < 1
+                    emptyLayout.root.isVisible = isEmpty
+                    swipeRefresh.isVisible = isEmpty.not()
+                }
+                if (loadState.prepend.endOfPaginationReached) {
+                    swipeRefresh.isRefreshing = loadState.refresh !is LoadState.NotLoading
+                }
+            }
+
+            swipeRefresh.setOnRefreshListener {
+                adapter.refresh()
+            }
+
+            emptyLayout.retryButton.setOnClickListener {
+                adapter.refresh()
+            }
 
             recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             recyclerView.addItemDecoration(DividerItemDecoration(context, LinearLayout.VERTICAL))
-            recyclerView.adapter = SchemaAdapter(
-                onClick = this@SchemaFragment::show
-            )
-            emptyLayout.retryButton.setOnClickListener {
-                refresh()
-            }
-
-            query(searchQuery())
+            recyclerView.adapter = adapter
         }
+
+        query(searchQuery())
 
         observe()
     }
 
-    override fun onRefresh() {
-        with(binding) {
-            swipeRefresh.isRefreshing = false
-            refresh()
-        }
+    override fun search(query: String?) {
+        query(query)
+        (binding.recyclerView.adapter as? SchemaAdapter)?.refresh()
     }
 
-    override fun search(query: String?) =
-        query(query)
+    override fun doRefresh() {
+        with(binding) {
+            swipeRefresh.isRefreshing = true
+            (recyclerView.adapter as? SchemaAdapter)?.refresh()
+        }
+    }
 
     private fun observe() {
         viewModel.observe {
-            refresh()
+            (binding.recyclerView.adapter as? SchemaAdapter)?.refresh()
         }
     }
 
-    private fun refresh() {
-        (binding.recyclerView.adapter as? SchemaAdapter)?.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
-        query(searchQuery())
-    }
-
     private fun query(query: String?) {
-        with(binding) {
-            viewModel.query(
-                path = databasePath,
-                argument = query,
-                onData = {
-                    (recyclerView.adapter as? SchemaAdapter)?.submitData(it)
-                },
-                onEmpty = {
-                    emptyLayout.root.isVisible = it
-                    swipeRefresh.isVisible = it.not()
-                }
-            )
+        viewModel.query(databasePath) {
+            with(binding) {
+                (recyclerView.adapter as? SchemaAdapter)?.submitData(it)
+            }
         }
     }
 

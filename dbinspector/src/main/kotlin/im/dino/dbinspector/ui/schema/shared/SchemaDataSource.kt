@@ -1,26 +1,8 @@
 package im.dino.dbinspector.ui.schema.shared
 
-import androidx.paging.PagingSource
-import im.dino.dbinspector.data.models.Row
-import im.dino.dbinspector.domain.shared.AbstractDatabaseOperation
+import im.dino.dbinspector.ui.shared.base.BaseDataSource
 
-internal abstract class SchemaDataSource(
-    private val path: String,
-    private val onEmpty: suspend (value: Boolean) -> Unit
-) : PagingSource<Int, String>() {
+internal abstract class SchemaDataSource : BaseDataSource() {
 
-    abstract val source: Lazy<AbstractDatabaseOperation<List<Row>>>
-
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, String> {
-        val result = source.value(path, params.key)
-            .map { it.fields.first() }
-
-        onEmpty(params.key == null && result.isEmpty())
-
-        return LoadResult.Page(
-            data = result,
-            prevKey = null,
-            nextKey = source.value.nextPage()
-        )
-    }
+    abstract var argument: String?
 }

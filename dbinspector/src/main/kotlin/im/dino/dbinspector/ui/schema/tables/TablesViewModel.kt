@@ -1,28 +1,23 @@
 package im.dino.dbinspector.ui.schema.tables
 
 import androidx.paging.PagingData
-import im.dino.dbinspector.ui.schema.shared.SchemaViewModel
+import im.dino.dbinspector.domain.UseCases
+import im.dino.dbinspector.ui.shared.base.DataSourceViewModel
 
-internal class TablesViewModel : SchemaViewModel() {
+internal class TablesViewModel(
+    private val getSchema: UseCases.GetTables
+) : DataSourceViewModel() {
 
-    override fun source(
-        path: String,
-        argument: String?,
-        onEmpty: suspend (value: Boolean) -> Unit
-    ) = TablesDataSource(path, PAGE_SIZE, argument, onEmpty)
+    override fun dataSource(databasePath: String) = TablesDataSource(databasePath, getSchema)
 
     override fun observe(action: suspend () -> Unit) = Unit
 
     override fun query(
-        path: String,
-        argument: String?,
-        onData: suspend (value: PagingData<String>) -> Unit,
-        onEmpty: suspend (value: Boolean) -> Unit
+        databasePath: String,
+        onData: suspend (value: PagingData<String>) -> Unit
     ) {
         launch {
-            flow(
-                source(path, argument, onEmpty)
-            ) {
+            pageFlow(databasePath) {
                 onData(it)
             }
         }

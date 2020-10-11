@@ -1,7 +1,7 @@
 package im.dino.dbinspector.ui.schema
 
 import android.os.Bundle
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.lifecycle.lifecycleScope
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivitySchemaBinding
 import im.dino.dbinspector.extensions.searchView
@@ -9,12 +9,16 @@ import im.dino.dbinspector.extensions.setup
 import im.dino.dbinspector.ui.schema.shared.SchemaTypeAdapter
 import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.shared.base.BaseActivity
+import im.dino.dbinspector.ui.shared.base.Refreshable
 import im.dino.dbinspector.ui.shared.base.searchable.Searchable
 import im.dino.dbinspector.ui.shared.delegates.viewBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 internal class SchemaActivity : BaseActivity(), Searchable {
 
     override val binding by viewBinding(DbinspectorActivitySchemaBinding::inflate)
+
+    private val viewModel: SchemaViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +32,11 @@ internal class SchemaActivity : BaseActivity(), Searchable {
                 showError()
             }
         } ?: showError()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.close(lifecycleScope)
     }
 
     override fun onSearchOpened() {
@@ -48,6 +57,9 @@ internal class SchemaActivity : BaseActivity(), Searchable {
     }
 
     private fun setupUi(databaseName: String, databasePath: String) {
+        viewModel.databasePath = databasePath
+        viewModel.open(lifecycleScope)
+
         with(binding) {
             toolbar.setNavigationOnClickListener { finish() }
             toolbar.subtitle = databaseName
@@ -89,6 +101,6 @@ internal class SchemaActivity : BaseActivity(), Searchable {
     private fun refreshChildren() =
         supportFragmentManager
             .fragments
-            .filterIsInstance<SwipeRefreshLayout.OnRefreshListener>()
-            .forEach(SwipeRefreshLayout.OnRefreshListener::onRefresh)
+            .filterIsInstance<Refreshable>()
+            .forEach(Refreshable::doRefresh)
 }

@@ -6,16 +6,16 @@ import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import im.dino.dbinspector.databinding.DbinspectorItemDatabaseBinding
-import im.dino.dbinspector.domain.database.models.Database
+import im.dino.dbinspector.domain.database.models.DatabaseDescriptor
 
 internal class DatabasesAdapter(
-    private val items: List<Database> = listOf(),
-    private val onClick: (Database) -> Unit,
+    private val items: List<DatabaseDescriptor> = listOf(),
+    private val onClick: (DatabaseDescriptor) -> Unit,
     private val interactions: DatabaseInteractions,
     private val onEmpty: (Boolean) -> Unit
 ) : RecyclerView.Adapter<DatabaseViewHolder>(), Filterable {
 
-    private var filteredItems: List<Database> = listOf()
+    private var filteredItems: List<DatabaseDescriptor> = listOf()
 
     init {
         filteredItems = items

@@ -1,14 +1,14 @@
 package im.dino.dbinspector.ui.content.trigger
 
 import im.dino.dbinspector.R
-import im.dino.dbinspector.domain.schema.models.SchemaType
 import im.dino.dbinspector.ui.content.shared.ContentActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @ExperimentalCoroutinesApi
-internal class TriggerActivity : ContentActivity<TriggerViewModel>() {
+internal class TriggerActivity : ContentActivity() {
 
-    override val type: SchemaType = SchemaType.TRIGGER
+    override val viewModel: TriggerViewModel by viewModel()
 
     override val title: Int = R.string.dbinspector_trigger
 

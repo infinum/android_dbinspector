@@ -1,20 +1,32 @@
 package im.dino.dbinspector.ui.content.table
 
-import im.dino.dbinspector.domain.pragma.schema.TableInfoOperation
-import im.dino.dbinspector.domain.pragma.schema.models.TableInfoColumns
-import im.dino.dbinspector.domain.schema.table.ClearTableOperation
+import im.dino.dbinspector.domain.UseCases
+import im.dino.dbinspector.domain.pragma.models.TableInfoColumns
+import im.dino.dbinspector.domain.shared.models.Statements
 import im.dino.dbinspector.ui.content.shared.ContentViewModel
 
 internal class TableViewModel(
-    private val path: String,
-    private val name: String
-) : ContentViewModel(path) {
+    openConnection: UseCases.OpenConnection,
+    closeConnection: UseCases.CloseConnection,
+    tableInfo: UseCases.GetTableInfo,
+    private val table: UseCases.GetTable,
+    dropTableContent: UseCases.DropTableContent
+) : ContentViewModel(
+    openConnection,
+    closeConnection,
+    tableInfo,
+    dropTableContent
+) {
 
-    override val nameOrdinal: Int = TableInfoColumns.NAME.ordinal
+    override fun headerStatement(name: String) =
+        Statements.Pragma.tableInfo(name)
 
-    override fun source() = TableDataSource(path, name, PAGE_SIZE)
+    override fun schemaStatement(name: String) =
+        Statements.Schema.table(name)
 
-    override fun info() = TableInfoOperation(name, PAGE_SIZE)
+    override fun dropStatement(name: String) =
+        Statements.Schema.dropTableContent(name)
 
-    override fun drop() = ClearTableOperation(name)
+    override fun dataSource(databasePath: String, statement: String) =
+        TableDataSource(databasePath, statement, table)
 }

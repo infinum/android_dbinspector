@@ -1,10 +1,10 @@
 package im.dino.dbinspector.ui.databases
 
-import im.dino.dbinspector.domain.database.models.Database
+import im.dino.dbinspector.domain.database.models.DatabaseDescriptor
 
 internal data class DatabaseInteractions(
-    val onDelete: (Database) -> Unit,
-    val onEdit: (Database) -> Unit,
-    val onCopy: (Database) -> Unit,
-    val onShare: (Database) -> Unit
+    val onDelete: (DatabaseDescriptor) -> Unit,
+    val onEdit: (DatabaseDescriptor) -> Unit,
+    val onCopy: (DatabaseDescriptor) -> Unit,
+    val onShare: (DatabaseDescriptor) -> Unit
 )

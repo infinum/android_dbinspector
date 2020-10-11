@@ -1,17 +1,29 @@
 package im.dino.dbinspector.ui.databases.edit
 
-import im.dino.dbinspector.data.source.raw.DatabaseManager
+import android.content.Context
+import im.dino.dbinspector.domain.UseCases
+import im.dino.dbinspector.domain.database.models.DatabaseDescriptor
+import im.dino.dbinspector.domain.database.models.Operation
 import im.dino.dbinspector.ui.shared.base.BaseViewModel
 
-internal class EditViewModel : BaseViewModel() {
+internal class EditViewModel(
+    private val context: Context,
+    private val renameDatabase: UseCases.RenameDatabase
+) : BaseViewModel() {
 
-    fun rename(databasePath: String, databaseFilename: String, action: suspend () -> Unit) =
+    fun rename(database: DatabaseDescriptor, newName: String, action: suspend (DatabaseDescriptor) -> Unit) =
         launch {
-            val ok = io {
-                DatabaseManager.rename(databasePath, databaseFilename)
+            val result = io {
+                renameDatabase(
+                    Operation(
+                        context = context,
+                        databaseDescriptor = database,
+                        argument = newName
+                    )
+                )
             }
-            if (ok) {
-                action()
+            if (result.isNotEmpty()) {
+                action(result.first())
             }
         }
 }

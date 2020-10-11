@@ -1,48 +1,108 @@
 package im.dino.dbinspector.ui.content.shared
 
+import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
 import androidx.paging.PagingData
-import androidx.paging.PagingSource
-import im.dino.dbinspector.data.models.Row
-import im.dino.dbinspector.domain.shared.AbstractDatabaseOperation
+import androidx.paging.cachedIn
+import im.dino.dbinspector.domain.UseCases
+import im.dino.dbinspector.domain.shared.base.BaseUseCase
+import im.dino.dbinspector.domain.shared.models.DropException
+import im.dino.dbinspector.domain.shared.models.Page
+import im.dino.dbinspector.domain.shared.models.Query
+import im.dino.dbinspector.ui.shared.base.BaseDataSource
 import im.dino.dbinspector.ui.shared.base.BaseViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 internal abstract class ContentViewModel(
-    private val path: String
+    private val openConnection: UseCases.OpenConnection,
+    private val closeConnection: UseCases.CloseConnection,
+    private val schemaInfo: BaseUseCase<Query, Page>,
+    private val dropSchema: BaseUseCase<Query, Page>
 ) : BaseViewModel() {
 
-    abstract val nameOrdinal: Int
+    abstract fun headerStatement(name: String): String
 
-    abstract fun source(): PagingSource<Int, String>
+    abstract fun schemaStatement(name: String): String
 
-    abstract fun info(): AbstractDatabaseOperation<List<Row>>
+    abstract fun dropStatement(name: String): String
 
-    abstract fun drop(): AbstractDatabaseOperation<List<Row>>
+    abstract fun dataSource(databasePath: String, statement: String): BaseDataSource
 
-    fun header(action: suspend (value: List<String>) -> Unit) =
+    lateinit var databasePath: String
+
+    fun open(lifecycleScope: LifecycleCoroutineScope) {
+        lifecycleScope.launch(errorHandler) {
+            openConnection(databasePath)
+        }
+    }
+
+    fun close(lifecycleScope: LifecycleCoroutineScope) {
+        lifecycleScope.launch(errorHandler) {
+            closeConnection(databasePath)
+        }
+    }
+
+    open fun header(
+        schemaName: String,
+        onData: suspend (value: List<String>) -> Unit
+    ) =
         launch {
             val result = io {
-                info()(path, null).map { it.fields[nameOrdinal] }
+                schemaInfo(
+                    Query(
+                        databasePath = databasePath,
+                        statement = headerStatement(schemaName),
+                        pageSize = PAGE_SIZE
+                    )
+                ).fields
             }
-            action(result)
+            onData(result)
         }
 
-    fun query(onData: suspend (value: PagingData<String>) -> Unit) {
+    fun query(
+        schemaName: String,
+        onData: suspend (value: PagingData<String>) -> Unit
+    ) {
         launch {
-            flow(
-                source()
-            ) {
+            pageFlow(databasePath, schemaStatement(schemaName)) {
                 onData(it)
             }
         }
     }
 
-    fun drop(action: suspend (value: PagingData<String>) -> Unit) =
+    private suspend fun pageFlow(
+        databasePath: String,
+        statement: String,
+        onData: suspend (value: PagingData<String>) -> Unit
+    ) =
+        Pager(pagingConfig) {
+            dataSource(databasePath, statement)
+        }
+            .flow
+            .cachedIn(viewModelScope)
+            .collectLatest { onData(it) }
+
+    fun drop(
+        schemaName: String,
+        onDone: suspend () -> Unit
+    ) {
         launch {
             val result = io {
-                drop()(path, null)
+                dropSchema(
+                    Query(
+                        databasePath = databasePath,
+                        statement = dropStatement(schemaName),
+                        pageSize = PAGE_SIZE
+                    )
+                ).fields
             }
             if (result.isEmpty()) {
-                query(action)
+                onDone()
+            } else {
+                throw DropException()
             }
         }
+    }
 }

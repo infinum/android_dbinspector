@@ -16,12 +16,12 @@ internal abstract class PragmaViewModel : BaseViewModel() {
         name: String,
         onData: suspend (value: PagingData<String>) -> Unit
     ) {
-        launch {
-            flow(
-                source(path, name)
-            ) {
-                onData(it)
-            }
-        }
+//        launch {
+//            flow(
+//                source(path, name)
+//            ) {
+//                onData(it)
+//            }
+//        }
     }
 }

@@ -1,7 +1,7 @@
 package im.dino.dbinspector.ui.pragma.foreignkeys
 
 import androidx.fragment.app.viewModels
-import im.dino.dbinspector.domain.pragma.schema.models.ForeignKeyListColumns
+import im.dino.dbinspector.domain.pragma.models.ForeignKeyListColumns
 import im.dino.dbinspector.ui.pragma.shared.PragmaFragment
 import java.util.Locale
 

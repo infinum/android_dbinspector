@@ -1,12 +1,13 @@
 package im.dino.dbinspector.ui.databases
 
 import android.widget.Filter
-import im.dino.dbinspector.domain.database.models.Database
+import im.dino.dbinspector.domain.database.models.DatabaseDescriptor
 import java.util.Locale
 
+@Deprecated("Replace by Kotlin chain")
 internal class DatabasesFilter(
-    private val items: List<Database>,
-    private val onFiltered: (List<Database>) -> Unit
+    private val items: List<DatabaseDescriptor>,
+    private val onFiltered: (List<DatabaseDescriptor>) -> Unit
 ) : Filter() {
     override fun performFiltering(constraint: CharSequence?): FilterResults =
         FilterResults().apply {
@@ -24,7 +25,7 @@ internal class DatabasesFilter(
     @Suppress("UNCHECKED_CAST")
     override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
         results?.let {
-            onFiltered(it.values as List<Database>)
+            onFiltered(it.values as List<DatabaseDescriptor>)
         }
     }
 }

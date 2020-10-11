@@ -1,7 +1,7 @@
 package im.dino.dbinspector.ui.pragma.indexes
 
 import androidx.fragment.app.viewModels
-import im.dino.dbinspector.domain.pragma.schema.models.IndexListColumns
+import im.dino.dbinspector.domain.pragma.models.IndexListColumns
 import im.dino.dbinspector.ui.pragma.shared.PragmaFragment
 import java.util.Locale
 

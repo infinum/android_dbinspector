@@ -7,7 +7,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
@@ -15,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivityDatabasesBinding
-import im.dino.dbinspector.domain.database.models.Database
+import im.dino.dbinspector.domain.database.models.DatabaseDescriptor
 import im.dino.dbinspector.extensions.scale
 import im.dino.dbinspector.extensions.searchView
 import im.dino.dbinspector.extensions.setup
@@ -27,6 +26,7 @@ import im.dino.dbinspector.ui.shared.base.searchable.Searchable
 import im.dino.dbinspector.ui.shared.delegates.viewBinding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 
 @ExperimentalCoroutinesApi
@@ -39,7 +39,7 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
 
     override val binding by viewBinding(DbinspectorActivityDatabasesBinding::inflate)
 
-    private val viewModel: DatabaseViewModel by viewModels()
+    private val viewModel: DatabaseViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -145,7 +145,7 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
         }
     }
 
-    private fun showDatabases(databases: List<Database>) {
+    private fun showDatabases(databases: List<DatabaseDescriptor>) {
         with(binding) {
             recyclerView.adapter = DatabasesAdapter(
                 items = databases,
@@ -166,7 +166,7 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
         }
     }
 
-    private fun showSchema(database: Database) =
+    private fun showSchema(database: DatabaseDescriptor) =
         startActivity(
             Intent(this, SchemaActivity::class.java)
                 .apply {
@@ -199,11 +199,11 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
     private fun importDatabases(uris: List<Uri>) =
         viewModel.import(uris)
 
-    private fun removeDatabase(database: Database) =
+    private fun removeDatabase(database: DatabaseDescriptor) =
         MaterialAlertDialogBuilder(this)
             .setMessage(String.format(getString(R.string.dbinspector_delete_database_confirm), database.name))
             .setPositiveButton(android.R.string.ok) { dialog: DialogInterface, _: Int ->
-                viewModel.remove("${database.name}.${database.extension}")
+                viewModel.remove(database)
                 dialog.dismiss()
             }
             .setNegativeButton(android.R.string.cancel) { dialog: DialogInterface, _: Int ->
@@ -212,27 +212,22 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
             .create()
             .show()
 
-    private fun editDatabase(database: Database) {
+    private fun editDatabase(database: DatabaseDescriptor) {
         startActivity(
             Intent(this, EditActivity::class.java)
                 .apply {
                     putExtra(Constants.Keys.DATABASE_PATH, database.absolutePath)
-                    putExtra(Constants.Keys.DATABASE_FILEPATH, database.path)
+                    putExtra(Constants.Keys.DATABASE_FILEPATH, database.parentPath)
                     putExtra(Constants.Keys.DATABASE_NAME, database.name)
                     putExtra(Constants.Keys.DATABASE_EXTENSION, database.extension)
                 }
         )
     }
 
-    private fun copyDatabase(database: Database) =
-        viewModel.copy(
-            database.absolutePath,
-            database.path,
-            database.name,
-            database.extension
-        )
+    private fun copyDatabase(database: DatabaseDescriptor) =
+        viewModel.copy(database)
 
-    private fun shareDatabase(database: Database) =
+    private fun shareDatabase(database: DatabaseDescriptor) =
         try {
             startActivity(
                 ShareCompat.IntentBuilder.from(this)

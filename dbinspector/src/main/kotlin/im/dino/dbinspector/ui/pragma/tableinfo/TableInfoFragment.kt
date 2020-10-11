@@ -1,7 +1,7 @@
 package im.dino.dbinspector.ui.pragma.tableinfo
 
 import androidx.fragment.app.viewModels
-import im.dino.dbinspector.domain.pragma.schema.models.TableInfoColumns
+import im.dino.dbinspector.domain.pragma.models.TableInfoColumns
 import im.dino.dbinspector.ui.pragma.shared.PragmaFragment
 import java.util.Locale
 

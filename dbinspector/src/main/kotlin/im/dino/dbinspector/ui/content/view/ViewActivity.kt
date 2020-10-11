@@ -1,14 +1,14 @@
 package im.dino.dbinspector.ui.content.view
 
 import im.dino.dbinspector.R
-import im.dino.dbinspector.domain.schema.models.SchemaType
 import im.dino.dbinspector.ui.content.shared.ContentActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @ExperimentalCoroutinesApi
-internal class ViewActivity : ContentActivity<ViewViewModel>() {
+internal class ViewActivity : ContentActivity() {
 
-    override val type: SchemaType = SchemaType.VIEW
+    override val viewModel: ViewViewModel by viewModel()
 
     override val title: Int = R.string.dbinspector_view
 

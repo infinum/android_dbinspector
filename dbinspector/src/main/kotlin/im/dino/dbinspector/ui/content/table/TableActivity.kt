@@ -1,14 +1,16 @@
 package im.dino.dbinspector.ui.content.table
 
 import im.dino.dbinspector.R
-import im.dino.dbinspector.domain.schema.models.SchemaType
+import im.dino.dbinspector.domain.schema.shared.models.SchemaType
 import im.dino.dbinspector.ui.content.shared.ContentActivity
+import im.dino.dbinspector.ui.schema.tables.TablesViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @ExperimentalCoroutinesApi
-internal class TableActivity : ContentActivity<TableViewModel>() {
+internal class TableActivity : ContentActivity() {
 
-    override val type: SchemaType = SchemaType.TABLE
+    override val viewModel: TableViewModel by viewModel()
 
     override val title: Int = R.string.dbinspector_table
 

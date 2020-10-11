@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import im.dino.dbinspector.domain.schema.models.SchemaType
+import im.dino.dbinspector.domain.schema.shared.models.SchemaType
 import im.dino.dbinspector.ui.schema.tables.TablesFragment
 import im.dino.dbinspector.ui.schema.triggers.TriggersFragment
 import im.dino.dbinspector.ui.schema.views.ViewsFragment

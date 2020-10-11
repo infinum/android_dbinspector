@@ -3,23 +3,24 @@ package im.dino.dbinspector.ui.databases.edit
 import android.os.Bundle
 import android.text.InputFilter
 import android.view.inputmethod.EditorInfo
-import androidx.activity.viewModels
 import androidx.core.widget.doOnTextChanged
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivityEditBinding
+import im.dino.dbinspector.domain.database.models.DatabaseDescriptor
 import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.shared.base.BaseActivity
 import im.dino.dbinspector.ui.shared.bus.EventBus
 import im.dino.dbinspector.ui.shared.bus.models.Event
 import im.dino.dbinspector.ui.shared.delegates.viewBinding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @ExperimentalCoroutinesApi
 internal class EditActivity : BaseActivity() {
 
     override val binding by viewBinding(DbinspectorActivityEditBinding::inflate)
 
-    private val viewModel: EditViewModel by viewModels()
+    private val viewModel: EditViewModel by viewModel()
 
     private var databasePath: String? = null
     private var databaseFilepath: String? = null
@@ -90,11 +91,16 @@ internal class EditActivity : BaseActivity() {
         databasePath?.let {
             val newDatabaseName = binding.nameInput.text?.toString().orEmpty().trim()
             viewModel.rename(
-                it,
-                "$databaseFilepath/$newDatabaseName.$databaseExtension"
+                database = DatabaseDescriptor(
+                    exists = true,
+                    parentPath = databaseFilepath.orEmpty(),
+                    name = databaseName.orEmpty(),
+                    extension = databaseExtension.orEmpty()
+                ),
+                newName = newDatabaseName
             ) {
-                this.databasePath = "$databaseFilepath/$newDatabaseName.$databaseExtension"
-                this.databaseName = newDatabaseName
+                this.databasePath = it.absolutePath
+                this.databaseName = it.name
                 EventBus.publish(Event.RefreshDatabases())
             }
         } ?: showError()
