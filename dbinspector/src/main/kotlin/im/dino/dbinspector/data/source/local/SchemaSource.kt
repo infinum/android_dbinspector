@@ -47,7 +47,6 @@ internal class SchemaSource(
                 ).use { cursor ->
                     tablesPaginator.setPageCount(
                         cursor.count,
-                        cursor.columnCount,
                         query.pageSize
                     )
 
@@ -84,7 +83,7 @@ internal class SchemaSource(
                     continuation.resume(
                         QueryResult(
                             rows = rows,
-                            nextPage = tablesPaginator.nextPage()
+                            nextPage = tablesPaginator.nextPage(query.page)
                         )
                     )
                 }
@@ -107,7 +106,6 @@ internal class SchemaSource(
                 ).use { cursor ->
                     tableByNamePaginator.setPageCount(
                         cursor.count,
-                        cursor.columnCount,
                         query.pageSize
                     )
 
@@ -144,7 +142,7 @@ internal class SchemaSource(
                     continuation.resume(
                         QueryResult(
                             rows = rows,
-                            nextPage = tableByNamePaginator.nextPage()
+                            nextPage = tableByNamePaginator.nextPage(query.page)
                         )
                     )
                 }
@@ -167,7 +165,6 @@ internal class SchemaSource(
                 ).use { cursor ->
                     dropTableContentPaginator.setPageCount(
                         cursor.count,
-                        cursor.columnCount,
                         query.pageSize
                     )
 
@@ -204,7 +201,7 @@ internal class SchemaSource(
                     continuation.resume(
                         QueryResult(
                             rows = rows,
-                            nextPage = dropTableContentPaginator.nextPage()
+                            nextPage = dropTableContentPaginator.nextPage(query.page)
                         )
                     )
                 }
@@ -229,7 +226,6 @@ internal class SchemaSource(
                 ).use { cursor ->
                     viewsPaginator.setPageCount(
                         cursor.count,
-                        cursor.columnCount,
                         query.pageSize
                     )
 
@@ -266,7 +262,7 @@ internal class SchemaSource(
                     continuation.resume(
                         QueryResult(
                             rows = rows,
-                            nextPage = viewsPaginator.nextPage()
+                            nextPage = viewsPaginator.nextPage(query.page)
                         )
                     )
                 }
@@ -289,7 +285,6 @@ internal class SchemaSource(
                 ).use { cursor ->
                     viewByNamePaginator.setPageCount(
                         cursor.count,
-                        cursor.columnCount,
                         query.pageSize
                     )
 
@@ -326,7 +321,7 @@ internal class SchemaSource(
                     continuation.resume(
                         QueryResult(
                             rows = rows,
-                            nextPage = viewByNamePaginator.nextPage()
+                            nextPage = viewByNamePaginator.nextPage(query.page)
                         )
                     )
                 }
@@ -349,7 +344,6 @@ internal class SchemaSource(
                 ).use { cursor ->
                     dropViewPaginator.setPageCount(
                         cursor.count,
-                        cursor.columnCount,
                         query.pageSize
                     )
 
@@ -386,7 +380,7 @@ internal class SchemaSource(
                     continuation.resume(
                         QueryResult(
                             rows = rows,
-                            nextPage = dropViewPaginator.nextPage()
+                            nextPage = dropViewPaginator.nextPage(query.page)
                         )
                     )
                 }
@@ -411,7 +405,6 @@ internal class SchemaSource(
                 ).use { cursor ->
                     triggersPaginator.setPageCount(
                         cursor.count,
-                        cursor.columnCount,
                         query.pageSize
                     )
 
@@ -448,7 +441,7 @@ internal class SchemaSource(
                     continuation.resume(
                         QueryResult(
                             rows = rows,
-                            nextPage = triggersPaginator.nextPage()
+                            nextPage = triggersPaginator.nextPage(query.page)
                         )
                     )
                 }
@@ -471,7 +464,6 @@ internal class SchemaSource(
                 ).use { cursor ->
                     triggerByNamePaginator.setPageCount(
                         cursor.count,
-                        cursor.columnCount,
                         query.pageSize
                     )
 
@@ -508,7 +500,7 @@ internal class SchemaSource(
                     continuation.resume(
                         QueryResult(
                             rows = rows,
-                            nextPage = triggerByNamePaginator.nextPage()
+                            nextPage = triggerByNamePaginator.nextPage(query.page)
                         )
                     )
                 }
@@ -531,7 +523,6 @@ internal class SchemaSource(
                 ).use { cursor ->
                     dropTriggerPaginator.setPageCount(
                         cursor.count,
-                        cursor.columnCount,
                         query.pageSize
                     )
 
@@ -568,7 +559,7 @@ internal class SchemaSource(
                     continuation.resume(
                         QueryResult(
                             rows = rows,
-                            nextPage = dropTriggerPaginator.nextPage()
+                            nextPage = dropTriggerPaginator.nextPage(query.page)
                         )
                     )
                 }

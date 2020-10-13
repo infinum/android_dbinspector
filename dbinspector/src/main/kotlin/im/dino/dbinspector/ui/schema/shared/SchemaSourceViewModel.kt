@@ -22,7 +22,10 @@ internal abstract class SchemaSourceViewModel : BaseViewModel() {
         databasePath: String,
         onData: suspend (value: PagingData<String>) -> Unit
     ) =
-        Pager(pagingConfig) {
+        Pager(
+            config = pagingConfig,
+            initialKey = 1
+        ) {
             dataSource(databasePath)
         }
             .flow

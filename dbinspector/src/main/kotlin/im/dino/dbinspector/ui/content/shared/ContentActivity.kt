@@ -5,8 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.MenuRes
 import androidx.annotation.StringRes
+import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -55,11 +57,52 @@ internal abstract class ContentActivity : BaseActivity() {
 
                 viewModel.open(lifecycleScope)
 
-                setupUi(databasePath, databaseName!!, schemaName!!)
+                setupUi(databaseName!!, schemaName!!)
 
                 viewModel.header(schemaName) { tableHeaders ->
-                    binding.recyclerView.layoutManager = GridLayoutManager(this, tableHeaders.size)
-                    binding.recyclerView.adapter = ContentAdapter(tableHeaders)
+                    val adapter = ContentAdapter(tableHeaders)
+
+                    with(binding) {
+                        adapter.addLoadStateListener { loadState ->
+                            if (loadState.append.endOfPaginationReached) {
+                                val isEmpty = adapter.itemCount < 1
+//                            emptyLayout.root.isVisible = isEmpty
+                                swipeRefresh.isVisible = isEmpty.not()
+                            }
+                            if (loadState.prepend.endOfPaginationReached) {
+                                swipeRefresh.isRefreshing = loadState.refresh !is LoadState.NotLoading
+                            }
+                        }
+
+                        swipeRefresh.setOnRefreshListener {
+                            adapter.refresh()
+                        }
+
+                        recyclerView.layoutManager = GridLayoutManager(this@ContentActivity, tableHeaders.size)
+                        recyclerView.adapter = adapter
+
+                        toolbar.setOnMenuItemClickListener { menuItem ->
+                            when (menuItem.itemId) {
+                                R.id.clear -> {
+                                    drop(schemaName)
+                                    true
+                                }
+                                R.id.drop -> {
+                                    drop(schemaName)
+                                    true
+                                }
+                                R.id.pragma -> {
+                                    pragma(databaseName, databasePath, schemaName)
+                                    true
+                                }
+                                R.id.refresh -> {
+                                    adapter.refresh()
+                                    true
+                                }
+                                else -> false
+                            }
+                        }
+                    }
 
                     query(schemaName)
                 }
@@ -74,44 +117,12 @@ internal abstract class ContentActivity : BaseActivity() {
         super.onDestroy()
     }
 
-    private fun setupUi(databasePath: String, databaseName: String, schemaName: String) {
+    private fun setupUi(databaseName: String, schemaName: String) {
         with(binding.toolbar) {
             setNavigationOnClickListener { finish() }
             title = getString(this@ContentActivity.title)
             subtitle = listOf(databaseName, schemaName).joinToString(" / ")
             menuInflater.inflate(this@ContentActivity.menu, menu)
-            setOnMenuItemClickListener {
-                when (it.itemId) {
-                    R.id.clear -> {
-                        drop(schemaName)
-                        true
-                    }
-                    R.id.drop -> {
-                        drop(schemaName)
-                        true
-                    }
-                    R.id.pragma -> {
-                        pragma(databaseName, databasePath, schemaName)
-                        true
-                    }
-                    R.id.refresh -> {
-                        (binding.recyclerView.adapter as? ContentAdapter)?.submitData(lifecycle, PagingData.empty())
-//                        query()
-                        true
-                    }
-                    else -> false
-                }
-            }
-        }
-        with(binding.swipeRefresh) {
-            setOnRefreshListener {
-                isRefreshing = false
-
-                (binding.recyclerView.adapter as? ContentAdapter)?.let { adapter ->
-                    adapter.submitData(lifecycle, PagingData.empty())
-//                    query()
-                }
-            }
         }
         with(binding.recyclerView) {
             updateLayoutParams {

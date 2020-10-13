@@ -1,5 +1,6 @@
 package im.dino.dbinspector.ui.content.trigger
 
+import im.dino.dbinspector.BuildConfig
 import im.dino.dbinspector.domain.UseCases
 import im.dino.dbinspector.domain.shared.models.Query
 import im.dino.dbinspector.ui.shared.base.BaseDataSource
@@ -13,17 +14,14 @@ internal class TriggerDataSource(
 
     override var query: Query = Query(
         databasePath = databasePath,
-        statement = statement,
-        pageSize = BaseViewModel.PAGE_SIZE
+        statement = statement
     )
-
-    override fun refresh() {
-        query = query.copy(page = 1)
-        invalidate()
-    }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, String> {
         val page = getSchema(query)
+        if (BuildConfig.DEBUG) {
+            println("TriggerDataSource - load params.key: ${params.key} - next page: ${page.nextPage}")
+        }
         query = query.copy(page = page.nextPage)
         return LoadResult.Page(
             data = page.fields,

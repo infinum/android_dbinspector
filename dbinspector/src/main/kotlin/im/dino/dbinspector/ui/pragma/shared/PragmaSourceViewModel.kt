@@ -32,7 +32,10 @@ internal abstract class PragmaSourceViewModel : BaseViewModel() {
         statement: String,
         onData: suspend (value: PagingData<String>) -> Unit
     ) =
-        Pager(pagingConfig) {
+        Pager(
+            config = pagingConfig,
+            initialKey = 1
+        ) {
             dataSource(databasePath, statement)
         }
             .flow

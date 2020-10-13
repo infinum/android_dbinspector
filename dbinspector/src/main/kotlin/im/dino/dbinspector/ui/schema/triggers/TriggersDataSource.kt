@@ -13,8 +13,7 @@ internal class TriggersDataSource(
 
     override var query: Query = Query(
         databasePath = databasePath,
-        statement = Statements.Schema.triggers(),
-        pageSize = BaseViewModel.PAGE_SIZE
+        statement = Statements.Schema.triggers()
     )
 
     override var argument: String?
@@ -28,11 +27,6 @@ internal class TriggersDataSource(
             )
             invalidate()
         }
-
-    override fun refresh() {
-        query = query.copy(page = 1)
-        invalidate()
-    }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, String> {
         val page = getSchema(query)

@@ -73,7 +73,6 @@ internal class PragmaSource(
                 ).use { cursor ->
                     tableInfoPaginator.setPageCount(
                         cursor.count,
-                        cursor.columnCount,
                         query.pageSize
                     )
 
@@ -110,7 +109,7 @@ internal class PragmaSource(
                     continuation.resume(
                         QueryResult(
                             rows = rows,
-                            nextPage = tableInfoPaginator.nextPage()
+                            nextPage = tableInfoPaginator.nextPage(query.page)
                         )
                     )
                 }
@@ -133,7 +132,6 @@ internal class PragmaSource(
                 ).use { cursor ->
                     foreignKeysPaginator.setPageCount(
                         cursor.count,
-                        cursor.columnCount,
                         query.pageSize
                     )
 
@@ -170,7 +168,7 @@ internal class PragmaSource(
                     continuation.resume(
                         QueryResult(
                             rows = rows,
-                            nextPage = foreignKeysPaginator.nextPage()
+                            nextPage = foreignKeysPaginator.nextPage(query.page)
                         )
                     )
                 }
@@ -193,7 +191,6 @@ internal class PragmaSource(
                 ).use { cursor ->
                     indexesPaginator.setPageCount(
                         cursor.count,
-                        cursor.columnCount,
                         query.pageSize
                     )
 
@@ -230,7 +227,7 @@ internal class PragmaSource(
                     continuation.resume(
                         QueryResult(
                             rows = rows,
-                            nextPage = indexesPaginator.nextPage()
+                            nextPage = indexesPaginator.nextPage(query.page)
                         )
                     )
                 }

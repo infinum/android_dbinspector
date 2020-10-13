@@ -2,9 +2,9 @@ package im.dino.dbinspector.data.source.memory
 
 internal interface Paginator {
 
-    fun setPageCount(rowCount: Int, columnCount: Int, pageSize: Int)
+    fun setPageCount(rowCount: Int, pageSize: Int)
 
-    fun nextPage(): Int?
+    fun nextPage(currentPage: Int?): Int?
 
     fun boundary(page: Int?, pageSize: Int, count: Int): Boundary
 

@@ -53,8 +53,7 @@ internal abstract class ContentViewModel(
                 schemaInfo(
                     Query(
                         databasePath = databasePath,
-                        statement = headerStatement(schemaName),
-                        pageSize = PAGE_SIZE
+                        statement = headerStatement(schemaName)
                     )
                 ).fields
             }
@@ -77,7 +76,10 @@ internal abstract class ContentViewModel(
         statement: String,
         onData: suspend (value: PagingData<String>) -> Unit
     ) =
-        Pager(pagingConfig) {
+        Pager(
+            config = pagingConfig,
+            initialKey = 1
+        ) {
             dataSource(databasePath, statement)
         }
             .flow
@@ -93,8 +95,7 @@ internal abstract class ContentViewModel(
                 dropSchema(
                     Query(
                         databasePath = databasePath,
-                        statement = dropStatement(schemaName),
-                        pageSize = PAGE_SIZE
+                        statement = dropStatement(schemaName)
                     )
                 ).fields
             }

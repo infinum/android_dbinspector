@@ -13,14 +13,8 @@ internal class ForeignKeysDataSource(
 
     override var query: Query = Query(
         databasePath = databasePath,
-        statement = statement,
-        pageSize = BaseViewModel.PAGE_SIZE
+        statement = statement
     )
-
-    override fun refresh() {
-        query = query.copy(page = 1)
-        invalidate()
-    }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, String> {
         val page = getPragma(query)

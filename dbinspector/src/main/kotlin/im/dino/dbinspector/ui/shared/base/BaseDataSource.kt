@@ -6,6 +6,4 @@ import im.dino.dbinspector.domain.shared.models.Query
 internal abstract class BaseDataSource : PagingSource<Int, String>() {
 
     abstract var query: Query
-
-    abstract fun refresh()
 }

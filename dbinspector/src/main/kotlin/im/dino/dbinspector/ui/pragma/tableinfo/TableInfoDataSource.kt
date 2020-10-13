@@ -17,11 +17,6 @@ internal class TableInfoDataSource(
         pageSize = BaseViewModel.PAGE_SIZE
     )
 
-    override fun refresh() {
-        query = query.copy(page = 1)
-        invalidate()
-    }
-
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, String> {
         val page = getPragma(query)
         query = query.copy(page = page.nextPage)

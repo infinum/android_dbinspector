@@ -13,8 +13,7 @@ internal class ViewsDataSource(
 
     override var query: Query = Query(
         databasePath = databasePath,
-        statement = Statements.Schema.views(),
-        pageSize = BaseViewModel.PAGE_SIZE
+        statement = Statements.Schema.views()
     )
 
     override var argument: String?
@@ -28,11 +27,6 @@ internal class ViewsDataSource(
             )
             invalidate()
         }
-
-    override fun refresh() {
-        query = query.copy(page = 1)
-        invalidate()
-    }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, String> {
         val page = getSchema(query)
