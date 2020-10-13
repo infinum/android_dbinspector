@@ -2,8 +2,6 @@ package im.dino.dbinspector.ui.shared.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingConfig
-import im.dino.dbinspector.ui.shared.Constants
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -13,11 +11,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 internal abstract class BaseViewModel : ViewModel() {
-
-    internal val pagingConfig = PagingConfig(
-        pageSize = Constants.Limits.PAGE_SIZE,
-        enablePlaceholders = true
-    )
 
     private val supervisorJob = SupervisorJob()
 

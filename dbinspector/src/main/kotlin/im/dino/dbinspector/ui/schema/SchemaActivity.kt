@@ -9,7 +9,6 @@ import im.dino.dbinspector.extensions.setup
 import im.dino.dbinspector.ui.schema.shared.SchemaTypeAdapter
 import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.shared.base.BaseActivity
-import im.dino.dbinspector.ui.shared.base.Refreshable
 import im.dino.dbinspector.ui.shared.base.searchable.Searchable
 import im.dino.dbinspector.ui.shared.delegates.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -39,9 +38,7 @@ internal class SchemaActivity : BaseActivity(), Searchable {
         viewModel.close(lifecycleScope)
     }
 
-    override fun onSearchOpened() {
-        binding.toolbar.menu.findItem(R.id.refresh).isVisible = false
-    }
+    override fun onSearchOpened() = Unit
 
     override fun search(query: String?) =
         supportFragmentManager
@@ -52,9 +49,7 @@ internal class SchemaActivity : BaseActivity(), Searchable {
     override fun searchQuery(): String? =
         binding.toolbar.menu.searchView?.query?.toString()
 
-    override fun onSearchClosed() {
-        binding.toolbar.menu.findItem(R.id.refresh).isVisible = true
-    }
+    override fun onSearchClosed() = Unit
 
     private fun setupUi(databaseName: String, databasePath: String) {
         viewModel.databasePath = databasePath
@@ -67,10 +62,6 @@ internal class SchemaActivity : BaseActivity(), Searchable {
                 when (it.itemId) {
                     R.id.search -> {
                         onSearchOpened()
-                        true
-                    }
-                    R.id.refresh -> {
-                        refreshChildren()
                         true
                     }
                     else -> false
@@ -97,10 +88,4 @@ internal class SchemaActivity : BaseActivity(), Searchable {
             toolbar.setNavigationOnClickListener { finish() }
         }
     }
-
-    private fun refreshChildren() =
-        supportFragmentManager
-            .fragments
-            .filterIsInstance<Refreshable>()
-            .forEach(Refreshable::doRefresh)
 }

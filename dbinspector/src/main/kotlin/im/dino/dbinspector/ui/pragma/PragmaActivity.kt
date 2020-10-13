@@ -2,8 +2,6 @@ package im.dino.dbinspector.ui.pragma
 
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivityPragmaBinding
 import im.dino.dbinspector.ui.pragma.shared.PragmaTypeAdapter
 import im.dino.dbinspector.ui.shared.Constants
@@ -50,10 +48,6 @@ internal class PragmaActivity : BaseActivity() {
             toolbar.subtitle = listOf(databaseName, tableName).joinToString(" / ")
             toolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
-                    R.id.refresh -> {
-                        refreshChildren()
-                        true
-                    }
                     else -> false
                 }
             }
@@ -73,10 +67,4 @@ internal class PragmaActivity : BaseActivity() {
             toolbar.setNavigationOnClickListener { finish() }
         }
     }
-
-    private fun refreshChildren() =
-        supportFragmentManager
-            .fragments
-            .filterIsInstance<SwipeRefreshLayout.OnRefreshListener>()
-            .forEach(SwipeRefreshLayout.OnRefreshListener::onRefresh)
 }

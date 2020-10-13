@@ -8,12 +8,13 @@ import im.dino.dbinspector.ui.shared.base.BaseViewModel
 
 internal class TablesDataSource(
     databasePath: String,
+    statement: String,
     private val getSchema: UseCases.GetTables
 ) : SchemaDataSource() {
 
     override var query: Query = Query(
         databasePath = databasePath,
-        statement = Statements.Schema.tables()
+        statement = statement
     )
 
     override var argument: String?
@@ -25,7 +26,6 @@ internal class TablesDataSource(
                 statement = value?.let { Statements.Schema.searchTables(it) } ?: Statements.Schema.tables(),
                 page = 1
             )
-            // invalidate()
         }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, String> {

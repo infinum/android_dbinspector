@@ -7,13 +7,14 @@ import im.dino.dbinspector.ui.schema.shared.SchemaDataSource
 import im.dino.dbinspector.ui.shared.base.BaseViewModel
 
 internal class TriggersDataSource(
-    private val databasePath: String,
+    databasePath: String,
+    statement: String,
     private val getSchema: UseCases.GetTriggers
 ) : SchemaDataSource() {
 
     override var query: Query = Query(
         databasePath = databasePath,
-        statement = Statements.Schema.triggers()
+        statement = statement
     )
 
     override var argument: String?

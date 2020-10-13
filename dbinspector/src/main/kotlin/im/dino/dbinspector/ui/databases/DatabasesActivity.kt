@@ -77,7 +77,6 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
     override fun onSearchOpened() {
         with(binding.toolbar) {
             menu.findItem(R.id.dbImport).isVisible = false
-            menu.findItem(R.id.refresh).isVisible = false
         }
     }
 
@@ -93,7 +92,6 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
     override fun onSearchClosed() {
         with(binding.toolbar) {
             menu.findItem(R.id.dbImport).isVisible = true
-            menu.findItem(R.id.refresh).isVisible = true
         }
         refreshDatabases()
     }
@@ -111,10 +109,6 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
                     }
                     R.id.dbImport -> {
                         importDatabase()
-                        true
-                    }
-                    R.id.refresh -> {
-                        refreshDatabases()
                         true
                     }
                     else -> false

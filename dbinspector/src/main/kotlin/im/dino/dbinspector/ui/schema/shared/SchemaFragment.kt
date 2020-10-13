@@ -11,13 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorFragmentSchemaBinding
 import im.dino.dbinspector.ui.shared.Constants
-import im.dino.dbinspector.ui.shared.base.Refreshable
 import im.dino.dbinspector.ui.shared.base.searchable.BaseSearchableFragment
 import im.dino.dbinspector.ui.shared.delegates.viewBinding
 
 internal abstract class SchemaFragment :
-    BaseSearchableFragment(R.layout.dbinspector_fragment_schema),
-    Refreshable {
+    BaseSearchableFragment(R.layout.dbinspector_fragment_schema) {
 
     companion object {
 
@@ -92,13 +90,6 @@ internal abstract class SchemaFragment :
     override fun search(query: String?) {
         query(query)
         (binding.recyclerView.adapter as? SchemaAdapter)?.refresh()
-    }
-
-    override fun doRefresh() {
-        with(binding) {
-            swipeRefresh.isRefreshing = true
-            (recyclerView.adapter as? SchemaAdapter)?.refresh()
-        }
     }
 
     private fun observe() {

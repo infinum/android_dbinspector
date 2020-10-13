@@ -2,6 +2,7 @@ package im.dino.dbinspector.ui.schema.views
 
 import androidx.paging.PagingData
 import im.dino.dbinspector.domain.UseCases
+import im.dino.dbinspector.domain.shared.models.Statements
 import im.dino.dbinspector.ui.schema.shared.SchemaSourceViewModel
 import im.dino.dbinspector.ui.shared.bus.EventBus
 import im.dino.dbinspector.ui.shared.bus.models.Event
@@ -13,7 +14,10 @@ internal class ViewsViewModel(
     private val getSchema: UseCases.GetViews
 ) : SchemaSourceViewModel() {
 
-    override fun dataSource(databasePath: String) = ViewsDataSource(databasePath, getSchema)
+    override fun schemaStatement(): String =
+        Statements.Schema.views()
+
+    override fun dataSource(databasePath: String, statement: String) = ViewsDataSource(databasePath, statement, getSchema)
 
     @FlowPreview
     @ExperimentalCoroutinesApi
@@ -30,7 +34,7 @@ internal class ViewsViewModel(
         onData: suspend (value: PagingData<String>) -> Unit
     ) {
         launch {
-            pageFlow(databasePath) {
+            pageFlow(databasePath, schemaStatement()) {
                 onData(it)
             }
         }

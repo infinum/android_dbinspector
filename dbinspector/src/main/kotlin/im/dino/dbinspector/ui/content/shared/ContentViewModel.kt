@@ -13,6 +13,7 @@ import im.dino.dbinspector.domain.shared.models.Query
 import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.shared.base.BaseDataSource
 import im.dino.dbinspector.ui.shared.base.BaseViewModel
+import im.dino.dbinspector.ui.shared.base.PagingViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -21,15 +22,13 @@ internal abstract class ContentViewModel(
     private val closeConnection: UseCases.CloseConnection,
     private val schemaInfo: BaseUseCase<Query, Page>,
     private val dropSchema: BaseUseCase<Query, Page>
-) : BaseViewModel() {
+) : PagingViewModel() {
 
     abstract fun headerStatement(name: String): String
 
     abstract fun schemaStatement(name: String): String
 
     abstract fun dropStatement(name: String): String
-
-    abstract fun dataSource(databasePath: String, statement: String): BaseDataSource
 
     lateinit var databasePath: String
 
@@ -45,7 +44,7 @@ internal abstract class ContentViewModel(
         }
     }
 
-    open fun header(
+    fun header(
         schemaName: String,
         onData: suspend (value: List<String>) -> Unit
     ) =
@@ -71,21 +70,6 @@ internal abstract class ContentViewModel(
             }
         }
     }
-
-    private suspend fun pageFlow(
-        databasePath: String,
-        statement: String,
-        onData: suspend (value: PagingData<String>) -> Unit
-    ) =
-        Pager(
-            config = pagingConfig,
-            initialKey = Constants.Limits.INITIAL_PAGE
-        ) {
-            dataSource(databasePath, statement)
-        }
-            .flow
-            .cachedIn(viewModelScope)
-            .collectLatest { onData(it) }
 
     fun drop(
         schemaName: String,

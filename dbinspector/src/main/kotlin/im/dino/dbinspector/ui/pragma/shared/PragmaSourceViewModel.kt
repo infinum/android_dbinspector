@@ -1,19 +1,11 @@
 package im.dino.dbinspector.ui.pragma.shared
 
-import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import im.dino.dbinspector.ui.shared.Constants
-import im.dino.dbinspector.ui.shared.base.BaseDataSource
-import im.dino.dbinspector.ui.shared.base.BaseViewModel
-import kotlinx.coroutines.flow.collectLatest
+import im.dino.dbinspector.ui.shared.base.PagingViewModel
 
-internal abstract class PragmaSourceViewModel : BaseViewModel() {
+internal abstract class PragmaSourceViewModel : PagingViewModel() {
 
     abstract fun pragmaStatement(name: String): String
-
-    abstract fun dataSource(databasePath: String, statement: String): BaseDataSource
 
     lateinit var databasePath: String
 
@@ -27,19 +19,4 @@ internal abstract class PragmaSourceViewModel : BaseViewModel() {
             }
         }
     }
-
-    private suspend fun pageFlow(
-        databasePath: String,
-        statement: String,
-        onData: suspend (value: PagingData<String>) -> Unit
-    ) =
-        Pager(
-            config = pagingConfig,
-            initialKey = Constants.Limits.INITIAL_PAGE
-        ) {
-            dataSource(databasePath, statement)
-        }
-            .flow
-            .cachedIn(viewModelScope)
-            .collectLatest { onData(it) }
 }

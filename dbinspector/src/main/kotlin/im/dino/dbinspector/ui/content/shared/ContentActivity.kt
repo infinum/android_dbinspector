@@ -95,10 +95,6 @@ internal abstract class ContentActivity : BaseActivity() {
                                     pragma(databaseName, databasePath, schemaName)
                                     true
                                 }
-                                R.id.refresh -> {
-                                    adapter.refresh()
-                                    true
-                                }
                                 else -> false
                             }
                         }

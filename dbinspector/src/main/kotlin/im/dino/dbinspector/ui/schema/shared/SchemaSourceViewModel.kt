@@ -1,16 +1,11 @@
 package im.dino.dbinspector.ui.schema.shared
 
-import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import im.dino.dbinspector.ui.shared.Constants
-import im.dino.dbinspector.ui.shared.base.BaseViewModel
-import kotlinx.coroutines.flow.collectLatest
+import im.dino.dbinspector.ui.shared.base.PagingViewModel
 
-internal abstract class SchemaSourceViewModel : BaseViewModel() {
+internal abstract class SchemaSourceViewModel : PagingViewModel() {
 
-    abstract fun dataSource(databasePath: String): SchemaDataSource
+    abstract fun schemaStatement(): String
 
     abstract fun observe(action: suspend () -> Unit)
 
@@ -18,18 +13,4 @@ internal abstract class SchemaSourceViewModel : BaseViewModel() {
         databasePath: String,
         onData: suspend (value: PagingData<String>) -> Unit
     )
-
-    internal suspend fun pageFlow(
-        databasePath: String,
-        onData: suspend (value: PagingData<String>) -> Unit
-    ) =
-        Pager(
-            config = pagingConfig,
-            initialKey = Constants.Limits.INITIAL_PAGE
-        ) {
-            dataSource(databasePath)
-        }
-            .flow
-            .cachedIn(viewModelScope)
-            .collectLatest { onData(it) }
 }

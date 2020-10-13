@@ -15,10 +15,4 @@
         android:title="@string/dbinspector_pragma"
         app:showAsAction="always" />
 
-    <item
-        android:id="@+id/refresh"
-        android:icon="@drawable/dbinspector_ic_refresh"
-        android:title="@string/dbinspector_action_refresh"
-        app:showAsAction="always" />
-
 </menu>
