@@ -17,7 +17,12 @@ internal class ViewsViewModel(
     override fun schemaStatement(): String =
         Statements.Schema.views()
 
-    override fun dataSource(databasePath: String, statement: String) = ViewsDataSource(databasePath, statement, getSchema)
+    override fun dataSource(databasePath: String, statement: String) =
+        ViewsDataSource(
+            databasePath = databasePath,
+            statement = statement,
+            getSchema = getSchema
+        )
 
     @FlowPreview
     @ExperimentalCoroutinesApi

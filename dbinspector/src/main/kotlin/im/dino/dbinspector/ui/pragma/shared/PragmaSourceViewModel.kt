@@ -1,7 +1,7 @@
 package im.dino.dbinspector.ui.pragma.shared
 
 import androidx.paging.PagingData
-import im.dino.dbinspector.ui.shared.base.PagingViewModel
+import im.dino.dbinspector.ui.shared.paging.PagingViewModel
 
 internal abstract class PragmaSourceViewModel : PagingViewModel() {
 

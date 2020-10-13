@@ -1,7 +1,7 @@
 package im.dino.dbinspector.extensions
 
 import androidx.appcompat.widget.SearchView
-import im.dino.dbinspector.ui.shared.base.searchable.SimpleQueryTextListener
+import im.dino.dbinspector.ui.shared.searchable.SimpleQueryTextListener
 
 internal fun SearchView.setup(
     onSearchClosed: () -> Unit,

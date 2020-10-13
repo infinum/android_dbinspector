@@ -3,8 +3,8 @@ package im.dino.dbinspector.domain.pragma
 import im.dino.dbinspector.domain.Interactors
 import im.dino.dbinspector.domain.Repositories
 import im.dino.dbinspector.domain.pragma.models.TriggerInfoColumns
-import im.dino.dbinspector.domain.shared.models.Query
 import im.dino.dbinspector.domain.shared.models.Page
+import im.dino.dbinspector.domain.shared.models.Query
 import java.util.Locale
 
 internal class PragmaRepository(
@@ -31,9 +31,9 @@ internal class PragmaRepository(
         }
 
     override suspend fun getTriggerInfo(query: Query): Page =
-            Page(
-                fields = TriggerInfoColumns.values().map { it.name.toLowerCase(Locale.getDefault()) },
-            )
+        Page(
+            fields = TriggerInfoColumns.values().map { it.name.toLowerCase(Locale.getDefault()) },
+        )
 
     override suspend fun getForeignKeys(query: Query): Page =
         foreignKeys(query).let {

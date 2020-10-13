@@ -56,6 +56,7 @@ dependencies {
     implementation "org.koin:koin-android:2.1.6"
     implementation "org.koin:koin-androidx-scope:2.1.6"
     implementation "org.koin:koin-androidx-viewmodel:2.1.6"
+    implementation "com.jakewharton.timber:timber:4.7.1"
 }
 
 apply from: "bintray.gradle"

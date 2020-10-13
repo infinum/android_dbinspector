@@ -17,7 +17,12 @@ internal class TriggersViewModel(
     override fun schemaStatement(): String =
         Statements.Schema.triggers()
 
-    override fun dataSource(databasePath: String, statement: String) = TriggersDataSource(databasePath, statement, getSchema)
+    override fun dataSource(databasePath: String, statement: String) =
+        TriggersDataSource(
+            databasePath = databasePath,
+            statement = statement,
+            getSchema = getSchema
+        )
 
     @FlowPreview
     @ExperimentalCoroutinesApi

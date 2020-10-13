@@ -9,7 +9,7 @@ import im.dino.dbinspector.extensions.setup
 import im.dino.dbinspector.ui.schema.shared.SchemaTypeAdapter
 import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.shared.base.BaseActivity
-import im.dino.dbinspector.ui.shared.base.searchable.Searchable
+import im.dino.dbinspector.ui.shared.searchable.Searchable
 import im.dino.dbinspector.ui.shared.delegates.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

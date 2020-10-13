@@ -4,7 +4,6 @@ import im.dino.dbinspector.domain.UseCases
 import im.dino.dbinspector.domain.shared.models.Query
 import im.dino.dbinspector.domain.shared.models.Statements
 import im.dino.dbinspector.ui.schema.shared.SchemaDataSource
-import im.dino.dbinspector.ui.shared.base.BaseViewModel
 
 internal class TriggersDataSource(
     databasePath: String,

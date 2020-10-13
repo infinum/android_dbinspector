@@ -1,20 +1,13 @@
 package im.dino.dbinspector.ui.content.shared
 
 import androidx.lifecycle.LifecycleCoroutineScope
-import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import im.dino.dbinspector.domain.UseCases
 import im.dino.dbinspector.domain.shared.base.BaseUseCase
 import im.dino.dbinspector.domain.shared.models.DropException
 import im.dino.dbinspector.domain.shared.models.Page
 import im.dino.dbinspector.domain.shared.models.Query
-import im.dino.dbinspector.ui.shared.Constants
-import im.dino.dbinspector.ui.shared.base.BaseDataSource
-import im.dino.dbinspector.ui.shared.base.BaseViewModel
-import im.dino.dbinspector.ui.shared.base.PagingViewModel
-import kotlinx.coroutines.flow.collectLatest
+import im.dino.dbinspector.ui.shared.paging.PagingViewModel
 import kotlinx.coroutines.launch
 
 internal abstract class ContentViewModel(

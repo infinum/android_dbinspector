@@ -4,7 +4,6 @@ import im.dino.dbinspector.BuildConfig
 import im.dino.dbinspector.domain.UseCases
 import im.dino.dbinspector.domain.shared.models.Query
 import im.dino.dbinspector.ui.shared.base.BaseDataSource
-import im.dino.dbinspector.ui.shared.base.BaseViewModel
 
 internal class ViewDataSource(
     databasePath: String,

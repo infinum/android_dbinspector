@@ -1,7 +1,6 @@
 package im.dino.dbinspector.ui.content.table
 
 import im.dino.dbinspector.domain.UseCases
-import im.dino.dbinspector.domain.pragma.models.TableInfoColumns
 import im.dino.dbinspector.domain.shared.models.Statements
 import im.dino.dbinspector.ui.content.shared.ContentViewModel
 

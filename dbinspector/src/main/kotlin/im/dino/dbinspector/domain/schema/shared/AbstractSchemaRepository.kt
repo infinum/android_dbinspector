@@ -2,9 +2,9 @@ package im.dino.dbinspector.domain.schema.shared
 
 import im.dino.dbinspector.data.models.local.QueryResult
 import im.dino.dbinspector.domain.Repositories
-import im.dino.dbinspector.domain.shared.models.Query
 import im.dino.dbinspector.domain.shared.base.BaseInteractor
 import im.dino.dbinspector.domain.shared.models.Page
+import im.dino.dbinspector.domain.shared.models.Query
 
 internal abstract class AbstractSchemaRepository(
     private val getPageInteractor: BaseInteractor<Query, QueryResult>,

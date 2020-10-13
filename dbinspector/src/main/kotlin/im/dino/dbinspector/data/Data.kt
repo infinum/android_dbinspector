@@ -46,7 +46,6 @@ object Data {
         single<Sources.Raw> { AndroidDatabasesSource() }
     }
 
-
     private fun memory() = module {
         factory<Paginator>(qualifier = Qualifiers.Schema.TABLES) { CursorPaginator() }
         factory<Paginator>(qualifier = Qualifiers.Schema.TABLE_BY_NAME) { CursorPaginator() }
@@ -81,6 +80,7 @@ object Data {
                 get(qualifier = Qualifiers.Schema.DROP_TRIGGER)
             )
         }
+
         factory<Sources.Local.Pragma> {
             PragmaSource(
                 get(qualifier = Qualifiers.Pragma.TABLE_INFO),

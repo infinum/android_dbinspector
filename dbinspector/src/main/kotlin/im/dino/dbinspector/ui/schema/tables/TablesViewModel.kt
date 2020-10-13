@@ -12,7 +12,12 @@ internal class TablesViewModel(
     override fun schemaStatement(): String =
         Statements.Schema.tables()
 
-    override fun dataSource(databasePath: String, statement: String) = TablesDataSource(databasePath, statement, getSchema)
+    override fun dataSource(databasePath: String, statement: String) =
+        TablesDataSource(
+            databasePath = databasePath,
+            statement = statement,
+            getSchema = getSchema
+        )
 
     override fun observe(action: suspend () -> Unit) = Unit
 

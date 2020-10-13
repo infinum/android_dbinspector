@@ -1,4 +1,4 @@
-package im.dino.dbinspector.ui.shared.base
+package im.dino.dbinspector.ui.shared.paging
 
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -6,6 +6,8 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import im.dino.dbinspector.ui.shared.Constants
+import im.dino.dbinspector.ui.shared.base.BaseDataSource
+import im.dino.dbinspector.ui.shared.base.BaseViewModel
 import kotlinx.coroutines.flow.collectLatest
 
 internal abstract class PagingViewModel : BaseViewModel() {

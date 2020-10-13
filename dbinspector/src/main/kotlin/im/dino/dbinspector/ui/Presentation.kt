@@ -46,6 +46,5 @@ object Presentation {
         viewModel { TableInfoViewModel(get()) }
         viewModel { ForeignKeysViewModel(get()) }
         viewModel { IndexViewModel(get()) }
-
     }
 }

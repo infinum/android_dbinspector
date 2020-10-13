@@ -1,4 +1,4 @@
-package im.dino.dbinspector.ui.shared.base.searchable
+package im.dino.dbinspector.ui.shared.searchable
 
 import android.content.Context
 import androidx.annotation.LayoutRes

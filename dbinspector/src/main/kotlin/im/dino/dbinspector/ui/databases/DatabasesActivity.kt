@@ -22,7 +22,7 @@ import im.dino.dbinspector.ui.databases.edit.EditActivity
 import im.dino.dbinspector.ui.schema.SchemaActivity
 import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.shared.base.BaseActivity
-import im.dino.dbinspector.ui.shared.base.searchable.Searchable
+import im.dino.dbinspector.ui.shared.searchable.Searchable
 import im.dino.dbinspector.ui.shared.delegates.viewBinding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
