@@ -12,5 +12,6 @@ internal object Constants {
 
     object Limits {
         const val PAGE_SIZE = 100
+        const val INITIAL_PAGE = 1
     }
 }

@@ -10,6 +10,7 @@ import im.dino.dbinspector.domain.shared.base.BaseUseCase
 import im.dino.dbinspector.domain.shared.models.DropException
 import im.dino.dbinspector.domain.shared.models.Page
 import im.dino.dbinspector.domain.shared.models.Query
+import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.shared.base.BaseDataSource
 import im.dino.dbinspector.ui.shared.base.BaseViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -78,7 +79,7 @@ internal abstract class ContentViewModel(
     ) =
         Pager(
             config = pagingConfig,
-            initialKey = 1
+            initialKey = Constants.Limits.INITIAL_PAGE
         ) {
             dataSource(databasePath, statement)
         }

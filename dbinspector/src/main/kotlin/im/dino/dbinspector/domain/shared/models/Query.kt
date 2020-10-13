@@ -9,5 +9,5 @@ data class Query(
     val statement: String,
     val sort: Sort = Sort.ASCENDING,
     val pageSize: Int = Constants.Limits.PAGE_SIZE,
-    val page: Int? = 1
+    val page: Int? = Constants.Limits.INITIAL_PAGE
 )

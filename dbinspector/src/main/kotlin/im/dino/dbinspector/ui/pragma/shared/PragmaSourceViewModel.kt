@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.shared.base.BaseDataSource
 import im.dino.dbinspector.ui.shared.base.BaseViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -34,7 +35,7 @@ internal abstract class PragmaSourceViewModel : BaseViewModel() {
     ) =
         Pager(
             config = pagingConfig,
-            initialKey = 1
+            initialKey = Constants.Limits.INITIAL_PAGE
         ) {
             dataSource(databasePath, statement)
         }
