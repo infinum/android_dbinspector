@@ -3,14 +3,13 @@ package im.dino.dbinspector.domain
 import android.database.sqlite.SQLiteDatabase
 import im.dino.dbinspector.domain.database.models.DatabaseDescriptor
 import im.dino.dbinspector.domain.database.models.Operation
+import im.dino.dbinspector.domain.shared.base.BaseRepository
 import im.dino.dbinspector.domain.shared.models.Page
 import im.dino.dbinspector.domain.shared.models.Query
 
 internal interface Repositories {
 
-    interface Database {
-
-        suspend fun getPage(operation: Operation): List<DatabaseDescriptor>
+    interface Database : BaseRepository<Operation, List<DatabaseDescriptor>> {
 
         suspend fun import(operation: Operation): List<DatabaseDescriptor>
 
@@ -28,9 +27,7 @@ internal interface Repositories {
         suspend fun close(path: String)
     }
 
-    interface Schema {
-
-        suspend fun getPage(query: Query): Page
+    interface Schema : BaseRepository<Query, Page> {
 
         suspend fun getByName(query: Query): Page
 

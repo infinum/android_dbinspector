@@ -12,8 +12,8 @@ internal abstract class AbstractSchemaRepository(
     private val dropByNameInteractor: BaseInteractor<Query, QueryResult>
 ) : Repositories.Schema {
 
-    override suspend fun getPage(query: Query): Page =
-        getPageInteractor(query).let {
+    override suspend fun getPage(input: Query): Page =
+        getPageInteractor(input).let {
             Page(
                 fields = it.rows.map { row -> row.fields.toList() }.flatten(),
                 nextPage = it.nextPage

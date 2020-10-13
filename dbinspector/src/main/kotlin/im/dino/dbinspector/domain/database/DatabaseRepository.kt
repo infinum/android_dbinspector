@@ -13,8 +13,8 @@ internal class DatabaseRepository(
     private val copyInteractor: Interactors.CopyDatabase
 ) : Repositories.Database {
 
-    override suspend fun getPage(operation: Operation): List<DatabaseDescriptor> =
-        getPageInteractor(operation).map {
+    override suspend fun getPage(input: Operation): List<DatabaseDescriptor> =
+        getPageInteractor(input).map {
             DatabaseDescriptor(
                 it.exists(),
                 it.parentFile?.absolutePath.orEmpty(),
