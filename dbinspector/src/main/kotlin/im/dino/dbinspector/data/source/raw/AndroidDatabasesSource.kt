@@ -88,6 +88,7 @@ internal class AndroidDatabasesSource : Sources.Raw {
             }
         }
 
+    @Suppress("TooGenericExceptionCaught")
     override suspend fun renameDatabase(operation: Operation): List<File> =
         suspendCancellableCoroutine {
             try {

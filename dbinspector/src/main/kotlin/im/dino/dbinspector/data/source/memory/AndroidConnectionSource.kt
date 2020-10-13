@@ -1,8 +1,8 @@
 package im.dino.dbinspector.data.source.memory
 
 import android.database.sqlite.SQLiteDatabase
-import im.dino.dbinspector.BuildConfig
 import im.dino.dbinspector.data.Sources
+import timber.log.Timber
 
 internal class AndroidConnectionSource : Sources.Memory {
 
@@ -11,13 +11,9 @@ internal class AndroidConnectionSource : Sources.Memory {
     override suspend fun openConnection(path: String): SQLiteDatabase {
         if (connectionPool.containsKey(path).not()) {
             connectionPool[path] = SQLiteDatabase.openOrCreateDatabase(path, null)
-            if (BuildConfig.DEBUG) {
-                println("Opened connection for $path")
-            }
+            Timber.i("Opened connection for $path")
         }
-        if (BuildConfig.DEBUG) {
-            println("Using connection for $path")
-        }
+        Timber.i("Using connection for $path")
         return connectionPool[path] ?: SQLiteDatabase.openOrCreateDatabase(path, null)
     }
 
@@ -27,9 +23,7 @@ internal class AndroidConnectionSource : Sources.Memory {
                 if (it.isOpen) {
                     it.close()
                     connectionPool.remove(path)
-                    if (BuildConfig.DEBUG) {
-                        println("Closed connection for $path")
-                    }
+                    Timber.i("Closed connection for $path")
                 }
             }
         }

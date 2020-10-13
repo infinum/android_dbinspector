@@ -4,6 +4,7 @@ object Statements {
 
     object Pragma {
 
+        @Suppress("FunctionOnlyReturningConstant")
         fun userVersion() = "PRAGMA user_version"
 
         fun tableInfo(name: String) =

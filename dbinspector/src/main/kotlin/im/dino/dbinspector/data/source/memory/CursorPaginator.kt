@@ -12,7 +12,9 @@ internal class CursorPaginator : Paginator {
 
     override fun setPageCount(rowCount: Int, pageSize: Int) {
         pageCount = ceil((rowCount.toDouble()) / pageSize.toDouble()).roundToInt()
-        Timber.i("setPageCount -> rowCount/pageSize: ${rowCount.toDouble()}/${pageSize.toDouble()} | pageCount: $pageCount")
+        Timber.i(
+            "setPageCount -> rowCount/pageSize: ${rowCount.toDouble()}/${pageSize.toDouble()} | pageCount: $pageCount"
+        )
     }
 
     override fun nextPage(currentPage: Int?): Int? =

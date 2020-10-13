@@ -3,7 +3,6 @@ package im.dino.dbinspector.data.source.local
 import androidx.core.database.getFloatOrNull
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getStringOrNull
-import im.dino.dbinspector.BuildConfig
 import im.dino.dbinspector.data.Sources
 import im.dino.dbinspector.data.models.local.FieldType
 import im.dino.dbinspector.data.models.local.QueryException
@@ -12,6 +11,7 @@ import im.dino.dbinspector.data.models.local.Row
 import im.dino.dbinspector.data.source.memory.Paginator
 import im.dino.dbinspector.domain.shared.models.Query
 import kotlinx.coroutines.suspendCancellableCoroutine
+import timber.log.Timber
 import java.util.Locale
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -39,9 +39,7 @@ internal class SchemaSource(
                 query.database.rawQuery(
                     query.statement
                         .also {
-                            if (BuildConfig.DEBUG) {
-                                println(it)
-                            }
+                            Timber.i(it)
                         },
                     null
                 ).use { cursor ->
@@ -98,9 +96,7 @@ internal class SchemaSource(
                 query.database.rawQuery(
                     query.statement
                         .also {
-                            if (BuildConfig.DEBUG) {
-                                println(it)
-                            }
+                            Timber.i(it)
                         },
                     null
                 ).use { cursor ->
@@ -157,9 +153,7 @@ internal class SchemaSource(
                 query.database.rawQuery(
                     query.statement
                         .also {
-                            if (BuildConfig.DEBUG) {
-                                println(it)
-                            }
+                            Timber.i(it)
                         },
                     null
                 ).use { cursor ->
@@ -218,9 +212,7 @@ internal class SchemaSource(
                 query.database.rawQuery(
                     query.statement
                         .also {
-                            if (BuildConfig.DEBUG) {
-                                println(it)
-                            }
+                            Timber.i(it)
                         },
                     null
                 ).use { cursor ->
@@ -277,9 +269,7 @@ internal class SchemaSource(
                 query.database.rawQuery(
                     query.statement
                         .also {
-                            if (BuildConfig.DEBUG) {
-                                println(it)
-                            }
+                            Timber.i(it)
                         },
                     null
                 ).use { cursor ->
@@ -336,9 +326,7 @@ internal class SchemaSource(
                 query.database.rawQuery(
                     query.statement
                         .also {
-                            if (BuildConfig.DEBUG) {
-                                println(it)
-                            }
+                            Timber.i(it)
                         },
                     null
                 ).use { cursor ->
@@ -397,9 +385,7 @@ internal class SchemaSource(
                 query.database.rawQuery(
                     query.statement
                         .also {
-                            if (BuildConfig.DEBUG) {
-                                println(it)
-                            }
+                            Timber.i(it)
                         },
                     null
                 ).use { cursor ->
@@ -456,9 +442,7 @@ internal class SchemaSource(
                 query.database.rawQuery(
                     query.statement
                         .also {
-                            if (BuildConfig.DEBUG) {
-                                println(it)
-                            }
+                            Timber.i(it)
                         },
                     null
                 ).use { cursor ->
@@ -515,9 +499,7 @@ internal class SchemaSource(
                 query.database.rawQuery(
                     query.statement
                         .also {
-                            if (BuildConfig.DEBUG) {
-                                println(it)
-                            }
+                            Timber.i(it)
                         },
                     null
                 ).use { cursor ->
