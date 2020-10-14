@@ -2,9 +2,9 @@ package im.dino.dbinspector.data
 
 import im.dino.dbinspector.data.source.local.PragmaSource
 import im.dino.dbinspector.data.source.local.SchemaSource
-import im.dino.dbinspector.data.source.memory.AndroidConnectionSource
-import im.dino.dbinspector.data.source.memory.CursorPaginator
-import im.dino.dbinspector.data.source.memory.Paginator
+import im.dino.dbinspector.data.source.memory.connection.AndroidConnectionSource
+import im.dino.dbinspector.data.source.memory.pagination.CursorPaginator
+import im.dino.dbinspector.data.source.memory.pagination.Paginator
 import im.dino.dbinspector.data.source.raw.AndroidDatabasesSource
 import org.koin.core.module.Module
 import org.koin.core.qualifier.StringQualifier

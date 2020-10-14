@@ -1,4 +1,4 @@
-package im.dino.dbinspector.data.source.memory
+package im.dino.dbinspector.data.source.memory.connection
 
 import android.database.sqlite.SQLiteDatabase
 import im.dino.dbinspector.data.Sources

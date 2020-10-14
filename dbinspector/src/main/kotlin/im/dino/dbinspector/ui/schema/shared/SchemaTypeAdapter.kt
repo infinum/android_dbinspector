@@ -23,7 +23,7 @@ internal class SchemaTypeAdapter(
 
     @ExperimentalCoroutinesApi
     override fun getItem(position: Int): Fragment =
-        when (SchemaType.values()[position]) {
+        when (SchemaType(position)) {
             SchemaType.TABLE -> TablesFragment.newInstance(databasePath, databaseName)
             SchemaType.VIEW -> ViewsFragment.newInstance(databasePath, databaseName)
             SchemaType.TRIGGER -> TriggersFragment.newInstance(databasePath, databaseName)

@@ -1,4 +1,4 @@
-package im.dino.dbinspector.data.source.memory
+package im.dino.dbinspector.data.source.memory.pagination
 
 internal interface Paginator {
 

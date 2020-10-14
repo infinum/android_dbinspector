@@ -1,4 +1,4 @@
-package im.dino.dbinspector.data.source.memory
+package im.dino.dbinspector.data.source.memory.pagination
 
 import im.dino.dbinspector.extensions.orZero
 import timber.log.Timber
