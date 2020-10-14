@@ -22,7 +22,7 @@ internal class TablesDataSource(
         }
         set(value) {
             query = query.copy(
-                statement = value?.let { Statements.Schema.searchTables(it) } ?: Statements.Schema.tables(),
+                statement = Statements.Schema.tables(query = value),
                 page = 1
             )
         }

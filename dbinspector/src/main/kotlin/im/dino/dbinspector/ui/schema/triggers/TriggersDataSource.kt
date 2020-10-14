@@ -22,7 +22,7 @@ internal class TriggersDataSource(
         }
         set(value) {
             query = query.copy(
-                statement = value?.let { Statements.Schema.searchTriggers(it) } ?: Statements.Schema.triggers(),
+                statement = Statements.Schema.triggers(query = value),
                 page = 1
             )
             invalidate()

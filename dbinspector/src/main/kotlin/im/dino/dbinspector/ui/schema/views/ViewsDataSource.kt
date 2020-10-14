@@ -22,7 +22,7 @@ internal class ViewsDataSource(
         }
         set(value) {
             query = query.copy(
-                statement = value?.let { Statements.Schema.searchViews(it) } ?: Statements.Schema.views(),
+                statement = Statements.Schema.views(query = value),
                 page = 1
             )
             invalidate()

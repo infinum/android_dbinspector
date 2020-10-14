@@ -7,6 +7,7 @@ import im.dino.dbinspector.data.source.memory.pagination.Paginator
 import im.dino.dbinspector.domain.shared.models.Query
 import kotlinx.coroutines.suspendCancellableCoroutine
 
+@Suppress("LongParameterList")
 internal class SchemaSource(
     private val tablesPaginator: Paginator,
     private val tableByNamePaginator: Paginator,

@@ -28,44 +28,44 @@ object Statements {
 
     object Schema {
 
-        fun tables(order: Sort = Sort.ASCENDING) =
+        fun tables(query: String? = null, order: Sort = Sort.ASCENDING) =
             String.format(
                 "SELECT name FROM sqlite_master WHERE type = 'table' ORDER BY name %s",
                 order.rawValue
             )
 
-        fun views(order: Sort = Sort.ASCENDING) =
+//        fun searchTables(query: String, order: Sort = Sort.ASCENDING) =
+//            String.format(
+//                "SELECT name FROM sqlite_master WHERE type='table' AND name LIKE \"%%%s%%\" ORDER BY name %s",
+//                query,
+//                order.rawValue
+//            )
+
+        fun views(query: String? = null, order: Sort = Sort.ASCENDING) =
             String.format(
                 "SELECT name FROM sqlite_master WHERE type = 'view' ORDER BY name %s",
                 order.rawValue
             )
 
-        fun triggers(order: Sort = Sort.ASCENDING) =
+//        fun searchViews(query: String, order: Sort = Sort.ASCENDING) =
+//            String.format(
+//                "SELECT name FROM sqlite_master WHERE type = 'view' AND name LIKE \"%%%s%%\" ORDER BY name %s",
+//                query,
+//                order.rawValue
+//            )
+
+        fun triggers(query: String? = null, order: Sort = Sort.ASCENDING) =
             String.format(
                 "SELECT name FROM sqlite_master WHERE type='trigger' ORDER BY name %s",
                 order.rawValue
             )
 
-        fun searchTables(query: String, order: Sort = Sort.ASCENDING) =
-            String.format(
-                "SELECT name FROM sqlite_master WHERE type='table' AND name LIKE \"%%%s%%\" ORDER BY name %s",
-                query,
-                order.rawValue
-            )
-
-        fun searchViews(query: String, order: Sort = Sort.ASCENDING) =
-            String.format(
-                "SELECT name FROM sqlite_master WHERE type = 'view' AND name LIKE \"%%%s%%\" ORDER BY name %s",
-                query,
-                order.rawValue
-            )
-
-        fun searchTriggers(query: String, order: Sort = Sort.ASCENDING) =
-            String.format(
-                "SELECT name FROM sqlite_master WHERE type = 'trigger' AND name LIKE \"%%%s%%\" ORDER BY name %s",
-                query,
-                order.rawValue
-            )
+//        fun searchTriggers(query: String, order: Sort = Sort.ASCENDING) =
+//            String.format(
+//                "SELECT name FROM sqlite_master WHERE type = 'trigger' AND name LIKE \"%%%s%%\" ORDER BY name %s",
+//                query,
+//                order.rawValue
+//            )
 
         fun table(name: String) =
             String.format(
