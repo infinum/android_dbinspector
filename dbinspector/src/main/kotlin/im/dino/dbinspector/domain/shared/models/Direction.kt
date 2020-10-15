@@ -1,6 +1,6 @@
 package im.dino.dbinspector.domain.shared.models
 
-enum class Order(val rawValue: String) {
+enum class Direction(val rawValue: String) {
     ASCENDING("ASC"),
     DESCENDING("DESC")
 }

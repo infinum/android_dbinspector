@@ -7,7 +7,7 @@ data class Query(
     val databasePath: String = "",
     val database: SQLiteDatabase? = null,
     val statement: String,
-    val order: Order = Order.ASCENDING,
+    val order: Direction = Direction.ASCENDING,
     val pageSize: Int = Constants.Limits.PAGE_SIZE,
     val page: Int? = Constants.Limits.INITIAL_PAGE
 )

@@ -1,10 +1,11 @@
 package im.dino.dbinspector.domain.shared.models
 
-import im.dino.dbinspector.domain.shared.models.specs.statementSpec
+import im.dino.dbinspector.domain.shared.models.dsl.delete
+import im.dino.dbinspector.domain.shared.models.dsl.dropTrigger
+import im.dino.dbinspector.domain.shared.models.dsl.dropView
+import im.dino.dbinspector.domain.shared.models.dsl.select
 
 object Statements {
-
-    private const val ASTERISK = "*"
 
     object Pragma {
 
@@ -32,76 +33,75 @@ object Statements {
 
     object Schema {
 
-        fun tables(query: String? = null, order: Order = Order.ASCENDING) =
-            statementSpec {
-                command("SELECT")
-                columns(listOf("name"))
-                table("sqlite_master")
-                type("table")
-                query(query)
-                order(order)
+        fun tables(query: String? = null, direction: Direction = Direction.ASCENDING) =
+            select {
+                columns("name")
+                from("sqlite_master")
+                where {
+                    "type" eq "table"
+                    query?.let { "name" like it }
+                }
+                orderBy(direction, "name")
             }
 
-        fun views(query: String? = null, order: Order = Order.ASCENDING) =
-            statementSpec {
-                command("SELECT")
-                columns(listOf("name"))
-                table("sqlite_master")
-                type("view")
-                query(query)
-                order(order)
+        fun views(query: String? = null, direction: Direction = Direction.ASCENDING) =
+            select {
+                columns("name")
+                from("sqlite_master")
+                where {
+                    "type" eq "view"
+                    query?.let { "name" like it }
+                }
+                orderBy(direction, "name")
             }
 
-        fun triggers(query: String? = null, order: Order = Order.ASCENDING) =
-            statementSpec {
-                command("SELECT")
-                columns(listOf("name"))
-                table("sqlite_master")
-                type("trigger")
-                query(query)
-                order(order)
+        fun triggers(query: String? = null, direction: Direction = Direction.ASCENDING) =
+            select {
+                columns("name")
+                from("sqlite_master")
+                where {
+                    "type" eq "trigger"
+                    query?.let { "name" like it }
+                }
+                orderBy(direction, "name")
             }
 
         fun table(name: String) =
-            statementSpec {
-                command("SELECT")
-                columns(listOf(ASTERISK))
-                table(name)
+            select {
+                columns()
+                from(name)
             }
 
         fun view(name: String) =
-            statementSpec {
-                command("SELECT")
-                columns(listOf(ASTERISK))
-                table(name)
+            select {
+                columns()
+                from(name)
             }
 
         fun trigger(name: String) =
-            statementSpec {
-                command("SELECT")
-                columns(listOf("name", "sql"))
-                table("sqlite_master")
-                type("trigger")
-                equalsTo(name)
+            select {
+                columns("name", "sql")
+                from("sqlite_master")
+                where {
+                    "type" eq "trigger"
+                    "name" eq name
+                }
                 limit(1)
             }
 
         fun dropTableContent(name: String) =
-            statementSpec {
-                command("DELETE FROM")
-                table(name)
+            delete {
+                from(name)
             }
 
         fun dropView(name: String) =
-            statementSpec {
-                command("DROP VIEW")
-                table(name)
+            dropView {
+                name(name)
             }
 
         fun dropTrigger(name: String) =
-            statementSpec {
-                command("DROP TRIGGER")
-                table(name)
+            dropTrigger {
+                name(name)
             }
     }
 }
