@@ -1,6 +1,10 @@
 package im.dino.dbinspector.domain.shared.models
 
+import im.dino.dbinspector.domain.shared.models.specs.statementSpec
+
 object Statements {
+
+    private const val ASTERISK = "*"
 
     object Pragma {
 
@@ -28,79 +32,76 @@ object Statements {
 
     object Schema {
 
-        fun tables(query: String? = null, order: Sort = Sort.ASCENDING) =
-            String.format(
-                "SELECT name FROM sqlite_master WHERE type = 'table' ORDER BY name %s",
-                order.rawValue
-            )
+        fun tables(query: String? = null, order: Order = Order.ASCENDING) =
+            statementSpec {
+                command("SELECT")
+                columns(listOf("name"))
+                table("sqlite_master")
+                type("table")
+                query(query)
+                order(order)
+            }
 
-//        fun searchTables(query: String, order: Sort = Sort.ASCENDING) =
-//            String.format(
-//                "SELECT name FROM sqlite_master WHERE type='table' AND name LIKE \"%%%s%%\" ORDER BY name %s",
-//                query,
-//                order.rawValue
-//            )
+        fun views(query: String? = null, order: Order = Order.ASCENDING) =
+            statementSpec {
+                command("SELECT")
+                columns(listOf("name"))
+                table("sqlite_master")
+                type("view")
+                query(query)
+                order(order)
+            }
 
-        fun views(query: String? = null, order: Sort = Sort.ASCENDING) =
-            String.format(
-                "SELECT name FROM sqlite_master WHERE type = 'view' ORDER BY name %s",
-                order.rawValue
-            )
-
-//        fun searchViews(query: String, order: Sort = Sort.ASCENDING) =
-//            String.format(
-//                "SELECT name FROM sqlite_master WHERE type = 'view' AND name LIKE \"%%%s%%\" ORDER BY name %s",
-//                query,
-//                order.rawValue
-//            )
-
-        fun triggers(query: String? = null, order: Sort = Sort.ASCENDING) =
-            String.format(
-                "SELECT name FROM sqlite_master WHERE type='trigger' ORDER BY name %s",
-                order.rawValue
-            )
-
-//        fun searchTriggers(query: String, order: Sort = Sort.ASCENDING) =
-//            String.format(
-//                "SELECT name FROM sqlite_master WHERE type = 'trigger' AND name LIKE \"%%%s%%\" ORDER BY name %s",
-//                query,
-//                order.rawValue
-//            )
+        fun triggers(query: String? = null, order: Order = Order.ASCENDING) =
+            statementSpec {
+                command("SELECT")
+                columns(listOf("name"))
+                table("sqlite_master")
+                type("trigger")
+                query(query)
+                order(order)
+            }
 
         fun table(name: String) =
-            String.format(
-                "SELECT * FROM \"%s\"",
-                name
-            )
+            statementSpec {
+                command("SELECT")
+                columns(listOf(ASTERISK))
+                table(name)
+            }
 
         fun view(name: String) =
-            String.format(
-                "SELECT * FROM \"%s\"",
-                name
-            )
+            statementSpec {
+                command("SELECT")
+                columns(listOf(ASTERISK))
+                table(name)
+            }
 
         fun trigger(name: String) =
-            String.format(
-                "SELECT name, sql FROM sqlite_master WHERE type = 'trigger' AND name = \"%s\" LIMIT 1",
-                name
-            )
+            statementSpec {
+                command("SELECT")
+                columns(listOf("name", "sql"))
+                table("sqlite_master")
+                type("trigger")
+                equalsTo(name)
+                limit(1)
+            }
 
         fun dropTableContent(name: String) =
-            String.format(
-                "DELETE FROM \"%s\"",
-                name
-            )
+            statementSpec {
+                command("DELETE FROM")
+                table(name)
+            }
 
         fun dropView(name: String) =
-            String.format(
-                "DROP VIEW \"%s\"",
-                name
-            )
+            statementSpec {
+                command("DROP VIEW")
+                table(name)
+            }
 
         fun dropTrigger(name: String) =
-            String.format(
-                "DROP TRIGGER \"%s\"",
-                name
-            )
+            statementSpec {
+                command("DROP TRIGGER")
+                table(name)
+            }
     }
 }
