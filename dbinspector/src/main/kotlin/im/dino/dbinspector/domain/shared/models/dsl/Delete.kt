@@ -2,7 +2,6 @@ package im.dino.dbinspector.domain.shared.models.dsl
 
 import im.dino.dbinspector.domain.shared.models.dsl.conditions.And
 import im.dino.dbinspector.domain.shared.models.dsl.shared.Condition
-import timber.log.Timber
 
 class Delete {
 
@@ -25,9 +24,7 @@ class Delete {
         if (!::table.isInitialized) {
             throw IllegalStateException("Failed to build - target table is undefined")
         }
-        return toString().also {
-            Timber.i(it)
-        }
+        return toString()
     }
 
     override fun toString(): String {

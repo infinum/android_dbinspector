@@ -3,32 +3,35 @@ package im.dino.dbinspector.domain.shared.models
 import im.dino.dbinspector.domain.shared.models.dsl.delete
 import im.dino.dbinspector.domain.shared.models.dsl.dropTrigger
 import im.dino.dbinspector.domain.shared.models.dsl.dropView
+import im.dino.dbinspector.domain.shared.models.dsl.pragma
 import im.dino.dbinspector.domain.shared.models.dsl.select
 
 object Statements {
 
     object Pragma {
 
-        @Suppress("FunctionOnlyReturningConstant")
-        fun userVersion() = "PRAGMA user_version"
+        fun userVersion() =
+            pragma {
+                name("user_version")
+            }
 
         fun tableInfo(name: String) =
-            String.format(
-                "PRAGMA table_info(\"%s\")",
-                name
-            )
+            pragma {
+                name("table_info")
+                value(name)
+            }
 
         fun foreignKeys(name: String) =
-            String.format(
-                "PRAGMA foreign_key_list(\"%s\")",
-                name
-            )
+            pragma {
+                name("foreign_key_list")
+                value(name)
+            }
 
         fun indexes(name: String) =
-            String.format(
-                "PRAGMA index_list(\"%s\")",
-                name
-            )
+            pragma {
+                name("index_list")
+                value(name)
+            }
     }
 
     object Schema {

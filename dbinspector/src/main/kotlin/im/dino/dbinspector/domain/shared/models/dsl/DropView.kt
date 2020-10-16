@@ -1,7 +1,5 @@
 package im.dino.dbinspector.domain.shared.models.dsl
 
-import timber.log.Timber
-
 class DropView {
 
     companion object {
@@ -18,9 +16,7 @@ class DropView {
         if (!::view.isInitialized) {
             throw IllegalStateException("Failed to build - target view is undefined")
         }
-        return toString().also {
-            Timber.i(it)
-        }
+        return toString()
     }
 
     override fun toString(): String {

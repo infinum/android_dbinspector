@@ -1,5 +1,9 @@
 package im.dino.dbinspector.domain.shared.models.dsl
 
+fun pragma(initializer: Pragma.() -> Unit): String {
+    return Pragma().apply(initializer).build()
+}
+
 fun select(initializer: Select.() -> Unit): String {
     return Select().apply(initializer).build()
 }
