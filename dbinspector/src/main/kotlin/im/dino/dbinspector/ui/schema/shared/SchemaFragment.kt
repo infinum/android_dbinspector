@@ -1,9 +1,9 @@
 package im.dino.dbinspector.ui.schema.shared
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
+import androidx.activity.result.ActivityResultLauncher
 import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorFragmentSchemaBinding
 import im.dino.dbinspector.ui.shared.Constants
-import im.dino.dbinspector.ui.shared.searchable.BaseSearchableFragment
 import im.dino.dbinspector.ui.shared.delegates.viewBinding
+import im.dino.dbinspector.ui.shared.searchable.BaseSearchableFragment
 
 internal abstract class SchemaFragment :
     BaseSearchableFragment(R.layout.dbinspector_fragment_schema) {
@@ -39,6 +39,8 @@ internal abstract class SchemaFragment :
     override val binding: DbinspectorFragmentSchemaBinding by viewBinding(
         DbinspectorFragmentSchemaBinding::bind
     )
+
+    private lateinit var contract: ActivityResultLauncher<SchemaContract.Input>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,22 +82,25 @@ internal abstract class SchemaFragment :
             recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             recyclerView.addItemDecoration(DividerItemDecoration(context, LinearLayout.VERTICAL))
             recyclerView.adapter = adapter
+
+            contract = registerForActivityResult(SchemaContract()) { shouldRefresh ->
+                if (shouldRefresh) {
+                    adapter.refresh()
+                }
+            }
         }
 
         query(searchQuery())
+    }
 
-        observe()
+    override fun onDestroyView() {
+        contract.unregister()
+        super.onDestroyView()
     }
 
     override fun search(query: String?) {
         query(query)
         (binding.recyclerView.adapter as? SchemaAdapter)?.refresh()
-    }
-
-    private fun observe() {
-        viewModel.observe {
-            (binding.recyclerView.adapter as? SchemaAdapter)?.refresh()
-        }
     }
 
     private fun query(query: String?) {
@@ -107,13 +112,13 @@ internal abstract class SchemaFragment :
     }
 
     private fun show(name: String) =
-        startActivity(
-            Intent(requireContext(), childView())
-                .apply {
-                    putExtra(Constants.Keys.DATABASE_NAME, databaseName)
-                    putExtra(Constants.Keys.DATABASE_PATH, databasePath)
-                    putExtra(Constants.Keys.SCHEMA_NAME, name)
-                }
+        contract.launch(
+            SchemaContract.Input(
+                childView = childView(),
+                databasePath = databasePath,
+                databaseName = databaseName,
+                schemaName = name
+            )
         )
 
     private fun showError() {

@@ -19,8 +19,6 @@ internal class TablesViewModel(
             getSchema = getSchema
         )
 
-    override fun observe(action: suspend () -> Unit) = Unit
-
     override fun query(
         databasePath: String,
         onData: suspend (value: PagingData<String>) -> Unit

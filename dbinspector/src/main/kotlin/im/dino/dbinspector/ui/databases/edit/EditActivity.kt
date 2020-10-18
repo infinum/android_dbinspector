@@ -1,5 +1,7 @@
 package im.dino.dbinspector.ui.databases.edit
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputFilter
 import android.view.inputmethod.EditorInfo
@@ -9,13 +11,9 @@ import im.dino.dbinspector.databinding.DbinspectorActivityEditBinding
 import im.dino.dbinspector.domain.database.models.DatabaseDescriptor
 import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.shared.base.BaseActivity
-import im.dino.dbinspector.ui.shared.bus.EventBus
-import im.dino.dbinspector.ui.shared.bus.models.Event
 import im.dino.dbinspector.ui.shared.delegates.viewBinding
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@ExperimentalCoroutinesApi
 internal class EditActivity : BaseActivity() {
 
     override val binding by viewBinding(DbinspectorActivityEditBinding::inflate)
@@ -101,7 +99,12 @@ internal class EditActivity : BaseActivity() {
             ) {
                 this.databasePath = it.absolutePath
                 this.databaseName = it.name
-                EventBus.publish(Event.RefreshDatabases())
+                setResult(
+                    Activity.RESULT_OK,
+                    Intent().apply {
+                        putExtra(Constants.Keys.SHOULD_REFRESH, true)
+                    }
+                )
             }
         } ?: showError()
     }

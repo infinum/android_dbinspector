@@ -1,5 +1,6 @@
 package im.dino.dbinspector.ui.content.shared
 
+import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
@@ -19,8 +20,6 @@ import im.dino.dbinspector.ui.content.view.ViewViewModel
 import im.dino.dbinspector.ui.pragma.PragmaActivity
 import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.shared.base.BaseActivity
-import im.dino.dbinspector.ui.shared.bus.EventBus
-import im.dino.dbinspector.ui.shared.bus.models.Event
 import im.dino.dbinspector.ui.shared.delegates.viewBinding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -168,13 +167,23 @@ internal abstract class ContentActivity : BaseActivity() {
     private fun clearTable() =
         (binding.recyclerView.adapter as? ContentAdapter)?.refresh()
 
-    private suspend fun dropTrigger() {
-        EventBus.publish(Event.RefreshTriggers())
+    private fun dropTrigger() {
+        setResult(
+            Activity.RESULT_OK,
+            Intent().apply {
+                putExtra(Constants.Keys.SHOULD_REFRESH, true)
+            }
+        )
         finish()
     }
 
-    private suspend fun dropView() {
-        EventBus.publish(Event.RefreshViews())
+    private fun dropView() {
+        setResult(
+            Activity.RESULT_OK,
+            Intent().apply {
+                putExtra(Constants.Keys.SHOULD_REFRESH, true)
+            }
+        )
         finish()
     }
 }

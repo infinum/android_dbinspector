@@ -2,8 +2,9 @@ package im.dino.dbinspector.ui.databases
 
 import android.app.Activity
 import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -13,7 +14,7 @@ import im.dino.dbinspector.domain.database.models.DatabaseDescriptor
 import im.dino.dbinspector.extensions.scale
 import im.dino.dbinspector.extensions.searchView
 import im.dino.dbinspector.extensions.setup
-import im.dino.dbinspector.ui.databases.DatabaseNavigator.Companion.REQUEST_CODE_IMPORT
+import im.dino.dbinspector.ui.databases.edit.EditContract
 import im.dino.dbinspector.ui.shared.base.BaseActivity
 import im.dino.dbinspector.ui.shared.delegates.viewBinding
 import im.dino.dbinspector.ui.shared.listeners.FabExtendingOnScrollListener
@@ -30,7 +31,29 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
 
     private val viewModel: DatabaseViewModel by viewModel()
 
-    private val navigator = DatabaseNavigator(this)
+    private val navigatorIntentFactory = NavigatorIntentFactory(this)
+
+    private val editContract = registerForActivityResult(EditContract()) { shouldRefresh ->
+        if (shouldRefresh) {
+            refreshDatabases()
+        }
+    }
+
+    private val importContract = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result: ActivityResult ->
+        when (result.resultCode) {
+            Activity.RESULT_OK -> {
+                result.data?.clipData?.let { clipData ->
+                    viewModel.import((0 until clipData.itemCount).map { clipData.getItemAt(it).uri })
+                } ?: result.data?.data?.let {
+                    viewModel.import(listOf(it))
+                } ?: Unit
+            }
+            Activity.RESULT_CANCELED -> Unit
+            else -> Unit
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,27 +65,6 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
         }
 
         viewModel.browse()
-
-        viewModel.observe {
-            refreshDatabases()
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE_IMPORT) {
-            when (resultCode) {
-                Activity.RESULT_OK -> {
-                    data?.clipData?.let { clipData ->
-                        viewModel.import((0 until clipData.itemCount).map { clipData.getItemAt(it).uri })
-                    } ?: data?.data?.let {
-                        viewModel.import(listOf(it))
-                    } ?: Unit
-                }
-                Activity.RESULT_CANCELED -> Unit
-                else -> Unit
-            }
-        }
     }
 
     override fun onSearchOpened() = Unit
@@ -116,7 +118,9 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
             )
         }
         with(binding.importButton) {
-            setOnClickListener { navigator.importDatabase() }
+            setOnClickListener {
+                importContract.launch(navigatorIntentFactory.showImportChooser())
+            }
         }
         with(binding.emptyLayout) {
             retryButton.setOnClickListener {
@@ -129,12 +133,21 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
         with(binding) {
             recyclerView.adapter = DatabasesAdapter(
                 items = databases,
-                onClick = { navigator.showSchema(it) },
+                onClick = { navigatorIntentFactory.showSchema(it) },
                 interactions = DatabaseInteractions(
                     onDelete = { removeDatabase(it) },
-                    onEdit = { navigator.editDatabase(it) },
+                    onEdit = {
+                        editContract.launch(
+                            EditContract.Input(
+                                absolutePath = it.absolutePath,
+                                parentPath = it.parentPath,
+                                name = it.name,
+                                extension = it.extension
+                            )
+                        )
+                    },
                     onCopy = { viewModel.copy(it) },
-                    onShare = { navigator.shareDatabase(it) },
+                    onShare = { navigatorIntentFactory.showShare(it) },
                 ),
                 onEmpty = {
                     emptyLayout.root.isVisible = it

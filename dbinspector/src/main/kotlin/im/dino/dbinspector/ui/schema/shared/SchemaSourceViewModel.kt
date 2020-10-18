@@ -7,8 +7,6 @@ internal abstract class SchemaSourceViewModel : PagingViewModel() {
 
     abstract fun schemaStatement(): String
 
-    abstract fun observe(action: suspend () -> Unit)
-
     abstract fun query(
         databasePath: String,
         onData: suspend (value: PagingData<String>) -> Unit

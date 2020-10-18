@@ -8,6 +8,7 @@ internal object Constants {
         const val DATABASE_NAME = "KEY_DATABASE_NAME"
         const val DATABASE_EXTENSION = "KEY_DATABASE_EXTENSION"
         const val SCHEMA_NAME = "KEY_SCHEMA_NAME"
+        const val SHOULD_REFRESH = "KEY_SHOULD_REFRESH"
     }
 
     object Limits {
