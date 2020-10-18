@@ -46,7 +46,7 @@ ext.packages = [
         "lifecycle"         : [
             "common": "androidx.lifecycle:lifecycle-common-java8:${versions.lifecycle}"
         ],
-        "viewpager"         : "androidx.viewpager:viewpager:${versions.viewpager}",
+        "viewpager"         : "androidx.viewpager2:viewpager2:${versions.viewpager}",
         "recyclerview"      : "androidx.recyclerview:recyclerview:${versions.recyclerview}",
         "paging"            : "androidx.paging:paging-runtime-ktx:${versions.paging}",
         "swiperefreshlayout": "androidx.swiperefreshlayout:swiperefreshlayout:${versions.swiperefreshlayout}",

@@ -2,12 +2,15 @@ package im.dino.dbinspector.ui.pragma
 
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.tabs.TabLayoutMediator
 import im.dino.dbinspector.databinding.DbinspectorActivityPragmaBinding
+import im.dino.dbinspector.domain.pragma.models.PragmaType
 import im.dino.dbinspector.ui.pragma.shared.PragmaTypeAdapter
 import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.shared.base.BaseActivity
 import im.dino.dbinspector.ui.shared.delegates.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.Locale
 
 internal class PragmaActivity : BaseActivity() {
 
@@ -52,13 +55,14 @@ internal class PragmaActivity : BaseActivity() {
                 }
             }
 
-            tabLayout.setupWithViewPager(viewPager)
             viewPager.adapter = PragmaTypeAdapter(
-                context = this@PragmaActivity,
-                fragmentManager = supportFragmentManager,
+                fragmentActivity = this@PragmaActivity,
                 databasePath = databasePath,
                 tableName = tableName
             )
+            TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+                tab.text = getString(PragmaType.values()[position].nameRes).toUpperCase(Locale.getDefault())
+            }.attach()
         }
     }
 

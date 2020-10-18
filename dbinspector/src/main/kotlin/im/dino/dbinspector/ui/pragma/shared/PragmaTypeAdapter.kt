@@ -1,31 +1,25 @@
 package im.dino.dbinspector.ui.pragma.shared
 
-import android.content.Context
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import im.dino.dbinspector.domain.pragma.models.PragmaType
 import im.dino.dbinspector.ui.pragma.foreignkeys.ForeignKeysFragment
 import im.dino.dbinspector.ui.pragma.indexes.IndexesFragment
 import im.dino.dbinspector.ui.pragma.tableinfo.TableInfoFragment
-import java.util.Locale
 
 internal class PragmaTypeAdapter(
-    private val context: Context,
-    fragmentManager: FragmentManager,
+    fragmentActivity: FragmentActivity,
     private val databasePath: String,
     private val tableName: String
-) : FragmentStatePagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+) : FragmentStateAdapter(fragmentActivity) {
 
-    override fun getPageTitle(position: Int): CharSequence =
-        context.getString(PragmaType.values()[position].nameRes).toUpperCase(Locale.getDefault())
-
-    override fun getItem(position: Int): Fragment =
+    override fun createFragment(position: Int): Fragment =
         when (PragmaType.values()[position]) {
             PragmaType.TABLE_INFO -> TableInfoFragment.newInstance(databasePath, tableName)
             PragmaType.FOREIGN_KEY -> ForeignKeysFragment.newInstance(databasePath, tableName)
             PragmaType.INDEX -> IndexesFragment.newInstance(databasePath, tableName)
         }
 
-    override fun getCount(): Int = PragmaType.values().size
+    override fun getItemCount(): Int = PragmaType.values().size
 }
