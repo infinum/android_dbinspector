@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         listOf(
-            "articles.db",
+            "blog.db",
             "chinook.db",
             "northwind.sqlite"
         )
