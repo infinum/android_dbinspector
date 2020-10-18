@@ -4,15 +4,9 @@
     tools:ignore="AlwaysShowAction">
 
     <item
-        android:id="@+id/clear"
-        android:icon="@drawable/dbinspector_ic_clear"
-        android:title="@string/dbinspector_action_clear"
-        app:showAsAction="always" />
-
-    <item
-        android:id="@+id/pragma"
-        android:icon="@drawable/dbinspector_ic_pragma"
-        android:title="@string/dbinspector_pragma"
+        android:id="@+id/search"
+        android:title="@string/dbinspector_action_search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="always" />
 
 </menu>

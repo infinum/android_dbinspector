@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="AlwaysShowAction">
+
+    <item
+        android:id="@+id/clear"
+        android:icon="@drawable/dbinspector_ic_clear"
+        android:title="@string/dbinspector_action_clear"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/pragma"
+        android:icon="@drawable/dbinspector_ic_pragma"
+        android:title="@string/dbinspector_pragma"
+        app:showAsAction="always" />
+
+</menu>

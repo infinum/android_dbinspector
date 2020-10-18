@@ -16,7 +16,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:menu="@menu/dbinspector_tables"
+            app:menu="@menu/dbinspector_schema"
             app:navigationIcon="?attr/homeAsUpIndicator"
             app:title="@string/dbinspector_schema" />
 

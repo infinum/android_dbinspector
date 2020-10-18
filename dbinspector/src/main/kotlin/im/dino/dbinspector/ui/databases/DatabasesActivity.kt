@@ -16,6 +16,7 @@ import im.dino.dbinspector.extensions.setup
 import im.dino.dbinspector.ui.databases.DatabaseNavigator.Companion.REQUEST_CODE_IMPORT
 import im.dino.dbinspector.ui.shared.base.BaseActivity
 import im.dino.dbinspector.ui.shared.delegates.viewBinding
+import im.dino.dbinspector.ui.shared.listeners.FabExtendingOnScrollListener
 import im.dino.dbinspector.ui.shared.searchable.Searchable
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -64,11 +65,7 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
         }
     }
 
-    override fun onSearchOpened() {
-        with(binding.toolbar) {
-            menu.findItem(R.id.dbImport).isVisible = false
-        }
-    }
+    override fun onSearchOpened() = Unit
 
     override fun search(query: String?) {
         with(binding) {
@@ -80,25 +77,20 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
         binding.toolbar.menu.searchView?.query?.toString()
 
     override fun onSearchClosed() {
-        with(binding.toolbar) {
-            menu.findItem(R.id.dbImport).isVisible = true
-        }
         refreshDatabases()
     }
 
     private fun setupUi() {
         with(binding.toolbar) {
-            navigationIcon = applicationInfo.loadIcon(packageManager)
+            navigationIcon = applicationInfo
+                .loadIcon(packageManager)
                 .scale(this@DatabasesActivity, R.dimen.dbinspector_app_icon_size, R.dimen.dbinspector_app_icon_size)
             setNavigationOnClickListener { finish() }
+
             setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.search -> {
                         onSearchOpened()
-                        true
-                    }
-                    R.id.dbImport -> {
-                        navigator.importDatabase()
                         true
                     }
                     else -> false
@@ -116,11 +108,15 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
             }
         }
         with(binding.recyclerView) {
+            addOnScrollListener(FabExtendingOnScrollListener(binding.importButton))
             layoutManager = LinearLayoutManager(
                 this@DatabasesActivity,
                 LinearLayoutManager.VERTICAL,
                 false
             )
+        }
+        with(binding.importButton) {
+            setOnClickListener { navigator.importDatabase() }
         }
         with(binding.emptyLayout) {
             retryButton.setOnClickListener {

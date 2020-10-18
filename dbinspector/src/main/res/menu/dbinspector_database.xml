@@ -9,10 +9,4 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="always" />
 
-    <item
-        android:id="@+id/dbImport"
-        android:icon="@drawable/dbinspector_ic_import"
-        android:title="@string/dbinspector_action_import"
-        app:showAsAction="always" />
-
 </menu>

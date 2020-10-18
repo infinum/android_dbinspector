@@ -12,7 +12,7 @@ internal class TableActivity : ContentActivity() {
 
     override val title: Int = R.string.dbinspector_table
 
-    override val menu: Int = R.menu.dbinspector_schema
+    override val menu: Int = R.menu.dbinspector_table
 
     override val drop: Int = R.string.dbinspector_clear_table_confirm
 }
