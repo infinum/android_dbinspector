@@ -24,7 +24,7 @@ internal class ContentViewHolder(
             }
         } ?: with(viewBinding) {
             this.valueView.text = null
-            this.root.setBackgroundColor(ContextCompat.getColor(this.root.context, android.R.color.transparent))
+            this.root.background = ContextCompat.getDrawable(this.root.context, R.drawable.dbinspector_placeholder)
         }
     }
 

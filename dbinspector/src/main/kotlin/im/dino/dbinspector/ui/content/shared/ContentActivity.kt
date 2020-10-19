@@ -6,10 +6,12 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.MenuRes
 import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -82,6 +84,30 @@ internal abstract class ContentActivity : BaseActivity() {
                             RecyclerView.VERTICAL,
                             false
                         )
+
+                        ContextCompat.getDrawable(
+                            recyclerView.context,
+                            R.drawable.dbinspector_divider_vertical
+                        )?.let { drawable ->
+                            val verticalDecorator = DividerItemDecoration(
+                                recyclerView.context,
+                                DividerItemDecoration.VERTICAL
+                            )
+                            verticalDecorator.setDrawable(drawable)
+                            recyclerView.addItemDecoration(verticalDecorator)
+                        }
+                        ContextCompat.getDrawable(
+                            recyclerView.context,
+                            R.drawable.dbinspector_divider_horizontal
+                        )?.let { drawable ->
+                            val horizontalDecorator = DividerItemDecoration(
+                                recyclerView.context,
+                                DividerItemDecoration.HORIZONTAL
+                            )
+                            horizontalDecorator.setDrawable(drawable)
+                            recyclerView.addItemDecoration(horizontalDecorator)
+                        }
+
                         recyclerView.adapter = ConcatAdapter(headerAdapter, contentAdapter)
                     }
 
