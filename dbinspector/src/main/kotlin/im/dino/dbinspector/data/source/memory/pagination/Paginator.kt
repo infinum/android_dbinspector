@@ -6,10 +6,17 @@ internal interface Paginator {
 
     fun nextPage(currentPage: Int?): Int?
 
-    fun boundary(page: Int?, pageSize: Int, count: Int): Boundary
+    fun boundary(page: Int?, pageSize: Int, rowCount: Int): Boundary
+
+    fun count(startRow: Int, endRow: Int, rowCount: Int, columnCount: Int): Count
 
     data class Boundary(
         val startRow: Int,
         val endRow: Int
+    )
+
+    data class Count(
+        val beforeCount: Int,
+        val afterCount: Int
     )
 }

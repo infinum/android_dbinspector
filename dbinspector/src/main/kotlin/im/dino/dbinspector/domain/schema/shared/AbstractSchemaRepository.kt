@@ -15,6 +15,8 @@ internal abstract class AbstractSchemaRepository(
     override suspend fun getPage(input: Query): Page =
         getPageInteractor(input).let {
             Page(
+                beforeCount = it.beforeCount,
+                afterCount = it.afterCount,
                 fields = it.rows.map { row -> row.fields.toList() }.flatten(),
                 nextPage = it.nextPage
             )
@@ -23,6 +25,8 @@ internal abstract class AbstractSchemaRepository(
     override suspend fun getByName(query: Query): Page =
         getByNameInteractor(query).let {
             Page(
+                beforeCount = it.beforeCount,
+                afterCount = it.afterCount,
                 fields = it.rows.map { row -> row.fields.toList() }.flatten(),
                 nextPage = it.nextPage
             )
@@ -31,6 +35,8 @@ internal abstract class AbstractSchemaRepository(
     override suspend fun dropByName(query: Query): Page =
         dropByNameInteractor(query).let {
             Page(
+                beforeCount = it.beforeCount,
+                afterCount = it.afterCount,
                 fields = it.rows.map { row -> row.fields.toList() }.flatten(),
                 nextPage = it.nextPage
             )

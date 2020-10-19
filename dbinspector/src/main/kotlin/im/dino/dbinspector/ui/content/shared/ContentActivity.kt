@@ -6,11 +6,12 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.MenuRes
 import androidx.annotation.StringRes
-import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivityContentBinding
@@ -21,6 +22,7 @@ import im.dino.dbinspector.ui.pragma.PragmaActivity
 import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.shared.base.BaseActivity
 import im.dino.dbinspector.ui.shared.delegates.viewBinding
+import im.dino.dbinspector.ui.shared.headers.HeaderAdapter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -39,6 +41,8 @@ internal abstract class ContentActivity : BaseActivity() {
     @get:StringRes
     abstract val drop: Int
 
+    private lateinit var contentAdapter: ContentAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -55,17 +59,18 @@ internal abstract class ContentActivity : BaseActivity() {
 
                 viewModel.open(lifecycleScope)
 
-                setupUi(databaseName!!, schemaName!!)
+                setupUi(databasePath, databaseName!!, schemaName!!)
 
                 viewModel.header(schemaName) { tableHeaders ->
-                    val adapter = ContentAdapter(tableHeaders)
+                    val headerAdapter = HeaderAdapter(tableHeaders)
+                    contentAdapter = ContentAdapter(tableHeaders.size)
 
                     with(binding) {
-                        adapter.addLoadStateListener { loadState ->
+                        contentAdapter.addLoadStateListener { loadState ->
                             if (loadState.append.endOfPaginationReached) {
-                                val isEmpty = adapter.itemCount < 1
+                                val isEmpty = contentAdapter.itemCount < 1
 //                            emptyLayout.root.isVisible = isEmpty
-                                swipeRefresh.isVisible = isEmpty.not()
+//                                swipeRefresh.isVisible = isEmpty.not()
                             }
                             if (loadState.prepend.endOfPaginationReached) {
                                 swipeRefresh.isRefreshing = loadState.refresh !is LoadState.NotLoading
@@ -73,29 +78,16 @@ internal abstract class ContentActivity : BaseActivity() {
                         }
 
                         swipeRefresh.setOnRefreshListener {
-                            adapter.refresh()
+                            contentAdapter.refresh()
                         }
 
-                        recyclerView.layoutManager = GridLayoutManager(this@ContentActivity, tableHeaders.size)
-                        recyclerView.adapter = adapter
-
-                        toolbar.setOnMenuItemClickListener { menuItem ->
-                            when (menuItem.itemId) {
-                                R.id.clear -> {
-                                    drop(schemaName)
-                                    true
-                                }
-                                R.id.drop -> {
-                                    drop(schemaName)
-                                    true
-                                }
-                                R.id.pragma -> {
-                                    pragma(databaseName, databasePath, schemaName)
-                                    true
-                                }
-                                else -> false
-                            }
-                        }
+                        recyclerView.layoutManager = GridLayoutManager(
+                            this@ContentActivity,
+                            tableHeaders.size,
+                            RecyclerView.VERTICAL,
+                            false
+                        )
+                        recyclerView.adapter = ConcatAdapter(headerAdapter, contentAdapter)
                     }
 
                     query(schemaName)
@@ -111,12 +103,29 @@ internal abstract class ContentActivity : BaseActivity() {
         super.onDestroy()
     }
 
-    private fun setupUi(databaseName: String, schemaName: String) {
+    private fun setupUi(databasePath: String, databaseName: String, schemaName: String) {
         with(binding.toolbar) {
             setNavigationOnClickListener { finish() }
             title = getString(this@ContentActivity.title)
             subtitle = listOf(databaseName, schemaName).joinToString(" / ")
             menuInflater.inflate(this@ContentActivity.menu, menu)
+            setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.clear -> {
+                        drop(schemaName)
+                        true
+                    }
+                    R.id.drop -> {
+                        drop(schemaName)
+                        true
+                    }
+                    R.id.pragma -> {
+                        pragma(databaseName, databasePath, schemaName)
+                        true
+                    }
+                    else -> false
+                }
+            }
         }
         with(binding.recyclerView) {
             updateLayoutParams {
@@ -161,11 +170,11 @@ internal abstract class ContentActivity : BaseActivity() {
 
     private fun query(name: String) =
         viewModel.query(name) {
-            (binding.recyclerView.adapter as? ContentAdapter)?.submitData(it)
+            contentAdapter.submitData(it)
         }
 
     private fun clearTable() =
-        (binding.recyclerView.adapter as? ContentAdapter)?.refresh()
+        contentAdapter.refresh()
 
     private fun dropTrigger() {
         setResult(

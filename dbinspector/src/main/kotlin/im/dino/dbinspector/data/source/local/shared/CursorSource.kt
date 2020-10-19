@@ -37,12 +37,21 @@ internal open class CursorSource {
                     cursor.count
                 )
 
+                val count = paginator.count(
+                    boundary.startRow,
+                    boundary.endRow,
+                    cursor.count,
+                    cursor.columnCount
+                )
+
                 val rows = iterateRowsInTable(cursor, boundary)
 
                 continuation.resume(
                     QueryResult(
                         rows = rows,
-                        nextPage = paginator.nextPage(query.page)
+                        nextPage = paginator.nextPage(query.page),
+                        beforeCount = count.beforeCount,
+                        afterCount = count.afterCount
                     )
                 )
             } ?: continuation.resumeWithException(CursorException())
