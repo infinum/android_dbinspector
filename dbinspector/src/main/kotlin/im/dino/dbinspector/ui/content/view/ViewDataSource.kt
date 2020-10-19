@@ -19,13 +19,14 @@ internal class ViewDataSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, String> {
         val page = getSchema(query)
 
-        Timber.i("load params.key: ${params.key} - next page: ${page.nextPage}")
+        Timber.i("load params.key: ${params.key} - next page: ${page.nextPage} - itemsAfter: ${page.afterCount}")
 
         query = query.copy(page = page.nextPage)
         return LoadResult.Page(
             data = page.fields,
             prevKey = null,
-            nextKey = page.nextPage
+            nextKey = page.nextPage,
+            itemsAfter = page.afterCount
         )
     }
 }

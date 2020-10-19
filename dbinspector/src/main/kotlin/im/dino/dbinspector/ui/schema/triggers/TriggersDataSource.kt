@@ -34,7 +34,8 @@ internal class TriggersDataSource(
         return LoadResult.Page(
             data = page.fields,
             prevKey = null,
-            nextKey = page.nextPage
+            nextKey = page.nextPage,
+            itemsAfter = page.afterCount
         )
     }
 }
