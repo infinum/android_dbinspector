@@ -15,10 +15,11 @@ internal class GetDatabasesUseCase(
 
     override suspend fun invoke(input: Operation): List<DatabaseDescriptor> =
         databaseRepository.getPage(input)
+            .filter { descriptor -> input.argument?.let { descriptor.name.contains(it) } ?: true }
             .map {
                 val database = connectionRepository.open(it.absolutePath)
 
-                val withVersion = it.copy(
+                val descriptorWithVersion = it.copy(
                     version = pragmaRepository.getUserVersion(
                         Query(
                             databasePath = it.absolutePath,
@@ -29,6 +30,6 @@ internal class GetDatabasesUseCase(
                 )
                 connectionRepository.close(it.absolutePath)
 
-                withVersion
+                descriptorWithVersion
             }
 }

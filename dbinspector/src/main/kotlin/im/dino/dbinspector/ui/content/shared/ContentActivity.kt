@@ -67,11 +67,6 @@ internal abstract class ContentActivity : BaseActivity() {
 
                     with(binding) {
                         contentAdapter.addLoadStateListener { loadState ->
-                            if (loadState.append.endOfPaginationReached) {
-                                val isEmpty = contentAdapter.itemCount < 1
-//                            emptyLayout.root.isVisible = isEmpty
-//                                swipeRefresh.isVisible = isEmpty.not()
-                            }
                             if (loadState.prepend.endOfPaginationReached) {
                                 swipeRefresh.isRefreshing = loadState.refresh !is LoadState.NotLoading
                             }

@@ -72,6 +72,7 @@ internal class SchemaActivity : BaseActivity(), Searchable {
             }
 
             toolbar.menu.searchView?.setup(
+                hint = getString(R.string.dbinspector_search_by_name),
                 onSearchClosed = { onSearchClosed() },
                 onQueryTextChanged = { search(it) }
             )

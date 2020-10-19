@@ -55,6 +55,29 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
         }
     }
 
+    private val databasesAdapter: DatabasesAdapter = DatabasesAdapter(
+        onClick = { navigatorIntentFactory.showSchema(it) },
+        interactions = DatabaseInteractions(
+            onDelete = { removeDatabase(it) },
+            onEdit = {
+                editContract.launch(
+                    EditContract.Input(
+                        absolutePath = it.absolutePath,
+                        parentPath = it.parentPath,
+                        name = it.name,
+                        extension = it.extension
+                    )
+                )
+            },
+            onCopy = { viewModel.copy(it) },
+            onShare = { navigatorIntentFactory.showShare(it) },
+        ),
+        onEmpty = {
+            binding.emptyLayout.root.isVisible = it
+            binding.swipeRefresh.isVisible = it.not()
+        }
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -67,18 +90,19 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
         viewModel.browse()
     }
 
-    override fun onSearchOpened() = Unit
+    override fun onSearchOpened() {
+        binding.importButton.hide()
+    }
 
     override fun search(query: String?) {
-        with(binding) {
-            (recyclerView.adapter as? DatabasesAdapter)?.filter?.filter(query)
-        }
+        viewModel.browse(query)
     }
 
     override fun searchQuery(): String? =
         binding.toolbar.menu.searchView?.query?.toString()
 
     override fun onSearchClosed() {
+        binding.importButton.show()
         refreshDatabases()
     }
 
@@ -99,6 +123,7 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
                 }
             }
             menu.searchView?.setup(
+                hint = getString(R.string.dbinspector_search_by_name),
                 onSearchClosed = { onSearchClosed() },
                 onQueryTextChanged = { search(it) }
             )
@@ -110,6 +135,8 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
             }
         }
         with(binding.recyclerView) {
+            adapter = databasesAdapter
+
             addOnScrollListener(FabExtendingOnScrollListener(binding.importButton))
             layoutManager = LinearLayoutManager(
                 this@DatabasesActivity,
@@ -130,37 +157,10 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
     }
 
     private fun showDatabases(databases: List<DatabaseDescriptor>) {
-        with(binding) {
-            recyclerView.adapter = DatabasesAdapter(
-                items = databases,
-                onClick = { navigatorIntentFactory.showSchema(it) },
-                interactions = DatabaseInteractions(
-                    onDelete = { removeDatabase(it) },
-                    onEdit = {
-                        editContract.launch(
-                            EditContract.Input(
-                                absolutePath = it.absolutePath,
-                                parentPath = it.parentPath,
-                                name = it.name,
-                                extension = it.extension
-                            )
-                        )
-                    },
-                    onCopy = { viewModel.copy(it) },
-                    onShare = { navigatorIntentFactory.showShare(it) },
-                ),
-                onEmpty = {
-                    emptyLayout.root.isVisible = it
-                    swipeRefresh.isVisible = it.not()
-                }
-            )
-            emptyLayout.root.isVisible = databases.isEmpty()
-            swipeRefresh.isVisible = databases.isNotEmpty()
-        }
+        databasesAdapter.submitList(databases)
     }
 
     private fun refreshDatabases() {
-        viewModel.browse()
         search(searchQuery())
     }
 

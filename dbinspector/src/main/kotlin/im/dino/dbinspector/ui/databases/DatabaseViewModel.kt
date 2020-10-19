@@ -18,12 +18,13 @@ internal class DatabaseViewModel(
 
     val databases: MutableLiveData<List<DatabaseDescriptor>> = MutableLiveData()
 
-    fun browse() {
+    fun browse(query: String? = null) {
         launch {
             databases.value = io {
                 getDatabases(
                     Operation(
-                        context = context
+                        context = context,
+                        argument = query
                     )
                 )
             }

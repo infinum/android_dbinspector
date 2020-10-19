@@ -58,9 +58,10 @@
         style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|bottom"
         android:layout_marginBottom="16dp"
         android:text="@string/dbinspector_action_import"
-        app:icon="@drawable/dbinspector_ic_import" />
+        app:icon="@drawable/dbinspector_ic_import"
+        app:layout_anchor="@id/contentLayout"
+        app:layout_anchorGravity="center_horizontal|bottom" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -2,31 +2,28 @@ package im.dino.dbinspector.ui.databases
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ListAdapter
 import im.dino.dbinspector.databinding.DbinspectorItemDatabaseBinding
 import im.dino.dbinspector.domain.database.models.DatabaseDescriptor
 
 internal class DatabasesAdapter(
-    private val items: List<DatabaseDescriptor> = listOf(),
     private val onClick: (DatabaseDescriptor) -> Unit,
     private val interactions: DatabaseInteractions,
     private val onEmpty: (Boolean) -> Unit
-) : RecyclerView.Adapter<DatabaseViewHolder>(), Filterable {
-
-    private var filteredItems: List<DatabaseDescriptor> = listOf()
-
-    init {
-        filteredItems = items
-    }
+) : ListAdapter<DatabaseDescriptor, DatabaseViewHolder>(DatabaseDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DatabaseViewHolder =
-        DatabaseViewHolder(DbinspectorItemDatabaseBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        DatabaseViewHolder(
+            DbinspectorItemDatabaseBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
 
     override fun onBindViewHolder(holder: DatabaseViewHolder, position: Int) =
         holder.bind(
-            item = filteredItems[position],
+            item = getItem(position),
             onClick = onClick,
             interactions = interactions
         )
@@ -37,11 +34,10 @@ internal class DatabasesAdapter(
             super.onViewRecycled(this)
         }
 
-    override fun getItemCount(): Int = filteredItems.size
-
-    override fun getFilter(): Filter = DatabasesFilter(items) {
-        filteredItems = it
-        onEmpty(it.isEmpty())
-        notifyDataSetChanged()
+    override fun onCurrentListChanged(
+        previousList: MutableList<DatabaseDescriptor>,
+        currentList: MutableList<DatabaseDescriptor>
+    ) {
+        onEmpty(currentList.isEmpty())
     }
 }
