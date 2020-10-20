@@ -85,29 +85,6 @@ internal abstract class ContentActivity : BaseActivity() {
                             false
                         )
 
-                        ContextCompat.getDrawable(
-                            recyclerView.context,
-                            R.drawable.dbinspector_divider_vertical
-                        )?.let { drawable ->
-                            val verticalDecorator = DividerItemDecoration(
-                                recyclerView.context,
-                                DividerItemDecoration.VERTICAL
-                            )
-                            verticalDecorator.setDrawable(drawable)
-                            recyclerView.addItemDecoration(verticalDecorator)
-                        }
-                        ContextCompat.getDrawable(
-                            recyclerView.context,
-                            R.drawable.dbinspector_divider_horizontal
-                        )?.let { drawable ->
-                            val horizontalDecorator = DividerItemDecoration(
-                                recyclerView.context,
-                                DividerItemDecoration.HORIZONTAL
-                            )
-                            horizontalDecorator.setDrawable(drawable)
-                            recyclerView.addItemDecoration(horizontalDecorator)
-                        }
-
                         recyclerView.adapter = ConcatAdapter(headerAdapter, contentAdapter)
                     }
 
@@ -149,6 +126,28 @@ internal abstract class ContentActivity : BaseActivity() {
             }
         }
         with(binding.recyclerView) {
+            ContextCompat.getDrawable(
+                context,
+                R.drawable.dbinspector_divider_vertical
+            )?.let { drawable ->
+                val verticalDecorator = DividerItemDecoration(
+                    context,
+                    DividerItemDecoration.VERTICAL
+                )
+                verticalDecorator.setDrawable(drawable)
+                addItemDecoration(verticalDecorator)
+            }
+            ContextCompat.getDrawable(
+                context,
+                R.drawable.dbinspector_divider_horizontal
+            )?.let { drawable ->
+                val horizontalDecorator = DividerItemDecoration(
+                    context,
+                    DividerItemDecoration.HORIZONTAL
+                )
+                horizontalDecorator.setDrawable(drawable)
+                addItemDecoration(horizontalDecorator)
+            }
             updateLayoutParams {
                 minimumWidth = resources.displayMetrics.widthPixels
             }
