@@ -9,8 +9,8 @@ internal class TriggersViewModel(
     private val getSchema: UseCases.GetTriggers
 ) : SchemaSourceViewModel() {
 
-    override fun schemaStatement(): String =
-        Statements.Schema.triggers()
+    override fun schemaStatement(query: String?): String =
+        Statements.Schema.triggers(query = query)
 
     override fun dataSource(databasePath: String, statement: String) =
         TriggersDataSource(
@@ -21,10 +21,11 @@ internal class TriggersViewModel(
 
     override fun query(
         databasePath: String,
+        query: String?,
         onData: suspend (value: PagingData<String>) -> Unit
     ) {
         launch {
-            pageFlow(databasePath, schemaStatement()) {
+            pageFlow(databasePath, schemaStatement(query)) {
                 onData(it)
             }
         }

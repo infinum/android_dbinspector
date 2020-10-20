@@ -9,8 +9,8 @@ internal class ViewsViewModel(
     private val getSchema: UseCases.GetViews
 ) : SchemaSourceViewModel() {
 
-    override fun schemaStatement(): String =
-        Statements.Schema.views()
+    override fun schemaStatement(query: String?): String =
+        Statements.Schema.views(query = query)
 
     override fun dataSource(databasePath: String, statement: String) =
         ViewsDataSource(
@@ -21,10 +21,11 @@ internal class ViewsViewModel(
 
     override fun query(
         databasePath: String,
+        query: String?,
         onData: suspend (value: PagingData<String>) -> Unit
     ) {
         launch {
-            pageFlow(databasePath, schemaStatement()) {
+            pageFlow(databasePath, schemaStatement(query)) {
                 onData(it)
             }
         }

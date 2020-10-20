@@ -42,6 +42,8 @@ internal abstract class SchemaFragment :
 
     private lateinit var contract: ActivityResultLauncher<SchemaContract.Input>
 
+    private lateinit var schemaAdapter: SchemaAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -57,12 +59,12 @@ internal abstract class SchemaFragment :
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            val adapter = SchemaAdapter(
+            schemaAdapter = SchemaAdapter(
                 onClick = this@SchemaFragment::show
             )
-            adapter.addLoadStateListener { loadState ->
+            schemaAdapter.addLoadStateListener { loadState ->
                 if (loadState.append.endOfPaginationReached) {
-                    val isEmpty = adapter.itemCount < 1
+                    val isEmpty = schemaAdapter.itemCount < 1
                     emptyLayout.root.isVisible = isEmpty
                     swipeRefresh.isVisible = isEmpty.not()
                 }
@@ -72,20 +74,20 @@ internal abstract class SchemaFragment :
             }
 
             swipeRefresh.setOnRefreshListener {
-                adapter.refresh()
+                schemaAdapter.refresh()
             }
 
             emptyLayout.retryButton.setOnClickListener {
-                adapter.refresh()
+                schemaAdapter.refresh()
             }
 
             recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             recyclerView.addItemDecoration(DividerItemDecoration(context, LinearLayout.VERTICAL))
-            recyclerView.adapter = adapter
+            recyclerView.adapter = schemaAdapter
 
             contract = registerForActivityResult(SchemaContract()) { shouldRefresh ->
                 if (shouldRefresh) {
-                    adapter.refresh()
+                    schemaAdapter.refresh()
                 }
             }
         }
@@ -100,14 +102,12 @@ internal abstract class SchemaFragment :
 
     override fun search(query: String?) {
         query(query)
-        (binding.recyclerView.adapter as? SchemaAdapter)?.refresh()
+//        schemaAdapter.refresh()
     }
 
     private fun query(query: String?) {
-        viewModel.query(databasePath) {
-            with(binding) {
-                (recyclerView.adapter as? SchemaAdapter)?.submitData(it)
-            }
+        viewModel.query(databasePath, query) {
+            schemaAdapter.submitData(it)
         }
     }
 
