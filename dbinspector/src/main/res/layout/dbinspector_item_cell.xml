@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:gravity="center_vertical"
         android:paddingStart="2dp"
-        android:maxWidth="150dp"
+        android:maxWidth="152dp"
         android:paddingEnd="2dp"
         android:layout_gravity="center"
         android:minHeight="40dp"
