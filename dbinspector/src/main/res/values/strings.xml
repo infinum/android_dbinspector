@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="dbinspector_name">DbInspector</string>
-
     <string name="dbinspector_databases">Databases</string>
 
     <string name="dbinspector_schema">Schema</string>
@@ -30,8 +28,6 @@
     <string name="dbinspector_action_clear">Clear</string>
     <string name="dbinspector_action_drop">Drop</string>
     <string name="dbinspector_action_search">Search</string>
-    <string name="dbinspector_action_ascending">Ascending</string>
-    <string name="dbinspector_action_descending">Descending</string>
 
     <string name="dbinspector_delete_database_confirm">Delete database %s?</string>
     <string name="dbinspector_clear_table_confirm">Delete the content of the table %s?</string>

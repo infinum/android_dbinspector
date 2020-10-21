@@ -2,4 +2,5 @@
 <!-- This file should make other resources private during build -->
 <resources>
     <public />
+    <string name="dbinspector_name">DbInspector</string>
 </resources>

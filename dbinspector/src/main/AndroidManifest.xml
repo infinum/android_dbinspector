@@ -5,6 +5,13 @@
 
     <application>
 
+        <activity-alias
+            android:name="im.dino.dbinspector.DbInspectorActivity"
+            android:enabled="true"
+            android:exported="true"
+            android:taskAffinity="im.dino.dbinspector"
+            android:targetActivity="im.dino.dbinspector.ui.databases.DatabasesActivity" />
+
         <activity
             android:name="im.dino.dbinspector.ui.databases.DatabasesActivity"
             android:taskAffinity="im.dino.dbinspector"
