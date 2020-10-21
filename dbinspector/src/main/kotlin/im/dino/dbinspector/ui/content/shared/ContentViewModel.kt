@@ -4,9 +4,11 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.paging.PagingData
 import im.dino.dbinspector.domain.UseCases
 import im.dino.dbinspector.domain.shared.base.BaseUseCase
+import im.dino.dbinspector.domain.shared.models.Direction
 import im.dino.dbinspector.domain.shared.models.DropException
 import im.dino.dbinspector.domain.shared.models.Page
 import im.dino.dbinspector.domain.shared.models.Query
+import im.dino.dbinspector.ui.shared.headers.Header
 import im.dino.dbinspector.ui.shared.paging.PagingViewModel
 import kotlinx.coroutines.launch
 
@@ -19,7 +21,7 @@ internal abstract class ContentViewModel(
 
     abstract fun headerStatement(name: String): String
 
-    abstract fun schemaStatement(name: String): String
+    abstract fun schemaStatement(name: String, orderBy: String?, direction: Direction): String
 
     abstract fun dropStatement(name: String): String
 
@@ -39,7 +41,7 @@ internal abstract class ContentViewModel(
 
     fun header(
         schemaName: String,
-        onData: suspend (value: List<String>) -> Unit
+        onData: suspend (value: List<Header>) -> Unit
     ) =
         launch {
             val result = io {
@@ -49,16 +51,24 @@ internal abstract class ContentViewModel(
                         statement = headerStatement(schemaName)
                     )
                 ).fields
+                    .map {
+                        Header(
+                            name = it,
+                            direction = Direction.ASCENDING
+                        )
+                    }
             }
             onData(result)
         }
 
     fun query(
         schemaName: String,
+        orderBy: String?,
+        direction: Direction,
         onData: suspend (value: PagingData<String>) -> Unit
     ) {
         launch {
-            pageFlow(databasePath, schemaStatement(schemaName)) {
+            pageFlow(databasePath, schemaStatement(schemaName, orderBy, direction)) {
                 onData(it)
             }
         }

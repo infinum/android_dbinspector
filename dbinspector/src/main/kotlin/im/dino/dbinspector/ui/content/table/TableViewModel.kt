@@ -1,6 +1,7 @@
 package im.dino.dbinspector.ui.content.table
 
 import im.dino.dbinspector.domain.UseCases
+import im.dino.dbinspector.domain.shared.models.Direction
 import im.dino.dbinspector.domain.shared.models.Statements
 import im.dino.dbinspector.ui.content.shared.ContentViewModel
 
@@ -20,8 +21,8 @@ internal class TableViewModel(
     override fun headerStatement(name: String) =
         Statements.Pragma.tableInfo(name)
 
-    override fun schemaStatement(name: String) =
-        Statements.Schema.table(name)
+    override fun schemaStatement(name: String, orderBy: String?, direction: Direction) =
+        Statements.Schema.table(name, orderBy, direction)
 
     override fun dropStatement(name: String) =
         Statements.Schema.dropTableContent(name)

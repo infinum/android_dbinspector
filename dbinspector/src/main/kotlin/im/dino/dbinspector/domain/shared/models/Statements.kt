@@ -69,10 +69,11 @@ object Statements {
                 orderBy(direction, "name")
             }
 
-        fun table(name: String) =
+        fun table(name: String, orderBy: String? = null, direction: Direction = Direction.ASCENDING) =
             select {
                 columns()
                 from(name)
+                orderBy(direction, orderBy)
             }
 
         fun view(name: String) =

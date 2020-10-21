@@ -13,7 +13,7 @@ class Select {
     private val columns = mutableListOf<String>()
     private lateinit var table: String
     private var condition: Condition? = null
-    private val orderByColumns = mutableListOf<String>()
+    private var orderByColumns = listOf<String>()
     private var orderByDirection: Direction = Direction.ASCENDING
     private var limit: Int? = null
 
@@ -32,7 +32,7 @@ class Select {
         condition = And().apply(initializer)
     }
 
-    fun orderBy(direction: Direction, vararg columns: String) {
+    fun orderBy(direction: Direction, vararg columns: String?) {
         this.orderByDirection = direction
 
         if (columns.isEmpty()) {
@@ -41,7 +41,7 @@ class Select {
         if (this.orderByColumns.isNotEmpty()) {
             throw IllegalStateException("Detected an attempt to re-define ORDER BY columns.")
         }
-        this.orderByColumns.addAll(columns)
+        this.orderByColumns = columns.toList().filterNotNull()
     }
 
     fun limit(limit: Int) {

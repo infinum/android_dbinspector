@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivityContentBinding
+import im.dino.dbinspector.domain.shared.models.Direction
 import im.dino.dbinspector.ui.content.table.TableViewModel
 import im.dino.dbinspector.ui.content.trigger.TriggerViewModel
 import im.dino.dbinspector.ui.content.view.ViewViewModel
@@ -62,7 +63,10 @@ internal abstract class ContentActivity : BaseActivity() {
                 setupUi(databasePath, databaseName!!, schemaName!!)
 
                 viewModel.header(schemaName) { tableHeaders ->
-                    val headerAdapter = HeaderAdapter(tableHeaders)
+                    val headerAdapter = HeaderAdapter(tableHeaders, true) { header ->
+                        query(schemaName, header.name, header.direction)
+                    }
+
                     contentAdapter = ContentAdapter(tableHeaders.size)
                     contentAdapter.stateRestorationPolicy =
                         RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
@@ -197,8 +201,12 @@ internal abstract class ContentActivity : BaseActivity() {
             .create()
             .show()
 
-    private fun query(name: String) =
-        viewModel.query(name) {
+    private fun query(
+        name: String,
+        orderBy: String? = null,
+        direction: Direction = Direction.ASCENDING
+    ) =
+        viewModel.query(name, orderBy, direction) {
             contentAdapter.submitData(it)
         }
 

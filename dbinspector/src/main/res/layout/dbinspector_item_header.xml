@@ -2,9 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:background="@color/dbinspector_header_background"
-    android:padding="4dp">
+    android:orientation="horizontal">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/valueView"
@@ -12,11 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="false"
         android:gravity="center_vertical"
         android:maxWidth="150dp"
         android:minHeight="40dp"
-        android:paddingStart="2dp"
-        android:paddingEnd="2dp"
+        android:paddingStart="6dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="6dp"
+        android:paddingBottom="4dp"
         android:textStyle="bold" />
 
 </LinearLayout>
