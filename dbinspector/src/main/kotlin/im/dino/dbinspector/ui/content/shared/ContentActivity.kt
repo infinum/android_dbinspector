@@ -64,6 +64,8 @@ internal abstract class ContentActivity : BaseActivity() {
                 viewModel.header(schemaName) { tableHeaders ->
                     val headerAdapter = HeaderAdapter(tableHeaders)
                     contentAdapter = ContentAdapter(tableHeaders.size)
+                    contentAdapter.stateRestorationPolicy =
+                        RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
                     with(binding) {
                         contentAdapter.addLoadStateListener { loadState ->
@@ -83,10 +85,7 @@ internal abstract class ContentActivity : BaseActivity() {
                             false
                         )
 
-                        val concatAdapter = ConcatAdapter(headerAdapter, contentAdapter)
-                        concatAdapter.stateRestorationPolicy =
-                            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-                        recyclerView.adapter = concatAdapter
+                        recyclerView.adapter = ConcatAdapter(headerAdapter, contentAdapter)
                     }
 
                     query(schemaName)
