@@ -166,6 +166,7 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
 
     private fun removeDatabase(database: DatabaseDescriptor) =
         MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.dbinspector_title_confirm)
             .setMessage(String.format(getString(R.string.dbinspector_delete_database_confirm), database.name))
             .setPositiveButton(android.R.string.ok) { dialog: DialogInterface, _: Int ->
                 viewModel.remove(database)

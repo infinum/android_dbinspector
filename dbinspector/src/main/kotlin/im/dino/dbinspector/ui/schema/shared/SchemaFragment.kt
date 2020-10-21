@@ -1,5 +1,6 @@
 package im.dino.dbinspector.ui.schema.shared
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
@@ -8,6 +9,7 @@ import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorFragmentSchemaBinding
 import im.dino.dbinspector.ui.shared.Constants
@@ -121,7 +123,15 @@ internal abstract class SchemaFragment :
             )
         )
 
-    private fun showError() {
-        println("Some error")
-    }
+    private fun showError() =
+        MaterialAlertDialogBuilder(requireContext())
+            .setCancelable(false)
+            .setTitle(R.string.dbinspector_title_error)
+            .setMessage(R.string.dbinspector_error_parameters)
+            .setPositiveButton(android.R.string.ok) { dialog: DialogInterface, _: Int ->
+                dialog.dismiss()
+                requireActivity().finish()
+            }
+            .create()
+            .show()
 }

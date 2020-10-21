@@ -1,8 +1,11 @@
 package im.dino.dbinspector.ui.pragma
 
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
+import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivityPragmaBinding
 import im.dino.dbinspector.domain.pragma.models.PragmaType
 import im.dino.dbinspector.ui.pragma.shared.PragmaTypeAdapter
@@ -20,6 +23,15 @@ internal class PragmaActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        with(binding) {
+            toolbar.setNavigationOnClickListener { finish() }
+            toolbar.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    else -> false
+                }
+            }
+        }
 
         intent.extras?.let {
             val databaseName = it.getString(Constants.Keys.DATABASE_NAME)
@@ -47,13 +59,7 @@ internal class PragmaActivity : BaseActivity() {
         viewModel.open(lifecycleScope)
 
         with(binding) {
-            toolbar.setNavigationOnClickListener { finish() }
             toolbar.subtitle = listOf(databaseName, tableName).joinToString(" / ")
-            toolbar.setOnMenuItemClickListener {
-                when (it.itemId) {
-                    else -> false
-                }
-            }
 
             viewPager.adapter = PragmaTypeAdapter(
                 fragmentActivity = this@PragmaActivity,
@@ -66,9 +72,15 @@ internal class PragmaActivity : BaseActivity() {
         }
     }
 
-    private fun showError() {
-        with(binding) {
-            toolbar.setNavigationOnClickListener { finish() }
-        }
-    }
+    private fun showError() =
+        MaterialAlertDialogBuilder(this)
+            .setCancelable(false)
+            .setTitle(R.string.dbinspector_title_error)
+            .setMessage(R.string.dbinspector_error_parameters)
+            .setPositiveButton(android.R.string.ok) { dialog: DialogInterface, _: Int ->
+                dialog.dismiss()
+                finish()
+            }
+            .create()
+            .show()
 }

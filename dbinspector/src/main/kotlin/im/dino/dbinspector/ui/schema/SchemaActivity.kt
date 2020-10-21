@@ -1,7 +1,9 @@
 package im.dino.dbinspector.ui.schema
 
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorActivitySchemaBinding
@@ -24,6 +26,25 @@ internal class SchemaActivity : BaseActivity(), Searchable {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        with(binding) {
+            toolbar.setNavigationOnClickListener { finish() }
+            toolbar.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.search -> {
+                        onSearchOpened()
+                        true
+                    }
+                    else -> false
+                }
+            }
+
+            toolbar.menu.searchView?.setup(
+                hint = getString(R.string.dbinspector_search_by_name),
+                onSearchClosed = { onSearchClosed() },
+                onQueryTextChanged = { search(it) }
+            )
+        }
 
         intent.extras?.let {
             val databaseName = it.getString(Constants.Keys.DATABASE_NAME)
@@ -59,23 +80,7 @@ internal class SchemaActivity : BaseActivity(), Searchable {
         viewModel.open(lifecycleScope)
 
         with(binding) {
-            toolbar.setNavigationOnClickListener { finish() }
             toolbar.subtitle = databaseName
-            toolbar.setOnMenuItemClickListener {
-                when (it.itemId) {
-                    R.id.search -> {
-                        onSearchOpened()
-                        true
-                    }
-                    else -> false
-                }
-            }
-
-            toolbar.menu.searchView?.setup(
-                hint = getString(R.string.dbinspector_search_by_name),
-                onSearchClosed = { onSearchClosed() },
-                onQueryTextChanged = { search(it) }
-            )
 
             viewPager.adapter = SchemaTypeAdapter(
                 fragmentActivity = this@SchemaActivity,
@@ -88,9 +93,15 @@ internal class SchemaActivity : BaseActivity(), Searchable {
         }
     }
 
-    private fun showError() {
-        with(binding) {
-            toolbar.setNavigationOnClickListener { finish() }
-        }
-    }
+    private fun showError() =
+        MaterialAlertDialogBuilder(this)
+            .setCancelable(false)
+            .setTitle(R.string.dbinspector_title_error)
+            .setMessage(R.string.dbinspector_error_parameters)
+            .setPositiveButton(android.R.string.ok) { dialog: DialogInterface, _: Int ->
+                dialog.dismiss()
+                finish()
+            }
+            .create()
+            .show()
 }

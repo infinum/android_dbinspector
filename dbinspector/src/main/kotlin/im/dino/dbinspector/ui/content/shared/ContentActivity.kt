@@ -154,9 +154,17 @@ internal abstract class ContentActivity : BaseActivity() {
         }
     }
 
-    private fun showError() {
-        println("Some error")
-    }
+    private fun showError() =
+        MaterialAlertDialogBuilder(this)
+            .setCancelable(false)
+            .setTitle(R.string.dbinspector_title_error)
+            .setMessage(R.string.dbinspector_error_parameters)
+            .setPositiveButton(android.R.string.ok) { dialog: DialogInterface, _: Int ->
+                dialog.dismiss()
+                finish()
+            }
+            .create()
+            .show()
 
     private fun pragma(databaseName: String?, databasePath: String?, schemaName: String) {
         startActivity(
@@ -171,6 +179,7 @@ internal abstract class ContentActivity : BaseActivity() {
 
     private fun drop(name: String) =
         MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.dbinspector_title_info)
             .setMessage(String.format(getString(drop), name))
             .setPositiveButton(android.R.string.ok) { dialog: DialogInterface, _: Int ->
                 viewModel.drop(name) {

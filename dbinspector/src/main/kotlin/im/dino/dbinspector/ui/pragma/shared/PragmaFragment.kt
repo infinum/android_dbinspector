@@ -1,5 +1,6 @@
 package im.dino.dbinspector.ui.pragma.shared
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -8,6 +9,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorFragmentPragmaBinding
 import im.dino.dbinspector.ui.shared.Constants
@@ -111,7 +113,15 @@ internal abstract class PragmaFragment :
             pragmaAdapter.submitData(it)
         }
 
-    private fun showError() {
-        println("Some error")
-    }
+    private fun showError() =
+        MaterialAlertDialogBuilder(requireContext())
+            .setCancelable(false)
+            .setTitle(R.string.dbinspector_title_error)
+            .setMessage(R.string.dbinspector_error_parameters)
+            .setPositiveButton(android.R.string.ok) { dialog: DialogInterface, _: Int ->
+                dialog.dismiss()
+                requireActivity().finish()
+            }
+            .create()
+            .show()
 }

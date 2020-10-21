@@ -48,4 +48,10 @@
     <string name="dbinspector_retry">Retry</string>
 
     <string name="dbinspector_search_by_name">Search by name…</string>
+
+    <string name="dbinspector_error_parameters">Database parameters are missing.</string>
+
+    <string name="dbinspector_title_info">Info</string>
+    <string name="dbinspector_title_confirm">Confirm</string>
+    <string name="dbinspector_title_error">Error</string>
 </resources>
