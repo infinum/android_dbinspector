@@ -20,6 +20,8 @@ ext.versions = [
     "startup"           : "1.0.0-beta01",
     "swiperefreshlayout": "1.1.0",
     "design"            : "1.2.1",
+    "koin"              : "2.1.6",
+    "timber"            : "4.7.1",
     "maven"             : "2.1",
     "detekt"            : "1.14.1",
     "dokka"             : "0.10.1", // TODO: Upgrade to latest Dokka
@@ -54,6 +56,14 @@ ext.packages = [
     ],
     "google"     : [
         "design": "com.google.android.material:material:${versions.design}"
+    ],
+    "koin"       : [
+        "android"  : "org.koin:koin-android:${versions.koin}",
+        "scope"    : "org.koin:koin-androidx-scope:${versions.koin}",
+        "viewmodel": "org.koin:koin-androidx-viewmodel:${versions.koin}"
+    ],
+    "timber"     : [
+        "core": "com.jakewharton.timber:timber:${versions.timber}"
     ],
     "maven"      : [
         "plugin": "com.github.dcendents:android-maven-gradle-plugin:${versions.maven}"
