@@ -1,4 +1,4 @@
-package im.dino.dbview.exampleapp
+package im.dino.dbinspector.sample
 
 import android.os.Bundle
 import android.view.View

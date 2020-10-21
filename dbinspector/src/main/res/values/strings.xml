@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="dbinspector_name">DbInspector</string>
+
     <string name="dbinspector_databases">Databases</string>
 
     <string name="dbinspector_schema">Schema</string>

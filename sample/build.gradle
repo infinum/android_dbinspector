@@ -11,7 +11,7 @@ android {
         targetSdkVersion buildConfig.targetSdk
         versionCode dbinspector.versionCode
         versionName dbinspector.version
-        applicationId "im.dino.dbinspector.example"
+        applicationId "im.dino.dbinspector.sample"
     }
 
     signingConfigs {

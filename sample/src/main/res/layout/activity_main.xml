@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="im.dino.dbview.exampleapp.MainActivity">
+    tools:context="im.dino.dbinspector.sample.MainActivity">
 
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/progressBar"
