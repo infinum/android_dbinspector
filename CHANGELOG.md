@@ -3,11 +3,11 @@ Changelog
 
 ## Version 5.0.0
 
-_2020-10-01_
+_2020-11-01_
 
 * minSdk is now 21
-* Example now provides 3 test databases
-* Refactor codebase
+* Sample now provides 3 test databases
+* Refactor codebase and migrate to Kotlin
 * Replace manual pagination with automatic paging
 * Add a no op package
 * Redesign all screens
