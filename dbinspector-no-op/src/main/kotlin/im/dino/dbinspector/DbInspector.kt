@@ -6,5 +6,6 @@ import android.content.Context
 
 object DbInspector {
 
-    fun launch(context: Context) = Unit
+    @JvmStatic
+    fun show(context: Context) = Unit
 }

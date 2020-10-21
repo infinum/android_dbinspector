@@ -9,6 +9,7 @@ import timber.log.Timber.DebugTree
 
 object DbInspector {
 
+    @JvmStatic
     fun show(context: Context) {
 
         when (BuildConfig.DEBUG) {
