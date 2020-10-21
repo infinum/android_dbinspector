@@ -16,7 +16,7 @@ ext.versions = [
     "lifecycle"         : "2.2.0",
     "viewpager"         : "1.0.0",
     "paging"            : "3.0.0-alpha07",
-    "recyclerview"      : "1.1.0",
+    "recyclerview"      : "1.2.0-alpha06",
     "startup"           : "1.0.0-beta01",
     "swiperefreshlayout": "1.1.0",
     "design"            : "1.2.1",

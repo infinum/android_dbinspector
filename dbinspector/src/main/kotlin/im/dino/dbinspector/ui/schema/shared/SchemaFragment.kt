@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorFragmentSchemaBinding
@@ -64,6 +65,7 @@ internal abstract class SchemaFragment :
             schemaAdapter = SchemaAdapter(
                 onClick = this@SchemaFragment::show
             )
+            schemaAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
             schemaAdapter.addLoadStateListener { loadState ->
                 if (loadState.append.endOfPaginationReached) {
                     val isEmpty = schemaAdapter.itemCount < 1
