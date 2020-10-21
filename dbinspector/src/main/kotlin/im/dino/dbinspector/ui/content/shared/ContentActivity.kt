@@ -25,9 +25,7 @@ import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.shared.base.BaseActivity
 import im.dino.dbinspector.ui.shared.delegates.viewBinding
 import im.dino.dbinspector.ui.shared.headers.HeaderAdapter
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@ExperimentalCoroutinesApi
 internal abstract class ContentActivity : BaseActivity() {
 
     override val binding by viewBinding(DbinspectorActivityContentBinding::inflate)

@@ -3,10 +3,8 @@ package im.dino.dbinspector.ui.schema.triggers
 import im.dino.dbinspector.domain.shared.models.Statements
 import im.dino.dbinspector.ui.content.trigger.TriggerActivity
 import im.dino.dbinspector.ui.schema.shared.SchemaFragment
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@ExperimentalCoroutinesApi
 internal class TriggersFragment : SchemaFragment() {
 
     companion object {

@@ -7,7 +7,6 @@ import im.dino.dbinspector.domain.schema.shared.models.SchemaType
 import im.dino.dbinspector.ui.schema.tables.TablesFragment
 import im.dino.dbinspector.ui.schema.triggers.TriggersFragment
 import im.dino.dbinspector.ui.schema.views.ViewsFragment
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 internal class SchemaTypeAdapter(
     fragmentActivity: FragmentActivity,
@@ -15,7 +14,6 @@ internal class SchemaTypeAdapter(
     private val databaseName: String,
 ) : FragmentStateAdapter(fragmentActivity) {
 
-    @ExperimentalCoroutinesApi
     override fun createFragment(position: Int): Fragment =
         when (SchemaType(position)) {
             SchemaType.TABLE -> TablesFragment.newInstance(databasePath, databaseName)

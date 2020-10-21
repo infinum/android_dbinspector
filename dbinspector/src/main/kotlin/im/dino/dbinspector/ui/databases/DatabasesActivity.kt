@@ -19,12 +19,8 @@ import im.dino.dbinspector.ui.shared.base.BaseActivity
 import im.dino.dbinspector.ui.shared.delegates.viewBinding
 import im.dino.dbinspector.ui.shared.listeners.FabExtendingOnScrollListener
 import im.dino.dbinspector.ui.shared.searchable.Searchable
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@ExperimentalCoroutinesApi
-@FlowPreview
 internal class DatabasesActivity : BaseActivity(), Searchable {
 
     override val binding by viewBinding(DbinspectorActivityDatabasesBinding::inflate)
