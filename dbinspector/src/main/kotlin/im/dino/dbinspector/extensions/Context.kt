@@ -12,5 +12,6 @@ internal fun Context.drawableFromAttribute(attrId: Int): Drawable {
     val typedValue = TypedValue()
     this.theme.resolveAttribute(attrId, typedValue, true)
     val imageResId = typedValue.resourceId
-    return ContextCompat.getDrawable(this, imageResId) ?: throw IllegalArgumentException("Cannot load drawable $imageResId")
+    return ContextCompat.getDrawable(this, imageResId)
+        ?: throw IllegalArgumentException("Cannot load drawable $imageResId")
 }
