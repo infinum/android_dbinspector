@@ -4,10 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import im.dino.dbinspector.databinding.DbinspectorItemHeaderBinding
-import im.dino.dbinspector.domain.shared.models.Direction
 
 internal class HeaderAdapter(
-    private val headerItems: List<Header>,
+    private var headerItems: List<Header>,
     private val isClickable: Boolean = false,
     private val onClick: ((Header) -> Unit)? = null
 ) : RecyclerView.Adapter<HeaderViewHolder>() {
@@ -36,4 +35,15 @@ internal class HeaderAdapter(
 
     override fun getItemCount(): Int =
         headerItems.size
+
+    fun updateHeader(header: Header) {
+        headerItems = headerItems.map {
+            if (it.name == header.name) {
+                header
+            } else {
+                it
+            }
+        }
+        notifyDataSetChanged()
+    }
 }

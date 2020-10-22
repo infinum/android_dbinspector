@@ -42,6 +42,8 @@ internal abstract class ContentActivity : BaseActivity() {
     @get:StringRes
     abstract val drop: Int
 
+    private lateinit var headerAdapter: HeaderAdapter
+
     private lateinit var contentAdapter: ContentAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,8 +65,9 @@ internal abstract class ContentActivity : BaseActivity() {
                 setupUi(databasePath, databaseName!!, schemaName!!)
 
                 viewModel.header(schemaName) { tableHeaders ->
-                    val headerAdapter = HeaderAdapter(tableHeaders, true) { header ->
+                    headerAdapter = HeaderAdapter(tableHeaders, true) { header ->
                         query(schemaName, header.name, header.direction)
+                        headerAdapter.updateHeader(header)
                     }
 
                     contentAdapter = ContentAdapter(tableHeaders.size)

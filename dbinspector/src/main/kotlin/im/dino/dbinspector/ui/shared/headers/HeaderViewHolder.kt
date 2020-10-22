@@ -1,5 +1,6 @@
 package im.dino.dbinspector.ui.shared.headers
 
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import im.dino.dbinspector.databinding.DbinspectorItemHeaderBinding
 import im.dino.dbinspector.domain.shared.models.Direction
@@ -21,6 +22,12 @@ internal class HeaderViewHolder(
             }
 
             this.valueView.text = item.name
+            this.valueView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                null,
+                null,
+                ContextCompat.getDrawable(this.valueView.context, nextDirection.icon),
+                null
+            )
             this.valueView.isClickable = isClickable
             this.valueView.setOnClickListener {
                 onClick?.invoke(
