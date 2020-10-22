@@ -39,9 +39,9 @@ internal class HeaderAdapter(
     fun updateHeader(header: Header) {
         headerItems = headerItems.map {
             if (it.name == header.name) {
-                header
+                header.copy(active = true)
             } else {
-                it
+                it.copy(active = false)
             }
         }
         notifyDataSetChanged()

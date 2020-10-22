@@ -20,7 +20,7 @@ internal class ContentViewHolder(
                         ContextCompat.getColor(this.root.context, android.R.color.transparent)
                     }
                 )
-//            this.content.setOnClickListener { onClick(it) }
+//            this.valueView.setOnClickListener {  }
             }
         } ?: with(viewBinding) {
             this.valueView.text = null
@@ -31,7 +31,7 @@ internal class ContentViewHolder(
     fun unbind() {
         with(viewBinding) {
             this.root.setBackgroundColor(ContextCompat.getColor(this.root.context, android.R.color.transparent))
-//            this.content.setOnClickListener(null)
+//            this.valueView.setOnClickListener(null)
         }
     }
 }

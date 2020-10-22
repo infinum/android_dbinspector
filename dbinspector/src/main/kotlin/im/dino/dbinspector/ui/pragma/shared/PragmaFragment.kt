@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import im.dino.dbinspector.R
 import im.dino.dbinspector.databinding.DbinspectorFragmentPragmaBinding
-import im.dino.dbinspector.domain.shared.models.Direction
 import im.dino.dbinspector.ui.shared.Constants
 import im.dino.dbinspector.ui.shared.base.BaseFragment
 import im.dino.dbinspector.ui.shared.delegates.viewBinding
@@ -107,7 +106,7 @@ internal abstract class PragmaFragment :
 
             recyclerView.layoutManager = GridLayoutManager(recyclerView.context, headers().size)
 
-            val headerAdapter = HeaderAdapter(headers().map { Header(it, Direction.ASCENDING) }, false)
+            val headerAdapter = HeaderAdapter(headers().map { Header(name = it) }, false)
 
             recyclerView.adapter = ConcatAdapter(headerAdapter, pragmaAdapter)
 
