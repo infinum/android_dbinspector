@@ -57,6 +57,9 @@ dependencies {
     implementation packages.kotlin.core
     implementation packages.androidx.appcompat
     implementation packages.google.design
+    implementation packages.koin.android
+    implementation packages.koin.scope
+    implementation packages.koin.viewmodel
     debugImplementation project(":dbinspector")
     releaseImplementation project(":dbinspector-no-op")
 }

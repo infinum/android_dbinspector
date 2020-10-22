@@ -4,13 +4,6 @@
     android:layout_height="match_parent"
     tools:context="im.dino.dbinspector.sample.MainActivity">
 
-    <androidx.core.widget.ContentLoadingProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="visible" />
-
     <LinearLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
@@ -18,7 +11,6 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="gone"
         tools:ignore="UselessParent">
 
         <com.google.android.material.textview.MaterialTextView

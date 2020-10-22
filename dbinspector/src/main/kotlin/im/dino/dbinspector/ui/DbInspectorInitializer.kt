@@ -2,18 +2,19 @@ package im.dino.dbinspector.ui
 
 import android.content.Context
 import androidx.startup.Initializer
+import im.dino.dbinspector.BuildConfig
 import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
+import org.koin.android.ext.koin.androidLogger
 import org.koin.core.logger.Level
 
 class DbInspectorInitializer : Initializer<Class<DbInspectorInitializer>> {
 
     override fun create(context: Context): Class<DbInspectorInitializer> {
 
-        startKoin {
+        Presentation.koinApplication.apply {
+            androidLogger(if (BuildConfig.DEBUG) Level.DEBUG else Level.NONE)
             androidContext(context)
             modules(Presentation.modules())
-            printLogger(level = Level.INFO)
         }
 
         return DbInspectorInitializer::class.java

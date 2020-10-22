@@ -2,6 +2,7 @@ package im.dino.dbinspector.ui.shared.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import im.dino.dbinspector.ui.DbInspectorKoinComponent
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -10,7 +11,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-internal abstract class BaseViewModel : ViewModel() {
+internal abstract class BaseViewModel : ViewModel(), DbInspectorKoinComponent {
 
     private val supervisorJob = SupervisorJob()
 

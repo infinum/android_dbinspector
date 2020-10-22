@@ -15,10 +15,13 @@ import im.dino.dbinspector.ui.schema.tables.TablesViewModel
 import im.dino.dbinspector.ui.schema.triggers.TriggersViewModel
 import im.dino.dbinspector.ui.schema.views.ViewsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.KoinApplication
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
 object Presentation {
+
+    val koinApplication = KoinApplication.init()
 
     fun modules(): List<Module> =
         Domain.modules().plus(

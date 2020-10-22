@@ -4,6 +4,7 @@
     package="im.dino.dbinspector.sample">
 
     <application
+        android:name=".DbSampleApp"
         android:icon="@mipmap/ic_launcher"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
@@ -18,16 +19,16 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name="im.dino.dbinspector.DbInspectorActivity"
-            android:icon="@drawable/dbinspector_launcher"
-            android:roundIcon="@drawable/dbinspector_launcher_round"
-            android:label="@string/dbinspector_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+<!--        <activity-->
+<!--            android:name="im.dino.dbinspector.DbInspectorActivity"-->
+<!--            android:icon="@drawable/dbinspector_launcher"-->
+<!--            android:roundIcon="@drawable/dbinspector_launcher_round"-->
+<!--            android:label="@string/dbinspector_name">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
 
     </application>
 

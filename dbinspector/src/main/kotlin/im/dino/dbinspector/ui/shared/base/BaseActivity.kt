@@ -4,9 +4,10 @@ import android.os.Bundle
 import androidx.annotation.RestrictTo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
+import im.dino.dbinspector.ui.DbInspectorKoinComponent
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal abstract class BaseActivity : AppCompatActivity() {
+internal abstract class BaseActivity : AppCompatActivity(), DbInspectorKoinComponent {
 
     abstract val binding: ViewBinding
 

@@ -20,7 +20,7 @@ ext.versions = [
     "startup"           : "1.0.0-beta01",
     "swiperefreshlayout": "1.1.0",
     "design"            : "1.2.1",
-    "koin"              : "2.1.6",
+    "koin"              : "2.2.0-rc-3",
     "timber"            : "4.7.1",
     "maven"             : "2.1",
     "detekt"            : "1.14.1",
