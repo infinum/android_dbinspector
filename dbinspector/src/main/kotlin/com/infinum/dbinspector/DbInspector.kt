@@ -17,7 +17,7 @@ object DbInspector {
             false -> Timber.plant(DeadTree())
         }
 
-        with(Presentation.context()) {
+        with(Presentation.applicationContext()) {
             this.startActivity(
                 Intent(this, DatabasesActivity::class.java).apply {
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

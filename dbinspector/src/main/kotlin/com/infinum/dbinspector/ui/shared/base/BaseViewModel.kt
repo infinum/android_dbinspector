@@ -2,7 +2,7 @@ package com.infinum.dbinspector.ui.shared.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.infinum.dbinspector.ui.DbInspectorKoinComponent
+import com.infinum.dbinspector.di.LibraryKoinComponent
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -11,7 +11,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-internal abstract class BaseViewModel : ViewModel(), DbInspectorKoinComponent {
+internal abstract class BaseViewModel : ViewModel(), LibraryKoinComponent {
 
     private val supervisorJob = SupervisorJob()
 

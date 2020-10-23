@@ -16,21 +16,24 @@ import com.infinum.dbinspector.ui.schema.tables.TablesViewModel
 import com.infinum.dbinspector.ui.schema.triggers.TriggersViewModel
 import com.infinum.dbinspector.ui.schema.views.ViewsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.core.KoinApplication
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
 object Presentation {
 
-    val koinApplication = KoinApplication.init()
-
     private lateinit var context: Context
 
     fun init(context: Context) {
-        this.context = context.applicationContext
+        this.context = context
     }
 
-    fun context(): Context = this.context
+    fun applicationContext(): Context {
+        if (this::context.isInitialized) {
+            return context.applicationContext
+        } else {
+            throw NullPointerException("Presentation context has not been initialized.")
+        }
+    }
 
     fun modules(): List<Module> =
         Domain.modules().plus(
