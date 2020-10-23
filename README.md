@@ -23,7 +23,7 @@ With this library you can:
 To include _DbInspector_ in your project, you have to add buildscript dependencies in your project level `build.gradle` or `build.gradle.kts`:
 
 **Groovy**
-```gradle
+```groovy
 buildscript {
     repositories {
         jcenter()
@@ -58,8 +58,8 @@ releaseImplementation("com.infinum.dbinspector:dbinspector-no-op:5.0.0")
 
 ### Usage
 _DbInspector_ can be invoked **explicitly** or **implicitly**.
-Explicitly, it can be called anywhere and anytime that implementations sees fit, like OnClick, lambda or similar.
-Implicitly, you can add an exposed Activity in your application manifest.
+* explicitly - call _DbInspector.show()_ anywhere and anytime that you see fit, like _onClick_ methods, lambdas or similar.
+* implicitly - add an exposed Activity in your application manifest that in return creates a launcher icon for _DbInspector_ for the application implenenting it
 
 **Explicit**
 ```kotlin
