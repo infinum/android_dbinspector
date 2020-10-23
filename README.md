@@ -1,60 +1,126 @@
-# Android DbInspector
+[ ![Download](https://api.bintray.com/packages/infinum/android/sentinel/images/download.svg) ](https://bintray.com/infinum/android/dbinspector/_latestVersion) ![Validate Gradle Wrapper](https://github.com/infinum/android-sentinel/workflows/Validate%20Gradle%20Wrapper/badge.svg)
 
-[![Build Status](https://travis-ci.org/infinum/android_dbinspector.svg?branch=master)](https://travis-ci.org/infinum/android_dbinspector)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/im.dino/dbinspector/badge.svg)](https://maven-badges.herokuapp.com/maven-central/im.dino/dbinspector)
+# DbInspector
+<p align=“center”>
+  <img src=‘./logo.svg’ width=‘264’/>
+</p>
 
-Provides a simple way to view the contents of the in-app database for debugging purposes. No need to pull the database from a rooted phone. Also supports inspecting of the sqlite databases created by CouchBase Lite since DbInspector version 1.1.0.
+// OPTIONAL: A single image/screenshot/GIF descriptive of the main library function. You can stitch multiple images so they fit better horizontally if there are more things to show. //
 
-![Screenshots](https://raw.github.com/infinum/android_dbinspector/master/screenshots.png)
+Provides a simple way to view the contents of the in-app database for debugging purposes. No need to pull the database from a rooted phone. Supports inspecting of the SQLite databases created by CouchBase Lite.
+With this library you can:
+* preview all application sandbox databases
+* import single or multiple databases at once
+* search, delete, rename, copy, share a database
+* preview tables, views and triggers
+* preview table or view pragma
+* delete table contents
+* drop view or trigger
+* search table, view or trigger
+* sort table, view or trigger per column
 
-## Usage
+## Getting started
+To include _DbInspector_ in your project, you have to add buildscript dependencies in your project level `build.gradle` or `build.gradle.kts`:
 
-Add the library as a dependency to your ```build.gradle```
-
-```groovy
-debugImplementation 'im.dino:dbinspector:4.0.0'
+**Groovy**
+```gradle
+buildscript {
+    repositories {
+        jcenter()
+        // or ...
+        maven { url "https://dl.bintray.com/infinum/android" }
+    }
+}
+```
+**KotlinDSL**
+```kotlin
+buildscript {
+    repositories {
+        jcenter()
+        // or ...
+        maven(url = "https://dl.bintray.com/infinum/android")
+    }
+}
 ```
 
-Check the latest version on [Maven Central](http://search.maven.org/#search|ga|1|g%3A%22im.dino%22%20a%3A%22dbinspector%22).
+Then add the following dependencies in your app `build.gradle` or `build.gradle.kts` :
+**Groovy**
+```groovy
+debugImplementation "com.infinum.dbinspector:dbinspector:5.0.0"
+releaseImplementation "com.infinum.dbinspector:dbinspector-no-op:5.0.0"
+```
+**KotlinDSL**
+```kotlin
+debugImplementation("com.infinum.dbinspector:dbinspector:5.0.0")
+releaseImplementation("com.infinum.dbinspector:dbinspector-no-op:5.0.0")
+```
 
-Now you have a launcher icon for viewing you in-app database which appears only on debug builds.
-You can define `@string/dbinspector_app_name` to change the launcher icon label and `@drawable/dbinspector_ic_launcher` to change the launcher icon.
-
-We also maintain a [changelog](https://github.com/infinum/android_dbinspector/blob/master/CHANGELOG.md).
-
-### Removing launcher icon
-
-If you don't want the launcher icon to be shown, add this to your debug manifest:
-
+### Usage
+_DbInspector_ can be invoked **explicitly** or **implicitly**.
+Explicitly, it can be called anywhere and anytime that implementations sees fit, like OnClick, lambda or similar.
+Implicitly, you can add an exposed Activity in your application manifest.
+**Explicit**
+```kotlin
+DbInspector.show()
+```
+**Implicit**
 ```xml
 <activity
-    android:name="im.dino.dbinspector.databases.DbInspectorActivity">
-    <intent-filter tools:node="removeAll">
+    android:name="com.infinum.dbinspector.DbInspectorActivity"
+    android:icon="@drawable/dbinspector_launcher"
+    android:roundIcon="@drawable/dbinspector_launcher_round"
+    android:label="@string/dbinspector_name">
+    <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />
     </intent-filter>
 </activity>
 ```
 
-## Upgrading 3.x -> 4.x
+## Requirements
+Minimum required API level to use _DbInspector_ is **21** known as [Android 5.0, Lollipop](https://www.android.com/versions/lollipop-5-0/).
+As of 4.0.0 version, AndroidX is required. If you cannot unfortunately migrate your project, keep the previous version until you get the opportunity to migrate to AndroidX.
+_DbInspector_ is written entirely in Kotlin, but also works with Java only projects and all combinations of both.
 
-DbInspector now uses androidx so you might have dependency clashes if you still use the legacy support lib, it's recommended to migrate to androidx.
-
-## Upgrading 2.x -> 3.x
-
+## Migrations
+### Upgrading 4.x -> 5.x
+DbInspector has been rewritten in Kotlin.
+Preview Activity is not implicitly added in project manifest. It can be added manually on demand.
+Package location has changed from Sonatype to jCenter.
+Package name has changed from “im.dino” to “com.infinum.dbinspector”.
+### Upgrading 3.x -> 4.x
+DbInspector now uses AndroidX so you might have dependency clashes if you still use the legacy support lib, it’s recommended to migrate to AndroidX.
+### Upgrading 2.x -> 3.x
 Remove the `DbInspectorActivity` declaration from your app manifest, this declaration is now included in the library manifest and it gets merged in with your app manifest during the build process.
-
-## Upgrading 1.x -> 2.x
-
+### Upgrading 1.x -> 2.x
 Change the theme set to DbInspectorActivity your app manifest to an `AppCompat` theme. `DbInspectorActivity` extends `ActionBarActivity` since 2.0.0.
 
 ## Contributing
-
 Feedback and code contributions are very much welcome. Just make a pull request with a short description of your changes. By making contributions to this project you give permission for your code to be used under the same [license](LICENSE).
+For easier developing a `sample` application with proper implementations is provided.
+It is also recommended to change `build.debug` property in `build.properties` to toggle dependency substitution in project level `build.gradle`.
+Then create a pull request.
+
+## License
+
+```
+Copyright 2020 Infinum
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
 
 ## Credits
-
-Maintained and sponsored by
-[Infinum](http://www.infinum.com).
-
-<img src="https://infinum.com/infinum.png" width="264">
+Maintained and sponsored by [Infinum](http://www.infinum.com).
+<a href=‘https://infinum.co’>
+  <img src=‘https://infinum.co/infinum.png' href=‘https://infinum.com’ width=‘264’>
+</a>
