@@ -44,6 +44,7 @@ buildscript {
 ```
 
 Then add the following dependencies in your app `build.gradle` or `build.gradle.kts` :
+
 **Groovy**
 ```groovy
 debugImplementation "com.infinum.dbinspector:dbinspector:5.0.0"
@@ -59,6 +60,7 @@ releaseImplementation("com.infinum.dbinspector:dbinspector-no-op:5.0.0")
 _DbInspector_ can be invoked **explicitly** or **implicitly**.
 Explicitly, it can be called anywhere and anytime that implementations sees fit, like OnClick, lambda or similar.
 Implicitly, you can add an exposed Activity in your application manifest.
+
 **Explicit**
 ```kotlin
 DbInspector.show()
