@@ -123,6 +123,6 @@ limitations under the License.
 
 ## Credits
 Maintained and sponsored by [Infinum](http://www.infinum.com).
-<a href=‘https://infinum.co’>
-  <img src=‘https://infinum.co/infinum.png' href=‘https://infinum.com’ width=‘264’>
+<a href=‘https://infinum.com’>
+  <img src=‘https://infinum.com/infinum.png' href=‘https://infinum.com’ width=‘264’>
 </a>
