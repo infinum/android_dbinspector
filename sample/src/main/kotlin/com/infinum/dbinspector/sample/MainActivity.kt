@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         show.setOnClickListener {
-            DbInspector.show(this)
+            DbInspector.show()
         }
 
         viewModel.copy()

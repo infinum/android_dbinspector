@@ -10,6 +10,7 @@ import org.koin.core.logger.Level
 class DbInspectorInitializer : Initializer<Class<DbInspectorInitializer>> {
 
     override fun create(context: Context): Class<DbInspectorInitializer> {
+        Presentation.init(context)
 
         Presentation.koinApplication.apply {
             androidLogger(if (BuildConfig.DEBUG) Level.DEBUG else Level.NONE)

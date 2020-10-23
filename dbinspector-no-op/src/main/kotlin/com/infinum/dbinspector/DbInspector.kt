@@ -2,10 +2,8 @@
 
 package com.infinum.dbinspector
 
-import android.content.Context
-
 object DbInspector {
 
     @JvmStatic
-    fun show(context: Context) = Unit
+    fun show() = Unit
 }

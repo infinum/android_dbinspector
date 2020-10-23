@@ -1,5 +1,6 @@
 package com.infinum.dbinspector.ui
 
+import android.content.Context
 import com.infinum.dbinspector.domain.Domain
 import com.infinum.dbinspector.ui.content.table.TableViewModel
 import com.infinum.dbinspector.ui.content.trigger.TriggerViewModel
@@ -22,6 +23,14 @@ import org.koin.dsl.module
 object Presentation {
 
     val koinApplication = KoinApplication.init()
+
+    private lateinit var context: Context
+
+    fun init(context: Context) {
+        this.context = context.applicationContext
+    }
+
+    fun context(): Context = this.context
 
     fun modules(): List<Module> =
         Domain.modules().plus(
