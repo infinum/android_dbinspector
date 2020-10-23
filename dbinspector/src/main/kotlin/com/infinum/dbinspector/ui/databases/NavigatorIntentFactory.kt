@@ -18,6 +18,15 @@ internal class NavigatorIntentFactory(
     private val context: Context
 ) {
 
+    companion object {
+
+        private val SUPPORTED_MIME_TYPE = setOf(
+            "application/*",
+            "application/x-sqlite3",
+            "application/vnd.sqlite3"
+        )
+    }
+
     fun showSchema(database: DatabaseDescriptor) =
         context.startActivity(
             Intent(context, SchemaActivity::class.java)
@@ -32,9 +41,7 @@ internal class NavigatorIntentFactory(
             Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
                 addCategory(Intent.CATEGORY_OPENABLE)
                 flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-//                    type = "application/vnd.sqlite3"
-//                    type = "application/x-sqlite3"
-                type = "application/*"
+                type = SUPPORTED_MIME_TYPE.first()
                 putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
             },
             context.getString(R.string.dbinspector_action_import)
