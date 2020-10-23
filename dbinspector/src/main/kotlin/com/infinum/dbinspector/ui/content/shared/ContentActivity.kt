@@ -112,7 +112,7 @@ internal abstract class ContentActivity : BaseActivity() {
         with(binding.toolbar) {
             setNavigationOnClickListener { finish() }
             title = getString(this@ContentActivity.title)
-            subtitle = listOf(databaseName, schemaName).joinToString(" / ")
+            subtitle = listOf(databaseName, schemaName).joinToString(" → ")
             menuInflater.inflate(this@ContentActivity.menu, menu)
             setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {

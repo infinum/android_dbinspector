@@ -59,7 +59,7 @@ internal class PragmaActivity : BaseActivity() {
         viewModel.open(lifecycleScope)
 
         with(binding) {
-            toolbar.subtitle = listOf(databaseName, tableName).joinToString(" / ")
+            toolbar.subtitle = listOf(databaseName, tableName).joinToString(" → ")
 
             viewPager.adapter = PragmaTypeAdapter(
                 fragmentActivity = this@PragmaActivity,
