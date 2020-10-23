@@ -5,6 +5,8 @@ Changelog
 
 _2020-11-01_
 
+For breaking changes check [wiki migration pages](https://github.com/infinum/android_dbinspector/wiki/Migrations).
+
 * minSdk is now 21
 * Sample now provides 3 test databases
 * Refactor codebase and migrate to Kotlin
