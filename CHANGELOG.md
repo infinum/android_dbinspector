@@ -12,6 +12,7 @@ _2020-11-01_
 * Add a no op package
 * Redesign all screens
 * Streamline deployment
+* Implement sorting tables per columns
 
 ## Version 4.0.0
 
