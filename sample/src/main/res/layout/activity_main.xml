@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="im.dino.dbinspector.sample.MainActivity">
+    tools:context="com.infinum.dbinspector.sample.MainActivity">
 
     <LinearLayout
         android:id="@+id/content"

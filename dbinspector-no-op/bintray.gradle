@@ -96,7 +96,7 @@ install {
         pom {
             project {
                 packaging 'jar'
-                groupId 'im.dino.dbinspector'
+                groupId 'com.infinum.dbinspector'
                 artifactId 'dbinspector-no-op'
 
                 name 'dbinspector-no-op'

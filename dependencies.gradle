@@ -1,5 +1,5 @@
 ext.dbinspector = [
-    "group"      : "im.dino.dbinspector",
+    "group"      : "com.infinum.dbinspector",
     "version"    : "5.0.0",
     "versionCode": 5 * 100 * 100 + 0 * 100 + 0
 ]

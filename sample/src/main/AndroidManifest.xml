@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="im.dino.dbinspector.sample">
+    package="com.infinum.dbinspector.sample">
 
     <application
-        android:name=".DbSampleApp"
+        android:name="com.infinum.dbinspector.sample.DbSampleApp"
         android:icon="@mipmap/ic_launcher"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
 
         <activity
-            android:name="im.dino.dbinspector.sample.MainActivity"
+            android:name="com.infinum.dbinspector.sample.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,7 +20,7 @@
         </activity>
 
 <!--        <activity-->
-<!--            android:name="im.dino.dbinspector.DbInspectorActivity"-->
+<!--            android:name="com.infinum.dbinspector.DbInspectorActivity"-->
 <!--            android:icon="@drawable/dbinspector_launcher"-->
 <!--            android:roundIcon="@drawable/dbinspector_launcher_round"-->
 <!--            android:label="@string/dbinspector_name">-->

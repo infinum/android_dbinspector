@@ -35,11 +35,11 @@ dokka {
         androidVariants = ["debug"]
 
         perPackageOption {
-            prefix = "im.dino.dbinspector.extensions"
+            prefix = "com.infinum.dbinspector.extensions"
             suppress = true
         }
         perPackageOption {
-            prefix = "im.dino.dbinspector.ui.shared"
+            prefix = "com.infinum.dbinspector.ui.shared"
             suppress = true
         }
     }

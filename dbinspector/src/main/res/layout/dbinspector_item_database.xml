@@ -79,7 +79,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:gravity="start|center_vertical"
-                tools:text="/data/user/0/im.dino.dbinspector.example/databases" />
+                tools:text="/data/user/0/com.infinum.dbinspector.example/databases" />
 
         </LinearLayout>
 

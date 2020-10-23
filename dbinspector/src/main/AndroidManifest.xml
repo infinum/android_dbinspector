@@ -1,50 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="im.dino.dbinspector">
+    package="com.infinum.dbinspector">
 
     <application>
 
         <activity-alias
-            android:name="im.dino.dbinspector.DbInspectorActivity"
+            android:name="com.infinum.dbinspector.DbInspectorActivity"
             android:enabled="true"
             android:exported="true"
-            android:taskAffinity="im.dino.dbinspector"
-            android:targetActivity="im.dino.dbinspector.ui.databases.DatabasesActivity" />
+            android:taskAffinity="com.infinum.dbinspector"
+            android:targetActivity="com.infinum.dbinspector.ui.databases.DatabasesActivity" />
 
         <activity
-            android:name="im.dino.dbinspector.ui.databases.DatabasesActivity"
-            android:taskAffinity="im.dino.dbinspector"
+            android:name="com.infinum.dbinspector.ui.databases.DatabasesActivity"
+            android:taskAffinity="com.infinum.dbinspector"
             android:theme="@style/DbInspector.BaseTheme" />
 
         <activity
-            android:name="im.dino.dbinspector.ui.databases.edit.EditActivity"
-            android:taskAffinity="im.dino.dbinspector"
+            android:name="com.infinum.dbinspector.ui.databases.edit.EditActivity"
+            android:taskAffinity="com.infinum.dbinspector"
             android:theme="@style/DbInspector.BaseTheme" />
 
         <activity
-            android:name="im.dino.dbinspector.ui.schema.SchemaActivity"
-            android:taskAffinity="im.dino.dbinspector"
+            android:name="com.infinum.dbinspector.ui.schema.SchemaActivity"
+            android:taskAffinity="com.infinum.dbinspector"
             android:theme="@style/DbInspector.BaseTheme" />
 
         <activity
-            android:name="im.dino.dbinspector.ui.content.table.TableActivity"
-            android:taskAffinity="im.dino.dbinspector"
+            android:name="com.infinum.dbinspector.ui.content.table.TableActivity"
+            android:taskAffinity="com.infinum.dbinspector"
             android:theme="@style/DbInspector.BaseTheme" />
 
         <activity
-            android:name="im.dino.dbinspector.ui.content.view.ViewActivity"
-            android:taskAffinity="im.dino.dbinspector"
+            android:name="com.infinum.dbinspector.ui.content.view.ViewActivity"
+            android:taskAffinity="com.infinum.dbinspector"
             android:theme="@style/DbInspector.BaseTheme" />
 
         <activity
-            android:name="im.dino.dbinspector.ui.content.trigger.TriggerActivity"
-            android:taskAffinity="im.dino.dbinspector"
+            android:name="com.infinum.dbinspector.ui.content.trigger.TriggerActivity"
+            android:taskAffinity="com.infinum.dbinspector"
             android:theme="@style/DbInspector.BaseTheme" />
 
         <activity
-            android:name="im.dino.dbinspector.ui.pragma.PragmaActivity"
-            android:taskAffinity="im.dino.dbinspector"
+            android:name="com.infinum.dbinspector.ui.pragma.PragmaActivity"
+            android:taskAffinity="com.infinum.dbinspector"
             android:theme="@style/DbInspector.BaseTheme" />
 
         <provider
@@ -53,7 +53,7 @@
             android:exported="false"
             tools:node="merge">
             <meta-data
-                android:name="im.dino.dbinspector.ui.DbInspectorInitializer"
+                android:name="com.infinum.dbinspector.ui.DbInspectorInitializer"
                 android:value="androidx.startup" />
         </provider>
 
