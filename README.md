@@ -86,7 +86,7 @@ _DbInspector_ is written entirely in Kotlin, but also works with Java only proje
 
 ## Migrations
 
-For major releases and breaking changes check [wiki migration pages] (https://github.com/infinum/android_dbinspector/wiki/Migrations).
+For major releases and breaking changes check [wiki migration pages](https://github.com/infinum/android_dbinspector/wiki/Migrations).
 
 ## Contributing
 Feedback and code contributions are very much welcome. Just make a pull request with a short description of your changes. By making contributions to this project you give permission for your code to be used under the same [license](LICENSE).
