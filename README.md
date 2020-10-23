@@ -85,17 +85,8 @@ As of 4.0.0 version, AndroidX is required. If you cannot unfortunately migrate y
 _DbInspector_ is written entirely in Kotlin, but also works with Java only projects and all combinations of both.
 
 ## Migrations
-### Upgrading 4.x -> 5.x
-DbInspector has been rewritten in Kotlin.
-Preview Activity is not implicitly added in project manifest. It can be added manually on demand.
-Package location has changed from Sonatype to jCenter.
-Package name has changed from “im.dino” to “com.infinum.dbinspector”.
-### Upgrading 3.x -> 4.x
-DbInspector now uses AndroidX so you might have dependency clashes if you still use the legacy support lib, it’s recommended to migrate to AndroidX.
-### Upgrading 2.x -> 3.x
-Remove the `DbInspectorActivity` declaration from your app manifest, this declaration is now included in the library manifest and it gets merged in with your app manifest during the build process.
-### Upgrading 1.x -> 2.x
-Change the theme set to DbInspectorActivity your app manifest to an `AppCompat` theme. `DbInspectorActivity` extends `ActionBarActivity` since 2.0.0.
+
+For major releases and breaking changes check [wiki migration pages] (https://github.com/infinum/android_dbinspector/wiki/Migrations).
 
 ## Contributing
 Feedback and code contributions are very much welcome. Just make a pull request with a short description of your changes. By making contributions to this project you give permission for your code to be used under the same [license](LICENSE).
