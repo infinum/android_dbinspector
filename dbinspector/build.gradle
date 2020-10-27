@@ -30,8 +30,6 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs += [
-            '-Xuse-experimental=kotlinx.coroutines.FlowPreview',
-            '-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi',
             '-Xopt-in=org.koin.core.component.KoinApiExtension'
         ]
     }
