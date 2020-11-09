@@ -24,7 +24,7 @@ ext.versions = [
     "timber"            : "4.7.1",
     "maven"             : "2.1",
     "detekt"            : "1.14.1",
-    "dokka"             : "0.10.1", // TODO: Upgrade to latest Dokka
+    "dokka"             : "1.4.10.2"
 ]
 
 ext.packages = [

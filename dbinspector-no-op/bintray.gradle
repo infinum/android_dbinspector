@@ -10,9 +10,9 @@ task sourcesJar(type: Jar) {
     from android.sourceSets.main.kotlin.srcDirs
 }
 
-task javadocsJar(type: Jar, dependsOn: rootProject.dokka) {
+task javadocsJar(type: Jar, dependsOn: 'dokkaJavadoc') {
     archiveClassifier.set('javadoc')
-    from rootProject.dokka.outputDirectory
+    from dokkaJavadoc.outputDirectory
 }
 
 artifacts {
