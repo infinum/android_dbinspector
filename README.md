@@ -7,7 +7,9 @@
 
 // OPTIONAL: A single image/screenshot/GIF descriptive of the main library function. You can stitch multiple images so they fit better horizontally if there are more things to show. //
 
-Provides a simple way to view the contents of the in-app database for debugging purposes. No need to pull the database from a rooted phone. Supports inspecting of the SQLite databases created by CouchBase Lite.
+_DbInspector_ provides a simple way to view the contents of the in-app database for debugging purposes.
+There is no need to pull the database from a connected device.
+This library supports inspecting of the SQLite databases created by CouchBase Lite out of the box.
 With this library you can:
 * preview all application sandbox databases
 * import single or multiple databases at once
@@ -59,7 +61,7 @@ releaseImplementation("com.infinum.dbinspector:dbinspector-no-op:5.0.0")
 ### Usage
 _DbInspector_ can be invoked **explicitly** or **implicitly**.
 * explicitly - call _DbInspector.show()_ anywhere and anytime that you see fit, like _onClick_ methods, lambdas or similar.
-* implicitly - add an exposed Activity in your application manifest that in return creates a launcher icon for _DbInspector_ for the application implenenting it
+* implicitly - add an exposed Activity in your application manifest that in return creates a launcher icon for _DbInspector_ for the application implementing it
 
 **Explicit**
 ```kotlin
