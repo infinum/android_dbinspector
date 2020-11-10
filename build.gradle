@@ -77,5 +77,3 @@ task detektAll(dependsOn: [
 }
 
 apply from: "deploy.gradle"
-
-//apply from: "dokka.gradle"
