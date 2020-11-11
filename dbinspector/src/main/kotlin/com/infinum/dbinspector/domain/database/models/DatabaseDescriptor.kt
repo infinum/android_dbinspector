@@ -4,9 +4,9 @@ internal data class DatabaseDescriptor(
     val exists: Boolean,
     val parentPath: String,
     val name: String,
-    val extension: String,
+    val extension: String = "",
     val version: String = ""
 ) {
     val absolutePath: String
-        get() = "$parentPath/$name.$extension"
+        get() = if (extension.isEmpty()) "$parentPath/$name" else "$parentPath/$name.$extension"
 }
