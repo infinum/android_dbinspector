@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dbinspector_name">DbInspector</string>
+
+    <string name="dbinspector_databases">Databases</string>
+
+    <string name="dbinspector_schema">Schema</string>
+
+    <string name="dbinspector_schema_tables">Tables</string>
+    <string name="dbinspector_schema_views">Views</string>
+    <string name="dbinspector_schema_triggers">Triggers</string>
+
+    <string name="dbinspector_table">Table</string>
+    <string name="dbinspector_view">View</string>
+    <string name="dbinspector_trigger">Trigger</string>
+    <string name="dbinspector_pragma">Pragma</string>
+
+    <string name="dbinspector_pragma_table_info">Table info</string>
+    <string name="dbinspector_pragma_foreign_key">Foreign keys</string>
+    <string name="dbinspector_pragma_index">Indexes</string>
+
+    <string name="dbinspector_edit">Edit</string>
+    <string name="dbinspector_database_name">Name</string>
+    <string name="dbinspector_database_version">Version</string>
+    <string name="dbinspector_database_path">Path</string>
+
+    <string name="dbinspector_action_save">Save</string>
+    <string name="dbinspector_action_refresh">Refresh</string>
+    <string name="dbinspector_action_import">Import</string>
+    <string name="dbinspector_action_clear">Clear</string>
+    <string name="dbinspector_action_drop">Drop</string>
+    <string name="dbinspector_action_search">Search</string>
+
+    <string name="dbinspector_delete_database_confirm">Delete database %s?</string>
+    <string name="dbinspector_clear_table_confirm">Delete the content of the table %s?</string>
+    <string name="dbinspector_drop_view_confirm">Drop view %s?</string>
+    <string name="dbinspector_drop_trigger_confirm">Drop trigger %s?</string>
+    <string name="dbinspector_share_database_failed">Cannot share database %s</string>
+    <string name="dbinspector_copy_database_info">Database copied to application directory</string>
+    <string name="dbinspector_copy_database_failed">Cannot copy database %s</string>
+    <string name="dbinspector_rename_database_error_blank">Cannot be blank</string>
+    <string name="dbinspector_import_databases_failed">Cannot import databases</string>
+
+    <string name="dbinspector_nothing_found">Nothing found</string>
+    <string name="dbinspector_give_it_another_try">Give it another try…</string>
+    <string name="dbinspector_retry">Retry</string>
+
+    <string name="dbinspector_search_by_name">Search by name…</string>
+
+    <string name="dbinspector_error_parameters">Database parameters are missing.</string>
+
+    <string name="dbinspector_title_info">Info</string>
+    <string name="dbinspector_title_confirm">Confirm</string>
+    <string name="dbinspector_title_error">Error</string>
+</resources>

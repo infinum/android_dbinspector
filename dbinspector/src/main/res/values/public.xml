@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file should make other resources private during build -->
+<resources>
+    <public name="dbinspector_name" type="string"/>
+    <public name="dbinspector_launcher" type="drawable"/>
+    <public name="dbinspector_launcher_round" type="drawable"/>
+</resources>

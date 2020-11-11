@@ -1,0 +1,9 @@
+apply plugin: "io.gitlab.arturbosch.detekt"
+
+detekt {
+    toolVersion = versions.detekt
+}
+
+dependencies {
+    detektPlugins packages.detekt.formatting
+}

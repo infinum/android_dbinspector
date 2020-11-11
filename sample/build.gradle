@@ -1,0 +1,65 @@
+apply plugin: "com.android.application"
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-android-extensions"
+
+android {
+    compileSdkVersion buildConfig.compileSdk
+    buildToolsVersion buildConfig.buildTools
+
+    defaultConfig {
+        minSdkVersion buildConfig.minSdk
+        targetSdkVersion buildConfig.targetSdk
+        versionCode dbinspector.versionCode
+        versionName dbinspector.version
+        applicationId "com.infinum.dbinspector.sample"
+    }
+
+    signingConfigs {
+        dummy {
+            storeFile file("dummy.jks")
+            storePassword "dummydummy"
+            keyAlias "dummy"
+            keyPassword "dummydummy"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.dummy
+        }
+    }
+
+    buildFeatures {
+        viewBinding = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    sourceSets {
+        main.java.srcDirs += "src/main/kotlin"
+    }
+}
+
+dependencies {
+    implementation packages.kotlin.core
+    implementation packages.androidx.appcompat
+    implementation packages.google.design
+    implementation packages.koin.android
+    implementation packages.koin.scope
+    implementation packages.koin.viewmodel
+    debugImplementation project(":dbinspector")
+    releaseImplementation project(":dbinspector-no-op")
+}

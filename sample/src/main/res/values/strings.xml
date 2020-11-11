@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Db Sample</string>
+    <string name="data_created">The test data was copied, run DbInspector to view databases, tables and pragma.</string>
+
+</resources>

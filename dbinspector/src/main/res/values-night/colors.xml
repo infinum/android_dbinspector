@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="dbinspector_header_background">#2a2a2a</color>
+    <color name="dbinspector_alternate_row_background">#353535</color>
+    <color name="dbinspector_status_bar">@android:color/transparent</color>
+</resources>

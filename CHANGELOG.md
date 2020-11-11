@@ -1,6 +1,21 @@
 Changelog
 =========
 
+## Version 5.0.0
+
+_2020-11-01_
+
+For breaking changes check [wiki migration pages](https://github.com/infinum/android_dbinspector/wiki/Migrations).
+
+* minSdk is now 21
+* Sample now provides 3 test databases
+* Refactor codebase and migrate to Kotlin
+* Replace manual pagination with automatic paging
+* Add a no op package
+* Redesign all screens
+* Streamline deployment
+* Implement sorting tables per columns
+
 ## Version 4.0.0
 
 _2019-10-26_

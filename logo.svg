@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="68px" height="63px" viewBox="0 0 68 63" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="logo" transform="translate(2.000000, 2.000000)">
+            <circle id="Oval" fill="#D92327" fill-rule="nonzero" cx="40.6" cy="18.3" r="3"></circle>
+            <circle id="Oval" fill="#D92327" fill-rule="nonzero" cx="19.4" cy="18.3" r="3"></circle>
+            <line x1="45.3" y1="10.2" x2="54.6" y2="0.9" id="Path" stroke="#D8262C" stroke-width="4" stroke-linecap="round"></line>
+            <line x1="14.7" y1="10.2" x2="5.4" y2="0.9" id="Path" stroke="#D8262C" stroke-width="4" stroke-linecap="round"></line>
+            <path d="M30,5.1 C43.7,5.1 53,15.1 53,27.6 L53,31" id="Path" stroke="#D92327" stroke-width="4"></path>
+            <path d="M30,5.1 C16.3,5.1 7,15.1 7,27.6 L7,31 L7,31 C3.1,31 0,34.1 0,38 L0,38 L0,53 C0,55.8 2.2,58 5,58 L5,58 C7.8,58 10,55.8 10,53 L10,52" id="Path" stroke="#D92327" stroke-width="4"></path>
+            <path d="M59.7,45 L20.9,45 C19,45 17.4,43.4 17.4,41.5 L17.4,34.5 C17.4,32.6 19,31 20.9,31 L59.7,31 C61.6,31 63.2,32.6 63.2,34.5 L63.2,41.5 C63.2,43.5 61.6,45 59.7,45 Z" id="Path" stroke="#D8262C" stroke-width="4" fill-rule="nonzero"></path>
+            <line x1="25.6" y1="38" x2="29.4" y2="38" id="Path" stroke="#D8262C" stroke-width="4" fill="#FFFFFF" fill-rule="nonzero" stroke-linecap="round"></line>
+            <path d="M59.7,59 L20.9,59 C19,59 17.4,57.4 17.4,55.5 L17.4,48.5 C17.4,46.6 19,45 20.9,45 L59.7,45 C61.6,45 63.2,46.6 63.2,48.5 L63.2,55.5 C63.2,57.5 61.6,59 59.7,59 Z" id="Path" stroke="#D8262C" stroke-width="4" fill-rule="nonzero"></path>
+            <line x1="50.6" y1="52" x2="54.4" y2="52" id="Path" stroke="#D8262C" stroke-width="4" fill="#FFFFFF" fill-rule="nonzero" stroke-linecap="round"></line>
+        </g>
+    </g>
+</svg>

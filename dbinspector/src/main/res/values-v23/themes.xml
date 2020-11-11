@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="DbInspector.BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/dbinspector_color_primary</item>
+        <item name="colorPrimaryDark">@color/dbinspector_color_primary_dark</item>
+        <item name="colorSecondary">@color/dbinspector_color_primary</item>
+        <item name="colorOnSecondary">@android:color/white</item>
+        <item name="android:statusBarColor">@color/dbinspector_status_bar</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+</resources>

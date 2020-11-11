@@ -1,38 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        package="im.dino.dbinspector">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.infinum.dbinspector">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <application>
+
+        <activity-alias
+            android:name="com.infinum.dbinspector.DbInspectorActivity"
+            android:enabled="true"
+            android:exported="true"
+            android:taskAffinity="com.infinum.dbinspector"
+            android:targetActivity="com.infinum.dbinspector.ui.databases.DatabasesActivity" />
+
         <activity
-                android:name="im.dino.dbinspector.activities.DbInspectorActivity"
-                android:label="@string/dbinspector_app_name"
-                android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
-                android:icon="@drawable/dbinspector_ic_launcher"
-                android:taskAffinity="im.dino.dbinspector">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+            android:name="com.infinum.dbinspector.ui.databases.DatabasesActivity"
+            android:taskAffinity="com.infinum.dbinspector"
+            android:theme="@style/DbInspector.BaseTheme" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
+        <activity
+            android:name="com.infinum.dbinspector.ui.databases.edit.EditActivity"
+            android:taskAffinity="com.infinum.dbinspector"
+            android:theme="@style/DbInspector.BaseTheme" />
 
-        <service
-                android:name="im.dino.dbinspector.services.CopyDbIntentService"
-                android:exported="false"/>
-        <service
-                android:name="im.dino.dbinspector.services.ImportDbIntentService"
-                android:exported="false"/>
-        <service
-                android:name="im.dino.dbinspector.services.ClearTableIntentService"
-                android:exported="false"/>
+        <activity
+            android:name="com.infinum.dbinspector.ui.schema.SchemaActivity"
+            android:taskAffinity="com.infinum.dbinspector"
+            android:theme="@style/DbInspector.BaseTheme" />
+
+        <activity
+            android:name="com.infinum.dbinspector.ui.content.table.TableActivity"
+            android:taskAffinity="com.infinum.dbinspector"
+            android:theme="@style/DbInspector.BaseTheme" />
+
+        <activity
+            android:name="com.infinum.dbinspector.ui.content.view.ViewActivity"
+            android:taskAffinity="com.infinum.dbinspector"
+            android:theme="@style/DbInspector.BaseTheme" />
+
+        <activity
+            android:name="com.infinum.dbinspector.ui.content.trigger.TriggerActivity"
+            android:taskAffinity="com.infinum.dbinspector"
+            android:theme="@style/DbInspector.BaseTheme" />
+
+        <activity
+            android:name="com.infinum.dbinspector.ui.pragma.PragmaActivity"
+            android:taskAffinity="com.infinum.dbinspector"
+            android:theme="@style/DbInspector.BaseTheme" />
 
         <provider
-                android:authorities="dbInspector_${applicationId}"
-                android:name=".providers.DatabaseProvider"
-                android:exported="false"
-                android:grantUriPermissions="true"/>
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="com.infinum.dbinspector.ui.DbInspectorInitializer"
+                android:value="androidx.startup" />
+        </provider>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider.database"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/dbinspector_filepaths" />
+        </provider>
+
     </application>
 
 </manifest>
