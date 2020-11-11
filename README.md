@@ -1,9 +1,7 @@
 [ ![Download](https://api.bintray.com/packages/infinum/android/dbinspector/images/download.svg?version=5.0.0) ](https://bintray.com/infinum/android/dbinspector/5.0.0/link) ![Validate Gradle Wrapper](https://github.com/infinum/android_dbinspector/workflows/Validate%20Gradle%20Wrapper/badge.svg)
 
+### <img align="left" src="logo.svg" width="48">
 # DbInspector
-<p align="center">
-  <img src="logo.svg" width="264"/>
-</p>
 
 ![UI](ui.png)
 
