@@ -58,8 +58,8 @@
         </provider>
 
         <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.provider.database"
+            android:name="com.infinum.dbinspector.ui.DbInspectorFileProvider"
+            android:authorities="${applicationId}.com.infinum.dbinspector.provider.database"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

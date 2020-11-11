@@ -56,7 +56,7 @@ internal class NavigatorIntentFactory(
                         .setStream(
                             FileProvider.getUriForFile(
                                 it,
-                                "${it.packageName}.provider.database",
+                                "${it.packageName}.com.infinum.dbinspector.provider.database",
                                 File(database.absolutePath)
                             )
                         )
