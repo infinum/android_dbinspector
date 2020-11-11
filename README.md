@@ -5,7 +5,7 @@
   <img src="logo.svg" width="264"/>
 </p>
 
-// OPTIONAL: A single image/screenshot/GIF descriptive of the main library function. You can stitch multiple images so they fit better horizontally if there are more things to show. //
+![UI](ui.png)
 
 _DbInspector_ provides a simple way to view the contents of the in-app database for debugging purposes.
 There is no need to pull the database from a connected device.
