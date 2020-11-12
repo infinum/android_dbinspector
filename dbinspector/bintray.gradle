@@ -1,50 +1,64 @@
-apply plugin: 'maven-publish'
+apply plugin: "maven-publish"
 apply plugin: "com.jfrog.bintray"
-apply plugin: 'com.github.dcendents.android-maven'
-
-group = dbinspector.group
-version = dbinspector.version
 
 task sourcesJar(type: Jar) {
-    archiveClassifier.set('sources')
+    archiveClassifier.set("sources")
     from android.sourceSets.main.kotlin.srcDirs
 }
 
-task javadocsJar(type: Jar, dependsOn: 'dokkaJavadoc') {
-    archiveClassifier.set('javadoc')
+task javadocsJar(type: Jar, dependsOn: "dokkaJavadoc") {
+    archiveClassifier.set("javadoc")
     from dokkaJavadoc.outputDirectory
 }
 
-artifacts {
-    archives javadocsJar
-    archives sourcesJar
-}
+afterEvaluate {
+    publishing {
+        publications {
+            infinum(MavenPublication) {
+                groupId = dbinspector.group
+                artifactId = "dbinspector"
+                version = dbinspector.version
 
-publishing {
-    publications {
-        infinum(MavenPublication) {
-            groupId = group
-            artifactId = 'dbinspector'
+                artifact bundleReleaseAar
+                artifact javadocsJar
+                artifact sourcesJar
 
-            pom {
-                name = 'Android DbInspector'
-                description = 'Android library for viewing in app databases.'
-                url = 'https://github.com/infinum/android_dbinspector'
-                licenses {
-                    license {
-                        name = 'The Apache License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                pom {
+                    name = "Android DbInspector"
+                    description = "Android library for viewing in app databases."
+                    url = "https://github.com/infinum/android_dbinspector"
+                    licenses {
+                        license {
+                            name = "Apache License 2.0"
+                            url = "https://github.com/infinum/android_dbinspector/blob/master/LICENSE"
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = "reisub"
+                            name = "Dino Kovač"
+                        }
+                        developer {
+                            id = "knobtviker"
+                            name = "Bojan Komljenović"
+                            email = "bojan.komljenovic@infinum.com"
+                        }
+                    }
+                    scm {
+                        url = "scm:git@github.com:infinum/android_dbinspector.git"
+                        connection = "scm:git@github.com:infinum/android_dbinspector.git"
+                        developerConnection = "scm:git@github.com:infinum/android_dbinspector.git"
                     }
                 }
-            }
-            pom.withXml {
-                def root = asNode()
-                def dependenciesNode = root.appendNode('dependencies')
-                configurations.implementation.allDependencies.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.group)
-                    dependencyNode.appendNode('artifactId', it.name)
-                    dependencyNode.appendNode('version', it.version)
+                pom.withXml {
+                    def root = asNode()
+                    def dependenciesNode = root.appendNode("dependencies")
+                    configurations.implementation.allDependencies.each {
+                        def dependencyNode = dependenciesNode.appendNode("dependency")
+                        dependencyNode.appendNode("groupId", it.group)
+                        dependencyNode.appendNode("artifactId", it.name)
+                        dependencyNode.appendNode("version", it.version)
+                    }
                 }
             }
         }
@@ -53,7 +67,7 @@ publishing {
 
 bintray {
     Properties properties = new Properties()
-    def bintrayProperties = rootProject.file('bintray.properties')
+    def bintrayProperties = rootProject.file("bintray.properties")
     if (bintrayProperties.exists()) {
         properties.load(new FileInputStream(bintrayProperties))
     } else {
@@ -64,15 +78,17 @@ bintray {
     user = properties.getProperty("bintray.user")
     key = properties.getProperty("bintray.apikey")
 
+    publications = ["infinum"]
+
     pkg {
-        repo = 'android'
-        name = 'dbinspector'
-        userOrg = 'infinum'
-        desc = 'DbInspector package'
-        websiteUrl = 'https://github.com/infinum/android_dbinspector'
-        issueTrackerUrl = 'https://github.com/infinum/android_dbinspector/issues'
-        vcsUrl = 'https://github.com/infinum/android_dbinspector.git'
-        licenses = ['Apache-2.0']
+        repo = "android"
+        name = "dbinspector"
+        userOrg = "infinum"
+        desc = "DbInspector package"
+        websiteUrl = "https://github.com/infinum/android_dbinspector"
+        issueTrackerUrl = "https://github.com/infinum/android_dbinspector/issues"
+        vcsUrl = "https://github.com/infinum/android_dbinspector.git"
+        licenses = ["Apache-2.0"]
         version {
             name = "${dbinspector.version}"
             released = new Date()
@@ -81,46 +97,5 @@ bintray {
         publish = true
         override = true
         publicDownloadNumbers = true
-    }
-
-    configurations = ['archives']
-}
-
-install {
-    repositories.mavenInstaller {
-        pom {
-            project {
-                packaging 'jar'
-                groupId 'com.infinum.dbinspector'
-                artifactId 'dbinspector'
-
-                name 'dbinspector'
-                description 'DbInspector'
-                url 'https://github.com/infinum/android_dbinspector'
-
-                licenses {
-                    license {
-                        name 'Apache'
-                        url 'https://github.com/infinum/android_dbinspector/LICENSE'
-                    }
-                }
-                developers {
-                    developer {
-                        id "reisub"
-                        name "Dino Kovač"
-                    }
-                    developer {
-                        id 'knobtviker'
-                        name 'Bojan Komljenović'
-                        email 'bojan.komljenovic@infinum.com'
-                    }
-                }
-                scm {
-                    url "scm:git@github.com:infinum/android_dbinspector.git"
-                    connection "scm:git@github.com:infinum/android_dbinspector.git"
-                    developerConnection "scm:git@github.com:infinum/android_dbinspector.git"
-                }
-            }
-        }
     }
 }

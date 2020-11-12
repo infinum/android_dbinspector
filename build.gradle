@@ -17,7 +17,6 @@ buildscript {
     }
     dependencies {
         classpath packages.gradle
-        classpath packages.maven.plugin
         classpath packages.bintray
         classpath packages.kotlin.plugin
         classpath packages.detekt.plugin
