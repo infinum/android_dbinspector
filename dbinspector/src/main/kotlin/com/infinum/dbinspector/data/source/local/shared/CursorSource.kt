@@ -1,6 +1,8 @@
 package com.infinum.dbinspector.data.source.local.shared
 
 import android.database.Cursor
+import android.util.Base64
+import androidx.core.database.getBlobOrNull
 import androidx.core.database.getFloatOrNull
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getStringOrNull
@@ -18,10 +20,6 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
 internal open class CursorSource {
-
-    companion object {
-        private const val COLUMN_BLOB_VALUE = "(data)"
-    }
 
     fun collectRows(query: Query, paginator: Paginator, continuation: CancellableContinuation<QueryResult>) {
         if (query.database?.isOpen == true) {
@@ -90,7 +88,11 @@ internal open class CursorSource {
                     ?: FieldType.NULL.name.toLowerCase(Locale.getDefault())
                 FieldType.STRING -> cursor.getStringOrNull(column)
                     ?: FieldType.NULL.name.toLowerCase(Locale.getDefault())
-                FieldType.BLOB -> COLUMN_BLOB_VALUE
+                FieldType.BLOB -> cursor.getBlobOrNull(column)?.let { bytes ->
+                    String(bytes, Charsets.UTF_8) // UTF-8 prikaz
+//                    bytes.joinToString("") { "%02x".format(it) } //hex prikaz
+//                    Base64.encodeToString(bytes, Base64.NO_WRAP) // Base64
+                } ?: FieldType.NULL.name.toLowerCase(Locale.getDefault())
             }
         }
 }
