@@ -4,6 +4,7 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.paging.PagingData
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.shared.base.BaseUseCase
+import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.domain.shared.models.Direction
 import com.infinum.dbinspector.domain.shared.models.DropException
 import com.infinum.dbinspector.domain.shared.models.Page
@@ -53,7 +54,7 @@ internal abstract class ContentViewModel(
                 ).fields
                     .map {
                         Header(
-                            name = it,
+                            name = it.text.orEmpty(),
                             direction = Direction.ASCENDING
                         )
                     }
@@ -65,7 +66,7 @@ internal abstract class ContentViewModel(
         schemaName: String,
         orderBy: String?,
         direction: Direction,
-        onData: suspend (value: PagingData<String>) -> Unit
+        onData: suspend (value: PagingData<Cell>) -> Unit
     ) {
         launch {
             pageFlow(databasePath, schemaStatement(schemaName, orderBy, direction)) {

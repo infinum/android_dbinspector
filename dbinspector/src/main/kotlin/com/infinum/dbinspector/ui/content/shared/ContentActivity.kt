@@ -1,9 +1,12 @@
 package com.infinum.dbinspector.ui.content.shared
 
+import android.R.attr.data
 import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.widget.Toast
 import androidx.annotation.MenuRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
@@ -26,6 +29,7 @@ import com.infinum.dbinspector.ui.shared.Constants
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import com.infinum.dbinspector.ui.shared.headers.HeaderAdapter
+
 
 internal abstract class ContentActivity : BaseActivity() {
 
@@ -70,7 +74,17 @@ internal abstract class ContentActivity : BaseActivity() {
                         headerAdapter.updateHeader(header)
                     }
 
-                    contentAdapter = ContentAdapter(tableHeaders.size)
+                    contentAdapter = ContentAdapter(tableHeaders.size) { imageBytes ->
+                        val options = BitmapFactory.Options()
+                        options.inMutable = true
+                        val bitmap = BitmapFactory.decodeByteArray(
+                            imageBytes,
+                            0,
+                            imageBytes.size,
+                            options
+                        )
+                        // TODO: Show an Image preview dialog
+                    }
                     contentAdapter.stateRestorationPolicy =
                         RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 

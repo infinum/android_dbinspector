@@ -6,7 +6,9 @@ import androidx.core.database.getBlobOrNull
 import androidx.core.database.getFloatOrNull
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getStringOrNull
+import com.infinum.dbinspector.data.models.local.BlobPreviewType
 import com.infinum.dbinspector.data.models.local.CursorException
+import com.infinum.dbinspector.data.models.local.Field
 import com.infinum.dbinspector.data.models.local.FieldType
 import com.infinum.dbinspector.data.models.local.QueryException
 import com.infinum.dbinspector.data.models.local.QueryResult
@@ -78,21 +80,34 @@ internal open class CursorSource {
             listOf()
         }
 
-    private fun iterateFieldsInRow(cursor: Cursor): List<String> =
+    private fun iterateFieldsInRow(cursor: Cursor): List<Field> =
         (0 until cursor.columnCount).map { column ->
-            when (FieldType(cursor.getType(column))) {
-                FieldType.NULL -> FieldType.NULL.name.toLowerCase(Locale.getDefault())
-                FieldType.INTEGER -> cursor.getIntOrNull(column)?.toString()
-                    ?: FieldType.NULL.name.toLowerCase(Locale.getDefault())
-                FieldType.FLOAT -> cursor.getFloatOrNull(column)?.toString()
-                    ?: FieldType.NULL.name.toLowerCase(Locale.getDefault())
-                FieldType.STRING -> cursor.getStringOrNull(column)
-                    ?: FieldType.NULL.name.toLowerCase(Locale.getDefault())
-                FieldType.BLOB -> cursor.getBlobOrNull(column)?.let { bytes ->
-                    String(bytes, Charsets.UTF_8) // UTF-8 prikaz
-//                    bytes.joinToString("") { "%02x".format(it) } //hex prikaz
-//                    Base64.encodeToString(bytes, Base64.NO_WRAP) // Base64
-                } ?: FieldType.NULL.name.toLowerCase(Locale.getDefault())
+            when (val type = FieldType(cursor.getType(column))) {
+                FieldType.NULL -> Field(
+                    type = type,
+                    text = FieldType.NULL.name.toLowerCase(Locale.getDefault())
+                )
+                FieldType.INTEGER -> Field(
+                    type = type,
+                    text = cursor.getIntOrNull(column)?.toString()
+                        ?: FieldType.NULL.name.toLowerCase(Locale.getDefault())
+                )
+                FieldType.FLOAT -> Field(
+                    type = type,
+                    text = cursor.getFloatOrNull(column)?.toString()
+                        ?: FieldType.NULL.name.toLowerCase(Locale.getDefault())
+                )
+                FieldType.STRING -> Field(
+                    type = type,
+                    text = cursor.getStringOrNull(column)
+                        ?: FieldType.NULL.name.toLowerCase(Locale.getDefault())
+                )
+                FieldType.BLOB -> Field(
+                    type = type,
+                    text = FieldType.NULL.name.toLowerCase(Locale.getDefault()),
+                    data = cursor.getBlobOrNull(column),
+                    blobPreviewType = BlobPreviewType.BASE_64
+                )
             }
         }
 }

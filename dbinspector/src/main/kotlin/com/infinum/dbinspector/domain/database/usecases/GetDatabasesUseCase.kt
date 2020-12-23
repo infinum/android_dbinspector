@@ -26,7 +26,7 @@ internal class GetDatabasesUseCase(
                             database = database,
                             statement = Statements.Pragma.userVersion()
                         )
-                    ).fields.first()
+                    ).fields.first().text.orEmpty()
                 )
                 connectionRepository.close(it.absolutePath)
 

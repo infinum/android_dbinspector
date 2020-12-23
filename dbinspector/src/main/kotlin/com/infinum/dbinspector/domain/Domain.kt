@@ -22,11 +22,13 @@ import com.infinum.dbinspector.domain.pragma.interactors.GetForeignKeysInteracto
 import com.infinum.dbinspector.domain.pragma.interactors.GetIndexesInteractor
 import com.infinum.dbinspector.domain.pragma.interactors.GetTableInfoInteractor
 import com.infinum.dbinspector.domain.pragma.interactors.GetUserVersionInteractor
+import com.infinum.dbinspector.domain.pragma.mappers.PragmaCellMapper
 import com.infinum.dbinspector.domain.pragma.usecases.GetForeignKeysUseCase
 import com.infinum.dbinspector.domain.pragma.usecases.GetIndexesUseCase
 import com.infinum.dbinspector.domain.pragma.usecases.GetTableInfoUseCase
 import com.infinum.dbinspector.domain.pragma.usecases.GetTablePragmaUseCase
 import com.infinum.dbinspector.domain.pragma.usecases.GetTriggerInfoUseCase
+import com.infinum.dbinspector.domain.schema.shared.mappers.SchemaCellMapper
 import com.infinum.dbinspector.domain.schema.table.TableRepository
 import com.infinum.dbinspector.domain.schema.table.interactors.DropTableContentByNameInteractor
 import com.infinum.dbinspector.domain.schema.table.interactors.GetTableByNameInteractor
@@ -107,9 +109,11 @@ object Domain {
         factory<Interactors.GetTriggerByName> { GetTriggerByNameInteractor(get()) }
         factory<Interactors.DropTriggerByName> { DropTriggerByNameInteractor(get()) }
 
-        factory<Repositories.Schema>(qualifier = Qualifiers.TABLES) { TableRepository(get(), get(), get()) }
-        factory<Repositories.Schema>(qualifier = Qualifiers.VIEWS) { ViewRepository(get(), get(), get()) }
-        factory<Repositories.Schema>(qualifier = Qualifiers.TRIGGERS) { TriggerRepository(get(), get(), get()) }
+        single<Mappers.SchemaCell> { SchemaCellMapper() }
+
+        factory<Repositories.Schema>(qualifier = Qualifiers.TABLES) { TableRepository(get(), get(), get(), get()) }
+        factory<Repositories.Schema>(qualifier = Qualifiers.VIEWS) { ViewRepository(get(), get(), get(), get()) }
+        factory<Repositories.Schema>(qualifier = Qualifiers.TRIGGERS) { TriggerRepository(get(), get(), get(), get()) }
 
         factory<UseCases.GetTables> { GetTablesUseCase(get(), get(qualifier = Qualifiers.TABLES)) }
         factory<UseCases.GetViews> { GetViewsUseCase(get(), get(qualifier = Qualifiers.VIEWS)) }
@@ -130,7 +134,9 @@ object Domain {
         factory<Interactors.GetForeignKeys> { GetForeignKeysInteractor(get()) }
         factory<Interactors.GetIndexes> { GetIndexesInteractor(get()) }
 
-        factory<Repositories.Pragma> { PragmaRepository(get(), get(), get(), get()) }
+        single<Mappers.PragmaCell> { PragmaCellMapper() }
+
+        factory<Repositories.Pragma> { PragmaRepository(get(), get(), get(), get(), get()) }
 
         factory<UseCases.GetTablePragma> { GetTablePragmaUseCase(get(), get()) }
         factory<UseCases.GetForeignKeys> { GetForeignKeysUseCase(get(), get()) }

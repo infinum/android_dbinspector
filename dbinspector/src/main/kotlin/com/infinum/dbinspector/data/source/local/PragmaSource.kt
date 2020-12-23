@@ -2,6 +2,8 @@ package com.infinum.dbinspector.data.source.local
 
 import com.infinum.dbinspector.data.Sources
 import com.infinum.dbinspector.data.models.local.CursorException
+import com.infinum.dbinspector.data.models.local.Field
+import com.infinum.dbinspector.data.models.local.FieldType
 import com.infinum.dbinspector.data.models.local.QueryException
 import com.infinum.dbinspector.data.models.local.QueryResult
 import com.infinum.dbinspector.data.models.local.Row
@@ -32,7 +34,7 @@ internal class PragmaSource(
                             rows = listOf(
                                 Row(
                                     position = 0,
-                                    fields = listOf(result)
+                                    fields = listOf(Field(type = FieldType.STRING, text = result))
                                 )
                             )
                         )

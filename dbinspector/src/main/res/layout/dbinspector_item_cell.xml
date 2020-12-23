@@ -1,20 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:padding="4dp">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/valueView"
         style="@style/TextAppearance.MaterialComponents.Caption"
         android:layout_width="match_parent"
-        android:gravity="center_vertical"
-        android:paddingStart="2dp"
-        android:maxWidth="152dp"
-        android:paddingEnd="2dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:gravity="center_vertical"
+        android:maxWidth="152dp"
         android:minHeight="40dp"
-        android:layout_height="wrap_content" />
+        android:paddingStart="2dp"
+        android:paddingEnd="2dp" />
 
-</LinearLayout>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/expandCollapseButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="bottom|end"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        android:visibility="gone"
+        app:cornerRadius="20dp"
+        app:icon="@drawable/dbinspector_ic_clear"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp" />
+
+</FrameLayout>

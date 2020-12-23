@@ -5,6 +5,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.ui.shared.Constants
 import com.infinum.dbinspector.ui.shared.base.BaseDataSource
 import com.infinum.dbinspector.ui.shared.base.BaseViewModel
@@ -17,7 +18,7 @@ internal abstract class PagingViewModel : BaseViewModel() {
     suspend fun pageFlow(
         databasePath: String,
         statement: String,
-        onData: suspend (value: PagingData<String>) -> Unit
+        onData: suspend (value: PagingData<Cell>) -> Unit
     ) =
         Pager(
             config = PagingConfig(

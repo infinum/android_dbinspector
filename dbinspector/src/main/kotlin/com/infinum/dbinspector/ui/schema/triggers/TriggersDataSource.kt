@@ -1,6 +1,7 @@
 package com.infinum.dbinspector.ui.schema.triggers
 
 import com.infinum.dbinspector.domain.UseCases
+import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.domain.shared.models.Query
 import com.infinum.dbinspector.domain.shared.models.Statements
 import com.infinum.dbinspector.ui.schema.shared.SchemaDataSource
@@ -28,7 +29,7 @@ internal class TriggersDataSource(
             invalidate()
         }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, String> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Cell> {
         val page = getSchema(query)
         query = query.copy(page = page.nextPage)
         return LoadResult.Page(

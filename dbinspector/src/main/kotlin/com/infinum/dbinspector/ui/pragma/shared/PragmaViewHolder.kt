@@ -4,15 +4,16 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorItemCellBinding
+import com.infinum.dbinspector.domain.shared.models.Cell
 
 internal class PragmaViewHolder(
     private val viewBinding: DbinspectorItemCellBinding
 ) : RecyclerView.ViewHolder(viewBinding.root) {
 
-    fun bind(item: String?, row: Int) {
+    fun bind(item: Cell?, row: Int) {
         item?.let {
             with(viewBinding) {
-                this.valueView.text = it
+                this.valueView.text = it.text
                 this.root.setBackgroundColor(
                     if (row % 2 == 0) {
                         ContextCompat.getColor(this.root.context, R.color.dbinspector_alternate_row_background)

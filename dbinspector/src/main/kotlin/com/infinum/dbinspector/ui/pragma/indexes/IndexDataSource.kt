@@ -1,6 +1,7 @@
 package com.infinum.dbinspector.ui.pragma.indexes
 
 import com.infinum.dbinspector.domain.UseCases
+import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.domain.shared.models.Query
 import com.infinum.dbinspector.ui.shared.base.BaseDataSource
 
@@ -15,7 +16,7 @@ internal class IndexDataSource(
         statement = statement
     )
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, String> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Cell> {
         val page = getPragma(query)
         query = query.copy(page = page.nextPage)
         return LoadResult.Page(

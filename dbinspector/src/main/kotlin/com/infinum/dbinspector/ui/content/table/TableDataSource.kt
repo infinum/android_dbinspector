@@ -1,6 +1,7 @@
 package com.infinum.dbinspector.ui.content.table
 
 import com.infinum.dbinspector.domain.UseCases
+import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.domain.shared.models.Query
 import com.infinum.dbinspector.ui.shared.base.BaseDataSource
 import timber.log.Timber
@@ -16,7 +17,7 @@ internal class TableDataSource(
         statement = statement
     )
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, String> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Cell> {
         val page = getSchema(query)
 
         Timber.i("load params.key: ${params.key} - next page: ${page.nextPage} - itemsAfter: ${page.afterCount}")
