@@ -22,7 +22,7 @@ internal class ContentPreviewFactory(
                 DbinspectorLayoutImagePreviewBinding.inflate(LayoutInflater.from(context))
                     .apply {
                         previewView.setImageBitmap(image)
-                        descriptionView.text = "$width x $height " +
+                        descriptionView.text = "$width x $height - " +
                             Formatter.formatShortFileSize(descriptionView.context, size)
                     }
                     .root
