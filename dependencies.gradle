@@ -7,23 +7,23 @@ ext.dbinspector = [
 ext.versions = [
     "dbinspector"       : "5.0.0",
     "gradle"            : '4.1.1',
-    "kotlin"            : "1.4.10",
-    "coroutines"        : "1.4.1",
+    "kotlin"            : "1.4.21",
+    "coroutines"        : "1.4.2",
     "bintray"           : "1.8.5",
     "core"              : "1.3.2",
     "appcompat"         : "1.2.0",
-    "fragment"          : "1.3.0-beta01",
-    "lifecycle"         : "2.3.0-beta01",
+    "fragment"          : "1.3.0-rc01",
+    "lifecycle"         : "2.3.0-rc01",
     "viewpager"         : "1.0.0",
-    "paging"            : "3.0.0-alpha09",
-    "recyclerview"      : "1.2.0-alpha06",
+    "paging"            : "3.0.0-alpha11",
+    "recyclerview"      : "1.2.0-beta01",
     "startup"           : "1.0.0",
     "swiperefreshlayout": "1.1.0",
     "design"            : "1.2.1",
-    "koin"              : "2.2.0",
+    "koin"              : "2.2.2",
     "timber"            : "4.7.1",
-    "detekt"            : "1.14.2",
-    "dokka"             : "1.4.10.2"
+    "detekt"            : "1.15.0",
+    "dokka"             : "1.4.20"
 ]
 
 ext.packages = [
