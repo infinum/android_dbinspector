@@ -7,8 +7,8 @@ task deployAll(dependsOn: [
 }
 
 task deployDbInspector(dependsOn: [
+        ':dbinspector:clean',
         ':dbinspector:build',
-        ':dbinspector:install',
         ':dbinspector:bintrayUpload'
 ]) {
     group = "Deploy"
@@ -16,8 +16,8 @@ task deployDbInspector(dependsOn: [
 }
 
 task deployDbInspectorNoOp(dependsOn: [
+        ':dbinspector-no-op:clean',
         ':dbinspector-no-op:build',
-        ':dbinspector-no-op:install',
         ':dbinspector-no-op:bintrayUpload'
 ]) {
     group = "Deploy"
