@@ -3,7 +3,7 @@ package com.infinum.dbinspector.sample
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.infinum.dbinspector.DbInspector
-import kotlinx.android.synthetic.main.activity_main.*
+import com.infinum.dbinspector.sample.databinding.ActivityMainBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -12,11 +12,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        show.setOnClickListener {
-            DbInspector.show()
-        }
+        ActivityMainBinding.inflate(layoutInflater)
+            .also { setContentView(it.root) }
+            .also {
+                it.show.setOnClickListener {
+                    DbInspector.show()
+                }
+            }
 
         viewModel.copy()
     }

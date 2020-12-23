@@ -1,6 +1,13 @@
 Changelog
 =========
 
+## Version 5.0.1
+
+_2020-12-23_
+
+* Fix touch event collision between SwipeRefreshLayout and HorizontalScrollView
+* Update dependencies to latest stable and RC versions
+
 ## Version 5.0.0
 
 _2020-11-01_

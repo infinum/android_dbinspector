@@ -5,7 +5,7 @@ buildscript {
         "compileSdk": 30,
         "targetSdk" : 30,
 
-        "buildTools": "30.0.2"
+        "buildTools": "30.0.3"
     ]
 
     apply from: "dependencies.gradle"
