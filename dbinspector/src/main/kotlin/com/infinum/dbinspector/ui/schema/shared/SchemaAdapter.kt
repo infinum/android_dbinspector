@@ -11,6 +11,10 @@ internal class SchemaAdapter(
     private val onClick: (String) -> Unit
 ) : PagingDataAdapter<Cell, SchemaViewHolder>(CellDiffUtil()) {
 
+    init {
+        stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SchemaViewHolder =
         SchemaViewHolder(DbinspectorItemSchemaBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 

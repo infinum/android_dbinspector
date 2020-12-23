@@ -7,7 +7,6 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorActivityDatabasesBinding
@@ -132,8 +131,6 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
             }
         }
         with(binding.recyclerView) {
-            databasesAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-
             adapter = databasesAdapter
 
             addOnScrollListener(FabExtendingOnScrollListener(binding.importButton))

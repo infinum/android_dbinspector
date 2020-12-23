@@ -11,6 +11,10 @@ internal class PragmaAdapter(
     private val headersCount: Int,
 ) : PagingDataAdapter<Cell, PragmaViewHolder>(CellDiffUtil()) {
 
+    init {
+        stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PragmaViewHolder =
         PragmaViewHolder(
             DbinspectorItemCellBinding.inflate(

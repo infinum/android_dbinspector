@@ -12,6 +12,10 @@ internal class ContentAdapter(
     private val onImagePreview: (ByteArray) -> Unit
 ) : PagingDataAdapter<Cell, ContentViewHolder>(CellDiffUtil()) {
 
+    init {
+        stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentViewHolder =
         ContentViewHolder(
             DbinspectorItemCellBinding.inflate(

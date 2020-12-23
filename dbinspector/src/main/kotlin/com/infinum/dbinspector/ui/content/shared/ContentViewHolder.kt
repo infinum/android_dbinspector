@@ -31,7 +31,7 @@ internal class ContentViewHolder(
                     // set it to exact height of 40dp? but it needs to fit the button?
                 }
                 this.root.setOnLongClickListener { _ ->
-                    when(it.imageType) {
+                    when (it.imageType) {
                         ImageType.UNSUPPORTED -> it.data?.let { onImagePreview(it) }
                         else -> it.data?.let { onImagePreview(it) }
                     }

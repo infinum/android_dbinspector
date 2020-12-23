@@ -1,12 +1,10 @@
 package com.infinum.dbinspector.ui.content.shared
 
-import android.R.attr.data
 import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.widget.Toast
 import androidx.annotation.MenuRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
@@ -30,7 +28,6 @@ import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import com.infinum.dbinspector.ui.shared.headers.HeaderAdapter
 
-
 internal abstract class ContentActivity : BaseActivity() {
 
     override val binding by viewBinding(DbinspectorActivityContentBinding::inflate)
@@ -46,12 +43,16 @@ internal abstract class ContentActivity : BaseActivity() {
     @get:StringRes
     abstract val drop: Int
 
+    private lateinit var contentPreviewFactory: ContentPreviewFactory
+
     private lateinit var headerAdapter: HeaderAdapter
 
     private lateinit var contentAdapter: ContentAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        contentPreviewFactory = ContentPreviewFactory(this)
 
         intent.extras?.let {
             val databaseName = it.getString(Constants.Keys.DATABASE_NAME)
@@ -75,18 +76,20 @@ internal abstract class ContentActivity : BaseActivity() {
                     }
 
                     contentAdapter = ContentAdapter(tableHeaders.size) { imageBytes ->
-                        val options = BitmapFactory.Options()
-                        options.inMutable = true
-                        val bitmap = BitmapFactory.decodeByteArray(
+                        BitmapFactory.decodeByteArray(
                             imageBytes,
                             0,
                             imageBytes.size,
-                            options
-                        )
-                        // TODO: Show an Image preview dialog
+                            BitmapFactory.Options().apply { inMutable = true }
+                        ).run {
+                            contentPreviewFactory.showImagePreview(
+                                image = this,
+                                width = this.width,
+                                height = this.height,
+                                size = imageBytes.size.toLong()
+                            )
+                        }
                     }
-                    contentAdapter.stateRestorationPolicy =
-                        RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
                     with(binding) {
                         contentAdapter.addLoadStateListener { loadState ->

@@ -12,6 +12,10 @@ internal class DatabasesAdapter(
     private val onEmpty: (Boolean) -> Unit
 ) : ListAdapter<DatabaseDescriptor, DatabaseViewHolder>(DatabaseDiffUtil()) {
 
+    init {
+        stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DatabaseViewHolder =
         DatabaseViewHolder(
             DbinspectorItemDatabaseBinding.inflate(

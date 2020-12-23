@@ -30,6 +30,7 @@
     <string name="dbinspector_action_clear">Clear</string>
     <string name="dbinspector_action_drop">Drop</string>
     <string name="dbinspector_action_search">Search</string>
+    <string name="dbinspector_action_close">Close</string>
 
     <string name="dbinspector_delete_database_confirm">Delete database %s?</string>
     <string name="dbinspector_clear_table_confirm">Delete the content of the table %s?</string>
@@ -52,4 +53,5 @@
     <string name="dbinspector_title_info">Info</string>
     <string name="dbinspector_title_confirm">Confirm</string>
     <string name="dbinspector_title_error">Error</string>
+    <string name="dbinspector_title_preview">Preview</string>
 </resources>

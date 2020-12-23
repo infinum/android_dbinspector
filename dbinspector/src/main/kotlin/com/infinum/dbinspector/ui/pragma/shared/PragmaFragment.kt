@@ -9,7 +9,6 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorFragmentPragmaBinding
@@ -62,7 +61,6 @@ internal abstract class PragmaFragment :
         super.onViewCreated(view, savedInstanceState)
 
         pragmaAdapter = PragmaAdapter(headers().size)
-        pragmaAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
         with(binding.recyclerView) {
             updateLayoutParams {

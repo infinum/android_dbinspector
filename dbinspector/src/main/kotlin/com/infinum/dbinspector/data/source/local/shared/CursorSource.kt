@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.data.source.local.shared
 
 import android.database.Cursor
-import android.util.Base64
 import androidx.core.database.getBlobOrNull
 import androidx.core.database.getFloatOrNull
 import androidx.core.database.getIntOrNull
@@ -106,7 +105,7 @@ internal open class CursorSource {
                     type = type,
                     text = FieldType.NULL.name.toLowerCase(Locale.getDefault()),
                     data = cursor.getBlobOrNull(column),
-                    blobPreviewType = BlobPreviewType.BASE_64
+                    blobPreviewType = BlobPreviewType.UTF_8
                 )
             }
         }
