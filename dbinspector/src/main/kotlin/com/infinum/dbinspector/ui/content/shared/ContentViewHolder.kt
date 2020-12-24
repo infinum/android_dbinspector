@@ -13,7 +13,12 @@ internal class ContentViewHolder(
     private val viewBinding: DbinspectorItemCellBinding
 ) : RecyclerView.ViewHolder(viewBinding.root) {
 
-    fun bind(item: Cell?, row: Int, onImagePreview: (ByteArray) -> Unit) {
+    fun bind(
+        item: Cell?,
+        row: Int,
+        onTextPreview: (String) -> Unit,
+        onImagePreview: (ByteArray, String) -> Unit
+    ) {
         item?.let {
             with(viewBinding) {
                 this.valueView.text = it.text
@@ -30,18 +35,19 @@ internal class ContentViewHolder(
                 } else {
                     // set it to exact height of 40dp? but it needs to fit the button?
                 }
-                this.root.setOnLongClickListener { _ ->
-                    when (it.imageType) {
-                        ImageType.UNSUPPORTED -> it.data?.let { onImagePreview(it) }
-                        else -> it.data?.let { onImagePreview(it) }
-                    }
-                    true
+                this.root.setOnClickListener { _ ->
+                    it.data?.let { bytes ->
+                        when (it.imageType) {
+                            ImageType.UNSUPPORTED -> it.text?.let { onTextPreview(it) }
+                            else -> onImagePreview(bytes, it.imageType.suffix)
+                        }
+                    } ?: it.text?.let { onTextPreview(it) }
                 }
             }
         } ?: with(viewBinding) {
             this.valueView.text = null
             this.root.background = ContextCompat.getDrawable(this.root.context, R.drawable.dbinspector_placeholder)
-            this.root.setOnLongClickListener(null)
+            this.root.setOnClickListener(null)
         }
     }
 
@@ -49,6 +55,7 @@ internal class ContentViewHolder(
         with(viewBinding) {
             this.expandCollapseButton.isGone = true
             this.root.setBackgroundColor(ContextCompat.getColor(this.root.context, android.R.color.transparent))
+            this.root.setOnClickListener(null)
         }
     }
 }

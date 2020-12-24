@@ -3,7 +3,6 @@ package com.infinum.dbinspector.ui.content.shared
 import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.annotation.MenuRes
 import androidx.annotation.StringRes
@@ -75,21 +74,13 @@ internal abstract class ContentActivity : BaseActivity() {
                         headerAdapter.updateHeader(header)
                     }
 
-                    contentAdapter = ContentAdapter(tableHeaders.size) { imageBytes ->
-                        BitmapFactory.decodeByteArray(
-                            imageBytes,
-                            0,
-                            imageBytes.size,
-                            BitmapFactory.Options().apply { inMutable = true }
-                        ).run {
-                            contentPreviewFactory.showImagePreview(
-                                image = this,
-                                width = this.width,
-                                height = this.height,
-                                size = imageBytes.size.toLong()
-                            )
+                    contentAdapter = ContentAdapter(
+                        headersCount = tableHeaders.size,
+                        onTextPreview = { text -> contentPreviewFactory.showText(text = text) },
+                        onImagePreview = { imageBytes, suffix ->
+                            contentPreviewFactory.showImage(imageBytes, suffix)
                         }
-                    }
+                    )
 
                     with(binding) {
                         contentAdapter.addLoadStateListener { loadState ->

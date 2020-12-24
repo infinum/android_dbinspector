@@ -15,6 +15,7 @@ internal class SchemaCellMapper : Mappers.SchemaCell {
             text = when (field.type) {
                 FieldType.BLOB -> {
                     field.data?.let { bytes ->
+                        // TODO: These are really bad and really slow
                         when (field.blobPreviewType) {
                             BlobPreviewType.UTF_8 -> String(bytes, Charsets.UTF_8)
                             BlobPreviewType.HEX -> bytes.joinToString("") { "%02x".format(it) }
