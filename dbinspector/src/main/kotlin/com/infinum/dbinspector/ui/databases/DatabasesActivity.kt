@@ -87,7 +87,10 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
     }
 
     override fun onSearchOpened() {
-        binding.importButton.hide()
+        with(binding) {
+            importButton.hide()
+            toolbar.menu.findItem(R.id.settings).isVisible = false
+        }
     }
 
     override fun search(query: String?) {
@@ -98,7 +101,10 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
         binding.toolbar.menu.searchView?.query?.toString()
 
     override fun onSearchClosed() {
-        binding.importButton.show()
+        with(binding) {
+            toolbar.menu.findItem(R.id.settings).isVisible = true
+            importButton.show()
+        }
         refreshDatabases()
     }
 
@@ -113,6 +119,10 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
                 when (it.itemId) {
                     R.id.search -> {
                         onSearchOpened()
+                        true
+                    }
+                    R.id.settings -> {
+                        navigatorIntentFactory.showSettings()
                         true
                     }
                     else -> false
