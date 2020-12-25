@@ -2,6 +2,7 @@ package com.infinum.dbinspector.data.models.local
 
 internal enum class BlobPreviewType {
     UNSUPPORTED,
+    PLACEHOLDER,
     UTF_8,
     HEX,
     BASE_64;

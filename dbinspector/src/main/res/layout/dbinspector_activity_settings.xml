@@ -15,7 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="?attr/homeAsUpIndicator"
-            app:title="@string/dbinspector_action_settings" />
+            app:subtitle="@string/dbinspector_action_settings"
+            app:title="@string/dbinspector_name" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -31,6 +32,61 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:contentPadding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Blob preview" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/TextAppearance.MaterialComponents.Caption"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Choose the preferred preview format for blob data saved in database tables." />
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Placeholder" />
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="UTF-8" />
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Hexadecimal" />
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Base64" />
+
+                    </RadioGroup>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
 

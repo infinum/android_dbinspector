@@ -18,6 +18,7 @@ internal class SchemaCellMapper : Mappers.SchemaCell {
                         // TODO: These are really bad and really slow
                         when (field.blobPreviewType) {
                             BlobPreviewType.UTF_8 -> String(bytes, Charsets.UTF_8)
+                            BlobPreviewType.PLACEHOLDER -> "[ DATA ]"
                             BlobPreviewType.HEX -> bytes.joinToString("") { "%02x".format(it) }
                             BlobPreviewType.BASE_64 -> Base64.encodeToString(bytes, Base64.NO_WRAP)
                             BlobPreviewType.UNSUPPORTED -> String(bytes, Charsets.UTF_8)

@@ -105,7 +105,7 @@ internal open class CursorSource {
                     type = type,
                     text = FieldType.NULL.name.toLowerCase(Locale.getDefault()),
                     data = cursor.getBlobOrNull(column),
-                    blobPreviewType = BlobPreviewType.UTF_8 // TODO: This should be read from Settings
+                    blobPreviewType = BlobPreviewType.PLACEHOLDER // TODO: This should be read from Settings
                 )
             }
         }
