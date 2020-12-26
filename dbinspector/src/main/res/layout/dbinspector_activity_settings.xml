@@ -35,7 +35,113 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="Content wrapping" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/TextAppearance.MaterialComponents.Caption"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="Number of lines used to preview large amount of any data." />
+
+                    <com.google.android.material.checkbox.MaterialCheckBox
+                        android:id="@+id/linesCheckBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/listPreferredItemHeightSmall"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="10dp"
+                        android:enabled="false"
+                        android:text="Limit maximum number of content lines" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/decreaseLinesButton"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="@dimen/dbinspector_slider_button_size"
+                            android:layout_height="@dimen/dbinspector_slider_button_size"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="@dimen/dbinspector_slider_button_margin"
+                            android:layout_marginEnd="@dimen/dbinspector_slider_button_margin"
+                            android:enabled="false"
+                            android:insetLeft="0dp"
+                            android:insetTop="0dp"
+                            android:insetRight="0dp"
+                            android:insetBottom="0dp"
+                            app:cornerRadius="@dimen/dbinspector_slider_button_corner_radius"
+                            app:icon="@drawable/dbinspector_ic_minus"
+                            app:iconGravity="textStart"
+                            app:iconPadding="0dp"
+                            app:strokeWidth="0dp" />
+
+                        <com.google.android.material.slider.Slider
+                            android:id="@+id/linesSlider"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:enabled="false"
+                            android:stepSize="1"
+                            app:haloRadius="@dimen/dbinspector_slider_halo_radius"
+                            app:thumbRadius="@dimen/dbinspector_slider_thumb_radius" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/increaseLinesButton"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="@dimen/dbinspector_slider_button_size"
+                            android:layout_height="@dimen/dbinspector_slider_button_size"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="@dimen/dbinspector_slider_button_margin"
+                            android:layout_marginEnd="@dimen/dbinspector_slider_button_margin"
+                            android:enabled="false"
+                            android:insetLeft="0dp"
+                            android:insetTop="0dp"
+                            android:insetRight="0dp"
+                            android:insetBottom="0dp"
+                            app:cornerRadius="@dimen/dbinspector_slider_button_corner_radius"
+                            app:icon="@drawable/dbinspector_ic_plus"
+                            app:iconGravity="textStart"
+                            app:iconPadding="0dp"
+                            app:strokeWidth="0dp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
                 app:contentPadding="16dp">
 
                 <LinearLayout
@@ -54,32 +160,41 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="Choose the preferred preview format for blob data saved in database tables." />
+                        android:text="Preferred preview format for blob type data." />
 
                     <RadioGroup
+                        android:id="@+id/blobPreviewGroup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:orientation="vertical">
 
                         <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/placeHolderButton"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:enabled="false"
                             android:text="Placeholder" />
 
                         <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/utf8Button"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:enabled="false"
                             android:text="UTF-8" />
 
                         <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/hexadecimalButton"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:enabled="false"
                             android:text="Hexadecimal" />
 
                         <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/base64Button"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:enabled="false"
                             android:text="Base64" />
 
                     </RadioGroup>

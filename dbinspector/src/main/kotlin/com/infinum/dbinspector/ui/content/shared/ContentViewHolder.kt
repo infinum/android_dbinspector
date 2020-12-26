@@ -1,5 +1,6 @@
 package com.infinum.dbinspector.ui.content.shared
 
+import android.text.TextUtils
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
@@ -21,6 +22,8 @@ internal class ContentViewHolder(
     ) {
         item?.let {
             with(viewBinding) {
+                this.valueView.maxLines = it.linesShown
+                this.valueView.ellipsize = if (it.linesShown == Int.MAX_VALUE) null else TextUtils.TruncateAt.END
                 this.valueView.text = it.text
                 this.root.setBackgroundColor(
                     if (row % 2 == 0) {
@@ -29,12 +32,6 @@ internal class ContentViewHolder(
                         ContextCompat.getColor(this.root.context, android.R.color.transparent)
                     }
                 )
-                this.expandCollapseButton.isVisible = it.isExpandable
-                if (it.isExpanded) {
-                    // set it to wrap content?
-                } else {
-                    // set it to exact height of 40dp? but it needs to fit the button?
-                }
                 this.root.setOnClickListener { _ ->
                     it.data?.let { bytes ->
                         when (it.imageType) {
@@ -45,6 +42,8 @@ internal class ContentViewHolder(
                 }
             }
         } ?: with(viewBinding) {
+            this.valueView.maxLines = Int.MAX_VALUE
+            this.valueView.ellipsize = null
             this.valueView.text = null
             this.root.background = ContextCompat.getDrawable(this.root.context, R.drawable.dbinspector_placeholder)
             this.root.setOnClickListener(null)
@@ -53,7 +52,8 @@ internal class ContentViewHolder(
 
     fun unbind() {
         with(viewBinding) {
-            this.expandCollapseButton.isGone = true
+            this.valueView.maxLines = Int.MAX_VALUE
+            this.valueView.ellipsize = null
             this.root.setBackgroundColor(ContextCompat.getColor(this.root.context, android.R.color.transparent))
             this.root.setOnClickListener(null)
         }

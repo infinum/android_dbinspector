@@ -43,7 +43,7 @@ internal open class CursorSource {
                     cursor.columnCount
                 )
 
-                val rows = iterateRowsInTable(cursor, boundary)
+                val rows = iterateRowsInTable(cursor, boundary, query.blobPreviewType)
 
                 continuation.resume(
                     QueryResult(
@@ -65,12 +65,16 @@ internal open class CursorSource {
             null
         )
 
-    private fun iterateRowsInTable(cursor: Cursor, boundary: Paginator.Boundary): List<Row> =
+    private fun iterateRowsInTable(
+        cursor: Cursor,
+        boundary: Paginator.Boundary,
+        blobPreviewType: BlobPreviewType
+    ): List<Row> =
         if (cursor.moveToPosition(boundary.startRow)) {
             (boundary.startRow until boundary.endRow).map { row ->
                 Row(
                     position = row,
-                    fields = iterateFieldsInRow(cursor)
+                    fields = iterateFieldsInRow(cursor, blobPreviewType)
                 ).also {
                     cursor.moveToNext()
                 }
@@ -79,7 +83,7 @@ internal open class CursorSource {
             listOf()
         }
 
-    private fun iterateFieldsInRow(cursor: Cursor): List<Field> =
+    private fun iterateFieldsInRow(cursor: Cursor, blobPreviewType: BlobPreviewType): List<Field> =
         (0 until cursor.columnCount).map { column ->
             when (val type = FieldType(cursor.getType(column))) {
                 FieldType.NULL -> Field(
@@ -105,7 +109,7 @@ internal open class CursorSource {
                     type = type,
                     text = FieldType.NULL.name.toLowerCase(Locale.getDefault()),
                     data = cursor.getBlobOrNull(column),
-                    blobPreviewType = BlobPreviewType.PLACEHOLDER // TODO: This should be read from Settings
+                    blobPreviewType = blobPreviewType
                 )
             }
         }

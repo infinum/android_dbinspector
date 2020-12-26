@@ -6,9 +6,9 @@ internal data class Cell(
     val text: String? = null,
     val data: ByteArray? = null,
     val imageType: ImageType = ImageType.UNSUPPORTED,
-    val isExpandable: Boolean = false,
-    val isExpanded: Boolean = false
+    val linesShown: Int = Int.MAX_VALUE
 ) {
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -21,6 +21,7 @@ internal data class Cell(
             if (!data.contentEquals(other.data)) return false
         } else if (other.data != null) return false
         if (imageType != other.imageType) return false
+        if (linesShown != other.linesShown) return false
 
         return true
     }
@@ -29,6 +30,7 @@ internal data class Cell(
         var result = text?.hashCode() ?: 0
         result = 31 * result + (data?.contentHashCode() ?: 0)
         result = 31 * result + imageType.hashCode()
+        result = 31 * result + linesShown
         return result
     }
 }

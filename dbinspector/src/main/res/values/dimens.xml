@@ -1,5 +1,10 @@
 <resources>
 
     <dimen name="dbinspector_app_icon_size">24dp</dimen>
-    
+
+    <dimen name="dbinspector_slider_button_size">40dp</dimen>
+    <dimen name="dbinspector_slider_button_corner_radius">20dp</dimen>
+    <dimen name="dbinspector_slider_button_margin">6dp</dimen>
+    <dimen name="dbinspector_slider_halo_radius">20dp</dimen>
+    <dimen name="dbinspector_slider_thumb_radius">10dp</dimen>
 </resources>
