@@ -1,13 +1,13 @@
-package com.infinum.dbinspector.data.source.local
+package com.infinum.dbinspector.data.source.local.cursor
 
 import com.infinum.dbinspector.data.Sources
-import com.infinum.dbinspector.data.models.local.CursorException
-import com.infinum.dbinspector.data.models.local.Field
-import com.infinum.dbinspector.data.models.local.FieldType
-import com.infinum.dbinspector.data.models.local.QueryException
-import com.infinum.dbinspector.data.models.local.QueryResult
-import com.infinum.dbinspector.data.models.local.Row
-import com.infinum.dbinspector.data.source.local.shared.CursorSource
+import com.infinum.dbinspector.data.models.local.cursor.CursorException
+import com.infinum.dbinspector.data.models.local.cursor.Field
+import com.infinum.dbinspector.data.models.local.cursor.FieldType
+import com.infinum.dbinspector.data.models.local.cursor.QueryException
+import com.infinum.dbinspector.data.models.local.cursor.QueryResult
+import com.infinum.dbinspector.data.models.local.cursor.Row
+import com.infinum.dbinspector.data.source.local.cursor.shared.CursorSource
 import com.infinum.dbinspector.data.source.memory.pagination.Paginator
 import com.infinum.dbinspector.domain.shared.models.Query
 import kotlinx.coroutines.suspendCancellableCoroutine

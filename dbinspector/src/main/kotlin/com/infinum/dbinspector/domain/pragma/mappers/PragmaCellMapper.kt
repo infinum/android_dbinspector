@@ -1,6 +1,6 @@
 package com.infinum.dbinspector.domain.pragma.mappers
 
-import com.infinum.dbinspector.data.models.local.Field
+import com.infinum.dbinspector.data.models.local.cursor.Field
 import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.domain.shared.models.Cell
 

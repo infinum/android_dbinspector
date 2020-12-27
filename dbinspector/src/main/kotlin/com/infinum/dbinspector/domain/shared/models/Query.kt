@@ -1,7 +1,7 @@
 package com.infinum.dbinspector.domain.shared.models
 
 import android.database.sqlite.SQLiteDatabase
-import com.infinum.dbinspector.data.models.local.BlobPreviewType
+import com.infinum.dbinspector.data.models.local.cursor.BlobPreviewType
 import com.infinum.dbinspector.ui.shared.Constants
 
 internal data class Query(

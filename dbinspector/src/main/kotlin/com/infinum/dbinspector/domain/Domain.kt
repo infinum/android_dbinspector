@@ -50,6 +50,17 @@ import com.infinum.dbinspector.domain.schema.view.interactors.GetViewsInteractor
 import com.infinum.dbinspector.domain.schema.view.usecases.DropViewUseCase
 import com.infinum.dbinspector.domain.schema.view.usecases.GetViewUseCase
 import com.infinum.dbinspector.domain.schema.view.usecases.GetViewsUseCase
+import com.infinum.dbinspector.domain.settings.SettingsRepository
+import com.infinum.dbinspector.domain.settings.interactors.LoadSettingsInteractor
+import com.infinum.dbinspector.domain.settings.interactors.SaveBlobPreviewModeInteractor
+import com.infinum.dbinspector.domain.settings.interactors.SaveLinesCountInteractor
+import com.infinum.dbinspector.domain.settings.interactors.SaveLinesLimitInteractor
+import com.infinum.dbinspector.domain.settings.interactors.SaveTruncateModeInteractor
+import com.infinum.dbinspector.domain.settings.usecases.LoadAllSettingsUseCase
+import com.infinum.dbinspector.domain.settings.usecases.SaveBlobPreviewModeUseCase
+import com.infinum.dbinspector.domain.settings.usecases.SaveLinesCountUseCase
+import com.infinum.dbinspector.domain.settings.usecases.SaveTruncateModeUseCase
+import com.infinum.dbinspector.domain.settings.usecases.ToggleLinesLimitUseCase
 import org.koin.core.module.Module
 import org.koin.core.qualifier.StringQualifier
 import org.koin.dsl.module
@@ -67,6 +78,7 @@ object Domain {
             listOf(
                 database(),
                 connection(),
+                settings(),
                 schema(),
                 pragma()
             )
@@ -96,6 +108,22 @@ object Domain {
 
         factory<UseCases.OpenConnection> { OpenConnectionUseCase(get()) }
         factory<UseCases.CloseConnection> { CloseConnectionUseCase(get()) }
+    }
+
+    private fun settings() = module {
+        single<Interactors.LoadSettings> { LoadSettingsInteractor(get()) }
+        single<Interactors.SaveLinesLimit> { SaveLinesLimitInteractor(get()) }
+        single<Interactors.SaveLinesCount> { SaveLinesCountInteractor(get()) }
+        single<Interactors.SaveTruncateMode> { SaveTruncateModeInteractor(get()) }
+        single<Interactors.SaveBlobPreviewMode> { SaveBlobPreviewModeInteractor(get()) }
+
+        factory<Repositories.Settings> { SettingsRepository(get(), get(), get(), get(), get()) }
+
+        factory<UseCases.LoadAllSettings> { LoadAllSettingsUseCase(get()) }
+        factory<UseCases.SaveLinesCount> { SaveLinesCountUseCase(get()) }
+        factory<UseCases.ToggleLinesLimit> { ToggleLinesLimitUseCase(get()) }
+        factory<UseCases.SaveTruncateMode> { SaveTruncateModeUseCase(get()) }
+        factory<UseCases.SaveBlobPreviewMode> { SaveBlobPreviewModeUseCase(get()) }
     }
 
     private fun schema() = module {

@@ -1,17 +1,17 @@
-package com.infinum.dbinspector.data.source.local.shared
+package com.infinum.dbinspector.data.source.local.cursor.shared
 
 import android.database.Cursor
 import androidx.core.database.getBlobOrNull
 import androidx.core.database.getFloatOrNull
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getStringOrNull
-import com.infinum.dbinspector.data.models.local.BlobPreviewType
-import com.infinum.dbinspector.data.models.local.CursorException
-import com.infinum.dbinspector.data.models.local.Field
-import com.infinum.dbinspector.data.models.local.FieldType
-import com.infinum.dbinspector.data.models.local.QueryException
-import com.infinum.dbinspector.data.models.local.QueryResult
-import com.infinum.dbinspector.data.models.local.Row
+import com.infinum.dbinspector.data.models.local.cursor.BlobPreviewType
+import com.infinum.dbinspector.data.models.local.cursor.CursorException
+import com.infinum.dbinspector.data.models.local.cursor.Field
+import com.infinum.dbinspector.data.models.local.cursor.FieldType
+import com.infinum.dbinspector.data.models.local.cursor.QueryException
+import com.infinum.dbinspector.data.models.local.cursor.QueryResult
+import com.infinum.dbinspector.data.models.local.cursor.Row
 import com.infinum.dbinspector.data.source.memory.pagination.Paginator
 import com.infinum.dbinspector.domain.shared.models.Query
 import kotlinx.coroutines.CancellableContinuation

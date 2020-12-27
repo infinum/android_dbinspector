@@ -1,9 +1,6 @@
 package com.infinum.dbinspector.ui.content.shared
 
-import android.text.TextUtils
 import androidx.core.content.ContextCompat
-import androidx.core.view.isGone
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorItemCellBinding

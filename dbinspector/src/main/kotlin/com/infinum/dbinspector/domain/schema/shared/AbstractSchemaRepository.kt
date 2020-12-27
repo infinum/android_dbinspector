@@ -1,6 +1,6 @@
 package com.infinum.dbinspector.domain.schema.shared
 
-import com.infinum.dbinspector.data.models.local.QueryResult
+import com.infinum.dbinspector.data.models.local.cursor.QueryResult
 import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.domain.Repositories
 import com.infinum.dbinspector.domain.shared.base.BaseInteractor

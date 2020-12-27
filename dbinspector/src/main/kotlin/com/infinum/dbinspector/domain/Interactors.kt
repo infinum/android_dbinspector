@@ -1,7 +1,10 @@
 package com.infinum.dbinspector.domain
 
 import android.database.sqlite.SQLiteDatabase
-import com.infinum.dbinspector.data.models.local.QueryResult
+import android.text.TextUtils
+import com.infinum.dbinspector.data.models.local.cursor.BlobPreviewType
+import com.infinum.dbinspector.data.models.local.cursor.QueryResult
+import com.infinum.dbinspector.data.models.local.proto.SettingsEntity
 import com.infinum.dbinspector.domain.database.models.Operation
 import com.infinum.dbinspector.domain.shared.base.BaseInteractor
 import com.infinum.dbinspector.domain.shared.models.Query
@@ -25,6 +28,18 @@ internal interface Interactors {
     interface OpenConnection : BaseInteractor<String, SQLiteDatabase>
 
     interface CloseConnection : BaseInteractor<String, Unit>
+    // endregion
+
+    // region Settings
+    interface LoadSettings : BaseInteractor<Unit, SettingsEntity?>
+
+    interface SaveLinesLimit : BaseInteractor<Boolean, Unit>
+
+    interface SaveLinesCount : BaseInteractor<Int, Unit>
+
+    interface SaveTruncateMode : BaseInteractor<TextUtils.TruncateAt, Unit>
+
+    interface SaveBlobPreviewMode : BaseInteractor<BlobPreviewType, Unit>
     // endregion
 
     // region Schema

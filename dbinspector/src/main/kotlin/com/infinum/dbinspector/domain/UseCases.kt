@@ -1,7 +1,10 @@
 package com.infinum.dbinspector.domain
 
+import android.text.TextUtils
+import com.infinum.dbinspector.data.models.local.cursor.BlobPreviewType
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
 import com.infinum.dbinspector.domain.database.models.Operation
+import com.infinum.dbinspector.domain.settings.models.Settings
 import com.infinum.dbinspector.domain.shared.base.BaseUseCase
 import com.infinum.dbinspector.domain.shared.models.Page
 import com.infinum.dbinspector.domain.shared.models.Query
@@ -24,6 +27,18 @@ internal interface UseCases {
     interface OpenConnection : BaseUseCase<String, Unit>
 
     interface CloseConnection : BaseUseCase<String, Unit>
+    // endregion
+
+    // region Settings
+    interface LoadAllSettings : BaseUseCase<Unit, Settings>
+
+    interface ToggleLinesLimit : BaseUseCase<Boolean, Unit>
+
+    interface SaveLinesCount : BaseUseCase<Int, Unit>
+
+    interface SaveTruncateMode : BaseUseCase<TextUtils.TruncateAt, Unit>
+
+    interface SaveBlobPreviewMode : BaseUseCase<BlobPreviewType, Unit>
     // endregion
 
     // region Schema

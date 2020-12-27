@@ -1,11 +1,14 @@
 package com.infinum.dbinspector.domain
 
 import android.database.sqlite.SQLiteDatabase
+import android.text.TextUtils
+import com.infinum.dbinspector.data.models.local.cursor.BlobPreviewType
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
 import com.infinum.dbinspector.domain.database.models.Operation
 import com.infinum.dbinspector.domain.shared.base.BaseRepository
 import com.infinum.dbinspector.domain.shared.models.Page
 import com.infinum.dbinspector.domain.shared.models.Query
+import com.infinum.dbinspector.domain.settings.models.Settings as SettingsModel
 
 internal interface Repositories {
 
@@ -25,6 +28,19 @@ internal interface Repositories {
         suspend fun open(path: String): SQLiteDatabase
 
         suspend fun close(path: String)
+    }
+
+    interface Settings {
+
+        suspend fun load(): SettingsModel
+
+        suspend fun saveLinesLimit(isEnabled: Boolean)
+
+        suspend fun saveLinesCount(count: Int)
+
+        suspend fun saveTruncateMode(mode: TextUtils.TruncateAt)
+
+        suspend fun saveBlobPreview(mode: BlobPreviewType)
     }
 
     interface Schema : BaseRepository<Query, Page> {

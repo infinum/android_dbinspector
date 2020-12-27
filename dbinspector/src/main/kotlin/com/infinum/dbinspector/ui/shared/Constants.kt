@@ -15,4 +15,9 @@ internal object Constants {
         const val PAGE_SIZE = 100
         const val INITIAL_PAGE = 1
     }
+
+    object Settings {
+        const val LINES_LIMIT_MINIMUM = 1
+        const val LINES_LIMIT_MAXIMUM = 100
+    }
 }

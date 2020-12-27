@@ -1,7 +1,11 @@
 package com.infinum.dbinspector.data
 
-import com.infinum.dbinspector.data.source.local.PragmaSource
-import com.infinum.dbinspector.data.source.local.SchemaSource
+import androidx.datastore.core.Serializer
+import com.infinum.dbinspector.data.models.local.proto.SettingsEntity
+import com.infinum.dbinspector.data.source.local.cursor.PragmaSource
+import com.infinum.dbinspector.data.source.local.cursor.SchemaSource
+import com.infinum.dbinspector.data.source.local.proto.DataStoreFactory
+import com.infinum.dbinspector.data.source.local.proto.settings.SettingsSerializer
 import com.infinum.dbinspector.data.source.memory.connection.AndroidConnectionSource
 import com.infinum.dbinspector.data.source.memory.pagination.CursorPaginator
 import com.infinum.dbinspector.data.source.memory.pagination.Paginator
@@ -67,6 +71,10 @@ object Data {
     }
 
     private fun local() = module {
+        single<Serializer<SettingsEntity>> { SettingsSerializer() }
+
+        single<Sources.Local.Store> { DataStoreFactory(get(), get()) }
+
         factory<Sources.Local.Schema> {
             SchemaSource(
                 get(qualifier = Qualifiers.Schema.TABLES),

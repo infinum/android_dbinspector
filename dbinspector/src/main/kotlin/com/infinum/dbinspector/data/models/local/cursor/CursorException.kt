@@ -1,4 +1,4 @@
-package com.infinum.dbinspector.data.models.local
+package com.infinum.dbinspector.data.models.local.cursor
 
 internal class CursorException : IllegalStateException() {
 

@@ -1,7 +1,9 @@
 package com.infinum.dbinspector.data
 
 import android.database.sqlite.SQLiteDatabase
-import com.infinum.dbinspector.data.models.local.QueryResult
+import androidx.datastore.core.DataStore
+import com.infinum.dbinspector.data.models.local.cursor.QueryResult
+import com.infinum.dbinspector.data.models.local.proto.SettingsEntity
 import com.infinum.dbinspector.domain.database.models.Operation
 import com.infinum.dbinspector.domain.shared.models.Query
 import java.io.File
@@ -29,6 +31,11 @@ internal interface Sources {
     }
 
     interface Local {
+
+        interface Store {
+
+            suspend fun settings(): DataStore<SettingsEntity>
+        }
 
         interface Schema {
 

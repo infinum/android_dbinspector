@@ -1,9 +1,9 @@
 package com.infinum.dbinspector.domain.schema.shared.mappers
 
 import android.util.Base64
-import com.infinum.dbinspector.data.models.local.BlobPreviewType
-import com.infinum.dbinspector.data.models.local.Field
-import com.infinum.dbinspector.data.models.local.FieldType
+import com.infinum.dbinspector.data.models.local.cursor.BlobPreviewType
+import com.infinum.dbinspector.data.models.local.cursor.Field
+import com.infinum.dbinspector.data.models.local.cursor.FieldType
 import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.domain.schema.shared.models.ImageType
 import com.infinum.dbinspector.domain.shared.models.Cell

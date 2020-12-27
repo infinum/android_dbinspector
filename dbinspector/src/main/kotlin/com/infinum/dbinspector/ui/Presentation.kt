@@ -15,6 +15,7 @@ import com.infinum.dbinspector.ui.schema.SchemaViewModel
 import com.infinum.dbinspector.ui.schema.tables.TablesViewModel
 import com.infinum.dbinspector.ui.schema.triggers.TriggersViewModel
 import com.infinum.dbinspector.ui.schema.views.ViewsViewModel
+import com.infinum.dbinspector.ui.settings.SettingsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -45,6 +46,8 @@ object Presentation {
     private fun viewModels() = module {
         viewModel { DatabaseViewModel(get(), get(), get(), get(), get()) }
         viewModel { EditViewModel(get(), get()) }
+
+        viewModel { SettingsViewModel(get(), get(), get(), get(), get()) }
 
         viewModel { SchemaViewModel(get(), get()) }
 
