@@ -7,4 +7,7 @@
     <dimen name="dbinspector_slider_button_margin">6dp</dimen>
     <dimen name="dbinspector_slider_halo_radius">20dp</dimen>
     <dimen name="dbinspector_slider_thumb_radius">10dp</dimen>
+
+    <dimen name="dbinspector_toggle_button_size">40dp</dimen>
+    <dimen name="dbinspector_toggle_button_corner_radius">18dp</dimen>
 </resources>

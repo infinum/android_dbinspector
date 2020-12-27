@@ -20,11 +20,11 @@ internal class ContentViewHolder(
         onTextPreview: (String) -> Unit,
         onImagePreview: (ByteArray, String) -> Unit
     ) {
-        item?.let {
+        item?.let { cell ->
             with(viewBinding) {
-                this.valueView.maxLines = it.linesShown
-                this.valueView.ellipsize = if (it.linesShown == Int.MAX_VALUE) null else TextUtils.TruncateAt.END
-                this.valueView.text = it.text
+                this.valueView.maxLines = cell.linesShown
+                this.valueView.ellipsize = cell.truncateMode.takeIf { cell.linesShown == Int.MAX_VALUE }
+                this.valueView.text = cell.text
                 this.root.setBackgroundColor(
                     if (row % 2 == 0) {
                         ContextCompat.getColor(this.root.context, R.color.dbinspector_alternate_row_background)
@@ -33,12 +33,12 @@ internal class ContentViewHolder(
                     }
                 )
                 this.root.setOnClickListener { _ ->
-                    it.data?.let { bytes ->
-                        when (it.imageType) {
-                            ImageType.UNSUPPORTED -> it.text?.let { onTextPreview(it) }
-                            else -> onImagePreview(bytes, it.imageType.suffix)
+                    cell.data?.let { bytes ->
+                        when (cell.imageType) {
+                            ImageType.UNSUPPORTED -> cell.text?.let { onTextPreview(it) }
+                            else -> onImagePreview(bytes, cell.imageType.suffix)
                         }
-                    } ?: it.text?.let { onTextPreview(it) }
+                    } ?: cell.text?.let { onTextPreview(it) }
                 }
             }
         } ?: with(viewBinding) {

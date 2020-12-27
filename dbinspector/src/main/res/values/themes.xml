@@ -9,4 +9,10 @@
         <item name="android:statusBarColor">@color/dbinspector_status_bar</item>
     </style>
 
+    <style name="DbInspector.ToggleButton" parent="@style/Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textSize">12sp</item>
+        <item name="cornerRadius">@dimen/dbinspector_toggle_button_corner_radius</item>
+        <item name="android:layout_height">@dimen/dbinspector_toggle_button_size</item>
+    </style>
+
 </resources>
