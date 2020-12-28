@@ -1,11 +1,13 @@
 package com.infinum.dbinspector.ui.content.shared
 
+import android.text.TextUtils
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorItemCellBinding
 import com.infinum.dbinspector.domain.schema.shared.models.ImageType
 import com.infinum.dbinspector.domain.shared.models.Cell
+import com.infinum.dbinspector.domain.shared.models.TruncateMode
 
 internal class ContentViewHolder(
     private val viewBinding: DbinspectorItemCellBinding
@@ -20,7 +22,15 @@ internal class ContentViewHolder(
         item?.let { cell ->
             with(viewBinding) {
                 this.valueView.maxLines = cell.linesShown
-                this.valueView.ellipsize = cell.truncateMode.takeIf { cell.linesShown == Int.MAX_VALUE }
+                this.valueView.ellipsize = cell.truncateMode
+                    .takeIf { cell.linesShown == Int.MAX_VALUE }
+                    ?.let {
+                        when (it) {
+                            TruncateMode.START -> TextUtils.TruncateAt.START
+                            TruncateMode.MIDDLE -> TextUtils.TruncateAt.MIDDLE
+                            TruncateMode.END -> TextUtils.TruncateAt.END
+                        }
+                    }
                 this.valueView.text = cell.text
                 this.root.setBackgroundColor(
                     if (row % 2 == 0) {

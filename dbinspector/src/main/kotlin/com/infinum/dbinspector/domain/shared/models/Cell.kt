@@ -1,6 +1,5 @@
 package com.infinum.dbinspector.domain.shared.models
 
-import android.text.TextUtils
 import com.infinum.dbinspector.domain.schema.shared.models.ImageType
 
 internal data class Cell(
@@ -8,7 +7,7 @@ internal data class Cell(
     val data: ByteArray? = null,
     val imageType: ImageType = ImageType.UNSUPPORTED,
     val linesShown: Int = Int.MAX_VALUE,
-    val truncateMode: TextUtils.TruncateAt = TextUtils.TruncateAt.END
+    val truncateMode: TruncateMode = TruncateMode.END
 ) {
 
     override fun equals(other: Any?): Boolean {

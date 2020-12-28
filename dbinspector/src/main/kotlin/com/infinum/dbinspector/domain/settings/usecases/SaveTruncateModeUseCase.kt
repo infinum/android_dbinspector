@@ -8,6 +8,6 @@ internal class SaveTruncateModeUseCase(
     private val settingsRepository: Repositories.Settings
 ) : UseCases.SaveTruncateMode {
 
-    override suspend fun invoke(input: SettingsParameters.TruncateMode) =
+    override suspend fun invoke(input: SettingsParameters.Truncate) =
         settingsRepository.saveTruncateMode(input)
 }

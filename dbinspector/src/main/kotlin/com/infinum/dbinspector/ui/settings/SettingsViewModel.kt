@@ -4,6 +4,7 @@ import android.text.TextUtils
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.settings.models.Settings
 import com.infinum.dbinspector.domain.shared.models.BlobPreviewMode
+import com.infinum.dbinspector.domain.shared.models.TruncateMode
 import com.infinum.dbinspector.domain.shared.models.parameters.SettingsParameters
 import com.infinum.dbinspector.ui.shared.base.BaseViewModel
 
@@ -39,10 +40,10 @@ internal class SettingsViewModel(
         }
     }
 
-    fun saveTruncateMode(mode: TextUtils.TruncateAt) {
+    fun saveTruncateMode(mode: TruncateMode) {
         launch {
             io {
-                truncateMode(SettingsParameters.TruncateMode(mode))
+                truncateMode(SettingsParameters.Truncate(mode))
             }
         }
     }

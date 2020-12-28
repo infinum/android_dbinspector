@@ -37,7 +37,7 @@ internal interface UseCases {
 
     interface SaveLinesCount : BaseUseCase<SettingsParameters.LinesCount, Unit>
 
-    interface SaveTruncateMode : BaseUseCase<SettingsParameters.TruncateMode, Unit>
+    interface SaveTruncateMode : BaseUseCase<SettingsParameters.Truncate, Unit>
 
     interface SaveBlobPreviewMode : BaseUseCase<SettingsParameters.BlobPreview, Unit>
     // endregion

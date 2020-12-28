@@ -1,5 +1,6 @@
 package com.infinum.dbinspector.domain.pragma
 
+import com.infinum.dbinspector.data.models.local.cursor.Order
 import com.infinum.dbinspector.domain.Interactors
 import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.domain.Repositories
@@ -38,7 +39,7 @@ internal class PragmaRepository(
                 databasePath = input.databasePath,
                 database = input.database,
                 statement = input.statement,
-                order = input.order,
+                order = Order(input.sort.rawValue),
                 pageSize = input.pageSize,
                 page = input.page
             )
@@ -64,7 +65,7 @@ internal class PragmaRepository(
                 databasePath = input.databasePath,
                 database = input.database,
                 statement = input.statement,
-                order = input.order,
+                order = Order(input.sort.rawValue),
                 pageSize = input.pageSize,
                 page = input.page
             )
@@ -83,7 +84,7 @@ internal class PragmaRepository(
                 databasePath = input.databasePath,
                 database = input.database,
                 statement = input.statement,
-                order = input.order,
+                order = Order(input.sort.rawValue),
                 pageSize = input.pageSize,
                 page = input.page
             )

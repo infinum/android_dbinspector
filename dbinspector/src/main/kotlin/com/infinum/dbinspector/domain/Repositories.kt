@@ -37,7 +37,7 @@ internal interface Repositories {
 
         suspend fun saveLinesCount(input: SettingsParameters.LinesCount)
 
-        suspend fun saveTruncateMode(input: SettingsParameters.TruncateMode)
+        suspend fun saveTruncateMode(input: SettingsParameters.Truncate)
 
         suspend fun saveBlobPreview(input: SettingsParameters.BlobPreview)
     }

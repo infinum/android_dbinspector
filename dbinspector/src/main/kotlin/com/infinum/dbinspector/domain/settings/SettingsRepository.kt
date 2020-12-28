@@ -2,6 +2,7 @@ package com.infinum.dbinspector.domain.settings
 
 import android.text.TextUtils
 import com.infinum.dbinspector.data.models.local.cursor.BlobPreviewType
+import com.infinum.dbinspector.data.models.local.cursor.TruncateType
 import com.infinum.dbinspector.data.models.local.proto.SettingsEntity
 import com.infinum.dbinspector.domain.Interactors
 import com.infinum.dbinspector.domain.Repositories
@@ -49,8 +50,8 @@ internal class SettingsRepository(
     override suspend fun saveLinesCount(input: SettingsParameters.LinesCount) =
         linesCount(input.count)
 
-    override suspend fun saveTruncateMode(input: SettingsParameters.TruncateMode) =
-        truncateMode(input.mode)
+    override suspend fun saveTruncateMode(input: SettingsParameters.Truncate) =
+        truncateMode(TruncateType(input.mode.ordinal)) // TODO: This needs to be in a mapper
 
     override suspend fun saveBlobPreview(input: SettingsParameters.BlobPreview) =
         blobPreviewMode(BlobPreviewType(input.mode.ordinal)) // TODO: This needs to be in a mapper

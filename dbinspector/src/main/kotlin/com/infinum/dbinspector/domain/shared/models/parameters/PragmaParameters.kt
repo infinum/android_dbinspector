@@ -3,7 +3,7 @@ package com.infinum.dbinspector.domain.shared.models.parameters
 import android.database.sqlite.SQLiteDatabase
 import com.infinum.dbinspector.domain.pragma.models.TriggerInfoColumns
 import com.infinum.dbinspector.domain.shared.base.BaseParameters
-import com.infinum.dbinspector.data.models.local.cursor.Direction
+import com.infinum.dbinspector.domain.shared.models.Sort
 import com.infinum.dbinspector.ui.shared.Constants
 import java.util.*
 
@@ -22,7 +22,7 @@ internal sealed class PragmaParameters : BaseParameters {
         val columns: List<String> = TriggerInfoColumns.values().map {
             it.name.toLowerCase(Locale.getDefault())
         },
-        val order: Direction = Direction.ASCENDING,
+        val sort: Sort = Sort.ASCENDING,
         val page: Int? = Constants.Limits.INITIAL_PAGE,
         val pageSize: Int = Constants.Limits.PAGE_SIZE
     ) : PragmaParameters()
@@ -38,7 +38,7 @@ internal sealed class PragmaParameters : BaseParameters {
 //        val databasePath: String,
 //        val database: SQLiteDatabase? = null,
 //        val statement: String,
-//        val order: Direction = Direction.ASCENDING,
+//        val sort: Sort = Sort.ASCENDING,
 //        val page: Int? = Constants.Limits.INITIAL_PAGE,
 //        val pageSize: Int = Constants.Limits.PAGE_SIZE
 //    ) : PragmaParameters()
@@ -47,7 +47,7 @@ internal sealed class PragmaParameters : BaseParameters {
         val databasePath: String,
         val database: SQLiteDatabase? = null,
         val statement: String,
-        val order: Direction = Direction.ASCENDING,
+        val sort: Sort = Sort.ASCENDING,
         val page: Int? = Constants.Limits.INITIAL_PAGE,
         val pageSize: Int = Constants.Limits.PAGE_SIZE
     ) : PragmaParameters()
@@ -56,7 +56,7 @@ internal sealed class PragmaParameters : BaseParameters {
         val databasePath: String,
         val database: SQLiteDatabase? = null,
         val statement: String,
-        val order: Direction = Direction.ASCENDING,
+        val sort: Sort = Sort.ASCENDING,
         val page: Int? = Constants.Limits.INITIAL_PAGE,
         val pageSize: Int = Constants.Limits.PAGE_SIZE
     ) : PragmaParameters()

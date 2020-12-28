@@ -5,9 +5,9 @@ import androidx.paging.PagingData
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.shared.base.BaseUseCase
 import com.infinum.dbinspector.domain.shared.models.Cell
-import com.infinum.dbinspector.data.models.local.cursor.Direction
 import com.infinum.dbinspector.domain.shared.models.DropException
 import com.infinum.dbinspector.domain.shared.models.Page
+import com.infinum.dbinspector.domain.shared.models.Sort
 import com.infinum.dbinspector.domain.shared.models.parameters.ConnectionParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
@@ -24,7 +24,7 @@ internal abstract class ContentViewModel(
 
     abstract fun headerStatement(name: String): String
 
-    abstract fun schemaStatement(name: String, orderBy: String?, direction: Direction): String
+    abstract fun schemaStatement(name: String, orderBy: String?, sort: Sort): String
 
     abstract fun dropStatement(name: String): String
 
@@ -57,7 +57,7 @@ internal abstract class ContentViewModel(
                     .map {
                         Header(
                             name = it.text.orEmpty(),
-                            direction = Direction.ASCENDING
+                            sort = Sort.ASCENDING
                         )
                     }
             }
@@ -67,11 +67,11 @@ internal abstract class ContentViewModel(
     fun query(
         schemaName: String,
         orderBy: String?,
-        direction: Direction,
+        sort: Sort,
         onData: suspend (value: PagingData<Cell>) -> Unit
     ) {
         launch {
-            pageFlow(databasePath, schemaStatement(schemaName, orderBy, direction)) {
+            pageFlow(databasePath, schemaStatement(schemaName, orderBy, sort)) {
                 onData(it)
             }
         }

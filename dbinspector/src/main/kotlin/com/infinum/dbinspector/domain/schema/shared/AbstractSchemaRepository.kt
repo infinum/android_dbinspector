@@ -1,6 +1,7 @@
 package com.infinum.dbinspector.domain.schema.shared
 
 import com.infinum.dbinspector.data.models.local.cursor.BlobPreviewType
+import com.infinum.dbinspector.data.models.local.cursor.Order
 import com.infinum.dbinspector.data.models.local.cursor.QueryResult
 import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.domain.Repositories
@@ -22,7 +23,7 @@ internal abstract class AbstractSchemaRepository(
                 databasePath = input.databasePath,
                 database = input.database,
                 statement = input.statement,
-                order = input.order,
+                order = Order(input.sort.rawValue),
                 pageSize = input.pageSize,
                 page = input.page,
                 blobPreviewType = BlobPreviewType(input.blobPreviewMode.ordinal)
@@ -44,7 +45,7 @@ internal abstract class AbstractSchemaRepository(
                 databasePath = input.databasePath,
                 database = input.database,
                 statement = input.statement,
-                order = input.order,
+                order = Order(input.sort.rawValue),
                 pageSize = input.pageSize,
                 page = input.page,
                 blobPreviewType = BlobPreviewType(input.blobPreviewMode.ordinal)
@@ -66,7 +67,7 @@ internal abstract class AbstractSchemaRepository(
                 databasePath = input.databasePath,
                 database = input.database,
                 statement = input.statement,
-                order = input.order,
+                order = Order(input.sort.rawValue),
                 pageSize = input.pageSize,
                 page = input.page,
                 blobPreviewType = BlobPreviewType(input.blobPreviewMode.ordinal)

@@ -8,6 +8,7 @@ import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorActivitySettingsBinding
 import com.infinum.dbinspector.domain.settings.models.Settings
 import com.infinum.dbinspector.domain.shared.models.BlobPreviewMode
+import com.infinum.dbinspector.domain.shared.models.TruncateMode
 import com.infinum.dbinspector.ui.shared.Constants
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
@@ -86,10 +87,10 @@ internal class SettingsActivity : BaseActivity() {
             truncateGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
                 if (isChecked) {
                     when (checkedId) {
-                        R.id.truncateStart -> TextUtils.TruncateAt.START
-                        R.id.truncateMiddle -> TextUtils.TruncateAt.MIDDLE
-                        R.id.truncateEnd -> TextUtils.TruncateAt.END
-                        else -> TextUtils.TruncateAt.END
+                        R.id.truncateStart -> TruncateMode.START
+                        R.id.truncateMiddle -> TruncateMode.MIDDLE
+                        R.id.truncateEnd -> TruncateMode.END
+                        else -> TruncateMode.END
                     }.let {
                         viewModel.saveTruncateMode(it)
                     }

@@ -1,6 +1,6 @@
 package com.infinum.dbinspector.domain.shared.models.dsl
 
-import com.infinum.dbinspector.data.models.local.cursor.Direction
+import com.infinum.dbinspector.domain.shared.models.Sort
 import com.infinum.dbinspector.domain.shared.models.dsl.conditions.And
 import com.infinum.dbinspector.domain.shared.models.dsl.shared.Condition
 
@@ -14,7 +14,7 @@ class Select {
     private lateinit var table: String
     private var condition: Condition? = null
     private var orderByColumns = listOf<String>()
-    private var orderByDirection: Direction = Direction.ASCENDING
+    private var orderByDirection: Sort = Sort.ASCENDING
     private var limit: Int? = null
 
     fun columns(vararg columns: String) {
@@ -32,8 +32,8 @@ class Select {
         condition = And().apply(initializer)
     }
 
-    fun orderBy(direction: Direction, vararg columns: String?) {
-        this.orderByDirection = direction
+    fun orderBy(sort: Sort, vararg columns: String?) {
+        this.orderByDirection = sort
 
         if (columns.isEmpty()) {
             throw IllegalArgumentException("At least one column should be defined")

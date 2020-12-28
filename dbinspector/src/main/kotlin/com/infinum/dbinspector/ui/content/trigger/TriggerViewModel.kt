@@ -1,7 +1,7 @@
 package com.infinum.dbinspector.ui.content.trigger
 
 import com.infinum.dbinspector.domain.UseCases
-import com.infinum.dbinspector.data.models.local.cursor.Direction
+import com.infinum.dbinspector.domain.shared.models.Sort
 import com.infinum.dbinspector.domain.shared.models.Statements
 import com.infinum.dbinspector.ui.content.shared.ContentViewModel
 
@@ -20,7 +20,7 @@ internal class TriggerViewModel(
 
     override fun headerStatement(name: String) = ""
 
-    override fun schemaStatement(name: String, orderBy: String?, direction: Direction) =
+    override fun schemaStatement(name: String, orderBy: String?, sort: Sort) =
         Statements.Schema.trigger(name)
 
     override fun dropStatement(name: String) =

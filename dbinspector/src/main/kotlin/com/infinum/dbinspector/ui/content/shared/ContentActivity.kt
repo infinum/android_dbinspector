@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorActivityContentBinding
-import com.infinum.dbinspector.data.models.local.cursor.Direction
+import com.infinum.dbinspector.domain.shared.models.Sort
 import com.infinum.dbinspector.ui.content.table.TableViewModel
 import com.infinum.dbinspector.ui.content.trigger.TriggerViewModel
 import com.infinum.dbinspector.ui.content.view.ViewViewModel
@@ -70,7 +70,7 @@ internal abstract class ContentActivity : BaseActivity() {
 
                 viewModel.header(schemaName) { tableHeaders ->
                     headerAdapter = HeaderAdapter(tableHeaders, true) { header ->
-                        query(schemaName, header.name, header.direction)
+                        query(schemaName, header.name, header.sort)
                         headerAdapter.updateHeader(header)
                     }
 
@@ -215,9 +215,9 @@ internal abstract class ContentActivity : BaseActivity() {
     private fun query(
         name: String,
         orderBy: String? = null,
-        direction: Direction = Direction.ASCENDING
+        sort: Sort = Sort.ASCENDING
     ) =
-        viewModel.query(name, orderBy, direction) {
+        viewModel.query(name, orderBy, sort) {
             contentAdapter.submitData(it)
         }
 
