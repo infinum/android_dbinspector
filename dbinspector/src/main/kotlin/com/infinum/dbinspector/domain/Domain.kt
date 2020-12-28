@@ -148,9 +148,9 @@ object Domain {
         factory<UseCases.GetTriggers> { GetTriggersUseCase(get(), get(qualifier = Qualifiers.TRIGGERS)) }
         factory<UseCases.GetTableInfo> { GetTableInfoUseCase(get(), get()) }
         factory<UseCases.GetTriggerInfo> { GetTriggerInfoUseCase(get()) }
-        factory<UseCases.GetTable> { GetTableUseCase(get(), get(qualifier = Qualifiers.TABLES)) }
-        factory<UseCases.GetView> { GetViewUseCase(get(), get(qualifier = Qualifiers.VIEWS)) }
-        factory<UseCases.GetTrigger> { GetTriggerUseCase(get(), get(qualifier = Qualifiers.TRIGGERS)) }
+        factory<UseCases.GetTable> { GetTableUseCase(get(), get(), get(qualifier = Qualifiers.TABLES)) }
+        factory<UseCases.GetView> { GetViewUseCase(get(), get(), get(qualifier = Qualifiers.VIEWS)) }
+        factory<UseCases.GetTrigger> { GetTriggerUseCase(get(), get(), get(qualifier = Qualifiers.TRIGGERS)) }
         factory<UseCases.DropTableContent> { DropTableContentUseCase(get(), get(qualifier = Qualifiers.TABLES)) }
         factory<UseCases.DropView> { DropViewUseCase(get(), get(qualifier = Qualifiers.VIEWS)) }
         factory<UseCases.DropTrigger> { DropTriggerUseCase(get(), get(qualifier = Qualifiers.TRIGGERS)) }

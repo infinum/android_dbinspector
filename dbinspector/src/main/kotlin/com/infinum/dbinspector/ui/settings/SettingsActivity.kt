@@ -30,7 +30,7 @@ internal class SettingsActivity : BaseActivity() {
         }
     }
 
-    private fun initUi() {
+    private fun initUi() =
         with(binding) {
             toolbar.setNavigationOnClickListener { finish() }
 
@@ -46,14 +46,13 @@ internal class SettingsActivity : BaseActivity() {
                     .coerceAtMost(Constants.Settings.LINES_LIMIT_MAXIMUM.toFloat())
             }
         }
-    }
 
     private fun setupUi(settings: Settings) {
         setupLinesLimit(settings)
         setupBlobPreview(settings)
     }
 
-    private fun setupLinesLimit(settings: Settings) {
+    private fun setupLinesLimit(settings: Settings) =
         with(binding) {
             linesCheckBox.isEnabled = true
             linesCheckBox.setOnCheckedChangeListener(null)
@@ -97,9 +96,8 @@ internal class SettingsActivity : BaseActivity() {
                 }
             }
         }
-    }
 
-    private fun setupBlobPreview(settings: Settings) {
+    private fun setupBlobPreview(settings: Settings) =
         with(binding) {
             blobPreviewGroup.setOnCheckedChangeListener(null)
             placeHolderButton.isEnabled = true
@@ -127,5 +125,4 @@ internal class SettingsActivity : BaseActivity() {
                 }
             }
         }
-    }
 }

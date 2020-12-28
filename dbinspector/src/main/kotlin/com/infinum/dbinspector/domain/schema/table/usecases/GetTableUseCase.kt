@@ -7,14 +7,17 @@ import com.infinum.dbinspector.domain.shared.models.Query
 
 internal class GetTableUseCase(
     private val connectionRepository: Repositories.Connection,
+    private val settingsRepository: Repositories.Settings,
     private val schemaRepository: Repositories.Schema
 ) : UseCases.GetTable {
 
     override suspend fun invoke(input: Query): Page {
         val connection = connectionRepository.open(input.databasePath)
+        val settings = settingsRepository.load()
         return schemaRepository.getByName(
             input.copy(
-                database = connection
+                database = connection,
+                blobPreviewType = settings.blobPreviewType
             )
         )
     }
