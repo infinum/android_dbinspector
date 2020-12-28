@@ -11,5 +11,5 @@ internal data class Query(
     val order: Direction = Direction.ASCENDING,
     val pageSize: Int = Constants.Limits.PAGE_SIZE,
     val page: Int? = Constants.Limits.INITIAL_PAGE,
-    val blobPreviewType: BlobPreviewType = BlobPreviewType.UTF_8
+    val blobPreviewType: BlobPreviewType = BlobPreviewType.HEX
 )

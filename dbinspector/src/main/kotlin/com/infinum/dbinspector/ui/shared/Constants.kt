@@ -19,5 +19,6 @@ internal object Constants {
     object Settings {
         const val LINES_LIMIT_MINIMUM = 1
         const val LINES_LIMIT_MAXIMUM = 100
+        const val BLOB_DATA_PLACEHOLDER = "[ DATA ]"
     }
 }
