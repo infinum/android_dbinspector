@@ -13,7 +13,7 @@ import com.infinum.dbinspector.data.models.local.cursor.QueryException
 import com.infinum.dbinspector.data.models.local.cursor.QueryResult
 import com.infinum.dbinspector.data.models.local.cursor.Row
 import com.infinum.dbinspector.data.source.memory.pagination.Paginator
-import com.infinum.dbinspector.domain.shared.models.Query
+import com.infinum.dbinspector.data.models.local.cursor.Query
 import kotlinx.coroutines.CancellableContinuation
 import timber.log.Timber
 import java.util.Locale

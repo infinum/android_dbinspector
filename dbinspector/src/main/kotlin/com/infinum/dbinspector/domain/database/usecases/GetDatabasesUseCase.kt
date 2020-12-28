@@ -3,8 +3,6 @@ package com.infinum.dbinspector.domain.database.usecases
 import com.infinum.dbinspector.domain.Repositories
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
-import com.infinum.dbinspector.domain.database.models.Operation
-import com.infinum.dbinspector.domain.shared.models.Query
 import com.infinum.dbinspector.domain.shared.models.Statements
 import com.infinum.dbinspector.domain.shared.models.parameters.ConnectionParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.DatabaseParameters
@@ -30,7 +28,7 @@ internal class GetDatabasesUseCase(
                             database = database,
                             statement = Statements.Pragma.userVersion()
                         )
-                    ).fields.first().text.orEmpty()
+                    ).cells.first().text.orEmpty()
                 )
                 connectionRepository.close(ConnectionParameters(databasePath = it.absolutePath))
 

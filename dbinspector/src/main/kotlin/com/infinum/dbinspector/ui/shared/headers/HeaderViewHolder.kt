@@ -3,7 +3,7 @@ package com.infinum.dbinspector.ui.shared.headers
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.infinum.dbinspector.databinding.DbinspectorItemHeaderBinding
-import com.infinum.dbinspector.domain.shared.models.Direction
+import com.infinum.dbinspector.data.models.local.cursor.Direction
 import com.infinum.dbinspector.extensions.drawableFromAttribute
 
 internal class HeaderViewHolder(

@@ -5,11 +5,9 @@ import com.infinum.dbinspector.data.models.local.cursor.QueryResult
 import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.domain.Repositories
 import com.infinum.dbinspector.domain.shared.base.BaseInteractor
-import com.infinum.dbinspector.domain.shared.models.Direction
 import com.infinum.dbinspector.domain.shared.models.Page
-import com.infinum.dbinspector.domain.shared.models.Query
+import com.infinum.dbinspector.data.models.local.cursor.Query
 import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
-import com.infinum.dbinspector.ui.shared.Constants
 
 internal abstract class AbstractSchemaRepository(
     private val getPageInteractor: BaseInteractor<Query, QueryResult>,
@@ -27,13 +25,13 @@ internal abstract class AbstractSchemaRepository(
                 order = input.order,
                 pageSize = input.pageSize,
                 page = input.page,
-                blobPreviewType = input.blobPreviewType
+                blobPreviewType = BlobPreviewType(input.blobPreviewMode.ordinal)
             )
         ).let {
             Page(
                 beforeCount = it.beforeCount,
                 afterCount = it.afterCount,
-                fields = it.rows.map { row ->
+                cells = it.rows.map { row ->
                     row.fields.toList().map { field -> mapper.toDomain(field) }
                 }.flatten(),
                 nextPage = it.nextPage
@@ -49,13 +47,13 @@ internal abstract class AbstractSchemaRepository(
                 order = input.order,
                 pageSize = input.pageSize,
                 page = input.page,
-                blobPreviewType = input.blobPreviewType
+                blobPreviewType = BlobPreviewType(input.blobPreviewMode.ordinal)
             )
         ).let {
             Page(
                 beforeCount = it.beforeCount,
                 afterCount = it.afterCount,
-                fields = it.rows.map { row ->
+                cells = it.rows.map { row ->
                     row.fields.toList().map { field -> mapper.toDomain(field) }
                 }.flatten(),
                 nextPage = it.nextPage
@@ -71,13 +69,13 @@ internal abstract class AbstractSchemaRepository(
                 order = input.order,
                 pageSize = input.pageSize,
                 page = input.page,
-                blobPreviewType = input.blobPreviewType
+                blobPreviewType = BlobPreviewType(input.blobPreviewMode.ordinal)
             )
         ).let {
             Page(
                 beforeCount = it.beforeCount,
                 afterCount = it.afterCount,
-                fields = it.rows.map { row ->
+                cells = it.rows.map { row ->
                     row.fields.toList().map { field -> mapper.toDomain(field) }
                 }.flatten(),
                 nextPage = it.nextPage

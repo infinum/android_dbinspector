@@ -3,7 +3,7 @@ package com.infinum.dbinspector.domain.shared.models.parameters
 import android.database.sqlite.SQLiteDatabase
 import com.infinum.dbinspector.domain.pragma.models.TriggerInfoColumns
 import com.infinum.dbinspector.domain.shared.base.BaseParameters
-import com.infinum.dbinspector.domain.shared.models.Direction
+import com.infinum.dbinspector.data.models.local.cursor.Direction
 import com.infinum.dbinspector.ui.shared.Constants
 import java.util.*
 

@@ -1,9 +1,9 @@
 package com.infinum.dbinspector.ui.settings
 
 import android.text.TextUtils
-import com.infinum.dbinspector.data.models.local.cursor.BlobPreviewType
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.settings.models.Settings
+import com.infinum.dbinspector.domain.shared.models.BlobPreviewMode
 import com.infinum.dbinspector.domain.shared.models.parameters.SettingsParameters
 import com.infinum.dbinspector.ui.shared.base.BaseViewModel
 
@@ -47,10 +47,10 @@ internal class SettingsViewModel(
         }
     }
 
-    fun saveBlobPreviewType(mode: BlobPreviewType) =
+    fun saveBlobPreviewType(mode: BlobPreviewMode) =
         launch {
             io {
-                blobPreviewMode(SettingsParameters.BlobPreviewMode(mode))
+                blobPreviewMode(SettingsParameters.BlobPreview(mode))
             }
         }
 }

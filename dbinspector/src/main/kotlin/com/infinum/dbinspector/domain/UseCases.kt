@@ -1,18 +1,13 @@
 package com.infinum.dbinspector.domain
 
-import android.text.TextUtils
-import com.infinum.dbinspector.data.models.local.cursor.BlobPreviewType
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
-import com.infinum.dbinspector.domain.database.models.Operation
 import com.infinum.dbinspector.domain.settings.models.Settings
 import com.infinum.dbinspector.domain.shared.base.BaseUseCase
 import com.infinum.dbinspector.domain.shared.models.Page
-import com.infinum.dbinspector.domain.shared.models.Query
 import com.infinum.dbinspector.domain.shared.models.parameters.ConnectionParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.DatabaseParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
-import com.infinum.dbinspector.domain.shared.models.parameters.SchemaParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.SettingsParameters
 
 internal interface UseCases {
@@ -44,7 +39,7 @@ internal interface UseCases {
 
     interface SaveTruncateMode : BaseUseCase<SettingsParameters.TruncateMode, Unit>
 
-    interface SaveBlobPreviewMode : BaseUseCase<SettingsParameters.BlobPreviewMode, Unit>
+    interface SaveBlobPreviewMode : BaseUseCase<SettingsParameters.BlobPreview, Unit>
     // endregion
 
     // region Schema

@@ -2,7 +2,6 @@ package com.infinum.dbinspector.ui.pragma.foreignkeys
 
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.shared.models.Cell
-import com.infinum.dbinspector.domain.shared.models.Query
 import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
 import com.infinum.dbinspector.ui.shared.base.BaseDataSource
 
@@ -21,7 +20,7 @@ internal class ForeignKeysDataSource(
         val page = getPragma(parameters)
         parameters = parameters.copy(page = page.nextPage)
         return LoadResult.Page(
-            data = page.fields,
+            data = page.cells,
             prevKey = null,
             nextKey = page.nextPage,
             itemsAfter = page.afterCount

@@ -4,7 +4,7 @@ import com.infinum.dbinspector.data.Sources
 import com.infinum.dbinspector.data.models.local.cursor.QueryResult
 import com.infinum.dbinspector.data.source.local.cursor.shared.CursorSource
 import com.infinum.dbinspector.data.source.memory.pagination.Paginator
-import com.infinum.dbinspector.domain.shared.models.Query
+import com.infinum.dbinspector.data.models.local.cursor.Query
 import kotlinx.coroutines.suspendCancellableCoroutine
 
 @Suppress("LongParameterList")

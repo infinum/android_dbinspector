@@ -19,7 +19,7 @@ internal class GetViewUseCase(
         return schemaRepository.getByName(
             input.copy(
                 database = connection,
-                blobPreviewType = settings.blobPreviewType
+                blobPreviewMode = settings.blobPreviewMode
             )
         )
     }

@@ -7,7 +7,7 @@ import com.infinum.dbinspector.data.models.local.cursor.QueryResult
 import com.infinum.dbinspector.data.models.local.proto.SettingsEntity
 import com.infinum.dbinspector.domain.database.models.Operation
 import com.infinum.dbinspector.domain.shared.base.BaseInteractor
-import com.infinum.dbinspector.domain.shared.models.Query
+import com.infinum.dbinspector.data.models.local.cursor.Query
 import java.io.File
 
 internal interface Interactors {

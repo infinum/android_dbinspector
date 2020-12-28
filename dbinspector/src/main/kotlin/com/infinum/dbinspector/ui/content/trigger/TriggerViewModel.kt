@@ -1,11 +1,8 @@
 package com.infinum.dbinspector.ui.content.trigger
 
 import com.infinum.dbinspector.domain.UseCases
-import com.infinum.dbinspector.domain.shared.base.BaseUseCase
-import com.infinum.dbinspector.domain.shared.models.Direction
-import com.infinum.dbinspector.domain.shared.models.Page
+import com.infinum.dbinspector.data.models.local.cursor.Direction
 import com.infinum.dbinspector.domain.shared.models.Statements
-import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
 import com.infinum.dbinspector.ui.content.shared.ContentViewModel
 
 internal class TriggerViewModel(

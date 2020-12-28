@@ -6,6 +6,7 @@ import com.infinum.dbinspector.data.models.local.proto.SettingsEntity
 import com.infinum.dbinspector.domain.Interactors
 import com.infinum.dbinspector.domain.Repositories
 import com.infinum.dbinspector.domain.settings.models.Settings
+import com.infinum.dbinspector.domain.shared.models.BlobPreviewMode
 import com.infinum.dbinspector.domain.shared.models.parameters.SettingsParameters
 import com.infinum.dbinspector.ui.shared.Constants
 
@@ -32,12 +33,12 @@ internal class SettingsRepository(
                     SettingsEntity.TruncateMode.END_VALUE -> TextUtils.TruncateAt.END
                     else -> TextUtils.TruncateAt.END
                 },
-                blobPreviewType = when (it.blobPreview) {
-                    SettingsEntity.BlobPreviewMode.PLACEHOLDER -> BlobPreviewType.PLACEHOLDER
-                    SettingsEntity.BlobPreviewMode.UTF8 -> BlobPreviewType.UTF_8
-                    SettingsEntity.BlobPreviewMode.HEX -> BlobPreviewType.HEX
-                    SettingsEntity.BlobPreviewMode.BASE64 -> BlobPreviewType.BASE_64
-                    else -> BlobPreviewType.PLACEHOLDER
+                blobPreviewMode = when (it.blobPreview) {
+                    SettingsEntity.BlobPreviewMode.PLACEHOLDER -> BlobPreviewMode.PLACEHOLDER
+                    SettingsEntity.BlobPreviewMode.UTF8 -> BlobPreviewMode.UTF_8
+                    SettingsEntity.BlobPreviewMode.HEX -> BlobPreviewMode.HEX
+                    SettingsEntity.BlobPreviewMode.BASE64 -> BlobPreviewMode.BASE_64
+                    else -> BlobPreviewMode.PLACEHOLDER
                 }
             )
         } ?: Settings()
@@ -51,6 +52,6 @@ internal class SettingsRepository(
     override suspend fun saveTruncateMode(input: SettingsParameters.TruncateMode) =
         truncateMode(input.mode)
 
-    override suspend fun saveBlobPreview(input: SettingsParameters.BlobPreviewMode) =
-        blobPreviewMode(input.mode)
+    override suspend fun saveBlobPreview(input: SettingsParameters.BlobPreview) =
+        blobPreviewMode(BlobPreviewType(input.mode.ordinal)) // TODO: This needs to be in a mapper
 }

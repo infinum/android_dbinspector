@@ -2,7 +2,6 @@ package com.infinum.dbinspector.ui.schema.tables
 
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.shared.models.Cell
-import com.infinum.dbinspector.domain.shared.models.Query
 import com.infinum.dbinspector.domain.shared.models.Statements
 import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
 import com.infinum.dbinspector.ui.schema.shared.SchemaDataSource
@@ -33,7 +32,7 @@ internal class TablesDataSource(
         val page = getSchema(parameters)
         parameters = parameters.copy(page = page.nextPage)
         return LoadResult.Page(
-            data = page.fields,
+            data = page.cells,
             prevKey = null,
             nextKey = page.nextPage,
             itemsAfter = page.afterCount

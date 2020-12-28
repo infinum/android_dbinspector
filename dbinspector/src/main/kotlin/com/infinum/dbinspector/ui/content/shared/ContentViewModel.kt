@@ -5,10 +5,9 @@ import androidx.paging.PagingData
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.shared.base.BaseUseCase
 import com.infinum.dbinspector.domain.shared.models.Cell
-import com.infinum.dbinspector.domain.shared.models.Direction
+import com.infinum.dbinspector.data.models.local.cursor.Direction
 import com.infinum.dbinspector.domain.shared.models.DropException
 import com.infinum.dbinspector.domain.shared.models.Page
-import com.infinum.dbinspector.domain.shared.models.Query
 import com.infinum.dbinspector.domain.shared.models.parameters.ConnectionParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
@@ -54,7 +53,7 @@ internal abstract class ContentViewModel(
                         databasePath = databasePath,
                         statement = headerStatement(schemaName)
                     )
-                ).fields
+                ).cells
                     .map {
                         Header(
                             name = it.text.orEmpty(),
@@ -89,7 +88,7 @@ internal abstract class ContentViewModel(
                         databasePath = databasePath,
                         statement = dropStatement(schemaName)
                     )
-                ).fields
+                ).cells
             }
             if (result.isEmpty()) {
                 onDone()

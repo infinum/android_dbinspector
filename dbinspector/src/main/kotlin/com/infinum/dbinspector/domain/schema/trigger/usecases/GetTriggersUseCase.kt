@@ -3,7 +3,6 @@ package com.infinum.dbinspector.domain.schema.trigger.usecases
 import com.infinum.dbinspector.domain.Repositories
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.shared.models.Page
-import com.infinum.dbinspector.domain.shared.models.Query
 import com.infinum.dbinspector.domain.shared.models.parameters.ConnectionParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
 

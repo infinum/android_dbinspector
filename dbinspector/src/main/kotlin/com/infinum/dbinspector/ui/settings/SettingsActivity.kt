@@ -5,9 +5,9 @@ import android.text.TextUtils
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import com.infinum.dbinspector.R
-import com.infinum.dbinspector.data.models.local.cursor.BlobPreviewType
 import com.infinum.dbinspector.databinding.DbinspectorActivitySettingsBinding
 import com.infinum.dbinspector.domain.settings.models.Settings
+import com.infinum.dbinspector.domain.shared.models.BlobPreviewMode
 import com.infinum.dbinspector.ui.shared.Constants
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
@@ -105,21 +105,21 @@ internal class SettingsActivity : BaseActivity() {
             hexadecimalButton.isEnabled = true
             base64Button.isEnabled = true
             blobPreviewGroup.check(
-                when (settings.blobPreviewType) {
-                    BlobPreviewType.PLACEHOLDER -> R.id.placeHolderButton
-                    BlobPreviewType.UTF_8 -> R.id.utf8Button
-                    BlobPreviewType.HEX -> R.id.hexadecimalButton
-                    BlobPreviewType.BASE_64 -> R.id.base64Button
+                when (settings.blobPreviewMode) {
+                    BlobPreviewMode.PLACEHOLDER -> R.id.placeHolderButton
+                    BlobPreviewMode.UTF_8 -> R.id.utf8Button
+                    BlobPreviewMode.HEX -> R.id.hexadecimalButton
+                    BlobPreviewMode.BASE_64 -> R.id.base64Button
                     else -> R.id.placeHolderButton
                 }
             )
             blobPreviewGroup.setOnCheckedChangeListener { _, checkedId ->
                 when (checkedId) {
-                    R.id.placeHolderButton -> BlobPreviewType.PLACEHOLDER
-                    R.id.utf8Button -> BlobPreviewType.UTF_8
-                    R.id.hexadecimalButton -> BlobPreviewType.HEX
-                    R.id.base64Button -> BlobPreviewType.BASE_64
-                    else -> BlobPreviewType.PLACEHOLDER
+                    R.id.placeHolderButton -> BlobPreviewMode.PLACEHOLDER
+                    R.id.utf8Button -> BlobPreviewMode.UTF_8
+                    R.id.hexadecimalButton -> BlobPreviewMode.HEX
+                    R.id.base64Button -> BlobPreviewMode.BASE_64
+                    else -> BlobPreviewMode.PLACEHOLDER
                 }.let {
                     viewModel.saveBlobPreviewType(it)
                 }

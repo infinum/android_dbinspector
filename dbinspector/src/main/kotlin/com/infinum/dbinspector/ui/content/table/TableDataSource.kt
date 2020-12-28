@@ -2,7 +2,6 @@ package com.infinum.dbinspector.ui.content.table
 
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.shared.models.Cell
-import com.infinum.dbinspector.domain.shared.models.Query
 import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
 import com.infinum.dbinspector.ui.shared.base.BaseDataSource
 import timber.log.Timber
@@ -25,7 +24,7 @@ internal class TableDataSource(
 
         parameters = parameters.copy(page = page.nextPage)
         return LoadResult.Page(
-            data = page.fields,
+            data = page.cells,
             prevKey = null,
             nextKey = page.nextPage,
             itemsAfter = page.afterCount

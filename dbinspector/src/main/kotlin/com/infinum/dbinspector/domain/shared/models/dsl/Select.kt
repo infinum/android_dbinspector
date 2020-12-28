@@ -1,6 +1,6 @@
 package com.infinum.dbinspector.domain.shared.models.dsl
 
-import com.infinum.dbinspector.domain.shared.models.Direction
+import com.infinum.dbinspector.data.models.local.cursor.Direction
 import com.infinum.dbinspector.domain.shared.models.dsl.conditions.And
 import com.infinum.dbinspector.domain.shared.models.dsl.shared.Condition
 

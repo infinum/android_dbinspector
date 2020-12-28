@@ -1,8 +1,8 @@
 package com.infinum.dbinspector.domain.shared.models.parameters
 
 import android.text.TextUtils
-import com.infinum.dbinspector.data.models.local.cursor.BlobPreviewType
 import com.infinum.dbinspector.domain.shared.base.BaseParameters
+import com.infinum.dbinspector.domain.shared.models.BlobPreviewMode
 
 internal sealed class SettingsParameters : BaseParameters {
 
@@ -20,7 +20,7 @@ internal sealed class SettingsParameters : BaseParameters {
         val mode: TextUtils.TruncateAt
     ) : SettingsParameters()
 
-    data class BlobPreviewMode(
-        val mode: BlobPreviewType
+    data class BlobPreview(
+        val mode: BlobPreviewMode
     ) : SettingsParameters()
 }

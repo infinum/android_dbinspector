@@ -24,7 +24,7 @@ internal class ViewDataSource(
 
         parameters = parameters.copy(page = page.nextPage)
         return LoadResult.Page(
-            data = page.fields,
+            data = page.cells,
             prevKey = null,
             nextKey = page.nextPage,
             itemsAfter = page.afterCount

@@ -3,7 +3,6 @@ package com.infinum.dbinspector.domain.schema.trigger.usecases
 import com.infinum.dbinspector.domain.Repositories
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.shared.models.Page
-import com.infinum.dbinspector.domain.shared.models.Query
 import com.infinum.dbinspector.domain.shared.models.parameters.ConnectionParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.SettingsParameters
@@ -20,7 +19,7 @@ internal class GetTriggerUseCase(
         return schemaRepository.getByName(
             input.copy(
                 database = connection,
-                blobPreviewType = settings.blobPreviewType
+                blobPreviewMode = settings.blobPreviewMode
             )
         )
     }

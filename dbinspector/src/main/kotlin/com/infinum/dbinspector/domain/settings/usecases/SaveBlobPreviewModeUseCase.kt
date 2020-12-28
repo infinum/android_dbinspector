@@ -8,6 +8,6 @@ internal class SaveBlobPreviewModeUseCase(
     private val settingsRepository: Repositories.Settings
 ) : UseCases.SaveBlobPreviewMode {
 
-    override suspend fun invoke(input: SettingsParameters.BlobPreviewMode) =
+    override suspend fun invoke(input: SettingsParameters.BlobPreview) =
         settingsRepository.saveBlobPreview(input)
 }

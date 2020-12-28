@@ -1,8 +1,6 @@
 package com.infinum.dbinspector.domain
 
 import android.database.sqlite.SQLiteDatabase
-import android.text.TextUtils
-import com.infinum.dbinspector.data.models.local.cursor.BlobPreviewType
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
 import com.infinum.dbinspector.domain.shared.base.BaseRepository
 import com.infinum.dbinspector.domain.shared.models.Page
@@ -41,7 +39,7 @@ internal interface Repositories {
 
         suspend fun saveTruncateMode(input: SettingsParameters.TruncateMode)
 
-        suspend fun saveBlobPreview(input: SettingsParameters.BlobPreviewMode)
+        suspend fun saveBlobPreview(input: SettingsParameters.BlobPreview)
     }
 
     interface Schema : BaseRepository<ContentParameters, Page> {

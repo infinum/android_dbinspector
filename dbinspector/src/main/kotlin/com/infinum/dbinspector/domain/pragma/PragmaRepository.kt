@@ -3,12 +3,10 @@ package com.infinum.dbinspector.domain.pragma
 import com.infinum.dbinspector.domain.Interactors
 import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.domain.Repositories
-import com.infinum.dbinspector.domain.pragma.models.TriggerInfoColumns
 import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.domain.shared.models.Page
-import com.infinum.dbinspector.domain.shared.models.Query
+import com.infinum.dbinspector.data.models.local.cursor.Query
 import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
-import java.util.Locale
 
 internal class PragmaRepository(
     private val userVersion: Interactors.GetUserVersion,
@@ -27,7 +25,7 @@ internal class PragmaRepository(
             )
         ).let {
             Page(
-                fields = it.rows.map { row ->
+                cells = it.rows.map { row ->
                     row.fields.toList().map { field -> mapper.toDomain(field) }
                 }.flatten(),
                 nextPage = it.nextPage
@@ -46,7 +44,7 @@ internal class PragmaRepository(
             )
         ).let {
             Page(
-                fields = it.rows.map { row ->
+                cells = it.rows.map { row ->
                     row.fields.toList().map { field -> mapper.toDomain(field) }
                 }.flatten(),
                 nextPage = it.nextPage
@@ -55,7 +53,7 @@ internal class PragmaRepository(
 
     override suspend fun getTriggerInfo(input: PragmaParameters.Info): Page =
         Page(
-            fields = input.columns.map {
+            cells = input.columns.map {
                 Cell(text = it)
             }
         )
@@ -72,7 +70,7 @@ internal class PragmaRepository(
             )
         ).let {
             Page(
-                fields = it.rows.map { row ->
+                cells = it.rows.map { row ->
                     row.fields.toList().map { field -> mapper.toDomain(field) }
                 }.flatten(),
                 nextPage = it.nextPage
@@ -91,7 +89,7 @@ internal class PragmaRepository(
             )
         ).let {
             Page(
-                fields = it.rows.map { row ->
+                cells = it.rows.map { row ->
                     row.fields.toList().map { field -> mapper.toDomain(field) }
                 }.flatten(),
                 nextPage = it.nextPage

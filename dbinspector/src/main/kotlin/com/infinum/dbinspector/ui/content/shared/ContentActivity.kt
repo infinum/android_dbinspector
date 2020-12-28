@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorActivityContentBinding
-import com.infinum.dbinspector.domain.shared.models.Direction
+import com.infinum.dbinspector.data.models.local.cursor.Direction
 import com.infinum.dbinspector.ui.content.table.TableViewModel
 import com.infinum.dbinspector.ui.content.trigger.TriggerViewModel
 import com.infinum.dbinspector.ui.content.view.ViewViewModel

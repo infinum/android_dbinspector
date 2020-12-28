@@ -1,4 +1,4 @@
-package com.infinum.dbinspector.domain.shared.models
+package com.infinum.dbinspector.data.models.local.cursor
 
 import androidx.annotation.DrawableRes
 import com.infinum.dbinspector.R
