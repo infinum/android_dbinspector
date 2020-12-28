@@ -7,6 +7,7 @@ import com.infinum.dbinspector.domain.pragma.models.TriggerInfoColumns
 import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.domain.shared.models.Page
 import com.infinum.dbinspector.domain.shared.models.Query
+import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
 import java.util.Locale
 
 internal class PragmaRepository(
@@ -17,8 +18,14 @@ internal class PragmaRepository(
     private val mapper: Mappers.PragmaCell
 ) : Repositories.Pragma {
 
-    override suspend fun getUserVersion(query: Query): Page =
-        userVersion(query).let {
+    override suspend fun getUserVersion(input: PragmaParameters.Version): Page =
+        userVersion(
+            Query(
+                databasePath = input.databasePath,
+                database = input.database,
+                statement = input.statement
+            )
+        ).let {
             Page(
                 fields = it.rows.map { row ->
                     row.fields.toList().map { field -> mapper.toDomain(field) }
@@ -27,8 +34,17 @@ internal class PragmaRepository(
             )
         }
 
-    override suspend fun getTableInfo(query: Query): Page =
-        tableInfo(query).let {
+    override suspend fun getTableInfo(input: PragmaParameters.Info): Page =
+        tableInfo(
+            Query(
+                databasePath = input.databasePath,
+                database = input.database,
+                statement = input.statement,
+                order = input.order,
+                pageSize = input.pageSize,
+                page = input.page
+            )
+        ).let {
             Page(
                 fields = it.rows.map { row ->
                     row.fields.toList().map { field -> mapper.toDomain(field) }
@@ -37,15 +53,24 @@ internal class PragmaRepository(
             )
         }
 
-    override suspend fun getTriggerInfo(query: Query): Page =
+    override suspend fun getTriggerInfo(input: PragmaParameters.Info): Page =
         Page(
-            fields = TriggerInfoColumns.values().map {
-                Cell(text = it.name.toLowerCase(Locale.getDefault()))
+            fields = input.columns.map {
+                Cell(text = it)
             }
         )
 
-    override suspend fun getForeignKeys(query: Query): Page =
-        foreignKeys(query).let {
+    override suspend fun getForeignKeys(input: PragmaParameters.ForeignKeys): Page =
+        foreignKeys(
+            Query(
+                databasePath = input.databasePath,
+                database = input.database,
+                statement = input.statement,
+                order = input.order,
+                pageSize = input.pageSize,
+                page = input.page
+            )
+        ).let {
             Page(
                 fields = it.rows.map { row ->
                     row.fields.toList().map { field -> mapper.toDomain(field) }
@@ -54,8 +79,17 @@ internal class PragmaRepository(
             )
         }
 
-    override suspend fun getIndexes(query: Query): Page =
-        indexes(query).let {
+    override suspend fun getIndexes(input: PragmaParameters.Indexes): Page =
+        indexes(
+            Query(
+                databasePath = input.databasePath,
+                database = input.database,
+                statement = input.statement,
+                order = input.order,
+                pageSize = input.pageSize,
+                page = input.page
+            )
+        ).let {
             Page(
                 fields = it.rows.map { row ->
                     row.fields.toList().map { field -> mapper.toDomain(field) }

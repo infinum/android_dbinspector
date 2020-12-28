@@ -17,7 +17,6 @@ internal class ViewViewModel(
     tableInfo,
     dropView
 ) {
-
     override fun headerStatement(name: String) =
         Statements.Pragma.tableInfo(name)
 

@@ -4,6 +4,9 @@ import com.infinum.dbinspector.domain.Repositories
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.shared.models.Page
 import com.infinum.dbinspector.domain.shared.models.Query
+import com.infinum.dbinspector.domain.shared.models.parameters.ConnectionParameters
+import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
+import com.infinum.dbinspector.domain.shared.models.parameters.SettingsParameters
 
 internal class GetTableUseCase(
     private val connectionRepository: Repositories.Connection,
@@ -11,9 +14,9 @@ internal class GetTableUseCase(
     private val schemaRepository: Repositories.Schema
 ) : UseCases.GetTable {
 
-    override suspend fun invoke(input: Query): Page {
-        val connection = connectionRepository.open(input.databasePath)
-        val settings = settingsRepository.load()
+    override suspend fun invoke(input: ContentParameters): Page {
+        val connection = connectionRepository.open(ConnectionParameters(input.databasePath))
+        val settings = settingsRepository.getPage(SettingsParameters.Get())
         return schemaRepository.getByName(
             input.copy(
                 database = connection,

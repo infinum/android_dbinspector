@@ -51,12 +51,12 @@ import com.infinum.dbinspector.domain.schema.view.usecases.DropViewUseCase
 import com.infinum.dbinspector.domain.schema.view.usecases.GetViewUseCase
 import com.infinum.dbinspector.domain.schema.view.usecases.GetViewsUseCase
 import com.infinum.dbinspector.domain.settings.SettingsRepository
-import com.infinum.dbinspector.domain.settings.interactors.LoadSettingsInteractor
+import com.infinum.dbinspector.domain.settings.interactors.GetSettingsInteractor
 import com.infinum.dbinspector.domain.settings.interactors.SaveBlobPreviewModeInteractor
 import com.infinum.dbinspector.domain.settings.interactors.SaveLinesCountInteractor
 import com.infinum.dbinspector.domain.settings.interactors.SaveLinesLimitInteractor
 import com.infinum.dbinspector.domain.settings.interactors.SaveTruncateModeInteractor
-import com.infinum.dbinspector.domain.settings.usecases.LoadAllSettingsUseCase
+import com.infinum.dbinspector.domain.settings.usecases.GetSettingsUseCase
 import com.infinum.dbinspector.domain.settings.usecases.SaveBlobPreviewModeUseCase
 import com.infinum.dbinspector.domain.settings.usecases.SaveLinesCountUseCase
 import com.infinum.dbinspector.domain.settings.usecases.SaveTruncateModeUseCase
@@ -111,7 +111,7 @@ object Domain {
     }
 
     private fun settings() = module {
-        single<Interactors.LoadSettings> { LoadSettingsInteractor(get()) }
+        single<Interactors.GetSettings> { GetSettingsInteractor(get()) }
         single<Interactors.SaveLinesLimit> { SaveLinesLimitInteractor(get()) }
         single<Interactors.SaveLinesCount> { SaveLinesCountInteractor(get()) }
         single<Interactors.SaveTruncateMode> { SaveTruncateModeInteractor(get()) }
@@ -119,7 +119,7 @@ object Domain {
 
         factory<Repositories.Settings> { SettingsRepository(get(), get(), get(), get(), get()) }
 
-        factory<UseCases.LoadAllSettings> { LoadAllSettingsUseCase(get()) }
+        factory<UseCases.GetSettings> { GetSettingsUseCase(get()) }
         factory<UseCases.SaveLinesCount> { SaveLinesCountUseCase(get()) }
         factory<UseCases.ToggleLinesLimit> { ToggleLinesLimitUseCase(get()) }
         factory<UseCases.SaveTruncateMode> { SaveTruncateModeUseCase(get()) }

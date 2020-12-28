@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
 import com.infinum.dbinspector.domain.database.models.Operation
+import com.infinum.dbinspector.domain.shared.models.parameters.DatabaseParameters
 import com.infinum.dbinspector.ui.shared.base.BaseViewModel
 
 internal class DatabaseViewModel(
@@ -22,7 +23,7 @@ internal class DatabaseViewModel(
         launch {
             databases.value = io {
                 getDatabases(
-                    Operation(
+                    DatabaseParameters.Get(
                         context = context,
                         argument = query
                     )
@@ -34,7 +35,7 @@ internal class DatabaseViewModel(
     fun import(uris: List<Uri>) =
         launch {
             importDatabases(
-                Operation(
+                DatabaseParameters.Import(
                     context = context,
                     importUris = uris
                 )
@@ -46,7 +47,7 @@ internal class DatabaseViewModel(
         launch {
             val result = io {
                 removeDatabase(
-                    Operation(
+                    DatabaseParameters.Remove(
                         context = context,
                         databaseDescriptor = database
                     )
@@ -61,7 +62,7 @@ internal class DatabaseViewModel(
         launch {
             val ok = io {
                 copyDatabase(
-                    Operation(
+                    DatabaseParameters.Copy(
                         context = context,
                         databaseDescriptor = database
                     )

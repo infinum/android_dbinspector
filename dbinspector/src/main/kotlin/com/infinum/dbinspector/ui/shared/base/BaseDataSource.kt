@@ -1,10 +1,11 @@
 package com.infinum.dbinspector.ui.shared.base
 
 import androidx.paging.PagingSource
+import com.infinum.dbinspector.domain.shared.base.BaseParameters
 import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.domain.shared.models.Query
 
-internal abstract class BaseDataSource : PagingSource<Int, Cell>() {
+internal abstract class BaseDataSource<Parameters: BaseParameters> : PagingSource<Int, Cell>() {
 
-    abstract var query: Query
+    abstract var parameters: Parameters
 }

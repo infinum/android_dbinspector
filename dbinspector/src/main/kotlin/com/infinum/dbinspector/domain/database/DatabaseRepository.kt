@@ -4,6 +4,7 @@ import com.infinum.dbinspector.domain.Interactors
 import com.infinum.dbinspector.domain.Repositories
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
 import com.infinum.dbinspector.domain.database.models.Operation
+import com.infinum.dbinspector.domain.shared.models.parameters.DatabaseParameters
 
 internal class DatabaseRepository(
     private val getPageInteractor: Interactors.GetDatabases,
@@ -13,8 +14,13 @@ internal class DatabaseRepository(
     private val copyInteractor: Interactors.CopyDatabase
 ) : Repositories.Database {
 
-    override suspend fun getPage(input: Operation): List<DatabaseDescriptor> =
-        getPageInteractor(input).map {
+    override suspend fun getPage(input: DatabaseParameters.Get): List<DatabaseDescriptor> =
+        getPageInteractor(
+            Operation(
+                context = input.context,
+                argument = input.argument
+            )
+        ).map {
             DatabaseDescriptor(
                 it.exists(),
                 it.parentFile?.absolutePath.orEmpty(),
@@ -23,8 +29,13 @@ internal class DatabaseRepository(
             )
         }
 
-    override suspend fun import(operation: Operation): List<DatabaseDescriptor> =
-        importInteractor(operation).map {
+    override suspend fun import(input: DatabaseParameters.Import): List<DatabaseDescriptor> =
+        importInteractor(
+            Operation(
+                context = input.context,
+                importUris = input.importUris
+            )
+        ).map {
             DatabaseDescriptor(
                 it.exists(),
                 it.parentFile?.absolutePath.orEmpty(),
@@ -33,8 +44,13 @@ internal class DatabaseRepository(
             )
         }
 
-    override suspend fun remove(operation: Operation): List<DatabaseDescriptor> =
-        removeInteractor(operation).map {
+    override suspend fun remove(input: DatabaseParameters.Remove): List<DatabaseDescriptor> =
+        removeInteractor(
+            Operation(
+                context = input.context,
+                databaseDescriptor = input.databaseDescriptor
+            )
+        ).map {
             DatabaseDescriptor(
                 it.exists(),
                 it.parentFile?.absolutePath.orEmpty(),
@@ -43,8 +59,14 @@ internal class DatabaseRepository(
             )
         }
 
-    override suspend fun rename(operation: Operation): List<DatabaseDescriptor> =
-        renameInteractor(operation).map {
+    override suspend fun rename(input: DatabaseParameters.Rename): List<DatabaseDescriptor> =
+        renameInteractor(
+            Operation(
+                context = input.context,
+                databaseDescriptor = input.databaseDescriptor,
+                argument = input.argument
+            )
+        ).map {
             DatabaseDescriptor(
                 it.exists(),
                 it.parentFile?.absolutePath.orEmpty(),
@@ -53,8 +75,13 @@ internal class DatabaseRepository(
             )
         }
 
-    override suspend fun copy(operation: Operation): List<DatabaseDescriptor> =
-        copyInteractor(operation).map {
+    override suspend fun copy(input: DatabaseParameters.Copy): List<DatabaseDescriptor> =
+        copyInteractor(
+            Operation(
+                context = input.context,
+                databaseDescriptor = input.databaseDescriptor
+            )
+        ).map {
             DatabaseDescriptor(
                 it.exists(),
                 it.parentFile?.absolutePath.orEmpty(),

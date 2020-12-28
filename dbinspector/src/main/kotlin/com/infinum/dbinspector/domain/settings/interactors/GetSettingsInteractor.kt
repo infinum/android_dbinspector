@@ -5,9 +5,9 @@ import com.infinum.dbinspector.data.models.local.proto.SettingsEntity
 import com.infinum.dbinspector.domain.Interactors
 import kotlinx.coroutines.flow.firstOrNull
 
-internal class LoadSettingsInteractor(
+internal class GetSettingsInteractor(
     private val dataStore: Sources.Local.Store
-) : Interactors.LoadSettings {
+) : Interactors.GetSettings {
 
     override suspend fun invoke(input: Unit): SettingsEntity? =
         dataStore.settings().data.firstOrNull()

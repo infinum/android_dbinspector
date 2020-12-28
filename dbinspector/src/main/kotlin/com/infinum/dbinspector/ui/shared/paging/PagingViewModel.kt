@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 internal abstract class PagingViewModel : BaseViewModel() {
 
-    abstract fun dataSource(databasePath: String, statement: String): BaseDataSource
+    abstract fun dataSource(databasePath: String, statement: String): BaseDataSource<*>
 
     suspend fun pageFlow(
         databasePath: String,

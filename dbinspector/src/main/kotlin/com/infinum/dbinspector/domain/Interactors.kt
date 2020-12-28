@@ -31,7 +31,7 @@ internal interface Interactors {
     // endregion
 
     // region Settings
-    interface LoadSettings : BaseInteractor<Unit, SettingsEntity?>
+    interface GetSettings : BaseInteractor<Unit, SettingsEntity?>
 
     interface SaveLinesLimit : BaseInteractor<Boolean, Unit>
 

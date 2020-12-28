@@ -1,6 +1,6 @@
 package com.infinum.dbinspector.domain.shared.base
 
-internal interface BaseRepository<InputModel, OutputModel> {
+internal interface BaseRepository<InputModel : BaseParameters, OutputModel> {
 
     suspend fun getPage(input: InputModel): OutputModel
 }

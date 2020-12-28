@@ -9,6 +9,9 @@ import com.infinum.dbinspector.domain.shared.models.Direction
 import com.infinum.dbinspector.domain.shared.models.DropException
 import com.infinum.dbinspector.domain.shared.models.Page
 import com.infinum.dbinspector.domain.shared.models.Query
+import com.infinum.dbinspector.domain.shared.models.parameters.ConnectionParameters
+import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
+import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
 import com.infinum.dbinspector.ui.shared.headers.Header
 import com.infinum.dbinspector.ui.shared.paging.PagingViewModel
 import kotlinx.coroutines.launch
@@ -16,8 +19,8 @@ import kotlinx.coroutines.launch
 internal abstract class ContentViewModel(
     private val openConnection: UseCases.OpenConnection,
     private val closeConnection: UseCases.CloseConnection,
-    private val schemaInfo: BaseUseCase<Query, Page>,
-    private val dropSchema: BaseUseCase<Query, Page>
+    private val schemaInfo: BaseUseCase<PragmaParameters.Info, Page>,
+    private val dropSchema: BaseUseCase<ContentParameters, Page>
 ) : PagingViewModel() {
 
     abstract fun headerStatement(name: String): String
@@ -30,13 +33,13 @@ internal abstract class ContentViewModel(
 
     fun open(lifecycleScope: LifecycleCoroutineScope) {
         lifecycleScope.launch(errorHandler) {
-            openConnection(databasePath)
+            openConnection(ConnectionParameters(databasePath))
         }
     }
 
     fun close(lifecycleScope: LifecycleCoroutineScope) {
         lifecycleScope.launch(errorHandler) {
-            closeConnection(databasePath)
+            closeConnection(ConnectionParameters(databasePath))
         }
     }
 
@@ -47,7 +50,7 @@ internal abstract class ContentViewModel(
         launch {
             val result = io {
                 schemaInfo(
-                    Query(
+                    PragmaParameters.Info(
                         databasePath = databasePath,
                         statement = headerStatement(schemaName)
                     )
@@ -82,7 +85,7 @@ internal abstract class ContentViewModel(
         launch {
             val result = io {
                 dropSchema(
-                    Query(
+                    ContentParameters(
                         databasePath = databasePath,
                         statement = dropStatement(schemaName)
                     )
