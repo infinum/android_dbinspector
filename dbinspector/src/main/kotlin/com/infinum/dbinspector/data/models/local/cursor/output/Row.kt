@@ -1,4 +1,4 @@
-package com.infinum.dbinspector.data.models.local.cursor
+package com.infinum.dbinspector.data.models.local.cursor.output
 
 internal data class Row(
     val position: Int,

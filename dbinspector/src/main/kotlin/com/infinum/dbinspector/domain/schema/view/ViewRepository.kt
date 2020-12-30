@@ -8,7 +8,7 @@ internal class ViewRepository(
     getPage: Interactors.GetViews,
     getByName: Interactors.GetViewByName,
     dropByName: Interactors.DropViewByName,
-    mapper: Mappers.SchemaCell
+    mapper: Mappers.Page
 ) : AbstractSchemaRepository(
     getPage,
     getByName,

@@ -5,15 +5,15 @@ import androidx.core.database.getBlobOrNull
 import androidx.core.database.getFloatOrNull
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getStringOrNull
-import com.infinum.dbinspector.data.models.local.cursor.BlobPreviewType
-import com.infinum.dbinspector.data.models.local.cursor.CursorException
-import com.infinum.dbinspector.data.models.local.cursor.Field
-import com.infinum.dbinspector.data.models.local.cursor.FieldType
-import com.infinum.dbinspector.data.models.local.cursor.QueryException
-import com.infinum.dbinspector.data.models.local.cursor.QueryResult
-import com.infinum.dbinspector.data.models.local.cursor.Row
+import com.infinum.dbinspector.data.models.local.cursor.exceptions.CursorException
+import com.infinum.dbinspector.data.models.local.cursor.output.Field
+import com.infinum.dbinspector.data.models.local.cursor.output.FieldType
+import com.infinum.dbinspector.data.models.local.cursor.exceptions.QueryException
+import com.infinum.dbinspector.data.models.local.cursor.output.QueryResult
+import com.infinum.dbinspector.data.models.local.cursor.output.Row
 import com.infinum.dbinspector.data.source.memory.pagination.Paginator
-import com.infinum.dbinspector.data.models.local.cursor.Query
+import com.infinum.dbinspector.data.models.local.cursor.input.Query
+import com.infinum.dbinspector.data.models.local.proto.SettingsEntity
 import kotlinx.coroutines.CancellableContinuation
 import timber.log.Timber
 import java.util.Locale
@@ -43,7 +43,7 @@ internal open class CursorSource {
                     cursor.columnCount
                 )
 
-                val rows = iterateRowsInTable(cursor, boundary, query.blobPreviewType)
+                val rows = iterateRowsInTable(cursor, boundary, query.blobPreview)
 
                 continuation.resume(
                     QueryResult(
@@ -68,13 +68,13 @@ internal open class CursorSource {
     private fun iterateRowsInTable(
         cursor: Cursor,
         boundary: Paginator.Boundary,
-        blobPreviewType: BlobPreviewType
+        blobPreview: SettingsEntity.BlobPreviewMode
     ): List<Row> =
         if (cursor.moveToPosition(boundary.startRow)) {
             (boundary.startRow until boundary.endRow).map { row ->
                 Row(
                     position = row,
-                    fields = iterateFieldsInRow(cursor, blobPreviewType)
+                    fields = iterateFieldsInRow(cursor, blobPreview)
                 ).also {
                     cursor.moveToNext()
                 }
@@ -83,7 +83,7 @@ internal open class CursorSource {
             listOf()
         }
 
-    private fun iterateFieldsInRow(cursor: Cursor, blobPreviewType: BlobPreviewType): List<Field> =
+    private fun iterateFieldsInRow(cursor: Cursor, blobPreview: SettingsEntity.BlobPreviewMode): List<Field> =
         (0 until cursor.columnCount).map { column ->
             when (val type = FieldType(cursor.getType(column))) {
                 FieldType.NULL -> Field(
@@ -109,7 +109,7 @@ internal open class CursorSource {
                     type = type,
                     text = FieldType.NULL.name.toLowerCase(Locale.getDefault()),
                     data = cursor.getBlobOrNull(column),
-                    blobPreviewType = blobPreviewType
+                    blobPreview = blobPreview
                 )
             }
         }

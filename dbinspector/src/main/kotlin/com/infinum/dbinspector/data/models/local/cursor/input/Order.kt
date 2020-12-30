@@ -1,4 +1,4 @@
-package com.infinum.dbinspector.data.models.local.cursor
+package com.infinum.dbinspector.data.models.local.cursor.input
 
 import androidx.annotation.DrawableRes
 import com.infinum.dbinspector.R
@@ -9,7 +9,6 @@ enum class Order(val rawValue: String, @DrawableRes val icon: Int) {
 
     companion object {
 
-        // TODO: Call sites should be only in mappers
         operator fun invoke(value: String) = values().firstOrNull { it.rawValue == value }
             ?: ASCENDING
     }

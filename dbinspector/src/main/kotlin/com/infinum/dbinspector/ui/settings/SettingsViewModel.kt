@@ -1,6 +1,5 @@
 package com.infinum.dbinspector.ui.settings
 
-import android.text.TextUtils
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.settings.models.Settings
 import com.infinum.dbinspector.domain.shared.models.BlobPreviewMode

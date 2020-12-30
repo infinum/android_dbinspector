@@ -1,20 +1,18 @@
 package com.infinum.dbinspector.domain.schema.shared
 
-import com.infinum.dbinspector.data.models.local.cursor.BlobPreviewType
-import com.infinum.dbinspector.data.models.local.cursor.Order
-import com.infinum.dbinspector.data.models.local.cursor.QueryResult
+import com.infinum.dbinspector.data.models.local.cursor.input.Query
+import com.infinum.dbinspector.data.models.local.cursor.output.QueryResult
 import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.domain.Repositories
 import com.infinum.dbinspector.domain.shared.base.BaseInteractor
 import com.infinum.dbinspector.domain.shared.models.Page
-import com.infinum.dbinspector.data.models.local.cursor.Query
 import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
 
 internal abstract class AbstractSchemaRepository(
     private val getPageInteractor: BaseInteractor<Query, QueryResult>,
     private val getByNameInteractor: BaseInteractor<Query, QueryResult>,
     private val dropByNameInteractor: BaseInteractor<Query, QueryResult>,
-    private val mapper: Mappers.SchemaCell
+    private val mapper: Mappers.Page
 ) : Repositories.Schema {
 
     override suspend fun getPage(input: ContentParameters): Page =
@@ -23,21 +21,12 @@ internal abstract class AbstractSchemaRepository(
                 databasePath = input.databasePath,
                 database = input.database,
                 statement = input.statement,
-                order = Order(input.sort.rawValue),
+                order = mapper.sortMapper().mapDomainToLocal(input.sort),
                 pageSize = input.pageSize,
                 page = input.page,
-                blobPreviewType = BlobPreviewType(input.blobPreviewMode.ordinal)
+                blobPreview = mapper.blobPreviewModeMapper().mapDomainToLocal(input.blobPreviewMode)
             )
-        ).let {
-            Page(
-                beforeCount = it.beforeCount,
-                afterCount = it.afterCount,
-                cells = it.rows.map { row ->
-                    row.fields.toList().map { field -> mapper.toDomain(field) }
-                }.flatten(),
-                nextPage = it.nextPage
-            )
-        }
+        ).let { mapper.mapLocalToDomain(it) }
 
     override suspend fun getByName(input: ContentParameters): Page =
         getByNameInteractor(
@@ -45,21 +34,12 @@ internal abstract class AbstractSchemaRepository(
                 databasePath = input.databasePath,
                 database = input.database,
                 statement = input.statement,
-                order = Order(input.sort.rawValue),
+                order = mapper.sortMapper().mapDomainToLocal(input.sort),
                 pageSize = input.pageSize,
                 page = input.page,
-                blobPreviewType = BlobPreviewType(input.blobPreviewMode.ordinal)
+                blobPreview = mapper.blobPreviewModeMapper().mapDomainToLocal(input.blobPreviewMode)
             )
-        ).let {
-            Page(
-                beforeCount = it.beforeCount,
-                afterCount = it.afterCount,
-                cells = it.rows.map { row ->
-                    row.fields.toList().map { field -> mapper.toDomain(field) }
-                }.flatten(),
-                nextPage = it.nextPage
-            )
-        }
+        ).let { mapper.mapLocalToDomain(it) }
 
     override suspend fun dropByName(input: ContentParameters): Page =
         dropByNameInteractor(
@@ -67,19 +47,10 @@ internal abstract class AbstractSchemaRepository(
                 databasePath = input.databasePath,
                 database = input.database,
                 statement = input.statement,
-                order = Order(input.sort.rawValue),
+                order = mapper.sortMapper().mapDomainToLocal(input.sort),
                 pageSize = input.pageSize,
                 page = input.page,
-                blobPreviewType = BlobPreviewType(input.blobPreviewMode.ordinal)
+                blobPreview = mapper.blobPreviewModeMapper().mapDomainToLocal(input.blobPreviewMode)
             )
-        ).let {
-            Page(
-                beforeCount = it.beforeCount,
-                afterCount = it.afterCount,
-                cells = it.rows.map { row ->
-                    row.fields.toList().map { field -> mapper.toDomain(field) }
-                }.flatten(),
-                nextPage = it.nextPage
-            )
-        }
+        ).let { mapper.mapLocalToDomain(it) }
 }

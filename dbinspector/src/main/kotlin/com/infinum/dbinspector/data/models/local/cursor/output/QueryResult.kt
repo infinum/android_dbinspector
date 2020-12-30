@@ -1,4 +1,4 @@
-package com.infinum.dbinspector.data.models.local.cursor
+package com.infinum.dbinspector.data.models.local.cursor.output
 
 internal data class QueryResult(
     val rows: List<Row>,

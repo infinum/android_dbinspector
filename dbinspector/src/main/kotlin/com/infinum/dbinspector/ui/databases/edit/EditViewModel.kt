@@ -3,7 +3,6 @@ package com.infinum.dbinspector.ui.databases.edit
 import android.content.Context
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
-import com.infinum.dbinspector.domain.database.models.Operation
 import com.infinum.dbinspector.domain.shared.models.parameters.DatabaseParameters
 import com.infinum.dbinspector.ui.shared.base.BaseViewModel
 

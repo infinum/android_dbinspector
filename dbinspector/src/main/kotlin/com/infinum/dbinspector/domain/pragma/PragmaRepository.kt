@@ -1,20 +1,20 @@
 package com.infinum.dbinspector.domain.pragma
 
-import com.infinum.dbinspector.data.models.local.cursor.Order
+import com.infinum.dbinspector.data.models.local.cursor.input.Query
 import com.infinum.dbinspector.domain.Interactors
 import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.domain.Repositories
-import com.infinum.dbinspector.domain.shared.models.Cell
+import com.infinum.dbinspector.domain.pragma.models.TriggerInfoColumns
 import com.infinum.dbinspector.domain.shared.models.Page
-import com.infinum.dbinspector.data.models.local.cursor.Query
 import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
+import java.util.Locale
 
 internal class PragmaRepository(
     private val userVersion: Interactors.GetUserVersion,
     private val tableInfo: Interactors.GetTableInfo,
     private val foreignKeys: Interactors.GetForeignKeys,
     private val indexes: Interactors.GetIndexes,
-    private val mapper: Mappers.PragmaCell
+    private val mapper: Mappers.Pragma
 ) : Repositories.Pragma {
 
     override suspend fun getUserVersion(input: PragmaParameters.Version): Page =
@@ -24,14 +24,7 @@ internal class PragmaRepository(
                 database = input.database,
                 statement = input.statement
             )
-        ).let {
-            Page(
-                cells = it.rows.map { row ->
-                    row.fields.toList().map { field -> mapper.toDomain(field) }
-                }.flatten(),
-                nextPage = it.nextPage
-            )
-        }
+        ).let { mapper.mapLocalToDomain(it) }
 
     override suspend fun getTableInfo(input: PragmaParameters.Info): Page =
         tableInfo(
@@ -39,25 +32,16 @@ internal class PragmaRepository(
                 databasePath = input.databasePath,
                 database = input.database,
                 statement = input.statement,
-                order = Order(input.sort.rawValue),
+                order = mapper.sortMapper().mapDomainToLocal(input.sort),
                 pageSize = input.pageSize,
                 page = input.page
             )
-        ).let {
-            Page(
-                cells = it.rows.map { row ->
-                    row.fields.toList().map { field -> mapper.toDomain(field) }
-                }.flatten(),
-                nextPage = it.nextPage
-            )
-        }
+        ).let { mapper.mapLocalToDomain(it) }
 
     override suspend fun getTriggerInfo(input: PragmaParameters.Info): Page =
-        Page(
-            cells = input.columns.map {
-                Cell(text = it)
-            }
-        )
+        Page(cells = TriggerInfoColumns.values()
+            .map { it.name.toLowerCase(Locale.getDefault()) }
+            .map(transform = mapper.transformToHeader()))
 
     override suspend fun getForeignKeys(input: PragmaParameters.ForeignKeys): Page =
         foreignKeys(
@@ -65,18 +49,11 @@ internal class PragmaRepository(
                 databasePath = input.databasePath,
                 database = input.database,
                 statement = input.statement,
-                order = Order(input.sort.rawValue),
+                order = mapper.sortMapper().mapDomainToLocal(input.sort),
                 pageSize = input.pageSize,
                 page = input.page
             )
-        ).let {
-            Page(
-                cells = it.rows.map { row ->
-                    row.fields.toList().map { field -> mapper.toDomain(field) }
-                }.flatten(),
-                nextPage = it.nextPage
-            )
-        }
+        ).let { mapper.mapLocalToDomain(it) }
 
     override suspend fun getIndexes(input: PragmaParameters.Indexes): Page =
         indexes(
@@ -84,16 +61,9 @@ internal class PragmaRepository(
                 databasePath = input.databasePath,
                 database = input.database,
                 statement = input.statement,
-                order = Order(input.sort.rawValue),
+                order = mapper.sortMapper().mapDomainToLocal(input.sort),
                 pageSize = input.pageSize,
                 page = input.page
             )
-        ).let {
-            Page(
-                cells = it.rows.map { row ->
-                    row.fields.toList().map { field -> mapper.toDomain(field) }
-                }.flatten(),
-                nextPage = it.nextPage
-            )
-        }
+        ).let { mapper.mapLocalToDomain(it) }
 }

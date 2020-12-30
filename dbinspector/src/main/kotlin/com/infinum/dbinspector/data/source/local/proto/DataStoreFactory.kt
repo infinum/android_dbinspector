@@ -7,18 +7,16 @@ import androidx.datastore.createDataStore
 import com.infinum.dbinspector.data.Sources
 import com.infinum.dbinspector.data.models.local.proto.SettingsEntity
 
-class DataStoreFactory(
+internal class DataStoreFactory(
     context: Context,
+    settingsFileName: String,
     settingsSerializer: Serializer<SettingsEntity>
 ) : Sources.Local.Store {
 
-    companion object {
-        private const val FILENAME = "settings-entity.pb"
-    }
-
     private var settings = context.createDataStore(
-        fileName = FILENAME,
-        serializer = settingsSerializer)
+        fileName = settingsFileName,
+        serializer = settingsSerializer
+    )
 
     override suspend fun settings(): DataStore<SettingsEntity> = settings
 }

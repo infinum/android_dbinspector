@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.ui.settings
 
 import android.os.Bundle
-import android.text.TextUtils
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import com.infinum.dbinspector.R
@@ -78,10 +77,9 @@ internal class SettingsActivity : BaseActivity() {
             truncateGroup.clearOnButtonCheckedListeners()
             truncateGroup.check(
                 when (settings.truncateMode) {
-                    TextUtils.TruncateAt.START -> R.id.truncateStart
-                    TextUtils.TruncateAt.MIDDLE -> R.id.truncateMiddle
-                    TextUtils.TruncateAt.END -> R.id.truncateEnd
-                    else -> R.id.truncateEnd
+                    TruncateMode.START -> R.id.truncateStart
+                    TruncateMode.MIDDLE -> R.id.truncateMiddle
+                    TruncateMode.END -> R.id.truncateEnd
                 }
             )
             truncateGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->

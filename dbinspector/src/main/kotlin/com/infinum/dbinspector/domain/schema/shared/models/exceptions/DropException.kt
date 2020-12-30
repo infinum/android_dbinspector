@@ -1,4 +1,4 @@
-package com.infinum.dbinspector.domain.shared.models
+package com.infinum.dbinspector.domain.schema.shared.models.exceptions
 
 class DropException : IllegalStateException() {
 

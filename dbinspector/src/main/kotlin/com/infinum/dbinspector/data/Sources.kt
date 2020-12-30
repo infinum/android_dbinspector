@@ -2,10 +2,10 @@ package com.infinum.dbinspector.data
 
 import android.database.sqlite.SQLiteDatabase
 import androidx.datastore.core.DataStore
-import com.infinum.dbinspector.data.models.local.cursor.QueryResult
+import com.infinum.dbinspector.data.models.local.cursor.output.QueryResult
 import com.infinum.dbinspector.data.models.local.proto.SettingsEntity
 import com.infinum.dbinspector.domain.database.models.Operation
-import com.infinum.dbinspector.data.models.local.cursor.Query
+import com.infinum.dbinspector.data.models.local.cursor.input.Query
 import java.io.File
 
 internal interface Sources {

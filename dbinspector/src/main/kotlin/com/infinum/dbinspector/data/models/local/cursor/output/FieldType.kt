@@ -1,4 +1,4 @@
-package com.infinum.dbinspector.data.models.local.cursor
+package com.infinum.dbinspector.data.models.local.cursor.output
 
 internal enum class FieldType {
     NULL,

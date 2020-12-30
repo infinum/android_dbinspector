@@ -18,6 +18,10 @@ object Data {
 
     object Qualifiers {
 
+        object Name {
+            val DATASTORE_SETTINGS = StringQualifier("settings-entity.pb")
+        }
+
         object Schema {
             val TABLES = StringQualifier("data.qualifiers.tables")
             val TABLE_BY_NAME = StringQualifier("data.qualifiers.table_by_name")
@@ -73,7 +77,13 @@ object Data {
     private fun local() = module {
         single<Serializer<SettingsEntity>> { SettingsSerializer() }
 
-        single<Sources.Local.Store> { DataStoreFactory(get(), get()) }
+        single<Sources.Local.Store> {
+            DataStoreFactory(
+                get(),
+                get(qualifier = Qualifiers.Name.DATASTORE_SETTINGS),
+                get()
+            )
+        }
 
         factory<Sources.Local.Schema> {
             SchemaSource(

@@ -8,7 +8,7 @@ internal class TriggerRepository(
     getPage: Interactors.GetTriggers,
     getByName: Interactors.GetTriggerByName,
     dropByName: Interactors.DropTriggerByName,
-    mapper: Mappers.SchemaCell
+    mapper: Mappers.Page
 ) : AbstractSchemaRepository(
     getPage,
     getByName,

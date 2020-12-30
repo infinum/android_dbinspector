@@ -1,10 +1,12 @@
-package com.infinum.dbinspector.data.models.local.cursor
+package com.infinum.dbinspector.data.models.local.cursor.output
+
+import com.infinum.dbinspector.data.models.local.proto.SettingsEntity
 
 internal data class Field(
     val type: FieldType,
     val text: String? = null,
     val data: ByteArray? = null,
-    val blobPreviewType: BlobPreviewType = BlobPreviewType.UNSUPPORTED
+    val blobPreview: SettingsEntity.BlobPreviewMode = SettingsEntity.BlobPreviewMode.UNRECOGNIZED
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -18,7 +20,7 @@ internal data class Field(
             if (other.data == null) return false
             if (!data.contentEquals(other.data)) return false
         } else if (other.data != null) return false
-        if (blobPreviewType != other.blobPreviewType) return false
+        if (blobPreview != other.blobPreview) return false
 
         return true
     }
@@ -27,7 +29,7 @@ internal data class Field(
         var result = type.hashCode()
         result = 31 * result + (text?.hashCode() ?: 0)
         result = 31 * result + (data?.contentHashCode() ?: 0)
-        result = 31 * result + blobPreviewType.hashCode()
+        result = 31 * result + blobPreview.hashCode()
         return result
     }
 }

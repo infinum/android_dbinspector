@@ -7,7 +7,7 @@ import com.infinum.dbinspector.data.models.local.proto.SettingsEntity
 import java.io.InputStream
 import java.io.OutputStream
 
-class SettingsSerializer : Serializer<SettingsEntity> {
+internal class SettingsSerializer : Serializer<SettingsEntity> {
 
     override val defaultValue: SettingsEntity =
         SettingsEntity.getDefaultInstance()

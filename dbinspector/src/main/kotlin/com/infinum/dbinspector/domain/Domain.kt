@@ -22,13 +22,12 @@ import com.infinum.dbinspector.domain.pragma.interactors.GetForeignKeysInteracto
 import com.infinum.dbinspector.domain.pragma.interactors.GetIndexesInteractor
 import com.infinum.dbinspector.domain.pragma.interactors.GetTableInfoInteractor
 import com.infinum.dbinspector.domain.pragma.interactors.GetUserVersionInteractor
-import com.infinum.dbinspector.domain.pragma.mappers.PragmaCellMapper
+import com.infinum.dbinspector.domain.pragma.mappers.PragmaMapper
 import com.infinum.dbinspector.domain.pragma.usecases.GetForeignKeysUseCase
 import com.infinum.dbinspector.domain.pragma.usecases.GetIndexesUseCase
 import com.infinum.dbinspector.domain.pragma.usecases.GetTableInfoUseCase
 import com.infinum.dbinspector.domain.pragma.usecases.GetTablePragmaUseCase
 import com.infinum.dbinspector.domain.pragma.usecases.GetTriggerInfoUseCase
-import com.infinum.dbinspector.domain.schema.shared.mappers.SchemaCellMapper
 import com.infinum.dbinspector.domain.schema.table.TableRepository
 import com.infinum.dbinspector.domain.schema.table.interactors.DropTableContentByNameInteractor
 import com.infinum.dbinspector.domain.schema.table.interactors.GetTableByNameInteractor
@@ -56,11 +55,17 @@ import com.infinum.dbinspector.domain.settings.interactors.SaveBlobPreviewModeIn
 import com.infinum.dbinspector.domain.settings.interactors.SaveLinesCountInteractor
 import com.infinum.dbinspector.domain.settings.interactors.SaveLinesLimitInteractor
 import com.infinum.dbinspector.domain.settings.interactors.SaveTruncateModeInteractor
+import com.infinum.dbinspector.domain.settings.mappers.BlobPreviewModeMapper
+import com.infinum.dbinspector.domain.settings.mappers.SettingsMapper
+import com.infinum.dbinspector.domain.settings.mappers.TruncateModeMapper
 import com.infinum.dbinspector.domain.settings.usecases.GetSettingsUseCase
 import com.infinum.dbinspector.domain.settings.usecases.SaveBlobPreviewModeUseCase
 import com.infinum.dbinspector.domain.settings.usecases.SaveLinesCountUseCase
 import com.infinum.dbinspector.domain.settings.usecases.SaveTruncateModeUseCase
 import com.infinum.dbinspector.domain.settings.usecases.ToggleLinesLimitUseCase
+import com.infinum.dbinspector.domain.shared.mappers.CellMapper
+import com.infinum.dbinspector.domain.shared.mappers.PageMapper
+import com.infinum.dbinspector.domain.shared.mappers.SortMapper
 import org.koin.core.module.Module
 import org.koin.core.qualifier.StringQualifier
 import org.koin.dsl.module
@@ -80,7 +85,8 @@ object Domain {
                 connection(),
                 settings(),
                 schema(),
-                pragma()
+                pragma(),
+                shared()
             )
         )
 
@@ -111,13 +117,19 @@ object Domain {
     }
 
     private fun settings() = module {
-        single<Interactors.GetSettings> { GetSettingsInteractor(get()) }
-        single<Interactors.SaveLinesLimit> { SaveLinesLimitInteractor(get()) }
-        single<Interactors.SaveLinesCount> { SaveLinesCountInteractor(get()) }
-        single<Interactors.SaveTruncateMode> { SaveTruncateModeInteractor(get()) }
-        single<Interactors.SaveBlobPreviewMode> { SaveBlobPreviewModeInteractor(get()) }
+        factory<Interactors.GetSettings> { GetSettingsInteractor(get()) }
+        factory<Interactors.SaveLinesLimit> { SaveLinesLimitInteractor(get()) }
+        factory<Interactors.SaveLinesCount> { SaveLinesCountInteractor(get()) }
+        factory<Interactors.SaveTruncateMode> { SaveTruncateModeInteractor(get()) }
+        factory<Interactors.SaveBlobPreviewMode> { SaveBlobPreviewModeInteractor(get()) }
 
-        factory<Repositories.Settings> { SettingsRepository(get(), get(), get(), get(), get()) }
+        factory<Mappers.TruncateMode> { TruncateModeMapper() }
+        factory<Mappers.BlobPreviewMode> { BlobPreviewModeMapper() }
+        factory<Mappers.Settings> { SettingsMapper(get(), get()) }
+
+        factory<Repositories.Settings> {
+            SettingsRepository(get(), get(), get(), get(), get(), get())
+        }
 
         factory<UseCases.GetSettings> { GetSettingsUseCase(get()) }
         factory<UseCases.SaveLinesCount> { SaveLinesCountUseCase(get()) }
@@ -136,8 +148,6 @@ object Domain {
         factory<Interactors.GetTriggers> { GetTriggersInteractor(get()) }
         factory<Interactors.GetTriggerByName> { GetTriggerByNameInteractor(get()) }
         factory<Interactors.DropTriggerByName> { DropTriggerByNameInteractor(get()) }
-
-        single<Mappers.SchemaCell> { SchemaCellMapper() }
 
         factory<Repositories.Schema>(qualifier = Qualifiers.TABLES) { TableRepository(get(), get(), get(), get()) }
         factory<Repositories.Schema>(qualifier = Qualifiers.VIEWS) { ViewRepository(get(), get(), get(), get()) }
@@ -162,12 +172,18 @@ object Domain {
         factory<Interactors.GetForeignKeys> { GetForeignKeysInteractor(get()) }
         factory<Interactors.GetIndexes> { GetIndexesInteractor(get()) }
 
-        single<Mappers.PragmaCell> { PragmaCellMapper() }
+        factory<Mappers.Pragma> { PragmaMapper(get()) }
 
         factory<Repositories.Pragma> { PragmaRepository(get(), get(), get(), get(), get()) }
 
         factory<UseCases.GetTablePragma> { GetTablePragmaUseCase(get(), get()) }
         factory<UseCases.GetForeignKeys> { GetForeignKeysUseCase(get(), get()) }
         factory<UseCases.GetIndexes> { GetIndexesUseCase(get(), get()) }
+    }
+
+    private fun shared() = module {
+        factory<Mappers.Cell> { CellMapper() }
+        factory<Mappers.Sort> { SortMapper() }
+        factory<Mappers.Page> { PageMapper(get(), get(), get()) }
     }
 }

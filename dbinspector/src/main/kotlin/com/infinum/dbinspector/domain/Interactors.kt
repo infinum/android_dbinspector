@@ -1,14 +1,11 @@
 package com.infinum.dbinspector.domain
 
 import android.database.sqlite.SQLiteDatabase
-import android.text.TextUtils
-import com.infinum.dbinspector.data.models.local.cursor.BlobPreviewType
-import com.infinum.dbinspector.data.models.local.cursor.QueryResult
+import com.infinum.dbinspector.data.models.local.cursor.input.Query
+import com.infinum.dbinspector.data.models.local.cursor.output.QueryResult
 import com.infinum.dbinspector.data.models.local.proto.SettingsEntity
 import com.infinum.dbinspector.domain.database.models.Operation
 import com.infinum.dbinspector.domain.shared.base.BaseInteractor
-import com.infinum.dbinspector.data.models.local.cursor.Query
-import com.infinum.dbinspector.data.models.local.cursor.TruncateType
 import java.io.File
 
 internal interface Interactors {
@@ -38,9 +35,9 @@ internal interface Interactors {
 
     interface SaveLinesCount : BaseInteractor<Int, Unit>
 
-    interface SaveTruncateMode : BaseInteractor<TruncateType, Unit>
+    interface SaveTruncateMode : BaseInteractor<SettingsEntity.TruncateMode, Unit>
 
-    interface SaveBlobPreviewMode : BaseInteractor<BlobPreviewType, Unit>
+    interface SaveBlobPreviewMode : BaseInteractor<SettingsEntity.BlobPreviewMode, Unit>
     // endregion
 
     // region Schema
