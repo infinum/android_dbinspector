@@ -7,7 +7,7 @@ import com.infinum.dbinspector.domain.Repositories
 import com.infinum.dbinspector.domain.pragma.models.TriggerInfoColumns
 import com.infinum.dbinspector.domain.shared.models.Page
 import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
-import java.util.*
+import java.util.Locale
 
 internal class PragmaRepository(
     private val userVersion: Interactors.GetUserVersion,

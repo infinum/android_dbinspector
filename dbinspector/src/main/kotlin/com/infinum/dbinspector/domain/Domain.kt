@@ -166,9 +166,15 @@ object Domain {
 
         factory<Converters.Schema> { SchemaConverter(get(), get()) }
 
-        factory<Repositories.Schema>(qualifier = Qualifiers.TABLES) { TableRepository(get(), get(), get(), get(), get()) }
-        factory<Repositories.Schema>(qualifier = Qualifiers.VIEWS) { ViewRepository(get(), get(), get(), get(), get()) }
-        factory<Repositories.Schema>(qualifier = Qualifiers.TRIGGERS) { TriggerRepository(get(), get(), get(), get(), get()) }
+        factory<Repositories.Schema>(qualifier = Qualifiers.TABLES) {
+            TableRepository(get(), get(), get(), get(), get())
+        }
+        factory<Repositories.Schema>(qualifier = Qualifiers.VIEWS) {
+            ViewRepository(get(), get(), get(), get(), get())
+        }
+        factory<Repositories.Schema>(qualifier = Qualifiers.TRIGGERS) {
+            TriggerRepository(get(), get(), get(), get(), get())
+        }
 
         factory<UseCases.GetTables> { GetTablesUseCase(get(), get(qualifier = Qualifiers.TABLES)) }
         factory<UseCases.GetViews> { GetViewsUseCase(get(), get(qualifier = Qualifiers.VIEWS)) }
