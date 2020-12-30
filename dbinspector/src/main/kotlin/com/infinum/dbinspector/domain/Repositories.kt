@@ -17,11 +17,11 @@ internal interface Repositories {
 
         suspend fun import(input: DatabaseParameters.Import): List<DatabaseDescriptor>
 
-        suspend fun remove(input: DatabaseParameters.Remove): List<DatabaseDescriptor>
-
         suspend fun rename(input: DatabaseParameters.Rename): List<DatabaseDescriptor>
 
-        suspend fun copy(input: DatabaseParameters.Copy): List<DatabaseDescriptor>
+        suspend fun remove(input: DatabaseParameters.Command): List<DatabaseDescriptor>
+
+        suspend fun copy(input: DatabaseParameters.Command): List<DatabaseDescriptor>
     }
 
     interface Connection {
@@ -55,7 +55,7 @@ internal interface Repositories {
 
         suspend fun getTableInfo(input: PragmaParameters.Info): Page
 
-        suspend fun getTriggerInfo(input: PragmaParameters.Info): Page
+        suspend fun getTriggerInfo(input: Unit): Page
 
         suspend fun getForeignKeys(input: PragmaParameters.ForeignKeys): Page
 

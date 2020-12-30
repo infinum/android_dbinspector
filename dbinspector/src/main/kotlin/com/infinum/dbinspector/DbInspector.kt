@@ -3,7 +3,7 @@ package com.infinum.dbinspector
 import android.content.Intent
 import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.databases.DatabasesActivity
-import com.infinum.dbinspector.ui.shared.logger.DeadTree
+import com.infinum.dbinspector.ui.shared.logger.Stump
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 
@@ -14,7 +14,7 @@ object DbInspector {
 
         when (BuildConfig.DEBUG) {
             true -> Timber.plant(DebugTree())
-            false -> Timber.plant(DeadTree())
+            false -> Timber.plant(Stump())
         }
 
         with(Presentation.applicationContext()) {

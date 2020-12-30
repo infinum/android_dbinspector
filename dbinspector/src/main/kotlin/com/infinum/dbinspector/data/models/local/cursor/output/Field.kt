@@ -1,6 +1,6 @@
 package com.infinum.dbinspector.data.models.local.cursor.output
 
-import com.infinum.dbinspector.data.models.local.proto.SettingsEntity
+import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
 
 internal data class Field(
     val type: FieldType,

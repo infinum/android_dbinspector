@@ -1,6 +1,9 @@
 package com.infinum.dbinspector.domain.shared.models
 
-internal enum class TruncateMode {
+import com.infinum.dbinspector.domain.shared.base.BaseParameters
+
+// TODO: Should this inherit BaseParameters???
+internal enum class TruncateMode : BaseParameters {
     START,
     MIDDLE,
     END

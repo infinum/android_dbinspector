@@ -9,6 +9,6 @@ internal class CopyDatabaseUseCase(
     private val databaseRepository: Repositories.Database
 ) : UseCases.CopyDatabase {
 
-    override suspend fun invoke(input: DatabaseParameters.Copy): List<DatabaseDescriptor> =
+    override suspend fun invoke(input: DatabaseParameters.Command): List<DatabaseDescriptor> =
         databaseRepository.copy(input)
 }

@@ -17,7 +17,7 @@ internal sealed class DatabaseParameters : BaseParameters {
         val importUris: List<Uri>
     ) : DatabaseParameters()
 
-    data class Remove(
+    data class Command(
         val context: Context,
         val databaseDescriptor: DatabaseDescriptor
     ) : DatabaseParameters()
@@ -26,10 +26,5 @@ internal sealed class DatabaseParameters : BaseParameters {
         val context: Context,
         val databaseDescriptor: DatabaseDescriptor,
         val argument: String
-    ) : DatabaseParameters()
-
-    data class Copy(
-        val context: Context,
-        val databaseDescriptor: DatabaseDescriptor
     ) : DatabaseParameters()
 }

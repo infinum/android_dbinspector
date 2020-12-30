@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option java_package = "com.infinum.dbinspector.data.models.local.proto";
+option java_package = "com.infinum.dbinspector.data.models.local.proto.output";
 option java_multiple_files = true;
 
 message SettingsEntity {

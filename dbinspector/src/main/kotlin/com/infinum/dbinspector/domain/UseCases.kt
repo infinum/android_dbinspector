@@ -2,6 +2,7 @@ package com.infinum.dbinspector.domain
 
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
 import com.infinum.dbinspector.domain.settings.models.Settings
+import com.infinum.dbinspector.domain.shared.base.BaseParameters
 import com.infinum.dbinspector.domain.shared.base.BaseUseCase
 import com.infinum.dbinspector.domain.shared.models.Page
 import com.infinum.dbinspector.domain.shared.models.parameters.ConnectionParameters
@@ -17,11 +18,11 @@ internal interface UseCases {
 
     interface ImportDatabases : BaseUseCase<DatabaseParameters.Import, List<DatabaseDescriptor>>
 
-    interface RemoveDatabase : BaseUseCase<DatabaseParameters.Remove, List<DatabaseDescriptor>>
+    interface RemoveDatabase : BaseUseCase<DatabaseParameters.Command, List<DatabaseDescriptor>>
 
     interface RenameDatabase : BaseUseCase<DatabaseParameters.Rename, List<DatabaseDescriptor>>
 
-    interface CopyDatabase : BaseUseCase<DatabaseParameters.Copy, List<DatabaseDescriptor>>
+    interface CopyDatabase : BaseUseCase<DatabaseParameters.Command, List<DatabaseDescriptor>>
     // endregion
 
     // region Connection

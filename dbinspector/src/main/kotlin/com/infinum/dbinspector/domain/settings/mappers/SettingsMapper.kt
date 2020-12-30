@@ -1,6 +1,6 @@
 package com.infinum.dbinspector.domain.settings.mappers
 
-import com.infinum.dbinspector.data.models.local.proto.SettingsEntity
+import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
 import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.domain.settings.models.Settings
 import com.infinum.dbinspector.ui.shared.Constants
@@ -10,11 +10,7 @@ internal class SettingsMapper(
     private val blobPreviewModeMapper: Mappers.BlobPreviewMode
 ) : Mappers.Settings {
 
-    override fun truncateModeMapper() = truncateModeMapper
-
-    override fun blobPreviewModeMapper() = blobPreviewModeMapper
-
-    override fun mapLocalToDomain(model: SettingsEntity): Settings =
+    override suspend fun invoke(model: SettingsEntity): Settings =
         Settings(
             linesLimitEnabled = model.linesLimit,
             linesCount = if (model.linesCount == 0) {
@@ -22,7 +18,7 @@ internal class SettingsMapper(
             } else {
                 model.linesCount
             },
-            truncateMode = truncateModeMapper.mapLocalToDomain(model.truncateMode),
-            blobPreviewMode = blobPreviewModeMapper.mapLocalToDomain(model.blobPreview)
+            truncateMode = truncateModeMapper(model.truncateMode),
+            blobPreviewMode = blobPreviewModeMapper(model.blobPreview)
         )
 }

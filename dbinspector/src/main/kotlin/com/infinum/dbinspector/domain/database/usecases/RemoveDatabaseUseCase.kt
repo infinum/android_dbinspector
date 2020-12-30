@@ -9,6 +9,6 @@ internal class RemoveDatabaseUseCase(
     private val databaseRepository: Repositories.Database
 ) : UseCases.RemoveDatabase {
 
-    override suspend fun invoke(input: DatabaseParameters.Remove): List<DatabaseDescriptor> =
+    override suspend fun invoke(input: DatabaseParameters.Command): List<DatabaseDescriptor> =
         databaseRepository.remove(input)
 }

@@ -1,7 +1,7 @@
 package com.infinum.dbinspector.data
 
 import androidx.datastore.core.Serializer
-import com.infinum.dbinspector.data.models.local.proto.SettingsEntity
+import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
 import com.infinum.dbinspector.data.source.local.cursor.PragmaSource
 import com.infinum.dbinspector.data.source.local.cursor.SchemaSource
 import com.infinum.dbinspector.data.source.local.proto.DataStoreFactory
@@ -19,7 +19,7 @@ object Data {
     object Qualifiers {
 
         object Name {
-            val DATASTORE_SETTINGS = StringQualifier("settings-entity.pb")
+            val DATASTORE_SETTINGS = StringQualifier("data.qualifiers.name.datastore.settings")
         }
 
         object Schema {
@@ -75,6 +75,8 @@ object Data {
     }
 
     private fun local() = module {
+        single(qualifier = Qualifiers.Name.DATASTORE_SETTINGS) { "settings-entity.pb" }
+
         single<Serializer<SettingsEntity>> { SettingsSerializer() }
 
         single<Sources.Local.Store> {

@@ -2,7 +2,7 @@ package com.infinum.dbinspector.domain.shared.mappers
 
 import com.infinum.dbinspector.data.models.local.cursor.output.Field
 import com.infinum.dbinspector.data.models.local.cursor.output.FieldType
-import com.infinum.dbinspector.data.models.local.proto.SettingsEntity
+import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
 import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.domain.schema.shared.models.ImageType
 import com.infinum.dbinspector.domain.shared.models.Cell
@@ -13,7 +13,7 @@ import com.infinum.dbinspector.extensions.toUtf8String
 
 internal class CellMapper : Mappers.Cell {
 
-    override fun mapLocalToDomain(model: Field): Cell =
+    override suspend fun invoke(model: Field): Cell =
         Cell(
             text = when (model.type) {
                 FieldType.BLOB -> {

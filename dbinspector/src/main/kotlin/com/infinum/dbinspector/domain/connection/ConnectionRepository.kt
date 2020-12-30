@@ -1,6 +1,7 @@
 package com.infinum.dbinspector.domain.connection
 
 import android.database.sqlite.SQLiteDatabase
+import com.infinum.dbinspector.domain.Converters
 import com.infinum.dbinspector.domain.Interactors
 import com.infinum.dbinspector.domain.Repositories
 import com.infinum.dbinspector.domain.shared.models.parameters.ConnectionParameters
@@ -8,11 +9,12 @@ import com.infinum.dbinspector.domain.shared.models.parameters.ConnectionParamet
 internal class ConnectionRepository(
     private val openInteractor: Interactors.OpenConnection,
     private val closeInteractor: Interactors.CloseConnection,
+    private val converter: Converters.Connection
 ) : Repositories.Connection {
 
     override suspend fun open(input: ConnectionParameters): SQLiteDatabase =
-        openInteractor(input.databasePath)
+        openInteractor(converter(input))
 
     override suspend fun close(input: ConnectionParameters) =
-        closeInteractor(input.databasePath)
+        closeInteractor(converter(input))
 }

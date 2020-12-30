@@ -46,7 +46,7 @@ internal class DatabaseViewModel(
         launch {
             val result = io {
                 removeDatabase(
-                    DatabaseParameters.Remove(
+                    DatabaseParameters.Command(
                         context = context,
                         databaseDescriptor = database
                     )
@@ -61,7 +61,7 @@ internal class DatabaseViewModel(
         launch {
             val ok = io {
                 copyDatabase(
-                    DatabaseParameters.Copy(
+                    DatabaseParameters.Command(
                         context = context,
                         databaseDescriptor = database
                     )
