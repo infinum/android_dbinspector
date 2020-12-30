@@ -5,6 +5,7 @@ import com.infinum.dbinspector.domain.connection.ConnectionRepository
 import com.infinum.dbinspector.domain.connection.converters.ConnectionConverter
 import com.infinum.dbinspector.domain.connection.interactors.CloseConnectionInteractor
 import com.infinum.dbinspector.domain.connection.interactors.OpenConnectionInteractor
+import com.infinum.dbinspector.domain.connection.mappers.ConnectionMapper
 import com.infinum.dbinspector.domain.connection.usecases.CloseConnectionUseCase
 import com.infinum.dbinspector.domain.connection.usecases.OpenConnectionUseCase
 import com.infinum.dbinspector.domain.database.DatabaseRepository
@@ -124,9 +125,10 @@ object Domain {
         single<Interactors.OpenConnection> { OpenConnectionInteractor(get()) }
         single<Interactors.CloseConnection> { CloseConnectionInteractor(get()) }
 
+        single<Mappers.Connection> { ConnectionMapper() }
         single<Converters.Connection> { ConnectionConverter() }
 
-        single<Repositories.Connection> { ConnectionRepository(get(), get(), get()) }
+        single<Repositories.Connection> { ConnectionRepository(get(), get(), get(), get()) }
 
         factory<UseCases.OpenConnection> { OpenConnectionUseCase(get()) }
         factory<UseCases.CloseConnection> { CloseConnectionUseCase(get()) }

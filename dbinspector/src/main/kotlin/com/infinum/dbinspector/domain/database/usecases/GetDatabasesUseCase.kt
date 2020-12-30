@@ -19,13 +19,13 @@ internal class GetDatabasesUseCase(
             .filter { descriptor -> input.argument?.let { descriptor.name.contains(it) } ?: true }
             .map {
                 // TODO: This entire map needs to be extracted and refactored
-                val database = connectionRepository.open(ConnectionParameters(databasePath = it.absolutePath))
+                val connection = connectionRepository.open(ConnectionParameters(databasePath = it.absolutePath))
 
                 val descriptorWithVersion = it.copy(
                     version = pragmaRepository.getUserVersion(
                         PragmaParameters.Version(
                             databasePath = it.absolutePath,
-                            database = database,
+                            database = connection.database,
                             statement = Statements.Pragma.userVersion()
                         )
                     ).cells.first().text.orEmpty()

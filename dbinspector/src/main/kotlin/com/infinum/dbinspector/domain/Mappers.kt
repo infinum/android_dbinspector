@@ -1,8 +1,10 @@
 package com.infinum.dbinspector.domain
 
+import android.database.sqlite.SQLiteDatabase
 import com.infinum.dbinspector.data.models.local.cursor.output.Field
 import com.infinum.dbinspector.data.models.local.cursor.output.QueryResult
 import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
+import com.infinum.dbinspector.domain.connection.models.DatabaseConnection
 import com.infinum.dbinspector.domain.shared.base.BaseMapper
 import java.io.File
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor as DatabaseDescriptorModel
@@ -13,6 +15,8 @@ import com.infinum.dbinspector.domain.shared.models.Page as PageModel
 import com.infinum.dbinspector.domain.shared.models.TruncateMode as TruncateModeModel
 
 internal interface Mappers {
+
+    interface Connection: BaseMapper<SQLiteDatabase, DatabaseConnection>
 
     interface DatabaseDescriptor : BaseMapper<File, DatabaseDescriptorModel>
 

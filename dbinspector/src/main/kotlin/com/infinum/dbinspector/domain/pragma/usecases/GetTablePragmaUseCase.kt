@@ -13,6 +13,6 @@ internal class GetTablePragmaUseCase(
 
     override suspend fun invoke(input: PragmaParameters.Info): Page {
         val connection = connectionRepository.open(ConnectionParameters(input.databasePath))
-        return pragmaRepository.getTableInfo(input.copy(database = connection))
+        return pragmaRepository.getTableInfo(input.copy(database = connection.database))
     }
 }

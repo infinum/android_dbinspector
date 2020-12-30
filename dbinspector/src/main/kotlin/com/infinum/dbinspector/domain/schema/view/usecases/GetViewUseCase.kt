@@ -18,7 +18,7 @@ internal class GetViewUseCase(
         val settings = settingsRepository.getPage(SettingsParameters.Get())
         return schemaRepository.getByName(
             input.copy(
-                database = connection,
+                database = connection.database,
                 blobPreviewMode = settings.blobPreviewMode
             )
         )

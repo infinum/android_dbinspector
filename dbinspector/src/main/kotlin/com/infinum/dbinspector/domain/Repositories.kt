@@ -1,6 +1,6 @@
 package com.infinum.dbinspector.domain
 
-import android.database.sqlite.SQLiteDatabase
+import com.infinum.dbinspector.domain.connection.models.DatabaseConnection
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
 import com.infinum.dbinspector.domain.shared.base.BaseRepository
 import com.infinum.dbinspector.domain.shared.models.Page
@@ -26,7 +26,7 @@ internal interface Repositories {
 
     interface Connection {
 
-        suspend fun open(input: ConnectionParameters): SQLiteDatabase
+        suspend fun open(input: ConnectionParameters): DatabaseConnection
 
         suspend fun close(input: ConnectionParameters)
     }

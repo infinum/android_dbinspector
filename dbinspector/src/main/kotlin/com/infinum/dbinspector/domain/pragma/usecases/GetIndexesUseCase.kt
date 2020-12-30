@@ -13,6 +13,6 @@ internal class GetIndexesUseCase(
 
     override suspend fun invoke(input: PragmaParameters.Indexes): Page {
         val connection = connectionRepository.open(ConnectionParameters(input.databasePath))
-        return pragmaRepository.getIndexes(input.copy(database = connection))
+        return pragmaRepository.getIndexes(input.copy(database = connection.database))
     }
 }
