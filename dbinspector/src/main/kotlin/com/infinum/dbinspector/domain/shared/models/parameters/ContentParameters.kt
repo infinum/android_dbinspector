@@ -10,7 +10,7 @@ internal data class ContentParameters(
     val databasePath: String = "",
     val database: SQLiteDatabase? = null,
     val statement: String,
-    val sort: Sort = Sort.ASCENDING,
+    val sort: SortParameters = SortParameters(Sort.ASCENDING),
     val pageSize: Int = Constants.Limits.PAGE_SIZE,
     val page: Int? = Constants.Limits.INITIAL_PAGE,
     val blobPreviewMode: BlobPreviewMode = BlobPreviewMode.PLACEHOLDER

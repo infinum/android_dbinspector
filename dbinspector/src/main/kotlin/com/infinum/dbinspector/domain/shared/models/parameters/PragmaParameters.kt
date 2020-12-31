@@ -2,7 +2,6 @@ package com.infinum.dbinspector.domain.shared.models.parameters
 
 import android.database.sqlite.SQLiteDatabase
 import com.infinum.dbinspector.domain.shared.base.BaseParameters
-import com.infinum.dbinspector.domain.shared.models.Sort
 import com.infinum.dbinspector.ui.shared.Constants
 
 internal sealed class PragmaParameters : BaseParameters {
@@ -17,7 +16,7 @@ internal sealed class PragmaParameters : BaseParameters {
         val databasePath: String,
         val database: SQLiteDatabase? = null,
         val statement: String,
-        val sort: Sort = Sort.ASCENDING,
+        val sort: SortParameters = SortParameters(),
         val page: Int? = Constants.Limits.INITIAL_PAGE,
         val pageSize: Int = Constants.Limits.PAGE_SIZE
     ) : PragmaParameters()
@@ -26,7 +25,7 @@ internal sealed class PragmaParameters : BaseParameters {
         val databasePath: String,
         val database: SQLiteDatabase? = null,
         val statement: String,
-        val sort: Sort = Sort.ASCENDING,
+        val sort: SortParameters = SortParameters(),
         val page: Int? = Constants.Limits.INITIAL_PAGE,
         val pageSize: Int = Constants.Limits.PAGE_SIZE
     ) : PragmaParameters()
@@ -35,7 +34,7 @@ internal sealed class PragmaParameters : BaseParameters {
         val databasePath: String,
         val database: SQLiteDatabase? = null,
         val statement: String,
-        val sort: Sort = Sort.ASCENDING,
+        val sort: SortParameters = SortParameters(),
         val page: Int? = Constants.Limits.INITIAL_PAGE,
         val pageSize: Int = Constants.Limits.PAGE_SIZE
     ) : PragmaParameters()

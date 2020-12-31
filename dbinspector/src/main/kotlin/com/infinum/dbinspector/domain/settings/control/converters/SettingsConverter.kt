@@ -19,8 +19,8 @@ internal class SettingsConverter(
         SettingsTask(linesCount = parameters.count)
 
     override suspend fun truncateMode(parameters: SettingsParameters.Truncate): SettingsTask =
-        SettingsTask(truncateMode = truncateConverter(parameters.mode))
+        SettingsTask(truncateMode = truncateConverter(parameters))
 
     override suspend fun blobPreviewMode(parameters: SettingsParameters.BlobPreview): SettingsTask =
-        SettingsTask(blobPreviewMode = blobPreviewConverter(parameters.mode))
+        SettingsTask(blobPreviewMode = blobPreviewConverter(parameters))
 }

@@ -2,8 +2,8 @@ package com.infinum.dbinspector.domain
 
 import com.infinum.dbinspector.data.models.local.cursor.input.Order
 import com.infinum.dbinspector.data.models.local.cursor.input.Query
-import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
 import com.infinum.dbinspector.data.models.local.proto.input.SettingsTask
+import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
 import com.infinum.dbinspector.domain.database.models.Operation
 import com.infinum.dbinspector.domain.shared.base.BaseConverter
 import com.infinum.dbinspector.domain.shared.models.parameters.ConnectionParameters
@@ -11,9 +11,7 @@ import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.DatabaseParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.SettingsParameters
-import com.infinum.dbinspector.domain.shared.models.BlobPreviewMode as BlobPreviewModeModel
-import com.infinum.dbinspector.domain.shared.models.Sort as SortModel
-import com.infinum.dbinspector.domain.shared.models.TruncateMode as TruncateModeModel
+import com.infinum.dbinspector.domain.shared.models.parameters.SortParameters
 
 internal interface Converters {
 
@@ -30,7 +28,7 @@ internal interface Converters {
 
     interface Connection : BaseConverter<ConnectionParameters, String>
 
-    interface Sort : BaseConverter<SortModel, Order>
+    interface Sort : BaseConverter<SortParameters, Order>
 
     interface Schema {
 
@@ -52,9 +50,9 @@ internal interface Converters {
         suspend infix fun indexes(parameters: PragmaParameters.Indexes): Query
     }
 
-    interface BlobPreview : BaseConverter<BlobPreviewModeModel, SettingsEntity.BlobPreviewMode>
+    interface BlobPreview : BaseConverter<SettingsParameters.BlobPreview, SettingsEntity.BlobPreviewMode>
 
-    interface Truncate : BaseConverter<TruncateModeModel, SettingsEntity.TruncateMode>
+    interface Truncate : BaseConverter<SettingsParameters.Truncate, SettingsEntity.TruncateMode>
 
     interface Settings {
 
