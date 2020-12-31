@@ -8,12 +8,12 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorActivityPragmaBinding
 import com.infinum.dbinspector.domain.pragma.models.PragmaType
+import com.infinum.dbinspector.extensions.uppercase
 import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.pragma.shared.PragmaTypeAdapter
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.Locale
 
 internal class PragmaActivity : BaseActivity() {
 
@@ -67,7 +67,7 @@ internal class PragmaActivity : BaseActivity() {
                 tableName = tableName
             )
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-                tab.text = getString(PragmaType.values()[position].nameRes).toUpperCase(Locale.getDefault())
+                tab.text = getString(PragmaType.values()[position].nameRes).uppercase()
             }.attach()
         }
     }

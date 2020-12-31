@@ -10,13 +10,13 @@ import com.infinum.dbinspector.databinding.DbinspectorActivitySchemaBinding
 import com.infinum.dbinspector.domain.schema.shared.models.SchemaType
 import com.infinum.dbinspector.extensions.searchView
 import com.infinum.dbinspector.extensions.setup
+import com.infinum.dbinspector.extensions.uppercase
 import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.schema.shared.SchemaTypeAdapter
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import com.infinum.dbinspector.ui.shared.searchable.Searchable
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.Locale
 
 internal class SchemaActivity : BaseActivity(), Searchable {
 
@@ -88,7 +88,7 @@ internal class SchemaActivity : BaseActivity(), Searchable {
                 databaseName = databaseName
             )
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-                tab.text = getString(SchemaType.values()[position].nameRes).toUpperCase(Locale.getDefault())
+                tab.text = getString(SchemaType.values()[position].nameRes).uppercase()
             }.attach()
         }
     }

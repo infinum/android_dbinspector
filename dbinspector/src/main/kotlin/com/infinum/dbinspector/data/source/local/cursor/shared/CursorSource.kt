@@ -14,9 +14,9 @@ import com.infinum.dbinspector.data.models.local.cursor.output.QueryResult
 import com.infinum.dbinspector.data.models.local.cursor.output.Row
 import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
 import com.infinum.dbinspector.data.source.memory.pagination.Paginator
+import com.infinum.dbinspector.extensions.lowercase
 import kotlinx.coroutines.CancellableContinuation
 import timber.log.Timber
-import java.util.Locale
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
@@ -96,7 +96,7 @@ internal open class CursorSource {
             when (val type = FieldType(cursor.getType(column))) {
                 FieldType.NULL -> Field(
                     type = type,
-                    text = FieldType.NULL.name.toLowerCase(Locale.getDefault()),
+                    text = FieldType.NULL.name.lowercase(),
                     linesCount = if (settings.linesLimit) settings.linesCount else Int.MAX_VALUE,
                     truncate = settings.truncateMode,
                     blobPreview = settings.blobPreview
@@ -104,7 +104,7 @@ internal open class CursorSource {
                 FieldType.INTEGER -> Field(
                     type = type,
                     text = cursor.getIntOrNull(column)?.toString()
-                        ?: FieldType.NULL.name.toLowerCase(Locale.getDefault()),
+                        ?: FieldType.NULL.name.lowercase(),
                     linesCount = if (settings.linesLimit) settings.linesCount else Int.MAX_VALUE,
                     truncate = settings.truncateMode,
                     blobPreview = settings.blobPreview
@@ -112,7 +112,7 @@ internal open class CursorSource {
                 FieldType.FLOAT -> Field(
                     type = type,
                     text = cursor.getFloatOrNull(column)?.toString()
-                        ?: FieldType.NULL.name.toLowerCase(Locale.getDefault()),
+                        ?: FieldType.NULL.name.lowercase(),
                     linesCount = if (settings.linesLimit) settings.linesCount else Int.MAX_VALUE,
                     truncate = settings.truncateMode,
                     blobPreview = settings.blobPreview
@@ -120,14 +120,14 @@ internal open class CursorSource {
                 FieldType.STRING -> Field(
                     type = type,
                     text = cursor.getStringOrNull(column)
-                        ?: FieldType.NULL.name.toLowerCase(Locale.getDefault()),
+                        ?: FieldType.NULL.name.lowercase(),
                     linesCount = if (settings.linesLimit) settings.linesCount else Int.MAX_VALUE,
                     truncate = settings.truncateMode,
                     blobPreview = settings.blobPreview
                 )
                 FieldType.BLOB -> Field(
                     type = type,
-                    text = FieldType.NULL.name.toLowerCase(Locale.getDefault()),
+                    text = FieldType.NULL.name.lowercase(),
                     data = cursor.getBlobOrNull(column),
                     linesCount = if (settings.linesLimit) settings.linesCount else Int.MAX_VALUE,
                     truncate = settings.truncateMode,

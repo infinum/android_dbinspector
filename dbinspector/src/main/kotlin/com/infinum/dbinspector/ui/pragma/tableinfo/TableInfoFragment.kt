@@ -1,9 +1,9 @@
 package com.infinum.dbinspector.ui.pragma.tableinfo
 
 import com.infinum.dbinspector.domain.pragma.models.TableInfoColumns
+import com.infinum.dbinspector.extensions.lowercase
 import com.infinum.dbinspector.ui.pragma.shared.PragmaFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.Locale
 
 internal class TableInfoFragment : PragmaFragment() {
 
@@ -18,5 +18,5 @@ internal class TableInfoFragment : PragmaFragment() {
     override val viewModel: TableInfoViewModel by viewModel()
 
     override fun headers() =
-        TableInfoColumns.values().map { it.name.toLowerCase(Locale.getDefault()) }
+        TableInfoColumns.values().map { it.name.lowercase() }
 }

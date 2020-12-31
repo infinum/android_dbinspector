@@ -6,7 +6,7 @@ import com.infinum.dbinspector.domain.Repositories
 import com.infinum.dbinspector.domain.pragma.models.TriggerInfoColumns
 import com.infinum.dbinspector.domain.shared.models.Page
 import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
-import java.util.Locale
+import com.infinum.dbinspector.extensions.lowercase
 
 internal class PragmaRepository(
     private val userVersion: Interactors.GetUserVersion,
@@ -24,7 +24,7 @@ internal class PragmaRepository(
 
     override suspend fun getTriggerInfo(input: Unit): Page =
         Page(cells = TriggerInfoColumns.values()
-            .map { it.name.toLowerCase(Locale.getDefault()) }
+            .map { it.name.lowercase() }
             .map(transform = control.mapper.transformToHeader()))
 
     override suspend fun getForeignKeys(input: PragmaParameters.ForeignKeys): Page =
