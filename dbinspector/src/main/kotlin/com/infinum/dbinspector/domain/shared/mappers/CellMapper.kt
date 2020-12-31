@@ -11,7 +11,9 @@ import com.infinum.dbinspector.extensions.toHexString
 import com.infinum.dbinspector.extensions.toPlaceHolder
 import com.infinum.dbinspector.extensions.toUtf8String
 
-internal class CellMapper : Mappers.Cell {
+internal class CellMapper(
+    private val truncateModeMapper: Mappers.TruncateMode
+) : Mappers.Cell {
 
     override suspend fun invoke(model: Field): Cell =
         Cell(
@@ -31,6 +33,8 @@ internal class CellMapper : Mappers.Cell {
             },
             data = model.data,
             imageType = model.data?.let { bytes -> ImageType(bytes.toHexString()) }
-                ?: ImageType.UNSUPPORTED
+                ?: ImageType.UNSUPPORTED,
+            linesShown = model.linesCount,
+            truncateMode = truncateModeMapper(model.truncate)
         )
 }

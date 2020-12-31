@@ -97,7 +97,8 @@ object Data {
                 get(qualifier = Qualifiers.Schema.DROP_VIEW),
                 get(qualifier = Qualifiers.Schema.TRIGGERS),
                 get(qualifier = Qualifiers.Schema.TRIGGER_BY_NAME),
-                get(qualifier = Qualifiers.Schema.DROP_TRIGGER)
+                get(qualifier = Qualifiers.Schema.DROP_TRIGGER),
+                get()
             )
         }
 
@@ -105,7 +106,8 @@ object Data {
             PragmaSource(
                 get(qualifier = Qualifiers.Pragma.TABLE_INFO),
                 get(qualifier = Qualifiers.Pragma.FOREIGN_KEYS),
-                get(qualifier = Qualifiers.Pragma.INDEXES)
+                get(qualifier = Qualifiers.Pragma.INDEXES),
+                get()
             )
         }
     }

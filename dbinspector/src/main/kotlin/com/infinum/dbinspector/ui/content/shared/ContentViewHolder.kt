@@ -65,7 +65,7 @@ internal class ContentViewHolder(
         with(viewBinding) {
             this.valueView.maxLines = cell.linesShown
             this.valueView.ellipsize = cell.truncateMode
-                .takeIf { cell.linesShown == Int.MAX_VALUE }
+                .takeIf { cell.linesShown != Int.MAX_VALUE }
                 ?.let {
                     when (it) {
                         TruncateMode.START -> TextUtils.TruncateAt.START

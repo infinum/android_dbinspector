@@ -13,6 +13,7 @@ import com.infinum.dbinspector.data.models.local.cursor.output.QueryResult
 import com.infinum.dbinspector.data.models.local.cursor.output.Row
 import com.infinum.dbinspector.data.source.memory.pagination.Paginator
 import com.infinum.dbinspector.data.models.local.cursor.input.Query
+import com.infinum.dbinspector.data.models.local.proto.input.SettingsTask
 import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
 import kotlinx.coroutines.CancellableContinuation
 import timber.log.Timber
@@ -22,7 +23,12 @@ import kotlin.coroutines.resumeWithException
 
 internal open class CursorSource {
 
-    fun collectRows(query: Query, paginator: Paginator, continuation: CancellableContinuation<QueryResult>) {
+    fun collectRows(
+        query: Query,
+        paginator: Paginator,
+        settings: SettingsEntity?,
+        continuation: CancellableContinuation<QueryResult>
+    ) {
         if (query.database?.isOpen == true) {
             runQuery(query)?.use { cursor ->
                 paginator.setPageCount(
@@ -43,7 +49,7 @@ internal open class CursorSource {
                     cursor.columnCount
                 )
 
-                val rows = iterateRowsInTable(cursor, boundary, query.blobPreview)
+                val rows = iterateRowsInTable(cursor, boundary, settings)
 
                 continuation.resume(
                     QueryResult(
@@ -68,13 +74,16 @@ internal open class CursorSource {
     private fun iterateRowsInTable(
         cursor: Cursor,
         boundary: Paginator.Boundary,
-        blobPreview: SettingsEntity.BlobPreviewMode
+        settings: SettingsEntity?
     ): List<Row> =
         if (cursor.moveToPosition(boundary.startRow)) {
             (boundary.startRow until boundary.endRow).map { row ->
                 Row(
                     position = row,
-                    fields = iterateFieldsInRow(cursor, blobPreview)
+                    fields = iterateFieldsInRow(
+                        cursor,
+                        settings ?: SettingsEntity.getDefaultInstance()
+                    )
                 ).also {
                     cursor.moveToNext()
                 }
@@ -83,33 +92,47 @@ internal open class CursorSource {
             listOf()
         }
 
-    private fun iterateFieldsInRow(cursor: Cursor, blobPreview: SettingsEntity.BlobPreviewMode): List<Field> =
+    private fun iterateFieldsInRow(cursor: Cursor, settings: SettingsEntity): List<Field> =
         (0 until cursor.columnCount).map { column ->
             when (val type = FieldType(cursor.getType(column))) {
                 FieldType.NULL -> Field(
                     type = type,
-                    text = FieldType.NULL.name.toLowerCase(Locale.getDefault())
+                    text = FieldType.NULL.name.toLowerCase(Locale.getDefault()),
+                    linesCount = if (settings.linesLimit) settings.linesCount else Int.MAX_VALUE,
+                    truncate = settings.truncateMode,
+                    blobPreview = settings.blobPreview
                 )
                 FieldType.INTEGER -> Field(
                     type = type,
                     text = cursor.getIntOrNull(column)?.toString()
-                        ?: FieldType.NULL.name.toLowerCase(Locale.getDefault())
+                        ?: FieldType.NULL.name.toLowerCase(Locale.getDefault()),
+                    linesCount = if (settings.linesLimit) settings.linesCount else Int.MAX_VALUE,
+                    truncate = settings.truncateMode,
+                    blobPreview = settings.blobPreview
                 )
                 FieldType.FLOAT -> Field(
                     type = type,
                     text = cursor.getFloatOrNull(column)?.toString()
-                        ?: FieldType.NULL.name.toLowerCase(Locale.getDefault())
+                        ?: FieldType.NULL.name.toLowerCase(Locale.getDefault()),
+                    linesCount = if (settings.linesLimit) settings.linesCount else Int.MAX_VALUE,
+                    truncate = settings.truncateMode,
+                    blobPreview = settings.blobPreview
                 )
                 FieldType.STRING -> Field(
                     type = type,
                     text = cursor.getStringOrNull(column)
-                        ?: FieldType.NULL.name.toLowerCase(Locale.getDefault())
+                        ?: FieldType.NULL.name.toLowerCase(Locale.getDefault()),
+                    linesCount = if (settings.linesLimit) settings.linesCount else Int.MAX_VALUE,
+                    truncate = settings.truncateMode,
+                    blobPreview = settings.blobPreview
                 )
                 FieldType.BLOB -> Field(
                     type = type,
                     text = FieldType.NULL.name.toLowerCase(Locale.getDefault()),
                     data = cursor.getBlobOrNull(column),
-                    blobPreview = blobPreview
+                    linesCount = if (settings.linesLimit) settings.linesCount else Int.MAX_VALUE,
+                    truncate = settings.truncateMode,
+                    blobPreview = settings.blobPreview
                 )
             }
         }
