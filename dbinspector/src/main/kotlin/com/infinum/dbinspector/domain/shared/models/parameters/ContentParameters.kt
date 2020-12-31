@@ -2,9 +2,7 @@ package com.infinum.dbinspector.domain.shared.models.parameters
 
 import android.database.sqlite.SQLiteDatabase
 import com.infinum.dbinspector.domain.shared.base.BaseParameters
-import com.infinum.dbinspector.domain.shared.models.BlobPreviewMode
 import com.infinum.dbinspector.domain.shared.models.Sort
-import com.infinum.dbinspector.domain.shared.models.TruncateMode
 import com.infinum.dbinspector.ui.shared.Constants
 
 internal data class ContentParameters(

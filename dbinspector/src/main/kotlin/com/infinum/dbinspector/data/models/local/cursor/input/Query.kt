@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.data.models.local.cursor.input
 
 import android.database.sqlite.SQLiteDatabase
-import com.infinum.dbinspector.data.models.local.proto.input.SettingsTask
 import com.infinum.dbinspector.ui.shared.Constants
 
 internal data class Query(

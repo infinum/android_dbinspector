@@ -43,7 +43,11 @@ internal class PragmaSource(
                                             Field(
                                                 type = FieldType.STRING,
                                                 text = result,
-                                                linesCount = if (settings.linesLimit) settings.linesCount else Int.MAX_VALUE,
+                                                linesCount = if (settings.linesLimit) {
+                                                    settings.linesCount
+                                                } else {
+                                                    Int.MAX_VALUE
+                                                },
                                                 truncate = settings.truncateMode,
                                                 blobPreview = settings.blobPreview
                                             )
