@@ -1,9 +1,9 @@
 package com.infinum.dbinspector.domain.settings.control.mappers
 
 import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
+import com.infinum.dbinspector.domain.Domain
 import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.domain.settings.models.Settings
-import com.infinum.dbinspector.ui.shared.Constants
 
 internal class SettingsMapper(
     private val truncateModeMapper: Mappers.TruncateMode,
@@ -14,7 +14,7 @@ internal class SettingsMapper(
         Settings(
             linesLimitEnabled = model.linesLimit,
             linesCount = if (model.linesCount == 0) {
-                Constants.Settings.LINES_LIMIT_MAXIMUM
+                Domain.Constants.Settings.LINES_LIMIT_MAXIMUM
             } else {
                 model.linesCount
             },

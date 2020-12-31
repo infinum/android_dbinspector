@@ -1,12 +1,12 @@
 package com.infinum.dbinspector.extensions
 
 import android.util.Base64
-import com.infinum.dbinspector.ui.shared.Constants
+import com.infinum.dbinspector.ui.Presentation
 
 private val HEX_ARRAY = "0123456789ABCDEF".toCharArray()
 
 internal fun ByteArray.toPlaceHolder(): String =
-    Constants.Settings.BLOB_DATA_PLACEHOLDER
+    Presentation.Constants.Settings.BLOB_DATA_PLACEHOLDER
 
 internal fun ByteArray.toUtf8String(): String =
     String(this, Charsets.UTF_8)

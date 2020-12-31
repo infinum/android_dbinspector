@@ -10,8 +10,8 @@ import com.infinum.dbinspector.databinding.DbinspectorActivitySchemaBinding
 import com.infinum.dbinspector.domain.schema.shared.models.SchemaType
 import com.infinum.dbinspector.extensions.searchView
 import com.infinum.dbinspector.extensions.setup
+import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.schema.shared.SchemaTypeAdapter
-import com.infinum.dbinspector.ui.shared.Constants
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import com.infinum.dbinspector.ui.shared.searchable.Searchable
@@ -47,8 +47,8 @@ internal class SchemaActivity : BaseActivity(), Searchable {
         }
 
         intent.extras?.let {
-            val databaseName = it.getString(Constants.Keys.DATABASE_NAME)
-            val databasePath = it.getString(Constants.Keys.DATABASE_PATH)
+            val databaseName = it.getString(Presentation.Constants.Keys.DATABASE_NAME)
+            val databasePath = it.getString(Presentation.Constants.Keys.DATABASE_PATH)
             if (databaseName.isNullOrBlank().not() && databasePath.isNullOrBlank().not()) {
                 setupUi(databaseName!!, databasePath!!)
             } else {

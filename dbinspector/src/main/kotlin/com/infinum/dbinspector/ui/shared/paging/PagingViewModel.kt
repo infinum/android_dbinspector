@@ -6,7 +6,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.infinum.dbinspector.domain.shared.models.Cell
-import com.infinum.dbinspector.ui.shared.Constants
+import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.shared.base.BaseDataSource
 import com.infinum.dbinspector.ui.shared.base.BaseViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -22,10 +22,10 @@ internal abstract class PagingViewModel : BaseViewModel() {
     ) =
         Pager(
             config = PagingConfig(
-                pageSize = Constants.Limits.PAGE_SIZE,
+                pageSize = Presentation.Constants.Limits.PAGE_SIZE,
                 enablePlaceholders = true
             ),
-            initialKey = Constants.Limits.INITIAL_PAGE
+            initialKey = Presentation.Constants.Limits.INITIAL_PAGE
         ) {
             dataSource(databasePath, statement)
         }

@@ -86,6 +86,18 @@ import org.koin.dsl.module
 
 object Domain {
 
+    object Constants {
+
+        object Limits {
+            const val PAGE_SIZE = 100
+            const val INITIAL_PAGE = 1
+        }
+
+        object Settings {
+            const val LINES_LIMIT_MAXIMUM = 100
+        }
+    }
+
     object Qualifiers {
         val TABLES = StringQualifier("domain.qualifiers.tables")
         val VIEWS = StringQualifier("domain.qualifiers.views")

@@ -8,7 +8,7 @@ import com.infinum.dbinspector.databinding.DbinspectorActivitySettingsBinding
 import com.infinum.dbinspector.domain.settings.models.Settings
 import com.infinum.dbinspector.domain.shared.models.BlobPreviewMode
 import com.infinum.dbinspector.domain.shared.models.TruncateMode
-import com.infinum.dbinspector.ui.shared.Constants
+import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -34,16 +34,16 @@ internal class SettingsActivity : BaseActivity() {
         with(binding) {
             toolbar.setNavigationOnClickListener { finish() }
 
-            linesSlider.valueFrom = Constants.Settings.LINES_LIMIT_MINIMUM.toFloat()
-            linesSlider.valueTo = Constants.Settings.LINES_LIMIT_MAXIMUM.toFloat()
+            linesSlider.valueFrom = Presentation.Constants.Settings.LINES_LIMIT_MINIMUM.toFloat()
+            linesSlider.valueTo = Presentation.Constants.Settings.LINES_LIMIT_MAXIMUM.toFloat()
 
             decreaseLinesButton.setOnClickListener {
                 linesSlider.value = (linesSlider.value - 1)
-                    .coerceAtLeast(Constants.Settings.LINES_LIMIT_MINIMUM.toFloat())
+                    .coerceAtLeast(Presentation.Constants.Settings.LINES_LIMIT_MINIMUM.toFloat())
             }
             increaseLinesButton.setOnClickListener {
                 linesSlider.value = (linesSlider.value + 1)
-                    .coerceAtMost(Constants.Settings.LINES_LIMIT_MAXIMUM.toFloat())
+                    .coerceAtMost(Presentation.Constants.Settings.LINES_LIMIT_MAXIMUM.toFloat())
             }
         }
 

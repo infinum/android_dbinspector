@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorFragmentSchemaBinding
-import com.infinum.dbinspector.ui.shared.Constants
+import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import com.infinum.dbinspector.ui.shared.searchable.BaseSearchableFragment
 
@@ -23,8 +23,8 @@ internal abstract class SchemaFragment :
 
         fun bundle(databasePath: String, databaseName: String): Bundle =
             Bundle().apply {
-                putString(Constants.Keys.DATABASE_PATH, databasePath)
-                putString(Constants.Keys.DATABASE_NAME, databaseName)
+                putString(Presentation.Constants.Keys.DATABASE_PATH, databasePath)
+                putString(Presentation.Constants.Keys.DATABASE_NAME, databaseName)
             }
     }
 
@@ -50,8 +50,8 @@ internal abstract class SchemaFragment :
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            databasePath = it.getString(Constants.Keys.DATABASE_PATH, "")
-            databaseName = it.getString(Constants.Keys.DATABASE_NAME, "")
+            databasePath = it.getString(Presentation.Constants.Keys.DATABASE_PATH, "")
+            databaseName = it.getString(Presentation.Constants.Keys.DATABASE_NAME, "")
         } ?: run {
             showError()
         }
