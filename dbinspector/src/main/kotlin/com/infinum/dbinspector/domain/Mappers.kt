@@ -16,13 +16,13 @@ import com.infinum.dbinspector.domain.shared.models.TruncateMode as TruncateMode
 
 internal interface Mappers {
 
-    interface Connection: BaseMapper<SQLiteDatabase, DatabaseConnection>
+    interface Connection : BaseMapper<SQLiteDatabase, DatabaseConnection>
 
     interface DatabaseDescriptor : BaseMapper<File, DatabaseDescriptorModel>
 
     interface Cell : BaseMapper<Field, CellModel>
 
-    interface Page : BaseMapper<QueryResult, PageModel>
+    interface Schema : BaseMapper<QueryResult, PageModel>
 
     interface Pragma : BaseMapper<QueryResult, PageModel> {
 

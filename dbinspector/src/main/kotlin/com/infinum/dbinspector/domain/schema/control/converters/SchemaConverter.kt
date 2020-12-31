@@ -1,47 +1,44 @@
-package com.infinum.dbinspector.domain.pragma.converters
+package com.infinum.dbinspector.domain.schema.control.converters
 
 import com.infinum.dbinspector.data.models.local.cursor.input.Query
 import com.infinum.dbinspector.domain.Converters
-import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
+import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
 
-internal class PragmaConverter(
-    private val sortConverter: Converters.Sort
-) : Converters.Pragma {
+internal class SchemaConverter(
+    private val sortConverter: Converters.Sort,
+    private val blobPreviewConverter: Converters.BlobPreview
+) : Converters.Schema {
 
-    override suspend fun version(parameters: PragmaParameters.Version): Query =
-        Query(
-            databasePath = parameters.databasePath,
-            database = parameters.database,
-            statement = parameters.statement
-        )
-
-    override suspend fun info(parameters: PragmaParameters.Info): Query =
+    override suspend fun getPage(parameters: ContentParameters): Query =
         Query(
             databasePath = parameters.databasePath,
             database = parameters.database,
             statement = parameters.statement,
             order = sortConverter(parameters.sort),
             pageSize = parameters.pageSize,
-            page = parameters.page
+            page = parameters.page,
+            blobPreview = blobPreviewConverter(parameters.blobPreviewMode)
         )
 
-    override suspend fun foreignKeys(parameters: PragmaParameters.ForeignKeys): Query =
+    override suspend fun getByName(parameters: ContentParameters): Query =
         Query(
             databasePath = parameters.databasePath,
             database = parameters.database,
             statement = parameters.statement,
             order = sortConverter(parameters.sort),
             pageSize = parameters.pageSize,
-            page = parameters.page
+            page = parameters.page,
+            blobPreview = blobPreviewConverter(parameters.blobPreviewMode)
         )
 
-    override suspend fun indexes(parameters: PragmaParameters.Indexes): Query =
+    override suspend fun dropByName(parameters: ContentParameters): Query =
         Query(
             databasePath = parameters.databasePath,
             database = parameters.database,
             statement = parameters.statement,
             order = sortConverter(parameters.sort),
             pageSize = parameters.pageSize,
-            page = parameters.page
+            page = parameters.page,
+            blobPreview = blobPreviewConverter(parameters.blobPreviewMode)
         )
 }

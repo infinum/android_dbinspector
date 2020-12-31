@@ -1,4 +1,4 @@
-package com.infinum.dbinspector.domain.settings.mappers
+package com.infinum.dbinspector.domain.settings.control.mappers
 
 import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
 import com.infinum.dbinspector.domain.Mappers

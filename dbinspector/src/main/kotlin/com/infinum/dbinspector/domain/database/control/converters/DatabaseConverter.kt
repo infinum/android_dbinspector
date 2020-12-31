@@ -1,4 +1,4 @@
-package com.infinum.dbinspector.domain.database.converters
+package com.infinum.dbinspector.domain.database.control.converters
 
 import com.infinum.dbinspector.domain.Converters
 import com.infinum.dbinspector.domain.database.models.Operation

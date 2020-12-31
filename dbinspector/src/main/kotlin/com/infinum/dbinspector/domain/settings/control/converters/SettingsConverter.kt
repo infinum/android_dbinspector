@@ -1,4 +1,4 @@
-package com.infinum.dbinspector.domain.settings.converters
+package com.infinum.dbinspector.domain.settings.control.converters
 
 import com.infinum.dbinspector.data.models.local.proto.input.SettingsTask
 import com.infinum.dbinspector.domain.Converters

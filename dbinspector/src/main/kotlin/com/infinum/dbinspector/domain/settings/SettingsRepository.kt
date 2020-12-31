@@ -1,8 +1,7 @@
 package com.infinum.dbinspector.domain.settings
 
-import com.infinum.dbinspector.domain.Converters
+import com.infinum.dbinspector.domain.Control
 import com.infinum.dbinspector.domain.Interactors
-import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.domain.Repositories
 import com.infinum.dbinspector.domain.settings.models.Settings
 import com.infinum.dbinspector.domain.shared.models.parameters.SettingsParameters
@@ -13,22 +12,21 @@ internal class SettingsRepository(
     private val linesCount: Interactors.SaveLinesCount,
     private val truncateMode: Interactors.SaveTruncateMode,
     private val blobPreviewMode: Interactors.SaveBlobPreviewMode,
-    private val mapper: Mappers.Settings,
-    private val converter: Converters.Settings
+    private val control: Control.Settings
 ) : Repositories.Settings {
 
     override suspend fun getPage(input: SettingsParameters.Get): Settings =
-        getSettings(converter get input)?.let { mapper(it) } ?: Settings()
+        getSettings(control.converter get input)?.let { control.mapper(it) } ?: Settings()
 
     override suspend fun saveLinesLimit(input: SettingsParameters.LinesLimit) =
-        linesLimit(converter linesLimit input)
+        linesLimit(control.converter linesLimit input)
 
     override suspend fun saveLinesCount(input: SettingsParameters.LinesCount) =
-        linesCount(converter linesCount input)
+        linesCount(control.converter linesCount input)
 
     override suspend fun saveTruncateMode(input: SettingsParameters.Truncate) =
-        truncateMode(converter truncateMode input)
+        truncateMode(control.converter truncateMode input)
 
     override suspend fun saveBlobPreview(input: SettingsParameters.BlobPreview) =
-        blobPreviewMode(converter blobPreviewMode input)
+        blobPreviewMode(control.converter blobPreviewMode input)
 }

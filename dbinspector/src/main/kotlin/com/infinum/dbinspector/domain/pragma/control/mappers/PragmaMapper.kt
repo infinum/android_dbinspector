@@ -1,4 +1,4 @@
-package com.infinum.dbinspector.domain.pragma.mappers
+package com.infinum.dbinspector.domain.pragma.control.mappers
 
 import com.infinum.dbinspector.data.models.local.cursor.output.Field
 import com.infinum.dbinspector.data.models.local.cursor.output.QueryResult

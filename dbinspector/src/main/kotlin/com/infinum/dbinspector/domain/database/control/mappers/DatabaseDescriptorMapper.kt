@@ -1,4 +1,4 @@
-package com.infinum.dbinspector.domain.database.mappers
+package com.infinum.dbinspector.domain.database.control.mappers
 
 import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor

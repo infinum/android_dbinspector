@@ -1,4 +1,4 @@
-package com.infinum.dbinspector.domain.connection.mappers
+package com.infinum.dbinspector.domain.connection.control.mappers
 
 import android.database.sqlite.SQLiteDatabase
 import com.infinum.dbinspector.domain.Mappers

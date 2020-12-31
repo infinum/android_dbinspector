@@ -1,4 +1,4 @@
-package com.infinum.dbinspector.domain.connection.converters
+package com.infinum.dbinspector.domain.connection.control.converters
 
 import com.infinum.dbinspector.domain.Converters
 import com.infinum.dbinspector.domain.shared.models.parameters.ConnectionParameters
