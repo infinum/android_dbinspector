@@ -33,6 +33,7 @@
     <string name="dbinspector_action_share">Share</string>
     <string name="dbinspector_action_copy">Copy</string>
     <string name="dbinspector_action_settings">Settings</string>
+    <string name="dbinspector_action_edit">Edit</string>
 
     <string name="dbinspector_delete_database_confirm">Delete database %s?</string>
     <string name="dbinspector_clear_table_confirm">Delete the content of the table %s?</string>
