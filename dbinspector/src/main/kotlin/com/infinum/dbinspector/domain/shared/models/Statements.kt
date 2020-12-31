@@ -36,7 +36,7 @@ object Statements {
 
     object Schema {
 
-        fun tables(query: String? = null, direction: Direction = Direction.ASCENDING) =
+        fun tables(query: String? = null, sort: Sort = Sort.ASCENDING) =
             select {
                 columns("name")
                 from("sqlite_master")
@@ -44,10 +44,10 @@ object Statements {
                     "type" eq "table"
                     query?.let { "name" like it }
                 }
-                orderBy(direction, "name")
+                orderBy(sort, "name")
             }
 
-        fun views(query: String? = null, direction: Direction = Direction.ASCENDING) =
+        fun views(query: String? = null, sort: Sort = Sort.ASCENDING) =
             select {
                 columns("name")
                 from("sqlite_master")
@@ -55,10 +55,10 @@ object Statements {
                     "type" eq "view"
                     query?.let { "name" like it }
                 }
-                orderBy(direction, "name")
+                orderBy(sort, "name")
             }
 
-        fun triggers(query: String? = null, direction: Direction = Direction.ASCENDING) =
+        fun triggers(query: String? = null, sort: Sort = Sort.ASCENDING) =
             select {
                 columns("name")
                 from("sqlite_master")
@@ -66,14 +66,14 @@ object Statements {
                     "type" eq "trigger"
                     query?.let { "name" like it }
                 }
-                orderBy(direction, "name")
+                orderBy(sort, "name")
             }
 
-        fun table(name: String, orderBy: String? = null, direction: Direction = Direction.ASCENDING) =
+        fun table(name: String, orderBy: String? = null, sort: Sort = Sort.ASCENDING) =
             select {
                 columns()
                 from(name)
-                orderBy(direction, orderBy)
+                orderBy(sort, orderBy)
             }
 
         fun view(name: String) =

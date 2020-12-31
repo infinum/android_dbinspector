@@ -4,5 +4,5 @@ internal data class Page(
     val nextPage: Int? = null,
     val beforeCount: Int = 0,
     val afterCount: Int = 0,
-    val fields: List<String>
+    val cells: List<Cell>
 )

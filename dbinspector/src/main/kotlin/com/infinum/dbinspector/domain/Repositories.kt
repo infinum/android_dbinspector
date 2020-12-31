@@ -1,49 +1,64 @@
 package com.infinum.dbinspector.domain
 
-import android.database.sqlite.SQLiteDatabase
+import com.infinum.dbinspector.domain.connection.models.DatabaseConnection
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
-import com.infinum.dbinspector.domain.database.models.Operation
 import com.infinum.dbinspector.domain.shared.base.BaseRepository
 import com.infinum.dbinspector.domain.shared.models.Page
-import com.infinum.dbinspector.domain.shared.models.Query
+import com.infinum.dbinspector.domain.shared.models.parameters.ConnectionParameters
+import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
+import com.infinum.dbinspector.domain.shared.models.parameters.DatabaseParameters
+import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
+import com.infinum.dbinspector.domain.shared.models.parameters.SettingsParameters
+import com.infinum.dbinspector.domain.settings.models.Settings as SettingsModel
 
 internal interface Repositories {
 
-    interface Database : BaseRepository<Operation, List<DatabaseDescriptor>> {
+    interface Database : BaseRepository<DatabaseParameters.Get, List<DatabaseDescriptor>> {
 
-        suspend fun import(operation: Operation): List<DatabaseDescriptor>
+        suspend fun import(input: DatabaseParameters.Import): List<DatabaseDescriptor>
 
-        suspend fun remove(operation: Operation): List<DatabaseDescriptor>
+        suspend fun rename(input: DatabaseParameters.Rename): List<DatabaseDescriptor>
 
-        suspend fun rename(operation: Operation): List<DatabaseDescriptor>
+        suspend fun remove(input: DatabaseParameters.Command): List<DatabaseDescriptor>
 
-        suspend fun copy(operation: Operation): List<DatabaseDescriptor>
+        suspend fun copy(input: DatabaseParameters.Command): List<DatabaseDescriptor>
     }
 
     interface Connection {
 
-        suspend fun open(path: String): SQLiteDatabase
+        suspend fun open(input: ConnectionParameters): DatabaseConnection
 
-        suspend fun close(path: String)
+        suspend fun close(input: ConnectionParameters)
     }
 
-    interface Schema : BaseRepository<Query, Page> {
+    interface Settings : BaseRepository<SettingsParameters.Get, SettingsModel> {
 
-        suspend fun getByName(query: Query): Page
+        suspend fun saveLinesLimit(input: SettingsParameters.LinesLimit)
 
-        suspend fun dropByName(query: Query): Page
+        suspend fun saveLinesCount(input: SettingsParameters.LinesCount)
+
+        suspend fun saveTruncateMode(input: SettingsParameters.Truncate)
+
+        suspend fun saveBlobPreview(input: SettingsParameters.BlobPreview)
+    }
+
+    interface Schema : BaseRepository<ContentParameters, Page> {
+
+        suspend fun getByName(input: ContentParameters): Page
+
+        suspend fun dropByName(input: ContentParameters): Page
     }
 
     interface Pragma {
 
-        suspend fun getUserVersion(query: Query): Page
+        suspend fun getUserVersion(input: PragmaParameters.Version): Page
 
-        suspend fun getTableInfo(query: Query): Page
+        suspend fun getTableInfo(input: PragmaParameters.Info): Page
 
-        suspend fun getTriggerInfo(query: Query): Page
+        suspend fun getTriggerInfo(input: Unit): Page
 
-        suspend fun getForeignKeys(query: Query): Page
+        suspend fun getForeignKeys(input: PragmaParameters.ForeignKeys): Page
 
-        suspend fun getIndexes(query: Query): Page
+        suspend fun getIndexes(input: PragmaParameters.Indexes): Page
     }
 }

@@ -3,7 +3,7 @@ package com.infinum.dbinspector.ui.shared.headers
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.infinum.dbinspector.databinding.DbinspectorItemHeaderBinding
-import com.infinum.dbinspector.domain.shared.models.Direction
+import com.infinum.dbinspector.domain.shared.models.Sort
 import com.infinum.dbinspector.extensions.drawableFromAttribute
 
 internal class HeaderViewHolder(
@@ -16,10 +16,10 @@ internal class HeaderViewHolder(
         onClick: ((Header) -> Unit)?
     ) {
         with(viewBinding) {
-            val nextDirection = if (item.direction == Direction.ASCENDING) {
-                Direction.DESCENDING
+            val nextSort = if (item.sort == Sort.ASCENDING) {
+                Sort.DESCENDING
             } else {
-                Direction.ASCENDING
+                Sort.ASCENDING
             }
 
             this.valueView.background = if (isClickable) {
@@ -31,13 +31,13 @@ internal class HeaderViewHolder(
             this.valueView.setCompoundDrawablesRelativeWithIntrinsicBounds(
                 null,
                 null,
-                if (item.active) ContextCompat.getDrawable(this.valueView.context, nextDirection.icon) else null,
+                if (item.active) ContextCompat.getDrawable(this.valueView.context, nextSort.icon) else null,
                 null
             )
             this.valueView.isClickable = isClickable
             this.valueView.setOnClickListener {
                 onClick?.invoke(
-                    item.copy(direction = nextDirection)
+                    item.copy(sort = nextSort)
                 )
             }
         }

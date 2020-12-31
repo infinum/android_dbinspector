@@ -1,9 +1,9 @@
 package com.infinum.dbinspector.ui.pragma.indexes
 
 import com.infinum.dbinspector.domain.pragma.models.IndexListColumns
+import com.infinum.dbinspector.extensions.lowercase
 import com.infinum.dbinspector.ui.pragma.shared.PragmaFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.Locale
 
 internal class IndexesFragment : PragmaFragment() {
 
@@ -18,5 +18,5 @@ internal class IndexesFragment : PragmaFragment() {
     override val viewModel: IndexViewModel by viewModel()
 
     override fun headers() =
-        IndexListColumns.values().map { it.name.toLowerCase(Locale.getDefault()) }
+        IndexListColumns.values().map { it.name.lowercase() }
 }

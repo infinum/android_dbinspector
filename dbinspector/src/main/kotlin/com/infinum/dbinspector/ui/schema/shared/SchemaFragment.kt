@@ -9,11 +9,10 @@ import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorFragmentSchemaBinding
-import com.infinum.dbinspector.ui.shared.Constants
+import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import com.infinum.dbinspector.ui.shared.searchable.BaseSearchableFragment
 
@@ -24,8 +23,8 @@ internal abstract class SchemaFragment :
 
         fun bundle(databasePath: String, databaseName: String): Bundle =
             Bundle().apply {
-                putString(Constants.Keys.DATABASE_PATH, databasePath)
-                putString(Constants.Keys.DATABASE_NAME, databaseName)
+                putString(Presentation.Constants.Keys.DATABASE_PATH, databasePath)
+                putString(Presentation.Constants.Keys.DATABASE_NAME, databaseName)
             }
     }
 
@@ -51,8 +50,8 @@ internal abstract class SchemaFragment :
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            databasePath = it.getString(Constants.Keys.DATABASE_PATH, "")
-            databaseName = it.getString(Constants.Keys.DATABASE_NAME, "")
+            databasePath = it.getString(Presentation.Constants.Keys.DATABASE_PATH, "")
+            databaseName = it.getString(Presentation.Constants.Keys.DATABASE_NAME, "")
         } ?: run {
             showError()
         }
@@ -65,7 +64,6 @@ internal abstract class SchemaFragment :
             schemaAdapter = SchemaAdapter(
                 onClick = this@SchemaFragment::show
             )
-            schemaAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
             schemaAdapter.addLoadStateListener { loadState ->
                 if (loadState.append.endOfPaginationReached) {
                     val isEmpty = schemaAdapter.itemCount < 1

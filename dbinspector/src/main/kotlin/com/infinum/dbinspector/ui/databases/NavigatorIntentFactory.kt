@@ -9,8 +9,9 @@ import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
+import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.schema.SchemaActivity
-import com.infinum.dbinspector.ui.shared.Constants
+import com.infinum.dbinspector.ui.settings.SettingsActivity
 import timber.log.Timber
 import java.io.File
 
@@ -27,16 +28,21 @@ internal class NavigatorIntentFactory(
         )
     }
 
+    fun showSettings() =
+        context.startActivity(
+            Intent(context, SettingsActivity::class.java)
+        )
+
     fun showSchema(database: DatabaseDescriptor) =
         context.startActivity(
             Intent(context, SchemaActivity::class.java)
                 .apply {
-                    putExtra(Constants.Keys.DATABASE_PATH, database.absolutePath)
-                    putExtra(Constants.Keys.DATABASE_NAME, database.name)
+                    putExtra(Presentation.Constants.Keys.DATABASE_PATH, database.absolutePath)
+                    putExtra(Presentation.Constants.Keys.DATABASE_NAME, database.name)
                 }
         )
 
-    fun showImportChooser() =
+    fun showImportChooser(): Intent =
         Intent.createChooser(
             Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
                 addCategory(Intent.CATEGORY_OPENABLE)

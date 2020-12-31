@@ -2,16 +2,17 @@ package com.infinum.dbinspector.ui.schema.shared
 
 import androidx.recyclerview.widget.RecyclerView
 import com.infinum.dbinspector.databinding.DbinspectorItemSchemaBinding
+import com.infinum.dbinspector.domain.shared.models.Cell
 
 internal class SchemaViewHolder(
     private val viewBinding: DbinspectorItemSchemaBinding
 ) : RecyclerView.ViewHolder(viewBinding.root) {
 
-    fun bind(item: String?, onClick: (String) -> Unit) {
+    fun bind(item: Cell?, onClick: (String) -> Unit) {
         item?.let { table ->
             with(viewBinding) {
-                this.name.text = table
-                this.root.setOnClickListener { onClick(table) }
+                this.name.text = table.text
+                this.root.setOnClickListener { table.text?.let { onClick(it) } }
             }
         } ?: with(viewBinding) {
             this.name.text = null

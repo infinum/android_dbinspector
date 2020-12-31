@@ -17,12 +17,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorActivityContentBinding
-import com.infinum.dbinspector.domain.shared.models.Direction
+import com.infinum.dbinspector.domain.shared.models.Sort
+import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.content.table.TableViewModel
 import com.infinum.dbinspector.ui.content.trigger.TriggerViewModel
 import com.infinum.dbinspector.ui.content.view.ViewViewModel
 import com.infinum.dbinspector.ui.pragma.PragmaActivity
-import com.infinum.dbinspector.ui.shared.Constants
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import com.infinum.dbinspector.ui.shared.headers.HeaderAdapter
@@ -42,6 +42,8 @@ internal abstract class ContentActivity : BaseActivity() {
     @get:StringRes
     abstract val drop: Int
 
+    private lateinit var contentPreviewFactory: ContentPreviewFactory
+
     private lateinit var headerAdapter: HeaderAdapter
 
     private lateinit var contentAdapter: ContentAdapter
@@ -49,10 +51,12 @@ internal abstract class ContentActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        contentPreviewFactory = ContentPreviewFactory(this)
+
         intent.extras?.let {
-            val databaseName = it.getString(Constants.Keys.DATABASE_NAME)
-            val databasePath = it.getString(Constants.Keys.DATABASE_PATH)
-            val schemaName = it.getString(Constants.Keys.SCHEMA_NAME)
+            val databaseName = it.getString(Presentation.Constants.Keys.DATABASE_NAME)
+            val databasePath = it.getString(Presentation.Constants.Keys.DATABASE_PATH)
+            val schemaName = it.getString(Presentation.Constants.Keys.SCHEMA_NAME)
             if (
                 databaseName.isNullOrBlank().not() &&
                 databasePath.isNullOrBlank().not() &&
@@ -66,13 +70,14 @@ internal abstract class ContentActivity : BaseActivity() {
 
                 viewModel.header(schemaName) { tableHeaders ->
                     headerAdapter = HeaderAdapter(tableHeaders, true) { header ->
-                        query(schemaName, header.name, header.direction)
+                        query(schemaName, header.name, header.sort)
                         headerAdapter.updateHeader(header)
                     }
 
-                    contentAdapter = ContentAdapter(tableHeaders.size)
-                    contentAdapter.stateRestorationPolicy =
-                        RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+                    contentAdapter = ContentAdapter(
+                        headersCount = tableHeaders.size,
+                        onCellClicked = { cell -> contentPreviewFactory.showCell(cell) }
+                    )
 
                     with(binding) {
                         contentAdapter.addLoadStateListener { loadState ->
@@ -177,9 +182,9 @@ internal abstract class ContentActivity : BaseActivity() {
         startActivity(
             Intent(this, PragmaActivity::class.java)
                 .apply {
-                    putExtra(Constants.Keys.DATABASE_NAME, databaseName)
-                    putExtra(Constants.Keys.DATABASE_PATH, databasePath)
-                    putExtra(Constants.Keys.SCHEMA_NAME, schemaName)
+                    putExtra(Presentation.Constants.Keys.DATABASE_NAME, databaseName)
+                    putExtra(Presentation.Constants.Keys.DATABASE_PATH, databasePath)
+                    putExtra(Presentation.Constants.Keys.SCHEMA_NAME, schemaName)
                 }
         )
     }
@@ -207,9 +212,9 @@ internal abstract class ContentActivity : BaseActivity() {
     private fun query(
         name: String,
         orderBy: String? = null,
-        direction: Direction = Direction.ASCENDING
+        sort: Sort = Sort.ASCENDING
     ) =
-        viewModel.query(name, orderBy, direction) {
+        viewModel.query(name, orderBy, sort) {
             contentAdapter.submitData(it)
         }
 
@@ -220,7 +225,7 @@ internal abstract class ContentActivity : BaseActivity() {
         setResult(
             Activity.RESULT_OK,
             Intent().apply {
-                putExtra(Constants.Keys.SHOULD_REFRESH, true)
+                putExtra(Presentation.Constants.Keys.SHOULD_REFRESH, true)
             }
         )
         finish()
@@ -230,7 +235,7 @@ internal abstract class ContentActivity : BaseActivity() {
         setResult(
             Activity.RESULT_OK,
             Intent().apply {
-                putExtra(Constants.Keys.SHOULD_REFRESH, true)
+                putExtra(Presentation.Constants.Keys.SHOULD_REFRESH, true)
             }
         )
         finish()

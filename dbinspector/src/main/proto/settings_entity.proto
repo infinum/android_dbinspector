@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option java_package = "com.infinum.dbinspector.data.models.local.proto.output";
+option java_multiple_files = true;
+
+message SettingsEntity {
+
+  enum TruncateMode {
+    END = 0;
+    MIDDLE = 1;
+    START = 2;
+  }
+
+  enum BlobPreviewMode {
+    PLACEHOLDER = 0;
+    UTF8 = 1;
+    HEX = 2;
+    BASE64 = 3;
+  }
+
+  bool lines_limit = 1;
+  uint32 lines_count = 2;
+  TruncateMode truncate_mode = 3;
+  BlobPreviewMode blob_preview = 4;
+}

@@ -11,7 +11,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorActivityEditBinding
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
-import com.infinum.dbinspector.ui.shared.Constants
+import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -42,10 +42,10 @@ internal class EditActivity : BaseActivity() {
         }
 
         intent.extras?.let {
-            databasePath = it.getString(Constants.Keys.DATABASE_PATH)
-            databaseFilepath = it.getString(Constants.Keys.DATABASE_FILEPATH)
-            databaseName = it.getString(Constants.Keys.DATABASE_NAME)
-            databaseExtension = it.getString(Constants.Keys.DATABASE_EXTENSION)
+            databasePath = it.getString(Presentation.Constants.Keys.DATABASE_PATH)
+            databaseFilepath = it.getString(Presentation.Constants.Keys.DATABASE_FILEPATH)
+            databaseName = it.getString(Presentation.Constants.Keys.DATABASE_NAME)
+            databaseExtension = it.getString(Presentation.Constants.Keys.DATABASE_EXTENSION)
             if (
                 listOf(
                     databasePath,
@@ -113,7 +113,7 @@ internal class EditActivity : BaseActivity() {
                 setResult(
                     Activity.RESULT_OK,
                     Intent().apply {
-                        putExtra(Constants.Keys.SHOULD_REFRESH, true)
+                        putExtra(Presentation.Constants.Keys.SHOULD_REFRESH, true)
                     }
                 )
             }

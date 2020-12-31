@@ -4,11 +4,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import com.infinum.dbinspector.databinding.DbinspectorItemCellBinding
-import com.infinum.dbinspector.ui.shared.diffutils.FieldDiffUtil
+import com.infinum.dbinspector.domain.shared.models.Cell
+import com.infinum.dbinspector.ui.shared.diffutils.CellDiffUtil
 
 internal class PragmaAdapter(
     private val headersCount: Int,
-) : PagingDataAdapter<String, PragmaViewHolder>(FieldDiffUtil()) {
+) : PagingDataAdapter<Cell, PragmaViewHolder>(CellDiffUtil()) {
+
+    init {
+        stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PragmaViewHolder =
         PragmaViewHolder(

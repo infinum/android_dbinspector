@@ -1,7 +1,7 @@
 package com.infinum.dbinspector.ui.content.table
 
 import com.infinum.dbinspector.domain.UseCases
-import com.infinum.dbinspector.domain.shared.models.Direction
+import com.infinum.dbinspector.domain.shared.models.Sort
 import com.infinum.dbinspector.domain.shared.models.Statements
 import com.infinum.dbinspector.ui.content.shared.ContentViewModel
 
@@ -21,8 +21,8 @@ internal class TableViewModel(
     override fun headerStatement(name: String) =
         Statements.Pragma.tableInfo(name)
 
-    override fun schemaStatement(name: String, orderBy: String?, direction: Direction) =
-        Statements.Schema.table(name, orderBy, direction)
+    override fun schemaStatement(name: String, orderBy: String?, sort: Sort) =
+        Statements.Schema.table(name, orderBy, sort)
 
     override fun dropStatement(name: String) =
         Statements.Schema.dropTableContent(name)

@@ -9,11 +9,16 @@
             android:name="com.infinum.dbinspector.DbInspectorActivity"
             android:enabled="true"
             android:exported="true"
-            android:taskAffinity="com.infinum.dbinspector"
-            android:targetActivity="com.infinum.dbinspector.ui.databases.DatabasesActivity" />
+            android:targetActivity="com.infinum.dbinspector.ui.databases.DatabasesActivity"
+            android:taskAffinity="com.infinum.dbinspector" />
 
         <activity
             android:name="com.infinum.dbinspector.ui.databases.DatabasesActivity"
+            android:taskAffinity="com.infinum.dbinspector"
+            android:theme="@style/DbInspector.BaseTheme" />
+
+        <activity
+            android:name="com.infinum.dbinspector.ui.settings.SettingsActivity"
             android:taskAffinity="com.infinum.dbinspector"
             android:theme="@style/DbInspector.BaseTheme" />
 

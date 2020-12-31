@@ -7,7 +7,6 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorActivityDatabasesBinding
@@ -88,7 +87,10 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
     }
 
     override fun onSearchOpened() {
-        binding.importButton.hide()
+        with(binding) {
+            importButton.hide()
+            toolbar.menu.findItem(R.id.settings).isVisible = false
+        }
     }
 
     override fun search(query: String?) {
@@ -99,7 +101,10 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
         binding.toolbar.menu.searchView?.query?.toString()
 
     override fun onSearchClosed() {
-        binding.importButton.show()
+        with(binding) {
+            toolbar.menu.findItem(R.id.settings).isVisible = true
+            importButton.show()
+        }
         refreshDatabases()
     }
 
@@ -114,6 +119,10 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
                 when (it.itemId) {
                     R.id.search -> {
                         onSearchOpened()
+                        true
+                    }
+                    R.id.settings -> {
+                        navigatorIntentFactory.showSettings()
                         true
                     }
                     else -> false
@@ -132,8 +141,6 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
             }
         }
         with(binding.recyclerView) {
-            databasesAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-
             adapter = databasesAdapter
 
             addOnScrollListener(FabExtendingOnScrollListener(binding.importButton))

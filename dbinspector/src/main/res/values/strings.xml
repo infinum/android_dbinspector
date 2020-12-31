@@ -30,6 +30,9 @@
     <string name="dbinspector_action_clear">Clear</string>
     <string name="dbinspector_action_drop">Drop</string>
     <string name="dbinspector_action_search">Search</string>
+    <string name="dbinspector_action_share">Share</string>
+    <string name="dbinspector_action_copy">Copy</string>
+    <string name="dbinspector_action_settings">Settings</string>
 
     <string name="dbinspector_delete_database_confirm">Delete database %s?</string>
     <string name="dbinspector_clear_table_confirm">Delete the content of the table %s?</string>
@@ -52,4 +55,8 @@
     <string name="dbinspector_title_info">Info</string>
     <string name="dbinspector_title_confirm">Confirm</string>
     <string name="dbinspector_title_error">Error</string>
+    <string name="dbinspector_title_preview">Preview</string>
+
+    <string name="dbinspector_preview_failed">Cannot copy content to clipboard</string>
+    <string name="dbinspector_preview_success">Content copied to clipboard</string>
 </resources>

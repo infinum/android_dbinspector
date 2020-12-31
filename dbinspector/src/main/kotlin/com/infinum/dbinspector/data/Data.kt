@@ -1,7 +1,11 @@
 package com.infinum.dbinspector.data
 
-import com.infinum.dbinspector.data.source.local.PragmaSource
-import com.infinum.dbinspector.data.source.local.SchemaSource
+import androidx.datastore.core.Serializer
+import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
+import com.infinum.dbinspector.data.source.local.cursor.PragmaSource
+import com.infinum.dbinspector.data.source.local.cursor.SchemaSource
+import com.infinum.dbinspector.data.source.local.proto.DataStoreFactory
+import com.infinum.dbinspector.data.source.local.proto.settings.SettingsSerializer
 import com.infinum.dbinspector.data.source.memory.connection.AndroidConnectionSource
 import com.infinum.dbinspector.data.source.memory.pagination.CursorPaginator
 import com.infinum.dbinspector.data.source.memory.pagination.Paginator
@@ -12,7 +16,23 @@ import org.koin.dsl.module
 
 object Data {
 
+    object Constants {
+
+        object Limits {
+            const val PAGE_SIZE = 100
+            const val INITIAL_PAGE = 1
+        }
+
+        object Settings {
+            const val LINES_LIMIT_MAXIMUM = 100
+        }
+    }
+
     object Qualifiers {
+
+        object Name {
+            val DATASTORE_SETTINGS = StringQualifier("data.qualifiers.name.datastore.settings")
+        }
 
         object Schema {
             val TABLES = StringQualifier("data.qualifiers.tables")
@@ -67,6 +87,18 @@ object Data {
     }
 
     private fun local() = module {
+        single(qualifier = Qualifiers.Name.DATASTORE_SETTINGS) { "settings-entity.pb" }
+
+        single<Serializer<SettingsEntity>> { SettingsSerializer() }
+
+        single<Sources.Local.Store> {
+            DataStoreFactory(
+                get(),
+                get(qualifier = Qualifiers.Name.DATASTORE_SETTINGS),
+                get()
+            )
+        }
+
         factory<Sources.Local.Schema> {
             SchemaSource(
                 get(qualifier = Qualifiers.Schema.TABLES),
@@ -77,7 +109,8 @@ object Data {
                 get(qualifier = Qualifiers.Schema.DROP_VIEW),
                 get(qualifier = Qualifiers.Schema.TRIGGERS),
                 get(qualifier = Qualifiers.Schema.TRIGGER_BY_NAME),
-                get(qualifier = Qualifiers.Schema.DROP_TRIGGER)
+                get(qualifier = Qualifiers.Schema.DROP_TRIGGER),
+                get()
             )
         }
 
@@ -85,7 +118,8 @@ object Data {
             PragmaSource(
                 get(qualifier = Qualifiers.Pragma.TABLE_INFO),
                 get(qualifier = Qualifiers.Pragma.FOREIGN_KEYS),
-                get(qualifier = Qualifiers.Pragma.INDEXES)
+                get(qualifier = Qualifiers.Pragma.INDEXES),
+                get()
             )
         }
     }

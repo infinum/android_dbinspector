@@ -1,6 +1,15 @@
 Changelog
 =========
 
+## Version 5.1.0
+
+_2020-12-31_
+
+* Implement persistent settings
+* Add blob preview
+* Add text content preview
+* Refactor and optimise architecture
+
 ## Version 5.0.1
 
 _2020-12-23_

@@ -9,11 +9,10 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorFragmentPragmaBinding
-import com.infinum.dbinspector.ui.shared.Constants
+import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.shared.base.BaseFragment
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import com.infinum.dbinspector.ui.shared.headers.Header
@@ -26,8 +25,8 @@ internal abstract class PragmaFragment :
 
         fun bundle(databasePath: String, tableName: String): Bundle =
             Bundle().apply {
-                putString(Constants.Keys.DATABASE_PATH, databasePath)
-                putString(Constants.Keys.SCHEMA_NAME, tableName)
+                putString(Presentation.Constants.Keys.DATABASE_PATH, databasePath)
+                putString(Presentation.Constants.Keys.SCHEMA_NAME, tableName)
             }
     }
 
@@ -49,8 +48,8 @@ internal abstract class PragmaFragment :
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            databasePath = it.getString(Constants.Keys.DATABASE_PATH, "")
-            tableName = it.getString(Constants.Keys.SCHEMA_NAME, "")
+            databasePath = it.getString(Presentation.Constants.Keys.DATABASE_PATH, "")
+            tableName = it.getString(Presentation.Constants.Keys.SCHEMA_NAME, "")
 
             viewModel.databasePath = databasePath
         } ?: run {
@@ -62,7 +61,6 @@ internal abstract class PragmaFragment :
         super.onViewCreated(view, savedInstanceState)
 
         pragmaAdapter = PragmaAdapter(headers().size)
-        pragmaAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
         with(binding.recyclerView) {
             updateLayoutParams {

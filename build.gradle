@@ -21,6 +21,7 @@ buildscript {
         classpath packages.kotlin.plugin
         classpath packages.detekt.plugin
         classpath packages.dokka.plugin
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.14'
     }
 }
 

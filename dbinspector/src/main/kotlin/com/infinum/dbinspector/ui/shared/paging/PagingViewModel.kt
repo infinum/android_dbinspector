@@ -5,26 +5,27 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.infinum.dbinspector.ui.shared.Constants
+import com.infinum.dbinspector.domain.shared.models.Cell
+import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.shared.base.BaseDataSource
 import com.infinum.dbinspector.ui.shared.base.BaseViewModel
 import kotlinx.coroutines.flow.collectLatest
 
 internal abstract class PagingViewModel : BaseViewModel() {
 
-    abstract fun dataSource(databasePath: String, statement: String): BaseDataSource
+    abstract fun dataSource(databasePath: String, statement: String): BaseDataSource<*>
 
     suspend fun pageFlow(
         databasePath: String,
         statement: String,
-        onData: suspend (value: PagingData<String>) -> Unit
+        onData: suspend (value: PagingData<Cell>) -> Unit
     ) =
         Pager(
             config = PagingConfig(
-                pageSize = Constants.Limits.PAGE_SIZE,
+                pageSize = Presentation.Constants.Limits.PAGE_SIZE,
                 enablePlaceholders = true
             ),
-            initialKey = Constants.Limits.INITIAL_PAGE
+            initialKey = Presentation.Constants.Limits.INITIAL_PAGE
         ) {
             dataSource(databasePath, statement)
         }

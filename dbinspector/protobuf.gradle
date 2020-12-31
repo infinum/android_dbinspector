@@ -1,0 +1,20 @@
+apply plugin: "com.google.protobuf"
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.10.0"
+    }
+
+    // Generates the java Protobuf-lite code for the Protobufs in this project. See
+    // https://github.com/google/protobuf-gradle-plugin#customizing-protobuf-compilation
+    // for more information.
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                java {
+                    option 'lite'
+                }
+            }
+        }
+    }
+}

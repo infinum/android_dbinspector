@@ -2,6 +2,7 @@ package com.infinum.dbinspector.ui.schema.tables
 
 import androidx.paging.PagingData
 import com.infinum.dbinspector.domain.UseCases
+import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.domain.shared.models.Statements
 import com.infinum.dbinspector.ui.schema.shared.SchemaSourceViewModel
 
@@ -22,7 +23,7 @@ internal class TablesViewModel(
     override fun query(
         databasePath: String,
         query: String?,
-        onData: suspend (value: PagingData<String>) -> Unit
+        onData: suspend (value: PagingData<Cell>) -> Unit
     ) {
         launch {
             pageFlow(databasePath, schemaStatement(query)) {

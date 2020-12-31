@@ -15,11 +15,35 @@ import com.infinum.dbinspector.ui.schema.SchemaViewModel
 import com.infinum.dbinspector.ui.schema.tables.TablesViewModel
 import com.infinum.dbinspector.ui.schema.triggers.TriggersViewModel
 import com.infinum.dbinspector.ui.schema.views.ViewsViewModel
+import com.infinum.dbinspector.ui.settings.SettingsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
-object Presentation {
+internal object Presentation {
+
+    object Constants {
+
+        object Keys {
+            const val DATABASE_PATH = "KEY_DATABASE_PATH"
+            const val DATABASE_FILEPATH = "KEY_DATABASE_FILEPATH"
+            const val DATABASE_NAME = "KEY_DATABASE_NAME"
+            const val DATABASE_EXTENSION = "KEY_DATABASE_EXTENSION"
+            const val SCHEMA_NAME = "KEY_SCHEMA_NAME"
+            const val SHOULD_REFRESH = "KEY_SHOULD_REFRESH"
+        }
+
+        object Limits {
+            const val PAGE_SIZE = 100
+            const val INITIAL_PAGE = 1
+        }
+
+        object Settings {
+            const val LINES_LIMIT_MINIMUM = 1
+            const val LINES_LIMIT_MAXIMUM = 100
+            const val BLOB_DATA_PLACEHOLDER = "[ DATA ]"
+        }
+    }
 
     private lateinit var context: Context
 
@@ -45,6 +69,8 @@ object Presentation {
     private fun viewModels() = module {
         viewModel { DatabaseViewModel(get(), get(), get(), get(), get()) }
         viewModel { EditViewModel(get(), get()) }
+
+        viewModel { SettingsViewModel(get(), get(), get(), get(), get()) }
 
         viewModel { SchemaViewModel(get(), get()) }
 
