@@ -9,8 +9,7 @@ import com.infinum.dbinspector.ui.shared.diffutils.CellDiffUtil
 
 internal class ContentAdapter(
     private val headersCount: Int,
-    private val onTextPreview: (String) -> Unit,
-    private val onImagePreview: (ByteArray, String) -> Unit
+    private val onCellClicked: (Cell) -> Unit
 ) : PagingDataAdapter<Cell, ContentViewHolder>(CellDiffUtil()) {
 
     init {
@@ -28,7 +27,7 @@ internal class ContentAdapter(
 
     override fun onBindViewHolder(holder: ContentViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item, position / headersCount, onTextPreview, onImagePreview)
+        holder.bind(item, position / headersCount, onCellClicked)
     }
 
     override fun onViewRecycled(holder: ContentViewHolder) =

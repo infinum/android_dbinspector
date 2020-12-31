@@ -12,6 +12,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorLayoutImagePreviewBinding
 import com.infinum.dbinspector.databinding.DbinspectorLayoutTextPreviewBinding
+import com.infinum.dbinspector.domain.schema.shared.models.ImageType
+import com.infinum.dbinspector.domain.shared.models.Cell
+import com.infinum.dbinspector.extensions.toChecksum
 import java.io.File
 import java.io.FileOutputStream
 
@@ -19,7 +22,16 @@ internal class ContentPreviewFactory(
     private val activity: Activity
 ) {
 
-    fun showText(text: String) =
+    fun showCell(cell: Cell) {
+        cell.data?.let { bytes ->
+            when (cell.imageType) {
+                ImageType.UNSUPPORTED -> cell.text?.let { showText(it) }
+                else -> showImage(bytes, cell.imageType.suffix)
+            }
+        } ?: cell.text?.let { showText(it) }
+    }
+
+    private fun showText(text: String) =
         MaterialAlertDialogBuilder(activity)
             .setTitle(R.string.dbinspector_title_preview)
             .setView(
@@ -45,7 +57,7 @@ internal class ContentPreviewFactory(
             .show()
 
     @SuppressLint("SetTextI18n")
-    fun showImage(imageBytes: ByteArray, suffix: String) =
+    private fun showImage(imageBytes: ByteArray, suffix: String) =
         BitmapFactory.decodeByteArray(
             imageBytes,
             0,
@@ -58,7 +70,7 @@ internal class ContentPreviewFactory(
                     DbinspectorLayoutImagePreviewBinding.inflate(LayoutInflater.from(activity))
                         .apply {
                             previewView.setImageBitmap(image)
-                            descriptionView.text = "${image.width} x ${image.height} - " +
+                            descriptionView.text = "${image.width} x ${image.height} " +
                                 Formatter.formatShortFileSize(descriptionView.context, imageBytes.size.toLong())
                         }
                         .root
@@ -69,17 +81,21 @@ internal class ContentPreviewFactory(
                         ShareCompat.IntentBuilder.from(activity)
                             .setType("image/*")
                             .setStream(
-                                File.createTempFile("dbinspector_", suffix).let { file ->
-                                    FileOutputStream(file).use { output ->
-                                        output.write(imageBytes)
-                                        output.flush()
+                                File(activity.cacheDir, "dbinspector_${imageBytes.toChecksum()}$suffix")
+                                    .also {
+                                        if (it.exists().not()) {
+                                            FileOutputStream(it).use { output ->
+                                                output.write(imageBytes)
+                                                output.flush()
+                                            }
+                                        }
+                                    }.let {
+                                        FileProvider.getUriForFile(
+                                            activity,
+                                            "${activity.packageName}.com.infinum.dbinspector.provider.database",
+                                            it
+                                        )
                                     }
-                                    FileProvider.getUriForFile(
-                                        activity,
-                                        "${activity.packageName}.com.infinum.dbinspector.provider.database",
-                                        file
-                                    )
-                                }
                             )
                             .intent
                     )

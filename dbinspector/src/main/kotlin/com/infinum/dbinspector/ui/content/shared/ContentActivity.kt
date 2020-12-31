@@ -76,10 +76,7 @@ internal abstract class ContentActivity : BaseActivity() {
 
                     contentAdapter = ContentAdapter(
                         headersCount = tableHeaders.size,
-                        onTextPreview = { text -> contentPreviewFactory.showText(text = text) },
-                        onImagePreview = { imageBytes, suffix ->
-                            contentPreviewFactory.showImage(imageBytes, suffix)
-                        }
+                        onCellClicked = { cell -> contentPreviewFactory.showCell(cell) }
                     )
 
                     with(binding) {

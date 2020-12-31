@@ -5,7 +5,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorItemCellBinding
-import com.infinum.dbinspector.domain.schema.shared.models.ImageType
 import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.domain.shared.models.TruncateMode
 
@@ -16,12 +15,11 @@ internal class ContentViewHolder(
     fun bind(
         item: Cell?,
         row: Int,
-        onTextPreview: (String) -> Unit,
-        onImagePreview: (ByteArray, String) -> Unit
+        onCellClicked: (Cell) -> Unit
     ) {
         item?.let { cell ->
             bindValue(cell)
-            bindRoot(row, cell, onTextPreview, onImagePreview)
+            bindRoot(row, cell, onCellClicked)
         } ?: bindNullValue()
     }
 
@@ -37,8 +35,7 @@ internal class ContentViewHolder(
     private fun bindRoot(
         row: Int,
         cell: Cell,
-        onTextPreview: (String) -> Unit,
-        onImagePreview: (ByteArray, String) -> Unit
+        onCellClicked: (Cell) -> Unit
     ) =
         with(viewBinding) {
             this.root.setBackgroundColor(
@@ -51,13 +48,8 @@ internal class ContentViewHolder(
                     }
                 )
             )
-            this.root.setOnClickListener { _ ->
-                cell.data?.let { bytes ->
-                    when (cell.imageType) {
-                        ImageType.UNSUPPORTED -> cell.text?.let { onTextPreview(it) }
-                        else -> onImagePreview(bytes, cell.imageType.suffix)
-                    }
-                } ?: cell.text?.let { onTextPreview(it) }
+            this.root.setOnClickListener {
+                onCellClicked(cell)
             }
         }
 

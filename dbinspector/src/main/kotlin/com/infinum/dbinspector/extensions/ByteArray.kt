@@ -2,6 +2,7 @@ package com.infinum.dbinspector.extensions
 
 import android.util.Base64
 import com.infinum.dbinspector.ui.Presentation
+import java.util.zip.Adler32
 
 private val HEX_ARRAY = "0123456789ABCDEF".toCharArray()
 
@@ -26,3 +27,8 @@ internal fun ByteArray.toHexString(): String {
 
 internal fun ByteArray.toBase64String(): String =
     Base64.encodeToString(this, Base64.NO_WRAP)
+
+internal fun ByteArray.toChecksum(): String =
+    Adler32().apply {
+        this.update(this@toChecksum)
+    }.value.toString()
