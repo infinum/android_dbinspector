@@ -2,8 +2,9 @@
 <resources>
     <color name="dbinspector_color_primary">#0f80cc</color>
     <color name="dbinspector_color_primary_dark">#003b57</color>
-
     <color name="dbinspector_header_background">#bbbbbb</color>
     <color name="dbinspector_alternate_row_background">#F2F2F2</color>
     <color name="dbinspector_status_bar">#003b57</color>
+    <color name="dbinspector_splitter_background">#e1e1e1</color>
+    <color name="dbinspector_splitter_dragging_background">#35000000</color>
 </resources>

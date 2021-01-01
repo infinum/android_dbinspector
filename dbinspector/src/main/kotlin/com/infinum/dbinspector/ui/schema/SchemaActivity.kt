@@ -1,6 +1,7 @@
 package com.infinum.dbinspector.ui.schema
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -12,6 +13,7 @@ import com.infinum.dbinspector.extensions.searchView
 import com.infinum.dbinspector.extensions.setup
 import com.infinum.dbinspector.extensions.uppercase
 import com.infinum.dbinspector.ui.Presentation
+import com.infinum.dbinspector.ui.edit.EditActivity
 import com.infinum.dbinspector.ui.schema.shared.SchemaTypeAdapter
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
@@ -33,6 +35,12 @@ internal class SchemaActivity : BaseActivity(), Searchable {
                 when (it.itemId) {
                     R.id.search -> {
                         onSearchOpened()
+                        true
+                    }
+                    R.id.edit -> {
+                        startActivity(
+                            Intent(this@SchemaActivity, EditActivity::class.java)
+                        )
                         true
                     }
                     else -> false

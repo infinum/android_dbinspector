@@ -6,10 +6,10 @@ import android.content.Intent
 import androidx.activity.result.contract.ActivityResultContract
 import com.infinum.dbinspector.ui.Presentation
 
-class EditContract : ActivityResultContract<EditContract.Input, Boolean>() {
+class EditDatabaseContract : ActivityResultContract<EditDatabaseContract.Input, Boolean>() {
 
     override fun createIntent(context: Context, input: Input): Intent =
-        Intent(context, EditActivity::class.java)
+        Intent(context, EditDatabaseActivity::class.java)
             .apply {
                 putExtra(Presentation.Constants.Keys.DATABASE_PATH, input.absolutePath)
                 putExtra(Presentation.Constants.Keys.DATABASE_FILEPATH, input.parentPath)

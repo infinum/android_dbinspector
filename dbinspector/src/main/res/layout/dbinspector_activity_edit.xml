@@ -19,62 +19,79 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/scrollView"
+    <com.infinum.dbinspector.ui.shared.views.SplitPaneLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        app:dbinspector_orientation="vertical"
+        app:dbinspector_splitterBackground="@drawable/dbinspector_splitter"
+        app:dbinspector_splitterDraggingBackground="@drawable/dbinspector_splitter_dragging"
+        app:dbinspector_splitterPosition="33%"
+        app:dbinspector_splitterSize="12dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
-            android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.google.android.material.card.MaterialCardView
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp">
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:boxBackgroundMode="outline"
+                app:boxCornerRadiusBottomEnd="0dp"
+                app:boxCornerRadiusBottomStart="0dp"
+                app:boxCornerRadiusTopEnd="0dp"
+                app:boxCornerRadiusTopStart="0dp"
+                app:boxStrokeWidth="1dp"
+                app:counterEnabled="false"
+                app:endIconCheckable="false"
+                app:errorEnabled="true"
+                app:helperTextEnabled="false"
+                app:hintAnimationEnabled="false"
+                app:hintEnabled="false"
+                app:passwordToggleEnabled="false"
+                app:startIconCheckable="false">
 
-                <LinearLayout
+                <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:orientation="vertical">
+                    android:layout_height="match_parent"
+                    android:gravity="top|start"
+                    android:inputType="textMultiLine"
+                    android:padding="16dp"
+                    android:scrollbars="vertical" />
 
-                    <com.google.android.material.textview.MaterialTextView
-                        style="@style/TextAppearance.MaterialComponents.Caption"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/dbinspector_database_name"
-                        android:textAllCaps="true"
-                        android:textColor="@color/dbinspector_color_primary" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/nameInputLayout"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        app:errorEnabled="true"
-                        app:hintEnabled="false">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/nameInput"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:imeOptions="actionDone"
-                            android:inputType="text"
-                            android:maxLines="1" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="?attr/listPreferredItemHeightSmall"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                android:text="Execute SQL"
+                app:icon="@drawable/dbinspector_ic_play"
+                app:iconGravity="textEnd"
+                app:iconPadding="12dp" />
 
         </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="horizontal">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical" />
+
+        </HorizontalScrollView>
+
+    </com.infinum.dbinspector.ui.shared.views.SplitPaneLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

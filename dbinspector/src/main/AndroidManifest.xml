@@ -23,7 +23,7 @@
             android:theme="@style/DbInspector.BaseTheme" />
 
         <activity
-            android:name="com.infinum.dbinspector.ui.databases.edit.EditActivity"
+            android:name="com.infinum.dbinspector.ui.databases.edit.EditDatabaseActivity"
             android:taskAffinity="com.infinum.dbinspector"
             android:theme="@style/DbInspector.BaseTheme" />
 
@@ -49,6 +49,11 @@
 
         <activity
             android:name="com.infinum.dbinspector.ui.pragma.PragmaActivity"
+            android:taskAffinity="com.infinum.dbinspector"
+            android:theme="@style/DbInspector.BaseTheme" />
+
+        <activity
+            android:name="com.infinum.dbinspector.ui.edit.EditActivity"
             android:taskAffinity="com.infinum.dbinspector"
             android:theme="@style/DbInspector.BaseTheme" />
 
