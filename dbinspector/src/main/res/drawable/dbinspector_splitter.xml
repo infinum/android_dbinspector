@@ -3,7 +3,7 @@
     <item>
         <shape android:shape="rectangle">
             <solid android:color="@color/dbinspector_splitter_background" />
-            <corners android:radius="6dp" />
+            <corners android:radius="8dp" />
         </shape>
     </item>
     <item
