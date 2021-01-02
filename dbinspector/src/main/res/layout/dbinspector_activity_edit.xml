@@ -19,14 +19,14 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.infinum.dbinspector.ui.shared.views.SplitPaneLayout
+    <com.infinum.dbinspector.ui.shared.views.SplitLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:dbinspector_orientation="vertical"
         app:dbinspector_splitterBackground="@drawable/dbinspector_splitter"
         app:dbinspector_splitterDraggingBackground="@drawable/dbinspector_splitter_dragging"
         app:dbinspector_splitterPosition="33%"
-        app:dbinspector_splitterSize="16dp"
+        app:dbinspector_splitterSize="@dimen/dbinspector_default_splitter_size"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -92,6 +92,6 @@
 
         </HorizontalScrollView>
 
-    </com.infinum.dbinspector.ui.shared.views.SplitPaneLayout>
+    </com.infinum.dbinspector.ui.shared.views.SplitLinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

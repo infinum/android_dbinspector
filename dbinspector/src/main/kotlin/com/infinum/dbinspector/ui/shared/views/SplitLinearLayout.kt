@@ -1,718 +1,655 @@
-package com.infinum.dbinspector.ui.shared.views;
+@file:Suppress("unused", "LongMethod", "ComplexMethod", "NestedBlockDepth", "TooManyFunctions")
 
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.PaintDrawable;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.util.TypedValue;
-import android.view.HapticFeedbackConstants;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
-import android.view.ViewConfiguration;
-import android.view.ViewGroup;
+package com.infinum.dbinspector.ui.shared.views
 
-import com.infinum.dbinspector.R;
+import android.annotation.SuppressLint
+import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Rect
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.PaintDrawable
+import android.os.Parcel
+import android.os.Parcelable
+import android.util.AttributeSet
+import android.util.TypedValue
+import android.view.HapticFeedbackConstants
+import android.view.KeyEvent
+import android.view.MotionEvent
+import android.view.ViewConfiguration
+import android.view.ViewGroup
+import androidx.annotation.ColorRes
+import androidx.annotation.IntDef
+import androidx.core.content.ContextCompat
+import androidx.core.content.withStyledAttributes
+import com.infinum.dbinspector.R
 
 /**
  * A layout that splits the available space between two child views.
  *
- * An optionally movable bar exists between the children which allows the user
- * to redistribute the space allocated to each view.
+ * A movable bar exists between exactly 2s  children which allows the user to redistribute
+ * the space allocated to each view.
  */
-public class SplitPaneLayout extends ViewGroup {
+class SplitLinearLayout @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : ViewGroup(context, attrs, defStyle) {
 
-    public interface OnSplitterPositionChangedListener {
-        void onSplitterPositionChanged(SplitPaneLayout splitPaneLayout, boolean fromUser);
+    companion object {
+
+        @IntDef(HORIZONTAL, VERTICAL)
+        @Retention(AnnotationRetention.SOURCE)
+        annotation class OrientationMode
+
+        const val HORIZONTAL = 0
+        const val VERTICAL = 1
+
+        @ColorRes
+        private val DEFAULT_SPLITTER = R.color.dbinspector_splitter_background
+
+        @ColorRes
+        private val DEFAULT_SPLITTER_DRAGGABLE = R.color.dbinspector_splitter_dragging_background
+
+        private const val DEFAULT_SPLITTER_POSITION = Int.MIN_VALUE
+        private const val DEFAULT_SPLITTER_POSITION_PERCENTAGE = 0.5f
+
+        private const val SHIFT_OFFSET = 5
     }
 
-    public static final int ORIENTATION_HORIZONTAL = 0;
-    public static final int ORIENTATION_VERTICAL = 1;
+    /**
+     * Control whether the splitter is movable by the user.
+     */
+    var isSplitterMovable = true
 
-    private int mOrientation = 0;
-    private int mSplitterSize = 8;
-    private boolean mSplitterMovable = true;
-    private int mSplitterPosition = Integer.MIN_VALUE;
-    private float mSplitterPositionPercent = 0.5f;
-    private int mSplitterTouchSlop = 0;
-
-    private int mPaneSizeMin = 0;
-
-    private Drawable mSplitterDrawable;
-    private Drawable mSplitterDraggingDrawable;
-
-    private final Rect mSplitterBounds = new Rect();
-    private final Rect mSplitterTouchBounds = new Rect();
-    private final Rect mSplitterDraggingBounds = new Rect();
-
-    private OnSplitterPositionChangedListener mOnSplitterPositionChangedListener;
-
-    private int lastTouchX;
-    private int lastTouchY;
-
-    private boolean isDragging = false;
-    private boolean isMovingSplitter = false;
-
-    private boolean isMeasured = false;
-
-    public SplitPaneLayout(Context context) {
-        super(context);
-        mSplitterPositionPercent = 0.5f;
-        mSplitterDrawable = new PaintDrawable(0x88FFFFFF);
-        mSplitterDraggingDrawable = new PaintDrawable(0x88FFFFFF);
-    }
-
-    public SplitPaneLayout(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        extractAttributes(context, attrs);
-        setDescendantFocusability(FOCUS_AFTER_DESCENDANTS);
-        setFocusable(true);
-        setFocusableInTouchMode(false);
-    }
-
-    public SplitPaneLayout(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        extractAttributes(context, attrs);
-        setDescendantFocusability(FOCUS_AFTER_DESCENDANTS);
-        setFocusable(true);
-        setFocusableInTouchMode(false);
-    }
-
-    private void extractAttributes(Context context, AttributeSet attrs) {
-        if (attrs != null) {
-            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.DbinspectorSplitPaneLayout);
-            mOrientation = a.getInt(R.styleable.DbinspectorSplitPaneLayout_dbinspector_orientation, 0);
-            mSplitterSize = a.getDimensionPixelSize(R.styleable.DbinspectorSplitPaneLayout_dbinspector_splitterSize, context.getResources().getDimensionPixelSize(R.dimen.dbinspector_default_splitter_size));
-            mSplitterMovable = a.getBoolean(R.styleable.DbinspectorSplitPaneLayout_dbinspector_splitterMovable, true);
-            TypedValue value = a.peekValue(R.styleable.DbinspectorSplitPaneLayout_dbinspector_splitterPosition);
-            if (value != null) {
-                if (value.type == TypedValue.TYPE_DIMENSION) {
-                    mSplitterPosition = a.getDimensionPixelSize(R.styleable.DbinspectorSplitPaneLayout_dbinspector_splitterPosition, Integer.MIN_VALUE);
-                } else if (value.type == TypedValue.TYPE_FRACTION) {
-                    mSplitterPositionPercent = a.getFraction(R.styleable.DbinspectorSplitPaneLayout_dbinspector_splitterPosition, 100, 100, 50) * 0.01f;
-                }
-            } else {
-                mSplitterPosition = Integer.MIN_VALUE;
-                mSplitterPositionPercent = 0.5f;
+    /**
+     * Drawable used for the splitter.
+     */
+    var splitterDrawable: Drawable
+        get() = currentSplitterDrawable
+        set(splitterDrawable) {
+            currentSplitterDrawable = splitterDrawable
+            if (childCount == 2) {
+                forceMeasure()
             }
-
-            value = a.peekValue(R.styleable.DbinspectorSplitPaneLayout_dbinspector_splitterBackground);
-            if (value != null) {
-                if (value.type == TypedValue.TYPE_REFERENCE ||
-                        value.type == TypedValue.TYPE_STRING) {
-                    mSplitterDrawable = a.getDrawable(R.styleable.DbinspectorSplitPaneLayout_dbinspector_splitterBackground);
-                } else if (value.type == TypedValue.TYPE_INT_COLOR_ARGB8 ||
-                        value.type == TypedValue.TYPE_INT_COLOR_ARGB4 ||
-                        value.type == TypedValue.TYPE_INT_COLOR_RGB8 ||
-                        value.type == TypedValue.TYPE_INT_COLOR_RGB4) {
-                    mSplitterDrawable = new PaintDrawable(a.getColor(R.styleable.DbinspectorSplitPaneLayout_dbinspector_splitterBackground, 0xFF000000));
-                }
-            }
-            value = a.peekValue(R.styleable.DbinspectorSplitPaneLayout_dbinspector_splitterDraggingBackground);
-            if (value != null) {
-                if (value.type == TypedValue.TYPE_REFERENCE ||
-                        value.type == TypedValue.TYPE_STRING) {
-                    mSplitterDraggingDrawable = a.getDrawable(R.styleable.DbinspectorSplitPaneLayout_dbinspector_splitterDraggingBackground);
-                } else if (value.type == TypedValue.TYPE_INT_COLOR_ARGB8 ||
-                        value.type == TypedValue.TYPE_INT_COLOR_ARGB4 ||
-                        value.type == TypedValue.TYPE_INT_COLOR_RGB8 ||
-                        value.type == TypedValue.TYPE_INT_COLOR_RGB4) {
-                    mSplitterDraggingDrawable = new PaintDrawable(a.getColor(R.styleable.DbinspectorSplitPaneLayout_dbinspector_splitterDraggingBackground, 0x88FFFFFF));
-                }
-            } else {
-                mSplitterDraggingDrawable = new PaintDrawable(0x88FFFFFF);
-            }
-            mSplitterTouchSlop = a.getDimensionPixelSize(R.styleable.DbinspectorSplitPaneLayout_dbinspector_splitterTouchSlop, ViewConfiguration.get(context).getScaledTouchSlop());
-            mPaneSizeMin = a.getDimensionPixelSize(R.styleable.DbinspectorSplitPaneLayout_dbinspector_paneSizeMin, 0);
-            a.recycle();
         }
+
+    /**
+     * Drawable used for the splitter dragging overlay.
+     */
+    var splitterDraggingDrawable: Drawable
+        get() = currentSplitterDraggingDrawable
+        set(splitterDraggingDrawable) {
+            currentSplitterDraggingDrawable = splitterDraggingDrawable
+            if (isDragging) {
+                invalidate()
+            }
+        }
+
+    /**
+     * The current orientation of the layout.
+     */
+    @OrientationMode
+    var orientation: Int
+        get() = currentOrientation
+        set(orientation) {
+            if (currentOrientation != orientation) {
+                currentOrientation = orientation
+                if (childCount == 2) {
+                    forceMeasure()
+                }
+            }
+        }
+
+    /**
+     * Current size of the splitter in pixels.
+     */
+    var splitterSize: Int
+        get() = currentSplitterSize
+        set(splitterSize) {
+            currentSplitterSize = splitterSize
+            if (childCount == 2) {
+                forceMeasure()
+            }
+        }
+
+    /**
+     * Current position of the splitter in pixels.
+     */
+    var splitterPosition: Int
+        get() = currentSplitterPosition
+        set(position) {
+            currentSplitterPosition = position.coerceIn(0, Int.MAX_VALUE)
+            currentSplitterPositionPercent = -1f
+            forceMeasure()
+            notifySplitterPositionChanged(false)
+        }
+
+    /**
+     * Current position of the splitter as a percentage of the layout.
+     */
+    var splitterPositionPercent: Float
+        get() = currentSplitterPositionPercent
+        set(position) {
+            currentSplitterPosition = DEFAULT_SPLITTER_POSITION
+            currentSplitterPositionPercent = position.coerceIn(0f, 1f)
+            forceMeasure()
+            notifySplitterPositionChanged(false)
+        }
+
+    /**
+     * Current "touch slop" which is used to extends the grab size of the splitter
+     * and requires the splitter to be dragged at least this far to be considered a move.
+     */
+    var splitterTouchSlop: Int
+        get() = currentSplitterTouchSlop
+        set(splitterTouchSlop) {
+            currentSplitterTouchSlop = splitterTouchSlop
+            computeSplitterPosition()
+        }
+
+    /**
+     * Minimum size of panes, in pixels.
+     */
+    var paneSizeMin: Int
+        get() = minSplitterPosition
+        set(paneSizeMin) {
+            minSplitterPosition = paneSizeMin
+            if (isMeasured) {
+                val newSplitterPosition = currentSplitterPosition.coerceIn(minSplitterPosition, maxSplitterPosition)
+                if (newSplitterPosition != currentSplitterPosition) {
+                    splitterPosition = newSplitterPosition
+                }
+            }
+        }
+
+    /**
+     * OnSplitterPositionChangedListener to receive callbacks when the splitter position is changed
+     */
+    var onSplitterPositionChangedListener: OnSplitterPositionChangedListener? = null
+
+    private val maxSplitterPosition: Int
+        get() {
+            when (currentOrientation) {
+                HORIZONTAL -> return measuredWidth - minSplitterPosition
+                VERTICAL -> return measuredHeight - minSplitterPosition
+            }
+            return 0
+        }
+
+    @OrientationMode
+    private var currentOrientation = HORIZONTAL
+    private var currentSplitterSize = context.resources.getDimensionPixelSize(R.dimen.dbinspector_default_splitter_size)
+    private var currentSplitterPosition = DEFAULT_SPLITTER_POSITION
+    private var currentSplitterPositionPercent = DEFAULT_SPLITTER_POSITION_PERCENTAGE
+    private var currentSplitterTouchSlop = 0
+    private var currentSplitterDrawable: Drawable = PaintDrawable(
+        ContextCompat.getColor(context, DEFAULT_SPLITTER)
+    )
+    private var currentSplitterDraggingDrawable: Drawable = PaintDrawable(
+        ContextCompat.getColor(context, DEFAULT_SPLITTER_DRAGGABLE)
+    )
+    private val currentSplitterBounds = Rect()
+    private val currentSplitterTouchBounds = Rect()
+    private val currentSplitterDraggingBounds = Rect()
+
+    private var minSplitterPosition = 0
+    private var lastTouchX = 0
+    private var lastTouchY = 0
+    private var isDragging = false
+    private var isMovingSplitter = false
+    private var isMeasured = false
+
+    init {
+        parseAttributes(attrs)
+        descendantFocusability = FOCUS_AFTER_DESCENDANTS
+        isFocusable = true
+        isFocusableInTouchMode = false
     }
 
-    private void computeSplitterPosition() {
-
-        int measuredWidth = getMeasuredWidth();
-        int measuredHeight = getMeasuredHeight();
-
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        val measuredWidth = measuredWidth
+        val measuredHeight = measuredHeight
+        checkChildCount()
         if (measuredWidth > 0 && measuredHeight > 0) {
-            switch (mOrientation) {
-                case ORIENTATION_HORIZONTAL: {
-                    if (mSplitterPosition == Integer.MIN_VALUE && mSplitterPositionPercent < 0) {
-                        mSplitterPosition = measuredWidth / 2;
-                    } else if (mSplitterPosition == Integer.MIN_VALUE && mSplitterPositionPercent >= 0) {
-                        mSplitterPosition = (int) (measuredWidth * mSplitterPositionPercent);
-                        if (!between(mSplitterPosition, getMinSplitterPosition(), getMaxSplitterPosition())) {
-                            mSplitterPosition = clamp(mSplitterPosition, getMinSplitterPosition(), getMaxSplitterPosition());
-                            mSplitterPositionPercent = (float) mSplitterPosition / (float) measuredWidth;
-                        }
-                    } else if (mSplitterPosition != Integer.MIN_VALUE && mSplitterPositionPercent < 0) {
-                        if (!between(mSplitterPosition, getMinSplitterPosition(), getMaxSplitterPosition())) {
-                            mSplitterPosition = clamp(mSplitterPosition, getMinSplitterPosition(), getMaxSplitterPosition());
-                        }
-                        mSplitterPositionPercent = (float) mSplitterPosition / (float) measuredWidth;
-                    }
-                    mSplitterBounds.set(mSplitterPosition - (mSplitterSize / 2), 0, mSplitterPosition + (mSplitterSize / 2), measuredHeight);
-                    mSplitterTouchBounds.set(mSplitterBounds.left - mSplitterTouchSlop, mSplitterBounds.top, mSplitterBounds.right + mSplitterTouchSlop, mSplitterBounds.bottom);
-                    break;
+            computeSplitterPosition()
+            when (currentOrientation) {
+                HORIZONTAL -> {
+                    getChildAt(0).measure(
+                        MeasureSpec.makeMeasureSpec(
+                            currentSplitterPosition - currentSplitterSize / 2,
+                            MeasureSpec.EXACTLY
+                        ),
+                        MeasureSpec.makeMeasureSpec(measuredHeight, MeasureSpec.EXACTLY)
+                    )
+                    getChildAt(1).measure(
+                        MeasureSpec.makeMeasureSpec(
+                            measuredWidth - currentSplitterSize / 2 - currentSplitterPosition,
+                            MeasureSpec.EXACTLY
+                        ),
+                        MeasureSpec.makeMeasureSpec(measuredHeight, MeasureSpec.EXACTLY)
+                    )
                 }
-                case ORIENTATION_VERTICAL: {
-                    if (mSplitterPosition == Integer.MIN_VALUE && mSplitterPositionPercent < 0) {
-                        mSplitterPosition = measuredHeight / 2;
-                    } else if (mSplitterPosition == Integer.MIN_VALUE && mSplitterPositionPercent >= 0) {
-                        mSplitterPosition = (int) (measuredHeight * mSplitterPositionPercent);
-                        if (!between(mSplitterPosition, getMinSplitterPosition(), getMaxSplitterPosition())) {
-                            mSplitterPosition = clamp(mSplitterPosition, getMinSplitterPosition(), getMaxSplitterPosition());
-                            mSplitterPositionPercent = (float) mSplitterPosition / (float) measuredHeight;
-                        }
-                    } else if (mSplitterPosition != Integer.MIN_VALUE && mSplitterPositionPercent < 0) {
-                        if (!between(mSplitterPosition, getMinSplitterPosition(), getMaxSplitterPosition())) {
-                            mSplitterPosition = clamp(mSplitterPosition, getMinSplitterPosition(), getMaxSplitterPosition());
-                        }
-                        mSplitterPositionPercent = (float) mSplitterPosition / (float) measuredHeight;
-                    }
-                    mSplitterBounds.set(0, mSplitterPosition - (mSplitterSize / 2), measuredWidth, mSplitterPosition + (mSplitterSize / 2));
-                    mSplitterTouchBounds.set(mSplitterBounds.left, mSplitterBounds.top - mSplitterTouchSlop / 2, mSplitterBounds.right, mSplitterBounds.bottom + mSplitterTouchSlop / 2);
-                    break;
+                VERTICAL -> {
+                    getChildAt(0).measure(
+                        MeasureSpec.makeMeasureSpec(measuredWidth, MeasureSpec.EXACTLY),
+                        MeasureSpec.makeMeasureSpec(
+                            currentSplitterPosition - currentSplitterSize / 2,
+                            MeasureSpec.EXACTLY
+                        )
+                    )
+                    getChildAt(1).measure(
+                        MeasureSpec.makeMeasureSpec(measuredWidth, MeasureSpec.EXACTLY),
+                        MeasureSpec.makeMeasureSpec(
+                            measuredHeight - currentSplitterSize / 2 - currentSplitterPosition,
+                            MeasureSpec.EXACTLY
+                        )
+                    )
+                }
+            }
+            isMeasured = true
+        }
+    }
+
+    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        val w = r - l
+        val h = b - t
+        when (currentOrientation) {
+            HORIZONTAL -> {
+                getChildAt(0).layout(
+                    0,
+                    0,
+                    currentSplitterPosition - currentSplitterSize / 2,
+                    h
+                )
+                getChildAt(1).layout(
+                    currentSplitterPosition + currentSplitterSize / 2,
+                    0,
+                    r,
+                    h
+                )
+            }
+            VERTICAL -> {
+                getChildAt(0).layout(
+                    0,
+                    0,
+                    w,
+                    currentSplitterPosition - currentSplitterSize / 2
+                )
+                getChildAt(1).layout(
+                    0,
+                    currentSplitterPosition + currentSplitterSize / 2,
+                    w,
+                    h
+                )
+            }
+        }
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        var forceMeasure = false
+        var offset = currentSplitterSize
+        if (event.isShiftPressed) {
+            offset *= SHIFT_OFFSET
+        }
+        when (currentOrientation) {
+            HORIZONTAL -> if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+                currentSplitterPosition = (currentSplitterPosition - offset)
+                    .coerceIn(minSplitterPosition, maxSplitterPosition)
+                currentSplitterPositionPercent = -1f
+                forceMeasure = true
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+                currentSplitterPosition = (currentSplitterPosition + offset)
+                    .coerceIn(minSplitterPosition, maxSplitterPosition)
+                currentSplitterPositionPercent = -1f
+                forceMeasure = true
+            }
+            VERTICAL -> if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                currentSplitterPosition = (currentSplitterPosition - offset)
+                    .coerceIn(minSplitterPosition, maxSplitterPosition)
+                currentSplitterPositionPercent = -1f
+                forceMeasure = true
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                currentSplitterPosition = (currentSplitterPosition + offset)
+                    .coerceIn(minSplitterPosition, maxSplitterPosition)
+                currentSplitterPositionPercent = -1f
+                forceMeasure = true
+            }
+        }
+        if (forceMeasure) {
+            forceMeasure()
+            notifySplitterPositionChanged(true)
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onTouchEvent(event: MotionEvent): Boolean =
+        if (isSplitterMovable) {
+            val x = event.x.toInt()
+            val y = event.y.toInt()
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> handleTouchDown(x, y)
+                MotionEvent.ACTION_MOVE -> handleTouchMove(x, y)
+                MotionEvent.ACTION_UP -> handleTouchUp(x, y)
+            }
+            true
+        } else {
+            false
+        }
+
+    override fun dispatchDraw(canvas: Canvas) {
+        super.dispatchDraw(canvas)
+        when (isDragging) {
+            true -> with(currentSplitterDraggingDrawable) {
+                state = drawableState
+                bounds = currentSplitterDraggingBounds
+                draw(canvas)
+            }
+            false -> with(currentSplitterDrawable) {
+                state = drawableState
+                bounds = currentSplitterBounds
+                draw(canvas)
+            }
+        }
+    }
+
+    override fun onSaveInstanceState(): Parcelable {
+        val superState = super.onSaveInstanceState()
+        val savedState = SavedState(superState)
+        savedState.splitterPositionPercent = currentSplitterPositionPercent
+        return savedState
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable) {
+        if (state !is SavedState) {
+            super.onRestoreInstanceState(state)
+            return
+        }
+        super.onRestoreInstanceState(state.superState)
+        splitterPositionPercent = state.splitterPositionPercent
+    }
+
+    @Suppress("MagicNumber")
+    private fun parseAttributes(attrs: AttributeSet?) =
+        context.withStyledAttributes(attrs, R.styleable.DbinspectorSplitLinearLayout) {
+            currentOrientation = getInt(
+                R.styleable.DbinspectorSplitLinearLayout_dbinspector_orientation,
+                HORIZONTAL
+            )
+            currentSplitterSize = getDimensionPixelSize(
+                R.styleable.DbinspectorSplitLinearLayout_dbinspector_splitterSize,
+                context.resources.getDimensionPixelSize(R.dimen.dbinspector_default_splitter_size)
+            )
+            isSplitterMovable = getBoolean(
+                R.styleable.DbinspectorSplitLinearLayout_dbinspector_splitterMovable,
+                true
+            )
+            currentSplitterTouchSlop = getDimensionPixelSize(
+                R.styleable.DbinspectorSplitLinearLayout_dbinspector_splitterTouchSlop,
+                ViewConfiguration.get(context).scaledTouchSlop
+            )
+            minSplitterPosition = getDimensionPixelSize(
+                R.styleable.DbinspectorSplitLinearLayout_dbinspector_paneSizeMin,
+                0
+            )
+
+            peekValue(R.styleable.DbinspectorSplitLinearLayout_dbinspector_splitterPosition)?.let {
+                when (it.type) {
+                    TypedValue.TYPE_DIMENSION -> currentSplitterPosition = getDimensionPixelSize(
+                        R.styleable.DbinspectorSplitLinearLayout_dbinspector_splitterPosition,
+                        Int.MIN_VALUE
+                    )
+                    TypedValue.TYPE_FRACTION -> currentSplitterPositionPercent = getFraction(
+                        R.styleable.DbinspectorSplitLinearLayout_dbinspector_splitterPosition,
+                        100,
+                        100,
+                        DEFAULT_SPLITTER_POSITION_PERCENTAGE * 100.0f
+                    ) * 0.01f
+                    else -> currentSplitterPositionPercent = DEFAULT_SPLITTER_POSITION_PERCENTAGE
+                }
+            }
+
+            peekValue(R.styleable.DbinspectorSplitLinearLayout_dbinspector_splitterBackground)?.let {
+                when (it.type) {
+                    TypedValue.TYPE_REFERENCE,
+                    TypedValue.TYPE_STRING ->
+                        getDrawable(R.styleable.DbinspectorSplitLinearLayout_dbinspector_splitterBackground)
+                            ?.let { drawable -> currentSplitterDrawable = drawable }
+                    TypedValue.TYPE_INT_COLOR_ARGB8,
+                    TypedValue.TYPE_INT_COLOR_ARGB4,
+                    TypedValue.TYPE_INT_COLOR_RGB8,
+                    TypedValue.TYPE_INT_COLOR_RGB4 ->
+                        currentSplitterDrawable = PaintDrawable(
+                            getColor(R.styleable.DbinspectorSplitLinearLayout_dbinspector_splitterBackground,
+                                ContextCompat.getColor(context, DEFAULT_SPLITTER))
+                        )
+                    else ->
+                        currentSplitterDrawable = PaintDrawable(
+                            ContextCompat.getColor(context, DEFAULT_SPLITTER)
+                        )
+                }
+            }
+
+            peekValue(R.styleable.DbinspectorSplitLinearLayout_dbinspector_splitterDraggingBackground)?.let {
+                when (it.type) {
+                    TypedValue.TYPE_REFERENCE,
+                    TypedValue.TYPE_STRING ->
+                        getDrawable(R.styleable.DbinspectorSplitLinearLayout_dbinspector_splitterDraggingBackground)
+                            ?.let { drawable -> currentSplitterDraggingDrawable = drawable }
+                    TypedValue.TYPE_INT_COLOR_ARGB8,
+                    TypedValue.TYPE_INT_COLOR_ARGB4,
+                    TypedValue.TYPE_INT_COLOR_RGB8,
+                    TypedValue.TYPE_INT_COLOR_RGB4 ->
+                        currentSplitterDraggingDrawable = PaintDrawable(
+                            getColor(R.styleable.DbinspectorSplitLinearLayout_dbinspector_splitterDraggingBackground,
+                                ContextCompat.getColor(context, DEFAULT_SPLITTER_DRAGGABLE))
+                        )
+                    else -> currentSplitterDraggingDrawable =
+                        PaintDrawable(ContextCompat.getColor(context, DEFAULT_SPLITTER_DRAGGABLE))
                 }
             }
         }
 
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-        int measuredWidth = getMeasuredWidth();
-        int measuredHeight = getMeasuredHeight();
-
-        check();
-
+    private fun computeSplitterPosition() {
+        val measuredWidth = measuredWidth
+        val measuredHeight = measuredHeight
         if (measuredWidth > 0 && measuredHeight > 0) {
-
-            computeSplitterPosition();
-
-            switch (mOrientation) {
-                case ORIENTATION_HORIZONTAL: {
-                    getChildAt(0).measure(MeasureSpec.makeMeasureSpec(mSplitterPosition - (mSplitterSize / 2), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(measuredHeight, MeasureSpec.EXACTLY));
-                    getChildAt(1).measure(MeasureSpec.makeMeasureSpec(measuredWidth - (mSplitterSize / 2) - mSplitterPosition, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(measuredHeight, MeasureSpec.EXACTLY));
-                    break;
+            when (currentOrientation) {
+                HORIZONTAL -> {
+                    if (currentSplitterPosition == Int.MIN_VALUE && currentSplitterPositionPercent < 0) {
+                        currentSplitterPosition = measuredWidth / 2
+                    } else if (currentSplitterPosition == Int.MIN_VALUE && currentSplitterPositionPercent >= 0) {
+                        currentSplitterPosition = (measuredWidth * currentSplitterPositionPercent).toInt()
+                        if (currentSplitterPosition !in minSplitterPosition..maxSplitterPosition) {
+                            currentSplitterPosition = currentSplitterPosition
+                                .coerceIn(minSplitterPosition, maxSplitterPosition)
+                            currentSplitterPositionPercent = currentSplitterPosition.toFloat() / measuredWidth.toFloat()
+                        }
+                    } else if (currentSplitterPosition != Int.MIN_VALUE && currentSplitterPositionPercent < 0) {
+                        if (currentSplitterPosition !in minSplitterPosition..maxSplitterPosition) {
+                            currentSplitterPosition = currentSplitterPosition
+                                .coerceIn(minSplitterPosition, maxSplitterPosition)
+                        }
+                        currentSplitterPositionPercent = currentSplitterPosition.toFloat() / measuredWidth.toFloat()
+                    }
+                    currentSplitterBounds[
+                        currentSplitterPosition - currentSplitterSize / 2,
+                        0,
+                        currentSplitterPosition + currentSplitterSize / 2
+                    ] = measuredHeight
+                    currentSplitterTouchBounds[
+                        currentSplitterBounds.left - currentSplitterTouchSlop,
+                        currentSplitterBounds.top,
+                        currentSplitterBounds.right + currentSplitterTouchSlop
+                    ] = currentSplitterBounds.bottom
                 }
-                case ORIENTATION_VERTICAL: {
-                    getChildAt(0).measure(MeasureSpec.makeMeasureSpec(measuredWidth, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(mSplitterPosition - (mSplitterSize / 2), MeasureSpec.EXACTLY));
-                    getChildAt(1).measure(MeasureSpec.makeMeasureSpec(measuredWidth, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(measuredHeight - (mSplitterSize / 2) - mSplitterPosition, MeasureSpec.EXACTLY));
-                    break;
+                VERTICAL -> {
+                    if (currentSplitterPosition == Int.MIN_VALUE && currentSplitterPositionPercent < 0) {
+                        currentSplitterPosition = measuredHeight / 2
+                    } else if (currentSplitterPosition == Int.MIN_VALUE && currentSplitterPositionPercent >= 0) {
+                        currentSplitterPosition = (measuredHeight * currentSplitterPositionPercent).toInt()
+                        if (currentSplitterPosition !in minSplitterPosition..maxSplitterPosition) {
+                            currentSplitterPosition = currentSplitterPosition
+                                .coerceIn(minSplitterPosition, maxSplitterPosition)
+                            currentSplitterPositionPercent =
+                                currentSplitterPosition.toFloat() / measuredHeight.toFloat()
+                        }
+                    } else if (currentSplitterPosition != Int.MIN_VALUE && currentSplitterPositionPercent < 0) {
+                        if (currentSplitterPosition !in minSplitterPosition..maxSplitterPosition) {
+                            currentSplitterPosition = currentSplitterPosition
+                                .coerceIn(minSplitterPosition, maxSplitterPosition)
+                        }
+                        currentSplitterPositionPercent = currentSplitterPosition.toFloat() / measuredHeight.toFloat()
+                    }
+                    currentSplitterBounds[
+                        0,
+                        currentSplitterPosition - currentSplitterSize / 2,
+                        measuredWidth
+                    ] = currentSplitterPosition + currentSplitterSize / 2
+                    currentSplitterTouchBounds[
+                        currentSplitterBounds.left,
+                        currentSplitterBounds.top - currentSplitterTouchSlop / 2,
+                        currentSplitterBounds.right
+                    ] = currentSplitterBounds.bottom + currentSplitterTouchSlop / 2
                 }
             }
-
-            isMeasured = true;
         }
     }
 
-    @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        int w = r - l;
-        int h = b - t;
-        switch (mOrientation) {
-            case ORIENTATION_HORIZONTAL: {
-                getChildAt(0).layout(0, 0, mSplitterPosition - (mSplitterSize / 2), h);
-                getChildAt(1).layout(mSplitterPosition + (mSplitterSize / 2), 0, r, h);
-                break;
-            }
-            case ORIENTATION_VERTICAL: {
-                getChildAt(0).layout(0, 0, w, mSplitterPosition - (mSplitterSize / 2));
-                getChildAt(1).layout(0, mSplitterPosition + (mSplitterSize / 2), w, h);
-                break;
-            }
+    private fun handleTouchDown(x: Int, y: Int) {
+        if (currentSplitterTouchBounds.contains(x, y)) {
+            performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+            isDragging = true
+            currentSplitterDraggingBounds.set(currentSplitterBounds)
+            invalidate()
+            lastTouchX = x
+            lastTouchY = y
         }
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        boolean remeasure = false;
-        int offset = mSplitterSize;
-        if (event.isShiftPressed()) {
-            offset *= 5;
-        }
-        switch (mOrientation) {
-            case ORIENTATION_HORIZONTAL:
-                if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-                    mSplitterPosition = clamp(mSplitterPosition - offset, getMinSplitterPosition(), getMaxSplitterPosition());
-                    mSplitterPositionPercent = -1;
-                    remeasure = true;
-                } else if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-                    mSplitterPosition = clamp(mSplitterPosition + offset, getMinSplitterPosition(), getMaxSplitterPosition());
-                    mSplitterPositionPercent = -1;
-                    remeasure = true;
-                }
-                break;
-            case ORIENTATION_VERTICAL:
-                if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
-                    mSplitterPosition = clamp(mSplitterPosition - offset, getMinSplitterPosition(), getMaxSplitterPosition());
-                    mSplitterPositionPercent = -1;
-                    remeasure = true;
-                } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
-                    mSplitterPosition = clamp(mSplitterPosition + offset, getMinSplitterPosition(), getMaxSplitterPosition());
-                    mSplitterPositionPercent = -1;
-                    remeasure = true;
-                }
-                break;
-        }
-        if (remeasure) {
-            remeasure();
-            notifySplitterPositionChanged(true);
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (mSplitterMovable) {
-            int x = (int) event.getX();
-            int y = (int) event.getY();
-
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    handleTouchDown(x, y);
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    handleTouchMove(x, y);
-                    break;
-                case MotionEvent.ACTION_UP:
-                    handleTouchUp(x, y);
-                    break;
-            }
-            return true;
-        }
-        return false;
-    }
-
-    private void handleTouchDown(int x, int y) {
-        if (mSplitterTouchBounds.contains(x, y)) {
-            performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-            isDragging = true;
-            mSplitterDraggingBounds.set(mSplitterBounds);
-            invalidate(mSplitterDraggingBounds);
-            lastTouchX = x;
-            lastTouchY = y;
-        }
-    }
-
-    private void handleTouchMove(int x, int y) {
+    private fun handleTouchMove(x: Int, y: Int) {
         if (isDragging) {
-            if (!isMovingSplitter) {
-                // Verify we've moved far enough to leave the touch bounds before moving the splitter
-                if (mSplitterTouchBounds.contains(x, y)) {
-                    return;
-                } else {
-                    isMovingSplitter = true;
+            if (isMovingSplitter.not()) {
+                isMovingSplitter = when {
+                    currentSplitterTouchBounds.contains(x, y) -> return
+                    else -> true
                 }
             }
-            boolean take = true;
-            switch (mOrientation) {
-                case ORIENTATION_HORIZONTAL: {
-                    mSplitterDraggingBounds.offset(x - lastTouchX, 0);
-                    if (mSplitterDraggingBounds.centerX() < getMinSplitterPosition()) {
-                        take = false;
-                        mSplitterDraggingBounds.offset(getMinSplitterPosition() - mSplitterDraggingBounds.centerX(), 0);
+            var take = true
+            when (currentOrientation) {
+                HORIZONTAL -> {
+                    currentSplitterDraggingBounds.offset(x - lastTouchX, 0)
+                    if (currentSplitterDraggingBounds.centerX() < minSplitterPosition) {
+                        take = false
+                        currentSplitterDraggingBounds.offset(
+                            minSplitterPosition - currentSplitterDraggingBounds.centerX(),
+                            0
+                        )
                     }
-                    if (mSplitterDraggingBounds.centerX() > getMaxSplitterPosition()) {
-                        take = false;
-                        mSplitterDraggingBounds.offset(getMaxSplitterPosition() - mSplitterDraggingBounds.centerX(), 0);
+                    if (currentSplitterDraggingBounds.centerX() > maxSplitterPosition) {
+                        take = false
+                        currentSplitterDraggingBounds.offset(
+                            maxSplitterPosition - currentSplitterDraggingBounds.centerX(),
+                            0
+                        )
                     }
-                    break;
                 }
-                case ORIENTATION_VERTICAL: {
-                    mSplitterDraggingBounds.offset(0, y - lastTouchY);
-                    if (mSplitterDraggingBounds.centerY() < getMinSplitterPosition()) {
-                        take = false;
-                        mSplitterDraggingBounds.offset(0, getMinSplitterPosition() - mSplitterDraggingBounds.centerY());
+                VERTICAL -> {
+                    currentSplitterDraggingBounds.offset(0, y - lastTouchY)
+                    if (currentSplitterDraggingBounds.centerY() < minSplitterPosition) {
+                        take = false
+                        currentSplitterDraggingBounds.offset(
+                            0,
+                            minSplitterPosition - currentSplitterDraggingBounds.centerY()
+                        )
                     }
-                    if (mSplitterDraggingBounds.centerY() > getMaxSplitterPosition()) {
-                        take = false;
-                        mSplitterDraggingBounds.offset(0, getMaxSplitterPosition() - mSplitterDraggingBounds.centerY());
+                    if (currentSplitterDraggingBounds.centerY() > maxSplitterPosition) {
+                        take = false
+                        currentSplitterDraggingBounds.offset(
+                            0,
+                            maxSplitterPosition - currentSplitterDraggingBounds.centerY()
+                        )
                     }
-                    break;
                 }
             }
             if (take) {
-                lastTouchX = x;
-                lastTouchY = y;
+                lastTouchX = x
+                lastTouchY = y
             }
-            invalidate();
+            invalidate()
         }
     }
 
-    private void handleTouchUp(int x, int y) {
+    private fun handleTouchUp(x: Int, y: Int) {
         if (isDragging) {
-            isDragging = false;
-            isMovingSplitter = false;
-            switch (mOrientation) {
-                case ORIENTATION_HORIZONTAL: {
-                    mSplitterPosition = clamp(x, getMinSplitterPosition(), getMaxSplitterPosition());
-                    mSplitterPositionPercent = -1;
-                    break;
+            isDragging = false
+            isMovingSplitter = false
+            when (currentOrientation) {
+                HORIZONTAL -> {
+                    currentSplitterPosition = x.coerceIn(minSplitterPosition, maxSplitterPosition)
+                    currentSplitterPositionPercent = -1f
                 }
-                case ORIENTATION_VERTICAL: {
-                    mSplitterPosition = clamp(y, getMinSplitterPosition(), getMaxSplitterPosition());
-                    mSplitterPositionPercent = -1;
-                    break;
+                VERTICAL -> {
+                    currentSplitterPosition = y.coerceIn(minSplitterPosition, maxSplitterPosition)
+                    currentSplitterPositionPercent = -1f
                 }
             }
-            remeasure();
-            notifySplitterPositionChanged(true);
+            forceMeasure()
+            notifySplitterPositionChanged(true)
         }
     }
 
-    private int getMinSplitterPosition() {
-        return mPaneSizeMin;
+    private fun forceMeasure() {
+        forceLayout()
+        measure(
+            MeasureSpec.makeMeasureSpec(measuredWidth, MeasureSpec.EXACTLY),
+            MeasureSpec.makeMeasureSpec(measuredHeight, MeasureSpec.EXACTLY)
+        )
+        requestLayout()
     }
 
-    private int getMaxSplitterPosition() {
-        switch (mOrientation) {
-            case ORIENTATION_HORIZONTAL:
-                return getMeasuredWidth() - mPaneSizeMin;
-            case ORIENTATION_VERTICAL:
-                return getMeasuredHeight() - mPaneSizeMin;
-        }
-        return 0;
-    }
-
-    @Override
-    public Parcelable onSaveInstanceState() {
-        Parcelable superState = super.onSaveInstanceState();
-        SavedState ss = new SavedState(superState);
-        ss.mSplitterPositionPercent = mSplitterPositionPercent;
-        return ss;
-    }
-
-    @Override
-    public void onRestoreInstanceState(Parcelable state) {
-        if (!(state instanceof SavedState)) {
-            super.onRestoreInstanceState(state);
-            return;
-        }
-        SavedState ss = (SavedState) state;
-        super.onRestoreInstanceState(ss.getSuperState());
-        setSplitterPositionPercent(ss.mSplitterPositionPercent);
-    }
-
-    /**
-     * Convenience for calling own measure method.
-     */
-    private void remeasure() {
-        // TODO: Performance: Guard against calling too often, can it be done without requestLayout?
-        forceLayout();
-        measure(MeasureSpec.makeMeasureSpec(getMeasuredWidth(), MeasureSpec.EXACTLY),
-                MeasureSpec.makeMeasureSpec(getMeasuredHeight(), MeasureSpec.EXACTLY)
-        );
-        requestLayout();
-    }
-
-    /**
-     * Checks that we have exactly two children.
-     */
-    private void check() {
-        if (getChildCount() != 2) {
-            throw new RuntimeException("SplitPaneLayout must have exactly two child views.");
+    private fun checkChildCount() {
+        if (childCount != 2) {
+            throw IllegalStateException("SplitLinearLayout must have exactly 2 child views.")
         }
     }
 
-    private void enforcePaneSizeMin() {
-
+    private fun notifySplitterPositionChanged(fromUser: Boolean) {
+        onSplitterPositionChangedListener?.onSplitterPositionChanged(this, fromUser)
     }
 
-    @Override
-    protected void dispatchDraw(Canvas canvas) {
-        super.dispatchDraw(canvas);
-        if (isDragging) {
-            mSplitterDraggingDrawable.setState(getDrawableState());
-            mSplitterDraggingDrawable.setBounds(mSplitterDraggingBounds);
-            mSplitterDraggingDrawable.draw(canvas);
-        } else {
-            if (mSplitterDrawable != null) {
-                mSplitterDrawable.setState(getDrawableState());
-                mSplitterDrawable.setBounds(mSplitterBounds);
-                mSplitterDrawable.draw(canvas);
-            }
-        }
-    }
-
-    /**
-     * Gets the current drawable used for the splitter.
-     *
-     * @return the drawable used for the splitter
-     */
-    public Drawable getSplitterDrawable() {
-        return mSplitterDrawable;
-    }
-
-    /**
-     * Sets the drawable used for the splitter.
-     *
-     * @param splitterDrawable the desired orientation of the layout
-     */
-    public void setSplitterDrawable(Drawable splitterDrawable) {
-        mSplitterDrawable = splitterDrawable;
-        if (getChildCount() == 2) {
-            remeasure();
-        }
-    }
-
-    /**
-     * Gets the current drawable used for the splitter dragging overlay.
-     *
-     * @return the drawable used for the splitter
-     */
-    public Drawable getSplitterDraggingDrawable() {
-        return mSplitterDraggingDrawable;
-    }
-
-    /**
-     * Sets the drawable used for the splitter dragging overlay.
-     *
-     * @param splitterDraggingDrawable the drawable to use while dragging the splitter
-     */
-    public void setSplitterDraggingDrawable(Drawable splitterDraggingDrawable) {
-        mSplitterDraggingDrawable = splitterDraggingDrawable;
-        if (isDragging) {
-            invalidate();
-        }
-    }
-
-    /**
-     * Gets the current orientation of the layout.
-     *
-     * @return the orientation of the layout
-     */
-    public int getOrientation() {
-        return mOrientation;
-    }
-
-    /**
-     * Sets the orientation of the layout.
-     *
-     * @param orientation the desired orientation of the layout
-     */
-    public void setOrientation(int orientation) {
-        if (mOrientation != orientation) {
-            mOrientation = orientation;
-            if (getChildCount() == 2) {
-                remeasure();
-            }
-        }
-    }
-
-    /**
-     * Gets the current size of the splitter in pixels.
-     *
-     * @return the size of the splitter
-     */
-    public int getSplitterSize() {
-        return mSplitterSize;
-    }
-
-    /**
-     * Sets the current size of the splitter in pixels.
-     *
-     * @param splitterSize the desired size of the splitter
-     */
-    public void setSplitterSize(int splitterSize) {
-        mSplitterSize = splitterSize;
-        if (getChildCount() == 2) {
-            remeasure();
-        }
-    }
-
-    /**
-     * Gets whether the splitter is movable by the user.
-     *
-     * @return whether the splitter is movable
-     */
-    public boolean isSplitterMovable() {
-        return mSplitterMovable;
-    }
-
-    /**
-     * Sets whether the splitter is movable by the user.
-     *
-     * @param splitterMovable whether the splitter is movable
-     */
-    public void setSplitterMovable(boolean splitterMovable) {
-        mSplitterMovable = splitterMovable;
-    }
-
-    /**
-     * Gets the current position of the splitter in pixels.
-     *
-     * @return the position of the splitter
-     */
-    public int getSplitterPosition() {
-        return mSplitterPosition;
-    }
-
-    /**
-     * Sets the current position of the splitter in pixels.
-     *
-     * @param position the desired position of the splitter
-     */
-    public void setSplitterPosition(int position) {
-        mSplitterPosition = clamp(position, 0, Integer.MAX_VALUE);
-        mSplitterPositionPercent = -1;
-        remeasure();
-        notifySplitterPositionChanged(false);
-    }
-
-    /**
-     * Gets the current position of the splitter as a percent.
-     *
-     * @return the position of the splitter
-     */
-    public float getSplitterPositionPercent() {
-        return mSplitterPositionPercent;
-    }
-
-    /**
-     * Sets the current position of the splitter as a percentage of the layout.
-     *
-     * @param position the desired position of the splitter
-     */
-    public void setSplitterPositionPercent(float position) {
-        mSplitterPosition = Integer.MIN_VALUE;
-        mSplitterPositionPercent = clamp(position, 0, 1);
-        remeasure();
-        notifySplitterPositionChanged(false);
-    }
-
-    /**
-     * Gets the current "touch slop" which is used to extends the grab size of the splitter
-     * and requires the splitter to be dragged at least this far to be considered a move.
-     *
-     * @return the current "touch slop" of the splitter
-     */
-    public int getSplitterTouchSlop() {
-        return mSplitterTouchSlop;
-    }
-
-    /**
-     * Sets the current "touch slop" which is used to extends the grab size of the splitter
-     * and requires the splitter to be dragged at least this far to be considered a move.
-     *
-     * @param splitterTouchSlop the desired "touch slop" of the splitter
-     */
-    public void setSplitterTouchSlop(int splitterTouchSlop) {
-        this.mSplitterTouchSlop = splitterTouchSlop;
-        computeSplitterPosition();
-    }
-
-    /**
-     * Gets the minimum size of panes, in pixels.
-     *
-     * @return the minimum size of panes, in pixels.
-     */
-    public int getPaneSizeMin() {
-        return mPaneSizeMin;
-    }
-
-    /**
-     * Sets the minimum size of panes, in pixels.
-     *
-     * @param paneSizeMin the minimum size of panes, in pixels
-     */
-    public void setPaneSizeMin(int paneSizeMin) {
-        mPaneSizeMin = paneSizeMin;
-        if (isMeasured) {
-            int newSplitterPosition = clamp(mSplitterPosition, getMinSplitterPosition(), getMaxSplitterPosition());
-            if (newSplitterPosition != mSplitterPosition) {
-                setSplitterPosition(newSplitterPosition);
-            }
-        }
-    }
-
-    /**
-     * Gets the OnSplitterPositionChangedListener to receive callbacks when the splitter position is changed
-     *
-     * @return the OnSplitterPositionChangedListener to receive callbacks when the splitter position is changed
-     */
-    public OnSplitterPositionChangedListener getOnSplitterPositionChangedListener() {
-        return mOnSplitterPositionChangedListener;
-    }
-
-    /**
-     * Sets the OnSplitterPositionChangedListener to receive callbacks when the splitter position is changed
-     *
-     * @param l the OnSplitterPositionChangedListener to receive callbacks when the splitter position is changed
-     */
-    public void setOnSplitterPositionChangedListener(OnSplitterPositionChangedListener l) {
-        this.mOnSplitterPositionChangedListener = l;
-    }
-
-    private void notifySplitterPositionChanged(boolean fromUser) {
-        if (mOnSplitterPositionChangedListener != null) {
-            Log.d("SPL", "Splitter Position Changed");
-            mOnSplitterPositionChangedListener.onSplitterPositionChanged(this, fromUser);
-        }
-    }
-
-    private static float clamp(float value, float min, float max) {
-        if (value < min) {
-            return min;
-        } else if (value > max) {
-            return max;
-        }
-        return value;
-    }
-
-    private static int clamp(int value, int min, int max) {
-        if (value < min) {
-            return min;
-        } else if (value > max) {
-            return max;
-        }
-        return value;
-    }
-
-    private static boolean between(int value, int min, int max) {
-        return min <= value && value <= max;
+    interface OnSplitterPositionChangedListener {
+        fun onSplitterPositionChanged(splitLinearLayout: SplitLinearLayout, fromUser: Boolean)
     }
 
     /**
      * Holds important values when we need to save instance state.
      */
-    public static class SavedState extends BaseSavedState {
-        public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
+    class SavedState : BaseSavedState {
 
-            public SavedState createFromParcel(Parcel in) {
-                return new SavedState(in);
+        companion object {
+
+            val CREATOR: Parcelable.Creator<SavedState> = object : Parcelable.Creator<SavedState> {
+
+                override fun createFromParcel(parcel: Parcel): SavedState = SavedState(parcel)
+
+                override fun newArray(size: Int): Array<SavedState?> = arrayOfNulls(size)
             }
-
-            public SavedState[] newArray(int size) {
-                return new SavedState[size];
-            }
-
-        };
-
-        float mSplitterPositionPercent;
-
-        SavedState(Parcelable superState) {
-            super(superState);
         }
 
-        private SavedState(Parcel in) {
-            super(in);
-            mSplitterPositionPercent = in.readFloat();
+        var splitterPositionPercent = 0.0f
+
+        internal constructor(superState: Parcelable?) : super(superState)
+
+        private constructor(parcel: Parcel) : super(parcel) {
+            splitterPositionPercent = parcel.readFloat()
         }
 
-        @Override
-        public void writeToParcel(Parcel out, int flags) {
-            super.writeToParcel(out, flags);
-            out.writeFloat(mSplitterPositionPercent);
+        override fun writeToParcel(out: Parcel, flags: Int) {
+            super.writeToParcel(out, flags)
+            out.writeFloat(splitterPositionPercent)
         }
     }
-
 }
