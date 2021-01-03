@@ -56,6 +56,8 @@ internal interface Sources {
             suspend fun getTriggerByName(query: Query): QueryResult
 
             suspend fun dropTriggerByName(query: Query): QueryResult
+
+            suspend fun rawQuery(query: Query): QueryResult
         }
 
         interface Pragma {

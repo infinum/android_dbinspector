@@ -46,6 +46,8 @@ object Data {
             val TRIGGERS = StringQualifier("data.qualifiers.triggers")
             val TRIGGER_BY_NAME = StringQualifier("data.qualifiers.trigger_by_name")
             val DROP_TRIGGER = StringQualifier("data.qualifiers.drop_trigger")
+
+            val RAW = StringQualifier("data.qualifiers.raw")
         }
 
         object Pragma {
@@ -83,6 +85,8 @@ object Data {
         factory<Paginator>(qualifier = Qualifiers.Pragma.FOREIGN_KEYS) { CursorPaginator() }
         factory<Paginator>(qualifier = Qualifiers.Pragma.INDEXES) { CursorPaginator() }
 
+        factory<Paginator>(qualifier = Qualifiers.Schema.RAW) { CursorPaginator() }
+
         single<Sources.Memory> { AndroidConnectionSource() }
     }
 
@@ -110,6 +114,7 @@ object Data {
                 get(qualifier = Qualifiers.Schema.TRIGGERS),
                 get(qualifier = Qualifiers.Schema.TRIGGER_BY_NAME),
                 get(qualifier = Qualifiers.Schema.DROP_TRIGGER),
+                get(qualifier = Qualifiers.Schema.RAW),
                 get()
             )
         }

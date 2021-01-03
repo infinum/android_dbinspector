@@ -38,6 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:fillViewport="true"
                 android:overScrollMode="never"
                 android:scrollbars="vertical">
 
@@ -50,9 +51,10 @@
                     app:boxCornerRadiusTopEnd="0dp"
                     app:boxCornerRadiusTopStart="0dp"
                     app:boxStrokeWidth="1dp"
+                    app:boxStrokeWidthFocused="@dimen/dbinspector_default_linecount_border"
                     app:counterEnabled="false"
                     app:endIconCheckable="false"
-                    app:errorEnabled="true"
+                    app:errorEnabled="false"
                     app:helperTextEnabled="false"
                     app:hintAnimationEnabled="false"
                     app:hintEnabled="false"
@@ -72,6 +74,7 @@
             </androidx.core.widget.NestedScrollView>
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/executeButton"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/listPreferredItemHeightSmall"
                 android:layout_marginTop="8dp"
@@ -87,18 +90,37 @@
 
         </LinearLayout>
 
-        <HorizontalScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="horizontal">
+            android:orientation="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="wrap_content"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/errorView"
+                style="@style/TextAppearance.MaterialComponents.Body2"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="vertical" />
+                android:padding="8dp"
+                android:drawablePadding="12dp"
+                app:drawableStartCompat="@drawable/dbinspector_ic_alert"
+                android:textColor="?colorError"
+                android:visibility="gone" />
 
-        </HorizontalScrollView>
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="horizontal">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:scrollbars="vertical" />
+
+            </HorizontalScrollView>
+
+        </LinearLayout>
 
     </com.infinum.dbinspector.ui.shared.views.SplitLinearLayout>
 

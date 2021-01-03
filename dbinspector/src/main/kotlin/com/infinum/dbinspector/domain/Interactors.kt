@@ -59,6 +59,8 @@ internal interface Interactors {
     interface GetViewByName : BaseInteractor<Query, QueryResult>
 
     interface DropViewByName : BaseInteractor<Query, QueryResult>
+
+    interface GetRawQuery : BaseInteractor<Query, QueryResult>
     // endregion
 
     // region Pragma

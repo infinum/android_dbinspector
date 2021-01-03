@@ -19,6 +19,7 @@ internal class SchemaSource(
     private val triggersPaginator: Paginator,
     private val triggerByNamePaginator: Paginator,
     private val dropTriggerPaginator: Paginator,
+    private val rawPaginator: Paginator,
     private val store: Sources.Local.Store
 ) : CursorSource(), Sources.Local.Schema {
 
@@ -129,6 +130,20 @@ internal class SchemaSource(
                 collectRows(
                     query = query,
                     paginator = dropTriggerPaginator,
+                    settings = it,
+                    continuation = continuation
+                )
+            }
+        }
+    // endregion
+
+    // region Raw
+    override suspend fun rawQuery(query: Query): QueryResult =
+        store.settings().data.firstOrNull().let {
+            suspendCancellableCoroutine { continuation ->
+                collectRows(
+                    query = query,
+                    paginator = rawPaginator,
                     settings = it,
                     continuation = continuation
                 )

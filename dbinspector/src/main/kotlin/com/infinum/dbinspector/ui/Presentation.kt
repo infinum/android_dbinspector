@@ -89,6 +89,6 @@ internal object Presentation {
         viewModel { ForeignKeysViewModel(get()) }
         viewModel { IndexViewModel(get()) }
 
-        viewModel { EditViewModel() }
+        viewModel { EditViewModel(get(), get(), get()) }
     }
 }

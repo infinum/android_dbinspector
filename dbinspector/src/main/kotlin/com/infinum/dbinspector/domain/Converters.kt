@@ -50,6 +50,8 @@ internal interface Converters {
         suspend infix fun indexes(parameters: PragmaParameters.Indexes): Query
     }
 
+    interface RawQuery : BaseConverter<ContentParameters, Query>
+
     interface BlobPreview : BaseConverter<SettingsParameters.BlobPreview, SettingsEntity.BlobPreviewMode>
 
     interface Truncate : BaseConverter<SettingsParameters.Truncate, SettingsEntity.TruncateMode>

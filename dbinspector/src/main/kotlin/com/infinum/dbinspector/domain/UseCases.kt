@@ -62,6 +62,8 @@ internal interface UseCases {
     interface DropView : BaseUseCase<ContentParameters, Page>
 
     interface DropTrigger : BaseUseCase<ContentParameters, Page>
+
+    interface GetRawQuery : BaseUseCase<ContentParameters, Page>
     // endregion
 
     // region Pragma

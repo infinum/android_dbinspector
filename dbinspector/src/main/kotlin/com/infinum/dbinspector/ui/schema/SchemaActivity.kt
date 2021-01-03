@@ -31,21 +31,6 @@ internal class SchemaActivity : BaseActivity(), Searchable {
 
         with(binding) {
             toolbar.setNavigationOnClickListener { finish() }
-            toolbar.setOnMenuItemClickListener {
-                when (it.itemId) {
-                    R.id.search -> {
-                        onSearchOpened()
-                        true
-                    }
-                    R.id.edit -> {
-                        startActivity(
-                            Intent(this@SchemaActivity, EditActivity::class.java)
-                        )
-                        true
-                    }
-                    else -> false
-                }
-            }
 
             toolbar.menu.searchView?.setup(
                 hint = getString(R.string.dbinspector_search_by_name),
@@ -89,6 +74,19 @@ internal class SchemaActivity : BaseActivity(), Searchable {
 
         with(binding) {
             toolbar.subtitle = databaseName
+            toolbar.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.search -> {
+                        onSearchOpened()
+                        true
+                    }
+                    R.id.edit -> {
+                        showEdit(databasePath, databaseName)
+                        true
+                    }
+                    else -> false
+                }
+            }
 
             viewPager.adapter = SchemaTypeAdapter(
                 fragmentActivity = this@SchemaActivity,
@@ -100,6 +98,15 @@ internal class SchemaActivity : BaseActivity(), Searchable {
             }.attach()
         }
     }
+
+    private fun showEdit(databasePath: String, databaseName: String) =
+        startActivity(
+            Intent(this, EditActivity::class.java)
+                .apply {
+                    putExtra(Presentation.Constants.Keys.DATABASE_PATH, databasePath)
+                    putExtra(Presentation.Constants.Keys.DATABASE_NAME, databaseName)
+                }
+        )
 
     private fun showError() =
         MaterialAlertDialogBuilder(this)

@@ -21,6 +21,7 @@ class EditorTextInput @JvmOverloads constructor(
         private const val DEFAULT_FIRST_LINE = 1
     }
 
+    private val border = context.resources.getDimensionPixelSize(R.dimen.dbinspector_default_linecount_border)
     private val lineCountPadding = context.resources.getDimensionPixelSize(R.dimen.dbinspector_default_linecount_padding) + paddingStart
     private val lineCountRect = Rect().apply {
         left = (lineCountPadding / 2.0f).roundToInt()
@@ -37,6 +38,11 @@ class EditorTextInput @JvmOverloads constructor(
     private var lineNumber = DEFAULT_FIRST_LINE
     private var lineBounds: Int = 0
 
+    private val lineCountBackgroundPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.FILL
+        color = context.getColorFromAttribute(android.R.attr.textColorSecondaryInverse)
+    }
+
     init {
         isFocusable = true
         isFocusableInTouchMode = true
@@ -50,6 +56,13 @@ class EditorTextInput @JvmOverloads constructor(
             0,
             lineCount.toString().length,
             lineNumberBounds
+        )
+        canvas.drawRect(
+            border.toFloat(),
+            border.toFloat(),
+            (lineNumberBounds.width() + lineCountPadding / 2.0f + lineCountRect.left ).toFloat(),
+            height.toFloat() - border.toFloat(),
+            lineCountBackgroundPaint
         )
 
         for (line in 0 until lineCount) {
