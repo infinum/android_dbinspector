@@ -34,34 +34,42 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputLayout
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                app:boxBackgroundMode="outline"
-                app:boxCornerRadiusBottomEnd="0dp"
-                app:boxCornerRadiusBottomStart="0dp"
-                app:boxCornerRadiusTopEnd="0dp"
-                app:boxCornerRadiusTopStart="0dp"
-                app:boxStrokeWidth="1dp"
-                app:counterEnabled="false"
-                app:endIconCheckable="false"
-                app:errorEnabled="true"
-                app:helperTextEnabled="false"
-                app:hintAnimationEnabled="false"
-                app:hintEnabled="false"
-                app:passwordToggleEnabled="false"
-                app:startIconCheckable="false">
+                android:overScrollMode="never"
+                android:scrollbars="vertical">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="top|start"
-                    android:inputType="textMultiLine"
-                    android:padding="16dp"
-                    android:scrollbars="vertical" />
+                    app:boxBackgroundMode="outline"
+                    app:boxCornerRadiusBottomEnd="0dp"
+                    app:boxCornerRadiusBottomStart="0dp"
+                    app:boxCornerRadiusTopEnd="0dp"
+                    app:boxCornerRadiusTopStart="0dp"
+                    app:boxStrokeWidth="1dp"
+                    app:counterEnabled="false"
+                    app:endIconCheckable="false"
+                    app:errorEnabled="true"
+                    app:helperTextEnabled="false"
+                    app:hintAnimationEnabled="false"
+                    app:hintEnabled="false"
+                    app:passwordToggleEnabled="false"
+                    app:startIconCheckable="false">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.infinum.dbinspector.ui.shared.views.EditorTextInput
+                        android:id="@+id/editorInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="top|start"
+                        android:inputType="textMultiLine"
+                        android:padding="8dp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.core.widget.NestedScrollView>
 
             <com.google.android.material.button.MaterialButton
                 android:layout_width="match_parent"

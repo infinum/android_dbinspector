@@ -12,4 +12,5 @@
     <dimen name="dbinspector_toggle_button_corner_radius">18dp</dimen>
 
     <dimen name="dbinspector_default_splitter_size">16dp</dimen>
+    <dimen name="dbinspector_default_linecount_padding">8dp</dimen>
 </resources>

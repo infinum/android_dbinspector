@@ -17,6 +17,16 @@ internal class EditActivity : BaseActivity() {
 
         with(binding) {
             toolbar.setNavigationOnClickListener { finish() }
+
+            editorInput.setText(generate())
         }
+    }
+
+    private fun generate(): String {
+        val sb = StringBuilder()
+        (1 until 11).forEach {
+            sb.appendLine("Text $it")
+        }
+        return sb.toString()
     }
 }
