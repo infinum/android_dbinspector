@@ -63,6 +63,8 @@ internal interface UseCases {
 
     interface DropTrigger : BaseUseCase<ContentParameters, Page>
 
+    interface GetRawQueryHeaders : BaseUseCase<ContentParameters, Page>
+
     interface GetRawQuery : BaseUseCase<ContentParameters, Page>
     // endregion
 

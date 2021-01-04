@@ -1,10 +1,10 @@
 package com.infinum.dbinspector.data.source.local.cursor
 
 import com.infinum.dbinspector.data.Sources
+import com.infinum.dbinspector.data.models.local.cursor.input.Query
 import com.infinum.dbinspector.data.models.local.cursor.output.QueryResult
 import com.infinum.dbinspector.data.source.local.cursor.shared.CursorSource
 import com.infinum.dbinspector.data.source.memory.pagination.Paginator
-import com.infinum.dbinspector.data.models.local.cursor.input.Query
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.suspendCancellableCoroutine
 
@@ -19,7 +19,6 @@ internal class SchemaSource(
     private val triggersPaginator: Paginator,
     private val triggerByNamePaginator: Paginator,
     private val dropTriggerPaginator: Paginator,
-    private val rawPaginator: Paginator,
     private val store: Sources.Local.Store
 ) : CursorSource(), Sources.Local.Schema {
 
@@ -130,20 +129,6 @@ internal class SchemaSource(
                 collectRows(
                     query = query,
                     paginator = dropTriggerPaginator,
-                    settings = it,
-                    continuation = continuation
-                )
-            }
-        }
-    // endregion
-
-    // region Raw
-    override suspend fun rawQuery(query: Query): QueryResult =
-        store.settings().data.firstOrNull().let {
-            suspendCancellableCoroutine { continuation ->
-                collectRows(
-                    query = query,
-                    paginator = rawPaginator,
                     settings = it,
                     continuation = continuation
                 )

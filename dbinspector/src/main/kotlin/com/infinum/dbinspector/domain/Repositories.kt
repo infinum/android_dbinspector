@@ -62,5 +62,8 @@ internal interface Repositories {
         suspend fun getIndexes(input: PragmaParameters.Indexes): Page
     }
 
-    interface RawQuery : BaseRepository<ContentParameters, Page>
+    interface RawQuery : BaseRepository<ContentParameters, Page> {
+
+        suspend fun getHeaders(input: ContentParameters): Page
+    }
 }

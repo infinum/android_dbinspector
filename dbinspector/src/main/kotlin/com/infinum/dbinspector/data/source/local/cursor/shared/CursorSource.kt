@@ -47,7 +47,7 @@ internal open class CursorSource {
                     cursor.count,
                     cursor.columnCount
                 )
-
+                
                 val rows = iterateRowsInTable(cursor, boundary, settings)
 
                 continuation.resume(

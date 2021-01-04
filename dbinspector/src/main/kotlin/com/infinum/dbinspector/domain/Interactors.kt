@@ -60,6 +60,8 @@ internal interface Interactors {
 
     interface DropViewByName : BaseInteractor<Query, QueryResult>
 
+    interface GetRawQueryHeaders : BaseInteractor<Query, QueryResult>
+
     interface GetRawQuery : BaseInteractor<Query, QueryResult>
     // endregion
 
