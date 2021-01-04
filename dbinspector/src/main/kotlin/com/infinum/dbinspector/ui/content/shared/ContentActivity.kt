@@ -22,7 +22,6 @@ import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.content.table.TableViewModel
 import com.infinum.dbinspector.ui.content.trigger.TriggerViewModel
 import com.infinum.dbinspector.ui.content.view.ViewViewModel
-import com.infinum.dbinspector.ui.edit.EditActivity
 import com.infinum.dbinspector.ui.pragma.PragmaActivity
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
@@ -135,9 +134,7 @@ internal abstract class ContentActivity : BaseActivity() {
                         true
                     }
                     R.id.edit -> {
-                        startActivity(
-                            Intent(this@ContentActivity, EditActivity::class.java)
-                        )
+                        contentPreviewFactory.showEdit(databasePath, databaseName)
                         true
                     }
                     else -> false

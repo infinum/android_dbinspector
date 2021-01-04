@@ -40,8 +40,10 @@ import com.infinum.dbinspector.domain.raw.RawRepository
 import com.infinum.dbinspector.domain.raw.control.RawQueryControl
 import com.infinum.dbinspector.domain.raw.control.converters.RawQueryConverter
 import com.infinum.dbinspector.domain.raw.control.mappers.RawQueryMapper
+import com.infinum.dbinspector.domain.raw.interactors.GetAffectedRowsInteractor
 import com.infinum.dbinspector.domain.raw.interactors.GetRawQueryHeadersInteractor
 import com.infinum.dbinspector.domain.raw.interactors.GetRawQueryInteractor
+import com.infinum.dbinspector.domain.raw.usecases.GetAffectedRowsUseCase
 import com.infinum.dbinspector.domain.raw.usecases.GetRawQueryHeadersUseCase
 import com.infinum.dbinspector.domain.raw.usecases.GetRawQueryUseCase
 import com.infinum.dbinspector.domain.schema.control.SchemaControl
@@ -241,15 +243,17 @@ object Domain {
     private fun rawQuery() = module {
         factory<Interactors.GetRawQueryHeaders> { GetRawQueryHeadersInteractor(get()) }
         factory<Interactors.GetRawQuery> { GetRawQueryInteractor(get()) }
+        factory<Interactors.GetAffectedRows> { GetAffectedRowsInteractor(get()) }
 
         factory<Mappers.RawQuery> { RawQueryMapper(get()) }
         factory<Converters.RawQuery> { RawQueryConverter(get()) }
         factory<Control.RawQuery> { RawQueryControl(get(), get()) }
 
-        factory<Repositories.RawQuery> { RawRepository(get(), get(), get()) }
+        factory<Repositories.RawQuery> { RawRepository(get(), get(), get(), get()) }
 
         factory<UseCases.GetRawQueryHeaders> { GetRawQueryHeadersUseCase(get(), get()) }
         factory<UseCases.GetRawQuery> { GetRawQueryUseCase(get(), get()) }
+        factory<UseCases.GetAffectedRows> { GetAffectedRowsUseCase(get(), get()) }
     }
 
     private fun shared() = module {

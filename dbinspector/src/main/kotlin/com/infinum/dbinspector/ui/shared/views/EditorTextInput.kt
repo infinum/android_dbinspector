@@ -22,7 +22,9 @@ class EditorTextInput @JvmOverloads constructor(
     }
 
     private val border = context.resources.getDimensionPixelSize(R.dimen.dbinspector_default_linecount_border)
-    private val lineCountPadding = context.resources.getDimensionPixelSize(R.dimen.dbinspector_default_linecount_padding) + paddingStart
+    private val lineCountPadding = context.resources.getDimensionPixelSize(
+        R.dimen.dbinspector_default_linecount_padding
+    ) + paddingStart
     private val lineCountRect = Rect().apply {
         left = (lineCountPadding / 2.0f).roundToInt()
     }
@@ -60,7 +62,7 @@ class EditorTextInput @JvmOverloads constructor(
         canvas.drawRect(
             border.toFloat(),
             border.toFloat(),
-            (lineNumberBounds.width() + lineCountPadding / 2.0f + lineCountRect.left ).toFloat(),
+            lineNumberBounds.width() + lineCountPadding / 2.0f + lineCountRect.left,
             height.toFloat() - border.toFloat(),
             lineCountBackgroundPaint
         )

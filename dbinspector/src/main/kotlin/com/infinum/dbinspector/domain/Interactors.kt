@@ -63,6 +63,8 @@ internal interface Interactors {
     interface GetRawQueryHeaders : BaseInteractor<Query, QueryResult>
 
     interface GetRawQuery : BaseInteractor<Query, QueryResult>
+
+    interface GetAffectedRows : BaseInteractor<Query, QueryResult>
     // endregion
 
     // region Pragma

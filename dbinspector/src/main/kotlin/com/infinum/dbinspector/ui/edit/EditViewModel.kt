@@ -3,17 +3,11 @@ package com.infinum.dbinspector.ui.edit
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.paging.PagingData
 import com.infinum.dbinspector.domain.UseCases
-import com.infinum.dbinspector.domain.schema.shared.models.exceptions.DropException
-import com.infinum.dbinspector.domain.shared.base.BaseUseCase
 import com.infinum.dbinspector.domain.shared.models.Cell
-import com.infinum.dbinspector.domain.shared.models.Page
 import com.infinum.dbinspector.domain.shared.models.Sort
+import com.infinum.dbinspector.domain.shared.models.Statements
 import com.infinum.dbinspector.domain.shared.models.parameters.ConnectionParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
-import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
-import com.infinum.dbinspector.ui.schema.tables.TablesDataSource
-import com.infinum.dbinspector.ui.shared.base.BaseDataSource
-import com.infinum.dbinspector.ui.shared.base.BaseViewModel
 import com.infinum.dbinspector.ui.shared.headers.Header
 import com.infinum.dbinspector.ui.shared.paging.PagingViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -23,13 +17,16 @@ import timber.log.Timber
 internal class EditViewModel(
     private val openConnection: UseCases.OpenConnection,
     private val closeConnection: UseCases.CloseConnection,
-    private val schemaInfo: UseCases.GetRawQueryHeaders,
-    private val getRawQuery: UseCases.GetRawQuery
+    private val getRawQueryHeaders: UseCases.GetRawQueryHeaders,
+    private val getRawQuery: UseCases.GetRawQuery,
+    private val getAffectedRows: UseCases.GetAffectedRows
 ) : PagingViewModel() {
 
     lateinit var databasePath: String
 
-    private lateinit var onError: suspend (value: Throwable) -> Unit
+    private var onError: suspend (value: Throwable) -> Unit = { throwable ->
+        Timber.e(throwable)
+    }
 
     override val errorHandler = CoroutineExceptionHandler { _, throwable ->
         Timber.e(throwable)
@@ -57,11 +54,13 @@ internal class EditViewModel(
 
     fun header(
         query: String,
-        onData: suspend (value: List<Header>) -> Unit
-    ) =
+        onData: suspend (value: List<Header>) -> Unit,
+        onError: suspend (value: Throwable) -> Unit
+    ) {
+        this.onError = onError
         launch {
             val result = io {
-                schemaInfo(
+                getRawQueryHeaders(
                     ContentParameters(
                         databasePath = databasePath,
                         statement = query
@@ -76,6 +75,7 @@ internal class EditViewModel(
             }
             onData(result)
         }
+    }
 
     fun query(
         query: String,
@@ -87,6 +87,26 @@ internal class EditViewModel(
             pageFlow(databasePath, query) {
                 onData(it)
             }
+        }
+    }
+
+    fun affectedRows(
+        onData: suspend (value: String) -> Unit,
+        onError: suspend (value: Throwable) -> Unit
+    ) {
+        this.onError = onError
+        launch {
+            val result = io {
+                getAffectedRows(
+                    ContentParameters(
+                        databasePath = databasePath,
+                        statement = Statements.RawQuery.affectedRows()
+                    )
+                )
+            }
+            result.cells.firstOrNull()?.text?.let {
+                onData(it)
+            } ?: this@EditViewModel.onError(IllegalStateException("Unknown error."))
         }
     }
 

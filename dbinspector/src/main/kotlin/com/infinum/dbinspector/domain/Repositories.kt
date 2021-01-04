@@ -65,5 +65,7 @@ internal interface Repositories {
     interface RawQuery : BaseRepository<ContentParameters, Page> {
 
         suspend fun getHeaders(input: ContentParameters): Page
+
+        suspend fun getAffectedRows(input: ContentParameters): Page
     }
 }

@@ -9,6 +9,7 @@ import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
 internal class RawRepository(
     private val getPageInteractor: Interactors.GetRawQuery,
     private val getHeadersInteractor: Interactors.GetRawQueryHeaders,
+    private val getAffectedRowsInteractor: Interactors.GetAffectedRows,
     private val control: Control.RawQuery
 ) : Repositories.RawQuery {
 
@@ -17,4 +18,7 @@ internal class RawRepository(
 
     override suspend fun getHeaders(input: ContentParameters): Page =
         control.mapper(getHeadersInteractor(control.converter(input)))
+
+    override suspend fun getAffectedRows(input: ContentParameters): Page =
+        control.mapper(getAffectedRowsInteractor(control.converter(input)))
 }

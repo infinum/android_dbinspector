@@ -1,6 +1,6 @@
 package com.infinum.dbinspector.domain.shared.models.dsl
 
-class DropView {
+internal class DropView {
 
     companion object {
         val pattern = "\\s+".toRegex()

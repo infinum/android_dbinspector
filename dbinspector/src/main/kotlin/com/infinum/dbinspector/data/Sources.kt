@@ -74,6 +74,8 @@ internal interface Sources {
             suspend fun rawQueryHeaders(query: Query): QueryResult
 
             suspend fun rawQuery(query: Query): QueryResult
+
+            suspend fun affectedRows(query: Query): QueryResult
         }
     }
 }

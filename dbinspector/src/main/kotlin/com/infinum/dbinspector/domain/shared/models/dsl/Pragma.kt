@@ -1,6 +1,6 @@
 package com.infinum.dbinspector.domain.shared.models.dsl
 
-class Pragma {
+internal class Pragma {
 
     companion object {
         val pattern = "\\s+".toRegex()

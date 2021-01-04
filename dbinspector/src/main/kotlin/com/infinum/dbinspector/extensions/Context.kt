@@ -8,7 +8,6 @@ import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 
-
 internal val Context.databaseDir: String
     get() = "${filesDir.path.substring(0, filesDir.path.lastIndexOf("/"))}/databases"
 

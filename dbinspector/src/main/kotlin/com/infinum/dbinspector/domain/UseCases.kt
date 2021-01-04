@@ -66,6 +66,8 @@ internal interface UseCases {
     interface GetRawQueryHeaders : BaseUseCase<ContentParameters, Page>
 
     interface GetRawQuery : BaseUseCase<ContentParameters, Page>
+
+    interface GetAffectedRows : BaseUseCase<ContentParameters, Page>
     // endregion
 
     // region Pragma

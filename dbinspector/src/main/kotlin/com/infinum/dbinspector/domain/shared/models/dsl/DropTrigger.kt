@@ -1,6 +1,6 @@
 package com.infinum.dbinspector.domain.shared.models.dsl
 
-class DropTrigger {
+internal class DropTrigger {
 
     companion object {
         val pattern = "\\s+".toRegex()
