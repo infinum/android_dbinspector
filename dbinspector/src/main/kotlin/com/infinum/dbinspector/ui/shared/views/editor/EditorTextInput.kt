@@ -1,4 +1,4 @@
-package com.infinum.dbinspector.ui.shared.views
+package com.infinum.dbinspector.ui.shared.views.editor
 
 import android.content.Context
 import android.graphics.Canvas
@@ -6,7 +6,8 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.Typeface
 import android.util.AttributeSet
-import com.google.android.material.textfield.TextInputEditText
+import android.widget.ArrayAdapter
+import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.extensions.getColorFromAttribute
 import kotlin.math.roundToInt
@@ -15,10 +16,11 @@ class EditorTextInput @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
-) : TextInputEditText(context, attrs, defStyle) {
+) : AppCompatMultiAutoCompleteTextView(context, attrs, defStyle) {
 
     companion object {
         private const val DEFAULT_FIRST_LINE = 1
+        private const val DEFAULT_TOKENIZER_THRESHOLD = 1
     }
 
     private val border = context.resources.getDimensionPixelSize(R.dimen.dbinspector_default_linecount_border)
@@ -48,6 +50,16 @@ class EditorTextInput @JvmOverloads constructor(
     init {
         isFocusable = true
         isFocusableInTouchMode = true
+
+        setAdapter(
+            ArrayAdapter(
+                context,
+                android.R.layout.simple_list_item_1,
+                context.resources.getStringArray(R.array.dbinspector_keywords_sqlite)
+            )
+        )
+        threshold = DEFAULT_TOKENIZER_THRESHOLD
+        setTokenizer(WordTokenizer())
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -101,3 +113,5 @@ class EditorTextInput @JvmOverloads constructor(
     private fun isNumberedLine(line: Int) =
         line == 0 || text?.get(layout.getLineStart(line) - 1)?.toString() == System.lineSeparator()
 }
+
+

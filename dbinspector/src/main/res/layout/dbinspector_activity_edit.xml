@@ -61,7 +61,7 @@
                     app:passwordToggleEnabled="false"
                     app:startIconCheckable="false">
 
-                    <com.infinum.dbinspector.ui.shared.views.EditorTextInput
+                    <com.infinum.dbinspector.ui.shared.views.editor.EditorTextInput
                         android:id="@+id/editorInput"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
