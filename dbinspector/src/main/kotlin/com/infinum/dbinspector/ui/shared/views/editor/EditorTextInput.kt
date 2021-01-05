@@ -1,18 +1,20 @@
 package com.infinum.dbinspector.ui.shared.views.editor
 
 import android.content.Context
+import android.database.DataSetObserver
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.Typeface
 import android.util.AttributeSet
-import android.widget.ArrayAdapter
 import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
+import androidx.core.widget.doOnTextChanged
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.extensions.getColorFromAttribute
+import timber.log.Timber
 import kotlin.math.roundToInt
 
-class EditorTextInput @JvmOverloads constructor(
+internal class EditorTextInput @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
@@ -51,13 +53,46 @@ class EditorTextInput @JvmOverloads constructor(
         isFocusable = true
         isFocusableInTouchMode = true
 
-        setAdapter(
-            ArrayAdapter(
-                context,
-                android.R.layout.simple_list_item_1,
-                context.resources.getStringArray(R.array.dbinspector_keywords_sqlite)
-            )
-        )
+        dropDownWidth = context.resources.getStringArray(R.array.dbinspector_keywords_sqlite)
+            .toList()
+            .maxOf {
+                val bounds = Rect()
+                paint.getTextBounds(
+                    it,
+                    0,
+                    it.length,
+                    bounds
+                )
+                bounds.width() + context.resources.getDimensionPixelSize(
+                    R.dimen.dbinspector_default_linecount_padding
+                ) * 2
+            }
+        doOnTextChanged { text, _, _, _ ->
+            dropDownHorizontalOffset = layout.getPrimaryHorizontal(text?.toString().orEmpty().length).roundToInt() + lineCountPadding
+            dropDownVerticalOffset = layout.getLineTop(lineCount) + paddingTop
+        }
+
+        val adapter = KeywordAdapter(context)
+        adapter.registerDataSetObserver(object : DataSetObserver() {
+            override fun onChanged() {
+                dropDownWidth = (0 until adapter.count)
+                    .mapNotNull { adapter.getItem(it) }
+                    .maxOf {
+                        val bounds = Rect()
+                        paint.getTextBounds(
+                            it,
+                            0,
+                            it.length,
+                            bounds
+                        )
+                        bounds.width() + context.resources.getDimensionPixelSize(
+                            R.dimen.dbinspector_default_linecount_padding
+                        ) * 2
+                    }
+            }
+        })
+
+        setAdapter(adapter)
         threshold = DEFAULT_TOKENIZER_THRESHOLD
         setTokenizer(WordTokenizer())
     }
@@ -86,7 +121,6 @@ class EditorTextInput @JvmOverloads constructor(
                     canvas.drawText(
                         "$lineNumber",
                         lineCountRect.left.toFloat(),
-//                        (lineCountRect.left - lineNumberBounds.left).toFloat(),
                         lineBounds.toFloat(),
                         lineCountPaint
                     )

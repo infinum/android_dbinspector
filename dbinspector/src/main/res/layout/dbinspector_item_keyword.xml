@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/keywordView"
+        style="@style/TextAppearance.MaterialComponents.Caption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:background="@drawable/dbinspector_keyword_background"
+        android:ellipsize="marquee"
+        android:gravity="center"
+        android:minWidth="48dp"
+        android:minHeight="32dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp" />
+
+</FrameLayout>

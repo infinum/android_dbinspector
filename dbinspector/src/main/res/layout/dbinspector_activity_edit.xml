@@ -42,34 +42,46 @@
                 android:overScrollMode="never"
                 android:scrollbars="vertical">
 
-                <com.google.android.material.textfield.TextInputLayout
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:boxBackgroundMode="outline"
-                    app:boxCornerRadiusBottomEnd="0dp"
-                    app:boxCornerRadiusBottomStart="0dp"
-                    app:boxCornerRadiusTopEnd="0dp"
-                    app:boxCornerRadiusTopStart="0dp"
-                    app:boxStrokeWidth="1dp"
-                    app:boxStrokeWidthFocused="@dimen/dbinspector_default_linecount_border"
-                    app:counterEnabled="false"
-                    app:endIconCheckable="false"
-                    app:errorEnabled="false"
-                    app:helperTextEnabled="false"
-                    app:hintAnimationEnabled="false"
-                    app:hintEnabled="false"
-                    app:passwordToggleEnabled="false"
-                    app:startIconCheckable="false">
+                    android:layout_height="match_parent">
 
-                    <com.infinum.dbinspector.ui.shared.views.editor.EditorTextInput
-                        android:id="@+id/editorInput"
+                    <View
+                        android:id="@+id/anchorView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="2dp" />
+
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="top|start"
-                        android:inputType="textMultiLine"
-                        android:padding="8dp" />
+                        app:boxBackgroundMode="outline"
+                        app:boxCornerRadiusBottomEnd="0dp"
+                        app:boxCornerRadiusBottomStart="0dp"
+                        app:boxCornerRadiusTopEnd="0dp"
+                        app:boxCornerRadiusTopStart="0dp"
+                        app:boxStrokeWidth="1dp"
+                        app:boxStrokeWidthFocused="@dimen/dbinspector_default_linecount_border"
+                        app:counterEnabled="false"
+                        app:endIconCheckable="false"
+                        app:errorEnabled="false"
+                        app:helperTextEnabled="false"
+                        app:hintAnimationEnabled="false"
+                        app:hintEnabled="false"
+                        app:passwordToggleEnabled="false"
+                        app:startIconCheckable="false">
 
-                </com.google.android.material.textfield.TextInputLayout>
+                        <com.infinum.dbinspector.ui.shared.views.editor.EditorTextInput
+                            android:id="@+id/editorInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:dropDownAnchor="@id/anchorView"
+                            android:gravity="top|start"
+                            android:inputType="textNoSuggestions|textMultiLine"
+                            android:padding="8dp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </FrameLayout>
 
             </androidx.core.widget.NestedScrollView>
 
@@ -100,11 +112,11 @@
                 style="@style/TextAppearance.MaterialComponents.Body2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
                 android:drawablePadding="12dp"
-                app:drawableStartCompat="@drawable/dbinspector_ic_alert"
+                android:padding="8dp"
                 android:textColor="?colorError"
-                android:visibility="gone" />
+                android:visibility="gone"
+                app:drawableStartCompat="@drawable/dbinspector_ic_alert" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/affectedRowsView"
