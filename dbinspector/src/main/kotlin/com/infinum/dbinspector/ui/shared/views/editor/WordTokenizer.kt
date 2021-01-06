@@ -1,11 +1,15 @@
 package com.infinum.dbinspector.ui.shared.views.editor
 
+import android.graphics.Typeface
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
+import android.text.style.StyleSpan
 import android.widget.MultiAutoCompleteTextView.Tokenizer
 
-internal class WordTokenizer : Tokenizer {
+internal class WordTokenizer(
+    private val keywords: List<Token>
+) : Tokenizer {
 
     companion object {
         private const val TOKEN_SPACE = ' '
@@ -43,7 +47,16 @@ internal class WordTokenizer : Tokenizer {
             i--
         }
         return if (i > 0 && text[i - 1] == TOKEN_SPACE) {
-            text
+            applySpan(text)?.let {
+                SpannableString(text).apply {
+                    setSpan(
+                        it,
+                        0,
+                        text.length,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
+            } ?: text
         } else {
             if (text is Spanned) {
                 val spannableString = SpannableString("$text$TOKEN_NEW_LINE")
@@ -57,8 +70,27 @@ internal class WordTokenizer : Tokenizer {
                 )
                 spannableString
             } else {
-                "$text$TOKEN_SPACE"
+                applySpan(text)?.let {
+                    SpannableString("$text$TOKEN_SPACE").apply {
+                        setSpan(
+                            it,
+                            0,
+                            text.length,
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
+                    }
+                } ?: "$text$TOKEN_SPACE"
             }
         }
     }
+
+    private fun applySpan(token: CharSequence) =
+        keywords
+            .find { it.value == token.toString() }
+            ?.let {
+                when (it.type) {
+                    TokenType.NAME -> StyleSpan(Typeface.ITALIC)
+                    TokenType.SQL -> StyleSpan(Typeface.BOLD)
+                }
+            }
 }

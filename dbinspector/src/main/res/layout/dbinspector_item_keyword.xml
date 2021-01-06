@@ -9,12 +9,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="1dp"
-        android:background="@drawable/dbinspector_keyword_background"
+        android:background="@drawable/dbinspector_keyword_sql_background"
         android:ellipsize="marquee"
         android:gravity="center"
         android:minWidth="48dp"
         android:minHeight="32dp"
         android:paddingStart="8dp"
-        android:paddingEnd="8dp" />
+        android:paddingEnd="8dp"
+        android:textColor="@android:color/white" />
 
 </FrameLayout>

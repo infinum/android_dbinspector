@@ -11,7 +11,6 @@ import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
 import androidx.core.widget.doOnTextChanged
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.extensions.getColorFromAttribute
-import timber.log.Timber
 import kotlin.math.roundToInt
 
 internal class EditorTextInput @JvmOverloads constructor(
@@ -72,7 +71,13 @@ internal class EditorTextInput @JvmOverloads constructor(
             dropDownVerticalOffset = layout.getLineTop(lineCount) + paddingTop
         }
 
-        val adapter = KeywordAdapter(context)
+        val sqlKeywords = context.resources.getStringArray(R.array.dbinspector_keywords_sqlite).map {
+            Token(
+                value = it,
+                type = TokenType.SQL
+            )
+        }
+        val adapter = KeywordAdapter(context, sqlKeywords)
         adapter.registerDataSetObserver(object : DataSetObserver() {
             override fun onChanged() {
                 dropDownWidth = (0 until adapter.count)
@@ -80,9 +85,9 @@ internal class EditorTextInput @JvmOverloads constructor(
                     .maxOf {
                         val bounds = Rect()
                         paint.getTextBounds(
-                            it,
+                            it.value,
                             0,
-                            it.length,
+                            it.value.length,
                             bounds
                         )
                         bounds.width() + context.resources.getDimensionPixelSize(
@@ -94,7 +99,7 @@ internal class EditorTextInput @JvmOverloads constructor(
 
         setAdapter(adapter)
         threshold = DEFAULT_TOKENIZER_THRESHOLD
-        setTokenizer(WordTokenizer())
+        setTokenizer(WordTokenizer(sqlKeywords))
     }
 
     override fun onDraw(canvas: Canvas) {

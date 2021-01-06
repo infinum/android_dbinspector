@@ -7,4 +7,6 @@
     <color name="dbinspector_status_bar">#003b57</color>
     <color name="dbinspector_splitter_background">#e1e1e1</color>
     <color name="dbinspector_splitter_dragging_background">#35000000</color>
+    <color name="dbinspector_color_keyword_sql">#008ac0</color>
+    <color name="dbinspector_color_keyword_name">#7b71c2</color>
 </resources>
