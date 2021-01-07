@@ -40,6 +40,10 @@ internal interface Repositories {
         suspend fun saveTruncateMode(input: SettingsParameters.Truncate)
 
         suspend fun saveBlobPreview(input: SettingsParameters.BlobPreview)
+
+        suspend fun saveIgnoredTableName(input: SettingsParameters.IgnoredTableName)
+
+        suspend fun removeIgnoredTableName(input: SettingsParameters.IgnoredTableName)
     }
 
     interface Schema : BaseRepository<ContentParameters, Page> {

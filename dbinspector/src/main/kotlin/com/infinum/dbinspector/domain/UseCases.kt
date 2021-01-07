@@ -33,6 +33,10 @@ internal interface UseCases {
     // region Settings
     interface GetSettings : BaseUseCase<SettingsParameters.Get, Settings>
 
+    interface SaveIgnoredTableName : BaseUseCase<SettingsParameters.IgnoredTableName, Unit>
+
+    interface RemoveIgnoredTableName : BaseUseCase<SettingsParameters.IgnoredTableName, Unit>
+
     interface ToggleLinesLimit : BaseUseCase<SettingsParameters.LinesLimit, Unit>
 
     interface SaveLinesCount : BaseUseCase<SettingsParameters.LinesCount, Unit>

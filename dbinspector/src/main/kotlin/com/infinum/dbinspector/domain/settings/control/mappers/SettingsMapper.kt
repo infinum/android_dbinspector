@@ -19,6 +19,7 @@ internal class SettingsMapper(
                 model.linesCount
             },
             truncateMode = truncateModeMapper(model.truncateMode),
-            blobPreviewMode = blobPreviewModeMapper(model.blobPreview)
+            blobPreviewMode = blobPreviewModeMapper(model.blobPreview),
+            ignoredTableNames = model.ignoredTableNamesList.map { it.name }
         )
 }

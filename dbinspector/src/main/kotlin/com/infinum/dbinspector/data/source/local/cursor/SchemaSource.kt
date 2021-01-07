@@ -24,12 +24,16 @@ internal class SchemaSource(
 
     // region Tables
     override suspend fun getTables(query: Query): QueryResult =
-        store.settings().data.firstOrNull().let {
+        store.settings().data.firstOrNull().let { settings ->
             suspendCancellableCoroutine { continuation ->
                 collectRows(
                     query = query,
                     paginator = tablesPaginator,
-                    settings = it,
+                    settings = settings,
+                    filterPredicate = {
+                        it.text in settings?.ignoredTableNamesList.orEmpty()
+                            .map { tableName -> tableName.name }
+                    },
                     continuation = continuation
                 )
             }

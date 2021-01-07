@@ -75,12 +75,16 @@ import com.infinum.dbinspector.domain.settings.control.SettingsControl
 import com.infinum.dbinspector.domain.settings.control.converters.SettingsConverter
 import com.infinum.dbinspector.domain.settings.control.mappers.SettingsMapper
 import com.infinum.dbinspector.domain.settings.interactors.GetSettingsInteractor
+import com.infinum.dbinspector.domain.settings.interactors.RemoveIgnoredTableNameInteractor
 import com.infinum.dbinspector.domain.settings.interactors.SaveBlobPreviewModeInteractor
+import com.infinum.dbinspector.domain.settings.interactors.SaveIgnoredTableNameInteractor
 import com.infinum.dbinspector.domain.settings.interactors.SaveLinesCountInteractor
 import com.infinum.dbinspector.domain.settings.interactors.SaveLinesLimitInteractor
 import com.infinum.dbinspector.domain.settings.interactors.SaveTruncateModeInteractor
 import com.infinum.dbinspector.domain.settings.usecases.GetSettingsUseCase
+import com.infinum.dbinspector.domain.settings.usecases.RemoveIgnoredTableNameUseCase
 import com.infinum.dbinspector.domain.settings.usecases.SaveBlobPreviewModeUseCase
+import com.infinum.dbinspector.domain.settings.usecases.SaveIgnoredTableNameUseCase
 import com.infinum.dbinspector.domain.settings.usecases.SaveLinesCountUseCase
 import com.infinum.dbinspector.domain.settings.usecases.SaveTruncateModeUseCase
 import com.infinum.dbinspector.domain.settings.usecases.ToggleLinesLimitUseCase
@@ -169,16 +173,20 @@ object Domain {
         factory<Interactors.SaveLinesCount> { SaveLinesCountInteractor(get()) }
         factory<Interactors.SaveTruncateMode> { SaveTruncateModeInteractor(get()) }
         factory<Interactors.SaveBlobPreviewMode> { SaveBlobPreviewModeInteractor(get()) }
+        factory<Interactors.SaveIgnoredTableName> { SaveIgnoredTableNameInteractor(get()) }
+        factory<Interactors.RemoveIgnoredTableName> { RemoveIgnoredTableNameInteractor(get()) }
 
         factory<Mappers.Settings> { SettingsMapper(get(), get()) }
         factory<Converters.Settings> { SettingsConverter(get(), get()) }
         factory<Control.Settings> { SettingsControl(get(), get()) }
 
         factory<Repositories.Settings> {
-            SettingsRepository(get(), get(), get(), get(), get(), get())
+            SettingsRepository(get(), get(), get(), get(), get(), get(), get(), get())
         }
 
         factory<UseCases.GetSettings> { GetSettingsUseCase(get()) }
+        factory<UseCases.SaveIgnoredTableName> { SaveIgnoredTableNameUseCase(get()) }
+        factory<UseCases.RemoveIgnoredTableName> { RemoveIgnoredTableNameUseCase(get()) }
         factory<UseCases.SaveLinesCount> { SaveLinesCountUseCase(get()) }
         factory<UseCases.ToggleLinesLimit> { ToggleLinesLimitUseCase(get()) }
         factory<UseCases.SaveTruncateMode> { SaveTruncateModeUseCase(get()) }

@@ -18,8 +18,13 @@ message SettingsEntity {
     BASE64 = 3;
   }
 
+  message IgnoredTableName {
+    string name = 1;
+  }
+
   bool lines_limit = 1;
   uint32 lines_count = 2;
   TruncateMode truncate_mode = 3;
   BlobPreviewMode blob_preview = 4;
+  repeated IgnoredTableName ignored_table_names = 5;
 }

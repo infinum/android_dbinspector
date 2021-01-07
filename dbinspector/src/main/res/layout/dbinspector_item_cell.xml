@@ -20,4 +20,15 @@
         android:paddingStart="2dp"
         android:paddingEnd="2dp" />
 
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/truncatedIndicator"
+        style="@style/TextAppearance.MaterialComponents.Caption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:background="?android:panelColorBackground"
+        android:text="Truncated"
+        android:textColor="@android:color/white"
+        android:visibility="gone" />
+
 </FrameLayout>

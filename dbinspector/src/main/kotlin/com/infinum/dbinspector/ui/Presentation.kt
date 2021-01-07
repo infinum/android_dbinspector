@@ -71,7 +71,7 @@ internal object Presentation {
         viewModel { DatabaseViewModel(get(), get(), get(), get(), get()) }
         viewModel { EditDatabaseViewModel(get(), get()) }
 
-        viewModel { SettingsViewModel(get(), get(), get(), get(), get()) }
+        viewModel { SettingsViewModel(get(), get(), get(), get(), get(), get(), get()) }
 
         viewModel { SchemaViewModel(get(), get()) }
 

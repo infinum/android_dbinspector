@@ -67,5 +67,7 @@ internal interface Converters {
         suspend infix fun truncateMode(parameters: SettingsParameters.Truncate): SettingsTask
 
         suspend infix fun blobPreviewMode(parameters: SettingsParameters.BlobPreview): SettingsTask
+
+        suspend infix fun ignoredTableName(parameters: SettingsParameters.IgnoredTableName): SettingsTask
     }
 }
