@@ -8,7 +8,7 @@ import android.text.style.StyleSpan
 import android.widget.MultiAutoCompleteTextView.Tokenizer
 
 internal class WordTokenizer(
-    private val keywords: List<Token>
+    private val keywords: List<Keyword>
 ) : Tokenizer {
 
     companion object {
@@ -47,16 +47,7 @@ internal class WordTokenizer(
             i--
         }
         return if (i > 0 && text[i - 1] == TOKEN_SPACE) {
-            applySpan(text)?.let {
-                SpannableString(text).apply {
-                    setSpan(
-                        it,
-                        0,
-                        text.length,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                }
-            } ?: text
+            terminateWithSpan(text)
         } else {
             if (text is Spanned) {
                 val spannableString = SpannableString("$text$TOKEN_NEW_LINE")
@@ -70,27 +61,30 @@ internal class WordTokenizer(
                 )
                 spannableString
             } else {
-                applySpan(text)?.let {
-                    SpannableString("$text$TOKEN_SPACE").apply {
-                        setSpan(
-                            it,
-                            0,
-                            text.length,
-                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                        )
-                    }
-                } ?: "$text$TOKEN_SPACE"
+                terminateWithSpan("$text$TOKEN_SPACE")
             }
         }
     }
+
+    private fun terminateWithSpan(text: CharSequence) =
+        applySpan(text)?.let {
+            SpannableString(text).apply {
+                setSpan(
+                    it,
+                    0,
+                    text.length,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
+        } ?: text
 
     private fun applySpan(token: CharSequence) =
         keywords
             .find { it.value == token.toString() }
             ?.let {
                 when (it.type) {
-                    TokenType.NAME -> StyleSpan(Typeface.ITALIC)
-                    TokenType.SQL -> StyleSpan(Typeface.BOLD)
+                    KeywordType.NAME -> StyleSpan(Typeface.ITALIC)
+                    KeywordType.SQL -> StyleSpan(Typeface.BOLD)
                 }
             }
 }

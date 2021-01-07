@@ -1,8 +1,8 @@
 package com.infinum.dbinspector.ui.shared.views.editor
 
-data class Token(
+data class Keyword(
     val value: String,
-    val type: TokenType
+    val type: KeywordType
 ) {
 
     override fun toString(): String = value

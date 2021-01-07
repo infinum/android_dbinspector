@@ -2,8 +2,8 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 
-    <corners android:radius="16dp" />
+    <corners android:radius="@dimen/dbinspector_keyword_corner" />
 
-    <solid android:color="@color/dbinspector_color_keyword_name" />
+    <solid android:color="@android:color/white" />
 
 </shape>

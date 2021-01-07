@@ -52,6 +52,10 @@ internal class EditActivity : BaseActivity() {
 
                 viewModel.open(lifecycleScope)
 
+                viewModel.keywords {
+                    binding.editorInput.addKeywords(it)
+                }
+
                 setupUi(databaseName!!)
             }
         }

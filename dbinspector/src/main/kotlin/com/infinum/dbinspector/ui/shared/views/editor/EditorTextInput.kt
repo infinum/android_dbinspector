@@ -48,40 +48,30 @@ internal class EditorTextInput @JvmOverloads constructor(
         color = context.getColorFromAttribute(android.R.attr.textColorSecondaryInverse)
     }
 
+    private val sqlKeywords = context.resources.getStringArray(R.array.dbinspector_keywords_sqlite).map {
+        Keyword(
+            value = it,
+            type = KeywordType.SQL
+        )
+    }
+    private val keywordAdapter = KeywordAdapter(context, sqlKeywords)
+
     init {
         isFocusable = true
         isFocusableInTouchMode = true
 
-        dropDownWidth = context.resources.getStringArray(R.array.dbinspector_keywords_sqlite)
-            .toList()
-            .maxOf {
-                val bounds = Rect()
-                paint.getTextBounds(
-                    it,
-                    0,
-                    it.length,
-                    bounds
-                )
-                bounds.width() + context.resources.getDimensionPixelSize(
-                    R.dimen.dbinspector_default_linecount_padding
-                ) * 2
-            }
+        setDropDownBackgroundResource(R.drawable.dbinspector_keyword_popup_background)
         doOnTextChanged { text, _, _, _ ->
-            dropDownHorizontalOffset = layout.getPrimaryHorizontal(text?.toString().orEmpty().length).roundToInt() + lineCountPadding
+            dropDownHorizontalOffset = layout.getPrimaryHorizontal(
+                text?.toString().orEmpty().length
+            ).roundToInt() + lineCountPadding
             dropDownVerticalOffset = layout.getLineTop(lineCount) + paddingTop
         }
 
-        val sqlKeywords = context.resources.getStringArray(R.array.dbinspector_keywords_sqlite).map {
-            Token(
-                value = it,
-                type = TokenType.SQL
-            )
-        }
-        val adapter = KeywordAdapter(context, sqlKeywords)
-        adapter.registerDataSetObserver(object : DataSetObserver() {
+        keywordAdapter.registerDataSetObserver(object : DataSetObserver() {
             override fun onChanged() {
-                dropDownWidth = (0 until adapter.count)
-                    .mapNotNull { adapter.getItem(it) }
+                dropDownWidth = (0 until keywordAdapter.count)
+                    .mapNotNull { keywordAdapter.getItem(it) }
                     .maxOf {
                         val bounds = Rect()
                         paint.getTextBounds(
@@ -91,16 +81,19 @@ internal class EditorTextInput @JvmOverloads constructor(
                             bounds
                         )
                         bounds.width() + context.resources.getDimensionPixelSize(
-                            R.dimen.dbinspector_default_linecount_padding
+                            R.dimen.dbinspector_keyword_padding
                         ) * 2
                     }
             }
         })
 
-        setAdapter(adapter)
+        setAdapter(keywordAdapter)
         threshold = DEFAULT_TOKENIZER_THRESHOLD
         setTokenizer(WordTokenizer(sqlKeywords))
     }
+
+    fun addKeywords(keywords: List<Keyword>) =
+        keywordAdapter.addDatabaseKeywords(keywords)
 
     override fun onDraw(canvas: Canvas) {
         lineNumber = DEFAULT_FIRST_LINE
@@ -152,5 +145,3 @@ internal class EditorTextInput @JvmOverloads constructor(
     private fun isNumberedLine(line: Int) =
         line == 0 || text?.get(layout.getLineStart(line) - 1)?.toString() == System.lineSeparator()
 }
-
-
