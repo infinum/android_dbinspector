@@ -7,6 +7,8 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.Typeface
 import android.util.AttributeSet
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputConnection
 import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
 import androidx.core.widget.doOnTextChanged
 import com.infinum.dbinspector.R
@@ -95,6 +97,13 @@ internal class EditorTextInput @JvmOverloads constructor(
 
     fun addKeywords(keywords: List<Keyword>) =
         keywordAdapter.addDatabaseKeywords(keywords)
+
+    override fun onCreateInputConnection(outAttrs: EditorInfo?): InputConnection =
+        super.onCreateInputConnection(
+            outAttrs.apply {
+                imeOptions = imeOptions or EditorInfo.IME_FLAG_NO_EXTRACT_UI
+            }
+        )
 
     override fun onDraw(canvas: Canvas) {
         lineNumber = DEFAULT_FIRST_LINE

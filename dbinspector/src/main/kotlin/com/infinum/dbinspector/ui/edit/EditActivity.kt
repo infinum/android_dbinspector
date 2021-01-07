@@ -68,15 +68,19 @@ internal class EditActivity : BaseActivity() {
         with(binding.toolbar) {
             setNavigationOnClickListener { finish() }
             subtitle = databaseName
+            setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.clear -> clearInput()
+                    R.id.execute -> query()
+                }
+                true
+            }
         }
 
         with(binding) {
             editorInput.doOnTextChanged { text, _, _, _ ->
-                executeButton.isEnabled = text.isNullOrBlank().not()
-            }
-
-            executeButton.setOnClickListener {
-                query()
+                toolbar.menu.findItem(R.id.clear).isEnabled = text.isNullOrBlank().not()
+                toolbar.menu.findItem(R.id.execute).isEnabled = text.isNullOrBlank().not()
             }
         }
 
@@ -108,6 +112,9 @@ internal class EditActivity : BaseActivity() {
             }
         }
     }
+
+    private fun clearInput() =
+        binding.editorInput.text.clear()
 
     private fun query() {
         val query = binding.editorInput.text?.toString().orEmpty().trim()
