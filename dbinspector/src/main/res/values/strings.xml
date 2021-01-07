@@ -49,6 +49,7 @@
     <string name="dbinspector_nothing_found">Nothing found</string>
     <string name="dbinspector_give_it_another_try">Give it another try…</string>
     <string name="dbinspector_retry">Retry</string>
+    <string name="dbinspector_truncated">Truncated</string>
 
     <string name="dbinspector_search_by_name">Search by name…</string>
 

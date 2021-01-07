@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground"
+    android:orientation="vertical"
     android:padding="4dp">
 
     <com.google.android.material.textview.MaterialTextView
@@ -23,12 +25,16 @@
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/truncatedIndicator"
         style="@style/TextAppearance.MaterialComponents.Caption"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
         android:layout_gravity="center_horizontal|bottom"
-        android:background="?android:panelColorBackground"
-        android:text="Truncated"
-        android:textColor="@android:color/white"
-        android:visibility="gone" />
+        android:layout_marginTop="2dp"
+        android:background="@drawable/dbinspector_truncated_background"
+        android:gravity="center"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:text="@string/dbinspector_truncated"
+        android:visibility="gone"
+        app:textAllCaps="true" />
 
-</FrameLayout>
+</LinearLayout>

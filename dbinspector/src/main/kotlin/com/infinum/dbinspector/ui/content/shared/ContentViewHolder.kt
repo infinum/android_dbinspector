@@ -2,6 +2,7 @@ package com.infinum.dbinspector.ui.content.shared
 
 import android.text.TextUtils
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorItemCellBinding
@@ -27,6 +28,7 @@ internal class ContentViewHolder(
         with(viewBinding) {
             this.valueView.maxLines = Int.MAX_VALUE
             this.valueView.ellipsize = null
+            this.truncatedIndicator.isVisible = false
             this.root.setBackgroundColor(ContextCompat.getColor(this.root.context, android.R.color.transparent))
             this.root.setOnClickListener(null)
         }
@@ -66,6 +68,7 @@ internal class ContentViewHolder(
                     }
                 }
             this.valueView.text = cell.text
+            this.truncatedIndicator.isVisible = cell.linesShown != Int.MAX_VALUE && cell.data != null
         }
 
     private fun bindNullValue() =
@@ -73,6 +76,7 @@ internal class ContentViewHolder(
             this.valueView.maxLines = Int.MAX_VALUE
             this.valueView.ellipsize = null
             this.valueView.text = null
+            this.truncatedIndicator.isVisible = false
             this.root.background = ContextCompat.getDrawable(this.root.context, R.drawable.dbinspector_placeholder)
             this.root.setOnClickListener(null)
         }
