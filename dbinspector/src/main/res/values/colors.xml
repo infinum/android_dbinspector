@@ -7,7 +7,9 @@
     <color name="dbinspector_status_bar">#003b57</color>
     <color name="dbinspector_splitter_background">#e1e1e1</color>
     <color name="dbinspector_splitter_dragging_background">#35000000</color>
-    <color name="dbinspector_color_keyword_sql">#008ac0</color>
+    <color name="dbinspector_color_keyword_sql_keyword">#008ac0</color>
+    <color name="dbinspector_color_keyword_sql_function">#EB8258</color>
+    <color name="dbinspector_color_keyword_sql_type">#CE2D4F</color>
     <color name="dbinspector_color_keyword_table_name">#7b71c2</color>
     <color name="dbinspector_color_keyword_column_name">#abc96a</color>
     <color name="dbinspector_color_keyword_background">#aaaaaa</color>

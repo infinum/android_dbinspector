@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="dbinspector_keywords_sqlite">
+    <string-array name="dbinspector_sqlite_keywords">
         <item>ABORT</item>
         <item>ACTION</item>
         <item>ADD</item>
@@ -148,5 +148,67 @@
         <item>WITH</item>
         <item>WITHOUT</item>
     </string-array>
-    
+
+    <string-array name="dbinspector_sqlite_functions">
+        <item>abs</item>
+        <item>avg</item>
+        <item>char</item>
+        <item>coalesce</item>
+        <item>count</item>
+        <item>glob</item>
+        <item>group_concat</item>
+        <item>hex</item>
+        <item>ifnull</item>
+        <item>instr</item>
+        <item>length</item>
+        <item>like</item>
+        <item>likelihood</item>
+        <item>likely</item>
+        <item>lower</item>
+        <item>ltrim</item>
+        <item>max</item>
+        <item>min</item>
+        <item>nullif</item>
+        <item>random</item>
+        <item>randomblob</item>
+        <item>replace</item>
+        <item>round</item>
+        <item>rtrim</item>
+        <item>substr</item>
+        <item>sum</item>
+        <item>total</item>
+        <item>trim</item>
+        <item>typeof</item>
+        <item>unicode</item>
+        <item>unlikely</item>
+        <item>upper</item>
+        <item>zeroblob</item>
+    </string-array>
+
+    <string-array name="dbinspector_sqlite_types">
+        <item>INT</item>
+        <item>INTEGER</item>
+        <item>TINYINT</item>
+        <item>SMALLINT</item>
+        <item>MEDIUMINT</item>
+        <item>BIGINT</item>
+        <item>INT2</item>
+        <item>INT8</item>
+        <item>CHARACTER</item>
+        <item>VARCHAR</item>
+        <item>NCHAR</item>
+        <item>NVARCHAR</item>
+        <item>TEXT</item>
+        <item>CLOB</item>
+        <item>BLOB</item>
+        <item>REAL</item>
+        <item>DOUBLE</item>
+        <item>FLOAT</item>
+        <item>NUMERIC</item>
+        <item>DECIMAL</item>
+        <item>BOOLEAN</item>
+        <item>DATE</item>
+        <item>DATETIME</item>
+    </string-array>
+
 </resources>

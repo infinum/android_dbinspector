@@ -4,6 +4,6 @@
 
     <corners android:radius="@dimen/dbinspector_keyword_corner" />
 
-    <solid android:color="@color/dbinspector_color_keyword_sql" />
+    <solid android:color="@android:color/white" />
 
 </shape>

@@ -50,14 +50,26 @@ internal class EditorTextInput @JvmOverloads constructor(
         color = context.getColorFromAttribute(android.R.attr.textColorSecondaryInverse)
     }
 
-    private val sqlKeywords = context.resources.getStringArray(R.array.dbinspector_keywords_sqlite).map {
+    private val sqlKeywords = context.resources.getStringArray(R.array.dbinspector_sqlite_keywords).map {
         Keyword(
             value = it,
-            type = KeywordType.SQL
+            type = KeywordType.SQLITE_KEYWORD
         )
     }
-    private val keywordAdapter = KeywordAdapter(context, sqlKeywords)
-    private val wordTokenizer = WordTokenizer(context, sqlKeywords)
+    private val sqlFunctions = context.resources.getStringArray(R.array.dbinspector_sqlite_functions).map {
+        Keyword(
+            value = it,
+            type = KeywordType.SQLITE_FUNCTION
+        )
+    }
+    private val sqlTypes = context.resources.getStringArray(R.array.dbinspector_sqlite_types).map {
+        Keyword(
+            value = it,
+            type = KeywordType.SQLITE_TYPE
+        )
+    }
+    private val keywordAdapter = KeywordAdapter(context, sqlKeywords + sqlFunctions + sqlTypes)
+    private val wordTokenizer = WordTokenizer(context, sqlKeywords + sqlFunctions + sqlTypes)
 
     init {
         isFocusable = true
@@ -95,8 +107,10 @@ internal class EditorTextInput @JvmOverloads constructor(
         setTokenizer(wordTokenizer)
     }
 
-    fun addKeywords(keywords: List<Keyword>) =
+    fun addKeywords(keywords: List<Keyword>) {
         keywordAdapter.addDatabaseKeywords(keywords)
+        wordTokenizer.addDatabaseKeywords(keywords)
+    }
 
     override fun onCreateInputConnection(outAttrs: EditorInfo?): InputConnection =
         super.onCreateInputConnection(

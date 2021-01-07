@@ -14,7 +14,7 @@ import com.infinum.dbinspector.R
 
 internal class WordTokenizer(
     private val context: Context,
-    private val keywords: List<Keyword>
+    private var keywords: List<Keyword>
 ) : Tokenizer {
 
     companion object {
@@ -47,14 +47,13 @@ internal class WordTokenizer(
         return length
     }
 
-    @Suppress("NestedBlockDepth")
     override fun terminateToken(text: CharSequence): CharSequence {
         var i = text.length
         while (i > 0 && text[i - 1] == TOKEN_SPACE) {
             i--
         }
         return if (i > 0 && text[i - 1] == TOKEN_SPACE) {
-            applySpan(text)?.let {
+            findSpans(text)?.let {
                 createSpannable(text, it)
             } ?: text
         } else {
@@ -70,11 +69,15 @@ internal class WordTokenizer(
                 )
                 spannableString
             } else {
-                applySpan(text)?.let {
+                findSpans(text)?.let {
                     createSpannable("$text$TOKEN_SPACE", it, true)
                 } ?: "$text$TOKEN_SPACE"
             }
         }
+    }
+
+    fun addDatabaseKeywords(keywords: List<Keyword>) {
+        this.keywords = this.keywords + keywords
     }
 
     private fun createSpannable(
@@ -92,12 +95,24 @@ internal class WordTokenizer(
         }
     }
 
-    private fun applySpan(token: CharSequence): List<ParcelableSpan>? =
+    private fun findSpans(token: CharSequence): List<ParcelableSpan>? =
         keywords
             .find { it.value == token.toString() }
             ?.let {
                 when (it.type) {
-                    KeywordType.SQL -> listOf<ParcelableSpan>(StyleSpan(Typeface.BOLD))
+                    KeywordType.SQLITE_KEYWORD -> listOf<ParcelableSpan>(StyleSpan(Typeface.BOLD))
+                    KeywordType.SQLITE_FUNCTION -> listOf<ParcelableSpan>(
+                        StyleSpan(Typeface.ITALIC),
+                        ForegroundColorSpan(
+                            ContextCompat.getColor(context, R.color.dbinspector_color_keyword_sql_function)
+                        )
+                    )
+                    KeywordType.SQLITE_TYPE -> listOf<ParcelableSpan>(
+                        StyleSpan(Typeface.BOLD_ITALIC),
+                        ForegroundColorSpan(
+                            ContextCompat.getColor(context, R.color.dbinspector_color_keyword_sql_type)
+                        )
+                    )
                     KeywordType.TABLE_NAME -> listOf<ParcelableSpan>(
                         StyleSpan(Typeface.ITALIC),
                         ForegroundColorSpan(

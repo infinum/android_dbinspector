@@ -54,6 +54,9 @@ class SplitLinearLayout @JvmOverloads constructor(
         private const val DEFAULT_SPLITTER_POSITION_PERCENTAGE = 0.5f
 
         private const val SHIFT_OFFSET = 5
+
+        private const val FRACTION_BASE = 100
+        private const val FRACTION_MULTIPLIER = 0.01f
     }
 
     /**
@@ -371,7 +374,6 @@ class SplitLinearLayout @JvmOverloads constructor(
         splitterPositionPercent = state.splitterPositionPercent
     }
 
-    @Suppress("MagicNumber")
     private fun parseAttributes(attrs: AttributeSet?) =
         context.withStyledAttributes(attrs, R.styleable.DbinspectorSplitLinearLayout) {
             currentOrientation = getInt(
@@ -403,10 +405,10 @@ class SplitLinearLayout @JvmOverloads constructor(
                     )
                     TypedValue.TYPE_FRACTION -> currentSplitterPositionPercent = getFraction(
                         R.styleable.DbinspectorSplitLinearLayout_dbinspector_splitterPosition,
-                        100,
-                        100,
-                        DEFAULT_SPLITTER_POSITION_PERCENTAGE * 100.0f
-                    ) * 0.01f
+                        FRACTION_BASE,
+                        FRACTION_BASE,
+                        DEFAULT_SPLITTER_POSITION_PERCENTAGE * FRACTION_BASE.toFloat()
+                    ) * FRACTION_MULTIPLIER
                     else -> currentSplitterPositionPercent = DEFAULT_SPLITTER_POSITION_PERCENTAGE
                 }
             }
