@@ -133,24 +133,40 @@ internal class EditViewModel(
                     .map { Pair(it[0].text.orEmpty(), it[1].text.orEmpty()) }
                     .filter { it.first.isNotBlank() && it.second.isNotBlank() }
 
-                val tableNames: List<String> = schema.filter { it.second == "table" }.map { it.first }
-                val otherNames: List<String> = schema.filterNot { it.second == "table" }.map { it.first }
-                val columnNames: List<String> = tableNames.map {
+                val tableNames: List<Keyword> = schema
+                    .filter { it.second == "table" }
+                    .map {
+                        Keyword(
+                            value = it.first,
+                            type = KeywordType.TABLE_NAME
+                        )
+                    }
+                val otherNames: List<Keyword> = schema
+                    .filterNot { it.second == "table" }
+                    .map {
+                        Keyword(
+                            value = it.first,
+                            type = KeywordType.TABLE_NAME
+                        )
+                    }
+                val columnNames: List<Keyword> = tableNames.map {
                     getTableInfo(
                         PragmaParameters.Info(
                             databasePath = databasePath,
-                            statement = Statements.Pragma.tableInfo(it)
+                            statement = Statements.Pragma.tableInfo(it.value)
                         )
-                    ).cells.mapNotNull { cell -> cell.text }
+                    ).cells
+                        .filterNot { cell -> cell.text.isNullOrBlank() }
+                        .map { cell ->
+                            Keyword(
+                                value = cell.text.orEmpty(),
+                                type = KeywordType.COLUMN_NAME
+                            )
+                        }
                 }.flatten()
+                    .distinctBy { it.value }
 
-                listOf<String>().plus(tableNames).plus(otherNames).plus(columnNames)
-                    .map {
-                        Keyword(
-                            value = it,
-                            type = KeywordType.NAME
-                        )
-                    }
+                listOf<Keyword>().plus(tableNames).plus(otherNames).plus(columnNames)
             }
             onData(result)
         }

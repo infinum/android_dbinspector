@@ -12,8 +12,12 @@ enum class KeywordType(
         backgroundResId = R.drawable.dbinspector_keyword_sql_background,
         textColorResId = android.R.color.white
     ),
-    NAME(
-        backgroundResId = R.drawable.dbinspector_keyword_name_background,
-        textColorResId = R.color.dbinspector_color_keyword_name
+    TABLE_NAME(
+        backgroundResId = R.drawable.dbinspector_keyword_table_name_background,
+        textColorResId = R.color.dbinspector_color_keyword_table_name
+    ),
+    COLUMN_NAME(
+        backgroundResId = R.drawable.dbinspector_keyword_column_name_background,
+        textColorResId = R.color.dbinspector_color_keyword_column_name
     )
 }

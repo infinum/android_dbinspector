@@ -55,6 +55,7 @@ internal class EditorTextInput @JvmOverloads constructor(
         )
     }
     private val keywordAdapter = KeywordAdapter(context, sqlKeywords)
+    private val wordTokenizer = WordTokenizer(context, sqlKeywords)
 
     init {
         isFocusable = true
@@ -89,7 +90,7 @@ internal class EditorTextInput @JvmOverloads constructor(
 
         setAdapter(keywordAdapter)
         threshold = DEFAULT_TOKENIZER_THRESHOLD
-        setTokenizer(WordTokenizer(sqlKeywords))
+        setTokenizer(wordTokenizer)
     }
 
     fun addKeywords(keywords: List<Keyword>) =
@@ -138,10 +139,6 @@ internal class EditorTextInput @JvmOverloads constructor(
         super.onDraw(canvas)
     }
 
-    /**
-     * Show line number only if it's a first line or any line starting with line separator.
-     * Wrapped lines are not numbered.
-     */
     private fun isNumberedLine(line: Int) =
         line == 0 || text?.get(layout.getLineStart(line) - 1)?.toString() == System.lineSeparator()
 }

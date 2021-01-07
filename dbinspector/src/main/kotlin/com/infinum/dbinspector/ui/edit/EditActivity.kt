@@ -1,6 +1,5 @@
 package com.infinum.dbinspector.ui.edit
 
-import android.content.DialogInterface
 import android.os.Bundle
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -12,7 +11,6 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorActivityEditBinding
 import com.infinum.dbinspector.domain.shared.models.Cell
@@ -52,8 +50,8 @@ internal class EditActivity : BaseActivity() {
 
                 viewModel.open(lifecycleScope)
 
-                viewModel.keywords {
-                    binding.editorInput.addKeywords(it)
+                viewModel.keywords { keywords ->
+                    binding.editorInput.addKeywords(keywords)
                 }
 
                 setupUi(databaseName!!)
@@ -79,10 +77,6 @@ internal class EditActivity : BaseActivity() {
 
             executeButton.setOnClickListener {
                 query()
-            }
-            executeButton.setOnLongClickListener {
-                showMockQueries()
-                true
             }
         }
 
@@ -158,22 +152,6 @@ internal class EditActivity : BaseActivity() {
             },
             onError = { showError(it.message) }
         )
-    }
-
-    private fun showMockQueries() {
-        val mock = arrayOf(
-            "SELECT * FROM users",
-            "SELECT * FROM artists",
-            "UPDATE users SET last_name = 'Bojan' WHERE first_name = 'Jane'"
-        )
-
-        MaterialAlertDialogBuilder(this)
-            .setItems(mock) { dialog: DialogInterface, selectedIndex: Int ->
-                dialog.dismiss()
-                binding.editorInput.setText(mock[selectedIndex])
-            }
-            .create()
-            .show()
     }
 
     private suspend fun showData(cells: PagingData<Cell>) =

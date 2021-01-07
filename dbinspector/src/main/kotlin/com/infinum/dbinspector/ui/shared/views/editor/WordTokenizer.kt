@@ -1,13 +1,19 @@
 package com.infinum.dbinspector.ui.shared.views.editor
 
+import android.content.Context
 import android.graphics.Typeface
+import android.text.ParcelableSpan
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
+import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.widget.MultiAutoCompleteTextView.Tokenizer
+import androidx.core.content.ContextCompat
+import com.infinum.dbinspector.R
 
 internal class WordTokenizer(
+    private val context: Context,
     private val keywords: List<Keyword>
 ) : Tokenizer {
 
@@ -49,14 +55,7 @@ internal class WordTokenizer(
         }
         return if (i > 0 && text[i - 1] == TOKEN_SPACE) {
             applySpan(text)?.let {
-                SpannableString(text).apply {
-                    setSpan(
-                        it,
-                        0,
-                        text.length,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                }
+                createSpannable(text, it)
             } ?: text
         } else {
             if (text is Spanned) {
@@ -72,26 +71,45 @@ internal class WordTokenizer(
                 spannableString
             } else {
                 applySpan(text)?.let {
-                    SpannableString("$text$TOKEN_SPACE").apply {
-                        setSpan(
-                            it,
-                            0,
-                            text.length,
-                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                        )
-                    }
+                    createSpannable("$text$TOKEN_SPACE", it, true)
                 } ?: "$text$TOKEN_SPACE"
             }
         }
     }
 
-    private fun applySpan(token: CharSequence) =
+    private fun createSpannable(
+        text: CharSequence,
+        spans: List<ParcelableSpan>,
+        chopLastChar: Boolean = false
+    ) = SpannableString(text).apply {
+        spans.forEach {
+            setSpan(
+                it,
+                0,
+                text.length - (if (chopLastChar) 1 else 0),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+    }
+
+    private fun applySpan(token: CharSequence): List<ParcelableSpan>? =
         keywords
             .find { it.value == token.toString() }
             ?.let {
                 when (it.type) {
-                    KeywordType.NAME -> StyleSpan(Typeface.ITALIC)
-                    KeywordType.SQL -> StyleSpan(Typeface.BOLD)
+                    KeywordType.SQL -> listOf<ParcelableSpan>(StyleSpan(Typeface.BOLD))
+                    KeywordType.TABLE_NAME -> listOf<ParcelableSpan>(
+                        StyleSpan(Typeface.ITALIC),
+                        ForegroundColorSpan(
+                            ContextCompat.getColor(context, R.color.dbinspector_color_keyword_table_name)
+                        )
+                    )
+                    KeywordType.COLUMN_NAME -> listOf<ParcelableSpan>(
+                        StyleSpan(Typeface.ITALIC),
+                        ForegroundColorSpan(
+                            ContextCompat.getColor(context, R.color.dbinspector_color_keyword_column_name)
+                        )
+                    )
                 }
             }
 }
