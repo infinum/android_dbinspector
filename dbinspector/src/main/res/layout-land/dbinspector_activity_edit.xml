@@ -1,0 +1,127 @@
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.MaterialComponents.Dark"
+        app:liftOnScroll="true"
+        app:liftOnScrollTargetViewId="@id/scrollView">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:menu="@menu/dbinspector_edit"
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:title="@string/dbinspector_edit" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.infinum.dbinspector.ui.shared.views.SplitLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:dbinspector_orientation="horizontal"
+        app:dbinspector_splitterBackground="@drawable/dbinspector_splitter"
+        app:dbinspector_splitterDraggingBackground="@drawable/dbinspector_splitter_dragging"
+        app:dbinspector_splitterPosition="50%"
+        app:dbinspector_splitterSize="@dimen/dbinspector_default_splitter_size"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="8dp"
+            android:layout_weight="1"
+            android:fillViewport="true"
+            android:overScrollMode="never"
+            android:scrollbars="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <View
+                    android:id="@+id/anchorView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="2dp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:boxBackgroundMode="outline"
+                    app:boxCornerRadiusBottomEnd="0dp"
+                    app:boxCornerRadiusBottomStart="0dp"
+                    app:boxCornerRadiusTopEnd="0dp"
+                    app:boxCornerRadiusTopStart="0dp"
+                    app:boxStrokeWidth="1dp"
+                    app:boxStrokeWidthFocused="@dimen/dbinspector_default_linecount_border"
+                    app:counterEnabled="false"
+                    app:endIconCheckable="false"
+                    app:errorEnabled="false"
+                    app:helperTextEnabled="false"
+                    app:hintAnimationEnabled="false"
+                    app:hintEnabled="false"
+                    app:passwordToggleEnabled="false"
+                    app:startIconCheckable="false">
+
+                    <com.infinum.dbinspector.ui.shared.views.editor.EditorTextInput
+                        android:id="@+id/editorInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:dropDownAnchor="@id/anchorView"
+                        android:gravity="top|start"
+                        android:inputType="textNoSuggestions|textMultiLine"
+                        android:padding="8dp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </FrameLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/errorView"
+                style="@style/TextAppearance.MaterialComponents.Body2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="12dp"
+                android:padding="8dp"
+                android:textColor="?colorError"
+                android:visibility="gone"
+                app:drawableStartCompat="@drawable/dbinspector_ic_alert" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/affectedRowsView"
+                style="@style/TextAppearance.MaterialComponents.Body2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:visibility="gone" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="horizontal">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:scrollbars="vertical" />
+
+            </HorizontalScrollView>
+
+        </LinearLayout>
+
+    </com.infinum.dbinspector.ui.shared.views.SplitLinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
