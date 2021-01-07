@@ -41,13 +41,23 @@ internal class WordTokenizer(
         return length
     }
 
+    @Suppress("NestedBlockDepth")
     override fun terminateToken(text: CharSequence): CharSequence {
         var i = text.length
         while (i > 0 && text[i - 1] == TOKEN_SPACE) {
             i--
         }
         return if (i > 0 && text[i - 1] == TOKEN_SPACE) {
-            terminateWithSpan(text)
+            applySpan(text)?.let {
+                SpannableString(text).apply {
+                    setSpan(
+                        it,
+                        0,
+                        text.length,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
+            } ?: text
         } else {
             if (text is Spanned) {
                 val spannableString = SpannableString("$text$TOKEN_NEW_LINE")
@@ -61,22 +71,19 @@ internal class WordTokenizer(
                 )
                 spannableString
             } else {
-                terminateWithSpan("$text$TOKEN_SPACE")
+                applySpan(text)?.let {
+                    SpannableString("$text$TOKEN_SPACE").apply {
+                        setSpan(
+                            it,
+                            0,
+                            text.length,
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
+                    }
+                } ?: "$text$TOKEN_SPACE"
             }
         }
     }
-
-    private fun terminateWithSpan(text: CharSequence) =
-        applySpan(text)?.let {
-            SpannableString(text).apply {
-                setSpan(
-                    it,
-                    0,
-                    text.length,
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
-            }
-        } ?: text
 
     private fun applySpan(token: CharSequence) =
         keywords
