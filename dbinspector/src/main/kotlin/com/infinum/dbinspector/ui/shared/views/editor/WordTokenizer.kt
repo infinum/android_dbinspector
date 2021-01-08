@@ -80,6 +80,11 @@ internal class WordTokenizer(
         this.keywords = this.keywords + keywords
     }
 
+    fun tokenize(text: String) =
+        findSpans(text)?.let {
+            createSpannable(text, it, true)
+        } ?: text
+
     private fun createSpannable(
         text: CharSequence,
         spans: List<ParcelableSpan>,

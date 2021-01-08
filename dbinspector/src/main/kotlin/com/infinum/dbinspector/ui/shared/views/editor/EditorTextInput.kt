@@ -119,6 +119,17 @@ internal class EditorTextInput @JvmOverloads constructor(
             }
         )
 
+    override fun onTextContextMenuItem(id: Int): Boolean {
+        val consumed = super.onTextContextMenuItem(id)
+
+        when (id) {
+            android.R.id.paste -> onTextPaste()
+            else -> Unit
+        }
+
+        return consumed
+    }
+
     override fun onDraw(canvas: Canvas) {
         lineNumber = DEFAULT_FIRST_LINE
 
@@ -164,4 +175,20 @@ internal class EditorTextInput @JvmOverloads constructor(
 
     private fun isNumberedLine(line: Int) =
         line == 0 || text?.get(layout.getLineStart(line) - 1)?.toString() == System.lineSeparator()
+
+    private fun onTextPaste() {
+        text?.let {
+            it.split(" ").forEach { word ->
+                val start = it.indexOf(word)
+                val end = start + word.length
+                when {
+                    word.isBlank() -> it.replace(start, end, "")
+                    else -> it.replace(start, end, wordTokenizer.tokenize(word))
+                }
+            }
+            if (it.last().isWhitespace().not()) {
+                it.append(" ")
+            }
+        }
+    }
 }

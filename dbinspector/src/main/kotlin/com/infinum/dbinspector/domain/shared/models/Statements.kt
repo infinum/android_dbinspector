@@ -113,11 +113,5 @@ object Statements {
     object RawQuery {
 
         fun affectedRows() = changes()
-
-        fun schemaNames() =
-            select {
-                columns("name", "type")
-                from("sqlite_master")
-            }
     }
 }

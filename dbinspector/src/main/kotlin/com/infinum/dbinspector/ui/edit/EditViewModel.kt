@@ -116,39 +116,60 @@ internal class EditViewModel(
         }
     }
 
+    @Suppress("LongMethod")
     fun keywords(
         onData: suspend (value: List<Keyword>) -> Unit
     ) {
         launch {
             val result = io {
-                val schema = getTables(
+                val tableNames: List<Keyword> = getTables(
                     ContentParameters(
                         databasePath = databasePath,
-                        statement = Statements.RawQuery.schemaNames(),
+                        statement = Statements.Schema.tables(),
                         pageSize = Int.MAX_VALUE
                     )
                 )
                     .cells
-                    .chunked(2)
-                    .map { Pair(it[0].text.orEmpty(), it[1].text.orEmpty()) }
-                    .filter { it.first.isNotBlank() && it.second.isNotBlank() }
+                    .filterNot { it.text.isNullOrBlank() }
+                    .map {
+                        Keyword(
+                            value = it.text.orEmpty(),
+                            type = KeywordType.TABLE_NAME
+                        )
+                    }
 
-                val tableNames: List<Keyword> = schema
-                    .filter { it.second == "table" }
+                val viewNames = getTables(
+                    ContentParameters(
+                        databasePath = databasePath,
+                        statement = Statements.Schema.views(),
+                        pageSize = Int.MAX_VALUE
+                    )
+                )
+                    .cells
+                    .filterNot { it.text.isNullOrBlank() }
                     .map {
                         Keyword(
-                            value = it.first,
+                            value = it.text.orEmpty(),
                             type = KeywordType.TABLE_NAME
                         )
                     }
-                val otherNames: List<Keyword> = schema
-                    .filterNot { it.second == "table" }
+
+                val triggerNames = getTables(
+                    ContentParameters(
+                        databasePath = databasePath,
+                        statement = Statements.Schema.triggers(),
+                        pageSize = Int.MAX_VALUE
+                    )
+                )
+                    .cells
+                    .filterNot { it.text.isNullOrBlank() }
                     .map {
                         Keyword(
-                            value = it.first,
+                            value = it.text.orEmpty(),
                             type = KeywordType.TABLE_NAME
                         )
                     }
+
                 val columnNames: List<Keyword> = tableNames.map {
                     getTableInfo(
                         PragmaParameters.Info(
@@ -166,7 +187,7 @@ internal class EditViewModel(
                 }.flatten()
                     .distinctBy { it.value }
 
-                listOf<Keyword>().plus(tableNames).plus(otherNames).plus(columnNames)
+                listOf<Keyword>().plus(tableNames).plus(viewNames).plus(triggerNames).plus(columnNames)
             }
             onData(result)
         }
