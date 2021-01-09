@@ -78,6 +78,18 @@ internal class KeywordAdapter(
                     ContextCompat.getColor(context, R.color.dbinspector_color_keyword_table_name)
                 )
             )
+            KeywordType.VIEW_NAME -> listOf<ParcelableSpan>(
+                StyleSpan(Typeface.ITALIC),
+                ForegroundColorSpan(
+                    ContextCompat.getColor(context, R.color.dbinspector_color_keyword_view_name)
+                )
+            )
+            KeywordType.TRIGGER_NAME -> listOf<ParcelableSpan>(
+                StyleSpan(Typeface.ITALIC),
+                ForegroundColorSpan(
+                    ContextCompat.getColor(context, R.color.dbinspector_color_keyword_trigger_name)
+                )
+            )
             KeywordType.COLUMN_NAME -> listOf<ParcelableSpan>(
                 StyleSpan(Typeface.ITALIC),
                 ForegroundColorSpan(

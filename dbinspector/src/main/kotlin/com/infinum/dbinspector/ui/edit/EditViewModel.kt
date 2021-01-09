@@ -150,7 +150,7 @@ internal class EditViewModel(
                     .map {
                         Keyword(
                             value = it.text.orEmpty(),
-                            type = KeywordType.TABLE_NAME
+                            type = KeywordType.VIEW_NAME
                         )
                     }
 
@@ -166,7 +166,7 @@ internal class EditViewModel(
                     .map {
                         Keyword(
                             value = it.text.orEmpty(),
-                            type = KeywordType.TABLE_NAME
+                            type = KeywordType.TRIGGER_NAME
                         )
                     }
 

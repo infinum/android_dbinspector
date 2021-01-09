@@ -24,6 +24,14 @@ enum class KeywordType(
         backgroundResId = R.drawable.dbinspector_keyword_table_name_background,
         textColorResId = R.color.dbinspector_color_keyword_table_name
     ),
+    VIEW_NAME(
+        backgroundResId = R.drawable.dbinspector_keyword_table_name_background,
+        textColorResId = R.color.dbinspector_color_keyword_view_name
+    ),
+    TRIGGER_NAME(
+        backgroundResId = R.drawable.dbinspector_keyword_table_name_background,
+        textColorResId = R.color.dbinspector_color_keyword_trigger_name
+    ),
     COLUMN_NAME(
         backgroundResId = R.drawable.dbinspector_keyword_column_name_background,
         textColorResId = R.color.dbinspector_color_keyword_column_name
