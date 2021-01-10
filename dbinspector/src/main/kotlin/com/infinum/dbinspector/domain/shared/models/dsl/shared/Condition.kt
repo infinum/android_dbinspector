@@ -5,7 +5,7 @@ import com.infinum.dbinspector.domain.shared.models.dsl.conditions.Eq
 import com.infinum.dbinspector.domain.shared.models.dsl.conditions.Like
 import com.infinum.dbinspector.domain.shared.models.dsl.conditions.Or
 
-abstract class Condition {
+internal abstract class Condition {
 
     protected abstract fun addCondition(condition: Condition)
 

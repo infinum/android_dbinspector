@@ -6,7 +6,7 @@ import android.content.Intent
 import androidx.activity.result.contract.ActivityResultContract
 import com.infinum.dbinspector.ui.Presentation
 
-class SchemaContract : ActivityResultContract<SchemaContract.Input, Boolean>() {
+internal class SchemaContract : ActivityResultContract<SchemaContract.Input, Boolean>() {
 
     override fun createIntent(context: Context, input: Input): Intent =
         Intent(context, input.childView)

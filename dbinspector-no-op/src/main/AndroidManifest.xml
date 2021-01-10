@@ -1,2 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.infinum.dbinspector" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.infinum.dbinspector">
+
+    <application>
+
+        <!--suppress AndroidDomInspection -->
+        <activity-alias
+            android:name="com.infinum.dbinspector.DbInspectorActivity"
+            android:enabled="false"
+            android:exported="false"
+            android:taskAffinity="com.infinum.dbinspector"
+            tools:node="remove" />
+
+    </application>
+
+</manifest>

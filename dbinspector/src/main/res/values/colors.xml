@@ -2,8 +2,17 @@
 <resources>
     <color name="dbinspector_color_primary">#0f80cc</color>
     <color name="dbinspector_color_primary_dark">#003b57</color>
-
     <color name="dbinspector_header_background">#bbbbbb</color>
     <color name="dbinspector_alternate_row_background">#F2F2F2</color>
     <color name="dbinspector_status_bar">#003b57</color>
+    <color name="dbinspector_splitter_background">#e1e1e1</color>
+    <color name="dbinspector_splitter_dragging_background">#35000000</color>
+    <color name="dbinspector_color_keyword_sql_keyword">#008ac0</color>
+    <color name="dbinspector_color_keyword_sql_function">#EB8258</color>
+    <color name="dbinspector_color_keyword_sql_type">#CC2E28</color>
+    <color name="dbinspector_color_keyword_table_name">#7b71c2</color>
+    <color name="dbinspector_color_keyword_view_name">#8E23A9</color>
+    <color name="dbinspector_color_keyword_trigger_name">#BB3A8C</color>
+    <color name="dbinspector_color_keyword_column_name">#abc96a</color>
+    <color name="dbinspector_color_keyword_background">#aaaaaa</color>
 </resources>

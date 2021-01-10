@@ -33,6 +33,8 @@
     <string name="dbinspector_action_share">Share</string>
     <string name="dbinspector_action_copy">Copy</string>
     <string name="dbinspector_action_settings">Settings</string>
+    <string name="dbinspector_action_edit">Edit</string>
+    <string name="dbinspector_action_execute">Execute</string>
 
     <string name="dbinspector_delete_database_confirm">Delete database %s?</string>
     <string name="dbinspector_clear_table_confirm">Delete the content of the table %s?</string>
@@ -47,6 +49,7 @@
     <string name="dbinspector_nothing_found">Nothing found</string>
     <string name="dbinspector_give_it_another_try">Give it another try…</string>
     <string name="dbinspector_retry">Retry</string>
+    <string name="dbinspector_truncated">Truncated</string>
 
     <string name="dbinspector_search_by_name">Search by name…</string>
 

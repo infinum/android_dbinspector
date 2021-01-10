@@ -6,7 +6,7 @@ import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
 import com.infinum.dbinspector.domain.shared.models.parameters.DatabaseParameters
 import com.infinum.dbinspector.ui.shared.base.BaseViewModel
 
-internal class EditViewModel(
+internal class EditDatabaseViewModel(
     private val context: Context,
     private val renameDatabase: UseCases.RenameDatabase
 ) : BaseViewModel() {

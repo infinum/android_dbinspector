@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="AlwaysShowAction">
+
+    <item
+        android:id="@+id/clear"
+        android:enabled="false"
+        android:icon="@drawable/dbinspector_ic_clear_input"
+        android:title="@string/dbinspector_action_clear"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/execute"
+        android:enabled="false"
+        android:icon="@drawable/dbinspector_ic_execute"
+        android:title="@string/dbinspector_action_execute"
+        app:showAsAction="always" />
+
+</menu>

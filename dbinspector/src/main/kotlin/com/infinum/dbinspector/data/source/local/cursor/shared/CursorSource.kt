@@ -26,6 +26,7 @@ internal open class CursorSource {
         query: Query,
         paginator: Paginator,
         settings: SettingsEntity?,
+        filterPredicate: ((Field) -> Boolean) = { false },
         continuation: CancellableContinuation<QueryResult>
     ) {
         if (query.database?.isOpen == true) {
@@ -48,7 +49,7 @@ internal open class CursorSource {
                     cursor.columnCount
                 )
 
-                val rows = iterateRowsInTable(cursor, boundary, settings)
+                val rows = iterateRowsInTable(cursor, boundary, settings, filterPredicate)
 
                 continuation.resume(
                     QueryResult(
@@ -73,7 +74,8 @@ internal open class CursorSource {
     private fun iterateRowsInTable(
         cursor: Cursor,
         boundary: Paginator.Boundary,
-        settings: SettingsEntity?
+        settings: SettingsEntity?,
+        filterPredicate: (Field) -> Boolean
     ): List<Row> =
         if (cursor.moveToPosition(boundary.startRow)) {
             (boundary.startRow until boundary.endRow).map { row ->
@@ -81,7 +83,8 @@ internal open class CursorSource {
                     position = row,
                     fields = iterateFieldsInRow(
                         cursor,
-                        settings ?: SettingsEntity.getDefaultInstance()
+                        settings ?: SettingsEntity.getDefaultInstance(),
+                        filterPredicate
                     )
                 ).also {
                     cursor.moveToNext()
@@ -91,7 +94,11 @@ internal open class CursorSource {
             listOf()
         }
 
-    private fun iterateFieldsInRow(cursor: Cursor, settings: SettingsEntity): List<Field> =
+    private fun iterateFieldsInRow(
+        cursor: Cursor,
+        settings: SettingsEntity,
+        filterPredicate: (Field) -> Boolean
+    ): List<Field> =
         (0 until cursor.columnCount).map { column ->
             when (val type = FieldType(cursor.getType(column))) {
                 FieldType.NULL -> Field(
@@ -135,4 +142,5 @@ internal open class CursorSource {
                 )
             }
         }
+            .filterNot(filterPredicate)
 }

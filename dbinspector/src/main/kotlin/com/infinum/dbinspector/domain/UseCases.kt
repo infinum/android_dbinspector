@@ -33,6 +33,10 @@ internal interface UseCases {
     // region Settings
     interface GetSettings : BaseUseCase<SettingsParameters.Get, Settings>
 
+    interface SaveIgnoredTableName : BaseUseCase<SettingsParameters.IgnoredTableName, Unit>
+
+    interface RemoveIgnoredTableName : BaseUseCase<SettingsParameters.IgnoredTableName, Unit>
+
     interface ToggleLinesLimit : BaseUseCase<SettingsParameters.LinesLimit, Unit>
 
     interface SaveLinesCount : BaseUseCase<SettingsParameters.LinesCount, Unit>
@@ -62,6 +66,12 @@ internal interface UseCases {
     interface DropView : BaseUseCase<ContentParameters, Page>
 
     interface DropTrigger : BaseUseCase<ContentParameters, Page>
+
+    interface GetRawQueryHeaders : BaseUseCase<ContentParameters, Page>
+
+    interface GetRawQuery : BaseUseCase<ContentParameters, Page>
+
+    interface GetAffectedRows : BaseUseCase<ContentParameters, Page>
     // endregion
 
     // region Pragma

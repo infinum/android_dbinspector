@@ -1,6 +1,6 @@
 package com.infinum.dbinspector.domain.shared.models.dsl.shared
 
-open class CompositeCondition(private val sqlOperator: String) : Condition() {
+internal open class CompositeCondition(private val sqlOperator: String) : Condition() {
 
     private val conditions = mutableListOf<Condition>()
 

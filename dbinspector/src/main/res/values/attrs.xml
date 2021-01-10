@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DbinspectorSplitLinearLayout">
+        <attr name="dbinspector_orientation">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
+        <attr name="dbinspector_splitterSize" format="dimension" />
+        <attr name="dbinspector_splitterMovable" format="boolean" />
+        <attr name="dbinspector_splitterPosition" format="dimension|fraction" />
+        <attr name="dbinspector_splitterBackground" format="reference|color" />
+        <attr name="dbinspector_splitterDraggingBackground" format="reference|color" />
+        <attr name="dbinspector_splitterTouchSlop" format="dimension" />
+        <attr name="dbinspector_paneSizeMin" format="dimension" />
+    </declare-styleable>
+</resources>

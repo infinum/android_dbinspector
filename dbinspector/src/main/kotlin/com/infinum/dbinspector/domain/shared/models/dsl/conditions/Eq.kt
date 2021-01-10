@@ -2,7 +2,7 @@ package com.infinum.dbinspector.domain.shared.models.dsl.conditions
 
 import com.infinum.dbinspector.domain.shared.models.dsl.shared.Condition
 
-class Eq(
+internal class Eq(
     private val column: String,
     private val value: Any?
 ) : Condition() {

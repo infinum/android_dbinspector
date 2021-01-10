@@ -1,6 +1,14 @@
 Changelog
 =========
 
+## Version 5.2.0
+
+_2021-01-11_
+
+* Add an editor and ability to execute custom SQL queries
+* Implement adaptive icon support
+* Change launcher alias behaviour
+
 ## Version 5.1.0
 
 _2020-12-31_

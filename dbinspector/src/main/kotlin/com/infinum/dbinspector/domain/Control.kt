@@ -12,5 +12,7 @@ internal interface Control {
 
     interface Pragma : BaseControl<Mappers.Pragma, Converters.Pragma>
 
+    interface RawQuery : BaseControl<Mappers.RawQuery, Converters.RawQuery>
+
     interface Settings : BaseControl<Mappers.Settings, Converters.Settings>
 }

@@ -40,6 +40,10 @@ internal interface Repositories {
         suspend fun saveTruncateMode(input: SettingsParameters.Truncate)
 
         suspend fun saveBlobPreview(input: SettingsParameters.BlobPreview)
+
+        suspend fun saveIgnoredTableName(input: SettingsParameters.IgnoredTableName)
+
+        suspend fun removeIgnoredTableName(input: SettingsParameters.IgnoredTableName)
     }
 
     interface Schema : BaseRepository<ContentParameters, Page> {
@@ -60,5 +64,12 @@ internal interface Repositories {
         suspend fun getForeignKeys(input: PragmaParameters.ForeignKeys): Page
 
         suspend fun getIndexes(input: PragmaParameters.Indexes): Page
+    }
+
+    interface RawQuery : BaseRepository<ContentParameters, Page> {
+
+        suspend fun getHeaders(input: ContentParameters): Page
+
+        suspend fun getAffectedRows(input: ContentParameters): Page
     }
 }

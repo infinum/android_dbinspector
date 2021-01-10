@@ -9,4 +9,10 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/edit"
+        android:icon="@drawable/dbinspector_ic_edit"
+        android:title="@string/dbinspector_action_edit"
+        app:showAsAction="always" />
+
 </menu>

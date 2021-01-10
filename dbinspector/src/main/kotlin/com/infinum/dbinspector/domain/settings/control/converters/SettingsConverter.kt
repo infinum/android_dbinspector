@@ -23,4 +23,7 @@ internal class SettingsConverter(
 
     override suspend fun blobPreviewMode(parameters: SettingsParameters.BlobPreview): SettingsTask =
         SettingsTask(blobPreviewMode = blobPreviewConverter(parameters))
+
+    override suspend fun ignoredTableName(parameters: SettingsParameters.IgnoredTableName): SettingsTask =
+        SettingsTask(ignoredTableName = parameters.name)
 }

@@ -14,7 +14,7 @@ import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
 import com.infinum.dbinspector.extensions.scale
 import com.infinum.dbinspector.extensions.searchView
 import com.infinum.dbinspector.extensions.setup
-import com.infinum.dbinspector.ui.databases.edit.EditContract
+import com.infinum.dbinspector.ui.databases.edit.EditDatabaseContract
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import com.infinum.dbinspector.ui.shared.listeners.FabExtendingOnScrollListener
@@ -29,7 +29,7 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
 
     private val navigatorIntentFactory = NavigatorIntentFactory(this)
 
-    private val editContract = registerForActivityResult(EditContract()) { shouldRefresh ->
+    private val editContract = registerForActivityResult(EditDatabaseContract()) { shouldRefresh ->
         if (shouldRefresh) {
             refreshDatabases()
         }
@@ -57,7 +57,7 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
             onDelete = { removeDatabase(it) },
             onEdit = {
                 editContract.launch(
-                    EditContract.Input(
+                    EditDatabaseContract.Input(
                         absolutePath = it.absolutePath,
                         parentPath = it.parentPath,
                         name = it.name,

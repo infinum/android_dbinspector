@@ -7,5 +7,6 @@ internal data class Settings(
     val linesLimitEnabled: Boolean = false,
     val linesCount: Int = 100,
     val truncateMode: TruncateMode = TruncateMode.END,
-    val blobPreviewMode: BlobPreviewMode = BlobPreviewMode.PLACEHOLDER
+    val blobPreviewMode: BlobPreviewMode = BlobPreviewMode.PLACEHOLDER,
+    val ignoredTableNames: List<String> = listOf()
 )

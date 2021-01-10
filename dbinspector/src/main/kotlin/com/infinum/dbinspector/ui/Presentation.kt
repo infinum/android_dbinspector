@@ -6,7 +6,8 @@ import com.infinum.dbinspector.ui.content.table.TableViewModel
 import com.infinum.dbinspector.ui.content.trigger.TriggerViewModel
 import com.infinum.dbinspector.ui.content.view.ViewViewModel
 import com.infinum.dbinspector.ui.databases.DatabaseViewModel
-import com.infinum.dbinspector.ui.databases.edit.EditViewModel
+import com.infinum.dbinspector.ui.databases.edit.EditDatabaseViewModel
+import com.infinum.dbinspector.ui.edit.EditViewModel
 import com.infinum.dbinspector.ui.pragma.PragmaViewModel
 import com.infinum.dbinspector.ui.pragma.foreignkeys.ForeignKeysViewModel
 import com.infinum.dbinspector.ui.pragma.indexes.IndexViewModel
@@ -68,9 +69,9 @@ internal object Presentation {
 
     private fun viewModels() = module {
         viewModel { DatabaseViewModel(get(), get(), get(), get(), get()) }
-        viewModel { EditViewModel(get(), get()) }
+        viewModel { EditDatabaseViewModel(get(), get()) }
 
-        viewModel { SettingsViewModel(get(), get(), get(), get(), get()) }
+        viewModel { SettingsViewModel(get(), get(), get(), get(), get(), get(), get()) }
 
         viewModel { SchemaViewModel(get(), get()) }
 
@@ -87,5 +88,7 @@ internal object Presentation {
         viewModel { TableInfoViewModel(get()) }
         viewModel { ForeignKeysViewModel(get()) }
         viewModel { IndexViewModel(get()) }
+
+        viewModel { EditViewModel(get(), get(), get(), get(), get(), get(), get()) }
     }
 }

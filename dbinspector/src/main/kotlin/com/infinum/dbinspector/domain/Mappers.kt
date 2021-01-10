@@ -31,6 +31,8 @@ internal interface Mappers {
         fun transformToCell(): ((Field) -> CellModel)
     }
 
+    interface RawQuery : BaseMapper<QueryResult, PageModel>
+
     interface TruncateMode : BaseMapper<SettingsEntity.TruncateMode, TruncateModeModel>
 
     interface BlobPreviewMode : BaseMapper<SettingsEntity.BlobPreviewMode, BlobPreviewModeModel>
