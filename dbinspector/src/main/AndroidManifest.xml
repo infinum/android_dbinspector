@@ -9,8 +9,17 @@
             android:name="com.infinum.dbinspector.DbInspectorActivity"
             android:enabled="true"
             android:exported="true"
+            android:icon="@drawable/dbinspector_launcher"
+            android:label="@string/dbinspector_name"
+            android:roundIcon="@drawable/dbinspector_launcher_round"
             android:targetActivity="com.infinum.dbinspector.ui.databases.DatabasesActivity"
-            android:taskAffinity="com.infinum.dbinspector" />
+            android:taskAffinity="com.infinum.dbinspector"
+            tools:node="merge">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
 
         <activity
             android:name="com.infinum.dbinspector.ui.databases.DatabasesActivity"
