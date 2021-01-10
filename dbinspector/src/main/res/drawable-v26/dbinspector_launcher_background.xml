@@ -1,14 +1,15 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="120dp"
-    android:height="120dp"
-    android:viewportWidth="120"
-    android:viewportHeight="120">
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
     <path
         android:fillColor="#0F80CC"
         android:fillType="evenOdd"
-        android:pathData="M60,60m-60,0a60,60 0,1 1,120 0a60,60 0,1 1,-120 0"
+        android:pathData="M0,0h108v108h-108z"
         android:strokeWidth="1"
         android:strokeColor="#00000000" />
+
     <path
         android:fillColor="#00000000"
         android:fillType="evenOdd"
@@ -103,29 +104,6 @@
         android:pathData="M33.367,48.673L31.668,50.928M31.406,48.832L33.661,50.531"
         android:strokeWidth="1"
         android:strokeAlpha="0.14"
-        android:strokeColor="#FFFFFF"
-        android:strokeLineCap="square" />
-    <path
-        android:fillAlpha="0.42"
-        android:fillColor="#FFFFFF"
-        android:fillType="nonZero"
-        android:pathData="M58.618,41.647C67.017,41.647 73.825,48.455 73.825,56.854C73.825,60.62 72.445,64.083 70.176,66.75L70.807,67.382L72.655,67.382L84.353,79.079L80.844,82.588L69.146,70.891L69.146,69.043L68.515,68.411C65.848,70.68 62.385,72.061 58.618,72.061C50.22,72.061 43.412,65.252 43.412,56.854C43.412,48.455 50.22,41.647 58.618,41.647M58.618,46.326C52.77,46.326 48.091,51.005 48.091,56.854C48.091,62.703 52.77,67.382 58.618,67.382C64.467,67.382 69.146,62.703 69.146,56.854C69.146,51.005 64.467,46.326 58.618,46.326Z"
-        android:strokeWidth="1"
-        android:strokeColor="#00000000" />
-    <path
-        android:fillColor="#00000000"
-        android:fillType="evenOdd"
-        android:pathData="M17.824,86.647L102.176,86.647"
-        android:strokeWidth="1"
-        android:strokeAlpha="0.42"
-        android:strokeColor="#FFFFFF"
-        android:strokeLineCap="square" />
-    <path
-        android:fillColor="#00000000"
-        android:fillType="evenOdd"
-        android:pathData="M29.647,92.118L90.706,92.118"
-        android:strokeWidth="1"
-        android:strokeAlpha="0.42"
         android:strokeColor="#FFFFFF"
         android:strokeLineCap="square" />
 </vector>
