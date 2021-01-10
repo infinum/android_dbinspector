@@ -39,6 +39,10 @@ internal interface Interactors {
     interface SaveTruncateMode : BaseInteractor<SettingsTask, Unit>
 
     interface SaveBlobPreviewMode : BaseInteractor<SettingsTask, Unit>
+
+    interface SaveIgnoredTableName : BaseInteractor<SettingsTask, Unit>
+
+    interface RemoveIgnoredTableName : BaseInteractor<SettingsTask, Unit>
     // endregion
 
     // region Schema
@@ -59,6 +63,12 @@ internal interface Interactors {
     interface GetViewByName : BaseInteractor<Query, QueryResult>
 
     interface DropViewByName : BaseInteractor<Query, QueryResult>
+
+    interface GetRawQueryHeaders : BaseInteractor<Query, QueryResult>
+
+    interface GetRawQuery : BaseInteractor<Query, QueryResult>
+
+    interface GetAffectedRows : BaseInteractor<Query, QueryResult>
     // endregion
 
     // region Pragma

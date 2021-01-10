@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="@dimen/dbinspector_slider_button_margin"
+        android:src="@drawable/dbinspector_ic_table" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/nameView"
+        style="@style/TextAppearance.MaterialComponents.Body2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        tools:text="android_metadata" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/removeButton"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="@dimen/dbinspector_slider_button_size"
+        android:layout_height="@dimen/dbinspector_slider_button_size"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/dbinspector_slider_button_margin"
+        android:layout_marginEnd="@dimen/dbinspector_slider_button_margin"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        app:cornerRadius="@dimen/dbinspector_slider_button_corner_radius"
+        app:icon="@drawable/dbinspector_ic_remove"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:strokeWidth="0dp" />
+
+</LinearLayout>

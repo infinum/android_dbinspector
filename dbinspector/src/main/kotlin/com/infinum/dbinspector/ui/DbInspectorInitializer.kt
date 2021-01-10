@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.startup.Initializer
 import com.infinum.dbinspector.di.LibraryKoin
 
-class DbInspectorInitializer : Initializer<Class<DbInspectorInitializer>> {
+internal class DbInspectorInitializer : Initializer<Class<DbInspectorInitializer>> {
 
     override fun create(context: Context): Class<DbInspectorInitializer> {
 

@@ -5,8 +5,7 @@ import com.infinum.dbinspector.domain.Converters
 import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
 
 internal class SchemaConverter(
-    private val sortConverter: Converters.Sort,
-    private val settingsConverter: Converters.Settings
+    private val sortConverter: Converters.Sort
 ) : Converters.Schema {
 
     override suspend fun getPage(parameters: ContentParameters): Query =

@@ -4,7 +4,7 @@ import com.infinum.dbinspector.domain.shared.models.Sort
 import com.infinum.dbinspector.domain.shared.models.dsl.conditions.And
 import com.infinum.dbinspector.domain.shared.models.dsl.shared.Condition
 
-class Select {
+internal class Select {
 
     companion object {
         val pattern = "\\s+".toRegex()

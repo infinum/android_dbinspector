@@ -1,7 +1,7 @@
 ext.dbinspector = [
     "group"      : "com.infinum.dbinspector",
-    "version"    : "5.1.0",
-    "versionCode": 5 * 100 * 100 + 1 * 100 + 0
+    "version"    : "5.2.0",
+    "versionCode": 5 * 100 * 100 + 2 * 100 + 0
 ]
 
 ext.versions = [

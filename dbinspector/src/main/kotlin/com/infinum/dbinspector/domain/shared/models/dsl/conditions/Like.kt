@@ -2,7 +2,7 @@ package com.infinum.dbinspector.domain.shared.models.dsl.conditions
 
 import com.infinum.dbinspector.domain.shared.models.dsl.shared.Condition
 
-class Like(
+internal class Like(
     private val column: String,
     private val value: Any?
 ) : Condition() {

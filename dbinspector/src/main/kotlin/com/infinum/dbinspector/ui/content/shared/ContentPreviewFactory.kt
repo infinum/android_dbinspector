@@ -6,6 +6,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.text.format.Formatter
 import android.view.LayoutInflater
@@ -20,6 +21,8 @@ import com.infinum.dbinspector.domain.schema.shared.models.ImageType
 import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.extensions.toChecksum
 import com.infinum.dbinspector.extensions.toUtf8String
+import com.infinum.dbinspector.ui.Presentation
+import com.infinum.dbinspector.ui.edit.EditActivity
 import java.io.File
 import java.io.FileOutputStream
 
@@ -28,6 +31,15 @@ internal class ContentPreviewFactory(
 ) {
 
     private val clipboardManager = activity.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
+
+    fun showEdit(databasePath: String, databaseName: String) =
+        activity.startActivity(
+            Intent(activity, EditActivity::class.java)
+                .apply {
+                    putExtra(Presentation.Constants.Keys.DATABASE_PATH, databasePath)
+                    putExtra(Presentation.Constants.Keys.DATABASE_NAME, databaseName)
+                }
+        )
 
     fun showCell(cell: Cell) {
         cell.data?.let { bytes ->

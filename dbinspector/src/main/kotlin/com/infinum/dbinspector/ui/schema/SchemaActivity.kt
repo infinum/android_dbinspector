@@ -1,6 +1,7 @@
 package com.infinum.dbinspector.ui.schema
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -12,6 +13,7 @@ import com.infinum.dbinspector.extensions.searchView
 import com.infinum.dbinspector.extensions.setup
 import com.infinum.dbinspector.extensions.uppercase
 import com.infinum.dbinspector.ui.Presentation
+import com.infinum.dbinspector.ui.edit.EditActivity
 import com.infinum.dbinspector.ui.schema.shared.SchemaTypeAdapter
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
@@ -29,15 +31,6 @@ internal class SchemaActivity : BaseActivity(), Searchable {
 
         with(binding) {
             toolbar.setNavigationOnClickListener { finish() }
-            toolbar.setOnMenuItemClickListener {
-                when (it.itemId) {
-                    R.id.search -> {
-                        onSearchOpened()
-                        true
-                    }
-                    else -> false
-                }
-            }
 
             toolbar.menu.searchView?.setup(
                 hint = getString(R.string.dbinspector_search_by_name),
@@ -81,6 +74,19 @@ internal class SchemaActivity : BaseActivity(), Searchable {
 
         with(binding) {
             toolbar.subtitle = databaseName
+            toolbar.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.search -> {
+                        onSearchOpened()
+                        true
+                    }
+                    R.id.edit -> {
+                        showEdit(databasePath, databaseName)
+                        true
+                    }
+                    else -> false
+                }
+            }
 
             viewPager.adapter = SchemaTypeAdapter(
                 fragmentActivity = this@SchemaActivity,
@@ -92,6 +98,15 @@ internal class SchemaActivity : BaseActivity(), Searchable {
             }.attach()
         }
     }
+
+    private fun showEdit(databasePath: String, databaseName: String) =
+        startActivity(
+            Intent(this, EditActivity::class.java)
+                .apply {
+                    putExtra(Presentation.Constants.Keys.DATABASE_PATH, databasePath)
+                    putExtra(Presentation.Constants.Keys.DATABASE_NAME, databaseName)
+                }
+        )
 
     private fun showError() =
         MaterialAlertDialogBuilder(this)

@@ -3,7 +3,7 @@ package com.infinum.dbinspector.domain.shared.models.dsl
 import com.infinum.dbinspector.domain.shared.models.dsl.conditions.And
 import com.infinum.dbinspector.domain.shared.models.dsl.shared.Condition
 
-class Delete {
+internal class Delete {
 
     companion object {
         val pattern = "\\s+".toRegex()

@@ -54,7 +54,7 @@ internal class ViewBindingDelegate<T : ViewBinding>(
 internal fun <T : ViewBinding> Fragment.viewBinding(viewBindingFactory: (View) -> T) =
     ViewBindingDelegate(this, viewBindingFactory)
 
-inline fun <T : ViewBinding> AppCompatActivity.viewBinding(
+internal inline fun <T : ViewBinding> AppCompatActivity.viewBinding(
     crossinline bindingInflater: (LayoutInflater) -> T
 ) =
     lazy(LazyThreadSafetyMode.NONE) {

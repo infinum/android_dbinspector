@@ -7,10 +7,10 @@ import com.infinum.dbinspector.ui.shared.logger.Stump
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 
-object DbInspector {
+public object DbInspector {
 
     @JvmStatic
-    fun show() {
+    public fun show() {
 
         when (BuildConfig.DEBUG) {
             true -> Timber.plant(DebugTree())

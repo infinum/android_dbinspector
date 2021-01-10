@@ -1,10 +1,13 @@
 package com.infinum.dbinspector.ui.settings
 
 import android.os.Bundle
+import android.widget.LinearLayout
+import androidx.core.view.children
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorActivitySettingsBinding
+import com.infinum.dbinspector.databinding.DbinspectorItemIgnoredTableNameBinding
 import com.infinum.dbinspector.domain.settings.models.Settings
 import com.infinum.dbinspector.domain.shared.models.BlobPreviewMode
 import com.infinum.dbinspector.domain.shared.models.TruncateMode
@@ -48,9 +51,23 @@ internal class SettingsActivity : BaseActivity() {
         }
 
     private fun setupUi(settings: Settings) {
+        setupIgnoredTableNames(settings)
         setupLinesLimit(settings)
         setupBlobPreview(settings)
     }
+
+    private fun setupIgnoredTableNames(settings: Settings) =
+        with(binding) {
+            tableNameInputLayout.setEndIconOnClickListener {
+                val newName = tableNameInputLayout.editText?.text?.toString().orEmpty().trim()
+                addIgnoredTableNameView(newName)
+            }
+            settings.ignoredTableNames.forEach {
+                namesLayout.addView(
+                    createIgnoredTableNameView(it)
+                )
+            }
+        }
 
     private fun setupLinesLimit(settings: Settings) =
         with(binding) {
@@ -122,6 +139,46 @@ internal class SettingsActivity : BaseActivity() {
                 }.let {
                     viewModel.saveBlobPreviewType(it)
                 }
+            }
+        }
+
+    private fun createIgnoredTableNameView(name: String): LinearLayout {
+        val binding = DbinspectorItemIgnoredTableNameBinding.inflate(layoutInflater, binding.namesLayout, false)
+        binding.nameView.text = name
+        binding.removeButton.setOnClickListener {
+            viewModel.removeIgnoredTableName(binding.nameView.text.toString()) {
+                removeIgnoredTableNameView(it)
+            }
+        }
+        binding.root.tag = name
+        return binding.root
+    }
+
+    private fun addIgnoredTableNameView(name: String) =
+        with(binding) {
+            val ignoredNames = namesLayout.children
+                .filterIsInstance<LinearLayout>()
+                .mapNotNull { it.tag }
+                .toList()
+
+            if (name !in ignoredNames) {
+                viewModel.saveIgnoredTableName(name) {
+                    namesLayout.addView(
+                        createIgnoredTableNameView(it),
+                        0
+                    )
+                    tableNameInputLayout.editText?.text?.clear()
+                }
+            }
+        }
+
+    private fun removeIgnoredTableNameView(name: String) =
+        with(binding) {
+            viewModel.removeIgnoredTableName(name) { removedName ->
+                namesLayout.children
+                    .filterIsInstance<LinearLayout>()
+                    .find { it.tag == removedName }
+                    ?.let { namesLayout.removeView(it) }
             }
         }
 }

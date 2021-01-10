@@ -3,6 +3,7 @@ package com.infinum.dbinspector.data
 import androidx.datastore.core.Serializer
 import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
 import com.infinum.dbinspector.data.source.local.cursor.PragmaSource
+import com.infinum.dbinspector.data.source.local.cursor.RawQuerySource
 import com.infinum.dbinspector.data.source.local.cursor.SchemaSource
 import com.infinum.dbinspector.data.source.local.proto.DataStoreFactory
 import com.infinum.dbinspector.data.source.local.proto.settings.SettingsSerializer
@@ -14,7 +15,7 @@ import org.koin.core.module.Module
 import org.koin.core.qualifier.StringQualifier
 import org.koin.dsl.module
 
-object Data {
+internal object Data {
 
     object Constants {
 
@@ -46,6 +47,8 @@ object Data {
             val TRIGGERS = StringQualifier("data.qualifiers.triggers")
             val TRIGGER_BY_NAME = StringQualifier("data.qualifiers.trigger_by_name")
             val DROP_TRIGGER = StringQualifier("data.qualifiers.drop_trigger")
+
+            val RAW_QUERY = StringQualifier("data.qualifiers.raw_query")
         }
 
         object Pragma {
@@ -83,6 +86,8 @@ object Data {
         factory<Paginator>(qualifier = Qualifiers.Pragma.FOREIGN_KEYS) { CursorPaginator() }
         factory<Paginator>(qualifier = Qualifiers.Pragma.INDEXES) { CursorPaginator() }
 
+        factory<Paginator>(qualifier = Qualifiers.Schema.RAW_QUERY) { CursorPaginator() }
+
         single<Sources.Memory> { AndroidConnectionSource() }
     }
 
@@ -119,6 +124,13 @@ object Data {
                 get(qualifier = Qualifiers.Pragma.TABLE_INFO),
                 get(qualifier = Qualifiers.Pragma.FOREIGN_KEYS),
                 get(qualifier = Qualifiers.Pragma.INDEXES),
+                get()
+            )
+        }
+
+        factory<Sources.Local.RawQuery> {
+            RawQuerySource(
+                get(qualifier = Qualifiers.Schema.RAW_QUERY),
                 get()
             )
         }

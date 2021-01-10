@@ -1,4 +1,4 @@
-[ ![Download](https://api.bintray.com/packages/infinum/android/dbinspector/images/download.svg?version=5.0.1) ](https://bintray.com/infinum/android/dbinspector/5.0.1/link) ![Validate Gradle Wrapper](https://github.com/infinum/android_dbinspector/workflows/Validate%20Gradle%20Wrapper/badge.svg)
+[ ![Download](https://api.bintray.com/packages/infinum/android/dbinspector/images/download.svg?version=5.2.0) ](https://bintray.com/infinum/android/dbinspector/5.2.0/link) ![Validate Gradle Wrapper](https://github.com/infinum/android_dbinspector/workflows/Validate%20Gradle%20Wrapper/badge.svg)
 
 ### <img align="left" src="logo.svg" width="48">
 # DbInspector
@@ -47,37 +47,44 @@ Then add the following dependencies in your app `build.gradle` or `build.gradle.
 
 **Groovy**
 ```groovy
-debugImplementation "com.infinum.dbinspector:dbinspector:5.0.1"
-releaseImplementation "com.infinum.dbinspector:dbinspector-no-op:5.0.1"
+debugImplementation "com.infinum.dbinspector:dbinspector:5.2.0"
+releaseImplementation "com.infinum.dbinspector:dbinspector-no-op:5.2.0"
 ```
 **KotlinDSL**
 ```kotlin
-debugImplementation("com.infinum.dbinspector:dbinspector:5.0.1")
-releaseImplementation("com.infinum.dbinspector:dbinspector-no-op:5.0.1")
+debugImplementation("com.infinum.dbinspector:dbinspector:5.2.0")
+releaseImplementation("com.infinum.dbinspector:dbinspector-no-op:5.2.0")
 ```
 
 ### Usage
 _DbInspector_ can be invoked **explicitly** or **implicitly**.
 * explicitly - call _DbInspector.show()_ anywhere and anytime that you see fit, like _onClick_ methods, lambdas or similar.
-* implicitly - add an exposed Activity in your application manifest that in return creates a launcher icon for _DbInspector_ for the application implementing it
+* implicitly - when you add the _dbinspector_ package an Activity alias is automatically merged into your application manifest that in return creates a launcher icon for _DbInspector_,
+but when you add the _dbinspector-no-op_ the same Activity alias node is automatically removed from your application manifest.
+Implicit way can be tweaked to achieve desired behaviour as demonstrated in an example below.
 
 **Explicit**
 ```kotlin
 DbInspector.show()
 ```
 **Implicit**
+If you use _dbinspector_ package but *do not want* an additional automatic launcher icon merged in and generated.
 ```xml
-<activity
+<!--suppress AndroidDomInspection -->
+<activity-alias
     android:name="com.infinum.dbinspector.DbInspectorActivity"
-    android:icon="@drawable/dbinspector_launcher"
-    android:roundIcon="@drawable/dbinspector_launcher_round"
-    android:label="@string/dbinspector_name">
-    <intent-filter>
-        <action android:name="android.intent.action.MAIN" />
-        <category android:name="android.intent.category.LAUNCHER" />
-    </intent-filter>
-</activity>
+    tools:node="remove" />
 ```
+If you use _dbinspector_ package but *want* too change launcher icon label merged in.
+```xml
+<!--suppress AndroidDomInspection -->
+<activity-alias
+    android:name="com.infinum.dbinspector.DbInspectorActivity"
+    tools:replace="android:label"
+    android:label="@string/app_name" />
+```
+Please do mind and copy over the suppression comment line too.
+Further modification can be done according to rules of [manifest merging](https://developer.android.com/studio/build/manifest-merge) and attributes of [activity-alias](https://developer.android.com/guide/topics/manifest/activity-alias-element) XML node.
 
 ## Requirements
 Minimum required API level to use _DbInspector_ is **21** known as [Android 5.0, Lollipop](https://www.android.com/versions/lollipop-5-0/).

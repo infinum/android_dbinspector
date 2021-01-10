@@ -10,6 +10,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 internal abstract class BaseViewModel : ViewModel(), LibraryKoinComponent {
 
@@ -17,8 +18,8 @@ internal abstract class BaseViewModel : ViewModel(), LibraryKoinComponent {
 
     private val dispatchersIo = Dispatchers.IO
 
-    val errorHandler = CoroutineExceptionHandler { _, throwable ->
-        throwable.printStackTrace()
+    protected open val errorHandler = CoroutineExceptionHandler { _, throwable ->
+        Timber.e(throwable)
     }
 
     override fun onCleared() {
@@ -27,10 +28,10 @@ internal abstract class BaseViewModel : ViewModel(), LibraryKoinComponent {
         supervisorJob.cancel()
     }
 
-    internal fun launch(scope: CoroutineScope = viewModelScope, block: suspend CoroutineScope.() -> Unit) {
+    protected fun launch(scope: CoroutineScope = viewModelScope, block: suspend CoroutineScope.() -> Unit) {
         scope.launch(errorHandler + Dispatchers.Main + supervisorJob) { block.invoke(this) }
     }
 
-    internal suspend fun <T> io(block: suspend CoroutineScope.() -> T) =
+    protected suspend fun <T> io(block: suspend CoroutineScope.() -> T) =
         withContext(context = dispatchersIo) { block.invoke(this) }
 }

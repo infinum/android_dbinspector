@@ -1,12 +1,13 @@
 package com.infinum.dbinspector.domain.shared.models
 
+import com.infinum.dbinspector.domain.shared.models.dsl.changes
 import com.infinum.dbinspector.domain.shared.models.dsl.delete
 import com.infinum.dbinspector.domain.shared.models.dsl.dropTrigger
 import com.infinum.dbinspector.domain.shared.models.dsl.dropView
 import com.infinum.dbinspector.domain.shared.models.dsl.pragma
 import com.infinum.dbinspector.domain.shared.models.dsl.select
 
-object Statements {
+internal object Statements {
 
     object Pragma {
 
@@ -107,5 +108,10 @@ object Statements {
             dropTrigger {
                 name(name)
             }
+    }
+
+    object RawQuery {
+
+        fun affectedRows() = changes()
     }
 }

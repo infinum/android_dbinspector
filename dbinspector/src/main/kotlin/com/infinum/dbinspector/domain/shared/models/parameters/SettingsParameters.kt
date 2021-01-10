@@ -23,4 +23,8 @@ internal sealed class SettingsParameters : BaseParameters {
     data class BlobPreview(
         val mode: BlobPreviewMode
     ) : SettingsParameters()
+
+    data class IgnoredTableName(
+        val name: String
+    ) : SettingsParameters()
 }

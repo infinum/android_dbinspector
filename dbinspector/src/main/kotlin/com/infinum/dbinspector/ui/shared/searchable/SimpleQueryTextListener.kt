@@ -2,7 +2,7 @@ package com.infinum.dbinspector.ui.shared.searchable
 
 import androidx.appcompat.widget.SearchView
 
-class SimpleQueryTextListener(
+internal class SimpleQueryTextListener(
     private val onQueryTextChanged: (String?) -> Unit
 ) : SearchView.OnQueryTextListener {
 

@@ -9,18 +9,18 @@ import android.view.inputmethod.EditorInfo
 import androidx.core.widget.doOnTextChanged
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.infinum.dbinspector.R
-import com.infinum.dbinspector.databinding.DbinspectorActivityEditBinding
+import com.infinum.dbinspector.databinding.DbinspectorActivityEditDatabaseBinding
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
 import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-internal class EditActivity : BaseActivity() {
+internal class EditDatabaseActivity : BaseActivity() {
 
-    override val binding by viewBinding(DbinspectorActivityEditBinding::inflate)
+    override val binding by viewBinding(DbinspectorActivityEditDatabaseBinding::inflate)
 
-    private val viewModel: EditViewModel by viewModel()
+    private val viewModel: EditDatabaseViewModel by viewModel()
 
     private var databasePath: String? = null
     private var databaseFilepath: String? = null

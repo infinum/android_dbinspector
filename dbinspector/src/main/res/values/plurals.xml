@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="dbinspector_affected_rows">
+        <item quantity="zero">%s affected rows</item>
+        <item quantity="one">%s affected row</item>
+        <item quantity="two">%s affected rows</item>
+        <item quantity="few">%s affected rows</item>
+        <item quantity="many">%s affected rows</item>
+        <item quantity="other">%s affected rows</item>
+    </plurals>
+</resources>

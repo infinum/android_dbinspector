@@ -133,6 +133,10 @@ internal abstract class ContentActivity : BaseActivity() {
                         pragma(databaseName, databasePath, schemaName)
                         true
                     }
+                    R.id.edit -> {
+                        contentPreviewFactory.showEdit(databasePath, databaseName)
+                        true
+                    }
                     else -> false
                 }
             }

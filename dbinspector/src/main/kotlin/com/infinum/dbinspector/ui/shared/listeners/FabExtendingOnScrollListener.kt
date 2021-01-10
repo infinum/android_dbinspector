@@ -3,7 +3,7 @@ package com.infinum.dbinspector.ui.shared.listeners
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 
-class FabExtendingOnScrollListener(
+internal class FabExtendingOnScrollListener(
     private val floatingActionButton: ExtendedFloatingActionButton
 ) : RecyclerView.OnScrollListener() {
 
