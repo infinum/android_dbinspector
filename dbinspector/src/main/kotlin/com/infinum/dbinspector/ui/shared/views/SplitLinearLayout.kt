@@ -29,7 +29,7 @@ import com.infinum.dbinspector.R
  * A movable bar exists between exactly 2s  children which allows the user to redistribute
  * the space allocated to each view.
  */
-class SplitLinearLayout @JvmOverloads constructor(
+internal class SplitLinearLayout @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0

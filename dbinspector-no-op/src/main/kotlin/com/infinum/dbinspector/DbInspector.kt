@@ -1,9 +1,7 @@
-@file:Suppress("UNUSED_PARAMETER")
-
 package com.infinum.dbinspector
 
-object DbInspector {
+public object DbInspector {
 
     @JvmStatic
-    fun show() = Unit
+    public fun show(): Unit = Unit
 }

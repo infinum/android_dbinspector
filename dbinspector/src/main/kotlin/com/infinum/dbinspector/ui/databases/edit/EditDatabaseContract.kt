@@ -6,7 +6,7 @@ import android.content.Intent
 import androidx.activity.result.contract.ActivityResultContract
 import com.infinum.dbinspector.ui.Presentation
 
-class EditDatabaseContract : ActivityResultContract<EditDatabaseContract.Input, Boolean>() {
+internal class EditDatabaseContract : ActivityResultContract<EditDatabaseContract.Input, Boolean>() {
 
     override fun createIntent(context: Context, input: Input): Intent =
         Intent(context, EditDatabaseActivity::class.java)

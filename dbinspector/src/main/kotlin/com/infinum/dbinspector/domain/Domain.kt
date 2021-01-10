@@ -98,7 +98,7 @@ import org.koin.core.module.Module
 import org.koin.core.qualifier.StringQualifier
 import org.koin.dsl.module
 
-object Domain {
+internal object Domain {
 
     object Constants {
 

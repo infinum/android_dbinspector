@@ -4,7 +4,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import com.infinum.dbinspector.R
 
-enum class KeywordType(
+internal enum class KeywordType(
     @DrawableRes val backgroundResId: Int,
     @ColorRes val textColorResId: Int
 ) {

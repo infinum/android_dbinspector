@@ -1,3 +1,3 @@
 package com.infinum.dbinspector.extensions
 
-fun Int?.orZero() = this ?: 0
+internal fun Int?.orZero() = this ?: 0

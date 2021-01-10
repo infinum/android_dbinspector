@@ -31,7 +31,8 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs += [
-                '-Xopt-in=org.koin.core.component.KoinApiExtension'
+                '-Xopt-in=org.koin.core.component.KoinApiExtension',
+                '-Xexplicit-api=strict'
         ]
     }
 

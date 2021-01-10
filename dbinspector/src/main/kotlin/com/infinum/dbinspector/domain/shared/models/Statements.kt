@@ -7,7 +7,7 @@ import com.infinum.dbinspector.domain.shared.models.dsl.dropView
 import com.infinum.dbinspector.domain.shared.models.dsl.pragma
 import com.infinum.dbinspector.domain.shared.models.dsl.select
 
-object Statements {
+internal object Statements {
 
     object Pragma {
 

@@ -1,6 +1,6 @@
 package com.infinum.dbinspector.ui.shared.views.editor
 
-data class Keyword(
+internal data class Keyword(
     val value: String,
     val type: KeywordType
 ) {
