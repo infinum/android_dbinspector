@@ -3,18 +3,19 @@ package com.infinum.dbinspector
 import android.content.Intent
 import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.databases.DatabasesActivity
-import com.infinum.dbinspector.ui.shared.logger.Stump
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 
 public object DbInspector {
 
+    private var loggerPlanted = false
+
     @JvmStatic
     public fun show() {
 
-        when (BuildConfig.DEBUG) {
-            true -> Timber.plant(DebugTree())
-            false -> Timber.plant(Stump())
+        if (BuildConfig.DEBUG && !loggerPlanted) {
+            loggerPlanted = true
+            Timber.plant(DebugTree())
         }
 
         with(Presentation.applicationContext()) {
