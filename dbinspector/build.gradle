@@ -56,8 +56,8 @@ dependencies {
     implementation packages.androidx.paging
     implementation packages.androidx.startup
     implementation packages.androidx.swiperefreshlayout
-    implementation "androidx.datastore:datastore:1.0.0-alpha05"
-    implementation "com.google.protobuf:protobuf-javalite:3.10.0"
+    implementation packages.androidx.datastore
+    implementation packages.google.protobuf
     implementation packages.google.design
     implementation packages.kotlinx.coroutines
     implementation packages.koin.android
