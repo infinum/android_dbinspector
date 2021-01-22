@@ -5,7 +5,7 @@ ext.dbinspector = [
 ]
 
 ext.versions = [
-        "dbinspector"       : "5.2.0",
+        "dbinspector"       : "5.2.1",
         "gradle"            : '4.1.2',
         "kotlin"            : "1.4.21",
         "coroutines"        : "1.4.2",
@@ -39,8 +39,8 @@ ext.packages = [
         ],
         "bintray"    : "com.jfrog.bintray.gradle:gradle-bintray-plugin:${versions.bintray}",
         "dbinspector": [
-                "dbinspector"      : "com.infinum.sentinel:sentinel:${versions.sentinel}",
-                "dbinspector_no_op": "com.infinum.sentinel:sentinel-no-op:${versions.sentinel}"
+                "dbinspector"      : "com.infinum.dbinspector:dbinspector:${versions.dbinspector}",
+                "dbinspector_no_op": "com.infinum.dbinspector:dbinspector-no-op:${versions.dbinspector}"
         ],
         "androidx"   : [
                 "core"              : "androidx.core:core-ktx:${versions.core}",

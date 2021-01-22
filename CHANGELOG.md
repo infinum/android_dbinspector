@@ -3,7 +3,7 @@ Changelog
 
 ## Version 5.2.1
 
-_2021-01-21_
+_2021-01-22_
 
 * Fix Timber planting multiple trees.
 * Update Gradle plugin to 4.1.2.
