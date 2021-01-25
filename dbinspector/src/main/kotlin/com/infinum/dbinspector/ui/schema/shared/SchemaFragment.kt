@@ -15,6 +15,7 @@ import com.infinum.dbinspector.databinding.DbinspectorFragmentSchemaBinding
 import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import com.infinum.dbinspector.ui.shared.searchable.BaseSearchableFragment
+import timber.log.Timber
 
 internal abstract class SchemaFragment :
     BaseSearchableFragment(R.layout.dbinspector_fragment_schema) {
@@ -104,7 +105,6 @@ internal abstract class SchemaFragment :
 
     override fun search(query: String?) {
         query(query)
-//        schemaAdapter.refresh()
     }
 
     private fun query(query: String?) {

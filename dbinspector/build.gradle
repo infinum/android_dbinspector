@@ -50,7 +50,6 @@ dependencies {
     implementation packages.androidx.core
     implementation packages.androidx.appcompat
     implementation packages.androidx.fragment
-    implementation packages.androidx.lifecycle.common
     implementation packages.androidx.recyclerview
     implementation packages.androidx.viewpager
     implementation packages.androidx.paging
