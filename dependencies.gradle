@@ -20,7 +20,8 @@ ext.versions = [
         "swiperefreshlayout": "1.1.0",
         "datastore"         : "1.0.0-alpha06",
         "design"            : "1.2.1",
-        "protobuf"          : "3.10.0",
+        "protobuf"          : "3.14.0",
+        "protobuf_plugin"   : "0.8.14",
         "koin"              : "2.2.2",
         "timber"            : "4.7.1",
         "detekt"            : "1.15.0",
@@ -54,7 +55,11 @@ ext.packages = [
         ],
         "google"     : [
                 "design"  : "com.google.android.material:material:${versions.design}",
-                "protobuf": "com.google.protobuf:protobuf-javalite:${versions.protobuf}"
+                "protobuf": [
+                        "javalite": "com.google.protobuf:protobuf-javalite:${versions.protobuf}",
+                        "artifact": "com.google.protobuf:protoc:${versions.protobuf}",
+                        "plugin"  : "com.google.protobuf:protobuf-gradle-plugin:${versions.protobuf_plugin}"
+                ]
         ],
         "koin"       : [
                 "android"  : "org.koin:koin-android:${versions.koin}",

@@ -4,3 +4,11 @@
 -keep public class com.infinum.dbinspector.DbInspector {
   public protected *;
 }
+-keep class androidx.datastore.*.* {*;}
+-keepclassmembers class * extends androidx.datastore.* {
+    <fields>;
+}
+-keep class * extends com.google.protobuf.GeneratedMessageLite { *; }
+-keep public class com.infinum.dbinspector.data.models.local.proto.output.* {
+  public protected *;
+}

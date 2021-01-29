@@ -21,7 +21,7 @@ android {
         }
         release {
             debuggable false
-            minifyEnabled true
+            minifyEnabled false // TODO: Enable once R8/D8 works with Protobuf
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt"
         }
     }
@@ -61,7 +61,7 @@ dependencies {
     implementation packages.androidx.startup
     implementation packages.androidx.swiperefreshlayout
     implementation packages.androidx.datastore
-    implementation packages.google.protobuf
+    implementation packages.google.protobuf.javalite
     implementation packages.google.design
     implementation packages.kotlinx.coroutines
     implementation packages.koin.android

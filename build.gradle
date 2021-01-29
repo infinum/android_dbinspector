@@ -12,8 +12,8 @@ buildscript {
 
     repositories {
         google()
-        jcenter()
         maven { url "https://dl.bintray.com/infinum/android" }
+        jcenter()
     }
     dependencies {
         classpath packages.gradle
@@ -21,7 +21,7 @@ buildscript {
         classpath packages.kotlin.plugin
         classpath packages.detekt.plugin
         classpath packages.dokka.plugin
-        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.14'
+        classpath packages.google.protobuf.plugin
     }
 }
 
@@ -29,9 +29,9 @@ allprojects {
 
     repositories {
         google()
+        maven { url "https://dl.bintray.com/infinum/android" }
         jcenter()
         maven { url "https://jitpack.io" }
-        maven { url "https://dl.bintray.com/infinum/android" }
     }
 
     def buildProperties = new Properties()
@@ -51,9 +51,9 @@ allprojects {
 subprojects {
     repositories {
         google()
+        maven { url "https://dl.bintray.com/infinum/android" }
         jcenter()
         mavenCentral()
-        maven { url "https://dl.bintray.com/infinum/android" }
     }
 
     apply from: "../detekt.gradle"
