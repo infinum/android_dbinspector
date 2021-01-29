@@ -1,3 +1,6 @@
+-keep public class com.infinum.dbinspector.* {
+  public protected *;
+}
 -keep public class com.infinum.dbinspector.DbInspector {
   public protected *;
 }

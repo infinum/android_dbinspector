@@ -59,6 +59,7 @@ dependencies {
     implementation packages.koin.android
     implementation packages.koin.scope
     implementation packages.koin.viewmodel
+
     debugImplementation packages.dbinspector.dbinspector
     releaseImplementation packages.dbinspector.dbinspector_no_op
 }

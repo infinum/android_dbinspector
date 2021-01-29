@@ -1,6 +1,14 @@
 Changelog
 =========
 
+## Version 5.2.2
+
+_2021-01-29_
+
+* Fix Timber planting multiple trees.
+* Update Gradle plugin to 4.1.2.
+* Update dependencies.
+
 ## Version 5.2.1
 
 _2021-01-22_
