@@ -1,5 +1,6 @@
 package com.infinum.dbinspector.ui.pragma.foreignkeys
 
+import androidx.paging.PagingState
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
@@ -25,5 +26,9 @@ internal class ForeignKeysDataSource(
             nextKey = page.nextPage,
             itemsAfter = page.afterCount
         )
+    }
+
+    override fun getRefreshKey(state: PagingState<Int, Cell>): Int? {
+        return parameters.page
     }
 }

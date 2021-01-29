@@ -1,25 +1,31 @@
-task deployAll(dependsOn: [
+task deployDbInspector(dependsOn: ordered(
+        ':dbinspector:clean',
+        ':dbinspector:bintrayUpload'
+)) {
+    group = "Deploy"
+    description = "Deploy module to Bintray"
+}
+
+task deployDbInspectorNoOp(dependsOn: ordered(
+        ':dbinspector-no-op:clean',
+        ':dbinspector-no-op:bintrayUpload'
+)) {
+    group = "Deploy"
+    description = "Deploy module to Bintray"
+}
+
+task deployAll(dependsOn: ordered(
         'deployDbInspector',
         'deployDbInspectorNoOp'
-]) {
+)) {
     group = "Deploy"
     description = "Deploy all modules to Bintray"
 }
 
-task deployDbInspector(dependsOn: [
-        ':dbinspector:clean',
-        ':dbinspector:build',
-        ':dbinspector:bintrayUpload'
-]) {
-    group = "Deploy"
-    description = "Deploy module to Bintray"
-}
-
-task deployDbInspectorNoOp(dependsOn: [
-        ':dbinspector-no-op:clean',
-        ':dbinspector-no-op:build',
-        ':dbinspector-no-op:bintrayUpload'
-]) {
-    group = "Deploy"
-    description = "Deploy module to Bintray"
+def ordered(String... taskPaths) {
+    def allTasks = taskPaths.collect { tasks.getByPath(it) }
+    for (int i = 0; i < allTasks.size() - 1; i++) {
+        allTasks[i + 1].mustRunAfter(allTasks[i])
+    }
+    return allTasks
 }

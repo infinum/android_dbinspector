@@ -1,5 +1,6 @@
 package com.infinum.dbinspector.ui.content.table
 
+import androidx.paging.PagingState
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
@@ -29,5 +30,9 @@ internal class TableDataSource(
             nextKey = page.nextPage,
             itemsAfter = page.afterCount
         )
+    }
+
+    override fun getRefreshKey(state: PagingState<Int, Cell>): Int? {
+        return parameters.page
     }
 }
