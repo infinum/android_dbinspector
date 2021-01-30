@@ -22,6 +22,7 @@ buildscript {
         classpath packages.detekt.plugin
         classpath packages.dokka.plugin
         classpath packages.google.protobuf.plugin
+        classpath 'de.aaschmid:gradle-cpd-plugin:3.1'
     }
 }
 
@@ -56,6 +57,7 @@ subprojects {
         mavenCentral()
     }
 
+    apply from: "../cpd.gradle"
     apply from: "../detekt.gradle"
     apply from: "../dokka.gradle"
 }
