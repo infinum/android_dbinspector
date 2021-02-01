@@ -3,11 +3,13 @@ Changelog
 
 ## Version 5.2.2
 
-_2021-01-29_
+_2021-02-01_
 
 * Fix Timber planting multiple trees.
 * Update Gradle plugin to 4.1.2.
 * Update dependencies.
+* Add CPD plugin.
+* Add ktlint plugin.
 
 ## Version 5.2.1
 
