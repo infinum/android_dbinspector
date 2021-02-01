@@ -25,6 +25,7 @@ ext.versions = [
         "koin"              : "2.2.2",
         "timber"            : "4.7.1",
         "detekt"            : "1.15.0",
+        "ktlint"            : "9.4.1",
         "cpd"               : "3.1",
         "dokka"             : "1.4.20"
 ]
@@ -73,6 +74,9 @@ ext.packages = [
         "detekt"     : [
                 "plugin"    : "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${versions.detekt}",
                 "formatting": "io.gitlab.arturbosch.detekt:detekt-formatting:${versions.detekt}"
+        ],
+        "ktlint"     : [
+                "plugin": "org.jlleitschuh.gradle:ktlint-gradle:${versions.ktlint}"
         ],
         "cpd"        : [
                 "plugin": "de.aaschmid:gradle-cpd-plugin:${versions.cpd}"

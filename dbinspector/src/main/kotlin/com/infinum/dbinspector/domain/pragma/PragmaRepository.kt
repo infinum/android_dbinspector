@@ -23,9 +23,11 @@ internal class PragmaRepository(
         control.mapper(tableInfo(control.converter pragma input))
 
     override suspend fun getTriggerInfo(input: Unit): Page =
-        Page(cells = TriggerInfoColumns.values()
-            .map { it.name.lowercase() }
-            .map(transform = control.mapper.transformToHeader()))
+        Page(
+            cells = TriggerInfoColumns.values()
+                .map { it.name.lowercase() }
+                .map(transform = control.mapper.transformToHeader())
+        )
 
     override suspend fun getForeignKeys(input: PragmaParameters.Pragma): Page =
         control.mapper(foreignKeys(control.converter pragma input))

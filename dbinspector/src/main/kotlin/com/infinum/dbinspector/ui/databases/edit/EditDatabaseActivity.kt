@@ -45,12 +45,10 @@ internal class EditDatabaseActivity : BaseActivity() {
             databaseName = it.getString(Presentation.Constants.Keys.DATABASE_NAME)
             databaseExtension = it.getString(Presentation.Constants.Keys.DATABASE_EXTENSION)
             if (
-                listOf(
-                    databasePath,
-                    databaseFilepath,
-                    databaseName,
-                    databaseExtension
-                ).none { parameter -> parameter.isNullOrBlank() }
+                listOf(databasePath, databaseFilepath, databaseName, databaseExtension)
+                    .none { parameter ->
+                        parameter.isNullOrBlank()
+                    }
             ) {
                 setupUi()
             } else {
