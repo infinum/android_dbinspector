@@ -5,7 +5,6 @@ import com.infinum.dbinspector.data.models.local.cursor.input.Query
 import com.infinum.dbinspector.data.models.local.cursor.output.QueryResult
 import com.infinum.dbinspector.data.source.local.cursor.shared.CursorSource
 import com.infinum.dbinspector.data.source.memory.pagination.Paginator
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.suspendCancellableCoroutine
 
 @Suppress("LongParameterList")
@@ -24,14 +23,14 @@ internal class SchemaSource(
 
     // region Tables
     override suspend fun getTables(query: Query): QueryResult =
-        store.settings().data.firstOrNull().let { settings ->
+        store.current().let { settings ->
             suspendCancellableCoroutine { continuation ->
                 collectRows(
                     query = query,
                     paginator = tablesPaginator,
                     settings = settings,
                     filterPredicate = {
-                        it.text in settings?.ignoredTableNamesList.orEmpty()
+                        it.text in settings.ignoredTableNamesList.orEmpty()
                             .map { tableName -> tableName.name }
                     },
                     continuation = continuation
@@ -40,7 +39,7 @@ internal class SchemaSource(
         }
 
     override suspend fun getTableByName(query: Query): QueryResult =
-        store.settings().data.firstOrNull().let {
+        store.current().let {
             suspendCancellableCoroutine { continuation ->
                 collectRows(
                     query = query,
@@ -52,7 +51,7 @@ internal class SchemaSource(
         }
 
     override suspend fun dropTableContentByName(query: Query): QueryResult =
-        store.settings().data.firstOrNull().let {
+        store.current().let {
             suspendCancellableCoroutine { continuation ->
                 collectRows(
                     query = query,
@@ -66,7 +65,7 @@ internal class SchemaSource(
 
     // region Views
     override suspend fun getViews(query: Query): QueryResult =
-        store.settings().data.firstOrNull().let {
+        store.current().let {
             suspendCancellableCoroutine { continuation ->
                 collectRows(
                     query = query,
@@ -78,7 +77,7 @@ internal class SchemaSource(
         }
 
     override suspend fun getViewByName(query: Query): QueryResult =
-        store.settings().data.firstOrNull().let {
+        store.current().let {
             suspendCancellableCoroutine { continuation ->
                 collectRows(
                     query = query,
@@ -90,7 +89,7 @@ internal class SchemaSource(
         }
 
     override suspend fun dropViewByName(query: Query): QueryResult =
-        store.settings().data.firstOrNull().let {
+        store.current().let {
             suspendCancellableCoroutine { continuation ->
                 collectRows(
                     query = query,
@@ -104,7 +103,7 @@ internal class SchemaSource(
 
     // region Triggers
     override suspend fun getTriggers(query: Query): QueryResult =
-        store.settings().data.firstOrNull().let {
+        store.current().let {
             suspendCancellableCoroutine { continuation ->
                 collectRows(
                     query = query,
@@ -116,7 +115,7 @@ internal class SchemaSource(
         }
 
     override suspend fun getTriggerByName(query: Query): QueryResult =
-        store.settings().data.firstOrNull().let {
+        store.current().let {
             suspendCancellableCoroutine { continuation ->
                 collectRows(
                     query = query,
@@ -128,7 +127,7 @@ internal class SchemaSource(
         }
 
     override suspend fun dropTriggerByName(query: Query): QueryResult =
-        store.settings().data.firstOrNull().let {
+        store.current().let {
             suspendCancellableCoroutine { continuation ->
                 collectRows(
                     query = query,

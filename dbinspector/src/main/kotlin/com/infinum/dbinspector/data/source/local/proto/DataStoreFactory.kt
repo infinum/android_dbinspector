@@ -6,6 +6,7 @@ import androidx.datastore.core.Serializer
 import androidx.datastore.createDataStore
 import com.infinum.dbinspector.data.Sources
 import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
+import kotlinx.coroutines.flow.firstOrNull
 
 internal class DataStoreFactory(
     context: Context,
@@ -19,4 +20,7 @@ internal class DataStoreFactory(
     )
 
     override suspend fun settings(): DataStore<SettingsEntity> = settings
+
+    override suspend fun current(): SettingsEntity =
+        settings.data.firstOrNull() ?: SettingsEntity.getDefaultInstance()
 }

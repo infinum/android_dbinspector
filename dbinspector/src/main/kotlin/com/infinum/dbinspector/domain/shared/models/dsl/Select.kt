@@ -65,12 +65,8 @@ internal class Select {
         val conditions = condition?.let { "WHERE $it" }.orEmpty()
 
         val orderBy = if (orderByColumns.isNotEmpty()) {
-            "${
-                orderByColumns.joinToString(
-                    prefix = "ORDER BY ",
-                    separator = ", "
-                )
-            } ${orderByDirection.rawValue}"
+            "${orderByColumns.joinToString(prefix = "ORDER BY ", separator = ", ")} " +
+                orderByDirection.rawValue
         } else {
             ""
         }

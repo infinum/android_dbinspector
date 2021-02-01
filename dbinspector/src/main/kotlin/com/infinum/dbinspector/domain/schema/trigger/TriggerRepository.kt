@@ -8,7 +8,7 @@ internal class TriggerRepository(
     getPage: Interactors.GetTriggers,
     getByName: Interactors.GetTriggerByName,
     dropByName: Interactors.DropTriggerByName,
-    control: Control.Schema
+    control: Control.Content
 ) : AbstractSchemaRepository(
     getPage,
     getByName,

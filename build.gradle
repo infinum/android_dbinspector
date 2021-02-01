@@ -1,27 +1,30 @@
 buildscript {
 
     ext.buildConfig = [
-        "minSdk"    : 21,
-        "compileSdk": 30,
-        "targetSdk" : 30,
+            "minSdk"    : 21,
+            "compileSdk": 30,
+            "targetSdk" : 30,
 
-        "buildTools": "30.0.3"
+            "buildTools": "30.0.3"
     ]
 
     apply from: "dependencies.gradle"
 
     repositories {
         google()
-        jcenter()
         maven { url "https://dl.bintray.com/infinum/android" }
+        jcenter()
+        maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
         classpath packages.gradle
         classpath packages.bintray
         classpath packages.kotlin.plugin
+        classpath packages.cpd.plugin
         classpath packages.detekt.plugin
+        classpath packages.ktlint.plugin
         classpath packages.dokka.plugin
-        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.14'
+        classpath packages.google.protobuf.plugin
     }
 }
 
@@ -29,13 +32,13 @@ allprojects {
 
     repositories {
         google()
+        maven { url "https://dl.bintray.com/infinum/android" }
         jcenter()
         maven { url "https://jitpack.io" }
-        maven { url "https://dl.bintray.com/infinum/android" }
     }
 
     def buildProperties = new Properties()
-    file(rootDir.absolutePath+"/build.properties").withInputStream { buildProperties.load(it) }
+    file(rootDir.absolutePath + "/build.properties").withInputStream { buildProperties.load(it) }
     if (buildProperties.getProperty("build.debug").toBoolean()) {
         configurations.all {
             resolutionStrategy {
@@ -51,12 +54,14 @@ allprojects {
 subprojects {
     repositories {
         google()
+        maven { url "https://dl.bintray.com/infinum/android" }
         jcenter()
         mavenCentral()
-        maven { url "https://dl.bintray.com/infinum/android" }
     }
 
+    apply from: "../cpd.gradle"
     apply from: "../detekt.gradle"
+    apply from: "../ktlint.gradle"
     apply from: "../dokka.gradle"
 }
 
@@ -69,11 +74,30 @@ task clean(type: Delete) {
 }
 
 task detektAll(dependsOn: [
-    ':dbinspector:detekt',
-    ':dbinspector-no-op:detekt'
+        ':dbinspector:detekt',
+        ':dbinspector-no-op:detekt'
 ]) {
     group = "Verification"
     description = "Run detekt on all modules"
 }
 
+task runStaticChecks(dependsOn: ordered(
+        ':detektAll',
+        ':dbinspector:ktlintCheck',
+        ':dbinspector-no-op:ktlintCheck',
+        ':dbinspector:cpdCheck',
+        ':dbinspector-no-op:cpdCheck'
+)) {
+    group = "Verification"
+    description = "Run static checks on all modules"
+}
+
 apply from: "deploy.gradle"
+
+def ordered(String... taskPaths) {
+    def allTasks = taskPaths.collect { tasks.getByPath(it) }
+    for (int i = 0; i < allTasks.size() - 1; i++) {
+        allTasks[i + 1].mustRunAfter(allTasks[i])
+    }
+    return allTasks
+}

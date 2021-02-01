@@ -1,30 +1,32 @@
 ext.dbinspector = [
         "group"      : "com.infinum.dbinspector",
-        "version"    : "5.2.1",
-        "versionCode": 5 * 100 * 100 + 2 * 100 + 1
+        "version"    : "5.2.2",
+        "versionCode": 5 * 100 * 100 + 2 * 100 + 2
 ]
 
 ext.versions = [
-        "dbinspector"       : "5.2.1",
+        "dbinspector"       : "5.2.2",
         "gradle"            : '4.1.2',
         "kotlin"            : "1.4.21",
         "coroutines"        : "1.4.2",
         "bintray"           : "1.8.5",
         "core"              : "1.3.2",
         "appcompat"         : "1.2.0",
-        "fragment"          : "1.3.0-rc01",
-        "lifecycle"         : "2.3.0-rc01",
+        "fragment"          : "1.3.0-rc02",
         "viewpager"         : "1.0.0",
-        "paging"            : "3.0.0-alpha12",
+        "paging"            : "3.0.0-alpha13",
         "recyclerview"      : "1.2.0-beta01",
         "startup"           : "1.0.0",
         "swiperefreshlayout": "1.1.0",
         "datastore"         : "1.0.0-alpha06",
         "design"            : "1.2.1",
-        "protobuf"          : "3.10.0",
+        "protobuf"          : "3.14.0",
+        "protobuf_plugin"   : "0.8.14",
         "koin"              : "2.2.2",
         "timber"            : "4.7.1",
         "detekt"            : "1.15.0",
+        "ktlint"            : "9.4.1",
+        "cpd"               : "3.1",
         "dokka"             : "1.4.20"
 ]
 
@@ -46,9 +48,6 @@ ext.packages = [
                 "core"              : "androidx.core:core-ktx:${versions.core}",
                 "appcompat"         : "androidx.appcompat:appcompat:${versions.appcompat}",
                 "fragment"          : "androidx.fragment:fragment-ktx:${versions.fragment}",
-                "lifecycle"         : [
-                        "common": "androidx.lifecycle:lifecycle-common-java8:${versions.lifecycle}"
-                ],
                 "viewpager"         : "androidx.viewpager2:viewpager2:${versions.viewpager}",
                 "recyclerview"      : "androidx.recyclerview:recyclerview:${versions.recyclerview}",
                 "paging"            : "androidx.paging:paging-runtime-ktx:${versions.paging}",
@@ -58,7 +57,11 @@ ext.packages = [
         ],
         "google"     : [
                 "design"  : "com.google.android.material:material:${versions.design}",
-                "protobuf": "com.google.protobuf:protobuf-javalite:${versions.protobuf}"
+                "protobuf": [
+                        "javalite": "com.google.protobuf:protobuf-javalite:${versions.protobuf}",
+                        "artifact": "com.google.protobuf:protoc:${versions.protobuf}",
+                        "plugin"  : "com.google.protobuf:protobuf-gradle-plugin:${versions.protobuf_plugin}"
+                ]
         ],
         "koin"       : [
                 "android"  : "org.koin:koin-android:${versions.koin}",
@@ -71,6 +74,12 @@ ext.packages = [
         "detekt"     : [
                 "plugin"    : "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${versions.detekt}",
                 "formatting": "io.gitlab.arturbosch.detekt:detekt-formatting:${versions.detekt}"
+        ],
+        "ktlint"     : [
+                "plugin": "org.jlleitschuh.gradle:ktlint-gradle:${versions.ktlint}"
+        ],
+        "cpd"        : [
+                "plugin": "de.aaschmid:gradle-cpd-plugin:${versions.cpd}"
         ],
         "dokka"      : [
                 "plugin": "org.jetbrains.dokka:dokka-gradle-plugin:${versions.dokka}"

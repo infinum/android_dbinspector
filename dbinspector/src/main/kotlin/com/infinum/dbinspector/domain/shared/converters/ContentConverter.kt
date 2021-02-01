@@ -1,12 +1,12 @@
-package com.infinum.dbinspector.domain.raw.control.converters
+package com.infinum.dbinspector.domain.shared.converters
 
 import com.infinum.dbinspector.data.models.local.cursor.input.Query
 import com.infinum.dbinspector.domain.Converters
 import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
 
-internal class RawQueryConverter(
+internal class ContentConverter(
     private val sortConverter: Converters.Sort
-) : Converters.RawQuery {
+) : Converters.Content {
 
     override suspend fun invoke(parameters: ContentParameters): Query =
         Query(

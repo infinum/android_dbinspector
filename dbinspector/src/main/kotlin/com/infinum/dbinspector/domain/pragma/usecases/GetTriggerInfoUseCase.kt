@@ -9,6 +9,6 @@ internal class GetTriggerInfoUseCase(
     private val pragmaRepository: Repositories.Pragma
 ) : UseCases.GetTriggerInfo {
 
-    override suspend fun invoke(input: PragmaParameters.Info): Page =
+    override suspend fun invoke(input: PragmaParameters.Pragma): Page =
         pragmaRepository.getTriggerInfo(Unit)
 }

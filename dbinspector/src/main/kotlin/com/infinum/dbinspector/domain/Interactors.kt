@@ -3,8 +3,8 @@ package com.infinum.dbinspector.domain
 import android.database.sqlite.SQLiteDatabase
 import com.infinum.dbinspector.data.models.local.cursor.input.Query
 import com.infinum.dbinspector.data.models.local.cursor.output.QueryResult
-import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
 import com.infinum.dbinspector.data.models.local.proto.input.SettingsTask
+import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
 import com.infinum.dbinspector.domain.database.models.Operation
 import com.infinum.dbinspector.domain.shared.base.BaseInteractor
 import java.io.File
@@ -30,7 +30,7 @@ internal interface Interactors {
     // endregion
 
     // region Settings
-    interface GetSettings : BaseInteractor<SettingsTask, SettingsEntity?>
+    interface GetSettings : BaseInteractor<SettingsTask, SettingsEntity>
 
     interface SaveLinesLimit : BaseInteractor<SettingsTask, Unit>
 

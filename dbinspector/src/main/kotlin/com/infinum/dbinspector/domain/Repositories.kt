@@ -57,13 +57,13 @@ internal interface Repositories {
 
         suspend fun getUserVersion(input: PragmaParameters.Version): Page
 
-        suspend fun getTableInfo(input: PragmaParameters.Info): Page
+        suspend fun getTableInfo(input: PragmaParameters.Pragma): Page
 
         suspend fun getTriggerInfo(input: Unit): Page
 
-        suspend fun getForeignKeys(input: PragmaParameters.ForeignKeys): Page
+        suspend fun getForeignKeys(input: PragmaParameters.Pragma): Page
 
-        suspend fun getIndexes(input: PragmaParameters.Indexes): Page
+        suspend fun getIndexes(input: PragmaParameters.Pragma): Page
     }
 
     interface RawQuery : BaseRepository<ContentParameters, Page> {

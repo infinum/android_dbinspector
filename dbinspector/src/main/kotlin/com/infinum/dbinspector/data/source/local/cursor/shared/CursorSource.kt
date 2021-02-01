@@ -135,7 +135,7 @@ internal open class CursorSource {
                 FieldType.BLOB -> Field(
                     type = type,
                     text = FieldType.NULL.name.lowercase(),
-                    data = cursor.getBlobOrNull(column),
+                    blob = cursor.getBlobOrNull(column),
                     linesCount = if (settings.linesLimit) settings.linesCount else Int.MAX_VALUE,
                     truncate = settings.truncateMode,
                     blobPreview = settings.blobPreview

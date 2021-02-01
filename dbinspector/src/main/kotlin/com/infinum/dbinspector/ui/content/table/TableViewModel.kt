@@ -9,12 +9,13 @@ internal class TableViewModel(
     openConnection: UseCases.OpenConnection,
     closeConnection: UseCases.CloseConnection,
     tableInfo: UseCases.GetTableInfo,
-    private val table: UseCases.GetTable,
+    table: UseCases.GetTable,
     dropTableContent: UseCases.DropTableContent
 ) : ContentViewModel(
     openConnection,
     closeConnection,
     tableInfo,
+    table,
     dropTableContent
 ) {
 
@@ -26,7 +27,4 @@ internal class TableViewModel(
 
     override fun dropStatement(name: String) =
         Statements.Schema.dropTableContent(name)
-
-    override fun dataSource(databasePath: String, statement: String) =
-        TableDataSource(databasePath, statement, table)
 }

@@ -19,17 +19,19 @@ internal class PragmaRepository(
     override suspend fun getUserVersion(input: PragmaParameters.Version): Page =
         control.mapper(userVersion(control.converter version input))
 
-    override suspend fun getTableInfo(input: PragmaParameters.Info): Page =
-        control.mapper(tableInfo(control.converter info input))
+    override suspend fun getTableInfo(input: PragmaParameters.Pragma): Page =
+        control.mapper(tableInfo(control.converter pragma input))
 
     override suspend fun getTriggerInfo(input: Unit): Page =
-        Page(cells = TriggerInfoColumns.values()
-            .map { it.name.lowercase() }
-            .map(transform = control.mapper.transformToHeader()))
+        Page(
+            cells = TriggerInfoColumns.values()
+                .map { it.name.lowercase() }
+                .map(transform = control.mapper.transformToHeader())
+        )
 
-    override suspend fun getForeignKeys(input: PragmaParameters.ForeignKeys): Page =
-        control.mapper(foreignKeys(control.converter foreignKeys input))
+    override suspend fun getForeignKeys(input: PragmaParameters.Pragma): Page =
+        control.mapper(foreignKeys(control.converter pragma input))
 
-    override suspend fun getIndexes(input: PragmaParameters.Indexes): Page =
-        control.mapper(indexes(control.converter indexes input))
+    override suspend fun getIndexes(input: PragmaParameters.Pragma): Page =
+        control.mapper(indexes(control.converter pragma input))
 }

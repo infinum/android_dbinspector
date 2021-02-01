@@ -22,7 +22,7 @@ internal interface Mappers {
 
     interface Cell : BaseMapper<Field, CellModel>
 
-    interface Schema : BaseMapper<QueryResult, PageModel>
+    interface Content : BaseMapper<QueryResult, PageModel>
 
     interface Pragma : BaseMapper<QueryResult, PageModel> {
 
@@ -30,8 +30,6 @@ internal interface Mappers {
 
         fun transformToCell(): ((Field) -> CellModel)
     }
-
-    interface RawQuery : BaseMapper<QueryResult, PageModel>
 
     interface TruncateMode : BaseMapper<SettingsEntity.TruncateMode, TruncateModeModel>
 

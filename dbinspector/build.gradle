@@ -14,9 +14,14 @@ android {
     }
 
     buildTypes {
-
-        release {
+        debug {
+            testCoverageEnabled true
+            debuggable true
             minifyEnabled false
+        }
+        release {
+            debuggable false
+            minifyEnabled false // TODO: Enable once R8/D8 works with Protobuf
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt"
         }
     }
@@ -50,14 +55,13 @@ dependencies {
     implementation packages.androidx.core
     implementation packages.androidx.appcompat
     implementation packages.androidx.fragment
-    implementation packages.androidx.lifecycle.common
     implementation packages.androidx.recyclerview
     implementation packages.androidx.viewpager
     implementation packages.androidx.paging
     implementation packages.androidx.startup
     implementation packages.androidx.swiperefreshlayout
     implementation packages.androidx.datastore
-    implementation packages.google.protobuf
+    implementation packages.google.protobuf.javalite
     implementation packages.google.design
     implementation packages.kotlinx.coroutines
     implementation packages.koin.android

@@ -16,8 +16,9 @@ afterEvaluate {
         publications {
             infinum(MavenPublication) {
                 groupId = dbinspector.group
-                artifactId = "dbinspector-no-op"
                 version = dbinspector.version
+
+                artifactId = "dbinspector-no-op"
 
                 artifact bundleReleaseAar
                 artifact javadocsJar

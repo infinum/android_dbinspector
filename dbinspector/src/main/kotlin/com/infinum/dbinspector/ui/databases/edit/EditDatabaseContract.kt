@@ -1,12 +1,11 @@
 package com.infinum.dbinspector.ui.databases.edit
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import androidx.activity.result.contract.ActivityResultContract
 import com.infinum.dbinspector.ui.Presentation
+import com.infinum.dbinspector.ui.shared.base.BaseContract
 
-internal class EditDatabaseContract : ActivityResultContract<EditDatabaseContract.Input, Boolean>() {
+internal class EditDatabaseContract : BaseContract<EditDatabaseContract.Input>() {
 
     override fun createIntent(context: Context, input: Input): Intent =
         Intent(context, EditDatabaseActivity::class.java)
@@ -17,20 +16,10 @@ internal class EditDatabaseContract : ActivityResultContract<EditDatabaseContrac
                 putExtra(Presentation.Constants.Keys.DATABASE_EXTENSION, input.extension)
             }
 
-    override fun parseResult(resultCode: Int, intent: Intent?): Boolean =
-        if (resultCode == Activity.RESULT_OK) {
-            intent?.getBooleanExtra(
-                Presentation.Constants.Keys.SHOULD_REFRESH,
-                false
-            ) ?: false
-        } else {
-            false
-        }
-
     data class Input(
         val absolutePath: String,
         val parentPath: String,
         val name: String,
         val extension: String
-    )
+    ) : BaseContract.Input
 }

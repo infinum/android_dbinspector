@@ -1,0 +1,12 @@
+apply plugin: "cpd"
+
+cpd {
+    language = 'kotlin'
+}
+
+cpdCheck {
+    reports {
+        xml.enabled = true
+    }
+    source = allprojects*.file("src/main/kotlin")
+}

@@ -10,7 +10,7 @@ internal class RawRepository(
     private val getPageInteractor: Interactors.GetRawQuery,
     private val getHeadersInteractor: Interactors.GetRawQueryHeaders,
     private val getAffectedRowsInteractor: Interactors.GetAffectedRows,
-    private val control: Control.RawQuery
+    private val control: Control.Content
 ) : Repositories.RawQuery {
 
     override suspend fun getPage(input: ContentParameters): Page =

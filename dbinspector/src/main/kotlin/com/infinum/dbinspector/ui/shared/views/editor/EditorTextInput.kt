@@ -68,8 +68,18 @@ internal class EditorTextInput @JvmOverloads constructor(
             type = KeywordType.SQLITE_TYPE
         )
     }
-    private val keywordAdapter = KeywordAdapter(context, sqlKeywords + sqlFunctions + sqlTypes)
-    private val wordTokenizer = WordTokenizer(context, sqlKeywords + sqlFunctions + sqlTypes)
+
+    private val spanFactory = KeywordSpanFactory(context)
+    private val keywordAdapter = KeywordAdapter(
+        context,
+        sqlKeywords + sqlFunctions + sqlTypes,
+        spanFactory
+    )
+    private val wordTokenizer = WordTokenizer(
+        context,
+        sqlKeywords + sqlFunctions + sqlTypes,
+        spanFactory
+    )
 
     init {
         isFocusable = true
@@ -83,24 +93,26 @@ internal class EditorTextInput @JvmOverloads constructor(
             dropDownVerticalOffset = layout.getLineTop(lineCount) + paddingTop
         }
 
-        keywordAdapter.registerDataSetObserver(object : DataSetObserver() {
-            override fun onChanged() {
-                dropDownWidth = (0 until keywordAdapter.count)
-                    .mapNotNull { keywordAdapter.getItem(it) }
-                    .maxOf {
-                        val bounds = Rect()
-                        paint.getTextBounds(
-                            it.value,
-                            0,
-                            it.value.length,
-                            bounds
-                        )
-                        bounds.width() + context.resources.getDimensionPixelSize(
-                            R.dimen.dbinspector_keyword_padding
-                        ) * 2
-                    }
+        keywordAdapter.registerDataSetObserver(
+            object : DataSetObserver() {
+                override fun onChanged() {
+                    dropDownWidth = (0 until keywordAdapter.count)
+                        .mapNotNull { keywordAdapter.getItem(it) }
+                        .maxOf {
+                            val bounds = Rect()
+                            paint.getTextBounds(
+                                it.value,
+                                0,
+                                it.value.length,
+                                bounds
+                            )
+                            bounds.width() + context.resources.getDimensionPixelSize(
+                                R.dimen.dbinspector_keyword_padding
+                            ) * 2
+                        }
+                }
             }
-        })
+        )
 
         setAdapter(keywordAdapter)
         threshold = DEFAULT_TOKENIZER_THRESHOLD

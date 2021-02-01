@@ -1,20 +1,16 @@
 package com.infinum.dbinspector.ui.shared.views.editor
 
 import android.content.Context
-import android.graphics.Typeface
 import android.text.ParcelableSpan
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
-import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
 import android.widget.MultiAutoCompleteTextView.Tokenizer
-import androidx.core.content.ContextCompat
-import com.infinum.dbinspector.R
 
 internal class WordTokenizer(
     private val context: Context,
-    private var keywords: List<Keyword>
+    private var keywords: List<Keyword>,
+    private val spanFactory: KeywordSpanFactory
 ) : Tokenizer {
 
     companion object {
@@ -103,45 +99,5 @@ internal class WordTokenizer(
     private fun findSpans(token: CharSequence): List<ParcelableSpan>? =
         keywords
             .find { it.value == token.toString() }
-            ?.let {
-                when (it.type) {
-                    KeywordType.SQLITE_KEYWORD -> listOf<ParcelableSpan>(StyleSpan(Typeface.BOLD))
-                    KeywordType.SQLITE_FUNCTION -> listOf<ParcelableSpan>(
-                        StyleSpan(Typeface.ITALIC),
-                        ForegroundColorSpan(
-                            ContextCompat.getColor(context, R.color.dbinspector_color_keyword_sql_function)
-                        )
-                    )
-                    KeywordType.SQLITE_TYPE -> listOf<ParcelableSpan>(
-                        StyleSpan(Typeface.BOLD_ITALIC),
-                        ForegroundColorSpan(
-                            ContextCompat.getColor(context, R.color.dbinspector_color_keyword_sql_type)
-                        )
-                    )
-                    KeywordType.TABLE_NAME -> listOf<ParcelableSpan>(
-                        StyleSpan(Typeface.ITALIC),
-                        ForegroundColorSpan(
-                            ContextCompat.getColor(context, R.color.dbinspector_color_keyword_table_name)
-                        )
-                    )
-                    KeywordType.VIEW_NAME -> listOf<ParcelableSpan>(
-                        StyleSpan(Typeface.ITALIC),
-                        ForegroundColorSpan(
-                            ContextCompat.getColor(context, R.color.dbinspector_color_keyword_view_name)
-                        )
-                    )
-                    KeywordType.TRIGGER_NAME -> listOf<ParcelableSpan>(
-                        StyleSpan(Typeface.ITALIC),
-                        ForegroundColorSpan(
-                            ContextCompat.getColor(context, R.color.dbinspector_color_keyword_trigger_name)
-                        )
-                    )
-                    KeywordType.COLUMN_NAME -> listOf<ParcelableSpan>(
-                        StyleSpan(Typeface.ITALIC),
-                        ForegroundColorSpan(
-                            ContextCompat.getColor(context, R.color.dbinspector_color_keyword_column_name)
-                        )
-                    )
-                }
-            }
+            ?.let { spanFactory.findSpans(it.type) }
 }

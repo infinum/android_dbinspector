@@ -12,7 +12,7 @@ internal class GetTableInfoUseCase(
     private val pragmaRepository: Repositories.Pragma
 ) : UseCases.GetTableInfo {
 
-    override suspend fun invoke(input: PragmaParameters.Info): Page {
+    override suspend fun invoke(input: PragmaParameters.Pragma): Page {
         val connection = connectionRepository.open(ConnectionParameters(input.databasePath))
         val tableInfo = pragmaRepository.getTableInfo(input.copy(database = connection.database))
         return tableInfo.copy(

@@ -37,18 +37,12 @@ import com.infinum.dbinspector.domain.pragma.usecases.GetTableInfoUseCase
 import com.infinum.dbinspector.domain.pragma.usecases.GetTablePragmaUseCase
 import com.infinum.dbinspector.domain.pragma.usecases.GetTriggerInfoUseCase
 import com.infinum.dbinspector.domain.raw.RawRepository
-import com.infinum.dbinspector.domain.raw.control.RawQueryControl
-import com.infinum.dbinspector.domain.raw.control.converters.RawQueryConverter
-import com.infinum.dbinspector.domain.raw.control.mappers.RawQueryMapper
 import com.infinum.dbinspector.domain.raw.interactors.GetAffectedRowsInteractor
 import com.infinum.dbinspector.domain.raw.interactors.GetRawQueryHeadersInteractor
 import com.infinum.dbinspector.domain.raw.interactors.GetRawQueryInteractor
 import com.infinum.dbinspector.domain.raw.usecases.GetAffectedRowsUseCase
 import com.infinum.dbinspector.domain.raw.usecases.GetRawQueryHeadersUseCase
 import com.infinum.dbinspector.domain.raw.usecases.GetRawQueryUseCase
-import com.infinum.dbinspector.domain.schema.control.SchemaControl
-import com.infinum.dbinspector.domain.schema.control.converters.SchemaConverter
-import com.infinum.dbinspector.domain.schema.control.mappers.SchemaMapper
 import com.infinum.dbinspector.domain.schema.table.TableRepository
 import com.infinum.dbinspector.domain.schema.table.interactors.DropTableContentByNameInteractor
 import com.infinum.dbinspector.domain.schema.table.interactors.GetTableByNameInteractor
@@ -88,11 +82,14 @@ import com.infinum.dbinspector.domain.settings.usecases.SaveIgnoredTableNameUseC
 import com.infinum.dbinspector.domain.settings.usecases.SaveLinesCountUseCase
 import com.infinum.dbinspector.domain.settings.usecases.SaveTruncateModeUseCase
 import com.infinum.dbinspector.domain.settings.usecases.ToggleLinesLimitUseCase
+import com.infinum.dbinspector.domain.shared.control.ContentControl
 import com.infinum.dbinspector.domain.shared.converters.BlobPreviewConverter
+import com.infinum.dbinspector.domain.shared.converters.ContentConverter
 import com.infinum.dbinspector.domain.shared.converters.SortConverter
 import com.infinum.dbinspector.domain.shared.converters.TruncateConverter
 import com.infinum.dbinspector.domain.shared.mappers.BlobPreviewModeMapper
 import com.infinum.dbinspector.domain.shared.mappers.CellMapper
+import com.infinum.dbinspector.domain.shared.mappers.ContentMapper
 import com.infinum.dbinspector.domain.shared.mappers.TruncateModeMapper
 import org.koin.core.module.Module
 import org.koin.core.qualifier.StringQualifier
@@ -204,10 +201,6 @@ internal object Domain {
         factory<Interactors.GetTriggerByName> { GetTriggerByNameInteractor(get()) }
         factory<Interactors.DropTriggerByName> { DropTriggerByNameInteractor(get()) }
 
-        factory<Mappers.Schema> { SchemaMapper(get()) }
-        factory<Converters.Schema> { SchemaConverter(get()) }
-        factory<Control.Schema> { SchemaControl(get(), get()) }
-
         factory<Repositories.Schema>(qualifier = Qualifiers.TABLES) {
             TableRepository(get(), get(), get(), get())
         }
@@ -253,10 +246,6 @@ internal object Domain {
         factory<Interactors.GetRawQuery> { GetRawQueryInteractor(get()) }
         factory<Interactors.GetAffectedRows> { GetAffectedRowsInteractor(get()) }
 
-        factory<Mappers.RawQuery> { RawQueryMapper(get()) }
-        factory<Converters.RawQuery> { RawQueryConverter(get()) }
-        factory<Control.RawQuery> { RawQueryControl(get(), get()) }
-
         factory<Repositories.RawQuery> { RawRepository(get(), get(), get(), get()) }
 
         factory<UseCases.GetRawQueryHeaders> { GetRawQueryHeadersUseCase(get(), get()) }
@@ -265,12 +254,16 @@ internal object Domain {
     }
 
     private fun shared() = module {
+        factory<Mappers.Content> { ContentMapper(get()) }
         factory<Mappers.BlobPreviewMode> { BlobPreviewModeMapper() }
         factory<Mappers.TruncateMode> { TruncateModeMapper() }
         factory<Mappers.Cell> { CellMapper(get()) }
 
+        factory<Converters.Content> { ContentConverter(get()) }
         factory<Converters.Sort> { SortConverter() }
         factory<Converters.Truncate> { TruncateConverter() }
         factory<Converters.BlobPreview> { BlobPreviewConverter() }
+
+        factory<Control.Content> { ContentControl(get(), get()) }
     }
 }

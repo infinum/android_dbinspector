@@ -8,10 +8,8 @@ import com.infinum.dbinspector.data.models.local.cursor.output.Field
 import com.infinum.dbinspector.data.models.local.cursor.output.FieldType
 import com.infinum.dbinspector.data.models.local.cursor.output.QueryResult
 import com.infinum.dbinspector.data.models.local.cursor.output.Row
-import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
 import com.infinum.dbinspector.data.source.local.cursor.shared.CursorSource
 import com.infinum.dbinspector.data.source.memory.pagination.Paginator
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -22,10 +20,9 @@ internal class RawQuerySource(
 ) : CursorSource(), Sources.Local.RawQuery {
 
     override suspend fun rawQueryHeaders(query: Query): QueryResult =
-        store.settings().data.firstOrNull().let {
+        store.current().let {
             suspendCancellableCoroutine { continuation ->
                 if (query.database?.isOpen == true) {
-                    val settings = it ?: SettingsEntity.getDefaultInstance()
                     runQuery(query)?.use { cursor ->
                         cursor.moveToFirst()
 
@@ -34,17 +31,17 @@ internal class RawQuerySource(
                                 rows = listOf(
                                     Row(
                                         position = 0,
-                                        fields = cursor.columnNames.toList().map {
+                                        fields = cursor.columnNames.toList().map { name ->
                                             Field(
                                                 type = FieldType.STRING,
-                                                text = it,
-                                                linesCount = if (settings.linesLimit) {
-                                                    settings.linesCount
+                                                text = name,
+                                                linesCount = if (it.linesLimit) {
+                                                    it.linesCount
                                                 } else {
                                                     Int.MAX_VALUE
                                                 },
-                                                truncate = settings.truncateMode,
-                                                blobPreview = settings.blobPreview
+                                                truncate = it.truncateMode,
+                                                blobPreview = it.blobPreview
                                             )
                                         }
                                     )
@@ -59,7 +56,7 @@ internal class RawQuerySource(
         }
 
     override suspend fun rawQuery(query: Query): QueryResult =
-        store.settings().data.firstOrNull().let {
+        store.current().let {
             suspendCancellableCoroutine { continuation ->
                 collectRows(
                     query = query,

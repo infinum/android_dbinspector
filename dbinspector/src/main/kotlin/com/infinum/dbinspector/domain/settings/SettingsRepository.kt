@@ -19,7 +19,7 @@ internal class SettingsRepository(
 ) : Repositories.Settings {
 
     override suspend fun getPage(input: SettingsParameters.Get): Settings =
-        getSettings(control.converter get input)?.let { control.mapper(it) } ?: Settings()
+        getSettings(control.converter get input).let { control.mapper(it) }
 
     override suspend fun saveLinesLimit(input: SettingsParameters.LinesLimit) =
         linesLimit(control.converter linesLimit input)

@@ -11,7 +11,7 @@ internal class GetForeignKeysUseCase(
     private val pragmaRepository: Repositories.Pragma
 ) : UseCases.GetForeignKeys {
 
-    override suspend fun invoke(input: PragmaParameters.ForeignKeys): Page {
+    override suspend fun invoke(input: PragmaParameters.Pragma): Page {
         val connection = connectionRepository.open(ConnectionParameters(input.databasePath))
         return pragmaRepository.getForeignKeys(input.copy(database = connection.database))
     }

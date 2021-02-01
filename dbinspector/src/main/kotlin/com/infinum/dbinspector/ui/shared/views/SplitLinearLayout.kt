@@ -296,28 +296,30 @@ internal class SplitLinearLayout @JvmOverloads constructor(
             offset *= SHIFT_OFFSET
         }
         when (currentOrientation) {
-            HORIZONTAL -> if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-                currentSplitterPosition = (currentSplitterPosition - offset)
-                    .coerceIn(minSplitterPosition, maxSplitterPosition)
-                currentSplitterPositionPercent = -1f
-                forceMeasure = true
-            } else if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-                currentSplitterPosition = (currentSplitterPosition + offset)
-                    .coerceIn(minSplitterPosition, maxSplitterPosition)
-                currentSplitterPositionPercent = -1f
-                forceMeasure = true
-            }
-            VERTICAL -> if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
-                currentSplitterPosition = (currentSplitterPosition - offset)
-                    .coerceIn(minSplitterPosition, maxSplitterPosition)
-                currentSplitterPositionPercent = -1f
-                forceMeasure = true
-            } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
-                currentSplitterPosition = (currentSplitterPosition + offset)
-                    .coerceIn(minSplitterPosition, maxSplitterPosition)
-                currentSplitterPositionPercent = -1f
-                forceMeasure = true
-            }
+            HORIZONTAL ->
+                if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+                    currentSplitterPosition = (currentSplitterPosition - offset)
+                        .coerceIn(minSplitterPosition, maxSplitterPosition)
+                    currentSplitterPositionPercent = -1f
+                    forceMeasure = true
+                } else if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+                    currentSplitterPosition = (currentSplitterPosition + offset)
+                        .coerceIn(minSplitterPosition, maxSplitterPosition)
+                    currentSplitterPositionPercent = -1f
+                    forceMeasure = true
+                }
+            VERTICAL ->
+                if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                    currentSplitterPosition = (currentSplitterPosition - offset)
+                        .coerceIn(minSplitterPosition, maxSplitterPosition)
+                    currentSplitterPositionPercent = -1f
+                    forceMeasure = true
+                } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                    currentSplitterPosition = (currentSplitterPosition + offset)
+                        .coerceIn(minSplitterPosition, maxSplitterPosition)
+                    currentSplitterPositionPercent = -1f
+                    forceMeasure = true
+                }
         }
         if (forceMeasure) {
             forceMeasure()
@@ -424,8 +426,10 @@ internal class SplitLinearLayout @JvmOverloads constructor(
                     TypedValue.TYPE_INT_COLOR_RGB8,
                     TypedValue.TYPE_INT_COLOR_RGB4 ->
                         currentSplitterDrawable = PaintDrawable(
-                            getColor(R.styleable.DbinspectorSplitLinearLayout_dbinspector_splitterBackground,
-                                ContextCompat.getColor(context, DEFAULT_SPLITTER))
+                            getColor(
+                                R.styleable.DbinspectorSplitLinearLayout_dbinspector_splitterBackground,
+                                ContextCompat.getColor(context, DEFAULT_SPLITTER)
+                            )
                         )
                     else ->
                         currentSplitterDrawable = PaintDrawable(
@@ -445,11 +449,14 @@ internal class SplitLinearLayout @JvmOverloads constructor(
                     TypedValue.TYPE_INT_COLOR_RGB8,
                     TypedValue.TYPE_INT_COLOR_RGB4 ->
                         currentSplitterDraggingDrawable = PaintDrawable(
-                            getColor(R.styleable.DbinspectorSplitLinearLayout_dbinspector_splitterDraggingBackground,
-                                ContextCompat.getColor(context, DEFAULT_SPLITTER_DRAGGABLE))
+                            getColor(
+                                R.styleable.DbinspectorSplitLinearLayout_dbinspector_splitterDraggingBackground,
+                                ContextCompat.getColor(context, DEFAULT_SPLITTER_DRAGGABLE)
+                            )
                         )
-                    else -> currentSplitterDraggingDrawable =
-                        PaintDrawable(ContextCompat.getColor(context, DEFAULT_SPLITTER_DRAGGABLE))
+                    else ->
+                        currentSplitterDraggingDrawable =
+                            PaintDrawable(ContextCompat.getColor(context, DEFAULT_SPLITTER_DRAGGABLE))
                 }
             }
         }

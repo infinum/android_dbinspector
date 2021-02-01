@@ -21,7 +21,7 @@ internal class SettingsActivity : BaseActivity() {
 
     override val binding by viewBinding(DbinspectorActivitySettingsBinding::inflate)
 
-    private val viewModel: SettingsViewModel by viewModel()
+    override val viewModel: SettingsViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
