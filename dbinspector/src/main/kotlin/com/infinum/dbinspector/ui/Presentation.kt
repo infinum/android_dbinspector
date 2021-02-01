@@ -75,9 +75,9 @@ internal object Presentation {
 
         viewModel { SchemaViewModel(get(), get()) }
 
-        viewModel { TablesViewModel(get()) }
-        viewModel { ViewsViewModel(get()) }
-        viewModel { TriggersViewModel(get()) }
+        viewModel { TablesViewModel(get(), get(), get()) }
+        viewModel { ViewsViewModel(get(), get(), get()) }
+        viewModel { TriggersViewModel(get(), get(), get()) }
 
         viewModel { TableViewModel(get(), get(), get(), get(), get()) }
         viewModel { ViewViewModel(get(), get(), get(), get(), get()) }
@@ -85,9 +85,9 @@ internal object Presentation {
 
         viewModel { PragmaViewModel(get(), get()) }
 
-        viewModel { TableInfoViewModel(get()) }
-        viewModel { ForeignKeysViewModel(get()) }
-        viewModel { IndexViewModel(get()) }
+        viewModel { TableInfoViewModel(get(), get(), get()) }
+        viewModel { ForeignKeysViewModel(get(), get(), get()) }
+        viewModel { IndexViewModel(get(), get(), get()) }
 
         viewModel { EditViewModel(get(), get(), get(), get(), get(), get(), get()) }
     }

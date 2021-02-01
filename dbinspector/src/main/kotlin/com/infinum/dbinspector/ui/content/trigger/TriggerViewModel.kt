@@ -9,12 +9,13 @@ internal class TriggerViewModel(
     openConnection: UseCases.OpenConnection,
     closeConnection: UseCases.CloseConnection,
     triggerInfo: UseCases.GetTriggerInfo,
-    private val trigger: UseCases.GetTrigger,
+    trigger: UseCases.GetTrigger,
     dropTrigger: UseCases.DropTrigger
 ) : ContentViewModel(
     openConnection,
     closeConnection,
     triggerInfo,
+    trigger,
     dropTrigger
 ) {
 
@@ -25,7 +26,4 @@ internal class TriggerViewModel(
 
     override fun dropStatement(name: String) =
         Statements.Schema.dropTrigger(name)
-
-    override fun dataSource(databasePath: String, statement: String) =
-        TriggerDataSource(databasePath, statement, trigger)
 }

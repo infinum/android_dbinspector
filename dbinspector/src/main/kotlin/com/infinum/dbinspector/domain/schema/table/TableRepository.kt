@@ -8,7 +8,7 @@ internal class TableRepository(
     getPage: Interactors.GetTables,
     getByName: Interactors.GetTableByName,
     dropByName: Interactors.DropTableContentByName,
-    control: Control.Schema
+    control: Control.Content
 ) : AbstractSchemaRepository(
     getPage,
     getByName,

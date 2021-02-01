@@ -30,7 +30,7 @@ internal interface Interactors {
     // endregion
 
     // region Settings
-    interface GetSettings : BaseInteractor<SettingsTask, SettingsEntity?>
+    interface GetSettings : BaseInteractor<SettingsTask, SettingsEntity>
 
     interface SaveLinesLimit : BaseInteractor<SettingsTask, Unit>
 

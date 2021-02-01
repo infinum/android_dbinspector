@@ -19,7 +19,7 @@ internal class CellMapper(
         Cell(
             text = when (model.type) {
                 FieldType.BLOB -> {
-                    model.data?.let { bytes ->
+                    model.blob?.let { bytes ->
                         when (model.blobPreview) {
                             SettingsEntity.BlobPreviewMode.UTF8 -> bytes.toUtf8String()
                             SettingsEntity.BlobPreviewMode.PLACEHOLDER -> bytes.toPlaceHolder()
@@ -31,8 +31,8 @@ internal class CellMapper(
                 }
                 else -> model.text
             },
-            data = model.data,
-            imageType = model.data?.let { bytes -> ImageType(bytes.toHexString()) }
+            data = model.blob,
+            imageType = model.blob?.let { bytes -> ImageType(bytes.toHexString()) }
                 ?: ImageType.UNSUPPORTED,
             linesShown = model.linesCount,
             truncateMode = truncateModeMapper(model.truncate)

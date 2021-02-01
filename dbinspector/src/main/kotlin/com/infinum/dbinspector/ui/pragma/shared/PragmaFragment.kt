@@ -1,6 +1,5 @@
 package com.infinum.dbinspector.ui.pragma.shared
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -9,10 +8,10 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorFragmentPragmaBinding
 import com.infinum.dbinspector.ui.Presentation
+import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.base.BaseFragment
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import com.infinum.dbinspector.ui.shared.headers.Header
@@ -34,7 +33,7 @@ internal abstract class PragmaFragment :
 
     private lateinit var tableName: String
 
-    abstract val viewModel: PragmaSourceViewModel
+    abstract override val viewModel: PragmaSourceViewModel
 
     abstract fun headers(): List<String>
 
@@ -52,9 +51,7 @@ internal abstract class PragmaFragment :
             tableName = it.getString(Presentation.Constants.Keys.SCHEMA_NAME, "")
 
             viewModel.databasePath = databasePath
-        } ?: run {
-            showError()
-        }
+        } ?: (requireActivity() as? BaseActivity)?.showDatabaseParametersError()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -116,16 +113,4 @@ internal abstract class PragmaFragment :
         viewModel.query(tableName) {
             pragmaAdapter.submitData(it)
         }
-
-    private fun showError() =
-        MaterialAlertDialogBuilder(requireContext())
-            .setCancelable(false)
-            .setTitle(R.string.dbinspector_title_error)
-            .setMessage(R.string.dbinspector_error_parameters)
-            .setPositiveButton(android.R.string.ok) { dialog: DialogInterface, _: Int ->
-                dialog.dismiss()
-                requireActivity().finish()
-            }
-            .create()
-            .show()
 }

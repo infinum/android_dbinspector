@@ -5,12 +5,11 @@ import com.infinum.dbinspector.domain.shared.models.Statements
 import com.infinum.dbinspector.ui.pragma.shared.PragmaSourceViewModel
 
 internal class IndexViewModel(
-    private val getPragma: UseCases.GetIndexes
-) : PragmaSourceViewModel() {
+    openConnection: UseCases.OpenConnection,
+    closeConnection: UseCases.CloseConnection,
+    getIndexes: UseCases.GetIndexes
+) : PragmaSourceViewModel(openConnection, closeConnection, getIndexes) {
 
     override fun pragmaStatement(name: String) =
         Statements.Pragma.indexes(name)
-
-    override fun dataSource(databasePath: String, statement: String) =
-        IndexDataSource(databasePath, statement, getPragma)
 }

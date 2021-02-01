@@ -12,4 +12,6 @@ internal abstract class BaseFragment(
 ) : Fragment(contentLayoutId), LibraryKoinComponent {
 
     abstract val binding: ViewBinding
+
+    abstract val viewModel: BaseViewModel
 }

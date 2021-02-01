@@ -2,40 +2,23 @@ package com.infinum.dbinspector.domain.shared.models.parameters
 
 import android.database.sqlite.SQLiteDatabase
 import com.infinum.dbinspector.domain.Domain
-import com.infinum.dbinspector.domain.shared.base.BaseParameters
+import com.infinum.dbinspector.domain.shared.base.PageParameters
 
-internal sealed class PragmaParameters : BaseParameters {
+internal sealed class PragmaParameters(override var page: Int?) : PageParameters(page) {
 
     data class Version(
         val databasePath: String,
         val database: SQLiteDatabase? = null,
-        val statement: String
-    ) : PragmaParameters()
+        val statement: String,
+        override var page: Int? = null
+    ) : PragmaParameters(page)
 
-    data class Info(
+    data class Pragma(
         val databasePath: String,
         val database: SQLiteDatabase? = null,
         val statement: String,
         val sort: SortParameters = SortParameters(),
-        val page: Int? = Domain.Constants.Limits.INITIAL_PAGE,
+        override var page: Int? = Domain.Constants.Limits.INITIAL_PAGE,
         val pageSize: Int = Domain.Constants.Limits.PAGE_SIZE
-    ) : PragmaParameters()
-
-    data class ForeignKeys(
-        val databasePath: String,
-        val database: SQLiteDatabase? = null,
-        val statement: String,
-        val sort: SortParameters = SortParameters(),
-        val page: Int? = Domain.Constants.Limits.INITIAL_PAGE,
-        val pageSize: Int = Domain.Constants.Limits.PAGE_SIZE
-    ) : PragmaParameters()
-
-    data class Indexes(
-        val databasePath: String,
-        val database: SQLiteDatabase? = null,
-        val statement: String,
-        val sort: SortParameters = SortParameters(),
-        val page: Int? = Domain.Constants.Limits.INITIAL_PAGE,
-        val pageSize: Int = Domain.Constants.Limits.PAGE_SIZE
-    ) : PragmaParameters()
+    ) : PragmaParameters(page)
 }

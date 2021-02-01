@@ -35,6 +35,8 @@ internal interface Sources {
         interface Store {
 
             suspend fun settings(): DataStore<SettingsEntity>
+
+            suspend fun current(): SettingsEntity
         }
 
         interface Schema {

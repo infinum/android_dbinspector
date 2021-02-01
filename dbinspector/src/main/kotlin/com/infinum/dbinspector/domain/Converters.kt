@@ -30,27 +30,14 @@ internal interface Converters {
 
     interface Sort : BaseConverter<SortParameters, Order>
 
-    interface Schema {
-
-        suspend infix fun getPage(parameters: ContentParameters): Query
-
-        suspend infix fun getByName(parameters: ContentParameters): Query
-
-        suspend infix fun dropByName(parameters: ContentParameters): Query
-    }
-
     interface Pragma {
 
         suspend infix fun version(parameters: PragmaParameters.Version): Query
 
-        suspend infix fun info(parameters: PragmaParameters.Info): Query
-
-        suspend infix fun foreignKeys(parameters: PragmaParameters.ForeignKeys): Query
-
-        suspend infix fun indexes(parameters: PragmaParameters.Indexes): Query
+        suspend infix fun pragma(parameters: PragmaParameters.Pragma): Query
     }
 
-    interface RawQuery : BaseConverter<ContentParameters, Query>
+    interface Content : BaseConverter<ContentParameters, Query>
 
     interface BlobPreview : BaseConverter<SettingsParameters.BlobPreview, SettingsEntity.BlobPreviewMode>
 

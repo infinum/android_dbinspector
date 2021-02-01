@@ -1,34 +1,30 @@
 package com.infinum.dbinspector.ui.edit
 
-import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.paging.PagingData
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.domain.shared.models.Sort
 import com.infinum.dbinspector.domain.shared.models.Statements
-import com.infinum.dbinspector.domain.shared.models.parameters.ConnectionParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
+import com.infinum.dbinspector.ui.shared.datasources.ContentDataSource
 import com.infinum.dbinspector.ui.shared.headers.Header
 import com.infinum.dbinspector.ui.shared.paging.PagingViewModel
 import com.infinum.dbinspector.ui.shared.views.editor.Keyword
 import com.infinum.dbinspector.ui.shared.views.editor.KeywordType
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @Suppress("LongParameterList")
 internal class EditViewModel(
-    private val openConnection: UseCases.OpenConnection,
-    private val closeConnection: UseCases.CloseConnection,
+    openConnection: UseCases.OpenConnection,
+    closeConnection: UseCases.CloseConnection,
     private val getRawQueryHeaders: UseCases.GetRawQueryHeaders,
     private val getRawQuery: UseCases.GetRawQuery,
     private val getAffectedRows: UseCases.GetAffectedRows,
     private val getTables: UseCases.GetTables,
     private val getTableInfo: UseCases.GetTableInfo
-) : PagingViewModel() {
-
-    lateinit var databasePath: String
+) : PagingViewModel(openConnection, closeConnection) {
 
     private var onError: suspend (value: Throwable) -> Unit = { throwable ->
         Timber.e(throwable)
@@ -40,23 +36,11 @@ internal class EditViewModel(
     }
 
     override fun dataSource(databasePath: String, statement: String) =
-        EditDataSource(
+        ContentDataSource(
             databasePath = databasePath,
             statement = statement,
-            getRawQuery = getRawQuery
+            useCase = getRawQuery
         )
-
-    fun open(lifecycleScope: LifecycleCoroutineScope) {
-        lifecycleScope.launch(errorHandler) {
-            openConnection(ConnectionParameters(databasePath))
-        }
-    }
-
-    fun close(lifecycleScope: LifecycleCoroutineScope) {
-        lifecycleScope.launch(errorHandler) {
-            closeConnection(ConnectionParameters(databasePath))
-        }
-    }
 
     fun header(
         query: String,
@@ -172,7 +156,7 @@ internal class EditViewModel(
 
                 val columnNames: List<Keyword> = tableNames.map {
                     getTableInfo(
-                        PragmaParameters.Info(
+                        PragmaParameters.Pragma(
                             databasePath = databasePath,
                             statement = Statements.Pragma.tableInfo(it.value)
                         )

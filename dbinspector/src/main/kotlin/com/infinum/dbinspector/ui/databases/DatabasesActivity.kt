@@ -25,7 +25,7 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
 
     override val binding by viewBinding(DbinspectorActivityDatabasesBinding::inflate)
 
-    private val viewModel: DatabaseViewModel by viewModel()
+    override val viewModel: DatabaseViewModel by viewModel()
 
     private val navigatorIntentFactory = NavigatorIntentFactory(this)
 

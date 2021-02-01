@@ -68,8 +68,18 @@ internal class EditorTextInput @JvmOverloads constructor(
             type = KeywordType.SQLITE_TYPE
         )
     }
-    private val keywordAdapter = KeywordAdapter(context, sqlKeywords + sqlFunctions + sqlTypes)
-    private val wordTokenizer = WordTokenizer(context, sqlKeywords + sqlFunctions + sqlTypes)
+
+    private val spanFactory = KeywordSpanFactory(context)
+    private val keywordAdapter = KeywordAdapter(
+        context,
+        sqlKeywords + sqlFunctions + sqlTypes,
+        spanFactory
+    )
+    private val wordTokenizer = WordTokenizer(
+        context,
+        sqlKeywords + sqlFunctions + sqlTypes,
+        spanFactory
+    )
 
     init {
         isFocusable = true

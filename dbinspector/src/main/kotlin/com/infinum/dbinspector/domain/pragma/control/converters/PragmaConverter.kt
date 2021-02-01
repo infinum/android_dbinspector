@@ -15,27 +15,7 @@ internal class PragmaConverter(
             statement = parameters.statement
         )
 
-    override suspend fun info(parameters: PragmaParameters.Info): Query =
-        Query(
-            databasePath = parameters.databasePath,
-            database = parameters.database,
-            statement = parameters.statement,
-            order = sortConverter(parameters.sort),
-            pageSize = parameters.pageSize,
-            page = parameters.page
-        )
-
-    override suspend fun foreignKeys(parameters: PragmaParameters.ForeignKeys): Query =
-        Query(
-            databasePath = parameters.databasePath,
-            database = parameters.database,
-            statement = parameters.statement,
-            order = sortConverter(parameters.sort),
-            pageSize = parameters.pageSize,
-            page = parameters.page
-        )
-
-    override suspend fun indexes(parameters: PragmaParameters.Indexes): Query =
+    override suspend fun pragma(parameters: PragmaParameters.Pragma): Query =
         Query(
             databasePath = parameters.databasePath,
             database = parameters.database,

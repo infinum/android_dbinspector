@@ -1,6 +1,5 @@
 package com.infinum.dbinspector.ui.schema.shared
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
@@ -9,10 +8,10 @@ import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorFragmentSchemaBinding
 import com.infinum.dbinspector.ui.Presentation
+import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import com.infinum.dbinspector.ui.shared.searchable.BaseSearchableFragment
 
@@ -34,7 +33,7 @@ internal abstract class SchemaFragment :
 
     abstract var statement: String
 
-    abstract val viewModel: SchemaSourceViewModel
+    abstract override val viewModel: SchemaSourceViewModel
 
     abstract fun childView(): Class<*>
 
@@ -52,9 +51,7 @@ internal abstract class SchemaFragment :
         arguments?.let {
             databasePath = it.getString(Presentation.Constants.Keys.DATABASE_PATH, "")
             databaseName = it.getString(Presentation.Constants.Keys.DATABASE_NAME, "")
-        } ?: run {
-            showError()
-        }
+        } ?: (requireActivity() as? BaseActivity)?.showDatabaseParametersError()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -121,16 +118,4 @@ internal abstract class SchemaFragment :
                 schemaName = name
             )
         )
-
-    private fun showError() =
-        MaterialAlertDialogBuilder(requireContext())
-            .setCancelable(false)
-            .setTitle(R.string.dbinspector_title_error)
-            .setMessage(R.string.dbinspector_error_parameters)
-            .setPositiveButton(android.R.string.ok) { dialog: DialogInterface, _: Int ->
-                dialog.dismiss()
-                requireActivity().finish()
-            }
-            .create()
-            .show()
 }

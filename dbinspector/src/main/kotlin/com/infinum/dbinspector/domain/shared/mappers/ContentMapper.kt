@@ -1,12 +1,12 @@
-package com.infinum.dbinspector.domain.schema.control.mappers
+package com.infinum.dbinspector.domain.shared.mappers
 
 import com.infinum.dbinspector.data.models.local.cursor.output.QueryResult
 import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.domain.shared.models.Page
 
-internal class SchemaMapper(
+internal class ContentMapper(
     private val cellMapper: Mappers.Cell
-) : Mappers.Schema {
+) : Mappers.Content {
 
     override suspend fun invoke(model: QueryResult): Page =
         Page(

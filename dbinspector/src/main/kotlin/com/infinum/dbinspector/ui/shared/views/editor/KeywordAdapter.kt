@@ -1,12 +1,8 @@
 package com.infinum.dbinspector.ui.shared.views.editor
 
 import android.content.Context
-import android.graphics.Typeface
-import android.text.ParcelableSpan
 import android.text.SpannableString
 import android.text.Spanned
-import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +13,8 @@ import com.infinum.dbinspector.databinding.DbinspectorItemKeywordBinding
 
 internal class KeywordAdapter(
     context: Context,
-    keywords: List<Keyword>
+    keywords: List<Keyword>,
+    private val spanFactory: KeywordSpanFactory
 ) : ArrayAdapter<Keyword>(context, R.layout.dbinspector_item_keyword, R.id.keywordView, keywords) {
 
     private val inflater = LayoutInflater.from(context)
@@ -47,7 +44,7 @@ internal class KeywordAdapter(
 
     private fun createSpannable(keyword: Keyword) =
         SpannableString(keyword.value).apply {
-            findSpans(keyword).forEach {
+            spanFactory.findSpans(keyword.type).forEach {
                 setSpan(
                     it,
                     0,
@@ -55,46 +52,5 @@ internal class KeywordAdapter(
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
                 )
             }
-        }
-
-    private fun findSpans(keyword: Keyword): List<ParcelableSpan> =
-        when (keyword.type) {
-            KeywordType.SQLITE_KEYWORD -> listOf<ParcelableSpan>(StyleSpan(Typeface.BOLD))
-            KeywordType.SQLITE_FUNCTION -> listOf<ParcelableSpan>(
-                StyleSpan(Typeface.ITALIC),
-                ForegroundColorSpan(
-                    ContextCompat.getColor(context, R.color.dbinspector_color_keyword_sql_function)
-                )
-            )
-            KeywordType.SQLITE_TYPE -> listOf<ParcelableSpan>(
-                StyleSpan(Typeface.BOLD_ITALIC),
-                ForegroundColorSpan(
-                    ContextCompat.getColor(context, R.color.dbinspector_color_keyword_sql_type)
-                )
-            )
-            KeywordType.TABLE_NAME -> listOf<ParcelableSpan>(
-                StyleSpan(Typeface.ITALIC),
-                ForegroundColorSpan(
-                    ContextCompat.getColor(context, R.color.dbinspector_color_keyword_table_name)
-                )
-            )
-            KeywordType.VIEW_NAME -> listOf<ParcelableSpan>(
-                StyleSpan(Typeface.ITALIC),
-                ForegroundColorSpan(
-                    ContextCompat.getColor(context, R.color.dbinspector_color_keyword_view_name)
-                )
-            )
-            KeywordType.TRIGGER_NAME -> listOf<ParcelableSpan>(
-                StyleSpan(Typeface.ITALIC),
-                ForegroundColorSpan(
-                    ContextCompat.getColor(context, R.color.dbinspector_color_keyword_trigger_name)
-                )
-            )
-            KeywordType.COLUMN_NAME -> listOf<ParcelableSpan>(
-                StyleSpan(Typeface.ITALIC),
-                ForegroundColorSpan(
-                    ContextCompat.getColor(context, R.color.dbinspector_color_keyword_column_name)
-                )
-            )
         }
 }

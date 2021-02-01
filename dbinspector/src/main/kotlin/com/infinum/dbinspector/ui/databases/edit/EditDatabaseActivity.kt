@@ -1,13 +1,11 @@
 package com.infinum.dbinspector.ui.databases.edit
 
 import android.app.Activity
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputFilter
 import android.view.inputmethod.EditorInfo
 import androidx.core.widget.doOnTextChanged
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorActivityEditDatabaseBinding
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
@@ -20,7 +18,7 @@ internal class EditDatabaseActivity : BaseActivity() {
 
     override val binding by viewBinding(DbinspectorActivityEditDatabaseBinding::inflate)
 
-    private val viewModel: EditDatabaseViewModel by viewModel()
+    override val viewModel: EditDatabaseViewModel by viewModel()
 
     private var databasePath: String? = null
     private var databaseFilepath: String? = null
@@ -56,9 +54,9 @@ internal class EditDatabaseActivity : BaseActivity() {
             ) {
                 setupUi()
             } else {
-                showError()
+                showDatabaseParametersError()
             }
-        } ?: showError()
+        } ?: showDatabaseParametersError()
     }
 
     private fun setupUi() {
@@ -84,18 +82,6 @@ internal class EditDatabaseActivity : BaseActivity() {
         }
     }
 
-    private fun showError() =
-        MaterialAlertDialogBuilder(this)
-            .setCancelable(false)
-            .setTitle(R.string.dbinspector_title_error)
-            .setMessage(R.string.dbinspector_error_parameters)
-            .setPositiveButton(android.R.string.ok) { dialog: DialogInterface, _: Int ->
-                dialog.dismiss()
-                finish()
-            }
-            .create()
-            .show()
-
     private fun rename() {
         databasePath?.let {
             val newDatabaseName = binding.nameInput.text?.toString().orEmpty().trim()
@@ -117,6 +103,6 @@ internal class EditDatabaseActivity : BaseActivity() {
                     }
                 )
             }
-        } ?: showError()
+        } ?: showDatabaseParametersError()
     }
 }

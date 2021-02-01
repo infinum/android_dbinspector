@@ -6,24 +6,23 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.MenuRes
 import androidx.annotation.StringRes
-import androidx.core.content.ContextCompat
-import androidx.core.view.updateLayoutParams
-import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorActivityContentBinding
 import com.infinum.dbinspector.domain.shared.models.Sort
+import com.infinum.dbinspector.extensions.setupAsTable
 import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.content.table.TableViewModel
 import com.infinum.dbinspector.ui.content.trigger.TriggerViewModel
 import com.infinum.dbinspector.ui.content.view.ViewViewModel
 import com.infinum.dbinspector.ui.pragma.PragmaActivity
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
+import com.infinum.dbinspector.ui.shared.base.lifecycle.LifecycleConnection
+import com.infinum.dbinspector.ui.shared.delegates.lifecycleConnection
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import com.infinum.dbinspector.ui.shared.headers.HeaderAdapter
 
@@ -31,7 +30,9 @@ internal abstract class ContentActivity : BaseActivity() {
 
     override val binding by viewBinding(DbinspectorActivityContentBinding::inflate)
 
-    abstract val viewModel: ContentViewModel
+    abstract override val viewModel: ContentViewModel
+
+    private val connection: LifecycleConnection by lifecycleConnection()
 
     @get:StringRes
     abstract val title: Int
@@ -51,71 +52,60 @@ internal abstract class ContentActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        binding.toolbar.setNavigationOnClickListener { finish() }
+
         contentPreviewFactory = ContentPreviewFactory(this)
 
-        intent.extras?.let {
-            val databaseName = it.getString(Presentation.Constants.Keys.DATABASE_NAME)
-            val databasePath = it.getString(Presentation.Constants.Keys.DATABASE_PATH)
-            val schemaName = it.getString(Presentation.Constants.Keys.SCHEMA_NAME)
-            if (
-                databaseName.isNullOrBlank().not() &&
-                databasePath.isNullOrBlank().not() &&
-                schemaName.isNullOrBlank().not()
-            ) {
-                viewModel.databasePath = databasePath!!
+        if (connection.hasSchemaData) {
+            viewModel.databasePath = connection.databasePath!!
+            viewModel.open()
+            setupUi(
+                connection.databasePath!!,
+                connection.databaseName!!,
+                connection.schemaName!!
+            )
 
-                viewModel.open(lifecycleScope)
+            viewModel.header(connection.schemaName!!) { tableHeaders ->
+                headerAdapter = HeaderAdapter(tableHeaders, true) { header ->
+                    query(connection.schemaName!!, header.name, header.sort)
+                    headerAdapter.updateHeader(header)
+                }
 
-                setupUi(databasePath, databaseName!!, schemaName!!)
+                contentAdapter = ContentAdapter(
+                    headersCount = tableHeaders.size,
+                    onCellClicked = { cell -> contentPreviewFactory.showCell(cell) }
+                )
 
-                viewModel.header(schemaName) { tableHeaders ->
-                    headerAdapter = HeaderAdapter(tableHeaders, true) { header ->
-                        query(schemaName, header.name, header.sort)
-                        headerAdapter.updateHeader(header)
+                with(binding) {
+                    contentAdapter.addLoadStateListener { loadState ->
+                        if (loadState.prepend.endOfPaginationReached) {
+                            swipeRefresh.isRefreshing = loadState.refresh !is LoadState.NotLoading
+                        }
                     }
 
-                    contentAdapter = ContentAdapter(
-                        headersCount = tableHeaders.size,
-                        onCellClicked = { cell -> contentPreviewFactory.showCell(cell) }
+                    swipeRefresh.setOnRefreshListener {
+                        contentAdapter.refresh()
+                    }
+
+                    recyclerView.layoutManager = GridLayoutManager(
+                        this@ContentActivity,
+                        tableHeaders.size,
+                        RecyclerView.VERTICAL,
+                        false
                     )
 
-                    with(binding) {
-                        contentAdapter.addLoadStateListener { loadState ->
-                            if (loadState.prepend.endOfPaginationReached) {
-                                swipeRefresh.isRefreshing = loadState.refresh !is LoadState.NotLoading
-                            }
-                        }
-
-                        swipeRefresh.setOnRefreshListener {
-                            contentAdapter.refresh()
-                        }
-
-                        recyclerView.layoutManager = GridLayoutManager(
-                            this@ContentActivity,
-                            tableHeaders.size,
-                            RecyclerView.VERTICAL,
-                            false
-                        )
-
-                        recyclerView.adapter = ConcatAdapter(headerAdapter, contentAdapter)
-                    }
-
-                    query(schemaName)
+                    recyclerView.adapter = ConcatAdapter(headerAdapter, contentAdapter)
                 }
-            } else {
-                showError()
-            }
-        } ?: showError()
-    }
 
-    override fun onDestroy() {
-        viewModel.close(lifecycleScope)
-        super.onDestroy()
+                query(connection.schemaName!!)
+            }
+        } else {
+            showDatabaseParametersError()
+        }
     }
 
     private fun setupUi(databasePath: String, databaseName: String, schemaName: String) {
         with(binding.toolbar) {
-            setNavigationOnClickListener { finish() }
             title = getString(this@ContentActivity.title)
             subtitle = listOf(databaseName, schemaName).joinToString(" → ")
             menuInflater.inflate(this@ContentActivity.menu, menu)
@@ -141,46 +131,9 @@ internal abstract class ContentActivity : BaseActivity() {
                 }
             }
         }
-        with(binding.recyclerView) {
-            ContextCompat.getDrawable(
-                context,
-                R.drawable.dbinspector_divider_vertical
-            )?.let { drawable ->
-                val verticalDecorator = DividerItemDecoration(
-                    context,
-                    DividerItemDecoration.VERTICAL
-                )
-                verticalDecorator.setDrawable(drawable)
-                addItemDecoration(verticalDecorator)
-            }
-            ContextCompat.getDrawable(
-                context,
-                R.drawable.dbinspector_divider_horizontal
-            )?.let { drawable ->
-                val horizontalDecorator = DividerItemDecoration(
-                    context,
-                    DividerItemDecoration.HORIZONTAL
-                )
-                horizontalDecorator.setDrawable(drawable)
-                addItemDecoration(horizontalDecorator)
-            }
-            updateLayoutParams {
-                minimumWidth = resources.displayMetrics.widthPixels
-            }
-        }
-    }
 
-    private fun showError() =
-        MaterialAlertDialogBuilder(this)
-            .setCancelable(false)
-            .setTitle(R.string.dbinspector_title_error)
-            .setMessage(R.string.dbinspector_error_parameters)
-            .setPositiveButton(android.R.string.ok) { dialog: DialogInterface, _: Int ->
-                dialog.dismiss()
-                finish()
-            }
-            .create()
-            .show()
+        binding.recyclerView.setupAsTable()
+    }
 
     private fun pragma(databaseName: String?, databasePath: String?, schemaName: String) {
         startActivity(

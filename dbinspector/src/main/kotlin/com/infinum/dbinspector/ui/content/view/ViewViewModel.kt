@@ -9,12 +9,13 @@ internal class ViewViewModel(
     openConnection: UseCases.OpenConnection,
     closeConnection: UseCases.CloseConnection,
     tableInfo: UseCases.GetTableInfo,
-    private val view: UseCases.GetView,
+    view: UseCases.GetView,
     dropView: UseCases.DropView
 ) : ContentViewModel(
     openConnection,
     closeConnection,
     tableInfo,
+    view,
     dropView
 ) {
     override fun headerStatement(name: String) =
@@ -25,7 +26,4 @@ internal class ViewViewModel(
 
     override fun dropStatement(name: String) =
         Statements.Schema.dropView(name)
-
-    override fun dataSource(databasePath: String, statement: String) =
-        ViewDataSource(databasePath, statement, view)
 }
