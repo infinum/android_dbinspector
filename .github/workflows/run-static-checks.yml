@@ -1,4 +1,4 @@
-name: Validate Gradle Wrapper
+name: Run static checks
 on:
   push:
     branches:
