@@ -15,11 +15,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
-  analysis:
-    needs: checkout
-    name: Code analysis
-    runs-on: ubuntu-latest
-    steps:
       - name: Detekt
         run: ./gradlew detektAll
       - name: ktlint
