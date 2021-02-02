@@ -81,6 +81,8 @@ task detektAll(dependsOn: [
     description = "Run detekt on all modules"
 }
 
+apply from: "shared.gradle"
+
 task runStaticChecks(dependsOn: ordered(
         ':detektAll',
         ':dbinspector:ktlintCheck',
@@ -93,11 +95,3 @@ task runStaticChecks(dependsOn: ordered(
 }
 
 apply from: "deploy.gradle"
-
-def ordered(String... taskPaths) {
-    def allTasks = taskPaths.collect { tasks.getByPath(it) }
-    for (int i = 0; i < allTasks.size() - 1; i++) {
-        allTasks[i + 1].mustRunAfter(allTasks[i])
-    }
-    return allTasks
-}

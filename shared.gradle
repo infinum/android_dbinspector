@@ -1,0 +1,11 @@
+def ordered(String... taskPaths) {
+    def allTasks = taskPaths.collect { tasks.getByPath(it) }
+    for (int i = 0; i < allTasks.size() - 1; i++) {
+        allTasks[i + 1].mustRunAfter(allTasks[i])
+    }
+    return allTasks
+}
+
+ext {
+    ordered = this.&ordered
+}
