@@ -1,6 +1,12 @@
 Changelog
 =========
 
+## Version 5.2.3
+
+_2021-02-03_
+
+* Fix missing launcher assets
+
 ## Version 5.2.2
 
 _2021-02-01_
