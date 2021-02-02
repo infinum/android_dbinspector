@@ -1,4 +1,4 @@
-name: Run static checks
+name: Run code analysis
 on:
   push:
     branches:
@@ -10,7 +10,7 @@ on:
 
 jobs:
   validation:
-    name: Detekt
+    name: Code analysis
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -18,12 +18,15 @@ jobs:
       - name: Detekt
         uses: eskatos/gradle-command-action@v1
         with:
+          gradle-version: 6.8.1
           arguments: detektAll
       - name: ktlint
         uses: eskatos/gradle-command-action@v1
         with:
+          gradle-version: 6.8.1
           arguments: ktlintAll
       - name: CPD
         uses: eskatos/gradle-command-action@v1
         with:
+          gradle-version: 6.8.1
           arguments: cpdAll
