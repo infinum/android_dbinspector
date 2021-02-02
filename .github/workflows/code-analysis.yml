@@ -20,9 +20,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.gradle/caches/
-          key: gradle-caches-${{ runner.os }}-${{ matrix.os }}-${{ matrix.jdk }}
+          key: gradle-caches-${{ runner.os }}
           restore-keys: |
-            gradle-caches-${{ runner.os }}-${{ matrix.os }}-${{ matrix.jdk }}
+            gradle-caches-${{ runner.os }}
 
       - name: Detekt
         run: ./gradlew detektAll
