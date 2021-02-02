@@ -1,0 +1,27 @@
+name: Validate Gradle Wrapper
+on:
+  push:
+    branches:
+      - develop
+      - master
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  validation:
+    name: Detekt
+    runs-on: ubuntu-latest
+    steps:
+      - name: Detekt
+      - uses: eskatos/gradle-command-action@v1
+        with:
+          arguments: detektAll
+      - name: ktlint
+      - uses: eskatos/gradle-command-action@v1
+        with:
+          arguments: ktlintAll
+      - name: CPD
+      - uses: eskatos/gradle-command-action@v1
+        with:
+          arguments: cpdAll
