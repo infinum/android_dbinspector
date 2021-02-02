@@ -1,4 +1,4 @@
-name: Run code analysis
+name: Code analysis
 on:
   push:
     branches:
@@ -9,24 +9,20 @@ on:
       - '*'
 
 jobs:
-  validation:
-    name: Code analysis
+  checkout:
+    name: Code checkout
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v1
+  analysis:
+    needs: checkout
+    name: Code analysis
+    runs-on: ubuntu-latest
+    steps:
       - name: Detekt
-        uses: eskatos/gradle-command-action@v1
-        with:
-          gradle-version: 6.8.1
-          arguments: detektAll
+        run: ./gradlew detektAll
       - name: ktlint
-        uses: eskatos/gradle-command-action@v1
-        with:
-          gradle-version: 6.8.1
-          arguments: ktlintAll
+        run: ./gradlew ktlintAll
       - name: CPD
-        uses: eskatos/gradle-command-action@v1
-        with:
-          gradle-version: 6.8.1
-          arguments: cpdAll
+        run: ./gradlew cpdAll
