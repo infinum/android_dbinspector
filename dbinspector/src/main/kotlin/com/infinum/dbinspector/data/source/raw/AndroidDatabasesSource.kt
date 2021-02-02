@@ -4,7 +4,6 @@ import com.infinum.dbinspector.R
 import com.infinum.dbinspector.data.Sources
 import com.infinum.dbinspector.domain.database.models.Operation
 import com.infinum.dbinspector.extensions.databaseDir
-import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.File
 import java.io.FileFilter
 import java.io.FileNotFoundException
@@ -13,6 +12,7 @@ import java.io.IOException
 import java.util.ArrayList
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
+import kotlinx.coroutines.suspendCancellableCoroutine
 
 internal class AndroidDatabasesSource : Sources.Raw {
 

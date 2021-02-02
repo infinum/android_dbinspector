@@ -10,9 +10,9 @@ import com.infinum.dbinspector.data.models.local.cursor.output.QueryResult
 import com.infinum.dbinspector.data.models.local.cursor.output.Row
 import com.infinum.dbinspector.data.source.local.cursor.shared.CursorSource
 import com.infinum.dbinspector.data.source.memory.pagination.Paginator
-import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
+import kotlinx.coroutines.suspendCancellableCoroutine
 
 internal class RawQuerySource(
     private val rawQueryPaginator: Paginator,
