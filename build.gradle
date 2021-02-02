@@ -81,14 +81,28 @@ task detektAll(dependsOn: [
     description = "Run detekt on all modules"
 }
 
+task ktlintAll(dependsOn: [
+        ':dbinspector:ktlintCheck',
+        ':dbinspector-no-op:ktlintCheck'
+]) {
+    group = "Verification"
+    description = "Run ktlintCheck on all modules"
+}
+
+task cpdAll(dependsOn: [
+        ':dbinspector:cpdCheck',
+        ':dbinspector-no-op:cpdCheck'
+]) {
+    group = "Verification"
+    description = "Run cpdCheck on all modules"
+}
+
 apply from: "shared.gradle"
 
 task runStaticChecks(dependsOn: ordered(
         ':detektAll',
-        ':dbinspector:ktlintCheck',
-        ':dbinspector-no-op:ktlintCheck',
-        ':dbinspector:cpdCheck',
-        ':dbinspector-no-op:cpdCheck'
+        ':ktlintAll',
+        ':cpdAll'
 )) {
     group = "Verification"
     description = "Run static checks on all modules"
