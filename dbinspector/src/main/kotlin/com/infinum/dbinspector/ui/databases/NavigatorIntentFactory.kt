@@ -12,8 +12,8 @@ import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
 import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.schema.SchemaActivity
 import com.infinum.dbinspector.ui.settings.SettingsActivity
-import timber.log.Timber
 import java.io.File
+import timber.log.Timber
 
 internal class NavigatorIntentFactory(
     private val context: Context

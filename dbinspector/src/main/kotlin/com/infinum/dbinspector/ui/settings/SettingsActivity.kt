@@ -14,8 +14,8 @@ import com.infinum.dbinspector.domain.shared.models.TruncateMode
 import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.math.roundToInt
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 internal class SettingsActivity : BaseActivity() {
 

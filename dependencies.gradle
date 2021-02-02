@@ -1,11 +1,11 @@
 ext.dbinspector = [
         "group"      : "com.infinum.dbinspector",
-        "version"    : "5.2.2",
-        "versionCode": 5 * 100 * 100 + 2 * 100 + 2
+        "version"    : "5.2.3",
+        "versionCode": 5 * 100 * 100 + 2 * 100 + 3
 ]
 
 ext.versions = [
-        "dbinspector"       : "5.2.2",
+        "dbinspector"       : "5.2.3",
         "gradle"            : '4.1.2',
         "kotlin"            : "1.4.21",
         "coroutines"        : "1.4.2",

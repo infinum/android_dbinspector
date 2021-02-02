@@ -1,10 +1,10 @@
 package com.infinum.dbinspector.data.source.memory.pagination
 
 import com.infinum.dbinspector.extensions.orZero
-import timber.log.Timber
 import kotlin.math.ceil
 import kotlin.math.min
 import kotlin.math.roundToInt
+import timber.log.Timber
 
 internal class CursorPaginator : Paginator {
 

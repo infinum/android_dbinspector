@@ -5,14 +5,14 @@ import com.infinum.dbinspector.data.models.local.cursor.output.Field
 import com.infinum.dbinspector.data.models.local.cursor.output.QueryResult
 import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
 import com.infinum.dbinspector.domain.connection.models.DatabaseConnection
-import com.infinum.dbinspector.domain.shared.base.BaseMapper
-import java.io.File
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor as DatabaseDescriptorModel
 import com.infinum.dbinspector.domain.settings.models.Settings as SettingsModel
+import com.infinum.dbinspector.domain.shared.base.BaseMapper
 import com.infinum.dbinspector.domain.shared.models.BlobPreviewMode as BlobPreviewModeModel
 import com.infinum.dbinspector.domain.shared.models.Cell as CellModel
 import com.infinum.dbinspector.domain.shared.models.Page as PageModel
 import com.infinum.dbinspector.domain.shared.models.TruncateMode as TruncateModeModel
+import java.io.File
 
 internal interface Mappers {
 

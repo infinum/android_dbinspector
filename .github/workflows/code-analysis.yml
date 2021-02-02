@@ -1,0 +1,35 @@
+name: Code analysis
+on:
+  push:
+    branches:
+      - develop
+      - master
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  checkout:
+    name: Code analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Save Gradle Caches
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches/
+          key: gradle-caches-${{ runner.os }}
+          restore-keys: |
+            gradle-caches-${{ runner.os }}
+
+      - name: Detekt
+        run: ./gradlew detektAll
+      - name: ktlint
+        run: ./gradlew ktlintAll
+      - name: CPD
+        run: ./gradlew cpdAll
+
+      - name: Stop Gradle
+        run: ./gradlew --stop

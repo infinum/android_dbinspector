@@ -81,23 +81,31 @@ task detektAll(dependsOn: [
     description = "Run detekt on all modules"
 }
 
-task runStaticChecks(dependsOn: ordered(
-        ':detektAll',
+task ktlintAll(dependsOn: [
         ':dbinspector:ktlintCheck',
-        ':dbinspector-no-op:ktlintCheck',
+        ':dbinspector-no-op:ktlintCheck'
+]) {
+    group = "Verification"
+    description = "Run ktlintCheck on all modules"
+}
+
+task cpdAll(dependsOn: [
         ':dbinspector:cpdCheck',
         ':dbinspector-no-op:cpdCheck'
+]) {
+    group = "Verification"
+    description = "Run cpdCheck on all modules"
+}
+
+apply from: "shared.gradle"
+
+task runStaticChecks(dependsOn: ordered(
+        ':detektAll',
+        ':ktlintAll',
+        ':cpdAll'
 )) {
     group = "Verification"
     description = "Run static checks on all modules"
 }
 
 apply from: "deploy.gradle"
-
-def ordered(String... taskPaths) {
-    def allTasks = taskPaths.collect { tasks.getByPath(it) }
-    for (int i = 0; i < allTasks.size() - 1; i++) {
-        allTasks[i + 1].mustRunAfter(allTasks[i])
-    }
-    return allTasks
-}

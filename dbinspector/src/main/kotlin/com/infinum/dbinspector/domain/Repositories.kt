@@ -2,6 +2,7 @@ package com.infinum.dbinspector.domain
 
 import com.infinum.dbinspector.domain.connection.models.DatabaseConnection
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
+import com.infinum.dbinspector.domain.settings.models.Settings as SettingsModel
 import com.infinum.dbinspector.domain.shared.base.BaseRepository
 import com.infinum.dbinspector.domain.shared.models.Page
 import com.infinum.dbinspector.domain.shared.models.parameters.ConnectionParameters
@@ -9,7 +10,6 @@ import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.DatabaseParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.SettingsParameters
-import com.infinum.dbinspector.domain.settings.models.Settings as SettingsModel
 
 internal interface Repositories {
 
