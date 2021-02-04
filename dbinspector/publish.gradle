@@ -18,9 +18,9 @@ afterEvaluate {
                 url = uri("https://maven.pkg.github.com/infinum/android_dbinspector")
 
                 Properties properties = new Properties()
-                def githubProperties = rootProject.file("github.properties")
-                if (githubProperties.exists()) {
-                    properties.load(new FileInputStream(githubProperties))
+                def publishProperties = rootProject.file("publish.properties")
+                if (publishProperties.exists()) {
+                    properties.load(new FileInputStream(publishProperties))
                 } else {
                     properties.setProperty("github.user", "")
                     properties.setProperty("github.token", "")
