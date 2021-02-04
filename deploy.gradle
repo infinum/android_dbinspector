@@ -2,18 +2,18 @@ apply from: "shared.gradle"
 
 task deployDbInspector(dependsOn: ordered(
         ':dbinspector:clean',
-        ':dbinspector:bintrayUpload'
+        ':dbinspector:publishInfinumPublicationToGithubRepository'
 )) {
     group = "Deploy"
-    description = "Deploy module to Bintray"
+    description = "Deploy module to Github"
 }
 
 task deployDbInspectorNoOp(dependsOn: ordered(
         ':dbinspector-no-op:clean',
-        ':dbinspector-no-op:bintrayUpload'
+        ':dbinspector-no-op:publishInfinumPublicationToGithubRepository'
 )) {
     group = "Deploy"
-    description = "Deploy module to Bintray"
+    description = "Deploy module to Github"
 }
 
 task deployAll(dependsOn: ordered(
@@ -21,5 +21,5 @@ task deployAll(dependsOn: ordered(
         'deployDbInspectorNoOp'
 )) {
     group = "Deploy"
-    description = "Deploy all modules to Bintray"
+    description = "Deploy all modules to Github"
 }

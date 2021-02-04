@@ -26,9 +26,9 @@ To include _DbInspector_ in your project, you have to add buildscript dependenci
 ```groovy
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
         // or ...
-        maven { url "https://dl.bintray.com/infinum/android" }
+        maven { url "https://maven.pkg.github.com/infinum/android_dbinspector" }
     }
 }
 ```
@@ -36,9 +36,9 @@ buildscript {
 ```kotlin
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
         // or ...
-        maven(url = "https://dl.bintray.com/infinum/android")
+        maven { url "https://maven.pkg.github.com/infinum/android_dbinspector" }
     }
 }
 ```

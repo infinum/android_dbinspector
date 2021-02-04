@@ -1,5 +1,4 @@
 apply plugin: "maven-publish"
-apply plugin: "com.jfrog.bintray"
 
 task sourcesJar(type: Jar) {
     archiveClassifier.set("sources")
@@ -13,20 +12,39 @@ task javadocsJar(type: Jar, dependsOn: "dokkaJavadoc") {
 
 afterEvaluate {
     publishing {
+        repositories {
+            maven {
+                name = "Github"
+                url = uri("https://maven.pkg.github.com/infinum/android_dbinspector")
+
+                Properties properties = new Properties()
+                def githubProperties = rootProject.file("github.properties")
+                if (githubProperties.exists()) {
+                    properties.load(new FileInputStream(githubProperties))
+                } else {
+                    properties.setProperty("github.user", "")
+                    properties.setProperty("github.token", "")
+                }
+                credentials {
+                    username = properties.getProperty("github.user")
+                    password = properties.getProperty("github.token")
+                }
+            }
+        }
         publications {
             infinum(MavenPublication) {
                 groupId = dbinspector.group
                 version = dbinspector.version
 
-                artifactId = "dbinspector"
+                artifactId = "dbinspector-no-op"
 
                 artifact bundleReleaseAar
                 artifact javadocsJar
                 artifact sourcesJar
 
                 pom {
-                    name = "Android DbInspector"
-                    description = "Android library for viewing in app databases."
+                    name = "Android DbInspector no op"
+                    description = "Android no op library for viewing in app databases."
                     url = "https://github.com/infinum/android_dbinspector"
                     licenses {
                         license {
@@ -63,40 +81,5 @@ afterEvaluate {
                 }
             }
         }
-    }
-}
-
-bintray {
-    Properties properties = new Properties()
-    def bintrayProperties = rootProject.file("bintray.properties")
-    if (bintrayProperties.exists()) {
-        properties.load(new FileInputStream(bintrayProperties))
-    } else {
-        properties.setProperty("bintray.user", "")
-        properties.setProperty("bintray.apikey", "")
-    }
-
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
-
-    publications = ["infinum"]
-
-    pkg {
-        repo = "android"
-        name = "dbinspector"
-        userOrg = "infinum"
-        desc = "DbInspector package"
-        websiteUrl = "https://github.com/infinum/android_dbinspector"
-        issueTrackerUrl = "https://github.com/infinum/android_dbinspector/issues"
-        vcsUrl = "https://github.com/infinum/android_dbinspector.git"
-        licenses = ["Apache-2.0"]
-        version {
-            name = "${dbinspector.version}"
-            released = new Date()
-            vcsTag = "${dbinspector.version}"
-        }
-        publish = true
-        override = true
-        publicDownloadNumbers = true
     }
 }

@@ -12,13 +12,27 @@ buildscript {
 
     repositories {
         google()
-        maven { url "https://dl.bintray.com/infinum/android" }
+        mavenCentral()
+        maven {
+            url "https://maven.pkg.github.com/infinum/android_dbinspector"
+            Properties properties = new Properties()
+            def githubProperties = rootProject.file("github.properties")
+            if (githubProperties.exists()) {
+                properties.load(new FileInputStream(githubProperties))
+            } else {
+                properties.setProperty("github.user", "")
+                properties.setProperty("github.token", "")
+            }
+            credentials {
+                username = properties.getProperty("github.user")
+                password = properties.getProperty("github.token")
+            }
+        }
         jcenter()
         maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
         classpath packages.gradle
-        classpath packages.bintray
         classpath packages.kotlin.plugin
         classpath packages.cpd.plugin
         classpath packages.detekt.plugin
@@ -32,9 +46,23 @@ allprojects {
 
     repositories {
         google()
-        maven { url "https://dl.bintray.com/infinum/android" }
+        mavenCentral()
+        maven {
+            url "https://maven.pkg.github.com/infinum/android_dbinspector"
+            Properties properties = new Properties()
+            def githubProperties = rootProject.file("github.properties")
+            if (githubProperties.exists()) {
+                properties.load(new FileInputStream(githubProperties))
+            } else {
+                properties.setProperty("github.user", "")
+                properties.setProperty("github.token", "")
+            }
+            credentials {
+                username = properties.getProperty("github.user")
+                password = properties.getProperty("github.token")
+            }
+        }
         jcenter()
-        maven { url "https://jitpack.io" }
     }
 
     def buildProperties = new Properties()
@@ -54,9 +82,23 @@ allprojects {
 subprojects {
     repositories {
         google()
-        maven { url "https://dl.bintray.com/infinum/android" }
-        jcenter()
         mavenCentral()
+        maven {
+            url "https://maven.pkg.github.com/infinum/android_dbinspector"
+            Properties properties = new Properties()
+            def githubProperties = rootProject.file("github.properties")
+            if (githubProperties.exists()) {
+                properties.load(new FileInputStream(githubProperties))
+            } else {
+                properties.setProperty("github.user", "")
+                properties.setProperty("github.token", "")
+            }
+            credentials {
+                username = properties.getProperty("github.user")
+                password = properties.getProperty("github.token")
+            }
+        }
+        jcenter()
     }
 
     apply from: "../cpd.gradle"
