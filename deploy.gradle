@@ -2,7 +2,7 @@ apply from: "shared.gradle"
 
 task deployDbInspector(dependsOn: ordered(
         ':dbinspector:clean',
-        ':dbinspector:publishInfinumPublicationToGithubRepository'
+        ':dbinspector:publishReleasePublicationToGithubRepository'
 )) {
     group = "Deploy"
     description = "Deploy module to Github"
@@ -10,7 +10,7 @@ task deployDbInspector(dependsOn: ordered(
 
 task deployDbInspectorNoOp(dependsOn: ordered(
         ':dbinspector-no-op:clean',
-        ':dbinspector-no-op:publishInfinumPublicationToGithubRepository'
+        ':dbinspector-no-op:publishReleasePublicationToGithubRepository'
 )) {
     group = "Deploy"
     description = "Deploy module to Github"

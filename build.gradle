@@ -1,3 +1,6 @@
+import com.infinum.maven.GithubConfiguration
+import com.infinum.maven.SonatypeConfiguration
+
 buildscript {
 
     ext.buildConfig = [
@@ -13,21 +16,21 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        maven {
-            url "https://maven.pkg.github.com/infinum/android_dbinspector"
-            Properties properties = new Properties()
-            def publishProperties = rootProject.file("publish.properties")
-            if (publishProperties.exists()) {
-                properties.load(new FileInputStream(publishProperties))
-            } else {
-                properties.setProperty("github.user", "")
-                properties.setProperty("github.token", "")
-            }
-            credentials {
-                username = properties.getProperty("github.user")
-                password = properties.getProperty("github.token")
-            }
-        }
+//        maven {
+//            url "https://maven.pkg.github.com/infinum/android_dbinspector"
+//            Properties properties = new Properties()
+//            def publishProperties = rootProject.file("publish.properties")
+//            if (publishProperties.exists()) {
+//                properties.load(new FileInputStream(publishProperties))
+//            } else {
+//                properties.setProperty("github.user", "")
+//                properties.setProperty("github.token", "")
+//            }
+//            credentials {
+//                username = properties.getProperty("github.user")
+//                password = properties.getProperty("github.token")
+//            }
+//        }
         jcenter()
         maven { url "https://plugins.gradle.org/m2/" }
     }
@@ -47,22 +50,16 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven {
-            url "https://maven.pkg.github.com/infinum/android_dbinspector"
-            Properties properties = new Properties()
-            def publishProperties = rootProject.file("publish.properties")
-            if (publishProperties.exists()) {
-                properties.load(new FileInputStream(publishProperties))
-            } else {
-                properties.setProperty("github.user", "")
-                properties.setProperty("github.token", "")
-            }
-            credentials {
-                username = properties.getProperty("github.user")
-                password = properties.getProperty("github.token")
+        jcenter() {
+            content {
+                includeModule("com.soywiz.korlibs.korte", "korte-jvm")
+                includeModule("org.jetbrains.trove4j", "trove4j")
+                includeModule("org.jetbrains.kotlinx", "kotlinx-html-jvm")
+                includeGroup("org.jetbrains.dokka")
+                includeGroup("org.jetbrains")
+                includeGroup("org.koin")
             }
         }
-        jcenter()
     }
 
     def buildProperties = new Properties()
@@ -83,22 +80,16 @@ subprojects {
     repositories {
         google()
         mavenCentral()
-        maven {
-            url "https://maven.pkg.github.com/infinum/android_dbinspector"
-            Properties properties = new Properties()
-            def publishProperties = rootProject.file("publish.properties")
-            if (publishProperties.exists()) {
-                properties.load(new FileInputStream(publishProperties))
-            } else {
-                properties.setProperty("github.user", "")
-                properties.setProperty("github.token", "")
-            }
-            credentials {
-                username = properties.getProperty("github.user")
-                password = properties.getProperty("github.token")
+        jcenter() {
+            content {
+                includeModule("com.soywiz.korlibs.korte", "korte-jvm")
+                includeModule("org.jetbrains.trove4j", "trove4j")
+                includeModule("org.jetbrains.kotlinx", "kotlinx-html-jvm")
+                includeGroup("org.jetbrains.dokka")
+                includeGroup("org.jetbrains")
+                includeGroup("org.koin")
             }
         }
-        jcenter()
     }
 
     apply from: "../cpd.gradle"

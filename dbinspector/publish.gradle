@@ -1,4 +1,8 @@
+import com.infinum.maven.GithubConfiguration
+import com.infinum.maven.SonatypeConfiguration
+
 apply plugin: "maven-publish"
+apply plugin: "signing"
 
 task sourcesJar(type: Jar) {
     archiveClassifier.set("sources")
@@ -14,25 +18,28 @@ afterEvaluate {
     publishing {
         repositories {
             maven {
-                name = "Github"
-                url = uri("https://maven.pkg.github.com/infinum/android_dbinspector")
-
-                Properties properties = new Properties()
-                def publishProperties = rootProject.file("publish.properties")
-                if (publishProperties.exists()) {
-                    properties.load(new FileInputStream(publishProperties))
-                } else {
-                    properties.setProperty("github.user", "")
-                    properties.setProperty("github.token", "")
-                }
+                def configuration = new SonatypeConfiguration()
+                configuration.load()
+                name configuration.name()
+                url configuration.url()
                 credentials {
-                    username = properties.getProperty("github.user")
-                    password = properties.getProperty("github.token")
+                    username configuration.username()
+                    password configuration.password()
+                }
+            }
+            maven {
+                def configuration = new GithubConfiguration()
+                configuration.load()
+                name configuration.name()
+                url configuration.url()
+                credentials {
+                    username configuration.username()
+                    password configuration.password()
                 }
             }
         }
         publications {
-            infinum(MavenPublication) {
+            release(MavenPublication) {
                 groupId = dbinspector.group
                 version = dbinspector.version
 
