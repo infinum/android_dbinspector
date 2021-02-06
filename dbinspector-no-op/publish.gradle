@@ -1,7 +1,3 @@
-import com.infinum.maven.BintrayConfiguration
-import com.infinum.maven.GithubConfiguration
-import com.infinum.maven.SonatypeConfiguration
-
 apply plugin: "maven-publish"
 apply plugin: "signing"
 
@@ -19,33 +15,27 @@ afterEvaluate {
     publishing {
         repositories {
             maven {
-                def configuration = new SonatypeConfiguration()
-                configuration.load()
-                name configuration.name()
-                url configuration.url()
+                name sonatype.name()
+                url sonatype.url()
                 credentials {
-                    username configuration.username()
-                    password configuration.password()
+                    username sonatype.username()
+                    password sonatype.password()
                 }
             }
             maven {
-                def configuration = new GithubConfiguration()
-                configuration.load()
-                name configuration.name()
-                url configuration.url()
+                name github.name()
+                url github.url()
                 credentials {
-                    username configuration.username()
-                    password configuration.password()
+                    username github.username()
+                    password github.password()
                 }
             }
             maven {
-                def configuration = new BintrayConfiguration()
-                configuration.load()
-                name configuration.name()
-                url configuration.url() + "/dbinspector-no-op/;publish=1;override=1"
+                name bintray.name()
+                url bintray.url() + "/dbinspector-no-op/;publish=1;override=1"
                 credentials {
-                    username configuration.username()
-                    password configuration.password()
+                    username bintray.username()
+                    password bintray.password()
                 }
             }
         }

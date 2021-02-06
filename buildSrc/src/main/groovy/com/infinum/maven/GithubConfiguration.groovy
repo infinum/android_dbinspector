@@ -38,8 +38,4 @@ class GithubConfiguration implements Configuration {
     String password() {
         return properties.getProperty("github.token").toString()
     }
-
-    static void main(String[] args) {
-        load()
-    }
 }

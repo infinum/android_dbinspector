@@ -38,8 +38,4 @@ class BintrayConfiguration implements Configuration {
     String password() {
         return properties.getProperty("bintray.apikey").toString()
     }
-
-    static void main(String[] args) {
-        load()
-    }
 }

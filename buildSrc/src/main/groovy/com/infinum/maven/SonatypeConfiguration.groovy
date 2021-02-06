@@ -38,8 +38,4 @@ class SonatypeConfiguration implements Configuration {
     String password() {
         return properties.getProperty("sonatype.password").toString()
     }
-
-    static void main(String[] args) {
-        load()
-    }
 }

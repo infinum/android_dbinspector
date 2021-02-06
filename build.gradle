@@ -11,26 +11,13 @@ buildscript {
             "buildTools": "30.0.3"
     ]
 
+    apply from: "maven.gradle"
+
     apply from: "dependencies.gradle"
 
     repositories {
         google()
         mavenCentral()
-//        maven {
-//            url "https://maven.pkg.github.com/infinum/android_dbinspector"
-//            Properties properties = new Properties()
-//            def publishProperties = rootProject.file("publish.properties")
-//            if (publishProperties.exists()) {
-//                properties.load(new FileInputStream(publishProperties))
-//            } else {
-//                properties.setProperty("github.user", "")
-//                properties.setProperty("github.token", "")
-//            }
-//            credentials {
-//                username = properties.getProperty("github.user")
-//                password = properties.getProperty("github.token")
-//            }
-//        }
         jcenter()
         maven { url "https://plugins.gradle.org/m2/" }
     }
@@ -96,6 +83,7 @@ subprojects {
     apply from: "../detekt.gradle"
     apply from: "../ktlint.gradle"
     apply from: "../dokka.gradle"
+//    apply from: "../maven.gradle"
 }
 
 tasks.withType(JavaCompile) {
