@@ -1,3 +1,4 @@
+import com.infinum.maven.BintrayConfiguration
 import com.infinum.maven.GithubConfiguration
 import com.infinum.maven.SonatypeConfiguration
 
@@ -32,6 +33,16 @@ afterEvaluate {
                 configuration.load()
                 name configuration.name()
                 url configuration.url()
+                credentials {
+                    username configuration.username()
+                    password configuration.password()
+                }
+            }
+            maven {
+                def configuration = new BintrayConfiguration()
+                configuration.load()
+                name configuration.name()
+                url configuration.url() + "/dbinspector-no-op/;publish=1;override=1"
                 credentials {
                     username configuration.username()
                     password configuration.password()

@@ -2,18 +2,22 @@ apply from: "shared.gradle"
 
 task deployDbInspector(dependsOn: ordered(
         ':dbinspector:clean',
-        ':dbinspector:publishReleasePublicationToGithubRepository'
+        ':dbinspector:publishReleasePublicationToBintrayRepository',
+        ':dbinspector:publishReleasePublicationToGithubRepository',
+        ':dbinspector:publishReleasePublicationToSonatypeRepository'
 )) {
     group = "Deploy"
-    description = "Deploy module to Github"
+    description = "Deploy module to repositories"
 }
 
 task deployDbInspectorNoOp(dependsOn: ordered(
         ':dbinspector-no-op:clean',
-        ':dbinspector-no-op:publishReleasePublicationToGithubRepository'
+        ':dbinspector-no-op:publishReleasePublicationToBintrayRepository',
+        ':dbinspector-no-op:publishReleasePublicationToGithubRepository',
+        ':dbinspector-no-op:publishReleasePublicationToSonatypeRepository'
 )) {
     group = "Deploy"
-    description = "Deploy module to Github"
+    description = "Deploy module to repositories"
 }
 
 task deployAll(dependsOn: ordered(
@@ -21,5 +25,5 @@ task deployAll(dependsOn: ordered(
         'deployDbInspectorNoOp'
 )) {
     group = "Deploy"
-    description = "Deploy all modules to Github"
+    description = "Deploy all modules to repositories"
 }
