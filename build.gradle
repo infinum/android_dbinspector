@@ -1,6 +1,3 @@
-import com.infinum.maven.GithubConfiguration
-import com.infinum.maven.SonatypeConfiguration
-
 buildscript {
 
     ext.buildConfig = [
@@ -12,7 +9,6 @@ buildscript {
     ]
 
     apply from: "maven.gradle"
-
     apply from: "dependencies.gradle"
 
     repositories {
@@ -39,6 +35,8 @@ allprojects {
         mavenCentral()
         jcenter() {
             content {
+                includeModule("com.infinum.dbinspector", "dbinspector")
+                includeModule("com.infinum.dbinspector", "dbinspector-no-op")
                 includeModule("com.soywiz.korlibs.korte", "korte-jvm")
                 includeModule("org.jetbrains.trove4j", "trove4j")
                 includeModule("org.jetbrains.kotlinx", "kotlinx-html-jvm")
@@ -64,27 +62,14 @@ allprojects {
 }
 
 subprojects {
-    repositories {
-        google()
-        mavenCentral()
-        jcenter() {
-            content {
-                includeModule("com.soywiz.korlibs.korte", "korte-jvm")
-                includeModule("org.jetbrains.trove4j", "trove4j")
-                includeModule("org.jetbrains.kotlinx", "kotlinx-html-jvm")
-                includeGroup("org.jetbrains.dokka")
-                includeGroup("org.jetbrains")
-                includeGroup("org.koin")
-            }
-        }
-    }
-
-    apply from: "../cpd.gradle"
-    apply from: "../detekt.gradle"
-    apply from: "../ktlint.gradle"
-    apply from: "../dokka.gradle"
-//    apply from: "../maven.gradle"
+    apply from: "$rootDir/cpd.gradle"
+    apply from: "$rootDir/detekt.gradle"
+    apply from: "$rootDir/ktlint.gradle"
+    apply from: "$rootDir/dokka.gradle"
 }
+
+apply from: "shared.gradle"
+apply from: "deploy.gradle"
 
 tasks.withType(JavaCompile) {
     options.compilerArgs += ["--release", "8"]
@@ -118,8 +103,6 @@ task cpdAll(dependsOn: [
     description = "Run cpdCheck on all modules"
 }
 
-apply from: "shared.gradle"
-
 task runStaticChecks(dependsOn: ordered(
         ':detektAll',
         ':ktlintAll',
@@ -128,5 +111,3 @@ task runStaticChecks(dependsOn: ordered(
     group = "Verification"
     description = "Run static checks on all modules"
 }
-
-apply from: "deploy.gradle"
