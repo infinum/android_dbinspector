@@ -87,6 +87,9 @@ afterEvaluate {
                         dependencyNode.appendNode("version", it.version)
                     }
                 }
+                signing {
+                    sign publishing.publications.release
+                }
             }
         }
     }

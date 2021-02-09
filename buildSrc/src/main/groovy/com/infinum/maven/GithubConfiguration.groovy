@@ -1,8 +1,8 @@
 package com.infinum.maven
 
-import com.infinum.maven.shared.Configuration
+import com.infinum.maven.shared.BaseConfiguration
 
-class GithubConfiguration implements Configuration {
+class GithubConfiguration implements BaseConfiguration {
 
     private Properties properties = new Properties()
 

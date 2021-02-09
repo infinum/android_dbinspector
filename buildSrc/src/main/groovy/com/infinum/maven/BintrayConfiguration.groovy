@@ -1,8 +1,8 @@
 package com.infinum.maven
 
-import com.infinum.maven.shared.Configuration
+import com.infinum.maven.shared.BaseConfiguration
 
-class BintrayConfiguration implements Configuration {
+class BintrayConfiguration implements BaseConfiguration {
 
     private Properties properties = new Properties()
 

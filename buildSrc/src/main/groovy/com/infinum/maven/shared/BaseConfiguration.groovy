@@ -1,6 +1,6 @@
 package com.infinum.maven.shared
 
-interface Configuration {
+interface BaseConfiguration {
 
     void load()
 
