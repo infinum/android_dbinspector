@@ -1,4 +1,4 @@
-[ ![Download](https://api.bintray.com/packages/infinum/android/dbinspector/images/download.svg) ](https://bintray.com/infinum/android/dbinspector/_latestVersion) ![Validate Gradle Wrapper](https://github.com/infinum/android_dbinspector/workflows/Validate%20Gradle%20Wrapper/badge.svg) ![Code analysis](https://github.com/infinum/android_dbinspector/workflows/Code%20analysis/badge.svg)
+![Download](https://img.shields.io/maven-central/v/com.infinum.dbinspector/dbinspector) ![Validate Gradle Wrapper](https://github.com/infinum/android_dbinspector/workflows/Validate%20Gradle%20Wrapper/badge.svg) ![Code analysis](https://github.com/infinum/android_dbinspector/workflows/Code%20analysis/badge.svg)
 
 ### <img align="left" src="logo.svg" width="48">
 # DbInspector
@@ -27,8 +27,6 @@ To include _DbInspector_ in your project, you have to add buildscript dependenci
 buildscript {
     repositories {
         mavenCentral()
-        // or ...
-        maven { url "https://maven.pkg.github.com/infinum/android_dbinspector" }
     }
 }
 ```
@@ -37,8 +35,6 @@ buildscript {
 buildscript {
     repositories {
         mavenCentral()
-        // or ...
-        maven { url "https://maven.pkg.github.com/infinum/android_dbinspector" }
     }
 }
 ```
