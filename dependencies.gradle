@@ -9,7 +9,6 @@ ext.versions = [
         "gradle"            : '4.1.2',
         "kotlin"            : "1.4.30",
         "coroutines"        : "1.4.2",
-        "bintray"           : "1.8.5",
         "core"              : "1.3.2",
         "appcompat"         : "1.2.0",
         "fragment"          : "1.3.0-rc02",
@@ -19,7 +18,7 @@ ext.versions = [
         "startup"           : "1.0.0",
         "swiperefreshlayout": "1.1.0",
         "datastore"         : "1.0.0-alpha06",
-        "design"            : "1.2.1",
+        "design"            : "1.3.0",
         "protobuf"          : "3.14.0",
         "protobuf_plugin"   : "0.8.14",
         "koin"              : "2.2.2",
@@ -39,7 +38,6 @@ ext.packages = [
         "kotlinx"    : [
                 "coroutines": "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutines}"
         ],
-        "bintray"    : "com.jfrog.bintray.gradle:gradle-bintray-plugin:${versions.bintray}",
         "dbinspector": [
                 "dbinspector"      : "com.infinum.dbinspector:dbinspector:${versions.dbinspector}",
                 "dbinspector_no_op": "com.infinum.dbinspector:dbinspector-no-op:${versions.dbinspector}"
