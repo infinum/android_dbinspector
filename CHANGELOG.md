@@ -1,6 +1,12 @@
 Changelog
 =========
 
+## Version 5.2.4
+
+_2021-02-11_
+
+* Update more dependencies to stable versions.
+
 ## Version 5.2.3
 
 _2021-02-03_

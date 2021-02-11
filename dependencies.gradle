@@ -1,7 +1,7 @@
 ext.dbinspector = [
         "group"      : "com.infinum.dbinspector",
-        "version"    : "5.2.3",
-        "versionCode": 5 * 100 * 100 + 2 * 100 + 3
+        "version"    : "5.2.4",
+        "versionCode": 5 * 100 * 100 + 2 * 100 + 4
 ]
 
 ext.versions = [
@@ -11,9 +11,9 @@ ext.versions = [
         "coroutines"        : "1.4.2",
         "core"              : "1.3.2",
         "appcompat"         : "1.2.0",
-        "fragment"          : "1.3.0-rc02",
+        "fragment"          : "1.3.0",
         "viewpager"         : "1.0.0",
-        "paging"            : "3.0.0-alpha13",
+        "paging"            : "3.0.0-beta01",
         "recyclerview"      : "1.2.0-beta01",
         "startup"           : "1.0.0",
         "swiperefreshlayout": "1.1.0",
