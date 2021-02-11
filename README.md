@@ -1,4 +1,4 @@
-[ ![Download](https://api.bintray.com/packages/infinum/android/dbinspector/images/download.svg) ](https://bintray.com/infinum/android/dbinspector/_latestVersion) ![Validate Gradle Wrapper](https://github.com/infinum/android_dbinspector/workflows/Validate%20Gradle%20Wrapper/badge.svg) ![Code analysis](https://github.com/infinum/android_dbinspector/workflows/Code%20analysis/badge.svg)
+![Download](https://img.shields.io/maven-central/v/com.infinum.dbinspector/dbinspector) ![Validate Gradle Wrapper](https://github.com/infinum/android_dbinspector/workflows/Validate%20Gradle%20Wrapper/badge.svg) ![Code analysis](https://github.com/infinum/android_dbinspector/workflows/Code%20analysis/badge.svg)
 
 ### <img align="left" src="logo.svg" width="48">
 # DbInspector
@@ -26,9 +26,7 @@ To include _DbInspector_ in your project, you have to add buildscript dependenci
 ```groovy
 buildscript {
     repositories {
-        jcenter()
-        // or ...
-        maven { url "https://dl.bintray.com/infinum/android" }
+        mavenCentral()
     }
 }
 ```
@@ -36,9 +34,7 @@ buildscript {
 ```kotlin
 buildscript {
     repositories {
-        jcenter()
-        // or ...
-        maven(url = "https://dl.bintray.com/infinum/android")
+        mavenCentral()
     }
 }
 ```
@@ -47,13 +43,13 @@ Then add the following dependencies in your app `build.gradle` or `build.gradle.
 
 **Groovy**
 ```groovy
-debugImplementation "com.infinum.dbinspector:dbinspector:5.2.3"
-releaseImplementation "com.infinum.dbinspector:dbinspector-no-op:5.2.3"
+debugImplementation "com.infinum.dbinspector:dbinspector:5.2.4"
+releaseImplementation "com.infinum.dbinspector:dbinspector-no-op:5.2.4"
 ```
 **KotlinDSL**
 ```kotlin
-debugImplementation("com.infinum.dbinspector:dbinspector:5.2.3")
-releaseImplementation("com.infinum.dbinspector:dbinspector-no-op:5.2.3")
+debugImplementation("com.infinum.dbinspector:dbinspector:5.2.4")
+releaseImplementation("com.infinum.dbinspector:dbinspector-no-op:5.2.4")
 ```
 
 ### Usage

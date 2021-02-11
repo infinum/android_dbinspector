@@ -48,4 +48,4 @@ dependencies {
     implementation packages.kotlin.core
 }
 
-apply from: "bintray.gradle"
+apply from: "publish.gradle"

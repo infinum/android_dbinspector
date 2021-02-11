@@ -9,13 +9,12 @@ on:
       - '*'
 
 jobs:
-  checkout:
-    name: Code analysis
+  detekt:
+    name: Detekt
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v1
-
       - name: Save Gradle Caches
         uses: actions/cache@v2
         with:
@@ -23,13 +22,42 @@ jobs:
           key: gradle-caches-${{ runner.os }}
           restore-keys: |
             gradle-caches-${{ runner.os }}
-
       - name: Detekt
         run: ./gradlew detektAll
+      - name: Stop Gradle
+        run: ./gradlew --stop
+
+  ktlint:
+    name: ktlint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Save Gradle Caches
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches/
+          key: gradle-caches-${{ runner.os }}
+          restore-keys: |
+            gradle-caches-${{ runner.os }}
       - name: ktlint
         run: ./gradlew ktlintAll
+      - name: Stop Gradle
+        run: ./gradlew --stop
+  cpd:
+    name: CPD
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Save Gradle Caches
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches/
+          key: gradle-caches-${{ runner.os }}
+          restore-keys: |
+            gradle-caches-${{ runner.os }}
       - name: CPD
         run: ./gradlew cpdAll
-
       - name: Stop Gradle
         run: ./gradlew --stop

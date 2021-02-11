@@ -8,17 +8,16 @@ buildscript {
             "buildTools": "30.0.3"
     ]
 
+    apply from: "maven.gradle"
     apply from: "dependencies.gradle"
 
     repositories {
         google()
-        maven { url "https://dl.bintray.com/infinum/android" }
-        jcenter()
+        mavenCentral()
         maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
         classpath packages.gradle
-        classpath packages.bintray
         classpath packages.kotlin.plugin
         classpath packages.cpd.plugin
         classpath packages.detekt.plugin
@@ -32,9 +31,17 @@ allprojects {
 
     repositories {
         google()
-        maven { url "https://dl.bintray.com/infinum/android" }
-        jcenter()
-        maven { url "https://jitpack.io" }
+        mavenCentral()
+        jcenter() {
+            content {
+                includeModule("com.soywiz.korlibs.korte", "korte-jvm")
+                includeModule("org.jetbrains.trove4j", "trove4j")
+                includeModule("org.jetbrains.kotlinx", "kotlinx-html-jvm")
+                includeGroup("org.jetbrains.dokka")
+                includeGroup("org.jetbrains")
+                includeGroup("org.koin")
+            }
+        }
     }
 
     def buildProperties = new Properties()
@@ -52,18 +59,14 @@ allprojects {
 }
 
 subprojects {
-    repositories {
-        google()
-        maven { url "https://dl.bintray.com/infinum/android" }
-        jcenter()
-        mavenCentral()
-    }
-
-    apply from: "../cpd.gradle"
-    apply from: "../detekt.gradle"
-    apply from: "../ktlint.gradle"
-    apply from: "../dokka.gradle"
+    apply from: "$rootDir/cpd.gradle"
+    apply from: "$rootDir/detekt.gradle"
+    apply from: "$rootDir/ktlint.gradle"
+    apply from: "$rootDir/dokka.gradle"
 }
+
+apply from: "shared.gradle"
+apply from: "deploy.gradle"
 
 tasks.withType(JavaCompile) {
     options.compilerArgs += ["--release", "8"]
@@ -97,8 +100,6 @@ task cpdAll(dependsOn: [
     description = "Run cpdCheck on all modules"
 }
 
-apply from: "shared.gradle"
-
 task runStaticChecks(dependsOn: ordered(
         ':detektAll',
         ':ktlintAll',
@@ -107,5 +108,3 @@ task runStaticChecks(dependsOn: ordered(
     group = "Verification"
     description = "Run static checks on all modules"
 }
-
-apply from: "deploy.gradle"

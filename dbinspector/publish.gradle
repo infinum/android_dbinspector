@@ -1,5 +1,5 @@
 apply plugin: "maven-publish"
-apply plugin: "com.jfrog.bintray"
+apply plugin: "signing"
 
 task sourcesJar(type: Jar) {
     archiveClassifier.set("sources")
@@ -13,20 +13,46 @@ task javadocsJar(type: Jar, dependsOn: "dokkaJavadoc") {
 
 afterEvaluate {
     publishing {
+        repositories {
+            maven {
+                name sonatype.name()
+                url sonatype.url()
+                credentials {
+                    username sonatype.username()
+                    password sonatype.password()
+                }
+            }
+            maven {
+                name github.name()
+                url github.url()
+                credentials {
+                    username github.username()
+                    password github.password()
+                }
+            }
+            maven {
+                name bintray.name()
+                url bintray.url() + "/dbinspector/;publish=1;override=1"
+                credentials {
+                    username bintray.username()
+                    password bintray.password()
+                }
+            }
+        }
         publications {
-            infinum(MavenPublication) {
+            release(MavenPublication) {
                 groupId = dbinspector.group
                 version = dbinspector.version
 
-                artifactId = "dbinspector-no-op"
+                artifactId = "dbinspector"
 
                 artifact bundleReleaseAar
                 artifact javadocsJar
                 artifact sourcesJar
 
                 pom {
-                    name = "Android DbInspector no op"
-                    description = "Android no op library for viewing in app databases."
+                    name = "Android DbInspector"
+                    description = "Android library for viewing in app databases."
                     url = "https://github.com/infinum/android_dbinspector"
                     licenses {
                         license {
@@ -61,42 +87,10 @@ afterEvaluate {
                         dependencyNode.appendNode("version", it.version)
                     }
                 }
+                signing {
+                    sign publishing.publications.release
+                }
             }
         }
-    }
-}
-
-bintray {
-    Properties properties = new Properties()
-    def bintrayProperties = rootProject.file("bintray.properties")
-    if (bintrayProperties.exists()) {
-        properties.load(new FileInputStream(bintrayProperties))
-    } else {
-        properties.setProperty("bintray.user", "")
-        properties.setProperty("bintray.apikey", "")
-    }
-
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
-
-    publications = ["infinum"]
-
-    pkg {
-        repo = "android"
-        name = "dbinspector-no-op"
-        userOrg = "infinum"
-        desc = "DbInspector no op package"
-        websiteUrl = "https://github.com/infinum/android_dbinspector"
-        issueTrackerUrl = "https://github.com/infinum/android_dbinspector/issues"
-        vcsUrl = "https://github.com/infinum/android_dbinspector.git"
-        licenses = ["Apache-2.0"]
-        version {
-            name = "${dbinspector.version}"
-            released = new Date()
-            vcsTag = "${dbinspector.version}"
-        }
-        publish = true
-        override = true
-        publicDownloadNumbers = true
     }
 }
