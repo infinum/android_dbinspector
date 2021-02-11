@@ -5,7 +5,7 @@ ext.dbinspector = [
 ]
 
 ext.versions = [
-        "dbinspector"       : "5.2.3",
+        "dbinspector"       : "5.2.4",
         "gradle"            : '4.1.2',
         "kotlin"            : "1.4.30",
         "coroutines"        : "1.4.2",
