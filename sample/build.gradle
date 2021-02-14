@@ -8,11 +8,12 @@ android {
     buildToolsVersion buildConfig.buildTools
 
     defaultConfig {
+        applicationId releaseConfig.group
+        applicationIdSuffix ".sample"
         minSdkVersion buildConfig.minSdk
         targetSdkVersion buildConfig.targetSdk
-        versionCode dbinspector.versionCode
-        versionName dbinspector.version
-        applicationId "com.infinum.dbinspector.sample"
+        versionCode releaseConfig.versionCode
+        versionName releaseConfig.version
     }
 
     signingConfigs {
