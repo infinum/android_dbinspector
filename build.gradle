@@ -21,7 +21,6 @@ buildscript {
 }
 
 allprojects {
-
     repositories {
         google()
         mavenCentral()
@@ -60,6 +59,7 @@ subprojects {
 
 apply from: "shared.gradle"
 apply from: "deploy.gradle"
+apply from: "jacoco.gradle"
 
 tasks.withType(JavaCompile) {
     options.compilerArgs += ["--release", "8"]
