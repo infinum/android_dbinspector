@@ -1,16 +1,19 @@
-apply plugin: "com.android.application"
-apply plugin: "kotlin-android"
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+}
 
 android {
     compileSdkVersion buildConfig.compileSdk
     buildToolsVersion buildConfig.buildTools
 
     defaultConfig {
+        applicationId releaseConfig.group
+        applicationIdSuffix ".sample"
         minSdkVersion buildConfig.minSdk
         targetSdkVersion buildConfig.targetSdk
-        versionCode dbinspector.versionCode
-        versionName dbinspector.version
-        applicationId "com.infinum.dbinspector.sample"
+        versionCode releaseConfig.versionCode
+        versionName releaseConfig.version
     }
 
     signingConfigs {

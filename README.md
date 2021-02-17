@@ -1,4 +1,4 @@
-![Download](https://img.shields.io/maven-central/v/com.infinum.dbinspector/dbinspector) ![Validate Gradle Wrapper](https://github.com/infinum/android_dbinspector/workflows/Validate%20Gradle%20Wrapper/badge.svg) ![Code analysis](https://github.com/infinum/android_dbinspector/workflows/Code%20analysis/badge.svg)
+![Download](https://img.shields.io/maven-central/v/com.infinum.dbinspector/dbinspector) ![Validate Gradle Wrapper](https://github.com/infinum/android_dbinspector/workflows/Validate%20Gradle%20Wrapper/badge.svg) ![Code analysis](https://github.com/infinum/android_dbinspector/workflows/Code%20analysis/badge.svg) [![CodeFactor](https://www.codefactor.io/repository/github/infinum/android_dbinspector/badge)](https://www.codefactor.io/repository/github/infinum/android_dbinspector) [![codecov](https://codecov.io/gh/infinum/android_dbinspector/branch/master/graph/badge.svg?token=LlJaXeahQC)](https://codecov.io/gh/infinum/android_dbinspector)
 
 ### <img align="left" src="logo.svg" width="48">
 # DbInspector
@@ -43,13 +43,13 @@ Then add the following dependencies in your app `build.gradle` or `build.gradle.
 
 **Groovy**
 ```groovy
-debugImplementation "com.infinum.dbinspector:dbinspector:5.2.4"
-releaseImplementation "com.infinum.dbinspector:dbinspector-no-op:5.2.4"
+debugImplementation "com.infinum.dbinspector:dbinspector:5.2.5"
+releaseImplementation "com.infinum.dbinspector:dbinspector-no-op:5.2.5"
 ```
 **KotlinDSL**
 ```kotlin
-debugImplementation("com.infinum.dbinspector:dbinspector:5.2.4")
-releaseImplementation("com.infinum.dbinspector:dbinspector-no-op:5.2.4")
+debugImplementation("com.infinum.dbinspector:dbinspector:5.2.5")
+releaseImplementation("com.infinum.dbinspector:dbinspector-no-op:5.2.5")
 ```
 
 ### Usage

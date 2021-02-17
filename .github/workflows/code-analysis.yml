@@ -14,14 +14,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
       - name: Save Gradle Caches
         uses: actions/cache@v2
         with:
           path: ~/.gradle/caches/
-          key: gradle-caches-${{ runner.os }}
+          key: gradle-caches-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
-            gradle-caches-${{ runner.os }}
+            gradle-caches-${{ runner.os }}-
       - name: Detekt
         run: ./gradlew detektAll
       - name: Stop Gradle
@@ -32,14 +32,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
       - name: Save Gradle Caches
         uses: actions/cache@v2
         with:
           path: ~/.gradle/caches/
-          key: gradle-caches-${{ runner.os }}
+          key: gradle-caches-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
-            gradle-caches-${{ runner.os }}
+            gradle-caches-${{ runner.os }}-
       - name: ktlint
         run: ./gradlew ktlintAll
       - name: Stop Gradle
@@ -49,14 +49,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
       - name: Save Gradle Caches
         uses: actions/cache@v2
         with:
           path: ~/.gradle/caches/
-          key: gradle-caches-${{ runner.os }}
+          key: gradle-caches-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
-            gradle-caches-${{ runner.os }}
+            gradle-caches-${{ runner.os }}-
       - name: CPD
         run: ./gradlew cpdAll
       - name: Stop Gradle

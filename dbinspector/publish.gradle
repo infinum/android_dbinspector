@@ -41,8 +41,8 @@ afterEvaluate {
         }
         publications {
             release(MavenPublication) {
-                groupId = dbinspector.group
-                version = dbinspector.version
+                groupId = releaseConfig.group
+                version = releaseConfig.version
 
                 artifactId = "dbinspector"
 

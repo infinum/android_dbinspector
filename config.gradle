@@ -1,0 +1,13 @@
+ext {
+    buildConfig = [
+            "minSdk"    : 21,
+            "compileSdk": 30,
+            "targetSdk" : 30,
+            "buildTools": "30.0.3"
+    ]
+    releaseConfig = [
+            "group"      : "com.infinum.dbinspector",
+            "version"    : "5.2.5",
+            "versionCode": 5 * 100 * 100 + 2 * 100 + 5
+    ]
+}

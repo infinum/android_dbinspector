@@ -1,20 +1,13 @@
 buildscript {
 
-    ext.buildConfig = [
-            "minSdk"    : 21,
-            "compileSdk": 30,
-            "targetSdk" : 30,
-
-            "buildTools": "30.0.3"
-    ]
-
+    apply from: "config.gradle"
     apply from: "maven.gradle"
     apply from: "dependencies.gradle"
 
     repositories {
         google()
         mavenCentral()
-        maven { url "https://plugins.gradle.org/m2/" }
+        gradlePluginPortal()
     }
     dependencies {
         classpath packages.gradle
