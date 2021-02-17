@@ -1,6 +1,12 @@
 Changelog
 =========
 
+## Version 5.2.5
+
+_2021-02-17_
+
+* Fix MaterialToolbar subtitle descender cutoff.
+
 ## Version 5.2.4
 
 _2021-02-11_
