@@ -2,6 +2,8 @@
 <resources>
     <string name="dbinspector_name">DbInspector</string>
 
+    <string name="dbinspector_launcher_name">@string/dbinspector_name</string>
+
     <string name="dbinspector_databases">Databases</string>
 
     <string name="dbinspector_schema">Schema</string>

@@ -138,7 +138,7 @@ internal class ContentPreviewFactory(
         clipboardManager?.let {
             it.setPrimaryClip(
                 ClipData.newPlainText(
-                    activity.getString(R.string.dbinspector_name),
+                    activity.getString(R.string.dbinspector_launcher_name),
                     content
                 )
             )

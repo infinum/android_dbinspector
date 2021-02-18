@@ -43,13 +43,13 @@ Then add the following dependencies in your app `build.gradle` or `build.gradle.
 
 **Groovy**
 ```groovy
-debugImplementation "com.infinum.dbinspector:dbinspector:5.2.5"
-releaseImplementation "com.infinum.dbinspector:dbinspector-no-op:5.2.5"
+debugImplementation "com.infinum.dbinspector:dbinspector:5.2.6"
+releaseImplementation "com.infinum.dbinspector:dbinspector-no-op:5.2.6"
 ```
 **KotlinDSL**
 ```kotlin
-debugImplementation("com.infinum.dbinspector:dbinspector:5.2.5")
-releaseImplementation("com.infinum.dbinspector:dbinspector-no-op:5.2.5")
+debugImplementation("com.infinum.dbinspector:dbinspector:5.2.6")
+releaseImplementation("com.infinum.dbinspector:dbinspector-no-op:5.2.6")
 ```
 
 ### Usage
@@ -71,15 +71,11 @@ If you use _dbinspector_ package but *do not want* an additional automatic launc
     android:name="com.infinum.dbinspector.DbInspectorActivity"
     tools:node="remove" />
 ```
-If you use _dbinspector_ package but *want* too change launcher icon label merged in.
+If you use _DbInspector_ for a specific flavor and need to override merged in launcher label, you can provide a String resource in your project exactly like this:
 ```xml
-<!--suppress AndroidDomInspection -->
-<activity-alias
-    android:name="com.infinum.dbinspector.DbInspectorActivity"
-    tools:replace="android:label"
-    android:label="@string/app_name" />
+<string name="dbinspector_launcher_name">Sample Debug</string>
 ```
-Please do mind and copy over the suppression comment line too.
+Please do mind and copy over the suppression comment line too, if you need it.
 Further modification can be done according to rules of [manifest merging](https://developer.android.com/studio/build/manifest-merge) and attributes of [activity-alias](https://developer.android.com/guide/topics/manifest/activity-alias-element) XML node.
 
 ## Requirements

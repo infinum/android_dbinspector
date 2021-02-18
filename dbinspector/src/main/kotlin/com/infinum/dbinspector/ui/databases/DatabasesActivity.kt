@@ -114,7 +114,6 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
                 .loadIcon(packageManager)
                 .scale(this@DatabasesActivity, R.dimen.dbinspector_app_icon_size, R.dimen.dbinspector_app_icon_size)
             setNavigationOnClickListener { finish() }
-
             setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.search -> {

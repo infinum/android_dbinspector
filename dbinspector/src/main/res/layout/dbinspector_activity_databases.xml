@@ -18,7 +18,7 @@
             android:minHeight="?attr/actionBarSize"
             app:menu="@menu/dbinspector_database"
             app:subtitle="@string/dbinspector_databases"
-            app:title="@string/dbinspector_name" />
+            app:title="@string/dbinspector_launcher_name" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

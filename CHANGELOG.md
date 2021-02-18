@@ -1,6 +1,12 @@
 Changelog
 =========
 
+## Version 5.2.6
+
+_2021-02-18_
+
+* Expose public String resource launcher name.
+
 ## Version 5.2.5
 
 _2021-02-17_
