@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package com.infinum.dbinspector.data.models.local.proto.output;
+
+option java_package = "com.infinum.dbinspector.data.models.local.proto.output";
+option java_multiple_files = true;
+
+message HistoryEntity {
+
+  message ExecutionEntity {
+
+    string databasePath = 1;
+    string execution = 2;
+    uint64 timestamp = 3;
+    bool success = 4;
+  }
+
+  repeated ExecutionEntity executions = 1;
+}

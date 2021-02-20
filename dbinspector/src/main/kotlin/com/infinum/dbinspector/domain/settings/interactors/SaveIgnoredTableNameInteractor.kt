@@ -6,11 +6,11 @@ import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
 import com.infinum.dbinspector.domain.Interactors
 
 internal class SaveIgnoredTableNameInteractor(
-    private val dataStore: Sources.Local.Store
+    private val dataStore: Sources.Local.Store<SettingsEntity>
 ) : Interactors.SaveIgnoredTableName {
 
     override suspend fun invoke(input: SettingsTask) {
-        dataStore.settings().updateData {
+        dataStore.store().updateData {
             it.toBuilder()
                 .addIgnoredTableNames(
                     0,

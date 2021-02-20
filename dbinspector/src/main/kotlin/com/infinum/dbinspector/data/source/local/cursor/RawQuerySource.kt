@@ -8,6 +8,7 @@ import com.infinum.dbinspector.data.models.local.cursor.output.Field
 import com.infinum.dbinspector.data.models.local.cursor.output.FieldType
 import com.infinum.dbinspector.data.models.local.cursor.output.QueryResult
 import com.infinum.dbinspector.data.models.local.cursor.output.Row
+import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
 import com.infinum.dbinspector.data.source.local.cursor.shared.CursorSource
 import com.infinum.dbinspector.data.source.memory.pagination.Paginator
 import kotlin.coroutines.resume
@@ -16,7 +17,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 
 internal class RawQuerySource(
     private val rawQueryPaginator: Paginator,
-    private val store: Sources.Local.Store
+    private val store: Sources.Local.Store<SettingsEntity>
 ) : CursorSource(), Sources.Local.RawQuery {
 
     override suspend fun rawQueryHeaders(query: Query): QueryResult =

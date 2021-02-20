@@ -4,7 +4,6 @@ import android.database.sqlite.SQLiteDatabase
 import androidx.datastore.core.DataStore
 import com.infinum.dbinspector.data.models.local.cursor.input.Query
 import com.infinum.dbinspector.data.models.local.cursor.output.QueryResult
-import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
 import com.infinum.dbinspector.domain.database.models.Operation
 import java.io.File
 
@@ -32,11 +31,11 @@ internal interface Sources {
 
     interface Local {
 
-        interface Store {
+        interface Store<Entity> {
 
-            suspend fun settings(): DataStore<SettingsEntity>
+            suspend fun store(): DataStore<Entity>
 
-            suspend fun current(): SettingsEntity
+            suspend fun current(): Entity
         }
 
         interface Schema {
