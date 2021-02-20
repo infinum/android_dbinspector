@@ -23,6 +23,13 @@ import com.infinum.dbinspector.domain.database.usecases.GetDatabasesUseCase
 import com.infinum.dbinspector.domain.database.usecases.ImportDatabasesUseCase
 import com.infinum.dbinspector.domain.database.usecases.RemoveDatabaseUseCase
 import com.infinum.dbinspector.domain.database.usecases.RenameDatabaseUseCase
+import com.infinum.dbinspector.domain.history.HistoryRepository
+import com.infinum.dbinspector.domain.history.control.HistoryControl
+import com.infinum.dbinspector.domain.history.control.converters.HistoryConverter
+import com.infinum.dbinspector.domain.history.control.mappers.ExecutionMapper
+import com.infinum.dbinspector.domain.history.control.mappers.HistoryMapper
+import com.infinum.dbinspector.domain.history.interactors.GetHistoryInteractor
+import com.infinum.dbinspector.domain.history.interactors.SaveExecutionInteractor
 import com.infinum.dbinspector.domain.pragma.PragmaRepository
 import com.infinum.dbinspector.domain.pragma.control.PragmaControl
 import com.infinum.dbinspector.domain.pragma.control.converters.PragmaConverter
@@ -124,6 +131,7 @@ internal object Domain {
                 schema(),
                 pragma(),
                 rawQuery(),
+                history(),
                 shared()
             )
         )
@@ -251,6 +259,28 @@ internal object Domain {
         factory<UseCases.GetRawQueryHeaders> { GetRawQueryHeadersUseCase(get(), get()) }
         factory<UseCases.GetRawQuery> { GetRawQueryUseCase(get(), get()) }
         factory<UseCases.GetAffectedRows> { GetAffectedRowsUseCase(get(), get()) }
+    }
+
+    private fun history() = module {
+        factory<Interactors.GetHistory> { GetHistoryInteractor(get()) }
+        factory<Interactors.SaveExecution> { SaveExecutionInteractor(get()) }
+
+        factory<Mappers.Execution> { ExecutionMapper() }
+        factory<Mappers.History> { HistoryMapper(get()) }
+        factory<Converters.History> { HistoryConverter() }
+        factory<Control.History> { HistoryControl(get(), get()) }
+
+        factory<Repositories.History> {
+            HistoryRepository(get(), get(), get())
+        }
+
+//        factory<UseCases.GetSettings> { GetSettingsUseCase(get()) }
+//        factory<UseCases.SaveIgnoredTableName> { SaveIgnoredTableNameUseCase(get()) }
+//        factory<UseCases.RemoveIgnoredTableName> { RemoveIgnoredTableNameUseCase(get()) }
+//        factory<UseCases.SaveLinesCount> { SaveLinesCountUseCase(get()) }
+//        factory<UseCases.ToggleLinesLimit> { ToggleLinesLimitUseCase(get()) }
+//        factory<UseCases.SaveTruncateMode> { SaveTruncateModeUseCase(get()) }
+//        factory<UseCases.SaveBlobPreviewMode> { SaveBlobPreviewModeUseCase(get()) }
     }
 
     private fun shared() = module {
