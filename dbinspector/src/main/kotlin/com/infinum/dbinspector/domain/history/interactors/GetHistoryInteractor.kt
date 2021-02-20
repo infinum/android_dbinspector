@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.transform
 
 internal class GetHistoryInteractor(
-    private val dataStore: Sources.Local.Store<HistoryEntity>
+    private val dataStore: Sources.Local.History
 ) : Interactors.GetHistory {
 
     override suspend fun invoke(input: HistoryTask): Flow<HistoryEntity> =

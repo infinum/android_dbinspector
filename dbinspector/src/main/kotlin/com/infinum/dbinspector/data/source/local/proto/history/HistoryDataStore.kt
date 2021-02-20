@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.firstOrNull
 
 internal class HistoryDataStore(
     private val store: DataStore<HistoryEntity>
-) : Sources.Local.Store<HistoryEntity> {
+) : Sources.Local.History {
 
     override suspend fun store(): DataStore<HistoryEntity> = store
 

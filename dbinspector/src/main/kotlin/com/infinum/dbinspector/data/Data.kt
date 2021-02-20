@@ -108,24 +108,24 @@ internal object Data {
         single(qualifier = Qualifiers.Name.DATASTORE_SETTINGS) { PROTO_FILENAME_SETTINGS }
         single(qualifier = Qualifiers.Name.DATASTORE_HISTORY) { PROTO_FILENAME_HISTORY }
 
-        single<Serializer<SettingsEntity>> { SettingsSerializer() }
-        single<Serializer<HistoryEntity>> { HistorySerializer() }
+        single<Serializer<SettingsEntity>>(qualifier = Qualifiers.Name.DATASTORE_SETTINGS) { SettingsSerializer() }
+        single<Serializer<HistoryEntity>>(qualifier = Qualifiers.Name.DATASTORE_HISTORY) { HistorySerializer() }
 
-        single<Sources.Local.Store<SettingsEntity>> {
+        single<Sources.Local.Settings> {
             val context: Context = get()
             SettingsDataStore(
                 context.createDataStore(
                     fileName = get(qualifier = Qualifiers.Name.DATASTORE_SETTINGS),
-                    serializer = get()
+                    serializer = get(qualifier = Qualifiers.Name.DATASTORE_SETTINGS)
                 )
             )
         }
-        single<Sources.Local.Store<HistoryEntity>> {
+        single<Sources.Local.History> {
             val context: Context = get()
             HistoryDataStore(
                 context.createDataStore(
                     fileName = get(qualifier = Qualifiers.Name.DATASTORE_HISTORY),
-                    serializer = get()
+                    serializer = get(qualifier = Qualifiers.Name.DATASTORE_HISTORY)
                 )
             )
         }

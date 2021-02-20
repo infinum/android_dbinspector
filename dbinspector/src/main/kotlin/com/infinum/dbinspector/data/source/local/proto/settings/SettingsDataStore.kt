@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.firstOrNull
 
 internal class SettingsDataStore(
     private val store: DataStore<SettingsEntity>
-) : Sources.Local.Store<SettingsEntity> {
+) : Sources.Local.Settings {
 
     override suspend fun store(): DataStore<SettingsEntity> = store
 
