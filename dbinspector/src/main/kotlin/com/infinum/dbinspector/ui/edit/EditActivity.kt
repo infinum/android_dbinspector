@@ -13,15 +13,15 @@ import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.extensions.setupAsTable
 import com.infinum.dbinspector.ui.content.shared.ContentAdapter
 import com.infinum.dbinspector.ui.content.shared.ContentPreviewFactory
+import com.infinum.dbinspector.ui.edit.history.HistoryDialog
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.base.lifecycle.LifecycleConnection
 import com.infinum.dbinspector.ui.shared.delegates.lifecycleConnection
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import com.infinum.dbinspector.ui.shared.headers.HeaderAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
-internal class EditActivity : BaseActivity() {
+internal class EditActivity : BaseActivity(), HistoryDialog.Listener {
 
     override val binding by viewBinding(DbinspectorActivityEditBinding::inflate)
 
@@ -55,12 +55,17 @@ internal class EditActivity : BaseActivity() {
         }
     }
 
+    override fun onHistorySelected(statement: String) {
+        binding.editorInput.setText(statement)
+    }
+
     private fun setupUi(databaseName: String) {
         with(binding.toolbar) {
             subtitle = databaseName
             setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.clear -> clearInput()
+                    R.id.history -> showHistory()
                     R.id.execute -> query()
                 }
                 true
@@ -76,12 +81,21 @@ internal class EditActivity : BaseActivity() {
 
         binding.recyclerView.setupAsTable()
         viewModel.history {
-            Timber.tag("_BOJAN_").i(it.toString())
+            binding.toolbar.menu.findItem(R.id.history).isEnabled = it.executions.isNotEmpty()
         }
     }
 
     private fun clearInput() =
         binding.editorInput.text.clear()
+
+    private fun showHistory() =
+        connection.databasePath?.let {
+            HistoryDialog.show(
+                connection.databaseName,
+                it,
+                supportFragmentManager
+            )
+        }
 
     private fun query() {
         val query = binding.editorInput.text?.toString().orEmpty().trim()

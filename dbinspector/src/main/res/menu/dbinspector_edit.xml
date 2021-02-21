@@ -4,6 +4,13 @@
     tools:ignore="AlwaysShowAction">
 
     <item
+        android:id="@+id/history"
+        android:enabled="false"
+        android:icon="@drawable/dbinspector_ic_history"
+        android:title="@string/dbinspector_action_history"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/clear"
         android:enabled="false"
         android:icon="@drawable/dbinspector_ic_clear_input"

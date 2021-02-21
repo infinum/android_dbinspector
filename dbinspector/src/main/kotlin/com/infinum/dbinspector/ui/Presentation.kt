@@ -9,6 +9,7 @@ import com.infinum.dbinspector.ui.content.view.ViewViewModel
 import com.infinum.dbinspector.ui.databases.DatabaseViewModel
 import com.infinum.dbinspector.ui.databases.edit.EditDatabaseViewModel
 import com.infinum.dbinspector.ui.edit.EditViewModel
+import com.infinum.dbinspector.ui.edit.history.HistoryViewModel
 import com.infinum.dbinspector.ui.pragma.PragmaViewModel
 import com.infinum.dbinspector.ui.pragma.foreignkeys.ForeignKeysViewModel
 import com.infinum.dbinspector.ui.pragma.indexes.IndexViewModel
@@ -92,5 +93,6 @@ internal object Presentation {
         viewModel { IndexViewModel(get(), get(), get()) }
 
         viewModel { EditViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+        viewModel { HistoryViewModel(get()) }
     }
 }
