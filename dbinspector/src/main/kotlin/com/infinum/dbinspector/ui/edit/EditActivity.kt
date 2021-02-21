@@ -19,6 +19,7 @@ import com.infinum.dbinspector.ui.shared.delegates.lifecycleConnection
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import com.infinum.dbinspector.ui.shared.headers.HeaderAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 internal class EditActivity : BaseActivity() {
 
@@ -74,6 +75,9 @@ internal class EditActivity : BaseActivity() {
         }
 
         binding.recyclerView.setupAsTable()
+        viewModel.history {
+            Timber.tag("_BOJAN_").i(it.toString())
+        }
     }
 
     private fun clearInput() =
@@ -124,7 +128,7 @@ internal class EditActivity : BaseActivity() {
         )
     }
 
-    private suspend fun showData(cells: PagingData<Cell>) =
+    private suspend fun showData(cells: PagingData<Cell>) {
         with(binding) {
             recyclerView.isVisible = true
             affectedRowsView.isVisible = false
@@ -132,8 +136,10 @@ internal class EditActivity : BaseActivity() {
         }.also {
             contentAdapter.submitData(cells)
         }
+        viewModel.saveSuccessfulExecution(binding.editorInput.text?.toString().orEmpty().trim())
+    }
 
-    private fun showAffectedRows(rowCount: String) =
+    private fun showAffectedRows(rowCount: String) {
         with(binding) {
             recyclerView.isVisible = false
             affectedRowsView.isVisible = true
@@ -145,12 +151,16 @@ internal class EditActivity : BaseActivity() {
                     rowCount
                 )
         }
+        viewModel.saveSuccessfulExecution(binding.editorInput.text?.toString().orEmpty().trim())
+    }
 
-    private fun showError(message: String?) =
+    private fun showError(message: String?) {
         with(binding) {
             recyclerView.isVisible = false
             affectedRowsView.isVisible = false
             errorView.isVisible = true
             errorView.text = message
         }
+        viewModel.saveFailedExecution(binding.editorInput.text?.toString().orEmpty().trim())
+    }
 }

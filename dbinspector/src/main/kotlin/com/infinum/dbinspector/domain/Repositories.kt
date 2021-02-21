@@ -51,7 +51,7 @@ internal interface Repositories {
 
     interface History {
 
-        suspend fun getByDatabase(input: HistoryParameters.Get): Flow<HistoryModel>
+        fun getByDatabase(input: HistoryParameters.Get): Flow<HistoryModel>
 
         suspend fun saveExecution(input: HistoryParameters.Save)
     }

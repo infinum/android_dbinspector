@@ -2,10 +2,12 @@ package com.infinum.dbinspector.ui.edit
 
 import androidx.paging.PagingData
 import com.infinum.dbinspector.domain.UseCases
+import com.infinum.dbinspector.domain.history.models.History
 import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.domain.shared.models.Sort
 import com.infinum.dbinspector.domain.shared.models.Statements
 import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
+import com.infinum.dbinspector.domain.shared.models.parameters.HistoryParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
 import com.infinum.dbinspector.ui.shared.datasources.ContentDataSource
 import com.infinum.dbinspector.ui.shared.headers.Header
@@ -13,6 +15,9 @@ import com.infinum.dbinspector.ui.shared.paging.PagingViewModel
 import com.infinum.dbinspector.ui.shared.views.editor.Keyword
 import com.infinum.dbinspector.ui.shared.views.editor.KeywordType
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
 
 @Suppress("LongParameterList")
@@ -23,7 +28,9 @@ internal class EditViewModel(
     private val getRawQuery: UseCases.GetRawQuery,
     private val getAffectedRows: UseCases.GetAffectedRows,
     private val getTables: UseCases.GetTables,
-    private val getTableInfo: UseCases.GetTableInfo
+    private val getTableInfo: UseCases.GetTableInfo,
+    private val getHistory: UseCases.GetHistory,
+    private val saveHistoryExecution: UseCases.SaveExecution
 ) : PagingViewModel(openConnection, closeConnection) {
 
     private var onError: suspend (value: Throwable) -> Unit = { throwable ->
@@ -174,6 +181,55 @@ internal class EditViewModel(
                 listOf<Keyword>().plus(tableNames).plus(viewNames).plus(triggerNames).plus(columnNames)
             }
             onData(result)
+        }
+    }
+
+    fun history(onData: suspend (value: History) -> Unit) =
+        launch {
+            getHistory(HistoryParameters.Get(databasePath))
+                .flowOn(Dispatchers.IO)
+                .collectLatest {
+                    onData(it)
+                }
+        }
+
+    @Suppress("RedundantUnitExpression")
+    fun saveSuccessfulExecution(statement: String) {
+        if (statement.isNotBlank()) {
+            launch {
+                io {
+                    saveHistoryExecution(
+                        HistoryParameters.Save(
+                            databasePath = databasePath,
+                            statement = statement,
+                            timestamp = System.currentTimeMillis(),
+                            isSuccess = true
+                        )
+                    )
+                }
+            }
+        } else {
+            Unit
+        }
+    }
+
+    @Suppress("RedundantUnitExpression")
+    fun saveFailedExecution(statement: String) {
+        if (statement.isNotBlank()) {
+            launch {
+                io {
+                    saveHistoryExecution(
+                        HistoryParameters.Save(
+                            databasePath = databasePath,
+                            statement = statement,
+                            timestamp = System.currentTimeMillis(),
+                            isSuccess = false
+                        )
+                    )
+                }
+            }
+        } else {
+            Unit
         }
     }
 

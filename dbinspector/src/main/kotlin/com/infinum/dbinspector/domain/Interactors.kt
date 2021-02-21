@@ -8,6 +8,7 @@ import com.infinum.dbinspector.data.models.local.proto.input.SettingsTask
 import com.infinum.dbinspector.data.models.local.proto.output.HistoryEntity
 import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
 import com.infinum.dbinspector.domain.database.models.Operation
+import com.infinum.dbinspector.domain.shared.base.BaseFlowInteractor
 import com.infinum.dbinspector.domain.shared.base.BaseInteractor
 import java.io.File
 import kotlinx.coroutines.flow.Flow
@@ -85,7 +86,7 @@ internal interface Interactors {
     // endregion
 
     // region History
-    interface GetHistory : BaseInteractor<HistoryTask, Flow<HistoryEntity>>
+    interface GetHistory : BaseFlowInteractor<HistoryTask, Flow<HistoryEntity>>
 
     interface SaveExecution : BaseInteractor<HistoryTask, Unit>
     // endregion

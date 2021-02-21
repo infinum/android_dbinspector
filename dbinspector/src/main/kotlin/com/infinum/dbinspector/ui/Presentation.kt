@@ -1,5 +1,6 @@
 package com.infinum.dbinspector.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import com.infinum.dbinspector.domain.Domain
 import com.infinum.dbinspector.ui.content.table.TableViewModel
@@ -21,6 +22,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
+@SuppressLint("StaticFieldLeak")
 internal object Presentation {
 
     object Constants {
@@ -89,6 +91,6 @@ internal object Presentation {
         viewModel { ForeignKeysViewModel(get(), get(), get()) }
         viewModel { IndexViewModel(get(), get(), get()) }
 
-        viewModel { EditViewModel(get(), get(), get(), get(), get(), get(), get()) }
+        viewModel { EditViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
     }
 }

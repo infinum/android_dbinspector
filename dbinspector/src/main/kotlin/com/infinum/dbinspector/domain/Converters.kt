@@ -62,7 +62,7 @@ internal interface Converters {
 
     interface History {
 
-        suspend infix fun get(parameters: HistoryParameters.Get): HistoryTask
+        infix fun get(parameters: HistoryParameters.Get): HistoryTask
 
         suspend infix fun save(parameters: HistoryParameters.Save): HistoryTask
     }

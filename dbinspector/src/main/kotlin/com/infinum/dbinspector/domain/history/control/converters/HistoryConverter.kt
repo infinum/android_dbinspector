@@ -7,7 +7,7 @@ import com.infinum.dbinspector.domain.shared.models.parameters.HistoryParameters
 
 internal class HistoryConverter : Converters.History {
 
-    override suspend fun get(parameters: HistoryParameters.Get): HistoryTask =
+    override fun get(parameters: HistoryParameters.Get): HistoryTask =
         HistoryTask(
             databasePath = parameters.databasePath
         )

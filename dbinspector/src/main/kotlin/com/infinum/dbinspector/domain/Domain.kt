@@ -30,6 +30,8 @@ import com.infinum.dbinspector.domain.history.control.mappers.ExecutionMapper
 import com.infinum.dbinspector.domain.history.control.mappers.HistoryMapper
 import com.infinum.dbinspector.domain.history.interactors.GetHistoryInteractor
 import com.infinum.dbinspector.domain.history.interactors.SaveExecutionInteractor
+import com.infinum.dbinspector.domain.history.usecases.GetHistoryUseCase
+import com.infinum.dbinspector.domain.history.usecases.SaveExecutionUseCase
 import com.infinum.dbinspector.domain.pragma.PragmaRepository
 import com.infinum.dbinspector.domain.pragma.control.PragmaControl
 import com.infinum.dbinspector.domain.pragma.control.converters.PragmaConverter
@@ -274,13 +276,8 @@ internal object Domain {
             HistoryRepository(get(), get(), get())
         }
 
-//        factory<UseCases.GetSettings> { GetSettingsUseCase(get()) }
-//        factory<UseCases.SaveIgnoredTableName> { SaveIgnoredTableNameUseCase(get()) }
-//        factory<UseCases.RemoveIgnoredTableName> { RemoveIgnoredTableNameUseCase(get()) }
-//        factory<UseCases.SaveLinesCount> { SaveLinesCountUseCase(get()) }
-//        factory<UseCases.ToggleLinesLimit> { ToggleLinesLimitUseCase(get()) }
-//        factory<UseCases.SaveTruncateMode> { SaveTruncateModeUseCase(get()) }
-//        factory<UseCases.SaveBlobPreviewMode> { SaveBlobPreviewModeUseCase(get()) }
+        factory<UseCases.GetHistory> { GetHistoryUseCase(get()) }
+        factory<UseCases.SaveExecution> { SaveExecutionUseCase(get()) }
     }
 
     private fun shared() = module {

@@ -1,14 +1,18 @@
 package com.infinum.dbinspector.domain
 
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
+import com.infinum.dbinspector.domain.history.models.History
 import com.infinum.dbinspector.domain.settings.models.Settings
+import com.infinum.dbinspector.domain.shared.base.BaseFlowUseCase
 import com.infinum.dbinspector.domain.shared.base.BaseUseCase
 import com.infinum.dbinspector.domain.shared.models.Page
 import com.infinum.dbinspector.domain.shared.models.parameters.ConnectionParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.DatabaseParameters
+import com.infinum.dbinspector.domain.shared.models.parameters.HistoryParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.SettingsParameters
+import kotlinx.coroutines.flow.Flow
 
 internal interface UseCases {
 
@@ -84,5 +88,11 @@ internal interface UseCases {
     interface GetForeignKeys : BaseUseCase<PragmaParameters.Pragma, Page>
 
     interface GetIndexes : BaseUseCase<PragmaParameters.Pragma, Page>
+    // endregion
+
+    // region Settings
+    interface GetHistory : BaseFlowUseCase<HistoryParameters.Get, Flow<History>>
+
+    interface SaveExecution : BaseUseCase<HistoryParameters.Save, Unit>
     // endregion
 }
