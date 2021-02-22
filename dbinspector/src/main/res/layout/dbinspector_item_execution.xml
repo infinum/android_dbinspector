@@ -7,31 +7,32 @@
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground"
     android:minHeight="?attr/listPreferredItemHeight"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:paddingStart="16dp"
     android:paddingTop="8dp"
     android:paddingEnd="16dp"
     android:paddingBottom="8dp">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/timeView"
-        style="@style/TextAppearance.MaterialComponents.Caption"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/successView"
+        android:layout_gravity="center_vertical"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="end"
-        tools:text="22.02.2012 00:27" />
+        tools:src="@drawable/dbinspector_ic_fail" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/successView"
-            android:layout_width="wrap_content"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/timeView"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:src="@drawable/dbinspector_ic_fail" />
+            android:layout_marginStart="16dp"
+            android:gravity="end"
+            tools:text="22.02.2012 00:27" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/valueView"
@@ -39,6 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
             tools:text="SELECT * FROM users" />
 
     </LinearLayout>

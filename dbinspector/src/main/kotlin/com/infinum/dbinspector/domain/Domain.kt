@@ -30,9 +30,11 @@ import com.infinum.dbinspector.domain.history.control.mappers.ExecutionMapper
 import com.infinum.dbinspector.domain.history.control.mappers.HistoryMapper
 import com.infinum.dbinspector.domain.history.interactors.ClearHistoryInteractor
 import com.infinum.dbinspector.domain.history.interactors.GetHistoryInteractor
+import com.infinum.dbinspector.domain.history.interactors.RemoveExecutionInteractor
 import com.infinum.dbinspector.domain.history.interactors.SaveExecutionInteractor
 import com.infinum.dbinspector.domain.history.usecases.ClearHistoryUseCase
 import com.infinum.dbinspector.domain.history.usecases.GetHistoryUseCase
+import com.infinum.dbinspector.domain.history.usecases.RemoveExecutionUseCase
 import com.infinum.dbinspector.domain.history.usecases.SaveExecutionUseCase
 import com.infinum.dbinspector.domain.pragma.PragmaRepository
 import com.infinum.dbinspector.domain.pragma.control.PragmaControl
@@ -269,6 +271,7 @@ internal object Domain {
         factory<Interactors.GetHistory> { GetHistoryInteractor(get()) }
         factory<Interactors.SaveExecution> { SaveExecutionInteractor(get()) }
         factory<Interactors.ClearHistory> { ClearHistoryInteractor(get()) }
+        factory<Interactors.RemoveExecution> { RemoveExecutionInteractor(get()) }
 
         factory<Mappers.Execution> { ExecutionMapper() }
         factory<Mappers.History> { HistoryMapper(get()) }
@@ -276,12 +279,13 @@ internal object Domain {
         factory<Control.History> { HistoryControl(get(), get()) }
 
         factory<Repositories.History> {
-            HistoryRepository(get(), get(), get(), get())
+            HistoryRepository(get(), get(), get(), get(), get())
         }
 
         factory<UseCases.GetHistory> { GetHistoryUseCase(get()) }
         factory<UseCases.SaveExecution> { SaveExecutionUseCase(get()) }
         factory<UseCases.ClearHistory> { ClearHistoryUseCase(get()) }
+        factory<UseCases.RemoveExecution> { RemoveExecutionUseCase(get()) }
     }
 
     private fun shared() = module {

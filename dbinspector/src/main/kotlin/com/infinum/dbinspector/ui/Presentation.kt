@@ -93,6 +93,6 @@ internal object Presentation {
         viewModel { IndexViewModel(get(), get(), get()) }
 
         viewModel { EditViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
-        viewModel { HistoryViewModel(get(), get()) }
+        viewModel { HistoryViewModel(get(), get(), get()) }
     }
 }

@@ -8,6 +8,6 @@ internal class ClearHistoryUseCase(
     private val historyRepository: Repositories.History
 ) : UseCases.ClearHistory {
 
-    override suspend fun invoke(input: HistoryParameters.Clear) =
+    override suspend fun invoke(input: HistoryParameters.All) =
         historyRepository.clearByDatabase(input)
 }

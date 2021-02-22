@@ -51,11 +51,13 @@ internal interface Repositories {
 
     interface History {
 
-        fun getByDatabase(input: HistoryParameters.Get): Flow<HistoryModel>
+        fun getByDatabase(input: HistoryParameters.All): Flow<HistoryModel>
 
-        suspend fun saveExecution(input: HistoryParameters.Save)
+        suspend fun saveExecution(input: HistoryParameters.Execution)
 
-        suspend fun clearByDatabase(input: HistoryParameters.Clear)
+        suspend fun clearByDatabase(input: HistoryParameters.All)
+
+        suspend fun removeExecution(input: HistoryParameters.Execution)
     }
 
     interface Schema : BaseRepository<ContentParameters, Page> {

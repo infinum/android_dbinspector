@@ -6,6 +6,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.infinum.dbinspector.R
@@ -86,10 +87,18 @@ internal class HistoryDialog : BaseBottomSheetDialogFragment(R.layout.dbinspecto
                 recyclerView.addItemDecoration(verticalDecorator)
             }
             recyclerView.adapter = adapter
+            ItemTouchHelper(
+                HistorySwipeCallback(recyclerView.context) {
+                    viewModel.clearExecution(databasePath, adapter.currentList[it])
+                }
+            ).apply { attachToRecyclerView(recyclerView) }
         }
 
         viewModel.history(databasePath) {
             adapter.submitList(it.executions)
+            if (it.executions.isEmpty()) {
+                dismiss()
+            }
         }
     }
 
@@ -104,9 +113,7 @@ internal class HistoryDialog : BaseBottomSheetDialogFragment(R.layout.dbinspecto
     }
 
     private fun clearHistory() =
-        viewModel.clearHistory(databasePath) {
-            dismiss()
-        }
+        viewModel.clearHistory(databasePath)
 
     interface Listener {
 

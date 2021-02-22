@@ -186,7 +186,7 @@ internal class EditViewModel(
 
     fun history(onData: suspend (value: History) -> Unit) =
         launch {
-            getHistory(HistoryParameters.Get(databasePath))
+            getHistory(HistoryParameters.All(databasePath))
                 .flowOn(Dispatchers.IO)
                 .collectLatest {
                     onData(it)
@@ -198,7 +198,7 @@ internal class EditViewModel(
         if (statement.isNotBlank()) {
             io {
                 saveHistoryExecution(
-                    HistoryParameters.Save(
+                    HistoryParameters.Execution(
                         databasePath = databasePath,
                         statement = statement,
                         timestamp = System.currentTimeMillis(),
@@ -217,7 +217,7 @@ internal class EditViewModel(
             launch {
                 io {
                     saveHistoryExecution(
-                        HistoryParameters.Save(
+                        HistoryParameters.Execution(
                             databasePath = databasePath,
                             statement = statement,
                             timestamp = System.currentTimeMillis(),

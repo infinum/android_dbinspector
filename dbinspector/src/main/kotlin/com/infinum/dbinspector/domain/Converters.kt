@@ -62,10 +62,10 @@ internal interface Converters {
 
     interface History {
 
-        infix fun get(parameters: HistoryParameters.Get): HistoryTask
+        infix fun get(parameters: HistoryParameters.All): HistoryTask
 
-        suspend infix fun save(parameters: HistoryParameters.Save): HistoryTask
+        suspend infix fun execution(parameters: HistoryParameters.Execution): HistoryTask
 
-        suspend infix fun clear(parameters: HistoryParameters.Clear): HistoryTask
+        suspend infix fun clear(parameters: HistoryParameters.All): HistoryTask
     }
 }

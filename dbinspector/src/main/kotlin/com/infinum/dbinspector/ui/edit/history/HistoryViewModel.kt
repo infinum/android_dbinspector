@@ -1,6 +1,7 @@
 package com.infinum.dbinspector.ui.edit.history
 
 import com.infinum.dbinspector.domain.UseCases
+import com.infinum.dbinspector.domain.history.models.Execution
 import com.infinum.dbinspector.domain.history.models.History
 import com.infinum.dbinspector.domain.shared.models.parameters.HistoryParameters
 import com.infinum.dbinspector.ui.shared.base.BaseViewModel
@@ -10,7 +11,8 @@ import kotlinx.coroutines.flow.flowOn
 
 internal class HistoryViewModel(
     private val getHistory: UseCases.GetHistory,
-    private val clearHistory: UseCases.ClearHistory
+    private val clearHistory: UseCases.ClearHistory,
+    private val removeExecution: UseCases.RemoveExecution
 ) : BaseViewModel() {
 
     fun history(
@@ -18,7 +20,7 @@ internal class HistoryViewModel(
         onData: suspend (value: History) -> Unit
     ) =
         launch {
-            getHistory(HistoryParameters.Get(databasePath))
+            getHistory(HistoryParameters.All(databasePath))
                 .flowOn(Dispatchers.IO)
                 .collectLatest {
                     onData(it)
@@ -26,13 +28,25 @@ internal class HistoryViewModel(
         }
 
     fun clearHistory(
-        databasePath: String,
-        action: suspend () -> Unit
+        databasePath: String
     ) =
         launch {
             io {
-                clearHistory(HistoryParameters.Clear(databasePath))
+                clearHistory(HistoryParameters.All(databasePath))
             }
-            action()
+        }
+
+    fun clearExecution(databasePath: String, execution: Execution) =
+        launch {
+            io {
+                removeExecution(
+                    HistoryParameters.Execution(
+                        databasePath = databasePath,
+                        statement = execution.statement,
+                        timestamp = execution.timestamp,
+                        isSuccess = execution.isSuccessful
+                    )
+                )
+            }
         }
 }

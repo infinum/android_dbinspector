@@ -10,6 +10,6 @@ internal class GetHistoryUseCase(
     private val historyRepository: Repositories.History
 ) : UseCases.GetHistory {
 
-    override fun invoke(input: HistoryParameters.Get): Flow<History> =
+    override fun invoke(input: HistoryParameters.All): Flow<History> =
         historyRepository.getByDatabase(input)
 }

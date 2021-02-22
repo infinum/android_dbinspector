@@ -4,10 +4,10 @@ import com.infinum.dbinspector.domain.Repositories
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.shared.models.parameters.HistoryParameters
 
-internal class SaveExecutionUseCase(
+internal class RemoveExecutionUseCase(
     private val historyRepository: Repositories.History
-) : UseCases.SaveExecution {
+) : UseCases.RemoveExecution {
 
     override suspend fun invoke(input: HistoryParameters.Execution) =
-        historyRepository.saveExecution(input)
+        historyRepository.removeExecution(input)
 }

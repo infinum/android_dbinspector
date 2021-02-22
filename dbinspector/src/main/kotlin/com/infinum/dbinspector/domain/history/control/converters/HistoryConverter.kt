@@ -7,12 +7,12 @@ import com.infinum.dbinspector.domain.shared.models.parameters.HistoryParameters
 
 internal class HistoryConverter : Converters.History {
 
-    override fun get(parameters: HistoryParameters.Get): HistoryTask =
+    override fun get(parameters: HistoryParameters.All): HistoryTask =
         HistoryTask(
             databasePath = parameters.databasePath
         )
 
-    override suspend fun save(parameters: HistoryParameters.Save): HistoryTask =
+    override suspend fun execution(parameters: HistoryParameters.Execution): HistoryTask =
         HistoryTask(
             execution = HistoryEntity.ExecutionEntity.getDefaultInstance().toBuilder()
                 .setDatabasePath(parameters.databasePath)
@@ -22,7 +22,7 @@ internal class HistoryConverter : Converters.History {
                 .build()
         )
 
-    override suspend fun clear(parameters: HistoryParameters.Clear): HistoryTask =
+    override suspend fun clear(parameters: HistoryParameters.All): HistoryTask =
         HistoryTask(
             databasePath = parameters.databasePath
         )
