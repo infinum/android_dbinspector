@@ -5,4 +5,6 @@
     <color name="dbinspector_status_bar">@android:color/transparent</color>
     <color name="dbinspector_splitter_background">#303030</color>
     <color name="dbinspector_color_keyword_background">#323232</color>
+    <color name="dbinspector_color_fail">#d32f2f</color>
+    <color name="dbinspector_color_success">#388e3c</color>
 </resources>
