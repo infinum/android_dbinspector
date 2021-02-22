@@ -94,5 +94,7 @@ internal interface UseCases {
     interface GetHistory : BaseFlowUseCase<HistoryParameters.Get, Flow<History>>
 
     interface SaveExecution : BaseUseCase<HistoryParameters.Save, Unit>
+
+    interface ClearHistory : BaseUseCase<HistoryParameters.Clear, Unit>
     // endregion
 }

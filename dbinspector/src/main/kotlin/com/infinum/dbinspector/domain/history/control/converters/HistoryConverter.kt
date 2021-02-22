@@ -21,4 +21,9 @@ internal class HistoryConverter : Converters.History {
                 .setSuccess(parameters.isSuccess)
                 .build()
         )
+
+    override suspend fun clear(parameters: HistoryParameters.Clear): HistoryTask =
+        HistoryTask(
+            databasePath = parameters.databasePath
+        )
 }

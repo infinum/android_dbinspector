@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.map
 internal class HistoryRepository(
     private val getHistory: Interactors.GetHistory,
     private val saveHistoryExecution: Interactors.SaveExecution,
+    private val clearHistory: Interactors.ClearHistory,
     private val control: Control.History
 ) : Repositories.History {
 
@@ -19,4 +20,7 @@ internal class HistoryRepository(
 
     override suspend fun saveExecution(input: HistoryParameters.Save) =
         saveHistoryExecution(control.converter save input)
+
+    override suspend fun clearByDatabase(input: HistoryParameters.Clear) =
+        clearHistory(control.converter clear input)
 }

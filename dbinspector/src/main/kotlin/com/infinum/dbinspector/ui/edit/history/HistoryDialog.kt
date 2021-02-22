@@ -59,6 +59,15 @@ internal class HistoryDialog : BaseBottomSheetDialogFragment(R.layout.dbinspecto
             toolbar.setNavigationOnClickListener { dismiss() }
             toolbar.title = getString(R.string.dbinspector_action_history)
             databaseName?.let { toolbar.subtitle = it }
+            toolbar.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.clear -> {
+                        clearHistory()
+                        true
+                    }
+                    else -> false
+                }
+            }
 
             recyclerView.layoutManager = LinearLayoutManager(
                 recyclerView.context,
@@ -80,9 +89,6 @@ internal class HistoryDialog : BaseBottomSheetDialogFragment(R.layout.dbinspecto
         }
 
         viewModel.history(databasePath) {
-//            it.executions.forEachIndexed { index, execution ->
-//                Timber.tag("_BOJAN_").i("$index -> $execution")
-//            }
             adapter.submitList(it.executions)
         }
     }
@@ -96,6 +102,11 @@ internal class HistoryDialog : BaseBottomSheetDialogFragment(R.layout.dbinspecto
         listener?.onHistorySelected(execution.statement)
         dismiss()
     }
+
+    private fun clearHistory() =
+        viewModel.clearHistory(databasePath) {
+            dismiss()
+        }
 
     interface Listener {
 

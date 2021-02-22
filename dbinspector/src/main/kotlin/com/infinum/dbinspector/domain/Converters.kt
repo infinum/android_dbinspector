@@ -65,5 +65,7 @@ internal interface Converters {
         infix fun get(parameters: HistoryParameters.Get): HistoryTask
 
         suspend infix fun save(parameters: HistoryParameters.Save): HistoryTask
+
+        suspend infix fun clear(parameters: HistoryParameters.Clear): HistoryTask
     }
 }

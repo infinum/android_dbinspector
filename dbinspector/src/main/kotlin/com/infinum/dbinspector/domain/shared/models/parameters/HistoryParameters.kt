@@ -14,4 +14,8 @@ internal sealed class HistoryParameters : BaseParameters {
         val timestamp: Long,
         val isSuccess: Boolean
     ) : HistoryParameters()
+
+    data class Clear(
+        val databasePath: String
+    ) : HistoryParameters()
 }

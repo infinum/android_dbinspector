@@ -9,7 +9,8 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOn
 
 internal class HistoryViewModel(
-    private val getHistory: UseCases.GetHistory
+    private val getHistory: UseCases.GetHistory,
+    private val clearHistory: UseCases.ClearHistory
 ) : BaseViewModel() {
 
     fun history(
@@ -22,5 +23,16 @@ internal class HistoryViewModel(
                 .collectLatest {
                     onData(it)
                 }
+        }
+
+    fun clearHistory(
+        databasePath: String,
+        action: suspend () -> Unit
+    ) =
+        launch {
+            io {
+                clearHistory(HistoryParameters.Clear(databasePath))
+            }
+            action()
         }
 }

@@ -89,5 +89,7 @@ internal interface Interactors {
     interface GetHistory : BaseFlowInteractor<HistoryTask, Flow<HistoryEntity>>
 
     interface SaveExecution : BaseInteractor<HistoryTask, Unit>
+
+    interface ClearHistory : BaseInteractor<HistoryTask, Unit>
     // endregion
 }
