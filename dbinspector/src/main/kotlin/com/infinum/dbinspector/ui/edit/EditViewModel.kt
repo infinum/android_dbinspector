@@ -194,19 +194,17 @@ internal class EditViewModel(
         }
 
     @Suppress("RedundantUnitExpression")
-    fun saveSuccessfulExecution(statement: String) {
+    suspend fun saveSuccessfulExecution(statement: String) {
         if (statement.isNotBlank()) {
-            launch {
-                io {
-                    saveHistoryExecution(
-                        HistoryParameters.Save(
-                            databasePath = databasePath,
-                            statement = statement,
-                            timestamp = System.currentTimeMillis(),
-                            isSuccess = true
-                        )
+            io {
+                saveHistoryExecution(
+                    HistoryParameters.Save(
+                        databasePath = databasePath,
+                        statement = statement,
+                        timestamp = System.currentTimeMillis(),
+                        isSuccess = true
                     )
-                }
+                )
             }
         } else {
             Unit

@@ -14,7 +14,6 @@ import com.infinum.dbinspector.domain.history.models.Execution
 import com.infinum.dbinspector.ui.shared.base.BaseBottomSheetDialogFragment
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 internal class HistoryDialog : BaseBottomSheetDialogFragment(R.layout.dbinspector_dialog_history) {
 
@@ -81,9 +80,9 @@ internal class HistoryDialog : BaseBottomSheetDialogFragment(R.layout.dbinspecto
         }
 
         viewModel.history(databasePath) {
-            it.executions.forEachIndexed { index, execution ->
-                Timber.tag("_BOJAN_").i("$index -> $execution")
-            }
+//            it.executions.forEachIndexed { index, execution ->
+//                Timber.tag("_BOJAN_").i("$index -> $execution")
+//            }
             adapter.submitList(it.executions)
         }
     }

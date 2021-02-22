@@ -143,6 +143,7 @@ internal class EditActivity : BaseActivity(), HistoryDialog.Listener {
     }
 
     private suspend fun showData(cells: PagingData<Cell>) {
+        viewModel.saveSuccessfulExecution(binding.editorInput.text?.toString().orEmpty().trim())
         with(binding) {
             recyclerView.isVisible = true
             affectedRowsView.isVisible = false
@@ -150,10 +151,10 @@ internal class EditActivity : BaseActivity(), HistoryDialog.Listener {
         }.also {
             contentAdapter.submitData(cells)
         }
-        viewModel.saveSuccessfulExecution(binding.editorInput.text?.toString().orEmpty().trim())
     }
 
-    private fun showAffectedRows(rowCount: String) {
+    private suspend fun showAffectedRows(rowCount: String) {
+        viewModel.saveSuccessfulExecution(binding.editorInput.text?.toString().orEmpty().trim())
         with(binding) {
             recyclerView.isVisible = false
             affectedRowsView.isVisible = true
@@ -165,7 +166,6 @@ internal class EditActivity : BaseActivity(), HistoryDialog.Listener {
                     rowCount
                 )
         }
-        viewModel.saveSuccessfulExecution(binding.editorInput.text?.toString().orEmpty().trim())
     }
 
     private fun showError(message: String?) {

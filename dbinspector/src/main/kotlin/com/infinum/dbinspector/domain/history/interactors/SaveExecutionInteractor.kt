@@ -12,8 +12,5 @@ internal class SaveExecutionInteractor(
         dataStore.store().updateData {
             it.toBuilder().addExecutions(0, input.execution).build()
         }
-//            .also {
-//                Timber.tag("_BOJAN_").i("SaveExecutionInteractor: -> $it")
-//            }
     }
 }
