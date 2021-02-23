@@ -130,43 +130,6 @@ internal object Domain {
         val TRIGGERS = StringQualifier("domain.qualifiers.triggers")
     }
 
-    object Algorithms {
-
-        @Suppress("ReturnCount")
-        fun levenshtein(
-            value: String,
-            target: String,
-            score: (Char, Char) -> Int = { c1, c2 ->
-                if (c1 == c2) 0 else 1
-            }
-        ): Int {
-
-            if (value == target) return 0
-            if (value.isBlank()) return target.length
-            if (target.isBlank()) return value.length
-
-            val initialRow: List<Int> = (0 until target.length + 1).map { it }.toList()
-            return (value.indices).fold(
-                initialRow,
-                { previous, u ->
-                    (target.indices).fold(
-                        mutableListOf(u + 1),
-                        { row, v ->
-                            row.add(
-                                minOf(
-                                    row.last() + 1,
-                                    previous[v + 1] + 1,
-                                    previous[v] + score(value[u], target[v])
-                                )
-                            )
-                            row
-                        }
-                    )
-                }
-            ).last()
-        }
-    }
-
     fun modules(): List<Module> =
         Data.modules().plus(
             listOf(

@@ -83,12 +83,15 @@ internal class EditActivity : BaseActivity(), HistoryDialog.Listener {
                 toolbar.menu.findItem(R.id.execute).isEnabled = text.isNullOrBlank().not()
             }
             editorInput.doOnTextChanged { text, _, _, _ ->
-                if (text.isNullOrBlank().not()) {
+                if (text?.toString()?.trim().orEmpty().isNotBlank()) {
                     viewModel.findSimilarExecution(lifecycleScope, text?.toString()?.trim().orEmpty()) {
                         suggestionButton.isVisible = it.executions.isNotEmpty() &&
+                            text?.toString()?.trim().orEmpty().isNotBlank() &&
                             (binding.editorInput.text?.toString().orEmpty().trim() != suggestionButton.text)
                         suggestionButton.text = it.executions.firstOrNull()?.statement
                     }
+                } else {
+                    suggestionButton.isVisible = text?.toString()?.trim().orEmpty().isNotBlank()
                 }
             }
         }
