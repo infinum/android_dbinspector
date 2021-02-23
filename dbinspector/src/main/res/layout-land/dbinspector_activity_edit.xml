@@ -1,5 +1,6 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -34,10 +35,10 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingEnd="8dp"
             android:layout_weight="1"
             android:fillViewport="true"
             android:overScrollMode="never"
+            android:paddingEnd="8dp"
             android:scrollbars="vertical">
 
             <FrameLayout
@@ -78,6 +79,22 @@
                         android:padding="8dp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/suggestionButton"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:insetLeft="2dp"
+                    android:insetTop="2dp"
+                    android:insetRight="2dp"
+                    android:insetBottom="2dp"
+                    android:visibility="gone"
+                    app:icon="@drawable/dbinspector_ic_insert"
+                    app:iconGravity="end"
+                    tools:text="SELECT * FROM users"
+                    tools:visibility="visible" />
 
             </FrameLayout>
 

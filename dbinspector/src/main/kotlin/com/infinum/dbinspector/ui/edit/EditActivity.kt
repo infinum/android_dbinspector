@@ -21,7 +21,6 @@ import com.infinum.dbinspector.ui.shared.delegates.lifecycleConnection
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import com.infinum.dbinspector.ui.shared.headers.HeaderAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 internal class EditActivity : BaseActivity(), HistoryDialog.Listener {
 
@@ -75,6 +74,10 @@ internal class EditActivity : BaseActivity(), HistoryDialog.Listener {
         }
 
         with(binding) {
+            suggestionButton.setOnClickListener {
+                editorInput.setText(suggestionButton.text)
+                suggestionButton.isVisible = false
+            }
             editorInput.doOnTextChanged { text, _, _, _ ->
                 toolbar.menu.findItem(R.id.clear).isEnabled = text.isNullOrBlank().not()
                 toolbar.menu.findItem(R.id.execute).isEnabled = text.isNullOrBlank().not()
@@ -82,7 +85,9 @@ internal class EditActivity : BaseActivity(), HistoryDialog.Listener {
             editorInput.doOnTextChanged { text, _, _, _ ->
                 if (text.isNullOrBlank().not()) {
                     viewModel.findSimilarExecution(lifecycleScope, text?.toString()?.trim().orEmpty()) {
-                        Timber.tag("_BOJAN_").i(it.executions.toString())
+                        suggestionButton.isVisible = it.executions.isNotEmpty() &&
+                            (binding.editorInput.text?.toString().orEmpty().trim() != suggestionButton.text)
+                        suggestionButton.text = it.executions.firstOrNull()?.statement
                     }
                 }
             }
