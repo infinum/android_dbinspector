@@ -57,7 +57,10 @@ internal class EditActivity : BaseActivity(), HistoryDialog.Listener {
     }
 
     override fun onHistorySelected(statement: String) {
-        binding.editorInput.setText(statement)
+        with(binding) {
+            editorInput.setContent(statement)
+            editorInput.setSelection(editorInput.text?.length ?: 0)
+        }
     }
 
     private fun setupUi(databaseName: String) {
@@ -75,7 +78,8 @@ internal class EditActivity : BaseActivity(), HistoryDialog.Listener {
 
         with(binding) {
             suggestionButton.setOnClickListener {
-                editorInput.setText(suggestionButton.text)
+                editorInput.setContent(suggestionButton.text.toString())
+                editorInput.setSelection(editorInput.text?.length ?: 0)
                 suggestionButton.isVisible = false
             }
             editorInput.doOnTextChanged { text, _, _, _ ->
