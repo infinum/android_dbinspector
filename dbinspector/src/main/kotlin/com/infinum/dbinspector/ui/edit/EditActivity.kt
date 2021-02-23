@@ -3,6 +3,7 @@ package com.infinum.dbinspector.ui.edit
 import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
+import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
@@ -20,6 +21,7 @@ import com.infinum.dbinspector.ui.shared.delegates.lifecycleConnection
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import com.infinum.dbinspector.ui.shared.headers.HeaderAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 internal class EditActivity : BaseActivity(), HistoryDialog.Listener {
 
@@ -76,6 +78,13 @@ internal class EditActivity : BaseActivity(), HistoryDialog.Listener {
             editorInput.doOnTextChanged { text, _, _, _ ->
                 toolbar.menu.findItem(R.id.clear).isEnabled = text.isNullOrBlank().not()
                 toolbar.menu.findItem(R.id.execute).isEnabled = text.isNullOrBlank().not()
+            }
+            editorInput.doOnTextChanged { text, _, _, _ ->
+                if (text.isNullOrBlank().not()) {
+                    viewModel.findSimilarExecution(lifecycleScope, text?.toString()?.trim().orEmpty()) {
+                        Timber.tag("_BOJAN_").i(it.executions.toString())
+                    }
+                }
             }
         }
 

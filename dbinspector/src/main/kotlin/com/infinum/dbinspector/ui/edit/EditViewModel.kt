@@ -9,15 +9,20 @@ import com.infinum.dbinspector.domain.shared.models.Statements
 import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.HistoryParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
+import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.shared.datasources.ContentDataSource
 import com.infinum.dbinspector.ui.shared.headers.Header
 import com.infinum.dbinspector.ui.shared.paging.PagingViewModel
 import com.infinum.dbinspector.ui.shared.views.editor.Keyword
 import com.infinum.dbinspector.ui.shared.views.editor.KeywordType
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @Suppress("LongParameterList")
@@ -30,8 +35,11 @@ internal class EditViewModel(
     private val getTables: UseCases.GetTables,
     private val getTableInfo: UseCases.GetTableInfo,
     private val getHistory: UseCases.GetHistory,
+    private val getSimilarExecution: UseCases.GetSimilarExecution,
     private val saveHistoryExecution: UseCases.SaveExecution
 ) : PagingViewModel(openConnection, closeConnection) {
+
+    private var debounceSimilarExecutionJob: Job? = null
 
     private var onError: suspend (value: Throwable) -> Unit = { throwable ->
         Timber.e(throwable)
@@ -192,6 +200,28 @@ internal class EditViewModel(
                     onData(it)
                 }
         }
+
+    fun findSimilarExecution(
+        scope: CoroutineScope,
+        statement: String,
+        onData: suspend (value: History) -> Unit
+    ) {
+        debounceSimilarExecutionJob?.cancel()
+        debounceSimilarExecutionJob = scope.launch {
+            delay(Presentation.Constants.Limits.DEBOUNCE_MILIS)
+            val result = io {
+                getSimilarExecution(
+                    HistoryParameters.Execution(
+                        databasePath = databasePath,
+                        statement = statement,
+                        timestamp = System.currentTimeMillis(),
+                        isSuccess = false
+                    )
+                )
+            }
+            onData(result)
+        }
+    }
 
     @Suppress("RedundantUnitExpression")
     suspend fun saveSuccessfulExecution(statement: String) {

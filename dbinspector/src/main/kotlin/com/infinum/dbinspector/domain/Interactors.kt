@@ -93,5 +93,7 @@ internal interface Interactors {
     interface ClearHistory : BaseInteractor<HistoryTask, Unit>
 
     interface RemoveExecution : BaseInteractor<HistoryTask, Unit>
+
+    interface GetExecution : BaseInteractor<HistoryTask, HistoryEntity>
     // endregion
 }

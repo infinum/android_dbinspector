@@ -29,11 +29,13 @@ import com.infinum.dbinspector.domain.history.control.converters.HistoryConverte
 import com.infinum.dbinspector.domain.history.control.mappers.ExecutionMapper
 import com.infinum.dbinspector.domain.history.control.mappers.HistoryMapper
 import com.infinum.dbinspector.domain.history.interactors.ClearHistoryInteractor
+import com.infinum.dbinspector.domain.history.interactors.GetExecutionInteractor
 import com.infinum.dbinspector.domain.history.interactors.GetHistoryInteractor
 import com.infinum.dbinspector.domain.history.interactors.RemoveExecutionInteractor
 import com.infinum.dbinspector.domain.history.interactors.SaveExecutionInteractor
 import com.infinum.dbinspector.domain.history.usecases.ClearHistoryUseCase
 import com.infinum.dbinspector.domain.history.usecases.GetHistoryUseCase
+import com.infinum.dbinspector.domain.history.usecases.GetSimilarExecutionUseCase
 import com.infinum.dbinspector.domain.history.usecases.RemoveExecutionUseCase
 import com.infinum.dbinspector.domain.history.usecases.SaveExecutionUseCase
 import com.infinum.dbinspector.domain.pragma.PragmaRepository
@@ -126,6 +128,43 @@ internal object Domain {
         val TABLES = StringQualifier("domain.qualifiers.tables")
         val VIEWS = StringQualifier("domain.qualifiers.views")
         val TRIGGERS = StringQualifier("domain.qualifiers.triggers")
+    }
+
+    object Algorithms {
+
+        @Suppress("ReturnCount")
+        fun levenshtein(
+            value: String,
+            target: String,
+            score: (Char, Char) -> Int = { c1, c2 ->
+                if (c1 == c2) 0 else 1
+            }
+        ): Int {
+
+            if (value == target) return 0
+            if (value.isBlank()) return target.length
+            if (target.isBlank()) return value.length
+
+            val initialRow: List<Int> = (0 until target.length + 1).map { it }.toList()
+            return (value.indices).fold(
+                initialRow,
+                { previous, u ->
+                    (target.indices).fold(
+                        mutableListOf(u + 1),
+                        { row, v ->
+                            row.add(
+                                minOf(
+                                    row.last() + 1,
+                                    previous[v + 1] + 1,
+                                    previous[v] + score(value[u], target[v])
+                                )
+                            )
+                            row
+                        }
+                    )
+                }
+            ).last()
+        }
     }
 
     fun modules(): List<Module> =
@@ -272,6 +311,7 @@ internal object Domain {
         factory<Interactors.SaveExecution> { SaveExecutionInteractor(get()) }
         factory<Interactors.ClearHistory> { ClearHistoryInteractor(get()) }
         factory<Interactors.RemoveExecution> { RemoveExecutionInteractor(get()) }
+        factory<Interactors.GetExecution> { GetExecutionInteractor(get()) }
 
         factory<Mappers.Execution> { ExecutionMapper() }
         factory<Mappers.History> { HistoryMapper(get()) }
@@ -279,13 +319,14 @@ internal object Domain {
         factory<Control.History> { HistoryControl(get(), get()) }
 
         factory<Repositories.History> {
-            HistoryRepository(get(), get(), get(), get(), get())
+            HistoryRepository(get(), get(), get(), get(), get(), get())
         }
 
         factory<UseCases.GetHistory> { GetHistoryUseCase(get()) }
         factory<UseCases.SaveExecution> { SaveExecutionUseCase(get()) }
         factory<UseCases.ClearHistory> { ClearHistoryUseCase(get()) }
         factory<UseCases.RemoveExecution> { RemoveExecutionUseCase(get()) }
+        factory<UseCases.GetSimilarExecution> { GetSimilarExecutionUseCase(get()) }
     }
 
     private fun shared() = module {

@@ -58,6 +58,8 @@ internal interface Repositories {
         suspend fun clearByDatabase(input: HistoryParameters.All)
 
         suspend fun removeExecution(input: HistoryParameters.Execution)
+
+        suspend fun getSimilarExecution(input: HistoryParameters.Execution): HistoryModel
     }
 
     interface Schema : BaseRepository<ContentParameters, Page> {

@@ -98,5 +98,7 @@ internal interface UseCases {
     interface ClearHistory : BaseUseCase<HistoryParameters.All, Unit>
 
     interface RemoveExecution : BaseUseCase<HistoryParameters.Execution, Unit>
+
+    interface GetSimilarExecution : BaseUseCase<HistoryParameters.Execution, History>
     // endregion
 }

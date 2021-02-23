@@ -40,6 +40,7 @@ internal object Presentation {
         object Limits {
             const val PAGE_SIZE = 100
             const val INITIAL_PAGE = 1
+            const val DEBOUNCE_MILIS = 300L
         }
 
         object Settings {
@@ -92,7 +93,7 @@ internal object Presentation {
         viewModel { ForeignKeysViewModel(get(), get(), get()) }
         viewModel { IndexViewModel(get(), get(), get()) }
 
-        viewModel { EditViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+        viewModel { EditViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
         viewModel { HistoryViewModel(get(), get(), get()) }
     }
 }

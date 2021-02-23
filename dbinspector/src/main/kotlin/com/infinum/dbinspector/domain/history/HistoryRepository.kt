@@ -13,6 +13,7 @@ internal class HistoryRepository(
     private val saveHistoryExecution: Interactors.SaveExecution,
     private val clearHistory: Interactors.ClearHistory,
     private val removeHistoryExecution: Interactors.RemoveExecution,
+    private val getExecution: Interactors.GetExecution,
     private val control: Control.History
 ) : Repositories.History {
 
@@ -27,4 +28,7 @@ internal class HistoryRepository(
 
     override suspend fun removeExecution(input: HistoryParameters.Execution) =
         removeHistoryExecution(control.converter execution input)
+
+    override suspend fun getSimilarExecution(input: HistoryParameters.Execution) =
+        getExecution(control.converter execution input).let { control.mapper(it) }
 }
