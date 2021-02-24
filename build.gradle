@@ -57,7 +57,6 @@ subprojects {
     apply from: "$rootDir/dokka.gradle"
 }
 
-apply from: "shared.gradle"
 apply from: "deploy.gradle"
 apply from: "jacoco.gradle"
 
@@ -93,11 +92,11 @@ task cpdAll(dependsOn: [
     description = "Run cpdCheck on all modules"
 }
 
-task runStaticChecks(dependsOn: ordered(
+task runStaticChecks(dependsOn: [
         ':detektAll',
         ':ktlintAll',
         ':cpdAll'
-)) {
+]) {
     group = "Verification"
     description = "Run static checks on all modules"
 }

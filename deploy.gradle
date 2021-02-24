@@ -1,27 +1,27 @@
-task deployDbInspector(dependsOn: ordered(
+task deployDbInspector(dependsOn: [
         ':dbinspector:clean',
         ':dbinspector:publishReleasePublicationToBintrayRepository',
         ':dbinspector:publishReleasePublicationToGithubRepository',
         ':dbinspector:publishReleasePublicationToSonatypeRepository'
-)) {
+]) {
     group = "Deploy"
     description = "Deploy module to repositories"
 }
 
-task deployDbInspectorNoOp(dependsOn: ordered(
+task deployDbInspectorNoOp(dependsOn: [
         ':dbinspector-no-op:clean',
         ':dbinspector-no-op:publishReleasePublicationToBintrayRepository',
         ':dbinspector-no-op:publishReleasePublicationToGithubRepository',
         ':dbinspector-no-op:publishReleasePublicationToSonatypeRepository'
-)) {
+]) {
     group = "Deploy"
     description = "Deploy module to repositories"
 }
 
-task deployAll(dependsOn: ordered(
+task deployAll(dependsOn: [
         'deployDbInspector',
         'deployDbInspectorNoOp'
-)) {
+]) {
     group = "Deploy"
     description = "Deploy all modules to repositories"
 }
