@@ -1,5 +1,3 @@
-apply from: "shared.gradle"
-
 task deployDbInspector(dependsOn: ordered(
         ':dbinspector:clean',
         ':dbinspector:publishReleasePublicationToBintrayRepository',
