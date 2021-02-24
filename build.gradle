@@ -68,12 +68,20 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
+task lintAll(dependsOn: [
+        ':dbinspector:lintRelease',
+        ':dbinspector-no-op:lintRelease'
+]) {
+    group = "Verification"
+    description = "Run Lint on all modules"
+}
+
 task detektAll(dependsOn: [
         ':dbinspector:detekt',
         ':dbinspector-no-op:detekt'
 ]) {
     group = "Verification"
-    description = "Run detekt on all modules"
+    description = "Run Detekt on all modules"
 }
 
 task ktlintAll(dependsOn: [
@@ -81,7 +89,7 @@ task ktlintAll(dependsOn: [
         ':dbinspector-no-op:ktlintCheck'
 ]) {
     group = "Verification"
-    description = "Run ktlintCheck on all modules"
+    description = "Run Ktlint on all modules"
 }
 
 task cpdAll(dependsOn: [
@@ -89,10 +97,11 @@ task cpdAll(dependsOn: [
         ':dbinspector-no-op:cpdCheck'
 ]) {
     group = "Verification"
-    description = "Run cpdCheck on all modules"
+    description = "Run CPD on all modules"
 }
 
 task runStaticChecks(dependsOn: [
+        ':lintAll',
         ':detektAll',
         ':ktlintAll',
         ':cpdAll'
