@@ -36,6 +36,7 @@
     <string name="dbinspector_action_copy">Copy</string>
     <string name="dbinspector_action_settings">Settings</string>
     <string name="dbinspector_action_edit">Edit</string>
+    <string name="dbinspector_action_history">History</string>
     <string name="dbinspector_action_execute">Execute</string>
 
     <string name="dbinspector_delete_database_confirm">Delete database %s?</string>

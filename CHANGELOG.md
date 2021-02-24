@@ -1,6 +1,13 @@
 Changelog
 =========
 
+## Version 5.2.7
+
+_2021-02-24_
+
+* Implement history in editor.
+* Fix word tokenization in editor.
+
 ## Version 5.2.6
 
 _2021-02-18_

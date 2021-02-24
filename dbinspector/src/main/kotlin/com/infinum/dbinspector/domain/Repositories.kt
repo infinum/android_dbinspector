@@ -2,14 +2,17 @@ package com.infinum.dbinspector.domain
 
 import com.infinum.dbinspector.domain.connection.models.DatabaseConnection
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
+import com.infinum.dbinspector.domain.history.models.History as HistoryModel
 import com.infinum.dbinspector.domain.settings.models.Settings as SettingsModel
 import com.infinum.dbinspector.domain.shared.base.BaseRepository
 import com.infinum.dbinspector.domain.shared.models.Page
 import com.infinum.dbinspector.domain.shared.models.parameters.ConnectionParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.DatabaseParameters
+import com.infinum.dbinspector.domain.shared.models.parameters.HistoryParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.SettingsParameters
+import kotlinx.coroutines.flow.Flow
 
 internal interface Repositories {
 
@@ -44,6 +47,19 @@ internal interface Repositories {
         suspend fun saveIgnoredTableName(input: SettingsParameters.IgnoredTableName)
 
         suspend fun removeIgnoredTableName(input: SettingsParameters.IgnoredTableName)
+    }
+
+    interface History {
+
+        fun getByDatabase(input: HistoryParameters.All): Flow<HistoryModel>
+
+        suspend fun saveExecution(input: HistoryParameters.Execution)
+
+        suspend fun clearByDatabase(input: HistoryParameters.All)
+
+        suspend fun removeExecution(input: HistoryParameters.Execution)
+
+        suspend fun getSimilarExecution(input: HistoryParameters.Execution): HistoryModel
     }
 
     interface Schema : BaseRepository<ContentParameters, Page> {

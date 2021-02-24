@@ -6,7 +6,7 @@ import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
 import com.infinum.dbinspector.domain.Interactors
 
 internal class GetSettingsInteractor(
-    private val dataStore: Sources.Local.Store
+    private val dataStore: Sources.Local.Settings
 ) : Interactors.GetSettings {
 
     override suspend fun invoke(input: SettingsTask): SettingsEntity =

@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="AlwaysShowAction">
+
+    <item
+        android:id="@+id/clear"
+        android:enabled="true"
+        android:icon="@drawable/dbinspector_ic_clear_list"
+        android:title="@string/dbinspector_action_clear"
+        app:showAsAction="always" />
+
+</menu>

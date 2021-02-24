@@ -1,5 +1,6 @@
 package com.infinum.dbinspector.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import com.infinum.dbinspector.domain.Domain
 import com.infinum.dbinspector.ui.content.table.TableViewModel
@@ -8,6 +9,7 @@ import com.infinum.dbinspector.ui.content.view.ViewViewModel
 import com.infinum.dbinspector.ui.databases.DatabaseViewModel
 import com.infinum.dbinspector.ui.databases.edit.EditDatabaseViewModel
 import com.infinum.dbinspector.ui.edit.EditViewModel
+import com.infinum.dbinspector.ui.edit.history.HistoryViewModel
 import com.infinum.dbinspector.ui.pragma.PragmaViewModel
 import com.infinum.dbinspector.ui.pragma.foreignkeys.ForeignKeysViewModel
 import com.infinum.dbinspector.ui.pragma.indexes.IndexViewModel
@@ -21,6 +23,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
+@SuppressLint("StaticFieldLeak")
 internal object Presentation {
 
     object Constants {
@@ -37,6 +40,7 @@ internal object Presentation {
         object Limits {
             const val PAGE_SIZE = 100
             const val INITIAL_PAGE = 1
+            const val DEBOUNCE_MILIS = 300L
         }
 
         object Settings {
@@ -89,6 +93,7 @@ internal object Presentation {
         viewModel { ForeignKeysViewModel(get(), get(), get()) }
         viewModel { IndexViewModel(get(), get(), get()) }
 
-        viewModel { EditViewModel(get(), get(), get(), get(), get(), get(), get()) }
+        viewModel { EditViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+        viewModel { HistoryViewModel(get(), get(), get()) }
     }
 }

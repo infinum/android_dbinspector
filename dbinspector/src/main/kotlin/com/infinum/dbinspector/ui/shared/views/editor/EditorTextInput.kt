@@ -119,11 +119,6 @@ internal class EditorTextInput @JvmOverloads constructor(
         setTokenizer(wordTokenizer)
     }
 
-    fun addKeywords(keywords: List<Keyword>) {
-        keywordAdapter.addDatabaseKeywords(keywords)
-        wordTokenizer.addDatabaseKeywords(keywords)
-    }
-
     override fun onCreateInputConnection(outAttrs: EditorInfo?): InputConnection =
         super.onCreateInputConnection(
             outAttrs.apply {
@@ -185,6 +180,17 @@ internal class EditorTextInput @JvmOverloads constructor(
         super.onDraw(canvas)
     }
 
+    fun addKeywords(keywords: List<Keyword>) {
+        keywordAdapter.addDatabaseKeywords(keywords)
+        wordTokenizer.addDatabaseKeywords(keywords)
+    }
+
+    fun setContent(text: String) {
+        this.text.clear()
+        this.text.insert(0, text)
+        onTextPaste()
+    }
+
     private fun isNumberedLine(line: Int) =
         line == 0 || text?.get(layout.getLineStart(line) - 1)?.toString() == System.lineSeparator()
 
@@ -195,7 +201,7 @@ internal class EditorTextInput @JvmOverloads constructor(
                 val end = start + word.length
                 when {
                     word.isBlank() -> it.replace(start, end, "")
-                    else -> it.replace(start, end, wordTokenizer.tokenize(word))
+                    else -> it.replace(start, end, wordTokenizer.tokenize(word, false))
                 }
             }
             if (it.last().isWhitespace().not()) {

@@ -1,11 +1,18 @@
 package com.infinum.dbinspector.data
 
+import android.content.Context
 import androidx.datastore.core.Serializer
+import androidx.datastore.createDataStore
+import com.infinum.dbinspector.data.Data.Constants.Name.PROTO_FILENAME_HISTORY
+import com.infinum.dbinspector.data.Data.Constants.Name.PROTO_FILENAME_SETTINGS
+import com.infinum.dbinspector.data.models.local.proto.output.HistoryEntity
 import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
 import com.infinum.dbinspector.data.source.local.cursor.PragmaSource
 import com.infinum.dbinspector.data.source.local.cursor.RawQuerySource
 import com.infinum.dbinspector.data.source.local.cursor.SchemaSource
-import com.infinum.dbinspector.data.source.local.proto.DataStoreFactory
+import com.infinum.dbinspector.data.source.local.proto.history.HistoryDataStore
+import com.infinum.dbinspector.data.source.local.proto.history.HistorySerializer
+import com.infinum.dbinspector.data.source.local.proto.settings.SettingsDataStore
 import com.infinum.dbinspector.data.source.local.proto.settings.SettingsSerializer
 import com.infinum.dbinspector.data.source.memory.connection.AndroidConnectionSource
 import com.infinum.dbinspector.data.source.memory.pagination.CursorPaginator
@@ -27,12 +34,18 @@ internal object Data {
         object Settings {
             const val LINES_LIMIT_MAXIMUM = 100
         }
+
+        object Name {
+            const val PROTO_FILENAME_SETTINGS = "settings-entity.pb"
+            const val PROTO_FILENAME_HISTORY = "history-entity.pb"
+        }
     }
 
     object Qualifiers {
 
         object Name {
             val DATASTORE_SETTINGS = StringQualifier("data.qualifiers.name.datastore.settings")
+            val DATASTORE_HISTORY = StringQualifier("data.qualifiers.name.datastore.history")
         }
 
         object Schema {
@@ -92,15 +105,28 @@ internal object Data {
     }
 
     private fun local() = module {
-        single(qualifier = Qualifiers.Name.DATASTORE_SETTINGS) { "settings-entity.pb" }
+        single(qualifier = Qualifiers.Name.DATASTORE_SETTINGS) { PROTO_FILENAME_SETTINGS }
+        single(qualifier = Qualifiers.Name.DATASTORE_HISTORY) { PROTO_FILENAME_HISTORY }
 
-        single<Serializer<SettingsEntity>> { SettingsSerializer() }
+        single<Serializer<SettingsEntity>>(qualifier = Qualifiers.Name.DATASTORE_SETTINGS) { SettingsSerializer() }
+        single<Serializer<HistoryEntity>>(qualifier = Qualifiers.Name.DATASTORE_HISTORY) { HistorySerializer() }
 
-        single<Sources.Local.Store> {
-            DataStoreFactory(
-                get(),
-                get(qualifier = Qualifiers.Name.DATASTORE_SETTINGS),
-                get()
+        single<Sources.Local.Settings> {
+            val context: Context = get()
+            SettingsDataStore(
+                context.createDataStore(
+                    fileName = get(qualifier = Qualifiers.Name.DATASTORE_SETTINGS),
+                    serializer = get(qualifier = Qualifiers.Name.DATASTORE_SETTINGS)
+                )
+            )
+        }
+        single<Sources.Local.History> {
+            val context: Context = get()
+            HistoryDataStore(
+                context.createDataStore(
+                    fileName = get(qualifier = Qualifiers.Name.DATASTORE_HISTORY),
+                    serializer = get(qualifier = Qualifiers.Name.DATASTORE_HISTORY)
+                )
             )
         }
 

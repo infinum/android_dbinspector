@@ -76,9 +76,9 @@ internal class WordTokenizer(
         this.keywords = this.keywords + keywords
     }
 
-    fun tokenize(text: String) =
+    fun tokenize(text: String, chopLastChar: Boolean = true) =
         findSpans(text)?.let {
-            createSpannable(text, it, true)
+            createSpannable(text, it, chopLastChar)
         } ?: text
 
     private fun createSpannable(

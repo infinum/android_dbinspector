@@ -18,7 +18,7 @@ internal class PragmaSource(
     private val tableInfoPaginator: Paginator,
     private val foreignKeysPaginator: Paginator,
     private val indexesPaginator: Paginator,
-    private val store: Sources.Local.Store
+    private val store: Sources.Local.Settings
 ) : CursorSource(), Sources.Local.Pragma {
 
     override suspend fun getUserVersion(query: Query): QueryResult =

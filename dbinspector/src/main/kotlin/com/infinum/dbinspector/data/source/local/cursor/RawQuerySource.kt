@@ -16,7 +16,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 
 internal class RawQuerySource(
     private val rawQueryPaginator: Paginator,
-    private val store: Sources.Local.Store
+    private val store: Sources.Local.Settings
 ) : CursorSource(), Sources.Local.RawQuery {
 
     override suspend fun rawQueryHeaders(query: Query): QueryResult =

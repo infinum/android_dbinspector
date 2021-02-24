@@ -15,4 +15,7 @@
     <color name="dbinspector_color_keyword_trigger_name">#BB3A8C</color>
     <color name="dbinspector_color_keyword_column_name">#abc96a</color>
     <color name="dbinspector_color_keyword_background">#aaaaaa</color>
+    <color name="dbinspector_color_fail">#f44336</color>
+    <color name="dbinspector_color_success">#4caf50</color>
+    <color name="dbinspector_color_remove">#ff1744</color>
 </resources>

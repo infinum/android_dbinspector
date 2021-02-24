@@ -23,6 +23,21 @@ import com.infinum.dbinspector.domain.database.usecases.GetDatabasesUseCase
 import com.infinum.dbinspector.domain.database.usecases.ImportDatabasesUseCase
 import com.infinum.dbinspector.domain.database.usecases.RemoveDatabaseUseCase
 import com.infinum.dbinspector.domain.database.usecases.RenameDatabaseUseCase
+import com.infinum.dbinspector.domain.history.HistoryRepository
+import com.infinum.dbinspector.domain.history.control.HistoryControl
+import com.infinum.dbinspector.domain.history.control.converters.HistoryConverter
+import com.infinum.dbinspector.domain.history.control.mappers.ExecutionMapper
+import com.infinum.dbinspector.domain.history.control.mappers.HistoryMapper
+import com.infinum.dbinspector.domain.history.interactors.ClearHistoryInteractor
+import com.infinum.dbinspector.domain.history.interactors.GetExecutionInteractor
+import com.infinum.dbinspector.domain.history.interactors.GetHistoryInteractor
+import com.infinum.dbinspector.domain.history.interactors.RemoveExecutionInteractor
+import com.infinum.dbinspector.domain.history.interactors.SaveExecutionInteractor
+import com.infinum.dbinspector.domain.history.usecases.ClearHistoryUseCase
+import com.infinum.dbinspector.domain.history.usecases.GetHistoryUseCase
+import com.infinum.dbinspector.domain.history.usecases.GetSimilarExecutionUseCase
+import com.infinum.dbinspector.domain.history.usecases.RemoveExecutionUseCase
+import com.infinum.dbinspector.domain.history.usecases.SaveExecutionUseCase
 import com.infinum.dbinspector.domain.pragma.PragmaRepository
 import com.infinum.dbinspector.domain.pragma.control.PragmaControl
 import com.infinum.dbinspector.domain.pragma.control.converters.PragmaConverter
@@ -124,6 +139,7 @@ internal object Domain {
                 schema(),
                 pragma(),
                 rawQuery(),
+                history(),
                 shared()
             )
         )
@@ -251,6 +267,29 @@ internal object Domain {
         factory<UseCases.GetRawQueryHeaders> { GetRawQueryHeadersUseCase(get(), get()) }
         factory<UseCases.GetRawQuery> { GetRawQueryUseCase(get(), get()) }
         factory<UseCases.GetAffectedRows> { GetAffectedRowsUseCase(get(), get()) }
+    }
+
+    private fun history() = module {
+        factory<Interactors.GetHistory> { GetHistoryInteractor(get()) }
+        factory<Interactors.SaveExecution> { SaveExecutionInteractor(get()) }
+        factory<Interactors.ClearHistory> { ClearHistoryInteractor(get()) }
+        factory<Interactors.RemoveExecution> { RemoveExecutionInteractor(get()) }
+        factory<Interactors.GetExecution> { GetExecutionInteractor(get()) }
+
+        factory<Mappers.Execution> { ExecutionMapper() }
+        factory<Mappers.History> { HistoryMapper(get()) }
+        factory<Converters.History> { HistoryConverter() }
+        factory<Control.History> { HistoryControl(get(), get()) }
+
+        factory<Repositories.History> {
+            HistoryRepository(get(), get(), get(), get(), get(), get())
+        }
+
+        factory<UseCases.GetHistory> { GetHistoryUseCase(get()) }
+        factory<UseCases.SaveExecution> { SaveExecutionUseCase(get()) }
+        factory<UseCases.ClearHistory> { ClearHistoryUseCase(get()) }
+        factory<UseCases.RemoveExecution> { RemoveExecutionUseCase(get()) }
+        factory<UseCases.GetSimilarExecution> { GetSimilarExecutionUseCase(get()) }
     }
 
     private fun shared() = module {

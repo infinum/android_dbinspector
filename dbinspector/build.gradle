@@ -71,6 +71,7 @@ dependencies {
     implementation packages.koin.scope
     implementation packages.koin.viewmodel
     implementation packages.timber.core
+    implementation packages.fuzzy.core
 }
 
 apply from: "publish.gradle"

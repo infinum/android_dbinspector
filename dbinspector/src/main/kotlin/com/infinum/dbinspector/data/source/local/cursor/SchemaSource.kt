@@ -18,7 +18,7 @@ internal class SchemaSource(
     private val triggersPaginator: Paginator,
     private val triggerByNamePaginator: Paginator,
     private val dropTriggerPaginator: Paginator,
-    private val store: Sources.Local.Store
+    private val store: Sources.Local.Settings
 ) : CursorSource(), Sources.Local.Schema {
 
     // region Tables

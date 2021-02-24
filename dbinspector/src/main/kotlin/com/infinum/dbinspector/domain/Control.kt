@@ -13,4 +13,6 @@ internal interface Control {
     interface Pragma : BaseControl<Mappers.Pragma, Converters.Pragma>
 
     interface Settings : BaseControl<Mappers.Settings, Converters.Settings>
+
+    interface History : BaseControl<Mappers.History, Converters.History>
 }

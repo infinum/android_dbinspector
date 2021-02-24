@@ -3,11 +3,15 @@ package com.infinum.dbinspector.domain
 import android.database.sqlite.SQLiteDatabase
 import com.infinum.dbinspector.data.models.local.cursor.input.Query
 import com.infinum.dbinspector.data.models.local.cursor.output.QueryResult
+import com.infinum.dbinspector.data.models.local.proto.input.HistoryTask
 import com.infinum.dbinspector.data.models.local.proto.input.SettingsTask
+import com.infinum.dbinspector.data.models.local.proto.output.HistoryEntity
 import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
 import com.infinum.dbinspector.domain.database.models.Operation
+import com.infinum.dbinspector.domain.shared.base.BaseFlowInteractor
 import com.infinum.dbinspector.domain.shared.base.BaseInteractor
 import java.io.File
+import kotlinx.coroutines.flow.Flow
 
 internal interface Interactors {
 
@@ -79,5 +83,17 @@ internal interface Interactors {
     interface GetForeignKeys : BaseInteractor<Query, QueryResult>
 
     interface GetIndexes : BaseInteractor<Query, QueryResult>
+    // endregion
+
+    // region History
+    interface GetHistory : BaseFlowInteractor<HistoryTask, Flow<HistoryEntity>>
+
+    interface SaveExecution : BaseInteractor<HistoryTask, Unit>
+
+    interface ClearHistory : BaseInteractor<HistoryTask, Unit>
+
+    interface RemoveExecution : BaseInteractor<HistoryTask, Unit>
+
+    interface GetExecution : BaseInteractor<HistoryTask, HistoryEntity>
     // endregion
 }
