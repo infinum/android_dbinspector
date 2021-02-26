@@ -24,6 +24,7 @@ import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.base.lifecycle.LifecycleConnection
 import com.infinum.dbinspector.ui.shared.delegates.lifecycleConnection
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
+import com.infinum.dbinspector.ui.shared.edgefactories.bounce.BounceEdgeEffectFactory
 import com.infinum.dbinspector.ui.shared.headers.HeaderAdapter
 
 internal abstract class ContentActivity : BaseActivity() {
@@ -93,8 +94,8 @@ internal abstract class ContentActivity : BaseActivity() {
                         RecyclerView.VERTICAL,
                         false
                     )
-
                     recyclerView.adapter = ConcatAdapter(headerAdapter, contentAdapter)
+                    recyclerView.edgeEffectFactory = BounceEdgeEffectFactory()
                 }
 
                 query(connection.schemaName!!)

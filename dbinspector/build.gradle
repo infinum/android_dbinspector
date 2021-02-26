@@ -42,6 +42,7 @@ android {
                 '-Xopt-in=org.koin.core.component.KoinApiExtension',
                 '-Xexplicit-api=strict'
         ]
+        useIR = true
     }
 
     sourceSets.each {
@@ -64,6 +65,7 @@ dependencies {
     implementation packages.androidx.startup
     implementation packages.androidx.swiperefreshlayout
     implementation packages.androidx.datastore
+    implementation packages.androidx.dynamicanimation
     implementation packages.google.protobuf.javalite
     implementation packages.google.design
     implementation packages.kotlinx.coroutines

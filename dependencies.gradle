@@ -1,17 +1,18 @@
 ext.versions = [
-        "dbinspector"       : "5.2.6",
+        "dbinspector"       : "5.2.7",
         "gradle"            : '4.1.2',
-        "kotlin"            : "1.4.30",
+        "kotlin"            : "1.4.31",
         "coroutines"        : "1.4.2",
         "core"              : "1.3.2",
         "appcompat"         : "1.2.0",
         "fragment"          : "1.3.0",
         "viewpager"         : "1.0.0",
         "paging"            : "3.0.0-beta01",
-        "recyclerview"      : "1.2.0-beta01",
+        "recyclerview"      : "1.2.0-beta02",
         "startup"           : "1.0.0",
         "swiperefreshlayout": "1.1.0",
         "datastore"         : "1.0.0-alpha06",
+        "dynamicanimation"  : "1.0.0",
         "design"            : "1.3.0",
         "protobuf"          : "3.14.0",
         "protobuf_plugin"   : "0.8.14",
@@ -19,7 +20,7 @@ ext.versions = [
         "timber"            : "4.7.1",
         "fuzzy"             : "1.3.1",
         "detekt"            : "1.15.0",
-        "ktlint"            : "9.4.1",
+        "ktlint"            : "10.0.0",
         "cpd"               : "3.1",
         "dokka"             : "1.4.20"
 ]
@@ -46,7 +47,8 @@ ext.packages = [
                 "paging"            : "androidx.paging:paging-runtime-ktx:${versions.paging}",
                 "swiperefreshlayout": "androidx.swiperefreshlayout:swiperefreshlayout:${versions.swiperefreshlayout}",
                 "startup"           : "androidx.startup:startup-runtime:${versions.startup}",
-                "datastore"         : "androidx.datastore:datastore:${versions.datastore}"
+                "datastore"         : "androidx.datastore:datastore:${versions.datastore}",
+                "dynamicanimation"  : "androidx.dynamicanimation:dynamicanimation:${versions.dynamicanimation}"
         ],
         "google"     : [
                 "design"  : "com.google.android.material:material:${versions.design}",

@@ -19,6 +19,7 @@ import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.base.lifecycle.LifecycleConnection
 import com.infinum.dbinspector.ui.shared.delegates.lifecycleConnection
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
+import com.infinum.dbinspector.ui.shared.edgefactories.bounce.BounceEdgeEffectFactory
 import com.infinum.dbinspector.ui.shared.headers.HeaderAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -132,6 +133,7 @@ internal class EditActivity : BaseActivity(), HistoryDialog.Listener {
                         RecyclerView.VERTICAL,
                         false
                     )
+                    binding.recyclerView.edgeEffectFactory = BounceEdgeEffectFactory()
 
                     headerAdapter = HeaderAdapter(tableHeaders, false) {}
 

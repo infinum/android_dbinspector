@@ -14,6 +14,7 @@ import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.base.BaseFragment
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
+import com.infinum.dbinspector.ui.shared.edgefactories.bounce.BounceEdgeEffectFactory
 import com.infinum.dbinspector.ui.shared.headers.Header
 import com.infinum.dbinspector.ui.shared.headers.HeaderAdapter
 
@@ -99,7 +100,10 @@ internal abstract class PragmaFragment :
                 recyclerView.addItemDecoration(horizontalDecorator)
             }
 
-            recyclerView.layoutManager = GridLayoutManager(recyclerView.context, headers().size)
+            with(recyclerView) {
+                layoutManager = GridLayoutManager(context, headers().size)
+                edgeEffectFactory = BounceEdgeEffectFactory()
+            }
 
             val headerAdapter = HeaderAdapter(headers().map { Header(name = it) }, false)
 

@@ -14,6 +14,7 @@ import com.infinum.dbinspector.databinding.DbinspectorDialogHistoryBinding
 import com.infinum.dbinspector.domain.history.models.Execution
 import com.infinum.dbinspector.ui.shared.base.BaseBottomSheetDialogFragment
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
+import com.infinum.dbinspector.ui.shared.edgefactories.bounce.BounceEdgeEffectFactory
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 internal class HistoryDialog : BaseBottomSheetDialogFragment(R.layout.dbinspector_dialog_history) {
@@ -33,7 +34,7 @@ internal class HistoryDialog : BaseBottomSheetDialogFragment(R.layout.dbinspecto
         }
     }
 
-    private val adapter = HistoryAdapter(
+    private val executionsAdapter = HistoryAdapter(
         onClicked = {
             selectExecution(it)
         }
@@ -69,33 +70,12 @@ internal class HistoryDialog : BaseBottomSheetDialogFragment(R.layout.dbinspecto
                     else -> false
                 }
             }
-
-            recyclerView.layoutManager = LinearLayoutManager(
-                recyclerView.context,
-                RecyclerView.VERTICAL,
-                false
-            )
-            ContextCompat.getDrawable(
-                recyclerView.context,
-                R.drawable.dbinspector_divider_vertical
-            )?.let { drawable ->
-                val verticalDecorator = DividerItemDecoration(
-                    recyclerView.context,
-                    DividerItemDecoration.VERTICAL
-                )
-                verticalDecorator.setDrawable(drawable)
-                recyclerView.addItemDecoration(verticalDecorator)
-            }
-            recyclerView.adapter = adapter
-            ItemTouchHelper(
-                HistorySwipeCallback(recyclerView.context) {
-                    viewModel.clearExecution(databasePath, adapter.currentList[it])
-                }
-            ).apply { attachToRecyclerView(recyclerView) }
         }
 
+        setupRecyclerView()
+
         viewModel.history(databasePath) {
-            adapter.submitList(it.executions)
+            executionsAdapter.submitList(it.executions)
             if (it.executions.isEmpty()) {
                 dismiss()
             }
@@ -105,6 +85,34 @@ internal class HistoryDialog : BaseBottomSheetDialogFragment(R.layout.dbinspecto
     override fun onDetach() {
         listener = null
         super.onDetach()
+    }
+
+    private fun setupRecyclerView() {
+        with(binding.recyclerView) {
+            layoutManager = LinearLayoutManager(
+                context,
+                RecyclerView.VERTICAL,
+                false
+            )
+            ContextCompat.getDrawable(
+                context,
+                R.drawable.dbinspector_divider_vertical
+            )?.let { drawable ->
+                val verticalDecorator = DividerItemDecoration(
+                    context,
+                    DividerItemDecoration.VERTICAL
+                )
+                verticalDecorator.setDrawable(drawable)
+                addItemDecoration(verticalDecorator)
+            }
+            adapter = executionsAdapter
+            edgeEffectFactory = BounceEdgeEffectFactory()
+            ItemTouchHelper(
+                HistorySwipeCallback(context) {
+                    viewModel.clearExecution(databasePath, executionsAdapter.currentList[it])
+                }
+            ).apply { attachToRecyclerView(this@with) }
+        }
     }
 
     private fun selectExecution(execution: Execution) {

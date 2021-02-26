@@ -17,6 +17,7 @@ import com.infinum.dbinspector.extensions.setup
 import com.infinum.dbinspector.ui.databases.edit.EditDatabaseContract
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
+import com.infinum.dbinspector.ui.shared.edgefactories.bounce.BounceEdgeEffectFactory
 import com.infinum.dbinspector.ui.shared.listeners.FabExtendingOnScrollListener
 import com.infinum.dbinspector.ui.shared.searchable.Searchable
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -141,7 +142,7 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
         }
         with(binding.recyclerView) {
             adapter = databasesAdapter
-
+            edgeEffectFactory = BounceEdgeEffectFactory()
             addOnScrollListener(FabExtendingOnScrollListener(binding.importButton))
             layoutManager = LinearLayoutManager(
                 this@DatabasesActivity,
