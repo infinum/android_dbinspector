@@ -13,6 +13,7 @@ import com.infinum.dbinspector.databinding.DbinspectorFragmentSchemaBinding
 import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
+import com.infinum.dbinspector.ui.shared.edgefactories.bounce.BounceEdgeEffectFactory
 import com.infinum.dbinspector.ui.shared.searchable.BaseSearchableFragment
 
 internal abstract class SchemaFragment :
@@ -80,9 +81,12 @@ internal abstract class SchemaFragment :
                 schemaAdapter.refresh()
             }
 
-            recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            recyclerView.addItemDecoration(DividerItemDecoration(context, LinearLayout.VERTICAL))
-            recyclerView.adapter = schemaAdapter
+            with(recyclerView) {
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                addItemDecoration(DividerItemDecoration(context, LinearLayout.VERTICAL))
+                adapter = schemaAdapter
+                edgeEffectFactory = BounceEdgeEffectFactory()
+            }
 
             contract = registerForActivityResult(SchemaContract()) { shouldRefresh ->
                 if (shouldRefresh) {

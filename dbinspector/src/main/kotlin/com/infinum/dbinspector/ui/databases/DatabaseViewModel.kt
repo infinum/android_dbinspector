@@ -9,7 +9,6 @@ import com.infinum.dbinspector.domain.shared.models.parameters.DatabaseParameter
 import com.infinum.dbinspector.ui.shared.base.BaseViewModel
 
 internal class DatabaseViewModel(
-    private val context: Context,
     private val getDatabases: UseCases.GetDatabases,
     private val importDatabases: UseCases.ImportDatabases,
     private val removeDatabase: UseCases.RemoveDatabase,
@@ -18,7 +17,7 @@ internal class DatabaseViewModel(
 
     val databases: MutableLiveData<List<DatabaseDescriptor>> = MutableLiveData()
 
-    fun browse(query: String? = null) {
+    fun browse(context: Context, query: String? = null) {
         launch {
             databases.value = io {
                 getDatabases(
@@ -31,7 +30,7 @@ internal class DatabaseViewModel(
         }
     }
 
-    fun import(uris: List<Uri>) =
+    fun import(context: Context, uris: List<Uri>) =
         launch {
             importDatabases(
                 DatabaseParameters.Import(
@@ -39,10 +38,10 @@ internal class DatabaseViewModel(
                     importUris = uris
                 )
             )
-            browse()
+            browse(context)
         }
 
-    fun remove(database: DatabaseDescriptor) =
+    fun remove(context: Context, database: DatabaseDescriptor) =
         launch {
             val result = io {
                 removeDatabase(
@@ -53,11 +52,11 @@ internal class DatabaseViewModel(
                 )
             }
             if (result.isNotEmpty()) {
-                browse()
+                browse(context)
             }
         }
 
-    fun copy(database: DatabaseDescriptor) =
+    fun copy(context: Context, database: DatabaseDescriptor) =
         launch {
             val ok = io {
                 copyDatabase(
@@ -68,7 +67,7 @@ internal class DatabaseViewModel(
                 )
             }
             if (ok.isNotEmpty()) {
-                browse()
+                browse(context)
             }
         }
 }

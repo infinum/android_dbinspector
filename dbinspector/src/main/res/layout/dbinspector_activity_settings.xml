@@ -55,7 +55,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
-                        android:text="Ignored table names" />
+                        android:text="@string/dbinspector_ignored_table_names" />
 
                     <com.google.android.material.textview.MaterialTextView
                         style="@style/TextAppearance.MaterialComponents.Caption"
@@ -64,7 +64,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
-                        android:text="Add or remove names of tables." />
+                        android:text="@string/dbinspector_ignored_table_names_description" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -78,7 +78,7 @@
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="16dp"
                             android:layout_marginEnd="16dp"
-                            android:hint="Add table name"
+                            android:hint="@string/dbinspector_add_table_name"
                             app:boxCornerRadiusBottomEnd="8dp"
                             app:boxCornerRadiusBottomStart="8dp"
                             app:boxCornerRadiusTopEnd="8dp"
@@ -140,7 +140,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
-                        android:text="Content wrapping" />
+                        android:text="@string/dbinspector_content_wrapping" />
 
                     <com.google.android.material.textview.MaterialTextView
                         style="@style/TextAppearance.MaterialComponents.Caption"
@@ -149,7 +149,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
-                        android:text="Number of lines used to preview large amount of any data." />
+                        android:text="@string/dbinspector_content_wrapping_description" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -168,7 +168,7 @@
                             android:layout_weight="1"
                             android:enabled="false"
                             android:minHeight="?attr/listPreferredItemHeightSmall"
-                            android:text="Limit maximum number of content lines" />
+                            android:text="@string/dbinspector_limit_maximum_number_of_content_lines" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/linesView"
@@ -256,7 +256,7 @@
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="16dp"
                             android:layout_marginEnd="16dp"
-                            android:text="Toggle truncating large data preview on specified position." />
+                            android:text="@string/dbinspector_toggle_truncating" />
 
                         <com.google.android.material.button.MaterialButtonToggleGroup
                             android:id="@+id/truncateGroup"
@@ -276,7 +276,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Start" />
+                                android:text="@string/dbinspector_truncating_start" />
 
                             <com.google.android.material.button.MaterialButton
                                 android:id="@+id/truncateMiddle"
@@ -284,7 +284,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Middle" />
+                                android:text="@string/dbinspector_truncating_middle" />
 
                             <com.google.android.material.button.MaterialButton
                                 android:id="@+id/truncateEnd"
@@ -292,7 +292,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="End" />
+                                android:text="@string/dbinspector_truncating_end" />
 
                         </com.google.android.material.button.MaterialButtonToggleGroup>
 
@@ -323,7 +323,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
-                        android:text="Blob preview" />
+                        android:text="@string/dbinspector_blob_preview" />
 
                     <com.google.android.material.textview.MaterialTextView
                         style="@style/TextAppearance.MaterialComponents.Caption"
@@ -332,7 +332,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
-                        android:text="Preferred preview format for blob type data." />
+                        android:text="@string/dbinspector_blob_preview_description" />
 
                     <RadioGroup
                         android:id="@+id/blobPreviewGroup"
@@ -348,28 +348,28 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:enabled="false"
-                            android:text="Placeholder" />
+                            android:text="@string/dbinspector_blob_preview_placeholder" />
 
                         <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/utf8Button"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:enabled="false"
-                            android:text="UTF-8" />
+                            android:text="@string/dbinspector_blob_preview_utf_8" />
 
                         <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/hexadecimalButton"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:enabled="false"
-                            android:text="Hexadecimal" />
+                            android:text="@string/dbinspector_blob_preview_hexadecimal" />
 
                         <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/base64Button"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:enabled="false"
-                            android:text="Base64" />
+                            android:text="@string/dbinspector_blob_preview_base64" />
 
                     </RadioGroup>
 

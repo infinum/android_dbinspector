@@ -76,7 +76,6 @@ internal class EditorTextInput @JvmOverloads constructor(
         spanFactory
     )
     private val wordTokenizer = WordTokenizer(
-        context,
         sqlKeywords + sqlFunctions + sqlTypes,
         spanFactory
     )

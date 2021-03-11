@@ -84,6 +84,7 @@ internal class EditDatabaseActivity : BaseActivity() {
         databasePath?.let {
             val newDatabaseName = binding.nameInput.text?.toString().orEmpty().trim()
             viewModel.rename(
+                this,
                 database = DatabaseDescriptor(
                     exists = true,
                     parentPath = databaseFilepath.orEmpty(),

@@ -59,8 +59,9 @@ internal class SettingsActivity : BaseActivity() {
     private fun setupIgnoredTableNames(settings: Settings) =
         with(binding) {
             tableNameInputLayout.setEndIconOnClickListener {
-                val newName = tableNameInputLayout.editText?.text?.toString().orEmpty().trim()
-                addIgnoredTableNameView(newName)
+                tableNameInputLayout.editText?.text?.toString().orEmpty().trim().split(",").forEach { newName ->
+                    addIgnoredTableNameView(newName.trim())
+                }
             }
             settings.ignoredTableNames.forEach {
                 namesLayout.addView(

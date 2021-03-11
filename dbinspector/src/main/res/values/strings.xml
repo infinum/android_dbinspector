@@ -65,4 +65,23 @@
 
     <string name="dbinspector_preview_failed">Cannot copy content to clipboard</string>
     <string name="dbinspector_preview_success">Content copied to clipboard</string>
+
+    <string name="dbinspector_ignored_table_names">Ignored table names</string>
+    <string name="dbinspector_ignored_table_names_description">Add or remove names of tables. When adding multiple entries, they must be comma delimited.</string>
+    <string name="dbinspector_add_table_name">Add table name</string>
+
+    <string name="dbinspector_content_wrapping">Content wrapping</string>
+    <string name="dbinspector_content_wrapping_description">Number of lines used to preview large amount of any data.</string>
+    <string name="dbinspector_limit_maximum_number_of_content_lines">Limit maximum number of content lines</string>
+    <string name="dbinspector_toggle_truncating">Toggle truncating large data preview on specified position.</string>
+    <string name="dbinspector_truncating_start">Start</string>
+    <string name="dbinspector_truncating_middle">Middle</string>
+    <string name="dbinspector_truncating_end">End</string>
+    
+    <string name="dbinspector_blob_preview">Blob preview</string>
+    <string name="dbinspector_blob_preview_description">Preferred preview format for blob type data.</string>
+    <string name="dbinspector_blob_preview_placeholder">Placeholder</string>
+    <string name="dbinspector_blob_preview_utf_8">UTF-8</string>
+    <string name="dbinspector_blob_preview_hexadecimal">Hexadecimal</string>
+    <string name="dbinspector_blob_preview_base64">Base64</string>
 </resources>

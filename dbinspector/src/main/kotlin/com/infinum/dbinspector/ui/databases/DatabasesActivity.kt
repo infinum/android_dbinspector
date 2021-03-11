@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.infinum.dbinspector.R
@@ -17,6 +18,7 @@ import com.infinum.dbinspector.extensions.setup
 import com.infinum.dbinspector.ui.databases.edit.EditDatabaseContract
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
+import com.infinum.dbinspector.ui.shared.edgefactories.bounce.BounceEdgeEffectFactory
 import com.infinum.dbinspector.ui.shared.listeners.FabExtendingOnScrollListener
 import com.infinum.dbinspector.ui.shared.searchable.Searchable
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -41,9 +43,9 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
         when (result.resultCode) {
             Activity.RESULT_OK -> {
                 result.data?.clipData?.let { clipData ->
-                    viewModel.import((0 until clipData.itemCount).map { clipData.getItemAt(it).uri })
+                    viewModel.import(this, (0 until clipData.itemCount).map { clipData.getItemAt(it).uri })
                 } ?: result.data?.data?.let {
-                    viewModel.import(listOf(it))
+                    viewModel.import(this, listOf(it))
                 } ?: Unit
             }
             Activity.RESULT_CANCELED -> Unit
@@ -65,7 +67,7 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
                     )
                 )
             },
-            onCopy = { viewModel.copy(it) },
+            onCopy = { viewModel.copy(this, it) },
             onShare = { navigatorIntentFactory.showShare(it) },
         ),
         onEmpty = {
@@ -83,7 +85,7 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
             showDatabases(it)
         }
 
-        viewModel.browse()
+        viewModel.browse(this)
     }
 
     override fun onSearchOpened() {
@@ -94,7 +96,7 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
     }
 
     override fun search(query: String?) {
-        viewModel.browse(query)
+        viewModel.browse(this, query)
     }
 
     override fun searchQuery(): String? =
@@ -141,13 +143,21 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
         }
         with(binding.recyclerView) {
             adapter = databasesAdapter
-
+            edgeEffectFactory = BounceEdgeEffectFactory()
             addOnScrollListener(FabExtendingOnScrollListener(binding.importButton))
-            layoutManager = LinearLayoutManager(
-                this@DatabasesActivity,
-                LinearLayoutManager.VERTICAL,
-                false
-            )
+
+            layoutManager = if (resources.getBoolean(R.bool.dbinspector_is_tablet)) {
+                GridLayoutManager(
+                    this@DatabasesActivity,
+                    resources.getInteger(R.integer.dbinspector_span_count)
+                )
+            } else {
+                LinearLayoutManager(
+                    this@DatabasesActivity,
+                    LinearLayoutManager.VERTICAL,
+                    false
+                )
+            }
         }
         with(binding.importButton) {
             setOnClickListener {
@@ -174,7 +184,7 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
             .setTitle(R.string.dbinspector_title_confirm)
             .setMessage(String.format(getString(R.string.dbinspector_delete_database_confirm), database.name))
             .setPositiveButton(android.R.string.ok) { dialog: DialogInterface, _: Int ->
-                viewModel.remove(database)
+                viewModel.remove(this, database)
                 dialog.dismiss()
             }
             .setNegativeButton(android.R.string.cancel) { dialog: DialogInterface, _: Int ->

@@ -1,8 +1,8 @@
 package com.infinum.dbinspector.data
 
 import android.content.Context
+import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.core.Serializer
-import androidx.datastore.createDataStore
 import com.infinum.dbinspector.data.Data.Constants.Name.PROTO_FILENAME_HISTORY
 import com.infinum.dbinspector.data.Data.Constants.Name.PROTO_FILENAME_SETTINGS
 import com.infinum.dbinspector.data.models.local.proto.output.HistoryEntity
@@ -18,6 +18,7 @@ import com.infinum.dbinspector.data.source.memory.connection.AndroidConnectionSo
 import com.infinum.dbinspector.data.source.memory.pagination.CursorPaginator
 import com.infinum.dbinspector.data.source.memory.pagination.Paginator
 import com.infinum.dbinspector.data.source.raw.AndroidDatabasesSource
+import com.infinum.dbinspector.extensions.dataStoreFile
 import org.koin.core.module.Module
 import org.koin.core.qualifier.StringQualifier
 import org.koin.dsl.module
@@ -114,19 +115,22 @@ internal object Data {
         single<Sources.Local.Settings> {
             val context: Context = get()
             SettingsDataStore(
-                context.createDataStore(
-                    fileName = get(qualifier = Qualifiers.Name.DATASTORE_SETTINGS),
-                    serializer = get(qualifier = Qualifiers.Name.DATASTORE_SETTINGS)
-                )
+                DataStoreFactory.create(
+                    get(qualifier = Qualifiers.Name.DATASTORE_SETTINGS)
+                ) {
+                    context.dataStoreFile(get(qualifier = Qualifiers.Name.DATASTORE_SETTINGS))
+                }
             )
         }
         single<Sources.Local.History> {
             val context: Context = get()
+
             HistoryDataStore(
-                context.createDataStore(
-                    fileName = get(qualifier = Qualifiers.Name.DATASTORE_HISTORY),
-                    serializer = get(qualifier = Qualifiers.Name.DATASTORE_HISTORY)
-                )
+                DataStoreFactory.create(
+                    get(qualifier = Qualifiers.Name.DATASTORE_HISTORY)
+                ) {
+                    context.dataStoreFile(get(qualifier = Qualifiers.Name.DATASTORE_HISTORY))
+                }
             )
         }
 
