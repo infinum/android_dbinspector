@@ -1,6 +1,5 @@
 package com.infinum.dbinspector.ui.shared.views.editor
 
-import android.content.Context
 import android.text.ParcelableSpan
 import android.text.SpannableString
 import android.text.Spanned
@@ -8,14 +7,12 @@ import android.text.TextUtils
 import android.widget.MultiAutoCompleteTextView.Tokenizer
 
 internal class WordTokenizer(
-    private val context: Context,
     private var keywords: List<Keyword>,
     private val spanFactory: KeywordSpanFactory
 ) : Tokenizer {
 
     companion object {
         private const val TOKEN_SPACE = ' '
-        private const val TOKEN_SEMICOLON = ';'
         private val TOKEN_NEW_LINE = System.lineSeparator().first()
     }
 

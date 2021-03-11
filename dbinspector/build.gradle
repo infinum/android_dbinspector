@@ -24,7 +24,7 @@ android {
         }
         release {
             debuggable false
-            minifyEnabled false // TODO: Enable once R8/D8 works with Protobuf
+            minifyEnabled true
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt"
         }
     }

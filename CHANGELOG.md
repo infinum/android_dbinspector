@@ -1,6 +1,15 @@
 Changelog
 =========
 
+## Version 5.2.8
+
+_2021-03-11_
+
+* Add tablet support on databases list.
+* Update dependencies to more stable releases.
+* Fix Lint issues.
+* Enable Proguard for release builds.
+
 ## Version 5.2.7
 
 _2021-02-24_
