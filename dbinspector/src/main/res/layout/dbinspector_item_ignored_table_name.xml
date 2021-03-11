@@ -12,6 +12,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="@dimen/dbinspector_slider_button_margin"
+        android:importantForAccessibility="no"
         android:src="@drawable/dbinspector_ic_table" />
 
     <com.google.android.material.textview.MaterialTextView

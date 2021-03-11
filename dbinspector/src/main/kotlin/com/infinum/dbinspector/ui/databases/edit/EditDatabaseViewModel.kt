@@ -7,11 +7,15 @@ import com.infinum.dbinspector.domain.shared.models.parameters.DatabaseParameter
 import com.infinum.dbinspector.ui.shared.base.BaseViewModel
 
 internal class EditDatabaseViewModel(
-    private val context: Context,
     private val renameDatabase: UseCases.RenameDatabase
 ) : BaseViewModel() {
 
-    fun rename(database: DatabaseDescriptor, newName: String, action: suspend (DatabaseDescriptor) -> Unit) =
+    fun rename(
+        context: Context,
+        database: DatabaseDescriptor,
+        newName: String,
+        action: suspend (DatabaseDescriptor) -> Unit
+    ) =
         launch {
             val result = io {
                 renameDatabase(

@@ -32,7 +32,7 @@ android {
     resourcePrefix "dbinspector_"
 
     lintOptions {
-        disable 'InvalidFragmentVersionForActivityResult', 'VectorPath'
+        disable 'InvalidFragmentVersionForActivityResult', 'VectorPath', 'IconLocation'
     }
 
     compileOptions {

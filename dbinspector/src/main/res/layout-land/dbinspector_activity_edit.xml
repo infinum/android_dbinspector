@@ -39,7 +39,8 @@
             android:fillViewport="true"
             android:overScrollMode="never"
             android:paddingEnd="8dp"
-            android:scrollbars="vertical">
+            android:scrollbars="vertical"
+            tools:ignore="RtlSymmetry">
 
             <FrameLayout
                 android:layout_width="match_parent"

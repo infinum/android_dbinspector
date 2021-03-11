@@ -42,9 +42,9 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
         when (result.resultCode) {
             Activity.RESULT_OK -> {
                 result.data?.clipData?.let { clipData ->
-                    viewModel.import((0 until clipData.itemCount).map { clipData.getItemAt(it).uri })
+                    viewModel.import(this, (0 until clipData.itemCount).map { clipData.getItemAt(it).uri })
                 } ?: result.data?.data?.let {
-                    viewModel.import(listOf(it))
+                    viewModel.import(this, listOf(it))
                 } ?: Unit
             }
             Activity.RESULT_CANCELED -> Unit
@@ -66,7 +66,7 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
                     )
                 )
             },
-            onCopy = { viewModel.copy(it) },
+            onCopy = { viewModel.copy(this, it) },
             onShare = { navigatorIntentFactory.showShare(it) },
         ),
         onEmpty = {
@@ -84,7 +84,7 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
             showDatabases(it)
         }
 
-        viewModel.browse()
+        viewModel.browse(this)
     }
 
     override fun onSearchOpened() {
@@ -95,7 +95,7 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
     }
 
     override fun search(query: String?) {
-        viewModel.browse(query)
+        viewModel.browse(this, query)
     }
 
     override fun searchQuery(): String? =
@@ -175,7 +175,7 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
             .setTitle(R.string.dbinspector_title_confirm)
             .setMessage(String.format(getString(R.string.dbinspector_delete_database_confirm), database.name))
             .setPositiveButton(android.R.string.ok) { dialog: DialogInterface, _: Int ->
-                viewModel.remove(database)
+                viewModel.remove(this, database)
                 dialog.dismiss()
             }
             .setNegativeButton(android.R.string.cancel) { dialog: DialogInterface, _: Int ->
