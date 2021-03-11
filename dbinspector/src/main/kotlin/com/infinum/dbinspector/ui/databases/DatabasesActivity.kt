@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.infinum.dbinspector.R
@@ -144,11 +145,19 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
             adapter = databasesAdapter
             edgeEffectFactory = BounceEdgeEffectFactory()
             addOnScrollListener(FabExtendingOnScrollListener(binding.importButton))
-            layoutManager = LinearLayoutManager(
-                this@DatabasesActivity,
-                LinearLayoutManager.VERTICAL,
-                false
-            )
+
+            layoutManager = if (resources.getBoolean(R.bool.dbinspector_is_tablet)) {
+                GridLayoutManager(
+                    this@DatabasesActivity,
+                    resources.getInteger(R.integer.dbinspector_span_count)
+                )
+            } else {
+                LinearLayoutManager(
+                    this@DatabasesActivity,
+                    LinearLayoutManager.VERTICAL,
+                    false
+                )
+            }
         }
         with(binding.importButton) {
             setOnClickListener {
