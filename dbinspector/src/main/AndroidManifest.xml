@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.infinum.dbinspector">
 
-    <application android:supportsRtl="false">
+    <application>
 
         <activity-alias
             android:name="com.infinum.dbinspector.DbInspectorActivity"
