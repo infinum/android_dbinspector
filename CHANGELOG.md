@@ -1,6 +1,13 @@
 Changelog
 =========
 
+## Version 5.2.9
+
+_2021-03-25_
+
+* Update dependencies to more stable releases.
+* Fix Lint issues.
+
 ## Version 5.2.8
 
 _2021-03-11_
