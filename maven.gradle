@@ -1,13 +1,5 @@
-import com.infinum.maven.BintrayConfiguration
 import com.infinum.maven.GithubConfiguration
 import com.infinum.maven.SonatypeConfiguration
-
-BintrayConfiguration.metaClass.constructor = { ->
-    def constructor = BintrayConfiguration.class.getConstructor()
-    def instance = constructor.newInstance()
-    instance.load()
-    instance
-}
 
 GithubConfiguration.metaClass.constructor = { ->
     def constructor = GithubConfiguration.class.getConstructor()
@@ -24,7 +16,6 @@ SonatypeConfiguration.metaClass.constructor = { ->
 }
 
 ext {
-    bintray = new BintrayConfiguration()
     github = new GithubConfiguration()
     sonatype = new SonatypeConfiguration()
 }

@@ -8,6 +8,6 @@ ext {
     releaseConfig = [
             "group"      : "com.infinum.dbinspector",
             "version"    : "5.2.9",
-            "versionCode": 5 * 100 * 100 + 2 * 100 + 9
+            "versionCode": 5 * 100 * 100 + 3 * 100 + 0
     ]
 }

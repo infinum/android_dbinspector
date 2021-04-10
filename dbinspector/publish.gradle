@@ -30,14 +30,6 @@ afterEvaluate {
                     password github.password()
                 }
             }
-            maven {
-                name bintray.name()
-                url bintray.url() + "/dbinspector/;publish=1;override=1"
-                credentials {
-                    username bintray.username()
-                    password bintray.password()
-                }
-            }
         }
         publications {
             release(MavenPublication) {

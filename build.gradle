@@ -2,7 +2,6 @@ buildscript {
 
     apply from: "config.gradle"
     apply from: "maven.gradle"
-    apply from: "dependencies.gradle"
 
     repositories {
         google()
@@ -10,13 +9,13 @@ buildscript {
         gradlePluginPortal()
     }
     dependencies {
-        classpath packages.gradle
-        classpath packages.kotlin.plugin
-        classpath packages.cpd.plugin
-        classpath packages.detekt.plugin
-        classpath packages.ktlint.plugin
-        classpath packages.dokka.plugin
-        classpath packages.google.protobuf.plugin
+        classpath libs.gradle
+        classpath libs.kotlin.plugin
+        classpath libs.cpd
+        classpath libs.detekt.plugin
+        classpath libs.ktlint
+        classpath libs.dokka
+        classpath libs.protobuf.plugin
     }
 }
 
@@ -26,12 +25,7 @@ allprojects {
         mavenCentral()
         jcenter() {
             content {
-                includeModule("com.soywiz.korlibs.korte", "korte-jvm")
-                includeModule("org.jetbrains.trove4j", "trove4j")
                 includeModule("org.jetbrains.kotlinx", "kotlinx-html-jvm")
-                includeGroup("org.jetbrains.dokka")
-                includeGroup("org.jetbrains")
-                includeGroup("org.koin")
             }
         }
     }
@@ -42,8 +36,10 @@ allprojects {
         configurations.all {
             resolutionStrategy {
                 dependencySubstitution {
-                    substitute module(packages.dbinspector.dbinspector) with project(':dbinspector')
-                    substitute module(packages.dbinspector.dbinspector_no_op) with project(':dbinspector-no-op')
+                    def library = libs.library.get()
+                    def librarynoop = libs.librarynoop.get()
+                    substitute module(library.getModule().toString() + ":" + library.getVersionConstraint().toString()) with project(':dbinspector')
+                    substitute module(librarynoop.getModule().toString() + ":" + librarynoop.getVersionConstraint().toString()) with project(':dbinspector-no-op')
                 }
             }
         }
