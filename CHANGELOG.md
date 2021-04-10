@@ -1,6 +1,15 @@
 Changelog
 =========
 
+## Version 5.3.0
+
+_2021-04-10_
+
+* Update Gradle from 6.8.3 to 7.0.
+* Migrate from dependencies.gradle to version catalogs.
+* Update dependencies to more stable releases.
+* Remove Bintray deployment configuration.
+
 ## Version 5.2.9
 
 _2021-03-25_
