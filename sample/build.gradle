@@ -55,19 +55,19 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
-    sourceSets {
-        main.java.srcDirs += "src/main/kotlin"
+    sourceSets.forEach {
+        it.java.srcDirs += "src/$it.name/kotlin"
     }
 }
 
 dependencies {
-    implementation packages.kotlin.core
-    implementation packages.androidx.appcompat
-    implementation packages.google.design
-    implementation packages.koin.android
-    implementation packages.koin.scope
-    implementation packages.koin.viewmodel
+    implementation libs.kotlin.core
+    implementation libs.coroutines
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.lifecycle.viewmodel
+    implementation libs.material
+    implementation libs.koin
 
-    debugImplementation packages.dbinspector.dbinspector
-    releaseImplementation packages.dbinspector.dbinspector_no_op
+    debugImplementation libs.library
+    releaseImplementation libs.librarynoop
 }

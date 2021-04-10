@@ -1,6 +1,5 @@
 task deployDbInspector(dependsOn: [
         ':dbinspector:clean',
-        ':dbinspector:publishReleasePublicationToBintrayRepository',
         ':dbinspector:publishReleasePublicationToGithubRepository',
         ':dbinspector:publishReleasePublicationToSonatypeRepository'
 ]) {
@@ -10,7 +9,6 @@ task deployDbInspector(dependsOn: [
 
 task deployDbInspectorNoOp(dependsOn: [
         ':dbinspector-no-op:clean',
-        ':dbinspector-no-op:publishReleasePublicationToBintrayRepository',
         ':dbinspector-no-op:publishReleasePublicationToGithubRepository',
         ':dbinspector-no-op:publishReleasePublicationToSonatypeRepository'
 ]) {

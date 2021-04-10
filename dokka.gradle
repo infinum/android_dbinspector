@@ -32,6 +32,10 @@ tasks.named("dokkaJavadoc") {
                 prefix.set("com.infinum.dbinspector.ui.shared")
                 suppress.set(true)
             }
+            perPackageOption {
+                prefix.set("com.infinum.dbinspector.sample")
+                suppress.set(true)
+            }
         }
     }
 }

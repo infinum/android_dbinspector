@@ -48,7 +48,7 @@ android {
 }
 
 dependencies {
-    implementation packages.kotlin.core
+    implementation libs.kotlin.core
 }
 
 apply from: "publish.gradle"

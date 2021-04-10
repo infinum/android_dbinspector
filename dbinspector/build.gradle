@@ -1,9 +1,8 @@
 plugins {
     id "com.android.library"
     id "kotlin-android"
+    id "com.google.protobuf"
 }
-
-apply from: "protobuf.gradle"
 
 android {
     compileSdkVersion buildConfig.compileSdk
@@ -50,6 +49,7 @@ android {
     }
 
     sourceSets.each {
+        it.proto.srcDirs += "src/$it.name/proto"
         it.java.srcDirs += "src/$it.name/kotlin"
     }
 
@@ -59,26 +59,31 @@ android {
 }
 
 dependencies {
-    implementation packages.kotlin.core
-    implementation packages.androidx.core
-    implementation packages.androidx.appcompat
-    implementation packages.androidx.activity
-    implementation packages.androidx.fragment
-    implementation packages.androidx.recyclerview
-    implementation packages.androidx.viewpager
-    implementation packages.androidx.paging
-    implementation packages.androidx.startup
-    implementation packages.androidx.swiperefreshlayout
-    implementation packages.androidx.datastore
-    implementation packages.androidx.dynamicanimation
-    implementation packages.google.protobuf.javalite
-    implementation packages.google.design
-    implementation packages.kotlinx.coroutines
-    implementation packages.koin.android
-    implementation packages.koin.scope
-    implementation packages.koin.viewmodel
-    implementation packages.timber.core
-    implementation packages.fuzzy.core
+    implementation libs.kotlin.core
+    implementation libs.coroutines
+    implementation libs.bundles.androidx
+    implementation libs.protobuf.javalite
+    implementation libs.material
+    implementation libs.koin
+    implementation libs.timber
+    implementation libs.fuzzy
+}
+
+protobuf {
+    protoc {
+        def protobufArtifact = libs.protobuf.artifact.get()
+        artifact = protobufArtifact.getModule().toString() + ":" + protobufArtifact.getVersionConstraint().toString()
+    }
+
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                java {
+                    option "lite"
+                }
+            }
+        }
+    }
 }
 
 apply from: "publish.gradle"
