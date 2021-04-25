@@ -2,7 +2,7 @@ package com.infinum.dbinspector.ui.shared.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.infinum.dbinspector.data.source.memory.logger.Logger
+import com.infinum.dbinspector.data.sources.memory.logger.Logger
 import com.infinum.dbinspector.di.LibraryKoinComponent
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope

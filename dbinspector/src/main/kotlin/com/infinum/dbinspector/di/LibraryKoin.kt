@@ -2,8 +2,8 @@ package com.infinum.dbinspector.di
 
 import android.content.Context
 import com.infinum.dbinspector.BuildConfig
-import com.infinum.dbinspector.data.source.memory.logger.EmptyLogger
-import com.infinum.dbinspector.data.source.memory.logger.Logger
+import com.infinum.dbinspector.data.sources.memory.logger.EmptyLogger
+import com.infinum.dbinspector.data.sources.memory.logger.Logger
 import com.infinum.dbinspector.ui.Presentation
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger

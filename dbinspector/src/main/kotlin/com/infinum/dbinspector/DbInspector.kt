@@ -1,8 +1,8 @@
 package com.infinum.dbinspector
 
 import android.content.Intent
-import com.infinum.dbinspector.data.source.memory.logger.EmptyLogger
-import com.infinum.dbinspector.data.source.memory.logger.Logger
+import com.infinum.dbinspector.data.sources.memory.logger.EmptyLogger
+import com.infinum.dbinspector.data.sources.memory.logger.Logger
 import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.databases.DatabasesActivity
 
