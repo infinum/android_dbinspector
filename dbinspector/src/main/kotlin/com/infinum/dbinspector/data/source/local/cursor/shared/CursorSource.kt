@@ -13,14 +13,16 @@ import com.infinum.dbinspector.data.models.local.cursor.output.FieldType
 import com.infinum.dbinspector.data.models.local.cursor.output.QueryResult
 import com.infinum.dbinspector.data.models.local.cursor.output.Row
 import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
+import com.infinum.dbinspector.data.source.memory.logger.Logger
 import com.infinum.dbinspector.data.source.memory.pagination.Paginator
 import com.infinum.dbinspector.extensions.lowercase
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlinx.coroutines.CancellableContinuation
-import timber.log.Timber
 
-internal open class CursorSource {
+internal open class CursorSource(
+    private val logger: Logger
+) {
 
     fun collectRows(
         query: Query,
@@ -67,7 +69,9 @@ internal open class CursorSource {
 
     internal fun runQuery(query: Query): Cursor? =
         query.database?.rawQuery(
-            query.statement.also { Timber.i(it) },
+            query.statement.also {
+                logger.info(it)
+            },
             null
         )
 

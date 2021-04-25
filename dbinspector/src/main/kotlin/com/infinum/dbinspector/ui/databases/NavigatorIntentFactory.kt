@@ -13,7 +13,6 @@ import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.schema.SchemaActivity
 import com.infinum.dbinspector.ui.settings.SettingsActivity
 import java.io.File
-import timber.log.Timber
 
 internal class NavigatorIntentFactory(
     private val context: Context
@@ -53,6 +52,7 @@ internal class NavigatorIntentFactory(
             context.getString(R.string.dbinspector_action_import)
         )
 
+    @Suppress("SwallowedException")
     fun showShare(database: DatabaseDescriptor) =
         try {
             (context as? Activity)?.let {
@@ -72,7 +72,6 @@ internal class NavigatorIntentFactory(
                 )
             } ?: throw NullPointerException()
         } catch (exception: ActivityNotFoundException) {
-            Timber.e(exception)
             Toast.makeText(
                 context,
                 String.format(context.getString(R.string.dbinspector_share_database_failed), database.name),

@@ -64,7 +64,6 @@ dependencies {
     implementation libs.protobuf.javalite
     implementation libs.material
     implementation libs.koin
-    implementation libs.timber
     implementation libs.fuzzy
 }
 

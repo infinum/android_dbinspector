@@ -23,7 +23,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @Suppress("LongParameterList")
 internal class EditViewModel(
@@ -41,12 +40,9 @@ internal class EditViewModel(
 
     private var debounceSimilarExecutionJob: Job? = null
 
-    private var onError: suspend (value: Throwable) -> Unit = { throwable ->
-        Timber.e(throwable)
-    }
+    private var onError: suspend (value: Throwable) -> Unit = { }
 
     override val errorHandler = CoroutineExceptionHandler { _, throwable ->
-        Timber.e(throwable)
         showError(throwable)
     }
 

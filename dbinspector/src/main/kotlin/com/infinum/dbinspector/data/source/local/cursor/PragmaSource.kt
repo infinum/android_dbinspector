@@ -9,6 +9,7 @@ import com.infinum.dbinspector.data.models.local.cursor.output.FieldType
 import com.infinum.dbinspector.data.models.local.cursor.output.QueryResult
 import com.infinum.dbinspector.data.models.local.cursor.output.Row
 import com.infinum.dbinspector.data.source.local.cursor.shared.CursorSource
+import com.infinum.dbinspector.data.source.memory.logger.Logger
 import com.infinum.dbinspector.data.source.memory.pagination.Paginator
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -18,8 +19,9 @@ internal class PragmaSource(
     private val tableInfoPaginator: Paginator,
     private val foreignKeysPaginator: Paginator,
     private val indexesPaginator: Paginator,
-    private val store: Sources.Local.Settings
-) : CursorSource(), Sources.Local.Pragma {
+    private val store: Sources.Local.Settings,
+    logger: Logger
+) : CursorSource(logger), Sources.Local.Pragma {
 
     override suspend fun getUserVersion(query: Query): QueryResult =
         store.current().let {

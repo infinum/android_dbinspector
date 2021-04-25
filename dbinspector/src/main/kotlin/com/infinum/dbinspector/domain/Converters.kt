@@ -17,7 +17,7 @@ import com.infinum.dbinspector.domain.shared.models.parameters.SortParameters
 
 internal interface Converters {
 
-    interface Database {
+    interface Database : BaseConverter<DatabaseParameters, Operation> {
 
         suspend infix fun get(parameters: DatabaseParameters.Get): Operation
 
@@ -32,7 +32,7 @@ internal interface Converters {
 
     interface Sort : BaseConverter<SortParameters, Order>
 
-    interface Pragma {
+    interface Pragma : BaseConverter<PragmaParameters, Query> {
 
         suspend infix fun version(parameters: PragmaParameters.Version): Query
 
@@ -45,7 +45,7 @@ internal interface Converters {
 
     interface Truncate : BaseConverter<SettingsParameters.Truncate, SettingsEntity.TruncateMode>
 
-    interface Settings {
+    interface Settings : BaseConverter<SettingsParameters, SettingsTask> {
 
         suspend infix fun get(parameters: SettingsParameters.Get): SettingsTask
 
@@ -60,7 +60,7 @@ internal interface Converters {
         suspend infix fun ignoredTableName(parameters: SettingsParameters.IgnoredTableName): SettingsTask
     }
 
-    interface History {
+    interface History : BaseConverter<HistoryParameters, HistoryTask> {
 
         infix fun get(parameters: HistoryParameters.All): HistoryTask
 
