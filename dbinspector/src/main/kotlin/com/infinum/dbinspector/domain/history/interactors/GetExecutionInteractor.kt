@@ -14,7 +14,8 @@ internal class GetExecutionInteractor(
         dataStore.current()
             .executionsList
             .filter { it.databasePath == input.execution?.databasePath }
-            .let { entities ->
+            .takeIf { it.isNotEmpty() }
+            ?.let { entities ->
                 FuzzySearch.extractOne(
                     input.execution?.execution.orEmpty(),
                     entities.map { it.execution }

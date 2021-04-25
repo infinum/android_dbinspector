@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_PARAMETER")
+
 package com.infinum.dbinspector
 
 import com.infinum.dbinspector.data.sources.memory.logger.EmptyLogger

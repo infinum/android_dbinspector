@@ -1,6 +1,20 @@
 Changelog
 =========
 
+## Version 5.3.2
+
+_2021-04-26_
+
+* Fix crash on editor history.
+
+## Version 5.3.1
+
+_2021-04-25_
+
+* Remove Timber dependency.
+* Implement an optional logger.
+* Update dependencies to more stable releases.
+
 ## Version 5.3.0
 
 _2021-04-10_
