@@ -18,6 +18,7 @@ With this library you can:
 * drop view or trigger
 * search table, view or trigger
 * sort table, view or trigger per column
+* execute any valid SQL command in editor per database connection
 
 ## Getting started
 To include _DbInspector_ in your project, you have to add buildscript dependencies in your project level `build.gradle` or `build.gradle.kts`:
@@ -43,13 +44,13 @@ Then add the following dependencies in your app `build.gradle` or `build.gradle.
 
 **Groovy**
 ```groovy
-debugImplementation "com.infinum.dbinspector:dbinspector:5.3.0"
-releaseImplementation "com.infinum.dbinspector:dbinspector-no-op:5.3.0"
+debugImplementation "com.infinum.dbinspector:dbinspector:5.3.2"
+releaseImplementation "com.infinum.dbinspector:dbinspector-no-op:5.3.2"
 ```
 **KotlinDSL**
 ```kotlin
-debugImplementation("com.infinum.dbinspector:dbinspector:5.3.0")
-releaseImplementation("com.infinum.dbinspector:dbinspector-no-op:5.3.0")
+debugImplementation("com.infinum.dbinspector:dbinspector:5.3.2")
+releaseImplementation("com.infinum.dbinspector:dbinspector-no-op:5.3.2")
 ```
 
 ### Usage
@@ -77,6 +78,25 @@ If you use _DbInspector_ for a specific flavor and need to override merged in la
 ```
 Please do mind and copy over the suppression comment line too, if you need it.
 Further modification can be done according to rules of [manifest merging](https://developer.android.com/studio/build/manifest-merge) and attributes of [activity-alias](https://developer.android.com/guide/topics/manifest/activity-alias-element) XML node.
+
+## Editor
+
+![Editor](editor.png)
+
+_DbInspector_ has a build in editor scoped per database connection currently used.  
+It offers autocomplete of SQLite3 keywords and functions, current table and column names.  
+Built in editor also provides a history of executed statements, not matter if they were successful or not.  
+Hisotry of statements is persisted between sessions and can be cleared on demand at any point.  
+Panes between editors' input and result are scalable and can be adjusted by dragging the splitter between them.  
+Landscape mode is supported too for better result preview of large datasets.  
+
+## Logging
+_DbInspector_ provides a independent and built in logger mechanism. Per default logger is initiated as an `EmptyLogger` omitting any output whatsoever.  
+In case logs output is required, `AndroidLogger` should be used as shown below:
+```kotlin
+DbInspector.show(logger = AndroidLogger())
+```
+Additionally, `AndroidLogger` uses `Level` to filter out between info, debug, error or no messages at all.
 
 ## Requirements
 Minimum required API level to use _DbInspector_ is **21** known as [Android 5.0, Lollipop](https://www.android.com/versions/lollipop-5-0/).

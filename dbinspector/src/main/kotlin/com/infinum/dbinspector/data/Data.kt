@@ -7,17 +7,17 @@ import com.infinum.dbinspector.data.Data.Constants.Name.PROTO_FILENAME_HISTORY
 import com.infinum.dbinspector.data.Data.Constants.Name.PROTO_FILENAME_SETTINGS
 import com.infinum.dbinspector.data.models.local.proto.output.HistoryEntity
 import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
-import com.infinum.dbinspector.data.source.local.cursor.PragmaSource
-import com.infinum.dbinspector.data.source.local.cursor.RawQuerySource
-import com.infinum.dbinspector.data.source.local.cursor.SchemaSource
-import com.infinum.dbinspector.data.source.local.proto.history.HistoryDataStore
-import com.infinum.dbinspector.data.source.local.proto.history.HistorySerializer
-import com.infinum.dbinspector.data.source.local.proto.settings.SettingsDataStore
-import com.infinum.dbinspector.data.source.local.proto.settings.SettingsSerializer
-import com.infinum.dbinspector.data.source.memory.connection.AndroidConnectionSource
-import com.infinum.dbinspector.data.source.memory.pagination.CursorPaginator
-import com.infinum.dbinspector.data.source.memory.pagination.Paginator
-import com.infinum.dbinspector.data.source.raw.AndroidDatabasesSource
+import com.infinum.dbinspector.data.sources.local.cursor.PragmaSource
+import com.infinum.dbinspector.data.sources.local.cursor.RawQuerySource
+import com.infinum.dbinspector.data.sources.local.cursor.SchemaSource
+import com.infinum.dbinspector.data.sources.local.proto.history.HistoryDataStore
+import com.infinum.dbinspector.data.sources.local.proto.history.HistorySerializer
+import com.infinum.dbinspector.data.sources.local.proto.settings.SettingsDataStore
+import com.infinum.dbinspector.data.sources.local.proto.settings.SettingsSerializer
+import com.infinum.dbinspector.data.sources.memory.connection.AndroidConnectionSource
+import com.infinum.dbinspector.data.sources.memory.pagination.CursorPaginator
+import com.infinum.dbinspector.data.sources.memory.pagination.Paginator
+import com.infinum.dbinspector.data.sources.raw.AndroidDatabasesSource
 import com.infinum.dbinspector.extensions.dataStoreFile
 import org.koin.core.module.Module
 import org.koin.core.qualifier.StringQualifier
@@ -145,6 +145,7 @@ internal object Data {
                 get(qualifier = Qualifiers.Schema.TRIGGERS),
                 get(qualifier = Qualifiers.Schema.TRIGGER_BY_NAME),
                 get(qualifier = Qualifiers.Schema.DROP_TRIGGER),
+                get(),
                 get()
             )
         }
@@ -154,6 +155,7 @@ internal object Data {
                 get(qualifier = Qualifiers.Pragma.TABLE_INFO),
                 get(qualifier = Qualifiers.Pragma.FOREIGN_KEYS),
                 get(qualifier = Qualifiers.Pragma.INDEXES),
+                get(),
                 get()
             )
         }
@@ -161,6 +163,7 @@ internal object Data {
         factory<Sources.Local.RawQuery> {
             RawQuerySource(
                 get(qualifier = Qualifiers.Schema.RAW_QUERY),
+                get(),
                 get()
             )
         }

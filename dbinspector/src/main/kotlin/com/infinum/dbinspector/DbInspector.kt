@@ -1,21 +1,16 @@
 package com.infinum.dbinspector
 
 import android.content.Intent
+import com.infinum.dbinspector.data.sources.memory.logger.EmptyLogger
+import com.infinum.dbinspector.data.sources.memory.logger.Logger
 import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.databases.DatabasesActivity
-import timber.log.Timber
-import timber.log.Timber.DebugTree
 
 public object DbInspector {
 
-    init {
-        if (BuildConfig.DEBUG) {
-            Timber.plant(DebugTree())
-        }
-    }
-
     @JvmStatic
-    public fun show(): Unit =
+    public fun show(logger: Logger = EmptyLogger()) {
+        Presentation.setLogger(logger)
         with(Presentation.applicationContext()) {
             this.startActivity(
                 Intent(
@@ -26,4 +21,5 @@ public object DbInspector {
                 }
             )
         }
+    }
 }

@@ -4,6 +4,20 @@
 -keep public class com.infinum.dbinspector.DbInspector {
   public protected *;
 }
+-keep public class com.infinum.dbinspector.data.models.memory.logger.Level {
+  public protected *;
+}
+
+-keep public class com.infinum.dbinspector.data.sources.memory.logger.Logger {
+  public protected *;
+}
+
+-keep public class com.infinum.dbinspector.data.sources.memory.logger.EmptyLogger {
+  public protected *;
+}
+-keep public class com.infinum.dbinspector.data.sources.memory.logger.AndroidLogger {
+  public protected *;
+}
 -keep class androidx.datastore.*.* {*;}
 -keepclassmembers class * extends androidx.datastore.* {
     <fields>;
