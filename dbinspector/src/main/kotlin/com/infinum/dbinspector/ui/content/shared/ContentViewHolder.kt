@@ -65,6 +65,7 @@ internal class ContentViewHolder(
                         TruncateMode.START -> TextUtils.TruncateAt.START
                         TruncateMode.MIDDLE -> TextUtils.TruncateAt.MIDDLE
                         TruncateMode.END -> TextUtils.TruncateAt.END
+                        else -> TextUtils.TruncateAt.END
                     }
                 }
             this.valueView.text = cell.text

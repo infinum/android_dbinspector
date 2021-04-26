@@ -3,17 +3,10 @@ package com.infinum.dbinspector.domain.connection.control.mappers
 import com.infinum.dbinspector.data.Sources
 import com.infinum.dbinspector.data.sources.memory.connection.AndroidConnectionSource
 import com.infinum.dbinspector.domain.Mappers
-import com.infinum.dbinspector.domain.connection.models.DatabaseConnection
 import com.infinum.dbinspector.shared.BaseMapperTest
-import java.io.File
-import java.net.URL
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
-import org.koin.core.component.get
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.inject
-import org.mockito.Mockito.doReturn
 
 internal class ConnectionMapperTest : BaseMapperTest() {
 
@@ -29,9 +22,9 @@ internal class ConnectionMapperTest : BaseMapperTest() {
 //    @Test
 //    fun `Default local values maps to default domain values`() =
 //        launch {
-////            declareMock<Sources.Memory> {
-////                BDDMockito.given(openConnection("")).will()
-////            }
+// //            declareMock<Sources.Memory> {
+// //                BDDMockito.given(openConnection("")).will()
+// //            }
 //            /*
 //            val uuidValue = "UUID"
 //            declareMock<Simple.UUIDComponent> {
@@ -40,7 +33,7 @@ internal class ConnectionMapperTest : BaseMapperTest() {
 //             */
 //            val resource: URL = this.javaClass.classLoader.getResource("chinook.db")
 //            val file = File(resource.path)
-////            doReturn(file).`when`(context).getDatabasePath("mydb.db")
+// //            doReturn(file).`when`(context).getDatabasePath("mydb.db")
 //
 //            val source: Sources.Memory = get()
 //            val given = source.openConnection(resource.path)

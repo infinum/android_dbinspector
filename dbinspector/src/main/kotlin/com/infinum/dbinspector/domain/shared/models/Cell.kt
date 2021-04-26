@@ -7,7 +7,7 @@ internal data class Cell(
     val data: ByteArray? = null,
     val imageType: ImageType = ImageType.UNSUPPORTED,
     val linesShown: Int = Int.MAX_VALUE,
-    val truncateMode: TruncateMode = TruncateMode.END
+    val truncateMode: TruncateMode = TruncateMode.UNKNOWN
 ) {
 
     override fun equals(other: Any?): Boolean {

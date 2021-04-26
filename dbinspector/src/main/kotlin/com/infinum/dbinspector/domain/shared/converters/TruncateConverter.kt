@@ -12,5 +12,6 @@ internal class TruncateConverter : Converters.Truncate {
             TruncateMode.START -> SettingsEntity.TruncateMode.START
             TruncateMode.MIDDLE -> SettingsEntity.TruncateMode.MIDDLE
             TruncateMode.END -> SettingsEntity.TruncateMode.END
+            else -> SettingsEntity.TruncateMode.END
         }
 }

@@ -1,7 +1,7 @@
 package com.infinum.dbinspector.extensions
 
-import android.util.Base64
 import com.infinum.dbinspector.ui.Presentation
+import java.io.ByteArrayOutputStream
 import java.util.zip.Adler32
 
 private val HEX_ARRAY = "0123456789ABCDEF".toCharArray()
@@ -25,8 +25,28 @@ internal fun ByteArray.toHexString(): String {
     return buffer.toString()
 }
 
-internal fun ByteArray.toBase64String(): String =
-    Base64.encodeToString(this, Base64.NO_WRAP)
+@Suppress("MagicNumber")
+internal fun ByteArray.toBase64String(): String {
+    val table = (CharRange('A', 'Z') + CharRange('a', 'z') + CharRange('0', '9') + '+' + '/').toCharArray()
+    val output = ByteArrayOutputStream()
+    var padding = 0
+    var position = 0
+    while (position < this.size) {
+        var b = this[position].toInt() and 0xFF shl 16 and 0xFFFFFF
+        if (position + 1 < this.size) b = b or (this[position + 1].toInt() and 0xFF shl 8) else padding++
+        if (position + 2 < this.size) b = b or (this[position + 2].toInt() and 0xFF) else padding++
+        (0 until 4 - padding).forEach { _ ->
+            val c = b and 0xFC0000 shr 18
+            output.write(table[c].toInt())
+            b = b shl 6
+        }
+        position += 3
+    }
+    (0 until padding).forEach { _ ->
+        output.write('='.toInt())
+    }
+    return String(output.toByteArray())
+}
 
 internal fun ByteArray.toChecksum(): String =
     Adler32().apply {

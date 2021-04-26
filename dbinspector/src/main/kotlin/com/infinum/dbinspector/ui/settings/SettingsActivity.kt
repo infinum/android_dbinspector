@@ -98,6 +98,7 @@ internal class SettingsActivity : BaseActivity() {
                     TruncateMode.START -> R.id.truncateStart
                     TruncateMode.MIDDLE -> R.id.truncateMiddle
                     TruncateMode.END -> R.id.truncateEnd
+                    else -> R.id.truncateEnd
                 }
             )
             truncateGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->

@@ -69,10 +69,10 @@ internal class SettingsMapperTest : BaseMapperTest() {
         launch {
             val given = SettingsEntity.newBuilder()
                 .addIgnoredTableNames(
-                SettingsEntity.IgnoredTableName.newBuilder()
-                    .setName("android_metadata")
-                    .build()
-            ).build()
+                    SettingsEntity.IgnoredTableName.newBuilder()
+                        .setName("android_metadata")
+                        .build()
+                ).build()
             val expected = Settings(ignoredTableNames = listOf("android_metadata"))
             val actual = test {
                 mapper(given)
