@@ -42,9 +42,14 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs += [
+                '-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi',
                 '-Xexplicit-api=strict'
         ]
         useIR = true
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
     }
 
     sourceSets.each {
@@ -66,9 +71,12 @@ dependencies {
     implementation libs.koin
     implementation libs.fuzzy
 
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3'
     testImplementation "org.junit.jupiter:junit-jupiter:5.6.2"
     testImplementation "io.insert-koin:koin-test:3.0.1"
     testImplementation "io.insert-koin:koin-test-junit5:3.0.1"
+    testImplementation "org.mockito:mockito-core:3.5.10"
+    testImplementation "org.mockito:mockito-junit-jupiter:3.5.10"
 }
 
 protobuf {
@@ -88,4 +96,10 @@ protobuf {
     }
 }
 
+tasks.withType(Test) {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+apply from: "jacoco.gradle"
 apply from: "publish.gradle"

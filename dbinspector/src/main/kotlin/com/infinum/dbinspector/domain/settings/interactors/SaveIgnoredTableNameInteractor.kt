@@ -10,15 +10,17 @@ internal class SaveIgnoredTableNameInteractor(
 ) : Interactors.SaveIgnoredTableName {
 
     override suspend fun invoke(input: SettingsTask) {
-        dataStore.store().updateData {
-            it.toBuilder()
-                .addIgnoredTableNames(
-                    0,
-                    SettingsEntity.IgnoredTableName.newBuilder()
-                        .setName(input.ignoredTableName)
-                        .build()
-                )
-                .build()
-        }
+        input.ignoredTableName.takeIf { it.isNotBlank() }?.let { name ->
+            dataStore.store().updateData { entity ->
+                entity.toBuilder()
+                    .addIgnoredTableNames(
+                        0,
+                        SettingsEntity.IgnoredTableName.newBuilder()
+                            .setName(name)
+                            .build()
+                    )
+                    .build()
+            }
+        } ?: throw IllegalStateException("Ignored table name cannot be empty or blank.")
     }
 }

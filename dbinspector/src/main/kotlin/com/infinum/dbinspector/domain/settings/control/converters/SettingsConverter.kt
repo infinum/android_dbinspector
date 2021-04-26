@@ -2,6 +2,7 @@ package com.infinum.dbinspector.domain.settings.control.converters
 
 import com.infinum.dbinspector.data.models.local.proto.input.SettingsTask
 import com.infinum.dbinspector.domain.Converters
+import com.infinum.dbinspector.domain.Domain
 import com.infinum.dbinspector.domain.shared.models.parameters.SettingsParameters
 
 internal class SettingsConverter(
@@ -16,7 +17,13 @@ internal class SettingsConverter(
         SettingsTask(linesLimited = parameters.isEnabled)
 
     override suspend fun linesCount(parameters: SettingsParameters.LinesCount): SettingsTask =
-        SettingsTask(linesCount = parameters.count)
+        SettingsTask(
+            linesCount = if (parameters.count == 0) {
+                Domain.Constants.Settings.LINES_LIMIT_MAXIMUM
+            } else {
+                parameters.count
+            }
+        )
 
     override suspend fun truncateMode(parameters: SettingsParameters.Truncate): SettingsTask =
         SettingsTask(truncateMode = truncateConverter(parameters))
