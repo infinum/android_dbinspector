@@ -7,6 +7,7 @@ import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
 import com.infinum.dbinspector.shared.BaseConverterTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.inject
@@ -21,6 +22,20 @@ internal class PragmaConverterTest : BaseConverterTest() {
             single<Converters.Pragma> { PragmaConverter(get()) }
         }
     )
+
+    @Test
+    fun `Invoke is not implemented and should throw AbstractMethodError`() {
+        val given = PragmaParameters.Version(
+            databasePath = "test.db",
+            statement = "PRAGMA version()"
+        )
+
+        assertThrows<AbstractMethodError> {
+            runBlockingTest {
+                converter.invoke(given)
+            }
+        }
+    }
 
     @Test
     fun `Version converts to data query with same values`() =

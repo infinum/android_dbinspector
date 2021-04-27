@@ -5,11 +5,9 @@ import com.infinum.dbinspector.data.models.local.cursor.output.FieldType
 import com.infinum.dbinspector.data.models.local.cursor.output.QueryResult
 import com.infinum.dbinspector.data.models.local.cursor.output.Row
 import com.infinum.dbinspector.domain.Mappers
-import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
 import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.domain.shared.models.Page
 import com.infinum.dbinspector.shared.BaseMapperTest
-import java.io.File
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
