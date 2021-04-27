@@ -112,20 +112,5 @@ jobs:
         run: ./gradlew clean testDebugUnitTest
       - name: Stop Gradle
         run: ./gradlew --stop
-
-  coverage:
-    name: Coverage
-    needs: [validation, tests]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2.3.4
-      - name: Save Gradle Caches
-        uses: actions/cache@v2.1.5
-        with:
-          path: ~/.gradle/caches/
-          key: gradle-caches-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            gradle-caches-${{ runner.os }}-
       - name: Upload to Codecov
         uses: codecov/codecov-action@v1.4.1
