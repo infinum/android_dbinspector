@@ -127,9 +127,5 @@ jobs:
           key: gradle-caches-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             gradle-caches-${{ runner.os }}-
-      - name: JaCoCo
-        run: ./gradlew jacocoTestReport
-      - name: Stop Gradle
-        run: ./gradlew --stop
       - name: Upload to Codecov
         uses: codecov/codecov-action@v1.4.1
