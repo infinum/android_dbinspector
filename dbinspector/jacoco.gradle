@@ -24,7 +24,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: [
     }
 
     def includesFilter = [
-//            '**/*Converter*.*',
+            '**/*Converter*.*',
             '**/*Mapper*.*',
 //            '**/*ViewModel*.*'
     ]
