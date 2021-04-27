@@ -6,7 +6,7 @@ import com.infinum.dbinspector.domain.Domain
 import com.infinum.dbinspector.domain.shared.models.parameters.SettingsParameters
 
 internal class SettingsConverter(
-    private val truncateConverter: Converters.Truncate,
+    private val truncateModeConverter: Converters.TruncateMode,
     private val blobPreviewConverter: Converters.BlobPreview
 ) : Converters.Settings {
 
@@ -26,7 +26,7 @@ internal class SettingsConverter(
         )
 
     override suspend fun truncateMode(parameters: SettingsParameters.Truncate): SettingsTask =
-        SettingsTask(truncateMode = truncateConverter(parameters))
+        SettingsTask(truncateMode = truncateModeConverter(parameters))
 
     override suspend fun blobPreviewMode(parameters: SettingsParameters.BlobPreview): SettingsTask =
         SettingsTask(blobPreviewMode = blobPreviewConverter(parameters))

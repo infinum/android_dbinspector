@@ -1,5 +1,6 @@
 package com.infinum.dbinspector.shared
 
+import androidx.annotation.CallSuper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -48,11 +49,13 @@ internal abstract class BaseTest : KoinTest {
         withContext(context = testDispatcher) { block.invoke(this) }
 
     @BeforeEach
+    @CallSuper
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
     }
 
     @AfterEach
+    @CallSuper
     fun cleanUp() {
         Dispatchers.resetMain()
         testDispatcher.cleanupTestCoroutines()

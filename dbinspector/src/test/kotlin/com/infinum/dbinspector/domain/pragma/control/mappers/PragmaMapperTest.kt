@@ -12,11 +12,13 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.inject
 
+@DisplayName("Pragma mapper tests")
 internal class PragmaMapperTest : BaseMapperTest() {
 
     override val mapper by inject<Mappers.Pragma>()

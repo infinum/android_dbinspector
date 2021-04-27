@@ -10,11 +10,13 @@ import com.infinum.dbinspector.ui.Presentation
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.inject
 
+@DisplayName("Cell mapper tests")
 internal class CellMapperTest : BaseMapperTest() {
 
     override val mapper by inject<Mappers.Cell>()

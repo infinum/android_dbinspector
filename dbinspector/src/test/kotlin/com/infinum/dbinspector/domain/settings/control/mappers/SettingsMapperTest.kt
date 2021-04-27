@@ -10,11 +10,13 @@ import com.infinum.dbinspector.shared.BaseMapperTest
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.inject
 
+@DisplayName("Settings mapper tests")
 internal class SettingsMapperTest : BaseMapperTest() {
 
     override val mapper by inject<Mappers.Settings>()

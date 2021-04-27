@@ -8,6 +8,7 @@ import com.infinum.dbinspector.domain.database.models.Operation
 import com.infinum.dbinspector.domain.shared.models.parameters.DatabaseParameters
 import com.infinum.dbinspector.shared.BaseConverterTest
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.koin.core.module.Module
@@ -16,6 +17,7 @@ import org.koin.test.get
 import org.koin.test.inject
 import org.mockito.Mockito.mock
 
+@DisplayName("Database converter tests")
 internal class DatabaseConverterTest : BaseConverterTest() {
 
     override val converter by inject<Converters.Database>()

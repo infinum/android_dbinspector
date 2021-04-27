@@ -5,24 +5,26 @@ import com.infinum.dbinspector.data.models.local.proto.input.SettingsTask
 import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
 import com.infinum.dbinspector.domain.Converters
 import com.infinum.dbinspector.domain.shared.converters.BlobPreviewConverter
-import com.infinum.dbinspector.domain.shared.converters.TruncateConverter
+import com.infinum.dbinspector.domain.shared.converters.TruncateModeConverter
 import com.infinum.dbinspector.domain.shared.models.BlobPreviewMode
 import com.infinum.dbinspector.domain.shared.models.TruncateMode
 import com.infinum.dbinspector.domain.shared.models.parameters.SettingsParameters
 import com.infinum.dbinspector.shared.BaseConverterTest
 import kotlin.test.assertEquals
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.inject
 
+@DisplayName("Settings converter tests")
 internal class SettingsConverterTest : BaseConverterTest() {
 
     override val converter by inject<Converters.Settings>()
 
     override fun modules(): List<Module> = listOf(
         module {
-            single<Converters.Truncate> { TruncateConverter() }
+            single<Converters.TruncateMode> { TruncateModeConverter() }
             single<Converters.BlobPreview> { BlobPreviewConverter() }
             single<Converters.Settings> { SettingsConverter(get(), get()) }
         }

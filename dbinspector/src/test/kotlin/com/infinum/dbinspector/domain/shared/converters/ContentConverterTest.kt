@@ -5,11 +5,13 @@ import com.infinum.dbinspector.domain.Converters
 import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
 import com.infinum.dbinspector.shared.BaseConverterTest
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.inject
 
+@DisplayName("Content converter tests")
 internal class ContentConverterTest : BaseConverterTest() {
 
     override val converter by inject<Converters.Content>()

@@ -5,18 +5,20 @@ import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
 import com.infinum.dbinspector.shared.BaseMapperTest
 import java.io.File
 import kotlin.test.assertEquals
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.inject
 
-internal class DatabaseDescriptorMapperTest : BaseMapperTest() {
+@DisplayName("Database mapper tests")
+internal class DatabaseMapperTest : BaseMapperTest() {
 
-    override val mapper by inject<Mappers.DatabaseDescriptor>()
+    override val mapper by inject<Mappers.Database>()
 
     override fun modules(): List<Module> = listOf(
         module {
-            single<Mappers.DatabaseDescriptor> { DatabaseDescriptorMapper() }
+            single<Mappers.Database> { DatabaseMapper() }
         }
     )
 

@@ -5,11 +5,13 @@ import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.domain.shared.models.BlobPreviewMode
 import com.infinum.dbinspector.shared.BaseMapperTest
 import kotlin.test.assertEquals
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.inject
 
+@DisplayName("Blob preview mapper tests")
 internal class BlobPreviewModeMapperTest : BaseMapperTest() {
 
     override val mapper by inject<Mappers.BlobPreviewMode>()

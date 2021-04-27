@@ -9,11 +9,13 @@ import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.domain.shared.models.Page
 import com.infinum.dbinspector.shared.BaseMapperTest
 import kotlin.test.assertEquals
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.inject
 
+@DisplayName("Content mapper tests")
 internal class ContentMapperTest : BaseMapperTest() {
 
     override val mapper by inject<Mappers.Content>()

@@ -12,7 +12,7 @@ import com.infinum.dbinspector.domain.connection.usecases.OpenConnectionUseCase
 import com.infinum.dbinspector.domain.database.DatabaseRepository
 import com.infinum.dbinspector.domain.database.control.DatabaseControl
 import com.infinum.dbinspector.domain.database.control.converters.DatabaseConverter
-import com.infinum.dbinspector.domain.database.control.mappers.DatabaseDescriptorMapper
+import com.infinum.dbinspector.domain.database.control.mappers.DatabaseMapper
 import com.infinum.dbinspector.domain.database.interactors.CopyDatabaseInteractor
 import com.infinum.dbinspector.domain.database.interactors.GetDatabasesInteractor
 import com.infinum.dbinspector.domain.database.interactors.ImportDatabasesInteractor
@@ -101,7 +101,7 @@ import com.infinum.dbinspector.domain.shared.control.ContentControl
 import com.infinum.dbinspector.domain.shared.converters.BlobPreviewConverter
 import com.infinum.dbinspector.domain.shared.converters.ContentConverter
 import com.infinum.dbinspector.domain.shared.converters.SortConverter
-import com.infinum.dbinspector.domain.shared.converters.TruncateConverter
+import com.infinum.dbinspector.domain.shared.converters.TruncateModeConverter
 import com.infinum.dbinspector.domain.shared.mappers.BlobPreviewModeMapper
 import com.infinum.dbinspector.domain.shared.mappers.CellMapper
 import com.infinum.dbinspector.domain.shared.mappers.ContentMapper
@@ -151,7 +151,7 @@ internal object Domain {
         factory<Interactors.RenameDatabase> { RenameDatabaseInteractor(get()) }
         factory<Interactors.CopyDatabase> { CopyDatabaseInteractor(get()) }
 
-        factory<Mappers.DatabaseDescriptor> { DatabaseDescriptorMapper() }
+        factory<Mappers.Database> { DatabaseMapper() }
         factory<Converters.Database> { DatabaseConverter() }
         factory<Control.Database> { DatabaseControl(get(), get()) }
 
@@ -300,7 +300,7 @@ internal object Domain {
 
         factory<Converters.Content> { ContentConverter(get()) }
         factory<Converters.Sort> { SortConverter() }
-        factory<Converters.Truncate> { TruncateConverter() }
+        factory<Converters.TruncateMode> { TruncateModeConverter() }
         factory<Converters.BlobPreview> { BlobPreviewConverter() }
 
         factory<Control.Content> { ContentControl(get(), get()) }

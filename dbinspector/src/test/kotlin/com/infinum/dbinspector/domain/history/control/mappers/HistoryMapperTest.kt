@@ -6,11 +6,13 @@ import com.infinum.dbinspector.domain.history.models.Execution
 import com.infinum.dbinspector.domain.history.models.History
 import com.infinum.dbinspector.shared.BaseMapperTest
 import kotlin.test.assertEquals
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.inject
 
+@DisplayName("History mapper tests")
 internal class HistoryMapperTest : BaseMapperTest() {
 
     override val mapper by inject<Mappers.History>()

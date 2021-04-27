@@ -6,12 +6,14 @@ import com.infinum.dbinspector.domain.Converters
 import com.infinum.dbinspector.domain.shared.models.parameters.HistoryParameters
 import com.infinum.dbinspector.shared.BaseConverterTest
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.inject
 
+@DisplayName("History converter tests")
 internal class HistoryConverterTest : BaseConverterTest() {
 
     override val converter by inject<Converters.History>()
