@@ -15,7 +15,7 @@ internal class GetRawQueryHeadersUseCase(
         val connection = connectionRepository.open(ConnectionParameters(input.databasePath))
         return rawQueryRepository.getHeaders(
             input.copy(
-                database = connection.database
+                connection = connection
             )
         )
     }

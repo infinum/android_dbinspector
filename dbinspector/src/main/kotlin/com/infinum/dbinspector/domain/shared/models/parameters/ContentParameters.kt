@@ -1,13 +1,13 @@
 package com.infinum.dbinspector.domain.shared.models.parameters
 
-import android.database.sqlite.SQLiteDatabase
 import com.infinum.dbinspector.domain.Domain
+import com.infinum.dbinspector.domain.connection.models.DatabaseConnection
 import com.infinum.dbinspector.domain.shared.base.PageParameters
 import com.infinum.dbinspector.domain.shared.models.Sort
 
 internal data class ContentParameters(
     val databasePath: String = "",
-    val database: SQLiteDatabase? = null,
+    val connection: DatabaseConnection? = null,
     val statement: String,
     val sort: SortParameters = SortParameters(Sort.ASCENDING),
     val pageSize: Int = Domain.Constants.Limits.PAGE_SIZE,

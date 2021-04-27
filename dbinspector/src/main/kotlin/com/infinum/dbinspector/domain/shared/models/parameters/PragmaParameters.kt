@@ -1,21 +1,21 @@
 package com.infinum.dbinspector.domain.shared.models.parameters
 
-import android.database.sqlite.SQLiteDatabase
 import com.infinum.dbinspector.domain.Domain
+import com.infinum.dbinspector.domain.connection.models.DatabaseConnection
 import com.infinum.dbinspector.domain.shared.base.PageParameters
 
 internal sealed class PragmaParameters(override var page: Int?) : PageParameters(page) {
 
     data class Version(
         val databasePath: String,
-        val database: SQLiteDatabase? = null,
+        val connection: DatabaseConnection? = null,
         val statement: String,
         override var page: Int? = null
     ) : PragmaParameters(page)
 
     data class Pragma(
         val databasePath: String,
-        val database: SQLiteDatabase? = null,
+        val connection: DatabaseConnection? = null,
         val statement: String,
         val sort: SortParameters = SortParameters(),
         override var page: Int? = Domain.Constants.Limits.INITIAL_PAGE,

@@ -14,7 +14,7 @@ internal class GetTableInfoUseCase(
 
     override suspend fun invoke(input: PragmaParameters.Pragma): Page {
         val connection = connectionRepository.open(ConnectionParameters(input.databasePath))
-        val tableInfo = pragmaRepository.getTableInfo(input.copy(database = connection.database))
+        val tableInfo = pragmaRepository.getTableInfo(input.copy(connection = connection))
         return tableInfo.copy(
             cells = tableInfo.cells.filterIndexed { index, _ ->
                 index % TableInfoColumns.values().size == TableInfoColumns.NAME.ordinal

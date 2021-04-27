@@ -11,7 +11,7 @@ internal class ContentConverter(
     override suspend fun invoke(parameters: ContentParameters): Query =
         Query(
             databasePath = parameters.databasePath,
-            database = parameters.database,
+            database = parameters.connection?.database,
             statement = parameters.statement,
             order = sortConverter(parameters.sort),
             pageSize = parameters.pageSize,

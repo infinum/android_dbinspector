@@ -13,6 +13,6 @@ internal class DropViewUseCase(
 
     override suspend fun invoke(input: ContentParameters): Page {
         val connection = connectionRepository.open(ConnectionParameters(input.databasePath))
-        return schemaRepository.dropByName(input.copy(database = connection.database))
+        return schemaRepository.dropByName(input.copy(connection = connection))
     }
 }
