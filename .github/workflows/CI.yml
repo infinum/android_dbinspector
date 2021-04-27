@@ -9,8 +9,18 @@ on:
       - '*'
 
 jobs:
+  validation:
+    name: Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout latest code
+        uses: actions/checkout@v2
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1
+
   lint:
     name: Lint
+    needs: [validation]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -29,6 +39,7 @@ jobs:
 
   detekt:
     name: Detekt
+    needs: [validation]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -47,6 +58,7 @@ jobs:
 
   ktlint:
     name: ktlint
+    needs: [validation]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -65,6 +77,7 @@ jobs:
 
   cpd:
     name: CPD
+    needs: [validation]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -83,7 +96,7 @@ jobs:
 
   tests:
     name: Tests
-    needs: [lint, detekt, ktlint, cpd]
+    needs: [validation, lint, detekt, ktlint, cpd]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -102,7 +115,7 @@ jobs:
 
   coverage:
     name: Coverage
-    needs: [tests]
+    needs: [validation, tests]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
