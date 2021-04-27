@@ -62,6 +62,7 @@ jobs:
         run: ./gradlew ktlintAll
       - name: Stop Gradle
         run: ./gradlew --stop
+
   cpd:
     name: CPD
     runs-on: ubuntu-latest
@@ -79,3 +80,43 @@ jobs:
         run: ./gradlew cpdAll
       - name: Stop Gradle
         run: ./gradlew --stop
+
+  tests:
+    name: Tests
+    needs: [lint, detekt, ktlint, cpd]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Save Gradle Caches
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches/
+          key: gradle-caches-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-caches-${{ runner.os }}-
+      - name: Unit tests
+        run: ./gradlew clean testDebugUnitTest
+      - name: Stop Gradle
+        run: ./gradlew --stop
+
+  coverage:
+    name: Coverage
+    needs: [tests]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Save Gradle Caches
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches/
+          key: gradle-caches-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-caches-${{ runner.os }}-
+      - name: JaCoCo
+        run: ./gradlew jacocoTestReport
+      - name: Stop Gradle
+        run: ./gradlew --stop
+      - name: Upload to Codecov
+        uses: codecov/codecov-action@v1

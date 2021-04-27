@@ -98,7 +98,6 @@ protobuf {
 
 tasks.withType(Test) {
     useJUnitPlatform()
-    finalizedBy jacocoTestReport
 }
 
 apply from: "jacoco.gradle"
