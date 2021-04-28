@@ -16,7 +16,6 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.get
 import org.koin.test.inject
-import org.mockito.Mockito.mock
 
 @DisplayName("Database converter tests")
 internal class DatabaseConverterTest : BaseConverterTest() {
