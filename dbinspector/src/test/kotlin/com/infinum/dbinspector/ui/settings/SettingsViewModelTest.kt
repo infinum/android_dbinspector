@@ -10,11 +10,14 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.EnumSource
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.get
 import org.koin.test.inject
 import org.mockito.ArgumentMatchers.anyInt
+
 
 @DisplayName("Settings ViewModel tests")
 internal class SettingsViewModelTest : BaseViewModelTest() {
@@ -106,22 +109,24 @@ internal class SettingsViewModelTest : BaseViewModelTest() {
         coVerify(exactly = 1) { useCase.invoke(any()) }
     }
 
-    @Test
-    fun `Save truncate mode`() {
+    @ParameterizedTest
+    @EnumSource(TruncateMode::class)
+    fun `Save truncate mode`(truncateMode: TruncateMode) {
         val useCase: UseCases.SaveTruncateMode = get()
         coEvery { useCase.invoke(any()) } returns Unit
 
-        viewModel.saveTruncateMode(TruncateMode.END)
+        viewModel.saveTruncateMode(truncateMode)
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
     }
 
-    @Test
-    fun `Save blob preview type`() {
+    @ParameterizedTest
+    @EnumSource(BlobPreviewMode::class)
+    fun `Save blob preview type`(blobPreviewMode: BlobPreviewMode) {
         val useCase: UseCases.SaveBlobPreviewMode = get()
         coEvery { useCase.invoke(any()) } returns Unit
 
-        viewModel.saveBlobPreviewType(BlobPreviewMode.UTF_8)
+        viewModel.saveBlobPreviewType(blobPreviewMode)
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
     }
