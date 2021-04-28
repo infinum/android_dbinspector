@@ -45,6 +45,7 @@ internal class SettingsViewModelTest : BaseViewModelTest() {
 
         viewModel.load(action)
 
+        coVerify(exactly = 1) { useCase.invoke(any()) }
         coVerify(exactly = 1) { action.invoke(result) }
     }
 
