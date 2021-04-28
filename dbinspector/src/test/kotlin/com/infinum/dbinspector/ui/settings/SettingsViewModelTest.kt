@@ -18,7 +18,6 @@ import org.koin.test.get
 import org.koin.test.inject
 import org.mockito.ArgumentMatchers.anyInt
 
-
 @DisplayName("Settings ViewModel tests")
 internal class SettingsViewModelTest : BaseViewModelTest() {
 
@@ -111,7 +110,7 @@ internal class SettingsViewModelTest : BaseViewModelTest() {
 
     @ParameterizedTest
     @EnumSource(TruncateMode::class)
-    fun `Save truncate mode`(truncateMode: TruncateMode) {
+    fun `Save truncate per mode`(truncateMode: TruncateMode) {
         val useCase: UseCases.SaveTruncateMode = get()
         coEvery { useCase.invoke(any()) } returns Unit
 
@@ -122,7 +121,7 @@ internal class SettingsViewModelTest : BaseViewModelTest() {
 
     @ParameterizedTest
     @EnumSource(BlobPreviewMode::class)
-    fun `Save blob preview type`(blobPreviewMode: BlobPreviewMode) {
+    fun `Save blob preview per mode`(blobPreviewMode: BlobPreviewMode) {
         val useCase: UseCases.SaveBlobPreviewMode = get()
         coEvery { useCase.invoke(any()) } returns Unit
 
