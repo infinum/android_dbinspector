@@ -4,6 +4,7 @@ import android.database.sqlite.SQLiteDatabase
 import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.domain.connection.models.DatabaseConnection
 import com.infinum.dbinspector.shared.BaseMapperTest
+import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -11,7 +12,6 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.get
 import org.koin.test.inject
-import org.mockito.Mockito.mock
 
 @DisplayName("Connection mapper tests")
 internal class ConnectionMapperTest : BaseMapperTest() {
@@ -20,7 +20,7 @@ internal class ConnectionMapperTest : BaseMapperTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mock(SQLiteDatabase::class.java) }
+            single { mockk<SQLiteDatabase>() }
             single<Mappers.Connection> { ConnectionMapper() }
         }
     )

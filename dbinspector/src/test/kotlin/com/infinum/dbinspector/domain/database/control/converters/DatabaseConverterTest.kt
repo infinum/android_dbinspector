@@ -7,6 +7,7 @@ import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
 import com.infinum.dbinspector.domain.database.models.Operation
 import com.infinum.dbinspector.domain.shared.models.parameters.DatabaseParameters
 import com.infinum.dbinspector.shared.BaseConverterTest
+import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -24,7 +25,7 @@ internal class DatabaseConverterTest : BaseConverterTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mock(Context::class.java) }
+            single { mockk<Context>() }
             single<Converters.Database> { DatabaseConverter() }
         }
     )
