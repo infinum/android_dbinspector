@@ -21,7 +21,7 @@ internal interface Mappers {
 
     interface Connection : BaseMapper<SQLiteDatabase, DatabaseConnection>
 
-    interface DatabaseDescriptor : BaseMapper<File, DatabaseDescriptorModel>
+    interface Database : BaseMapper<File, DatabaseDescriptorModel>
 
     interface Cell : BaseMapper<Field, CellModel>
 

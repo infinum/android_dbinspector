@@ -43,7 +43,7 @@ internal interface Converters {
 
     interface BlobPreview : BaseConverter<SettingsParameters.BlobPreview, SettingsEntity.BlobPreviewMode>
 
-    interface Truncate : BaseConverter<SettingsParameters.Truncate, SettingsEntity.TruncateMode>
+    interface TruncateMode : BaseConverter<SettingsParameters.Truncate, SettingsEntity.TruncateMode>
 
     interface Settings : BaseConverter<SettingsParameters, SettingsTask> {
 

@@ -10,16 +10,18 @@ internal class RemoveIgnoredTableNameInteractor(
 ) : Interactors.RemoveIgnoredTableName {
 
     override suspend fun invoke(input: SettingsTask) {
-        dataStore.store()
-            .data
-            .firstOrNull()
-            ?.ignoredTableNamesList
-            ?.mapIndexed { index, ignoredTableName -> index to ignoredTableName }
-            ?.find { it.second.name == input.ignoredTableName }
-            ?.let { indexed ->
-                dataStore.store().updateData {
-                    it.toBuilder().removeIgnoredTableNames(indexed.first).build()
+        input.ignoredTableName.takeIf { it.isNotBlank() }?.let { name ->
+            dataStore.store()
+                .data
+                .firstOrNull()
+                ?.ignoredTableNamesList
+                ?.mapIndexed { index, ignoredTableName -> index to ignoredTableName }
+                ?.find { it.second.name == name }
+                ?.let { indexed ->
+                    dataStore.store().updateData { entity ->
+                        entity.toBuilder().removeIgnoredTableNames(indexed.first).build()
+                    }
                 }
-            }
+        } ?: throw IllegalStateException("Ignored table name cannot be empty or blank.")
     }
 }

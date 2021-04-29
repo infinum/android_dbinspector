@@ -15,7 +15,7 @@ internal class GetRawQueryUseCase(
         val connection = connectionRepository.open(ConnectionParameters(input.databasePath))
         return rawQueryRepository.getPage(
             input.copy(
-                database = connection.database
+                connection = connection
             )
         )
     }

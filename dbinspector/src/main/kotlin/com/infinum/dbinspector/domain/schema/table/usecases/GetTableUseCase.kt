@@ -15,7 +15,7 @@ internal class GetTableUseCase(
         val connection = connectionRepository.open(ConnectionParameters(input.databasePath))
         return schemaRepository.getByName(
             input.copy(
-                database = connection.database
+                connection = connection
             )
         )
     }

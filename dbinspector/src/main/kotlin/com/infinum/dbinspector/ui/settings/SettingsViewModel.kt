@@ -15,7 +15,7 @@ internal class SettingsViewModel(
     private val linesLimit: UseCases.ToggleLinesLimit,
     private val linesCount: UseCases.SaveLinesCount,
     private val truncateMode: UseCases.SaveTruncateMode,
-    private val blobPreviewMode: UseCases.SaveBlobPreviewMode,
+    private val blobPreviewMode: UseCases.SaveBlobPreviewMode
 ) : BaseViewModel() {
 
     fun load(action: suspend (Settings) -> Unit) =

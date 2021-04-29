@@ -8,5 +8,5 @@ internal data class SettingsTask(
     val linesCount: Int = Data.Constants.Settings.LINES_LIMIT_MAXIMUM,
     val truncateMode: SettingsEntity.TruncateMode = SettingsEntity.TruncateMode.END,
     val blobPreviewMode: SettingsEntity.BlobPreviewMode = SettingsEntity.BlobPreviewMode.UTF8,
-    val ignoredTableName: String? = null
+    val ignoredTableName: String = ""
 )

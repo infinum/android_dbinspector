@@ -16,16 +16,17 @@ internal object LibraryKoin {
 
     private val koinApplication = KoinApplication.init()
 
-    fun koin(): Koin = koinApplication.koin
-
     fun init(context: Context) {
         koinApplication.apply {
             androidLogger(if (BuildConfig.DEBUG) Level.DEBUG else Level.NONE)
             androidContext(context)
+            module { single<Logger>(override = true) { EmptyLogger() } }
             modules(Presentation.modules())
         }
         setLibraryLogger(EmptyLogger())
     }
+
+    fun koin(): Koin = koinApplication.koin
 
     fun setLibraryLogger(logger: Logger) {
         koin().loadModules(

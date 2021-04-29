@@ -53,12 +53,11 @@ subprojects {
     apply from: "$rootDir/dokka.gradle"
 }
 
-apply from: "deploy.gradle"
-apply from: "jacoco.gradle"
-
 tasks.withType(JavaCompile) {
     options.compilerArgs += ["--release", "8"]
 }
+
+apply from: "deploy.gradle"
 
 task clean(type: Delete) {
     delete rootProject.buildDir

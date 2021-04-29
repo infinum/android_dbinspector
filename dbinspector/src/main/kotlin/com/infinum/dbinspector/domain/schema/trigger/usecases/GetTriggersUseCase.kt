@@ -13,6 +13,6 @@ internal class GetTriggersUseCase(
 
     override suspend fun invoke(input: ContentParameters): Page {
         val connection = connectionRepository.open(ConnectionParameters(input.databasePath))
-        return schemaRepository.getPage(input.copy(database = connection.database))
+        return schemaRepository.getPage(input.copy(connection = connection))
     }
 }

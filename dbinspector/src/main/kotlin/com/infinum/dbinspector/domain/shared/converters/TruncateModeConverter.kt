@@ -5,12 +5,13 @@ import com.infinum.dbinspector.domain.Converters
 import com.infinum.dbinspector.domain.shared.models.TruncateMode
 import com.infinum.dbinspector.domain.shared.models.parameters.SettingsParameters
 
-internal class TruncateConverter : Converters.Truncate {
+internal class TruncateModeConverter : Converters.TruncateMode {
 
     override suspend fun invoke(parameters: SettingsParameters.Truncate): SettingsEntity.TruncateMode =
         when (parameters.mode) {
             TruncateMode.START -> SettingsEntity.TruncateMode.START
             TruncateMode.MIDDLE -> SettingsEntity.TruncateMode.MIDDLE
             TruncateMode.END -> SettingsEntity.TruncateMode.END
+            else -> SettingsEntity.TruncateMode.END
         }
 }

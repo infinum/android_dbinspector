@@ -4,7 +4,7 @@ import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
 import java.io.File
 
-internal class DatabaseDescriptorMapper : Mappers.DatabaseDescriptor {
+internal class DatabaseMapper : Mappers.Database {
 
     override suspend fun invoke(model: File): DatabaseDescriptor =
         DatabaseDescriptor(

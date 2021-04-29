@@ -11,6 +11,6 @@ internal class TruncateModeMapper : Mappers.TruncateMode {
             SettingsEntity.TruncateMode.START_VALUE -> TruncateMode.START
             SettingsEntity.TruncateMode.MIDDLE_VALUE -> TruncateMode.MIDDLE
             SettingsEntity.TruncateMode.END_VALUE -> TruncateMode.END
-            else -> TruncateMode.END
+            else -> TruncateMode.UNKNOWN
         }
 }

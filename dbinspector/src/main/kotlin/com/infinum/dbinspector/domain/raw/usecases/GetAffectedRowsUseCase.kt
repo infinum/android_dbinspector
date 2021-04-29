@@ -15,7 +15,7 @@ internal class GetAffectedRowsUseCase(
         val connection = connectionRepository.open(ConnectionParameters(input.databasePath))
         return rawQueryRepository.getAffectedRows(
             input.copy(
-                database = connection.database
+                connection = connection
             )
         )
     }

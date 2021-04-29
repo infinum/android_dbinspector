@@ -11,14 +11,14 @@ internal class PragmaConverter(
     override suspend fun version(parameters: PragmaParameters.Version): Query =
         Query(
             databasePath = parameters.databasePath,
-            database = parameters.database,
+            database = parameters.connection?.database,
             statement = parameters.statement
         )
 
     override suspend fun pragma(parameters: PragmaParameters.Pragma): Query =
         Query(
             databasePath = parameters.databasePath,
-            database = parameters.database,
+            database = parameters.connection?.database,
             statement = parameters.statement,
             order = sortConverter(parameters.sort),
             pageSize = parameters.pageSize,

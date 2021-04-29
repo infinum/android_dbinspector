@@ -22,7 +22,7 @@ internal class GetDatabasesUseCase(
                 val version = pragmaRepository.getUserVersion(
                     PragmaParameters.Version(
                         databasePath = it.absolutePath,
-                        database = connection.database,
+                        connection = connection,
                         statement = Statements.Pragma.userVersion()
                     )
                 ).cells.firstOrNull()?.text.orEmpty()

@@ -1,4 +1,4 @@
-name: Code analysis
+name: CI
 on:
   push:
     branches:
@@ -9,14 +9,24 @@ on:
       - '*'
 
 jobs:
+  validation:
+    name: Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout latest code
+        uses: actions/checkout@v2.3.4
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1.0.3
+
   lint:
     name: Lint
+    needs: [validation]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.3.4
       - name: Save Gradle Caches
-        uses: actions/cache@v2
+        uses: actions/cache@v2.1.5
         with:
           path: ~/.gradle/caches/
           key: gradle-caches-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
@@ -29,12 +39,13 @@ jobs:
 
   detekt:
     name: Detekt
+    needs: [validation]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.3.4
       - name: Save Gradle Caches
-        uses: actions/cache@v2
+        uses: actions/cache@v2.1.5
         with:
           path: ~/.gradle/caches/
           key: gradle-caches-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
@@ -47,12 +58,13 @@ jobs:
 
   ktlint:
     name: ktlint
+    needs: [validation]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.3.4
       - name: Save Gradle Caches
-        uses: actions/cache@v2
+        uses: actions/cache@v2.1.5
         with:
           path: ~/.gradle/caches/
           key: gradle-caches-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
@@ -62,14 +74,16 @@ jobs:
         run: ./gradlew ktlintAll
       - name: Stop Gradle
         run: ./gradlew --stop
+
   cpd:
     name: CPD
+    needs: [validation]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.3.4
       - name: Save Gradle Caches
-        uses: actions/cache@v2
+        uses: actions/cache@v2.1.5
         with:
           path: ~/.gradle/caches/
           key: gradle-caches-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
@@ -79,3 +93,24 @@ jobs:
         run: ./gradlew cpdAll
       - name: Stop Gradle
         run: ./gradlew --stop
+
+  tests:
+    name: Tests
+    needs: [validation, lint, detekt, ktlint, cpd]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+      - name: Save Gradle Caches
+        uses: actions/cache@v2.1.5
+        with:
+          path: ~/.gradle/caches/
+          key: gradle-caches-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-caches-${{ runner.os }}-
+      - name: Unit tests
+        run: ./gradlew clean testDebugUnitTest
+      - name: Stop Gradle
+        run: ./gradlew --stop
+      - name: Upload to Codecov
+        uses: codecov/codecov-action@v1.4.1

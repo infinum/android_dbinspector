@@ -1,17 +1,15 @@
 apply plugin: 'jacoco'
 
 jacoco {
-    toolVersion = "0.8.5"
-    reportsDir = file("$buildDir/reports/jacoco")
+    toolVersion = "0.8.6"
+    reportsDirectory.set(file("$buildDir/reports/jacoco"))
 }
 
-task jacocoTestReport(type: JacocoReport) {
-    dependsOn = [
-            ":dbinspector:testDebugUnitTest",
-            ":dbinspector:createDebugCoverageReport",
-            ":dbinspector-no-op:testDebugUnitTest",
-            ":dbinspector-no-op:createDebugCoverageReport"
-    ]
+task jacocoTestReport(type: JacocoReport, dependsOn: [
+        ":dbinspector:testDebugUnitTest",
+        ":dbinspector:createDebugCoverageReport"
+]) {
+
 
     group = "Reporting"
     description = "Generate Jacoco coverage reports for both unit and instrumented unit tests"
@@ -26,9 +24,9 @@ task jacocoTestReport(type: JacocoReport) {
     }
 
     def includesFilter = [
-//            '**/*Mapper*.*',
-//            '**/*Presenter*.*',
-//            '**/*ViewModel*.*'
+            '**/*Converter*.*',
+            '**/*Mapper*.*',
+            '**/*ViewModel*.*'
     ]
 
     def excludesFilter = [
@@ -54,6 +52,7 @@ task jacocoTestReport(type: JacocoReport) {
             '**/*$InjectAdapter.class',
             '**/*$ModuleAdapter.class',
             '**/*$ViewInjector*.class',
+            '**/*$DefaultImpls*.*',
             '**/*_MembersInjector.class', //Dagger2 generated code
             '*/*_MembersInjector*.*', //Dagger2 generated code
             '**/*_*Factory*.*', //Dagger2 generated code
@@ -62,21 +61,21 @@ task jacocoTestReport(type: JacocoReport) {
     ]
 
     def sourcesTree = [
-            "./dbinspector/src/main/kotlin",
-            "./dbinspector-no-op/src/main/kotlin"
+            "${project.projectDir}/src/main/kotlin"
     ]
 
-    def debugTree = fileTree(dir: "./ui/build/intermediates/classes/debug", excludes: excludesFilter) +
-            fileTree(dir: "./ui/build/tmp/kotlin-classes/debug", excludes: excludesFilter) +
-            fileTree(dir: "./processor/build/classes/kotlin/main", excludes: excludesFilter) +
-            fileTree(dir: "./generator/build/classes/kotlin/main", excludes: excludesFilter) +
-            fileTree(dir: "./core/build/intermediates/classes/debug", excludes: excludesFilter) +
-            fileTree(dir: "./core/build/tmp/kotlin-classes/debug", excludes: excludesFilter)
+    def debugTree = fileTree(dir: "${project.projectDir}/build/intermediates/javac/debug", excludes: excludesFilter, includes: includesFilter) +
+            fileTree(dir: "${project.projectDir}/build/tmp/kotlin-classes/debug", excludes: excludesFilter, includes: includesFilter)
 
-    def executionTree = fileTree(dir: "./dbinspector/build", includes: ["jacoco/testDebugUnitTest.exec", "outputs/code_coverage/debugAndroidTest/connected/*coverage.ec"]) +
-            fileTree(dir: "./dbinspector-no-op/build", includes: ["jacoco/testDebugUnitTest.exec", "outputs/code_coverage/debugAndroidTest/connected/*coverage.ec"])
+    def executionTree = fileTree(dir: "${project.projectDir}/build", includes: ["jacoco/testDebugUnitTest.exec", "outputs/code_coverage/debugAndroidTest/connected/*coverage.ec"]) +
+            fileTree(dir: "${project.projectDir}", includes: ["jacoco.exec"])
 
     getSourceDirectories().setFrom(files(sourcesTree))
     getClassDirectories().setFrom(files([debugTree]))
     getExecutionData().setFrom(files([executionTree]))
+
+    doLast {
+        // destination is defined in reports.html.destination field in this task
+        println "Test report written to file://${jacoco.reportsDir}/html/index.html"
+    }
 }
