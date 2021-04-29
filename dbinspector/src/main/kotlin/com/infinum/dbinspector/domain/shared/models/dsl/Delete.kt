@@ -30,6 +30,6 @@ internal class Delete {
     override fun toString(): String {
         val conditions = condition?.let { "WHERE $it" }.orEmpty()
 
-        return "DELETE FROM $table $conditions".replace(pattern, " ")
+        return "DELETE FROM $table $conditions".replace(pattern, " ").trim()
     }
 }

@@ -73,6 +73,6 @@ internal class Select {
 
         val limit = limit?.let { "LIMIT $it" }.orEmpty()
 
-        return "SELECT $queryColumns FROM $table $conditions $orderBy $limit".replace(pattern, " ")
+        return "SELECT $queryColumns FROM $table $conditions $orderBy $limit".replace(pattern, " ").trim()
     }
 }
