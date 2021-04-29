@@ -1,7 +1,7 @@
 package com.infinum.dbinspector.ui.schema
 
-import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.ActivityResultLauncher
 import com.google.android.material.tabs.TabLayoutMediator
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorActivitySchemaBinding
@@ -9,11 +9,11 @@ import com.infinum.dbinspector.domain.schema.shared.models.SchemaType
 import com.infinum.dbinspector.extensions.searchView
 import com.infinum.dbinspector.extensions.setup
 import com.infinum.dbinspector.extensions.uppercase
-import com.infinum.dbinspector.ui.Presentation
-import com.infinum.dbinspector.ui.edit.EditActivity
+import com.infinum.dbinspector.ui.schema.shared.SchemaFragment
 import com.infinum.dbinspector.ui.schema.shared.SchemaTypeAdapter
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.base.lifecycle.LifecycleConnection
+import com.infinum.dbinspector.ui.shared.contracts.EditContract
 import com.infinum.dbinspector.ui.shared.delegates.lifecycleConnection
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import com.infinum.dbinspector.ui.shared.searchable.Searchable
@@ -27,6 +27,8 @@ internal class SchemaActivity : BaseActivity(), Searchable {
 
     private val connection: LifecycleConnection by lifecycleConnection()
 
+    private lateinit var contract: ActivityResultLauncher<EditContract.Input>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -39,9 +41,18 @@ internal class SchemaActivity : BaseActivity(), Searchable {
         } else {
             showDatabaseParametersError()
         }
+
+        contract = registerForActivityResult(EditContract()) { shouldRefresh ->
+            if (shouldRefresh) {
+                supportFragmentManager.fragments
+                    .filterIsInstance<SchemaFragment>()
+                    .forEach { it.refresh() }
+            }
+        }
     }
 
     override fun onDestroy() {
+        contract.unregister()
         viewModel.close()
         super.onDestroy()
     }
@@ -93,11 +104,10 @@ internal class SchemaActivity : BaseActivity(), Searchable {
     }
 
     private fun showEdit(databasePath: String, databaseName: String) =
-        startActivity(
-            Intent(this, EditActivity::class.java)
-                .apply {
-                    putExtra(Presentation.Constants.Keys.DATABASE_PATH, databasePath)
-                    putExtra(Presentation.Constants.Keys.DATABASE_NAME, databaseName)
-                }
+        contract.launch(
+            EditContract.Input(
+                databasePath = databasePath,
+                databaseName = databaseName
+            )
         )
 }

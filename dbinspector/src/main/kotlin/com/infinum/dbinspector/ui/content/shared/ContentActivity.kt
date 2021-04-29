@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.MenuRes
 import androidx.annotation.StringRes
 import androidx.paging.LoadState
@@ -22,6 +23,7 @@ import com.infinum.dbinspector.ui.content.view.ViewViewModel
 import com.infinum.dbinspector.ui.pragma.PragmaActivity
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.base.lifecycle.LifecycleConnection
+import com.infinum.dbinspector.ui.shared.contracts.EditContract
 import com.infinum.dbinspector.ui.shared.delegates.lifecycleConnection
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import com.infinum.dbinspector.ui.shared.edgefactories.bounce.BounceEdgeEffectFactory
@@ -50,12 +52,20 @@ internal abstract class ContentActivity : BaseActivity() {
 
     private lateinit var contentAdapter: ContentAdapter
 
+    private lateinit var contract: ActivityResultLauncher<EditContract.Input>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding.toolbar.setNavigationOnClickListener { finish() }
 
         contentPreviewFactory = ContentPreviewFactory(this)
+
+        contract = registerForActivityResult(EditContract()) { shouldRefresh ->
+            if (shouldRefresh) {
+                contentAdapter.refresh()
+            }
+        }
 
         if (connection.hasSchemaData) {
             viewModel.databasePath = connection.databasePath!!
@@ -105,6 +115,11 @@ internal abstract class ContentActivity : BaseActivity() {
         }
     }
 
+    override fun onDestroy() {
+        contract.unregister()
+        super.onDestroy()
+    }
+
     private fun setupUi(databasePath: String, databaseName: String, schemaName: String) {
         with(binding.toolbar) {
             title = getString(this@ContentActivity.title)
@@ -125,7 +140,7 @@ internal abstract class ContentActivity : BaseActivity() {
                         true
                     }
                     R.id.edit -> {
-                        contentPreviewFactory.showEdit(databasePath, databaseName)
+                        showEdit(databasePath, databaseName)
                         true
                     }
                     else -> false
@@ -198,4 +213,12 @@ internal abstract class ContentActivity : BaseActivity() {
         )
         finish()
     }
+
+    private fun showEdit(databasePath: String, databaseName: String) =
+        contract.launch(
+            EditContract.Input(
+                databasePath = databasePath,
+                databaseName = databaseName
+            )
+        )
 }

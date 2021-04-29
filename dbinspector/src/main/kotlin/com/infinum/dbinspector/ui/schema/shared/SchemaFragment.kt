@@ -107,6 +107,8 @@ internal abstract class SchemaFragment :
         query(query)
     }
 
+    fun refresh() = schemaAdapter.refresh()
+
     private fun query(query: String?) {
         viewModel.query(databasePath, query) {
             schemaAdapter.submitData(it)

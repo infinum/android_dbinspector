@@ -1,6 +1,12 @@
 Changelog
 =========
 
+## Version 5.3.3
+
+_2021-04-30_
+
+* Fix refreshing schema or content when editor has affected rows.
+
 ## Version 5.3.2
 
 _2021-04-26_

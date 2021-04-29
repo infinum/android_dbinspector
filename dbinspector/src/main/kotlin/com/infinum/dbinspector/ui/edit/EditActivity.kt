@@ -1,5 +1,7 @@
 package com.infinum.dbinspector.ui.edit
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
@@ -12,6 +14,7 @@ import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorActivityEditBinding
 import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.extensions.setupAsTable
+import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.content.shared.ContentAdapter
 import com.infinum.dbinspector.ui.content.shared.ContentPreviewFactory
 import com.infinum.dbinspector.ui.edit.history.HistoryDialog
@@ -189,6 +192,12 @@ internal class EditActivity : BaseActivity(), HistoryDialog.Listener {
                     rowCount
                 )
         }
+        setResult(
+            Activity.RESULT_OK,
+            Intent().apply {
+                putExtra(Presentation.Constants.Keys.SHOULD_REFRESH, true)
+            }
+        )
     }
 
     private fun showError(message: String?) {
