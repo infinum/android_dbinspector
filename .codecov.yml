@@ -1,12 +1,13 @@
 coverage:
   status:
-    # master branch only
     project:
       default:
-        # Fail the status if coverage drops by >= 0.1%
-        threshold: 0.1
-    patch:
-      default:
-        target: 80%
-        # Only post a patch status to pull requests
-        only_pulls: true
+      target: auto
+        threshold: 1%
+        branches:
+          - master
+          - develop
+      paths:
+        - ^Converter.*
+        - ^Mapper.*
+        - ^ViewModel.*
