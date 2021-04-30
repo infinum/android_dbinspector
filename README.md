@@ -103,12 +103,6 @@ Minimum required API level to use _DbInspector_ is **21** known as [Android 5.0,
 As of 4.0.0 version, AndroidX is required. If you cannot unfortunately migrate your project, keep the previous version until you get the opportunity to migrate to AndroidX.
 _DbInspector_ is written entirely in Kotlin, but also works with Java only projects and all combinations of both.
 
-## Contributing
-Feedback and code contributions are very much welcome. Just make a pull request with a short description of your changes. By making contributions to this project you give permission for your code to be used under the same [license](LICENSE).
-For easier developing a `sample` application with proper implementations is provided.
-It is also recommended to change `build.debug` property in `build.properties` to toggle dependency substitution in project level `build.gradle`.
-Then create a pull request.
-
 ## License
 
 ```
