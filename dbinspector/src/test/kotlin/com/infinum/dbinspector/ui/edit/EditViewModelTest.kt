@@ -3,22 +3,21 @@ package com.infinum.dbinspector.ui.edit
 import androidx.paging.PagingData
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.shared.models.Cell
-import com.infinum.dbinspector.shared.BaseViewModelTest
+import com.infinum.dbinspector.shared.BaseTest
 import com.infinum.dbinspector.ui.shared.headers.Header
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.get
-import org.koin.test.inject
 
-internal class EditViewModelTest : BaseViewModelTest() {
-
-    override val viewModel: EditViewModel by inject()
+@DisplayName("EditViewModel tests")
+internal class EditViewModelTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
@@ -32,7 +31,7 @@ internal class EditViewModelTest : BaseViewModelTest() {
             single { mockk<UseCases.GetHistory>() }
             single { mockk<UseCases.GetSimilarExecution>() }
             single { mockk<UseCases.SaveExecution>() }
-            single {
+            factory {
                 EditViewModel(
                     get(),
                     get(),
@@ -53,12 +52,17 @@ internal class EditViewModelTest : BaseViewModelTest() {
 
     @Test
     fun `Can be instantiated`() {
+        val viewModel: EditViewModel = get()
+
         assertNotNull(viewModel)
     }
 
     @Test
     fun `Content data source is not null`() {
         val given = "my_statement"
+
+        val viewModel: EditViewModel = get()
+
         val actual = viewModel.dataSource(viewModel.databasePath, given)
 
         assertNotNull(actual)
@@ -71,6 +75,8 @@ internal class EditViewModelTest : BaseViewModelTest() {
         val onData: suspend (List<Header>) -> Unit = mockk()
         val onError: suspend (Throwable) -> Unit = mockk()
         val useCase: UseCases.GetRawQueryHeaders = get()
+
+        val viewModel: EditViewModel = get()
 
         // coEvery { onData.invoke(any()) } returns mockk()
         coEvery { useCase.invoke(any()) } returns mockk()
@@ -89,6 +95,8 @@ internal class EditViewModelTest : BaseViewModelTest() {
         val onError: suspend (Throwable) -> Unit = mockk()
         val useCase: UseCases.GetRawQuery = get()
 
+        val viewModel: EditViewModel = get()
+
         // coEvery { action.invoke(any()) } returns mockk()
         coEvery { useCase.invoke(any()) } returns mockk()
 
@@ -105,6 +113,8 @@ internal class EditViewModelTest : BaseViewModelTest() {
         val onData: suspend (PagingData<Cell>) -> Unit = mockk()
         val onError: suspend (Throwable) -> Unit = mockk()
         val useCase: UseCases.GetAffectedRows = get()
+
+        val viewModel: EditViewModel = get()
 
         // coEvery { action.invoke(any()) } returns mockk()
         coEvery { useCase.invoke(any()) } returns mockk()

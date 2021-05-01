@@ -1,25 +1,21 @@
 package com.infinum.dbinspector.ui.pragma.indexes
 
-import com.infinum.dbinspector.domain.UseCases
-import com.infinum.dbinspector.shared.BaseViewModelTest
+import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import org.koin.test.inject
+import org.koin.test.get
 
-internal class IndexViewModelTest : BaseViewModelTest() {
-
-    override val viewModel: IndexViewModel by inject()
+@DisplayName("IndexViewModel tests")
+internal class IndexViewModelTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<UseCases.OpenConnection>() }
-            single { mockk<UseCases.CloseConnection>() }
-            single { mockk<UseCases.GetIndexes>() }
-            single { IndexViewModel(get(), get(), get()) }
+            factory { IndexViewModel(mockk(), mockk(), mockk()) }
         }
     )
 
@@ -27,6 +23,9 @@ internal class IndexViewModelTest : BaseViewModelTest() {
     fun `Get indexes pragma`() {
         val given = "my_table"
         val expected = "PRAGMA \"index_list\"(\"$given\")"
+
+        val viewModel: IndexViewModel = get()
+
         val actual = viewModel.pragmaStatement(given)
 
         assertTrue(actual.isNotBlank())

@@ -4,7 +4,7 @@ import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.settings.models.Settings
 import com.infinum.dbinspector.domain.shared.models.BlobPreviewMode
 import com.infinum.dbinspector.domain.shared.models.TruncateMode
-import com.infinum.dbinspector.shared.BaseViewModelTest
+import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -15,13 +15,10 @@ import org.junit.jupiter.params.provider.EnumSource
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.get
-import org.koin.test.inject
 import org.mockito.ArgumentMatchers.anyInt
 
-@DisplayName("Settings ViewModel tests")
-internal class SettingsViewModelTest : BaseViewModelTest() {
-
-    override val viewModel: SettingsViewModel by inject()
+@DisplayName("SettingsViewModel tests")
+internal class SettingsViewModelTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
@@ -32,7 +29,7 @@ internal class SettingsViewModelTest : BaseViewModelTest() {
             single { mockk<UseCases.SaveLinesCount>() }
             single { mockk<UseCases.SaveTruncateMode>() }
             single { mockk<UseCases.SaveBlobPreviewMode>() }
-            single { SettingsViewModel(get(), get(), get(), get(), get(), get(), get()) }
+            factory { SettingsViewModel(get(), get(), get(), get(), get(), get(), get()) }
         }
     )
 
@@ -43,6 +40,7 @@ internal class SettingsViewModelTest : BaseViewModelTest() {
         val result: Settings = mockk()
         coEvery { useCase.invoke(any()) } returns result
 
+        val viewModel: SettingsViewModel = get()
         viewModel.load(action)
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
@@ -57,6 +55,7 @@ internal class SettingsViewModelTest : BaseViewModelTest() {
         val result = "android_metadata"
         coEvery { useCase.invoke(any()) } returns Unit
 
+        val viewModel: SettingsViewModel = get()
         viewModel.saveIgnoredTableName(name, action)
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
@@ -71,6 +70,7 @@ internal class SettingsViewModelTest : BaseViewModelTest() {
         val result = "android_metadata"
         coEvery { useCase.invoke(any()) } returns Unit
 
+        val viewModel: SettingsViewModel = get()
         viewModel.removeIgnoredTableName(name, action)
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
@@ -83,6 +83,7 @@ internal class SettingsViewModelTest : BaseViewModelTest() {
         val useCase: UseCases.ToggleLinesLimit = get()
         coEvery { useCase.invoke(any()) } returns Unit
 
+        val viewModel: SettingsViewModel = get()
         viewModel.toggleLinesLimit(state)
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
@@ -94,6 +95,7 @@ internal class SettingsViewModelTest : BaseViewModelTest() {
         val useCase: UseCases.ToggleLinesLimit = get()
         coEvery { useCase.invoke(any()) } returns Unit
 
+        val viewModel: SettingsViewModel = get()
         viewModel.toggleLinesLimit(state)
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
@@ -104,6 +106,7 @@ internal class SettingsViewModelTest : BaseViewModelTest() {
         val useCase: UseCases.SaveLinesCount = get()
         coEvery { useCase.invoke(any()) } returns Unit
 
+        val viewModel: SettingsViewModel = get()
         viewModel.saveLinesCount(anyInt())
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
@@ -115,6 +118,7 @@ internal class SettingsViewModelTest : BaseViewModelTest() {
         val useCase: UseCases.SaveTruncateMode = get()
         coEvery { useCase.invoke(any()) } returns Unit
 
+        val viewModel: SettingsViewModel = get()
         viewModel.saveTruncateMode(truncateMode)
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
@@ -126,6 +130,7 @@ internal class SettingsViewModelTest : BaseViewModelTest() {
         val useCase: UseCases.SaveBlobPreviewMode = get()
         coEvery { useCase.invoke(any()) } returns Unit
 
+        val viewModel: SettingsViewModel = get()
         viewModel.saveBlobPreviewType(blobPreviewMode)
 
         coVerify(exactly = 1) { useCase.invoke(any()) }

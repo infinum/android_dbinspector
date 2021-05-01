@@ -3,7 +3,7 @@ package com.infinum.dbinspector.ui.databases.edit
 import android.content.Context
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
-import com.infinum.dbinspector.shared.BaseViewModelTest
+import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -12,18 +12,15 @@ import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.get
-import org.koin.test.inject
 
-@DisplayName("Edit database ViewModel tests")
-internal class EditDatabaseViewModelTest : BaseViewModelTest() {
-
-    override val viewModel: EditDatabaseViewModel by inject()
+@DisplayName("EditDatabaseViewModel tests")
+internal class EditDatabaseViewModelTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
             single { mockk<Context>() }
             single { mockk<UseCases.RenameDatabase>() }
-            single { EditDatabaseViewModel(get()) }
+            factory { EditDatabaseViewModel(get()) }
         }
     )
 
@@ -36,6 +33,8 @@ internal class EditDatabaseViewModelTest : BaseViewModelTest() {
         val useCase: UseCases.RenameDatabase = get()
         val result: List<DatabaseDescriptor> = listOf()
         coEvery { useCase.invoke(any()) } returns result
+
+        val viewModel: EditDatabaseViewModel = get()
 
         viewModel.rename(
             context,
@@ -57,6 +56,8 @@ internal class EditDatabaseViewModelTest : BaseViewModelTest() {
         val useCase: UseCases.RenameDatabase = get()
         val result: List<DatabaseDescriptor> = listOf(descriptor)
         coEvery { useCase.invoke(any()) } returns result
+
+        val viewModel: EditDatabaseViewModel = get()
 
         viewModel.rename(
             context,

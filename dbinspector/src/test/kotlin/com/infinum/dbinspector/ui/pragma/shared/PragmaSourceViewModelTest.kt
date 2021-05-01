@@ -6,28 +6,27 @@ import com.infinum.dbinspector.domain.shared.base.BaseUseCase
 import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.domain.shared.models.Page
 import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
-import com.infinum.dbinspector.shared.BaseViewModelTest
+import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.get
-import org.koin.test.inject
 
-internal class PragmaSourceViewModelTest : BaseViewModelTest() {
-
-    override val viewModel: PragmaSourceViewModel by inject()
+@DisplayName("PragmaSourceViewModel tests")
+internal class PragmaSourceViewModelTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
             single { mockk<UseCases.OpenConnection>() }
             single { mockk<UseCases.CloseConnection>() }
             single { mockk<BaseUseCase<PragmaParameters.Pragma, Page>>() }
-            single<PragmaSourceViewModel> {
+            factory<PragmaSourceViewModel> {
                 object : PragmaSourceViewModel(
                     get(),
                     get(),
@@ -43,12 +42,17 @@ internal class PragmaSourceViewModelTest : BaseViewModelTest() {
 
     @Test
     fun `Can be instantiated`() {
+        val viewModel: PragmaSourceViewModel = get()
+
         assertNotNull(viewModel)
     }
 
     @Test
     fun `Pragma source is not null`() {
         val given = "my_statement"
+
+        val viewModel: PragmaSourceViewModel = get()
+
         val actual = viewModel.dataSource(viewModel.databasePath, given)
 
         assertNotNull(actual)
@@ -60,6 +64,8 @@ internal class PragmaSourceViewModelTest : BaseViewModelTest() {
         val name = "my_statement"
         val action: suspend (PagingData<Cell>) -> Unit = mockk()
         val useCase: BaseUseCase<PragmaParameters.Pragma, Page> = get()
+
+        val viewModel: PragmaSourceViewModel = get()
 
         // coEvery { action.invoke(any()) } returns mockk()
         coEvery { viewModel.pageFlow(any(), any(), action) } returns Unit

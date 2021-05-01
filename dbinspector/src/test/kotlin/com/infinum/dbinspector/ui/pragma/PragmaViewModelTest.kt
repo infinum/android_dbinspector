@@ -1,25 +1,23 @@
 package com.infinum.dbinspector.ui.pragma
 
 import com.infinum.dbinspector.domain.UseCases
-import com.infinum.dbinspector.shared.BaseViewModelTest
-import com.infinum.dbinspector.ui.shared.base.BaseViewModel
+import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.get
 
-internal class PragmaViewModelTest : BaseViewModelTest() {
-
-    override val viewModel: BaseViewModel
-        get() = throw NotImplementedError()
+@DisplayName("PragmaViewModel tests")
+internal class PragmaViewModelTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
             single { mockk<UseCases.OpenConnection>() }
             single { mockk<UseCases.CloseConnection>() }
-            single { PragmaViewModel(get(), get()) }
+            factory { PragmaViewModel(get(), get()) }
         }
     )
 

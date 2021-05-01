@@ -4,19 +4,18 @@ import android.content.Context
 import android.net.Uri
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
-import com.infinum.dbinspector.shared.BaseViewModelTest
+import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.get
-import org.koin.test.inject
 
-internal class DatabaseViewModelTest : BaseViewModelTest() {
-
-    override val viewModel: DatabaseViewModel by inject()
+@DisplayName("DatabaseViewModel tests")
+internal class DatabaseViewModelTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
@@ -25,7 +24,7 @@ internal class DatabaseViewModelTest : BaseViewModelTest() {
             single { mockk<UseCases.ImportDatabases>() }
             single { mockk<UseCases.RemoveDatabase>() }
             single { mockk<UseCases.CopyDatabase>() }
-            single { DatabaseViewModel(get(), get(), get(), get()) }
+            factory { DatabaseViewModel(get(), get(), get(), get()) }
         }
     )
 
@@ -36,6 +35,8 @@ internal class DatabaseViewModelTest : BaseViewModelTest() {
         val useCase: UseCases.GetDatabases = get()
         val result: List<DatabaseDescriptor> = listOf()
         coEvery { useCase.invoke(any()) } returns result
+
+        val viewModel: DatabaseViewModel = get()
 
         viewModel.browse(context, query)
 
@@ -50,6 +51,8 @@ internal class DatabaseViewModelTest : BaseViewModelTest() {
         val result: List<DatabaseDescriptor> = listOf()
         coEvery { useCase.invoke(any()) } returns result
 
+        val viewModel: DatabaseViewModel = get()
+
         viewModel.browse(context, query)
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
@@ -62,6 +65,8 @@ internal class DatabaseViewModelTest : BaseViewModelTest() {
         val useCase: UseCases.ImportDatabases = get()
         val result: List<DatabaseDescriptor> = listOf()
         coEvery { useCase.invoke(any()) } returns result
+
+        val viewModel: DatabaseViewModel = get()
 
         viewModel.import(context, uris)
 
@@ -76,6 +81,8 @@ internal class DatabaseViewModelTest : BaseViewModelTest() {
         val result: List<DatabaseDescriptor> = listOf()
         coEvery { useCase.invoke(any()) } returns result
 
+        val viewModel: DatabaseViewModel = get()
+
         viewModel.import(context, uris)
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
@@ -88,6 +95,8 @@ internal class DatabaseViewModelTest : BaseViewModelTest() {
         val useCase: UseCases.ImportDatabases = get()
         val result: List<DatabaseDescriptor> = listOf()
         coEvery { useCase.invoke(any()) } returns result
+
+        val viewModel: DatabaseViewModel = get()
 
         viewModel.import(context, uris)
 
@@ -102,6 +111,8 @@ internal class DatabaseViewModelTest : BaseViewModelTest() {
         val result: List<DatabaseDescriptor> = listOf()
         coEvery { useCase.invoke(any()) } returns result
 
+        val viewModel: DatabaseViewModel = get()
+
         viewModel.remove(context, descriptor)
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
@@ -114,6 +125,8 @@ internal class DatabaseViewModelTest : BaseViewModelTest() {
         val useCase: UseCases.CopyDatabase = get()
         val result: List<DatabaseDescriptor> = listOf()
         coEvery { useCase.invoke(any()) } returns result
+
+        val viewModel: DatabaseViewModel = get()
 
         viewModel.copy(context, descriptor)
 

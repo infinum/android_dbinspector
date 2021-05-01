@@ -1,25 +1,21 @@
 package com.infinum.dbinspector.ui.pragma.tableinfo
 
-import com.infinum.dbinspector.domain.UseCases
-import com.infinum.dbinspector.shared.BaseViewModelTest
+import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import org.koin.test.inject
+import org.koin.test.get
 
-internal class TableInfoViewModelTest : BaseViewModelTest() {
-
-    override val viewModel: TableInfoViewModel by inject()
+@DisplayName("TableInfoViewModel tests")
+internal class TableInfoViewModelTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<UseCases.OpenConnection>() }
-            single { mockk<UseCases.CloseConnection>() }
-            single { mockk<UseCases.GetTablePragma>() }
-            single { TableInfoViewModel(get(), get(), get()) }
+            factory { TableInfoViewModel(mockk(), mockk(), mockk()) }
         }
     )
 
@@ -27,6 +23,9 @@ internal class TableInfoViewModelTest : BaseViewModelTest() {
     fun `Get table info pragma`() {
         val given = "my_table"
         val expected = "PRAGMA \"table_info\"(\"$given\")"
+
+        val viewModel: TableInfoViewModel = get()
+
         val actual = viewModel.pragmaStatement(given)
 
         assertTrue(actual.isNotBlank())

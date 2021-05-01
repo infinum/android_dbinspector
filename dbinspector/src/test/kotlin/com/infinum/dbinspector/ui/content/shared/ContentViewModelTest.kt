@@ -8,23 +8,22 @@ import com.infinum.dbinspector.domain.shared.models.Page
 import com.infinum.dbinspector.domain.shared.models.Sort
 import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
-import com.infinum.dbinspector.shared.BaseViewModelTest
+import com.infinum.dbinspector.shared.BaseTest
 import com.infinum.dbinspector.ui.shared.headers.Header
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.core.qualifier.StringQualifier
 import org.koin.dsl.module
 import org.koin.test.get
-import org.koin.test.inject
 
-internal class ContentViewModelTest : BaseViewModelTest() {
-
-    override val viewModel: ContentViewModel by inject()
+@DisplayName("ContentViewModel tests")
+internal class ContentViewModelTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
@@ -33,7 +32,7 @@ internal class ContentViewModelTest : BaseViewModelTest() {
             single(qualifier = StringQualifier("schemaInfo")) { mockk<BaseUseCase<PragmaParameters.Pragma, Page>>() }
             single(qualifier = StringQualifier("getSchema")) { mockk<BaseUseCase<ContentParameters, Page>>() }
             single(qualifier = StringQualifier("dropSchema")) { mockk<BaseUseCase<ContentParameters, Page>>() }
-            single<ContentViewModel> {
+            factory<ContentViewModel> {
                 object : ContentViewModel(
                     get(),
                     get(),
@@ -55,12 +54,17 @@ internal class ContentViewModelTest : BaseViewModelTest() {
 
     @Test
     fun `Can be instantiated`() {
+        val viewModel: ContentViewModel = get()
+
         assertNotNull(viewModel)
     }
 
     @Test
     fun `Content data source is not null`() {
         val given = "my_statement"
+
+        val viewModel: ContentViewModel = get()
+
         val actual = viewModel.dataSource(viewModel.databasePath, given)
 
         assertNotNull(actual)
@@ -75,6 +79,8 @@ internal class ContentViewModelTest : BaseViewModelTest() {
 
         // coEvery { action.invoke(any()) } returns mockk()
         coEvery { useCase.invoke(any()) } returns mockk()
+
+        val viewModel: ContentViewModel = get()
 
         viewModel.header(name, action)
 
@@ -92,6 +98,8 @@ internal class ContentViewModelTest : BaseViewModelTest() {
         // coEvery { action.invoke(any()) } returns mockk()
         coEvery { useCase.invoke(any()) } returns mockk()
 
+        val viewModel: ContentViewModel = get()
+
         viewModel.query(name, null, Sort.ASCENDING, action)
 
 //        coVerify(exactly = 1) { useCase.invoke(any()) }
@@ -107,6 +115,8 @@ internal class ContentViewModelTest : BaseViewModelTest() {
 
         // coEvery { action.invoke(any()) } returns mockk()
         coEvery { useCase.invoke(any()) } returns mockk()
+
+        val viewModel: ContentViewModel = get()
 
         viewModel.drop(name, action)
 

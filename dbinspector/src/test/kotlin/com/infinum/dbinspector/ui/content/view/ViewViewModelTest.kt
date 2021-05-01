@@ -2,20 +2,20 @@ package com.infinum.dbinspector.ui.content.view
 
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.shared.models.Sort
-import com.infinum.dbinspector.shared.BaseViewModelTest
+import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import org.koin.test.inject
+import org.koin.test.get
 
-internal class ViewViewModelTest : BaseViewModelTest() {
-
-    override val viewModel: ViewViewModel by inject()
+@DisplayName("ViewViewModel tests")
+internal class ViewViewModelTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
@@ -24,7 +24,7 @@ internal class ViewViewModelTest : BaseViewModelTest() {
             single { mockk<UseCases.GetTableInfo>() }
             single { mockk<UseCases.GetView>() }
             single { mockk<UseCases.DropView>() }
-            single { ViewViewModel(get(), get(), get(), get(), get()) }
+            factory { ViewViewModel(get(), get(), get(), get(), get()) }
         }
     )
 
@@ -32,6 +32,9 @@ internal class ViewViewModelTest : BaseViewModelTest() {
     fun `Get view header statement is not blank`() {
         val given = "my_view"
         val expected = "PRAGMA \"table_info\"(\"$given\")"
+
+        val viewModel: ViewViewModel = get()
+
         val actual = viewModel.headerStatement(given)
 
         assertTrue(actual.isNotBlank())
@@ -43,6 +46,9 @@ internal class ViewViewModelTest : BaseViewModelTest() {
     fun `Get view statement per sort is not blank`(sort: Sort) {
         val given = "my_view"
         val expected = "SELECT * FROM \"$given\""
+
+        val viewModel: ViewViewModel = get()
+
         val actual = viewModel.schemaStatement(given, null, sort)
 
         assertTrue(actual.isNotBlank())
@@ -53,6 +59,9 @@ internal class ViewViewModelTest : BaseViewModelTest() {
     fun `Drop view statement is not blank`() {
         val given = "my_view"
         val expected = "DROP VIEW \"$given\""
+
+        val viewModel: ViewViewModel = get()
+
         val actual = viewModel.dropStatement(given)
 
         assertTrue(actual.isNotBlank())
