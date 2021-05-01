@@ -6,7 +6,7 @@ import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.domain.settings.models.Settings
 import com.infinum.dbinspector.domain.shared.mappers.BlobPreviewModeMapper
 import com.infinum.dbinspector.domain.shared.mappers.TruncateModeMapper
-import com.infinum.dbinspector.shared.BaseMapperTest
+import com.infinum.dbinspector.shared.BaseTest
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -14,18 +14,16 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import org.koin.test.inject
+import org.koin.test.get
 
-@DisplayName("Settings mapper tests")
-internal class SettingsMapperTest : BaseMapperTest() {
-
-    override val mapper by inject<Mappers.Settings>()
+@DisplayName("SettingsMapper tests")
+internal class SettingsMapperTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
             single<Mappers.BlobPreviewMode> { BlobPreviewModeMapper() }
             single<Mappers.TruncateMode> { TruncateModeMapper() }
-            single<Mappers.Settings> { SettingsMapper(get(), get()) }
+            factory<Mappers.Settings> { SettingsMapper(get(), get()) }
         }
     )
 
@@ -34,6 +32,8 @@ internal class SettingsMapperTest : BaseMapperTest() {
         launch {
             val given = SettingsEntity.getDefaultInstance()
             val expected = Settings()
+
+            val mapper: Mappers.Settings = get()
             val actual = test {
                 mapper(given)
             }
@@ -47,9 +47,12 @@ internal class SettingsMapperTest : BaseMapperTest() {
                 .setLinesCount(3)
                 .build()
             val expected = Settings(linesCount = 3)
+
+            val mapper: Mappers.Settings = get()
             val actual = test {
                 mapper(given)
             }
+
             assertEquals(expected, actual)
         }
 
@@ -60,9 +63,12 @@ internal class SettingsMapperTest : BaseMapperTest() {
                 .setLinesCount(0)
                 .build()
             val expected = Settings(linesCount = Domain.Constants.Settings.LINES_LIMIT_MAXIMUM)
+
+            val mapper: Mappers.Settings = get()
             val actual = test {
                 mapper(given)
             }
+
             assertEquals(expected, actual)
         }
 
@@ -76,9 +82,12 @@ internal class SettingsMapperTest : BaseMapperTest() {
                         .build()
                 ).build()
             val expected = Settings(ignoredTableNames = listOf("android_metadata"))
+
+            val mapper: Mappers.Settings = get()
             val actual = test {
                 mapper(given)
             }
+
             assertEquals(expected, actual)
             assertFalse(expected.ignoredTableNames.isEmpty())
             assertTrue(expected.ignoredTableNames.size == 1)

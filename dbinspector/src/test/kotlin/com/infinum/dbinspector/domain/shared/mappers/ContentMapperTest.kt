@@ -7,24 +7,22 @@ import com.infinum.dbinspector.data.models.local.cursor.output.Row
 import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.domain.shared.models.Page
-import com.infinum.dbinspector.shared.BaseMapperTest
+import com.infinum.dbinspector.shared.BaseTest
 import kotlin.test.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import org.koin.test.inject
+import org.koin.test.get
 
-@DisplayName("Content mapper tests")
-internal class ContentMapperTest : BaseMapperTest() {
-
-    override val mapper by inject<Mappers.Content>()
+@DisplayName("ContentMapper tests")
+internal class ContentMapperTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
             single<Mappers.TruncateMode> { TruncateModeMapper() }
             single<Mappers.Cell> { CellMapper(get()) }
-            single<Mappers.Content> { ContentMapper(get()) }
+            factory<Mappers.Content> { ContentMapper(get()) }
         }
     )
 
@@ -37,6 +35,9 @@ internal class ContentMapperTest : BaseMapperTest() {
             val expected = Page(
                 cells = listOf()
             )
+
+            val mapper: Mappers.Content = get()
+
             val actual = test {
                 mapper(given)
             }
@@ -66,6 +67,9 @@ internal class ContentMapperTest : BaseMapperTest() {
                     )
                 )
             )
+
+            val mapper: Mappers.Content = get()
+
             val actual = test {
                 mapper(given)
             }

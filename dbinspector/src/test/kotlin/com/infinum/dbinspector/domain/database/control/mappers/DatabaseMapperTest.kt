@@ -2,23 +2,21 @@ package com.infinum.dbinspector.domain.database.control.mappers
 
 import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
-import com.infinum.dbinspector.shared.BaseMapperTest
+import com.infinum.dbinspector.shared.BaseTest
 import java.io.File
 import kotlin.test.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import org.koin.test.inject
+import org.koin.test.get
 
-@DisplayName("Database mapper tests")
-internal class DatabaseMapperTest : BaseMapperTest() {
-
-    override val mapper by inject<Mappers.Database>()
+@DisplayName("DatabaseMapper tests")
+internal class DatabaseMapperTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single<Mappers.Database> { DatabaseMapper() }
+            factory<Mappers.Database> { DatabaseMapper() }
         }
     )
 
@@ -32,9 +30,12 @@ internal class DatabaseMapperTest : BaseMapperTest() {
                 extension = "db",
                 parentPath = ""
             )
+
+            val mapper: Mappers.Database = get()
             val actual = test {
                 mapper(given)
             }
+
             assertEquals(expected, actual)
         }
 
@@ -48,9 +49,11 @@ internal class DatabaseMapperTest : BaseMapperTest() {
                 extension = "",
                 parentPath = ""
             )
+            val mapper: Mappers.Database = get()
             val actual = test {
                 mapper(given)
             }
+
             assertEquals(expected, actual)
         }
 
@@ -64,9 +67,12 @@ internal class DatabaseMapperTest : BaseMapperTest() {
                 extension = "db",
                 parentPath = ""
             )
+
+            val mapper: Mappers.Database = get()
             val actual = test {
                 mapper(given)
             }
+
             assertEquals(expected, actual)
         }
 
@@ -80,9 +86,12 @@ internal class DatabaseMapperTest : BaseMapperTest() {
                 extension = "",
                 parentPath = ""
             )
+
+            val mapper: Mappers.Database = get()
             val actual = test {
                 mapper(given)
             }
+
             assertEquals(expected, actual)
         }
 }

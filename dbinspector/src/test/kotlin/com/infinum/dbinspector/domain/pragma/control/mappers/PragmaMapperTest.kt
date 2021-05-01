@@ -7,7 +7,7 @@ import com.infinum.dbinspector.data.models.local.cursor.output.Row
 import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.domain.shared.models.Page
-import com.infinum.dbinspector.shared.BaseMapperTest
+import com.infinum.dbinspector.shared.BaseTest
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
@@ -16,16 +16,14 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import org.koin.test.inject
+import org.koin.test.get
 
-@DisplayName("Pragma mapper tests")
-internal class PragmaMapperTest : BaseMapperTest() {
-
-    override val mapper by inject<Mappers.Pragma>()
+@DisplayName("PragmaMapper tests")
+internal class PragmaMapperTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single<Mappers.Pragma> { PragmaMapper() }
+            factory<Mappers.Pragma> { PragmaMapper() }
         }
     )
 
@@ -38,9 +36,12 @@ internal class PragmaMapperTest : BaseMapperTest() {
             val expected = Page(
                 cells = listOf()
             )
+
+            val mapper: Mappers.Pragma = get()
             val actual = test {
                 mapper(given)
             }
+
             assertEquals(expected, actual)
         }
 
@@ -67,9 +68,12 @@ internal class PragmaMapperTest : BaseMapperTest() {
                     )
                 )
             )
+
+            val mapper: Mappers.Pragma = get()
             val actual = test {
                 mapper(given)
             }
+
             assertEquals(expected, actual)
             assertTrue(actual.cells.size == 1)
             assertNotNull(actual.cells.first().text)

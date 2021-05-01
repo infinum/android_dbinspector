@@ -5,7 +5,7 @@ import com.infinum.dbinspector.data.models.local.cursor.output.FieldType
 import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
 import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.domain.shared.models.Cell
-import com.infinum.dbinspector.shared.BaseMapperTest
+import com.infinum.dbinspector.shared.BaseTest
 import com.infinum.dbinspector.ui.Presentation
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -14,17 +14,15 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import org.koin.test.inject
+import org.koin.test.get
 
-@DisplayName("Cell mapper tests")
-internal class CellMapperTest : BaseMapperTest() {
-
-    override val mapper by inject<Mappers.Cell>()
+@DisplayName("CellMapper tests")
+internal class CellMapperTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
             single<Mappers.TruncateMode> { TruncateModeMapper() }
-            single<Mappers.Cell> { CellMapper(get()) }
+            factory<Mappers.Cell> { CellMapper(get()) }
         }
     )
 
@@ -38,6 +36,9 @@ internal class CellMapperTest : BaseMapperTest() {
             val expected = Cell(
                 text = "1"
             )
+
+            val mapper: Mappers.Cell = get()
+
             val actual = test {
                 mapper(given)
             }
@@ -57,6 +58,9 @@ internal class CellMapperTest : BaseMapperTest() {
             val expected = Cell(
                 text = "1.0"
             )
+
+            val mapper: Mappers.Cell = get()
+
             val actual = test {
                 mapper(given)
             }
@@ -76,6 +80,9 @@ internal class CellMapperTest : BaseMapperTest() {
             val expected = Cell(
                 text = "test"
             )
+
+            val mapper: Mappers.Cell = get()
+
             val actual = test {
                 mapper(given)
             }
@@ -98,6 +105,9 @@ internal class CellMapperTest : BaseMapperTest() {
                 text = "test",
                 data = byteArrayOf(116, 101, 115, 116)
             )
+
+            val mapper: Mappers.Cell = get()
+
             val actual = test {
                 mapper(given)
             }
@@ -120,6 +130,9 @@ internal class CellMapperTest : BaseMapperTest() {
                 text = Presentation.Constants.Settings.BLOB_DATA_PLACEHOLDER,
                 data = byteArrayOf(116, 101, 115, 116)
             )
+
+            val mapper: Mappers.Cell = get()
+
             val actual = test {
                 mapper(given)
             }
@@ -142,6 +155,9 @@ internal class CellMapperTest : BaseMapperTest() {
                 text = "74657374",
                 data = byteArrayOf(116, 101, 115, 116)
             )
+
+            val mapper: Mappers.Cell = get()
+
             val actual = test {
                 mapper(given)
             }
@@ -162,6 +178,9 @@ internal class CellMapperTest : BaseMapperTest() {
                 text = "dGVzdA==",
                 data = byteArrayOf(116, 101, 115, 116)
             )
+
+            val mapper: Mappers.Cell = get()
+
             val actual = test {
                 mapper(given)
             }
@@ -182,6 +201,9 @@ internal class CellMapperTest : BaseMapperTest() {
                 text = "test",
                 data = byteArrayOf(116, 101, 115, 116)
             )
+
+            val mapper: Mappers.Cell = get()
+
             val actual = test {
                 mapper(given)
             }
