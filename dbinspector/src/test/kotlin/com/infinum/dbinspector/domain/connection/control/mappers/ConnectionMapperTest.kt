@@ -25,7 +25,7 @@ internal class ConnectionMapperTest : BaseTest() {
     @Test
     fun `Default local values maps to default domain values`() =
         launch {
-            val given: SQLiteDatabase = mockk()
+            val given: SQLiteDatabase = get()
             val expected = DatabaseConnection(database = given)
 
             val mapper: Mappers.Connection = get()

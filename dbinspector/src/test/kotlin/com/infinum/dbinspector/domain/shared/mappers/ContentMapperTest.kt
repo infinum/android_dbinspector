@@ -8,6 +8,9 @@ import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.domain.shared.models.Page
 import com.infinum.dbinspector.shared.BaseTest
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.mockk
 import kotlin.test.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -20,8 +23,7 @@ internal class ContentMapperTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single<Mappers.TruncateMode> { TruncateModeMapper() }
-            single<Mappers.Cell> { CellMapper(get()) }
+            single<Mappers.Cell> { mockk<CellMapper>() }
             factory<Mappers.Content> { ContentMapper(get()) }
         }
     )
@@ -37,10 +39,14 @@ internal class ContentMapperTest : BaseTest() {
             )
 
             val mapper: Mappers.Content = get()
+            val cellMapper: Mappers.Cell = get()
 
+            coEvery { cellMapper.invoke(any()) } returns mockk()
             val actual = test {
                 mapper(given)
             }
+
+            coVerify(exactly = 0) { cellMapper.invoke(any()) }
             assertEquals(expected, actual)
         }
 
@@ -60,19 +66,24 @@ internal class ContentMapperTest : BaseTest() {
                     )
                 )
             )
+            val expectedCell = Cell(
+                text = "1"
+            )
             val expected = Page(
                 cells = listOf(
-                    Cell(
-                        text = "1"
-                    )
+                    expectedCell
                 )
             )
 
             val mapper: Mappers.Content = get()
+            val cellMapper: Mappers.Cell = get()
 
+            coEvery { cellMapper.invoke(any()) } returns expectedCell
             val actual = test {
                 mapper(given)
             }
+
+            coVerify(exactly = 1) { cellMapper.invoke(any()) }
             assertEquals(expected, actual)
         }
 }

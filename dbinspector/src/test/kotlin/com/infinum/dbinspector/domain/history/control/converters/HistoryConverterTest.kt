@@ -5,6 +5,7 @@ import com.infinum.dbinspector.data.models.local.proto.output.HistoryEntity
 import com.infinum.dbinspector.domain.Converters
 import com.infinum.dbinspector.domain.shared.models.parameters.HistoryParameters
 import com.infinum.dbinspector.shared.BaseTest
+import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -24,9 +25,7 @@ internal class HistoryConverterTest : BaseTest() {
 
     @Test
     fun `Invoke is not implemented and should throw AbstractMethodError`() {
-        val given = HistoryParameters.All(
-            databasePath = "test.db",
-        )
+        val given = mockk<HistoryParameters>()
 
         val converter: Converters.History = get()
 

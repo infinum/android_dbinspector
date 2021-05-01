@@ -5,6 +5,9 @@ import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.domain.history.models.Execution
 import com.infinum.dbinspector.domain.history.models.History
 import com.infinum.dbinspector.shared.BaseTest
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.mockk
 import kotlin.test.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -17,7 +20,7 @@ internal class HistoryMapperTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single<Mappers.Execution> { ExecutionMapper() }
+            single<Mappers.Execution> { mockk<ExecutionMapper>() }
             factory<Mappers.History> { HistoryMapper(get()) }
         }
     )
@@ -26,12 +29,18 @@ internal class HistoryMapperTest : BaseTest() {
     fun `Empty local values maps to empty domain values`() =
         launch {
             val given = HistoryEntity.getDefaultInstance()
+
             val expected = History()
 
             val mapper: Mappers.History = get()
+            val executionMapper: Mappers.Execution = get()
+
+            coEvery { executionMapper.invoke(any()) } returns mockk()
             val actual = test {
                 mapper(given)
             }
+
+            coVerify(exactly = 0) { executionMapper.invoke(any()) }
             assertEquals(expected, actual)
         }
 
@@ -45,21 +54,27 @@ internal class HistoryMapperTest : BaseTest() {
                     .setSuccess(true)
                     .build()
             ).build()
+
+            val expectedExecution = Execution(
+                statement = "SELECT * FROM users",
+                timestamp = 1L,
+                isSuccessful = true
+            )
             val expected = History(
                 executions = listOf(
-                    Execution(
-                        statement = "SELECT * FROM users",
-                        timestamp = 1L,
-                        isSuccessful = true
-                    )
+                    expectedExecution
                 )
             )
 
             val mapper: Mappers.History = get()
+            val executionMapper: Mappers.Execution = get()
+
+            coEvery { executionMapper.invoke(any()) } returns expectedExecution
             val actual = test {
                 mapper(given)
             }
 
+            coVerify(exactly = 1) { executionMapper.invoke(any()) }
             assertEquals(expected, actual)
         }
 }

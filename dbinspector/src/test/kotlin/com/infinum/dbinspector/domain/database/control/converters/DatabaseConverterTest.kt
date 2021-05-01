@@ -28,12 +28,7 @@ internal class DatabaseConverterTest : BaseTest() {
 
     @Test
     fun `Invoke is not implemented and should throw AbstractMethodError`() {
-        val context: Context = get()
-
-        val given = DatabaseParameters.Get(
-            context = context,
-            argument = null
-        )
+        val given = mockk<DatabaseParameters>()
 
         val converter: Converters.Database = get()
 
@@ -47,14 +42,12 @@ internal class DatabaseConverterTest : BaseTest() {
     @Test
     fun `Get converts to data operation with same values`() =
         launch {
-            val context: Context = get()
-
             val given = DatabaseParameters.Get(
-                context = context,
+                context = get(),
                 argument = "test"
             )
             val expected = Operation(
-                context = context,
+                context = get(),
                 argument = "test"
             )
 
@@ -70,14 +63,12 @@ internal class DatabaseConverterTest : BaseTest() {
     @Test
     fun `Import empty list converts to data operation with empty values`() =
         launch {
-            val context: Context = get()
-
             val given = DatabaseParameters.Import(
-                context = context,
+                context = get(),
                 importUris = listOf()
             )
             val expected = Operation(
-                context = context,
+                context = get(),
                 importUris = listOf()
             )
 
@@ -93,16 +84,14 @@ internal class DatabaseConverterTest : BaseTest() {
     @Test
     fun `Import converts to data operation with same values`() =
         launch {
-            val context: Context = get()
-
             val given = DatabaseParameters.Import(
-                context = context,
+                context = get(),
                 importUris = listOf(
                     Uri.parse("file://test.db")
                 )
             )
             val expected = Operation(
-                context = context,
+                context = get(),
                 importUris = listOf(
                     Uri.parse("file://test.db")
                 )
@@ -120,10 +109,8 @@ internal class DatabaseConverterTest : BaseTest() {
     @Test
     fun `Rename converts to data operation with same values`() =
         launch {
-            val context: Context = get()
-
             val given = DatabaseParameters.Rename(
-                context = context,
+                context = get(),
                 databaseDescriptor = DatabaseDescriptor(
                     exists = false,
                     name = "test",
@@ -133,7 +120,7 @@ internal class DatabaseConverterTest : BaseTest() {
                 argument = "new_test"
             )
             val expected = Operation(
-                context = context,
+                context = get(),
                 databaseDescriptor = DatabaseDescriptor(
                     exists = false,
                     name = "test",
@@ -155,10 +142,8 @@ internal class DatabaseConverterTest : BaseTest() {
     @Test
     fun `Command converts to data operation with same values`() =
         launch {
-            val context: Context = get()
-
             val given = DatabaseParameters.Command(
-                context = context,
+                context = get(),
                 databaseDescriptor = DatabaseDescriptor(
                     exists = false,
                     name = "test",
@@ -167,7 +152,7 @@ internal class DatabaseConverterTest : BaseTest() {
                 )
             )
             val expected = Operation(
-                context = context,
+                context = get(),
                 databaseDescriptor = DatabaseDescriptor(
                     exists = false,
                     name = "test",

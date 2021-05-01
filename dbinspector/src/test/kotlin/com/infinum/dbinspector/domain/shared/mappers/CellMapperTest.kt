@@ -5,8 +5,12 @@ import com.infinum.dbinspector.data.models.local.cursor.output.FieldType
 import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
 import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.domain.shared.models.Cell
+import com.infinum.dbinspector.domain.shared.models.TruncateMode
 import com.infinum.dbinspector.shared.BaseTest
 import com.infinum.dbinspector.ui.Presentation
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.mockk
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
@@ -21,7 +25,7 @@ internal class CellMapperTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single<Mappers.TruncateMode> { TruncateModeMapper() }
+            single<Mappers.TruncateMode> { mockk<TruncateModeMapper>() }
             factory<Mappers.Cell> { CellMapper(get()) }
         }
     )
@@ -31,17 +35,23 @@ internal class CellMapperTest : BaseTest() {
         launch {
             val given = Field(
                 type = FieldType.INTEGER,
-                text = "1"
+                text = "1",
+                truncate = SettingsEntity.TruncateMode.START
             )
             val expected = Cell(
-                text = "1"
+                text = "1",
+                truncateMode = TruncateMode.START
             )
 
             val mapper: Mappers.Cell = get()
+            val truncateMapper: Mappers.TruncateMode = get()
 
+            coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
             val actual = test {
                 mapper(given)
             }
+
+            coVerify(exactly = 1) { truncateMapper.invoke(any()) }
             assertEquals(expected, actual)
             assertNotNull(actual.text)
             assertNull(actual.data)
@@ -60,10 +70,14 @@ internal class CellMapperTest : BaseTest() {
             )
 
             val mapper: Mappers.Cell = get()
+            val truncateMapper: Mappers.TruncateMode = get()
 
+            coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
             val actual = test {
                 mapper(given)
             }
+
+            coVerify(exactly = 1) { truncateMapper.invoke(any()) }
             assertEquals(expected, actual)
             assertNotNull(actual.text)
             assertNull(actual.data)
@@ -82,10 +96,14 @@ internal class CellMapperTest : BaseTest() {
             )
 
             val mapper: Mappers.Cell = get()
+            val truncateMapper: Mappers.TruncateMode = get()
 
+            coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
             val actual = test {
                 mapper(given)
             }
+
+            coVerify(exactly = 1) { truncateMapper.invoke(any()) }
             assertEquals(expected, actual)
             assertNotNull(actual.text)
             assertNull(actual.data)
@@ -107,10 +125,14 @@ internal class CellMapperTest : BaseTest() {
             )
 
             val mapper: Mappers.Cell = get()
+            val truncateMapper: Mappers.TruncateMode = get()
 
+            coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
             val actual = test {
                 mapper(given)
             }
+
+            coVerify(exactly = 1) { truncateMapper.invoke(any()) }
             assertEquals(expected, actual)
             assertNotNull(actual.text)
             assertNotNull(actual.data)
@@ -132,10 +154,14 @@ internal class CellMapperTest : BaseTest() {
             )
 
             val mapper: Mappers.Cell = get()
+            val truncateMapper: Mappers.TruncateMode = get()
 
+            coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
             val actual = test {
                 mapper(given)
             }
+
+            coVerify(exactly = 1) { truncateMapper.invoke(any()) }
             assertEquals(expected, actual)
             assertNotNull(actual.text)
             assertNotNull(actual.data)
@@ -157,10 +183,14 @@ internal class CellMapperTest : BaseTest() {
             )
 
             val mapper: Mappers.Cell = get()
+            val truncateMapper: Mappers.TruncateMode = get()
 
+            coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
             val actual = test {
                 mapper(given)
             }
+
+            coVerify(exactly = 1) { truncateMapper.invoke(any()) }
             assertEquals(expected, actual)
             assertNotNull(actual.text)
             assertNotNull(actual.data)
@@ -180,10 +210,14 @@ internal class CellMapperTest : BaseTest() {
             )
 
             val mapper: Mappers.Cell = get()
+            val truncateMapper: Mappers.TruncateMode = get()
 
+            coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
             val actual = test {
                 mapper(given)
             }
+
+            coVerify(exactly = 1) { truncateMapper.invoke(any()) }
             assertEquals(expected, actual)
             assertNotNull(actual.text)
             assertNotNull(actual.data)
@@ -203,10 +237,14 @@ internal class CellMapperTest : BaseTest() {
             )
 
             val mapper: Mappers.Cell = get()
+            val truncateMapper: Mappers.TruncateMode = get()
 
+            coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
             val actual = test {
                 mapper(given)
             }
+
+            coVerify(exactly = 1) { truncateMapper.invoke(any()) }
             assertEquals(expected, actual)
             assertNotNull(actual.text)
             assertNotNull(actual.data)

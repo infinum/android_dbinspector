@@ -10,9 +10,13 @@ import com.infinum.dbinspector.domain.shared.models.BlobPreviewMode
 import com.infinum.dbinspector.domain.shared.models.TruncateMode
 import com.infinum.dbinspector.domain.shared.models.parameters.SettingsParameters
 import com.infinum.dbinspector.shared.BaseTest
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.mockk
 import kotlin.test.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.get
@@ -22,11 +26,24 @@ internal class SettingsConverterTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single<Converters.TruncateMode> { TruncateModeConverter() }
-            single<Converters.BlobPreview> { BlobPreviewConverter() }
+            single<Converters.TruncateMode> { mockk<TruncateModeConverter>() }
+            single<Converters.BlobPreview> { mockk<BlobPreviewConverter>() }
             factory<Converters.Settings> { SettingsConverter(get(), get()) }
         }
     )
+
+    @Test
+    fun `Invoke is not implemented and should throw AbstractMethodError`() {
+        val given = mockk<SettingsParameters>()
+
+        val converter: Converters.Settings = get()
+
+        assertThrows<AbstractMethodError> {
+            runBlockingTest {
+                converter.invoke(given)
+            }
+        }
+    }
 
     @Test
     fun `Get converts to default data task values`() =
@@ -35,11 +52,17 @@ internal class SettingsConverterTest : BaseTest() {
             val expected = SettingsTask()
 
             val converter: Converters.Settings = get()
+            val truncateModeConverter: Converters.TruncateMode = get()
+            val blobPreviewConverter: Converters.BlobPreview = get()
 
+            coEvery { truncateModeConverter.invoke(any()) } returns mockk()
+            coEvery { blobPreviewConverter.invoke(any()) } returns mockk()
             val actual = test {
                 converter get given
             }
 
+            coVerify(exactly = 0) { truncateModeConverter.invoke(any()) }
+            coVerify(exactly = 0) { blobPreviewConverter.invoke(any()) }
             assertEquals(expected, actual)
         }
 
@@ -50,11 +73,17 @@ internal class SettingsConverterTest : BaseTest() {
             val expected = SettingsTask(linesLimited = true)
 
             val converter: Converters.Settings = get()
+            val truncateModeConverter: Converters.TruncateMode = get()
+            val blobPreviewConverter: Converters.BlobPreview = get()
 
+            coEvery { truncateModeConverter.invoke(any()) } returns mockk()
+            coEvery { blobPreviewConverter.invoke(any()) } returns mockk()
             val actual = test {
                 converter linesLimit given
             }
 
+            coVerify(exactly = 0) { truncateModeConverter.invoke(any()) }
+            coVerify(exactly = 0) { blobPreviewConverter.invoke(any()) }
             assertEquals(expected, actual)
         }
 
@@ -65,11 +94,17 @@ internal class SettingsConverterTest : BaseTest() {
             val expected = SettingsTask(linesLimited = false)
 
             val converter: Converters.Settings = get()
+            val truncateModeConverter: Converters.TruncateMode = get()
+            val blobPreviewConverter: Converters.BlobPreview = get()
 
+            coEvery { truncateModeConverter.invoke(any()) } returns mockk()
+            coEvery { blobPreviewConverter.invoke(any()) } returns mockk()
             val actual = test {
                 converter linesLimit given
             }
 
+            coVerify(exactly = 0) { truncateModeConverter.invoke(any()) }
+            coVerify(exactly = 0) { blobPreviewConverter.invoke(any()) }
             assertEquals(expected, actual)
         }
 
@@ -80,11 +115,17 @@ internal class SettingsConverterTest : BaseTest() {
             val expected = SettingsTask(linesCount = 3)
 
             val converter: Converters.Settings = get()
+            val truncateModeConverter: Converters.TruncateMode = get()
+            val blobPreviewConverter: Converters.BlobPreview = get()
 
+            coEvery { truncateModeConverter.invoke(any()) } returns mockk()
+            coEvery { blobPreviewConverter.invoke(any()) } returns mockk()
             val actual = test {
                 converter linesCount given
             }
 
+            coVerify(exactly = 0) { truncateModeConverter.invoke(any()) }
+            coVerify(exactly = 0) { blobPreviewConverter.invoke(any()) }
             assertEquals(expected, actual)
         }
 
@@ -95,11 +136,17 @@ internal class SettingsConverterTest : BaseTest() {
             val expected = SettingsTask(linesCount = Data.Constants.Settings.LINES_LIMIT_MAXIMUM)
 
             val converter: Converters.Settings = get()
+            val truncateModeConverter: Converters.TruncateMode = get()
+            val blobPreviewConverter: Converters.BlobPreview = get()
 
+            coEvery { truncateModeConverter.invoke(any()) } returns mockk()
+            coEvery { blobPreviewConverter.invoke(any()) } returns mockk()
             val actual = test {
                 converter linesCount given
             }
 
+            coVerify(exactly = 0) { truncateModeConverter.invoke(any()) }
+            coVerify(exactly = 0) { blobPreviewConverter.invoke(any()) }
             assertEquals(expected, actual)
         }
 
@@ -110,11 +157,17 @@ internal class SettingsConverterTest : BaseTest() {
             val expected = SettingsTask(truncateMode = SettingsEntity.TruncateMode.START)
 
             val converter: Converters.Settings = get()
+            val truncateModeConverter: Converters.TruncateMode = get()
+            val blobPreviewConverter: Converters.BlobPreview = get()
 
+            coEvery { truncateModeConverter.invoke(any()) } returns SettingsEntity.TruncateMode.START
+            coEvery { blobPreviewConverter.invoke(any()) } returns mockk()
             val actual = test {
                 converter truncateMode given
             }
 
+            coVerify(exactly = 1) { truncateModeConverter.invoke(any()) }
+            coVerify(exactly = 0) { blobPreviewConverter.invoke(any()) }
             assertEquals(expected, actual)
         }
 
@@ -125,11 +178,17 @@ internal class SettingsConverterTest : BaseTest() {
             val expected = SettingsTask(truncateMode = SettingsEntity.TruncateMode.MIDDLE)
 
             val converter: Converters.Settings = get()
+            val truncateModeConverter: Converters.TruncateMode = get()
+            val blobPreviewConverter: Converters.BlobPreview = get()
 
+            coEvery { truncateModeConverter.invoke(any()) } returns SettingsEntity.TruncateMode.MIDDLE
+            coEvery { blobPreviewConverter.invoke(any()) } returns mockk()
             val actual = test {
                 converter truncateMode given
             }
 
+            coVerify(exactly = 1) { truncateModeConverter.invoke(any()) }
+            coVerify(exactly = 0) { blobPreviewConverter.invoke(any()) }
             assertEquals(expected, actual)
         }
 
@@ -140,11 +199,17 @@ internal class SettingsConverterTest : BaseTest() {
             val expected = SettingsTask(truncateMode = SettingsEntity.TruncateMode.END)
 
             val converter: Converters.Settings = get()
+            val truncateModeConverter: Converters.TruncateMode = get()
+            val blobPreviewConverter: Converters.BlobPreview = get()
 
+            coEvery { truncateModeConverter.invoke(any()) } returns SettingsEntity.TruncateMode.END
+            coEvery { blobPreviewConverter.invoke(any()) } returns mockk()
             val actual = test {
                 converter truncateMode given
             }
 
+            coVerify(exactly = 1) { truncateModeConverter.invoke(any()) }
+            coVerify(exactly = 0) { blobPreviewConverter.invoke(any()) }
             assertEquals(expected, actual)
         }
 
@@ -155,11 +220,17 @@ internal class SettingsConverterTest : BaseTest() {
             val expected = SettingsTask(blobPreviewMode = SettingsEntity.BlobPreviewMode.UNRECOGNIZED)
 
             val converter: Converters.Settings = get()
+            val truncateModeConverter: Converters.TruncateMode = get()
+            val blobPreviewConverter: Converters.BlobPreview = get()
 
+            coEvery { truncateModeConverter.invoke(any()) } returns mockk()
+            coEvery { blobPreviewConverter.invoke(any()) } returns SettingsEntity.BlobPreviewMode.UNRECOGNIZED
             val actual = test {
                 converter blobPreviewMode given
             }
 
+            coVerify(exactly = 0) { truncateModeConverter.invoke(any()) }
+            coVerify(exactly = 1) { blobPreviewConverter.invoke(any()) }
             assertEquals(expected, actual)
         }
 
@@ -170,11 +241,17 @@ internal class SettingsConverterTest : BaseTest() {
             val expected = SettingsTask(blobPreviewMode = SettingsEntity.BlobPreviewMode.PLACEHOLDER)
 
             val converter: Converters.Settings = get()
+            val truncateModeConverter: Converters.TruncateMode = get()
+            val blobPreviewConverter: Converters.BlobPreview = get()
 
+            coEvery { truncateModeConverter.invoke(any()) } returns mockk()
+            coEvery { blobPreviewConverter.invoke(any()) } returns SettingsEntity.BlobPreviewMode.PLACEHOLDER
             val actual = test {
                 converter blobPreviewMode given
             }
 
+            coVerify(exactly = 0) { truncateModeConverter.invoke(any()) }
+            coVerify(exactly = 1) { blobPreviewConverter.invoke(any()) }
             assertEquals(expected, actual)
         }
 
@@ -185,11 +262,17 @@ internal class SettingsConverterTest : BaseTest() {
             val expected = SettingsTask(blobPreviewMode = SettingsEntity.BlobPreviewMode.UTF8)
 
             val converter: Converters.Settings = get()
+            val truncateModeConverter: Converters.TruncateMode = get()
+            val blobPreviewConverter: Converters.BlobPreview = get()
 
+            coEvery { truncateModeConverter.invoke(any()) } returns mockk()
+            coEvery { blobPreviewConverter.invoke(any()) } returns SettingsEntity.BlobPreviewMode.UTF8
             val actual = test {
                 converter blobPreviewMode given
             }
 
+            coVerify(exactly = 0) { truncateModeConverter.invoke(any()) }
+            coVerify(exactly = 1) { blobPreviewConverter.invoke(any()) }
             assertEquals(expected, actual)
         }
 
@@ -200,11 +283,17 @@ internal class SettingsConverterTest : BaseTest() {
             val expected = SettingsTask(blobPreviewMode = SettingsEntity.BlobPreviewMode.HEX)
 
             val converter: Converters.Settings = get()
+            val truncateModeConverter: Converters.TruncateMode = get()
+            val blobPreviewConverter: Converters.BlobPreview = get()
 
+            coEvery { truncateModeConverter.invoke(any()) } returns mockk()
+            coEvery { blobPreviewConverter.invoke(any()) } returns SettingsEntity.BlobPreviewMode.HEX
             val actual = test {
                 converter blobPreviewMode given
             }
 
+            coVerify(exactly = 0) { truncateModeConverter.invoke(any()) }
+            coVerify(exactly = 1) { blobPreviewConverter.invoke(any()) }
             assertEquals(expected, actual)
         }
 
@@ -215,11 +304,17 @@ internal class SettingsConverterTest : BaseTest() {
             val expected = SettingsTask(blobPreviewMode = SettingsEntity.BlobPreviewMode.BASE64)
 
             val converter: Converters.Settings = get()
+            val truncateModeConverter: Converters.TruncateMode = get()
+            val blobPreviewConverter: Converters.BlobPreview = get()
 
+            coEvery { truncateModeConverter.invoke(any()) } returns mockk()
+            coEvery { blobPreviewConverter.invoke(any()) } returns SettingsEntity.BlobPreviewMode.BASE64
             val actual = test {
                 converter blobPreviewMode given
             }
 
+            coVerify(exactly = 0) { truncateModeConverter.invoke(any()) }
+            coVerify(exactly = 1) { blobPreviewConverter.invoke(any()) }
             assertEquals(expected, actual)
         }
 
@@ -230,11 +325,17 @@ internal class SettingsConverterTest : BaseTest() {
             val expected = SettingsTask(ignoredTableName = "")
 
             val converter: Converters.Settings = get()
+            val truncateModeConverter: Converters.TruncateMode = get()
+            val blobPreviewConverter: Converters.BlobPreview = get()
 
+            coEvery { truncateModeConverter.invoke(any()) } returns mockk()
+            coEvery { blobPreviewConverter.invoke(any()) } returns mockk()
             val actual = test {
                 converter ignoredTableName given
             }
 
+            coVerify(exactly = 0) { truncateModeConverter.invoke(any()) }
+            coVerify(exactly = 0) { blobPreviewConverter.invoke(any()) }
             assertEquals(expected, actual)
         }
 
@@ -245,11 +346,17 @@ internal class SettingsConverterTest : BaseTest() {
             val expected = SettingsTask(ignoredTableName = "android_metadata")
 
             val converter: Converters.Settings = get()
+            val truncateModeConverter: Converters.TruncateMode = get()
+            val blobPreviewConverter: Converters.BlobPreview = get()
 
+            coEvery { truncateModeConverter.invoke(any()) } returns mockk()
+            coEvery { blobPreviewConverter.invoke(any()) } returns mockk()
             val actual = test {
                 converter ignoredTableName given
             }
 
+            coVerify(exactly = 0) { truncateModeConverter.invoke(any()) }
+            coVerify(exactly = 0) { blobPreviewConverter.invoke(any()) }
             assertEquals(expected, actual)
         }
 }

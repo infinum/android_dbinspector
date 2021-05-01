@@ -7,6 +7,9 @@ import com.infinum.dbinspector.domain.settings.models.Settings
 import com.infinum.dbinspector.domain.shared.mappers.BlobPreviewModeMapper
 import com.infinum.dbinspector.domain.shared.mappers.TruncateModeMapper
 import com.infinum.dbinspector.shared.BaseTest
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.mockk
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -21,8 +24,8 @@ internal class SettingsMapperTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single<Mappers.BlobPreviewMode> { BlobPreviewModeMapper() }
-            single<Mappers.TruncateMode> { TruncateModeMapper() }
+            single<Mappers.BlobPreviewMode> { mockk<BlobPreviewModeMapper>() }
+            single<Mappers.TruncateMode> { mockk<TruncateModeMapper>() }
             factory<Mappers.Settings> { SettingsMapper(get(), get()) }
         }
     )
@@ -34,9 +37,17 @@ internal class SettingsMapperTest : BaseTest() {
             val expected = Settings()
 
             val mapper: Mappers.Settings = get()
+            val trucateModeMapper: Mappers.TruncateMode = get()
+            val blobPreviewModeMapper: Mappers.BlobPreviewMode = get()
+
+            coEvery { trucateModeMapper.invoke(any()) } returns expected.truncateMode
+            coEvery { blobPreviewModeMapper.invoke(any()) } returns expected.blobPreviewMode
             val actual = test {
                 mapper(given)
             }
+
+            coVerify(exactly = 1) { trucateModeMapper.invoke(any()) }
+            coVerify(exactly = 1) { blobPreviewModeMapper.invoke(any()) }
             assertEquals(expected, actual)
         }
 
@@ -49,10 +60,17 @@ internal class SettingsMapperTest : BaseTest() {
             val expected = Settings(linesCount = 3)
 
             val mapper: Mappers.Settings = get()
+            val trucateModeMapper: Mappers.TruncateMode = get()
+            val blobPreviewModeMapper: Mappers.BlobPreviewMode = get()
+
+            coEvery { trucateModeMapper.invoke(any()) } returns expected.truncateMode
+            coEvery { blobPreviewModeMapper.invoke(any()) } returns expected.blobPreviewMode
             val actual = test {
                 mapper(given)
             }
 
+            coVerify(exactly = 1) { trucateModeMapper.invoke(any()) }
+            coVerify(exactly = 1) { blobPreviewModeMapper.invoke(any()) }
             assertEquals(expected, actual)
         }
 
@@ -65,10 +83,17 @@ internal class SettingsMapperTest : BaseTest() {
             val expected = Settings(linesCount = Domain.Constants.Settings.LINES_LIMIT_MAXIMUM)
 
             val mapper: Mappers.Settings = get()
+            val trucateModeMapper: Mappers.TruncateMode = get()
+            val blobPreviewModeMapper: Mappers.BlobPreviewMode = get()
+
+            coEvery { trucateModeMapper.invoke(any()) } returns expected.truncateMode
+            coEvery { blobPreviewModeMapper.invoke(any()) } returns expected.blobPreviewMode
             val actual = test {
                 mapper(given)
             }
 
+            coVerify(exactly = 1) { trucateModeMapper.invoke(any()) }
+            coVerify(exactly = 1) { blobPreviewModeMapper.invoke(any()) }
             assertEquals(expected, actual)
         }
 
@@ -84,10 +109,17 @@ internal class SettingsMapperTest : BaseTest() {
             val expected = Settings(ignoredTableNames = listOf("android_metadata"))
 
             val mapper: Mappers.Settings = get()
+            val trucateModeMapper: Mappers.TruncateMode = get()
+            val blobPreviewModeMapper: Mappers.BlobPreviewMode = get()
+
+            coEvery { trucateModeMapper.invoke(any()) } returns expected.truncateMode
+            coEvery { blobPreviewModeMapper.invoke(any()) } returns expected.blobPreviewMode
             val actual = test {
                 mapper(given)
             }
 
+            coVerify(exactly = 1) { trucateModeMapper.invoke(any()) }
+            coVerify(exactly = 1) { blobPreviewModeMapper.invoke(any()) }
             assertEquals(expected, actual)
             assertFalse(expected.ignoredTableNames.isEmpty())
             assertTrue(expected.ignoredTableNames.size == 1)
