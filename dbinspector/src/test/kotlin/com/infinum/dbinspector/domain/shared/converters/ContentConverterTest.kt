@@ -3,23 +3,21 @@ package com.infinum.dbinspector.domain.shared.converters
 import com.infinum.dbinspector.data.models.local.cursor.input.Query
 import com.infinum.dbinspector.domain.Converters
 import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
-import com.infinum.dbinspector.shared.BaseConverterTest
+import com.infinum.dbinspector.shared.BaseTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import org.koin.test.inject
+import org.koin.test.get
 
-@DisplayName("Content converter tests")
-internal class ContentConverterTest : BaseConverterTest() {
-
-    override val converter by inject<Converters.Content>()
+@DisplayName("ContentConverter tests")
+internal class ContentConverterTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
             single<Converters.Sort> { SortConverter() }
-            single<Converters.Content> { ContentConverter(get()) }
+            factory<Converters.Content> { ContentConverter(get()) }
         }
     )
 
@@ -32,9 +30,13 @@ internal class ContentConverterTest : BaseConverterTest() {
             val expected = Query(
                 statement = "SELECT * FROM users"
             )
+
+            val converter: Converters.Content = get()
+
             val actual = test {
                 converter(given)
             }
+
             assertEquals(expected, actual)
         }
 }

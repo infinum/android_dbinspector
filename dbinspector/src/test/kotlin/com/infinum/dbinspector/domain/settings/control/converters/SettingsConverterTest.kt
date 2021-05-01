@@ -9,24 +9,22 @@ import com.infinum.dbinspector.domain.shared.converters.TruncateModeConverter
 import com.infinum.dbinspector.domain.shared.models.BlobPreviewMode
 import com.infinum.dbinspector.domain.shared.models.TruncateMode
 import com.infinum.dbinspector.domain.shared.models.parameters.SettingsParameters
-import com.infinum.dbinspector.shared.BaseConverterTest
+import com.infinum.dbinspector.shared.BaseTest
 import kotlin.test.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import org.koin.test.inject
+import org.koin.test.get
 
-@DisplayName("Settings converter tests")
-internal class SettingsConverterTest : BaseConverterTest() {
-
-    override val converter by inject<Converters.Settings>()
+@DisplayName("SettingsConverter tests")
+internal class SettingsConverterTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
             single<Converters.TruncateMode> { TruncateModeConverter() }
             single<Converters.BlobPreview> { BlobPreviewConverter() }
-            single<Converters.Settings> { SettingsConverter(get(), get()) }
+            factory<Converters.Settings> { SettingsConverter(get(), get()) }
         }
     )
 
@@ -35,9 +33,13 @@ internal class SettingsConverterTest : BaseConverterTest() {
         launch {
             val given = SettingsParameters.Get()
             val expected = SettingsTask()
+
+            val converter: Converters.Settings = get()
+
             val actual = test {
                 converter get given
             }
+
             assertEquals(expected, actual)
         }
 
@@ -46,9 +48,13 @@ internal class SettingsConverterTest : BaseConverterTest() {
         launch {
             val given = SettingsParameters.LinesLimit(isEnabled = true)
             val expected = SettingsTask(linesLimited = true)
+
+            val converter: Converters.Settings = get()
+
             val actual = test {
                 converter linesLimit given
             }
+
             assertEquals(expected, actual)
         }
 
@@ -57,9 +63,13 @@ internal class SettingsConverterTest : BaseConverterTest() {
         launch {
             val given = SettingsParameters.LinesLimit(isEnabled = false)
             val expected = SettingsTask(linesLimited = false)
+
+            val converter: Converters.Settings = get()
+
             val actual = test {
                 converter linesLimit given
             }
+
             assertEquals(expected, actual)
         }
 
@@ -68,9 +78,13 @@ internal class SettingsConverterTest : BaseConverterTest() {
         launch {
             val given = SettingsParameters.LinesCount(count = 3)
             val expected = SettingsTask(linesCount = 3)
+
+            val converter: Converters.Settings = get()
+
             val actual = test {
                 converter linesCount given
             }
+
             assertEquals(expected, actual)
         }
 
@@ -79,9 +93,13 @@ internal class SettingsConverterTest : BaseConverterTest() {
         launch {
             val given = SettingsParameters.LinesCount(count = 0)
             val expected = SettingsTask(linesCount = Data.Constants.Settings.LINES_LIMIT_MAXIMUM)
+
+            val converter: Converters.Settings = get()
+
             val actual = test {
                 converter linesCount given
             }
+
             assertEquals(expected, actual)
         }
 
@@ -90,9 +108,13 @@ internal class SettingsConverterTest : BaseConverterTest() {
         launch {
             val given = SettingsParameters.Truncate(mode = TruncateMode.START)
             val expected = SettingsTask(truncateMode = SettingsEntity.TruncateMode.START)
+
+            val converter: Converters.Settings = get()
+
             val actual = test {
                 converter truncateMode given
             }
+
             assertEquals(expected, actual)
         }
 
@@ -101,9 +123,13 @@ internal class SettingsConverterTest : BaseConverterTest() {
         launch {
             val given = SettingsParameters.Truncate(mode = TruncateMode.MIDDLE)
             val expected = SettingsTask(truncateMode = SettingsEntity.TruncateMode.MIDDLE)
+
+            val converter: Converters.Settings = get()
+
             val actual = test {
                 converter truncateMode given
             }
+
             assertEquals(expected, actual)
         }
 
@@ -112,9 +138,13 @@ internal class SettingsConverterTest : BaseConverterTest() {
         launch {
             val given = SettingsParameters.Truncate(mode = TruncateMode.END)
             val expected = SettingsTask(truncateMode = SettingsEntity.TruncateMode.END)
+
+            val converter: Converters.Settings = get()
+
             val actual = test {
                 converter truncateMode given
             }
+
             assertEquals(expected, actual)
         }
 
@@ -123,9 +153,13 @@ internal class SettingsConverterTest : BaseConverterTest() {
         launch {
             val given = SettingsParameters.BlobPreview(mode = BlobPreviewMode.UNSUPPORTED)
             val expected = SettingsTask(blobPreviewMode = SettingsEntity.BlobPreviewMode.UNRECOGNIZED)
+
+            val converter: Converters.Settings = get()
+
             val actual = test {
                 converter blobPreviewMode given
             }
+
             assertEquals(expected, actual)
         }
 
@@ -134,9 +168,13 @@ internal class SettingsConverterTest : BaseConverterTest() {
         launch {
             val given = SettingsParameters.BlobPreview(mode = BlobPreviewMode.PLACEHOLDER)
             val expected = SettingsTask(blobPreviewMode = SettingsEntity.BlobPreviewMode.PLACEHOLDER)
+
+            val converter: Converters.Settings = get()
+
             val actual = test {
                 converter blobPreviewMode given
             }
+
             assertEquals(expected, actual)
         }
 
@@ -145,9 +183,13 @@ internal class SettingsConverterTest : BaseConverterTest() {
         launch {
             val given = SettingsParameters.BlobPreview(mode = BlobPreviewMode.UTF_8)
             val expected = SettingsTask(blobPreviewMode = SettingsEntity.BlobPreviewMode.UTF8)
+
+            val converter: Converters.Settings = get()
+
             val actual = test {
                 converter blobPreviewMode given
             }
+
             assertEquals(expected, actual)
         }
 
@@ -156,9 +198,13 @@ internal class SettingsConverterTest : BaseConverterTest() {
         launch {
             val given = SettingsParameters.BlobPreview(mode = BlobPreviewMode.HEX)
             val expected = SettingsTask(blobPreviewMode = SettingsEntity.BlobPreviewMode.HEX)
+
+            val converter: Converters.Settings = get()
+
             val actual = test {
                 converter blobPreviewMode given
             }
+
             assertEquals(expected, actual)
         }
 
@@ -167,9 +213,13 @@ internal class SettingsConverterTest : BaseConverterTest() {
         launch {
             val given = SettingsParameters.BlobPreview(mode = BlobPreviewMode.BASE_64)
             val expected = SettingsTask(blobPreviewMode = SettingsEntity.BlobPreviewMode.BASE64)
+
+            val converter: Converters.Settings = get()
+
             val actual = test {
                 converter blobPreviewMode given
             }
+
             assertEquals(expected, actual)
         }
 
@@ -178,9 +228,13 @@ internal class SettingsConverterTest : BaseConverterTest() {
         launch {
             val given = SettingsParameters.IgnoredTableName(name = "")
             val expected = SettingsTask(ignoredTableName = "")
+
+            val converter: Converters.Settings = get()
+
             val actual = test {
                 converter ignoredTableName given
             }
+
             assertEquals(expected, actual)
         }
 
@@ -189,9 +243,13 @@ internal class SettingsConverterTest : BaseConverterTest() {
         launch {
             val given = SettingsParameters.IgnoredTableName(name = "android_metadata")
             val expected = SettingsTask(ignoredTableName = "android_metadata")
+
+            val converter: Converters.Settings = get()
+
             val actual = test {
                 converter ignoredTableName given
             }
+
             assertEquals(expected, actual)
         }
 }

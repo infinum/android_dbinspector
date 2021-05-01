@@ -4,22 +4,20 @@ import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
 import com.infinum.dbinspector.domain.Converters
 import com.infinum.dbinspector.domain.shared.models.TruncateMode
 import com.infinum.dbinspector.domain.shared.models.parameters.SettingsParameters
-import com.infinum.dbinspector.shared.BaseConverterTest
+import com.infinum.dbinspector.shared.BaseTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import org.koin.test.inject
+import org.koin.test.get
 
-@DisplayName("Truncate converter tests")
-internal class TruncateModeConverterTest : BaseConverterTest() {
-
-    override val converter by inject<Converters.TruncateMode>()
+@DisplayName("TruncateModeConverter tests")
+internal class TruncateModeConverterTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single<Converters.TruncateMode> { TruncateModeConverter() }
+            factory<Converters.TruncateMode> { TruncateModeConverter() }
         }
     )
 
@@ -30,9 +28,13 @@ internal class TruncateModeConverterTest : BaseConverterTest() {
                 mode = TruncateMode.START
             )
             val expected = SettingsEntity.TruncateMode.START
+
+            val converter: Converters.TruncateMode = get()
+
             val actual = test {
                 converter(given)
             }
+
             assertEquals(expected, actual)
         }
 
@@ -43,9 +45,13 @@ internal class TruncateModeConverterTest : BaseConverterTest() {
                 mode = TruncateMode.MIDDLE
             )
             val expected = SettingsEntity.TruncateMode.MIDDLE
+
+            val converter: Converters.TruncateMode = get()
+
             val actual = test {
                 converter(given)
             }
+
             assertEquals(expected, actual)
         }
 
@@ -56,9 +62,13 @@ internal class TruncateModeConverterTest : BaseConverterTest() {
                 mode = TruncateMode.END
             )
             val expected = SettingsEntity.TruncateMode.END
+
+            val converter: Converters.TruncateMode = get()
+
             val actual = test {
                 converter(given)
             }
+
             assertEquals(expected, actual)
         }
 
@@ -69,9 +79,13 @@ internal class TruncateModeConverterTest : BaseConverterTest() {
                 mode = TruncateMode.UNKNOWN
             )
             val expected = SettingsEntity.TruncateMode.END
+
+            val converter: Converters.TruncateMode = get()
+
             val actual = test {
                 converter(given)
             }
+
             assertEquals(expected, actual)
         }
 }

@@ -6,7 +6,7 @@ import com.infinum.dbinspector.domain.Converters
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
 import com.infinum.dbinspector.domain.database.models.Operation
 import com.infinum.dbinspector.domain.shared.models.parameters.DatabaseParameters
-import com.infinum.dbinspector.shared.BaseConverterTest
+import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
@@ -15,17 +15,14 @@ import org.junit.jupiter.api.assertThrows
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.get
-import org.koin.test.inject
 
-@DisplayName("Database converter tests")
-internal class DatabaseConverterTest : BaseConverterTest() {
-
-    override val converter by inject<Converters.Database>()
+@DisplayName("DatabaseConverter tests")
+internal class DatabaseConverterTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
             single { mockk<Context>() }
-            single<Converters.Database> { DatabaseConverter() }
+            factory<Converters.Database> { DatabaseConverter() }
         }
     )
 
@@ -37,6 +34,8 @@ internal class DatabaseConverterTest : BaseConverterTest() {
             context = context,
             argument = null
         )
+
+        val converter: Converters.Database = get()
 
         assertThrows<AbstractMethodError> {
             runBlockingTest {
@@ -58,9 +57,13 @@ internal class DatabaseConverterTest : BaseConverterTest() {
                 context = context,
                 argument = "test"
             )
+
+            val converter: Converters.Database = get()
+
             val actual = test {
                 converter get given
             }
+
             assertEquals(expected, actual)
         }
 
@@ -77,9 +80,13 @@ internal class DatabaseConverterTest : BaseConverterTest() {
                 context = context,
                 importUris = listOf()
             )
+
+            val converter: Converters.Database = get()
+
             val actual = test {
                 converter import given
             }
+
             assertEquals(expected, actual)
         }
 
@@ -100,9 +107,13 @@ internal class DatabaseConverterTest : BaseConverterTest() {
                     Uri.parse("file://test.db")
                 )
             )
+
+            val converter: Converters.Database = get()
+
             val actual = test {
                 converter import given
             }
+
             assertEquals(expected, actual)
         }
 
@@ -131,9 +142,13 @@ internal class DatabaseConverterTest : BaseConverterTest() {
                 ),
                 argument = "new_test"
             )
+
+            val converter: Converters.Database = get()
+
             val actual = test {
                 converter rename given
             }
+
             assertEquals(expected, actual)
         }
 
@@ -160,9 +175,13 @@ internal class DatabaseConverterTest : BaseConverterTest() {
                     parentPath = ""
                 )
             )
+
+            val converter: Converters.Database = get()
+
             val actual = test {
                 converter command given
             }
+
             assertEquals(expected, actual)
         }
 }

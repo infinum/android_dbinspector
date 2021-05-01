@@ -2,22 +2,20 @@ package com.infinum.dbinspector.domain.connection.control.converters
 
 import com.infinum.dbinspector.domain.Converters
 import com.infinum.dbinspector.domain.shared.models.parameters.ConnectionParameters
-import com.infinum.dbinspector.shared.BaseConverterTest
+import com.infinum.dbinspector.shared.BaseTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import org.koin.test.inject
+import org.koin.test.get
 
-@DisplayName("Connection converter tests")
-internal class ConnectionConverterTest : BaseConverterTest() {
-
-    override val converter by inject<Converters.Connection>()
+@DisplayName("ConnectionConverter tests")
+internal class ConnectionConverterTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single<Converters.Connection> { ConnectionConverter() }
+            factory<Converters.Connection> { ConnectionConverter() }
         }
     )
 
@@ -28,6 +26,9 @@ internal class ConnectionConverterTest : BaseConverterTest() {
                 databasePath = "test.db"
             )
             val expected = "test.db"
+
+            val converter: Converters.Connection = get()
+
             val actual = test {
                 converter(given)
             }

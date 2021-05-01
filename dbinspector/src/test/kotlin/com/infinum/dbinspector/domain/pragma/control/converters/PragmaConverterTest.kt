@@ -4,24 +4,22 @@ import com.infinum.dbinspector.data.models.local.cursor.input.Query
 import com.infinum.dbinspector.domain.Converters
 import com.infinum.dbinspector.domain.shared.converters.SortConverter
 import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
-import com.infinum.dbinspector.shared.BaseConverterTest
+import com.infinum.dbinspector.shared.BaseTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import org.koin.test.inject
+import org.koin.test.get
 
-@DisplayName("Pragma converter tests")
-internal class PragmaConverterTest : BaseConverterTest() {
-
-    override val converter by inject<Converters.Pragma>()
+@DisplayName("PragmaConverter tests")
+internal class PragmaConverterTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
             single<Converters.Sort> { SortConverter() }
-            single<Converters.Pragma> { PragmaConverter(get()) }
+            factory<Converters.Pragma> { PragmaConverter(get()) }
         }
     )
 
@@ -31,6 +29,8 @@ internal class PragmaConverterTest : BaseConverterTest() {
             databasePath = "test.db",
             statement = "PRAGMA version()"
         )
+
+        val converter: Converters.Pragma = get()
 
         assertThrows<AbstractMethodError> {
             runBlockingTest {
@@ -50,9 +50,13 @@ internal class PragmaConverterTest : BaseConverterTest() {
                 databasePath = "test.db",
                 statement = "PRAGMA version()"
             )
+
+            val converter: Converters.Pragma = get()
+
             val actual = test {
                 converter version given
             }
+
             assertEquals(expected, actual)
         }
 
@@ -67,9 +71,13 @@ internal class PragmaConverterTest : BaseConverterTest() {
                 databasePath = "test.db",
                 statement = "PRAGMA indexes()"
             )
+
+            val converter: Converters.Pragma = get()
+
             val actual = test {
                 converter pragma given
             }
+
             assertEquals(expected, actual)
         }
 }

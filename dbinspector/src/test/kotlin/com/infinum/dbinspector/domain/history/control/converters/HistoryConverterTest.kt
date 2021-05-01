@@ -4,23 +4,21 @@ import com.infinum.dbinspector.data.models.local.proto.input.HistoryTask
 import com.infinum.dbinspector.data.models.local.proto.output.HistoryEntity
 import com.infinum.dbinspector.domain.Converters
 import com.infinum.dbinspector.domain.shared.models.parameters.HistoryParameters
-import com.infinum.dbinspector.shared.BaseConverterTest
+import com.infinum.dbinspector.shared.BaseTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import org.koin.test.inject
+import org.koin.test.get
 
-@DisplayName("History converter tests")
-internal class HistoryConverterTest : BaseConverterTest() {
-
-    override val converter by inject<Converters.History>()
+@DisplayName("HistoryConverter tests")
+internal class HistoryConverterTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single<Converters.History> { HistoryConverter() }
+            factory<Converters.History> { HistoryConverter() }
         }
     )
 
@@ -29,6 +27,8 @@ internal class HistoryConverterTest : BaseConverterTest() {
         val given = HistoryParameters.All(
             databasePath = "test.db",
         )
+
+        val converter: Converters.History = get()
 
         assertThrows<AbstractMethodError> {
             runBlockingTest {
@@ -46,9 +46,13 @@ internal class HistoryConverterTest : BaseConverterTest() {
             val expected = HistoryTask(
                 databasePath = "test.db"
             )
+
+            val converter: Converters.History = get()
+
             val actual = test {
                 converter get given
             }
+
             assertEquals(expected, actual)
         }
 
@@ -69,9 +73,13 @@ internal class HistoryConverterTest : BaseConverterTest() {
                     .setSuccess(true)
                     .build()
             )
+
+            val converter: Converters.History = get()
+
             val actual = test {
                 converter execution given
             }
+
             assertEquals(expected, actual)
         }
 
@@ -84,9 +92,13 @@ internal class HistoryConverterTest : BaseConverterTest() {
             val expected = HistoryTask(
                 databasePath = "test.db"
             )
+
+            val converter: Converters.History = get()
+
             val actual = test {
                 converter clear given
             }
+
             assertEquals(expected, actual)
         }
 }
