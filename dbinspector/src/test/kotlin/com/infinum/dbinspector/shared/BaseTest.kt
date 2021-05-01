@@ -48,6 +48,8 @@ internal abstract class BaseTest : KoinTest {
     protected suspend fun <T> test(block: suspend CoroutineScope.() -> T) =
         withContext(context = testDispatcher) { block.invoke(this) }
 
+    protected fun advanceUntilIdle() = testDispatcher.advanceUntilIdle()
+
     @BeforeEach
     @CallSuper
     fun setUp() {

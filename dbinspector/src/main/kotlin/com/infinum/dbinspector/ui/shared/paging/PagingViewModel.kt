@@ -1,6 +1,5 @@
 package com.infinum.dbinspector.ui.shared.paging
 
-import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -34,6 +33,6 @@ internal abstract class PagingViewModel(
             dataSource(databasePath, statement)
         }
             .flow
-            .cachedIn(viewModelScope)
+            .cachedIn(runningScope)
             .collectLatest { onData(it) }
 }

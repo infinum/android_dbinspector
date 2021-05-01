@@ -19,7 +19,7 @@ internal abstract class BaseViewModel : ViewModel(), LibraryKoinComponent {
 
     private val supervisorJob = SupervisorJob()
 
-    private val runningScope = viewModelScope
+    internal val runningScope = viewModelScope
     private val runningDispatchers = Dispatchers.IO
     private var mainDispatchers = Dispatchers.Main
 

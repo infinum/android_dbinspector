@@ -76,7 +76,7 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter:5.7.1"
     testImplementation "io.insert-koin:koin-test:3.0.1"
     testImplementation "io.insert-koin:koin-test-junit5:3.0.1"
-    testImplementation "io.mockk:mockk:1.10.0"
+    testImplementation "io.mockk:mockk:1.11.0"
     testImplementation "org.mockito:mockito-core:3.8.0"
     testImplementation "org.mockito.kotlin:mockito-kotlin:3.1.0"
     testImplementation 'org.mockito:mockito-inline:3.5.10'
