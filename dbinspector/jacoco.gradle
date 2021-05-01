@@ -30,6 +30,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: [
     ]
 
     def excludesFilter = [
+            '**/BaseViewModel*.*',
             '**/*Test*.*',
             '**/AutoValue_*.*',
             '**/*JavascriptBridge.class',
