@@ -21,7 +21,7 @@ import org.mockito.Mockito
 
 internal abstract class BaseTest : KoinTest {
 
-    private val testScope = lazyOf(TestCoroutineScope()).value
+    internal val testScope = lazyOf(TestCoroutineScope()).value
     private val testDispatcher = lazyOf(TestCoroutineDispatcher()).value
 
     abstract fun modules(): List<Module>
