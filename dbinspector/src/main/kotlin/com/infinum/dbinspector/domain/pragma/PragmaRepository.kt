@@ -22,7 +22,7 @@ internal class PragmaRepository(
     override suspend fun getTableInfo(input: PragmaParameters.Pragma): Page =
         control.mapper(tableInfo(control.converter pragma input))
 
-    override suspend fun getTriggerInfo(input: Unit): Page =
+    override suspend fun getTriggerInfo(): Page =
         Page(
             cells = TriggerInfoColumns.values()
                 .map { it.name.lowercase() }

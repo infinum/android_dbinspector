@@ -24,13 +24,14 @@ task jacocoTestReport(type: JacocoReport, dependsOn: [
     }
 
     def includesFilter = [
+            '**/*ViewModel*.*',
             '**/*Converter*.*',
             '**/*Mapper*.*',
-            '**/*ViewModel*.*'
+            '**/*UseCase*.*',
     ]
 
     def excludesFilter = [
-            '**/BaseViewModel*.*',
+            '**/base/Base*.*',
             '**/*Test*.*',
             '**/AutoValue_*.*',
             '**/*JavascriptBridge.class',

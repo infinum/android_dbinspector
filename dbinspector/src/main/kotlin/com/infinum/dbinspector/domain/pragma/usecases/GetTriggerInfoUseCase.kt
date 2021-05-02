@@ -10,5 +10,5 @@ internal class GetTriggerInfoUseCase(
 ) : UseCases.GetTriggerInfo {
 
     override suspend fun invoke(input: PragmaParameters.Pragma): Page =
-        pragmaRepository.getTriggerInfo(Unit)
+        pragmaRepository.getTriggerInfo()
 }

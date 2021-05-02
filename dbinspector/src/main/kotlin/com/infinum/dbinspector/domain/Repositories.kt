@@ -75,7 +75,7 @@ internal interface Repositories {
 
         suspend fun getTableInfo(input: PragmaParameters.Pragma): Page
 
-        suspend fun getTriggerInfo(input: Unit): Page
+        suspend fun getTriggerInfo(): Page
 
         suspend fun getForeignKeys(input: PragmaParameters.Pragma): Page
 
