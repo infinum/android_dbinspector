@@ -2,7 +2,6 @@ package com.infinum.dbinspector.domain.connection.usecases
 
 import com.infinum.dbinspector.domain.Repositories
 import com.infinum.dbinspector.domain.UseCases
-import com.infinum.dbinspector.domain.shared.models.parameters.ConnectionParameters
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -12,6 +11,7 @@ import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.get
+import org.mockito.kotlin.any
 
 @DisplayName("CloseConnectionUseCase tests")
 internal class CloseConnectionUseCaseTest : BaseTest() {
@@ -25,18 +25,14 @@ internal class CloseConnectionUseCaseTest : BaseTest() {
 
     @Test
     fun `Invoking use case invokes connection close`() {
-        val given: ConnectionParameters = ConnectionParameters(
-            databasePath = "test.db"
-        )
-
         val useCase: UseCases.CloseConnection = get()
         val connectionRepository: Repositories.Connection = get()
 
-        coEvery { useCase.invoke(given) } returns Unit
+        coEvery { useCase.invoke(any()) } returns Unit
         coEvery { connectionRepository.close(any()) } returns Unit
 
         launch {
-            useCase.invoke(given)
+            useCase.invoke(any())
         }
 
         coVerify(exactly = 1) { connectionRepository.close(any()) }

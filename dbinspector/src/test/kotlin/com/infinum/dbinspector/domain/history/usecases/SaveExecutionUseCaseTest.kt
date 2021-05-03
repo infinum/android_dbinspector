@@ -2,7 +2,6 @@ package com.infinum.dbinspector.domain.history.usecases
 
 import com.infinum.dbinspector.domain.Repositories
 import com.infinum.dbinspector.domain.UseCases
-import com.infinum.dbinspector.domain.shared.models.parameters.HistoryParameters
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -12,6 +11,7 @@ import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.get
+import org.mockito.kotlin.any
 
 @DisplayName("SaveExecutionUseCase tests")
 internal class SaveExecutionUseCaseTest : BaseTest() {
@@ -25,21 +25,14 @@ internal class SaveExecutionUseCaseTest : BaseTest() {
 
     @Test
     fun `Invoking use case saves execution to history`() {
-        val given: HistoryParameters.Execution = HistoryParameters.Execution(
-            databasePath = "test.db",
-            statement = "SELECT * FROM my_table",
-            timestamp = 100L,
-            isSuccess = true
-        )
-
         val useCase: UseCases.SaveExecution = get()
         val historyRepository: Repositories.History = get()
 
-        coEvery { useCase.invoke(given) } returns mockk()
+        coEvery { useCase.invoke(any()) } returns mockk()
         coEvery { historyRepository.saveExecution(any()) } returns mockk()
 
         launch {
-            useCase.invoke(given)
+            useCase.invoke(any())
         }
 
         coVerify(exactly = 1) { historyRepository.saveExecution(any()) }

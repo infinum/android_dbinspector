@@ -2,7 +2,6 @@ package com.infinum.dbinspector.domain.history.usecases
 
 import com.infinum.dbinspector.domain.Repositories
 import com.infinum.dbinspector.domain.UseCases
-import com.infinum.dbinspector.domain.shared.models.parameters.HistoryParameters
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -12,6 +11,7 @@ import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.get
+import org.mockito.kotlin.any
 
 @DisplayName("ClearHistoryUseCase tests")
 internal class ClearHistoryUseCaseTest : BaseTest() {
@@ -25,18 +25,14 @@ internal class ClearHistoryUseCaseTest : BaseTest() {
 
     @Test
     fun `Invoking use case clears history per database`() {
-        val given: HistoryParameters.All = HistoryParameters.All(
-            databasePath = "test.db"
-        )
-
         val useCase: UseCases.ClearHistory = get()
         val historyRepository: Repositories.History = get()
 
-        coEvery { useCase.invoke(given) } returns mockk()
+        coEvery { useCase.invoke(any()) } returns mockk()
         coEvery { historyRepository.clearByDatabase(any()) } returns mockk()
 
         launch {
-            useCase.invoke(given)
+            useCase.invoke(any())
         }
 
         coVerify(exactly = 1) { historyRepository.clearByDatabase(any()) }

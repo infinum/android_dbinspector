@@ -1,4 +1,4 @@
-package com.infinum.dbinspector.domain.history.usecases
+package com.infinum.dbinspector.domain.settings.usecases
 
 import com.infinum.dbinspector.domain.Repositories
 import com.infinum.dbinspector.domain.UseCases
@@ -13,28 +13,28 @@ import org.koin.dsl.module
 import org.koin.test.get
 import org.mockito.kotlin.any
 
-@DisplayName("RemoveExecutionUseCase tests")
-internal class RemoveExecutionUseCaseTest : BaseTest() {
+@DisplayName("SaveLinesCountUseCase tests")
+internal class SaveLinesCountUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Repositories.History>() }
-            factory<UseCases.RemoveExecution> { RemoveExecutionUseCase(get()) }
+            single { mockk<Repositories.Settings>() }
+            factory<UseCases.SaveLinesCount> { SaveLinesCountUseCase(get()) }
         }
     )
 
     @Test
-    fun `Invoking use case removes execution from history`() {
-        val useCase: UseCases.RemoveExecution = get()
-        val historyRepository: Repositories.History = get()
+    fun `Invoking use case saves lines count in settings`() {
+        val useCase: UseCases.SaveLinesCount = get()
+        val settingsRepository: Repositories.Settings = get()
 
         coEvery { useCase.invoke(any()) } returns mockk()
-        coEvery { historyRepository.removeExecution(any()) } returns mockk()
+        coEvery { settingsRepository.saveLinesCount(any()) } returns mockk()
 
         launch {
             useCase.invoke(any())
         }
 
-        coVerify(exactly = 1) { historyRepository.removeExecution(any()) }
+        coVerify(exactly = 1) { settingsRepository.saveLinesCount(any()) }
     }
 }

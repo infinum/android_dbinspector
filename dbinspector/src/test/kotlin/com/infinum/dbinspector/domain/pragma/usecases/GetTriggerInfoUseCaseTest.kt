@@ -3,7 +3,6 @@ package com.infinum.dbinspector.domain.pragma.usecases
 import com.infinum.dbinspector.domain.Repositories
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.shared.models.Page
-import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -26,21 +25,16 @@ internal class GetTriggerInfoUseCaseTest : BaseTest() {
 
     @Test
     fun `Invoking use case invokes pragma trigger info`() {
-        val given: PragmaParameters.Pragma = PragmaParameters.Pragma(
-            databasePath = "test.db",
-            statement = "my_statement"
-        )
-
         val expected: Page = mockk()
 
         val useCase: UseCases.GetTriggerInfo = get()
         val pragmaRepository: Repositories.Pragma = get()
 
-        coEvery { useCase.invoke(given) } returns expected
+        coEvery { useCase.invoke(mockk()) } returns expected
         coEvery { pragmaRepository.getTriggerInfo() } returns expected
 
         launch {
-            useCase.invoke(given)
+            useCase.invoke(mockk())
         }
 
         coVerify(exactly = 1) { pragmaRepository.getTriggerInfo() }
