@@ -1,4 +1,4 @@
-package com.infinum.dbinspector.domain.schema.table.usecases
+package com.infinum.dbinspector.domain.raw.usecases
 
 import com.infinum.dbinspector.domain.Repositories
 import com.infinum.dbinspector.domain.UseCases
@@ -13,37 +13,37 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.get
 
-@DisplayName("GetTableUseCase tests")
-internal class GetTableUseCaseTest : BaseTest() {
+@DisplayName("GetRawQueryUseCase tests")
+internal class GetRawQueryUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Repositories.Schema>() }
+            single { mockk<Repositories.RawQuery>() }
             single { mockk<Repositories.Connection>() }
-            factory<UseCases.GetTable> { GetTableUseCase(get(), get()) }
+            factory<UseCases.GetRawQuery> { GetRawQueryUseCase(get(), get()) }
         }
     )
 
     @Test
-    fun `Invoking use case invokes connection open and gets table content`() {
+    fun `Invoking use case invokes connection open and table content`() {
         val given = ContentParameters(
             databasePath = "test.db",
             statement = "SELECT * FROM tables"
         )
 
-        val useCase: UseCases.GetTable = get()
+        val useCase: UseCases.GetRawQuery = get()
         val connectionRepository: Repositories.Connection = get()
-        val schemaRepository: Repositories.Schema = get()
+        val rawQueryRepository: Repositories.RawQuery = get()
 
         coEvery { useCase.invoke(given) } returns mockk()
         coEvery { connectionRepository.open(any()) } returns mockk()
-        coEvery { schemaRepository.getByName(any()) } returns mockk()
+        coEvery { rawQueryRepository.getPage(any()) } returns mockk()
 
         launch {
             useCase.invoke(given)
         }
 
         coVerify(exactly = 1) { connectionRepository.open(any()) }
-        coVerify(exactly = 1) { schemaRepository.getByName(any()) }
+        coVerify(exactly = 1) { rawQueryRepository.getPage(any()) }
     }
 }

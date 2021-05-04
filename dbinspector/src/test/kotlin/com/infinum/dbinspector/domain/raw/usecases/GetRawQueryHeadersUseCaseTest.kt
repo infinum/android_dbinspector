@@ -1,4 +1,4 @@
-package com.infinum.dbinspector.domain.schema.table.usecases
+package com.infinum.dbinspector.domain.raw.usecases
 
 import com.infinum.dbinspector.domain.Repositories
 import com.infinum.dbinspector.domain.UseCases
@@ -13,37 +13,37 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.get
 
-@DisplayName("GetTableUseCase tests")
-internal class GetTableUseCaseTest : BaseTest() {
+@DisplayName("GetRawQueryHeadersUseCase tests")
+internal class GetRawQueryHeadersUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Repositories.Schema>() }
+            single { mockk<Repositories.RawQuery>() }
             single { mockk<Repositories.Connection>() }
-            factory<UseCases.GetTable> { GetTableUseCase(get(), get()) }
+            factory<UseCases.GetRawQueryHeaders> { GetRawQueryHeadersUseCase(get(), get()) }
         }
     )
 
     @Test
-    fun `Invoking use case invokes connection open and gets table content`() {
+    fun `Invoking use case invokes connection open and table headers`() {
         val given = ContentParameters(
             databasePath = "test.db",
             statement = "SELECT * FROM tables"
         )
 
-        val useCase: UseCases.GetTable = get()
+        val useCase: UseCases.GetRawQueryHeaders = get()
         val connectionRepository: Repositories.Connection = get()
-        val schemaRepository: Repositories.Schema = get()
+        val rawQueryRepository: Repositories.RawQuery = get()
 
         coEvery { useCase.invoke(given) } returns mockk()
         coEvery { connectionRepository.open(any()) } returns mockk()
-        coEvery { schemaRepository.getByName(any()) } returns mockk()
+        coEvery { rawQueryRepository.getHeaders(any()) } returns mockk()
 
         launch {
             useCase.invoke(given)
         }
 
         coVerify(exactly = 1) { connectionRepository.open(any()) }
-        coVerify(exactly = 1) { schemaRepository.getByName(any()) }
+        coVerify(exactly = 1) { rawQueryRepository.getHeaders(any()) }
     }
 }
