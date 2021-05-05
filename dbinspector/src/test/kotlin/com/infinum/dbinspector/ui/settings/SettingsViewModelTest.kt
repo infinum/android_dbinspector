@@ -15,7 +15,7 @@ import org.junit.jupiter.params.provider.EnumSource
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.get
-import org.mockito.ArgumentMatchers.anyInt
+import org.mockito.kotlin.any
 
 @DisplayName("SettingsViewModel tests")
 internal class SettingsViewModelTest : BaseTest() {
@@ -107,7 +107,7 @@ internal class SettingsViewModelTest : BaseTest() {
         coEvery { useCase.invoke(any()) } returns Unit
 
         val viewModel: SettingsViewModel = get()
-        viewModel.saveLinesCount(anyInt())
+        viewModel.saveLinesCount(any())
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
     }

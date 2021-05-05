@@ -26,6 +26,10 @@ ktlint = "0.41.0"
 cpd = "3.1"
 dokka = "1.4.30"
 jacoco = "0.8.7"
+junit5 = "5.7.1"
+mockk = "1.11.0"
+mockito = "3.8.0"
+mockitokotlin = "3.1.0"
 
 [libraries]
 library = { module = "com.infinum.dbinspector:dbinspector", version.ref = "dbinspector" }
@@ -36,7 +40,8 @@ gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-core = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
 
-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "core" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
@@ -57,7 +62,9 @@ protobuf-artifact = { module = "com.google.protobuf:protoc", version.ref = "prot
 protobuf-javalite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobuf-core" }
 protobuf-plugin = { module = "com.google.protobuf:protobuf-gradle-plugin", version.ref = "protobuf-plugin" }
 
-koin = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
+koin-junit5 = { module = "io.insert-koin:koin-test-junit5", version.ref = "koin" }
 
 fuzzy = { module = "me.xdrop:fuzzywuzzy", version.ref = "fuzzy" }
 
@@ -69,6 +76,13 @@ ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlin
 cpd = { module = "de.aaschmid:gradle-cpd-plugin", version.ref = "cpd" }
 
 dokka = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
+
+junit5 = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit5" }
+
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitokotlin" }
 
 [bundles]
 androidx = [
@@ -84,4 +98,14 @@ androidx = [
     "androidx-startup",
     "androidx-datastore",
     "androidx-dynamicanimation"
+]
+
+test = [
+    "junit5",
+    "koin-test",
+    "koin-junit5",
+    "mockk",
+    "coroutines-test",
+    "mockito-core",
+    "mockito-kotlin"
 ]

@@ -16,8 +16,6 @@ import org.junit.jupiter.api.extension.RegisterExtension
 import org.koin.core.module.Module
 import org.koin.test.KoinTest
 import org.koin.test.junit5.KoinTestExtension
-import org.koin.test.junit5.mock.MockProviderExtension
-import org.mockito.Mockito
 
 internal abstract class BaseTest : KoinTest {
 
@@ -30,12 +28,6 @@ internal abstract class BaseTest : KoinTest {
     @RegisterExtension
     val koinTestExtension = KoinTestExtension.create {
         modules(this@BaseTest.modules())
-    }
-
-    @JvmField
-    @RegisterExtension
-    val mockProvider = MockProviderExtension.create { clazz ->
-        Mockito.mock(clazz.java)
     }
 
     protected fun runBlockingTest(block: suspend TestCoroutineScope.() -> Unit) =

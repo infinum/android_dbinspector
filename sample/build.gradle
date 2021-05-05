@@ -63,11 +63,11 @@ android {
 
 dependencies {
     implementation libs.kotlin.core
-    implementation libs.coroutines
+    implementation libs.coroutines.android
     implementation libs.androidx.appcompat
     implementation libs.androidx.lifecycle.viewmodel
     implementation libs.material
-    implementation libs.koin
+    implementation libs.koin.android
 
     debugImplementation libs.library
     releaseImplementation libs.librarynoop
