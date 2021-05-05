@@ -35,7 +35,8 @@ internal class TriggersViewModelTest : BaseTest() {
     @Test
     fun `Search trigger by name`() {
         val given = "my_trigger"
-        val expected = "SELECT name FROM \"sqlite_master\" WHERE (type = 'trigger' AND name LIKE \"%%$given%%\") ORDER BY name ASC"
+        val expected = "SELECT name FROM \"sqlite_master\" " +
+            "WHERE (type = 'trigger' AND name LIKE \"%%$given%%\") ORDER BY name ASC"
 
         val viewModel: TriggersViewModel = get()
 

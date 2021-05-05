@@ -32,7 +32,7 @@ internal class DatabaseConverterTest : BaseTest() {
 
         val converter: Converters.Database = get()
 
-        assertThrows<AbstractMethodError> {
+        assertThrows<NotImplementedError> {
             runBlockingTest {
                 converter.invoke(given)
             }

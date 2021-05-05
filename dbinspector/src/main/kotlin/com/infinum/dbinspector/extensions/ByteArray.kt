@@ -37,13 +37,13 @@ internal fun ByteArray.toBase64String(): String {
         if (position + 2 < this.size) b = b or (this[position + 2].toInt() and 0xFF) else padding++
         (0 until 4 - padding).forEach { _ ->
             val c = b and 0xFC0000 shr 18
-            output.write(table[c].toInt())
+            output.write(table[c].code)
             b = b shl 6
         }
         position += 3
     }
     (0 until padding).forEach { _ ->
-        output.write('='.toInt())
+        output.write('='.code)
     }
     return String(output.toByteArray())
 }

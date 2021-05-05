@@ -45,7 +45,6 @@ android {
                 '-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi',
                 '-Xexplicit-api=strict'
         ]
-        useIR = true
     }
 
     testOptions {

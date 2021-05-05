@@ -18,7 +18,7 @@ internal object LibraryKoin {
 
     fun init(context: Context) {
         koinApplication.apply {
-            androidLogger(if (BuildConfig.DEBUG) Level.DEBUG else Level.NONE)
+            androidLogger(if (BuildConfig.DEBUG) Level.ERROR else Level.NONE)
             androidContext(context)
             module { single<Logger>(override = true) { EmptyLogger() } }
             modules(Presentation.modules())

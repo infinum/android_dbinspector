@@ -16,7 +16,7 @@ class DbSampleApp : Application() {
         super.onCreate()
 
         startKoin {
-            androidLogger(Level.DEBUG)
+            androidLogger(Level.NONE)
             androidContext(this@DbSampleApp)
             modules(
                 module {

@@ -35,7 +35,8 @@ internal class TablesViewModelTest : BaseTest() {
     @Test
     fun `Search table by name`() {
         val given = "my_table"
-        val expected = "SELECT name FROM \"sqlite_master\" WHERE (type = 'table' AND name LIKE \"%%$given%%\") ORDER BY name ASC"
+        val expected = "SELECT name FROM \"sqlite_master\" " +
+            "WHERE (type = 'table' AND name LIKE \"%%$given%%\") ORDER BY name ASC"
 
         val viewModel: TablesViewModel = get()
 

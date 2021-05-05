@@ -34,7 +34,7 @@ internal class PragmaConverterTest : BaseTest() {
 
         val converter: Converters.Pragma = get()
 
-        assertThrows<AbstractMethodError> {
+        assertThrows<NotImplementedError> {
             runBlockingTest {
                 converter.invoke(given)
             }

@@ -29,7 +29,7 @@ internal class HistoryConverterTest : BaseTest() {
 
         val converter: Converters.History = get()
 
-        assertThrows<AbstractMethodError> {
+        assertThrows<NotImplementedError> {
             runBlockingTest {
                 converter.invoke(given)
             }

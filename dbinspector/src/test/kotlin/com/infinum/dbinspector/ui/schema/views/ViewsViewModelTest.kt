@@ -35,7 +35,8 @@ internal class ViewsViewModelTest : BaseTest() {
     @Test
     fun `Search view by name`() {
         val given = "my_view"
-        val expected = "SELECT name FROM \"sqlite_master\" WHERE (type = 'view' AND name LIKE \"%%$given%%\") ORDER BY name ASC"
+        val expected = "SELECT name FROM \"sqlite_master\" " +
+            "WHERE (type = 'view' AND name LIKE \"%%$given%%\") ORDER BY name ASC"
 
         val viewModel: ViewsViewModel = get()
 

@@ -13,7 +13,7 @@ import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import kotlin.test.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -38,7 +38,7 @@ internal class SettingsConverterTest : BaseTest() {
 
         val converter: Converters.Settings = get()
 
-        assertThrows<AbstractMethodError> {
+        assertThrows<NotImplementedError> {
             runBlockingTest {
                 converter.invoke(given)
             }

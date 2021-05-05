@@ -42,7 +42,7 @@ internal class GetDatabasesUseCaseTest : BaseTest() {
         coEvery { databaseRepository.getPage(any()) } returns listOf()
         coEvery { connectionRepository.open(any()) } returns mockk()
         coEvery { pragmaRepository.getUserVersion(any()) } returns mockk()
-        coEvery { connectionRepository.close(any()) } returns mockk()
+        coEvery { connectionRepository.close(any()) } returns Unit
 
         launch {
             useCase.invoke(any())
@@ -77,9 +77,17 @@ internal class GetDatabasesUseCaseTest : BaseTest() {
 
         coEvery { useCase.invoke(given) } returns mockk()
         coEvery { databaseRepository.getPage(any()) } returns givenDescriptors
-        coEvery { connectionRepository.open(ConnectionParameters(databasePath = givenDescriptors.first().absolutePath)) } returns mockk()
+        coEvery {
+            connectionRepository.open(
+                ConnectionParameters(databasePath = givenDescriptors.first().absolutePath)
+            )
+        } returns mockk()
         coEvery { pragmaRepository.getUserVersion(any()) } returns mockk()
-        coEvery { connectionRepository.close(ConnectionParameters(databasePath = givenDescriptors.first().absolutePath)) } returns mockk()
+        coEvery {
+            connectionRepository.close(
+                ConnectionParameters(databasePath = givenDescriptors.first().absolutePath)
+            )
+        } returns Unit
 
         launch {
             useCase.invoke(given)

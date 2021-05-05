@@ -1,7 +1,7 @@
 apply plugin: 'jacoco'
 
 jacoco {
-    toolVersion = "0.8.6"
+    toolVersion = libs.versions.jacoco.get()
     reportsDirectory.set(file("$buildDir/reports/jacoco"))
 }
 
@@ -28,6 +28,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: [
             '**/*Converter*.*',
             '**/*Mapper*.*',
             '**/*UseCase*.*',
+            '**/*Repository*.*',
     ]
 
     def excludesFilter = [
