@@ -25,10 +25,11 @@ task jacocoTestReport(type: JacocoReport, dependsOn: [
 
     def includesFilter = [
             '**/*ViewModel*.*',
-            '**/*Converter*.*',
-            '**/*Mapper*.*',
             '**/*UseCase*.*',
             '**/*Repository*.*',
+            '**/*Control*.*',
+            '**/*Converter*.*',
+            '**/*Mapper*.*'
     ]
 
     def excludesFilter = [
