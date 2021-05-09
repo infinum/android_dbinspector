@@ -6,7 +6,7 @@ import com.infinum.dbinspector.domain.database.models.Operation
 import java.io.File
 
 internal class RemoveDatabaseInteractor(
-    val source: Sources.Raw
+    private val source: Sources.Raw
 ) : Interactors.RemoveDatabase {
 
     override suspend fun invoke(input: Operation): List<File> =

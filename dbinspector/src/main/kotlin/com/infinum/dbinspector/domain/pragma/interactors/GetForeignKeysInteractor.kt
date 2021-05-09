@@ -6,7 +6,7 @@ import com.infinum.dbinspector.data.models.local.cursor.output.QueryResult
 import com.infinum.dbinspector.domain.Interactors
 
 internal class GetForeignKeysInteractor(
-    val source: Sources.Local.Pragma
+    private val source: Sources.Local.Pragma
 ) : Interactors.GetForeignKeys {
 
     override suspend fun invoke(input: Query): QueryResult =
