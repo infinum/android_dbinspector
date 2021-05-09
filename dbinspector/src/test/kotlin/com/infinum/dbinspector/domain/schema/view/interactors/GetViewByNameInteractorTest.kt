@@ -2,7 +2,6 @@ package com.infinum.dbinspector.domain.schema.view.interactors
 
 import com.infinum.dbinspector.data.Sources
 import com.infinum.dbinspector.domain.Interactors
-import com.infinum.dbinspector.domain.schema.trigger.interactors.GetTriggerByNameInteractor
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify

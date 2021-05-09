@@ -6,7 +6,7 @@ import com.infinum.dbinspector.data.models.local.cursor.output.QueryResult
 import com.infinum.dbinspector.domain.Interactors
 
 internal class GetRawQueryInteractor(
-    val source: Sources.Local.RawQuery
+    private val source: Sources.Local.RawQuery
 ) : Interactors.GetRawQuery {
 
     override suspend fun invoke(input: Query): QueryResult =
