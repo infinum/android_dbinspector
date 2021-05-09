@@ -4,7 +4,7 @@ import com.infinum.dbinspector.data.Sources
 import com.infinum.dbinspector.domain.Interactors
 
 internal class CloseConnectionInteractor(
-    val source: Sources.Memory
+    private val source: Sources.Memory
 ) : Interactors.CloseConnection {
 
     override suspend fun invoke(input: String) =

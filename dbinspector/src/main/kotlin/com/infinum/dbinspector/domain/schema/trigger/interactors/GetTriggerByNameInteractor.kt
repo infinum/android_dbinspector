@@ -6,7 +6,7 @@ import com.infinum.dbinspector.data.models.local.cursor.output.QueryResult
 import com.infinum.dbinspector.domain.Interactors
 
 internal class GetTriggerByNameInteractor(
-    val source: Sources.Local.Schema
+    private val source: Sources.Local.Schema
 ) : Interactors.GetTriggerByName {
 
     override suspend fun invoke(input: Query): QueryResult =
