@@ -8,7 +8,7 @@ import com.infinum.dbinspector.domain.shared.base.BaseInteractor
 import com.infinum.dbinspector.domain.shared.models.Page
 import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
 
-internal abstract class AbstractSchemaRepository(
+internal abstract class SchemaRepository(
     private val getPageInteractor: BaseInteractor<Query, QueryResult>,
     private val getByNameInteractor: BaseInteractor<Query, QueryResult>,
     private val dropByNameInteractor: BaseInteractor<Query, QueryResult>,

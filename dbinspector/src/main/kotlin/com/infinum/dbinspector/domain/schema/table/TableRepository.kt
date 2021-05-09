@@ -2,14 +2,14 @@ package com.infinum.dbinspector.domain.schema.table
 
 import com.infinum.dbinspector.domain.Control
 import com.infinum.dbinspector.domain.Interactors
-import com.infinum.dbinspector.domain.schema.shared.AbstractSchemaRepository
+import com.infinum.dbinspector.domain.schema.shared.SchemaRepository
 
 internal class TableRepository(
     getPage: Interactors.GetTables,
     getByName: Interactors.GetTableByName,
     dropByName: Interactors.DropTableContentByName,
     control: Control.Content
-) : AbstractSchemaRepository(
+) : SchemaRepository(
     getPage,
     getByName,
     dropByName,
