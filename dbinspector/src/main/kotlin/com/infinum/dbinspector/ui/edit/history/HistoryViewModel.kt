@@ -6,6 +6,7 @@ import com.infinum.dbinspector.domain.history.models.History
 import com.infinum.dbinspector.domain.shared.models.parameters.HistoryParameters
 import com.infinum.dbinspector.ui.shared.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOn
 
@@ -21,7 +22,8 @@ internal class HistoryViewModel(
     ) =
         launch {
             getHistory(HistoryParameters.All(databasePath))
-                .flowOn(Dispatchers.IO)
+                .flowOn(runningDispatchers)
+                .catch { throwable -> errorHandler.handleException(coroutineContext, throwable) }
                 .collectLatest {
                     onData(it)
                 }

@@ -17,9 +17,9 @@ import com.infinum.dbinspector.ui.shared.views.editor.Keyword
 import com.infinum.dbinspector.ui.shared.views.editor.KeywordType
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
@@ -191,7 +191,8 @@ internal class EditViewModel(
     fun history(onData: suspend (value: History) -> Unit) =
         launch {
             getHistory(HistoryParameters.All(databasePath))
-                .flowOn(Dispatchers.IO)
+                .flowOn(runningDispatchers)
+                .catch { throwable -> errorHandler.handleException(coroutineContext, throwable) }
                 .collectLatest {
                     onData(it)
                 }

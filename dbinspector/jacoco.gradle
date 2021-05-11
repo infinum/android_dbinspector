@@ -30,7 +30,8 @@ task jacocoTestReport(type: JacocoReport, dependsOn: [
             '**/*Control*.*',
             '**/*Converter*.*',
             '**/*Mapper*.*',
-            '**/*Interactor*.*'
+            '**/*Interactor*.*',
+            '**/data/sources**/**'
     ]
 
     def excludesFilter = [

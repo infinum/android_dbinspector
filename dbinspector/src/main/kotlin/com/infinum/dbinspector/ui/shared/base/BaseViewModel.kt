@@ -20,7 +20,7 @@ internal abstract class BaseViewModel : ViewModel(), LibraryKoinComponent {
     private val supervisorJob = SupervisorJob()
 
     internal val runningScope = viewModelScope
-    private val runningDispatchers = Dispatchers.IO
+    internal val runningDispatchers = Dispatchers.IO
     private var mainDispatchers = Dispatchers.Main
 
     protected open val errorHandler = CoroutineExceptionHandler { _, throwable ->
