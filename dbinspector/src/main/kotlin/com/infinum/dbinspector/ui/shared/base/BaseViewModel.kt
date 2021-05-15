@@ -19,8 +19,8 @@ internal abstract class BaseViewModel : ViewModel(), LibraryKoinComponent {
 
     private val supervisorJob = SupervisorJob()
 
-    internal val runningScope = viewModelScope
-    internal val runningDispatchers = Dispatchers.IO
+    protected val runningScope = viewModelScope
+    protected val runningDispatchers = Dispatchers.IO
     private var mainDispatchers = Dispatchers.Main
 
     protected open val errorHandler = CoroutineExceptionHandler { _, throwable ->
@@ -30,6 +30,7 @@ internal abstract class BaseViewModel : ViewModel(), LibraryKoinComponent {
     override fun onCleared() {
         super.onCleared()
         runningDispatchers.cancel()
+        runningScope.cancel()
         supervisorJob.cancel()
     }
 

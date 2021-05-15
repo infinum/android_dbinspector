@@ -188,14 +188,12 @@ internal class EditViewModel(
         }
     }
 
-    fun history(onData: suspend (value: History) -> Unit) =
+    fun history(onHistory: suspend (value: History) -> Unit) =
         launch {
             getHistory(HistoryParameters.All(databasePath))
                 .flowOn(runningDispatchers)
-                .catch { throwable -> errorHandler.handleException(coroutineContext, throwable) }
-                .collectLatest {
-                    onData(it)
-                }
+                .catch { errorHandler.handleException(coroutineContext, it) }
+                .collectLatest { onHistory(it) }
         }
 
     fun findSimilarExecution(

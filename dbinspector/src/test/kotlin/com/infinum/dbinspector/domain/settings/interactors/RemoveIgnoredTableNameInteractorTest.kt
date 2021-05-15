@@ -37,7 +37,7 @@ internal class RemoveIgnoredTableNameInteractorTest : BaseTest() {
             every { ignoredTableName } returns "android_metadata"
         }
         val interactor: Interactors.RemoveIgnoredTableName = get()
-        val source: Sources.Local.Settings = get()
+//        val source: Sources.Local.Settings = get()
         val dataStore: DataStore<SettingsEntity> = get()
 
         coEvery { dataStore.data.firstOrNull() } returns mockk()

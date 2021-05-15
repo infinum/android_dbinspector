@@ -7,7 +7,7 @@
         android:name="com.infinum.dbinspector.sample.DbSampleApp"
         android:icon="@mipmap/ic_launcher"
         android:theme="@style/AppTheme"
-        tools:ignore="AllowBackup">
+        tools:ignore="AllowBackup,RtlEnabled">
 
 <!--        &lt;!&ndash;suppress AndroidDomInspection &ndash;&gt;-->
 <!--        <activity-alias-->

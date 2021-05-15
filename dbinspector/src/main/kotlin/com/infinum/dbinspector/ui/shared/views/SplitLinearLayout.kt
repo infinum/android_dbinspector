@@ -1,4 +1,14 @@
-@file:Suppress("unused", "LongMethod", "ComplexMethod", "NestedBlockDepth", "TooManyFunctions")
+@file:Suppress(
+    "unused",
+    "LongMethod",
+    "ComplexMethod",
+    "NestedBlockDepth",
+    "TooManyFunctions",
+    "MemberVisibilityCanBePrivate",
+    "MemberVisibilityCanBePrivate",
+    "MemberVisibilityCanBePrivate",
+    "MemberVisibilityCanBePrivate"
+)
 
 package com.infinum.dbinspector.ui.shared.views
 

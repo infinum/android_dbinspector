@@ -26,8 +26,6 @@
     <string name="dbinspector_database_version">Version</string>
     <string name="dbinspector_database_path">Path</string>
 
-    <string name="dbinspector_action_save">Save</string>
-    <string name="dbinspector_action_refresh">Refresh</string>
     <string name="dbinspector_action_import">Import</string>
     <string name="dbinspector_action_clear">Clear</string>
     <string name="dbinspector_action_drop">Drop</string>
@@ -44,10 +42,7 @@
     <string name="dbinspector_drop_view_confirm">Drop view %s?</string>
     <string name="dbinspector_drop_trigger_confirm">Drop trigger %s?</string>
     <string name="dbinspector_share_database_failed">Cannot share database %s</string>
-    <string name="dbinspector_copy_database_info">Database copied to application directory</string>
-    <string name="dbinspector_copy_database_failed">Cannot copy database %s</string>
     <string name="dbinspector_rename_database_error_blank">Cannot be blank</string>
-    <string name="dbinspector_import_databases_failed">Cannot import databases</string>
 
     <string name="dbinspector_nothing_found">Nothing found</string>
     <string name="dbinspector_give_it_another_try">Give it another try…</string>

@@ -6,6 +6,7 @@ import java.util.zip.Adler32
 
 private val HEX_ARRAY = "0123456789ABCDEF".toCharArray()
 
+@Suppress("unused")
 internal fun ByteArray.toPlaceHolder(): String =
     Presentation.Constants.Settings.BLOB_DATA_PLACEHOLDER
 
