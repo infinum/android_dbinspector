@@ -10,7 +10,7 @@
             android:name="com.infinum.dbinspector.DbInspectorActivity"
             android:enabled="false"
             android:exported="false"
-            android:targetActivity="@null"
+            android:targetActivity="com.infinum.dbinspector.ui.databases.DatabasesActivity"
             android:taskAffinity="com.infinum.dbinspector"
             tools:node="remove" />
 

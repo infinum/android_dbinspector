@@ -1,11 +1,13 @@
 package com.infinum.dbinspector.data.sources.memory.connection
 
 import android.database.sqlite.SQLiteDatabase
+import androidx.annotation.VisibleForTesting
 import com.infinum.dbinspector.data.Sources
 
 internal class AndroidConnectionSource : Sources.Memory {
 
-    private val connectionPool = hashMapOf<String, SQLiteDatabase>()
+    @VisibleForTesting
+    internal val connectionPool: HashMap<String, SQLiteDatabase> = hashMapOf()
 
     override suspend fun openConnection(path: String): SQLiteDatabase {
         if (connectionPool.containsKey(path).not()) {

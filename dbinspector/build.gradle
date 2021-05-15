@@ -1,4 +1,6 @@
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+import org.gradle.api.tasks.testing.TestListener
+import org.gradle.api.tasks.testing.TestResult.ResultType
 
 plugins {
     id "com.android.library"
@@ -94,17 +96,37 @@ protobuf {
 
 tasks.withType(Test) {
     useJUnitPlatform()
-    testLogging {
-        events TestLogEvent.FAILED, TestLogEvent.SKIPPED // , TestLogEvent.PASSED
-    }
-    afterSuite { desc, result ->
-        if (!desc.parent) {
-            def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} passed, ${result.failedTestCount} failed, ${result.skippedTestCount} skipped)"
-            def startItem = '|  ', endItem = '  |'
-            def repeatLength = startItem.length() + output.length() + endItem.length()
-            println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
+//    testLogging {
+//        events TestLogEvent.FAILED, TestLogEvent.SKIPPED // , TestLogEvent.PASSED
+//    }
+    def testListener = new TestListener() {
+
+        @Override
+        void beforeSuite(TestDescriptor testDescriptor) {
+
+        }
+
+        @Override
+        void afterSuite(TestDescriptor testDescriptor, TestResult testResult) {
+            if (testDescriptor.getParent() == null) {
+                println('\nSTATUS: ' + testResult.resultType + ' -> TOTAL: ' + testResult.testCount + ' PASSED: ' + testResult.successfulTestCount + ' FAILED: ' + testResult.failedTestCount + ' SKIPPED: ' + testResult.skippedTestCount)
+            }
+        }
+
+        @Override
+        void beforeTest(TestDescriptor testDescriptor) {
+
+        }
+
+        @Override
+        void afterTest(TestDescriptor testDescriptor, TestResult testResult) {
+//            println('\n\nNAME: ' + testDescriptor.name + '\nDISPLAY NAME: ' + testDescriptor.displayName + '\nCLASS NAME: ' + testDescriptor.className + '\nIS COMPOSITE: ' + testDescriptor.isComposite() + '\nPARENT: ' + testDescriptor.parent + '\nRESULT: ' + testResult.resultType)
+            if (testResult.resultType == ResultType.FAILURE || testResult.resultType == ResultType.SKIPPED) {
+                println('\n\nNAME: ' + testDescriptor.name + '\nDISPLAY NAME: ' + testDescriptor.displayName + '\nCLASS NAME: ' + testDescriptor.className + '\nIS COMPOSITE: ' + testDescriptor.isComposite() + '\nPARENT: ' + testDescriptor.parent + '\nRESULT: ' + testResult.resultType)
+            }
         }
     }
+    addTestListener(testListener)
     finalizedBy jacocoTestReport
 }
 
