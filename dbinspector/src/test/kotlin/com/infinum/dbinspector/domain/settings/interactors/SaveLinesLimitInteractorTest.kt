@@ -1,3 +1,69 @@
 package com.infinum.dbinspector.domain.settings.interactors
 
-internal class SaveLinesLimitInteractorTest
+import com.infinum.dbinspector.data.Sources
+import com.infinum.dbinspector.data.models.local.proto.input.SettingsTask
+import com.infinum.dbinspector.data.sources.local.proto.settings.SettingsDataStore
+import com.infinum.dbinspector.domain.Interactors
+import com.infinum.dbinspector.shared.BaseTest
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.every
+import io.mockk.mockk
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Test
+import org.koin.core.module.Module
+import org.koin.dsl.module
+import org.koin.test.get
+
+@DisplayName("SaveLinesLimitInteractor tests")
+internal class SaveLinesLimitInteractorTest : BaseTest() {
+
+    override fun modules(): List<Module> = listOf(
+        module {
+            single<Sources.Local.Settings> { mockk<SettingsDataStore>() }
+            factory<Interactors.SaveLinesLimit> { SaveLinesLimitInteractor(get()) }
+        }
+    )
+
+    @Test
+    fun `Enable lines limit should save true in data source`() {
+        val given: SettingsTask = mockk {
+            every { linesLimited } returns true
+        }
+        val interactor: Interactors.SaveLinesLimit = get()
+        val source: Sources.Local.Settings = get()
+
+        coEvery { source.store() } returns mockk {
+            coEvery { updateData(any()) } returns mockk {
+                coEvery { linesLimit } returns true
+            }
+        }
+
+        launch {
+            interactor.invoke(given)
+        }
+
+        coVerify(exactly = 1) { source.store() }
+    }
+
+    @Test
+    fun `Disable lines limit should save false in data source`() {
+        val given: SettingsTask = mockk {
+            every { linesLimited } returns false
+        }
+        val interactor: Interactors.SaveLinesLimit = get()
+        val source: Sources.Local.Settings = get()
+
+        coEvery { source.store() } returns mockk {
+            coEvery { updateData(any()) } returns mockk {
+                coEvery { linesLimit } returns false
+            }
+        }
+
+        launch {
+            interactor.invoke(given)
+        }
+
+        coVerify(exactly = 1) { source.store() }
+    }
+}

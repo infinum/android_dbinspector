@@ -9,8 +9,10 @@ internal class SaveLinesCountInteractor(
 ) : Interactors.SaveLinesCount {
 
     override suspend fun invoke(input: SettingsTask) {
-        dataStore.store().updateData {
-            it.toBuilder().setLinesCount(input.linesCount).build()
-        }
+        input.linesCount.takeIf { it >= 0 }?.let {
+            dataStore.store().updateData {
+                it.toBuilder().setLinesCount(input.linesCount).build()
+            }
+        } ?: throw IllegalArgumentException("Cannot set a negative number for lines count.")
     }
 }
