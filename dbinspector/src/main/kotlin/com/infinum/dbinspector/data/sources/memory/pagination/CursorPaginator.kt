@@ -29,20 +29,17 @@ internal class CursorPaginator : Paginator {
         }
 
     override fun boundary(page: Int?, pageSize: Int, rowCount: Int): Paginator.Boundary {
-        val startRow = page?.minus(1)?.times(pageSize).orZero()
-        val endRow = min(startRow + pageSize, rowCount)
+        val startRow = page?.minus(1)?.times(pageSize.coerceAtLeast(1)).orZero().coerceAtLeast(0)
+        val endRow = min(startRow + pageSize.coerceAtLeast(1), rowCount.coerceAtLeast(0)).coerceAtLeast(0)
         return Paginator.Boundary(
             startRow = startRow,
             endRow = endRow
         )
     }
 
-    override fun count(startRow: Int, endRow: Int, rowCount: Int, columnCount: Int): Paginator.Count {
-        val beforeCount = startRow * columnCount
-        val afterCount = (rowCount - endRow) * columnCount
-        return Paginator.Count(
-            beforeCount = beforeCount,
-            afterCount = afterCount
+    override fun count(startRow: Int, endRow: Int, rowCount: Int, columnCount: Int): Paginator.Count =
+        Paginator.Count(
+            beforeCount = startRow * columnCount,
+            afterCount = (rowCount - endRow) * columnCount
         )
-    }
 }

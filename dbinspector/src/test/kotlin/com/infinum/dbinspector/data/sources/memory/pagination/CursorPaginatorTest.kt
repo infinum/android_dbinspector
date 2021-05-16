@@ -162,4 +162,84 @@ internal class CursorPaginatorTest : BaseTest() {
         assertEquals(expected, actual)
         assertNotNull(actual)
     }
+
+    @Test
+    fun `Row count smaller than page size returns correct boundary`() {
+        val given = 1
+        val pageSize = 10
+        val rowCount = 5
+        val expected = Paginator.Boundary(
+            startRow = 0,
+            endRow = 5
+        )
+
+        val paginator: CursorPaginator = get()
+        val actual = paginator.boundary(given, pageSize, rowCount)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `Equal page size and row count returns correct boundary`() {
+        val given = 1
+        val pageSize = 10
+        val rowCount = 10
+        val expected = Paginator.Boundary(
+            startRow = 0,
+            endRow = 10
+        )
+
+        val paginator: CursorPaginator = get()
+        val actual = paginator.boundary(given, pageSize, rowCount)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `Row count larger than page size returns correct boundary`() {
+        val given = 1
+        val pageSize = 10
+        val rowCount = 15
+        val expected = Paginator.Boundary(
+            startRow = 0,
+            endRow = 10
+        )
+
+        val paginator: CursorPaginator = get()
+        val actual = paginator.boundary(given, pageSize, rowCount)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `Null page returns correct boundary`() {
+        val given: Int? = null
+        val pageSize = 10
+        val rowCount = 15
+        val expected = Paginator.Boundary(
+            startRow = 0,
+            endRow = 10
+        )
+
+        val paginator: CursorPaginator = get()
+        val actual = paginator.boundary(given, pageSize, rowCount)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `Negative row count and page size returns correct boundary`() {
+        val given = -1
+        val pageSize = -10
+        val rowCount = 15
+        val expected = Paginator.Boundary(
+            startRow = 0,
+            endRow = 1
+        )
+
+        val paginator: CursorPaginator = get()
+        val actual = paginator.boundary(given, pageSize, rowCount)
+
+        assertEquals(expected, actual)
+    }
 }
