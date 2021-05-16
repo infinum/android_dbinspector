@@ -1,5 +1,6 @@
 package com.infinum.dbinspector.data.sources.memory.pagination
 
+import androidx.annotation.VisibleForTesting
 import com.infinum.dbinspector.extensions.orZero
 import kotlin.math.ceil
 import kotlin.math.min
@@ -7,20 +8,23 @@ import kotlin.math.roundToInt
 
 internal class CursorPaginator : Paginator {
 
-    private var pageCount: Int = 0
+    @VisibleForTesting
+    internal var pageCount: Int = 0
 
     override fun setPageCount(rowCount: Int, pageSize: Int) {
-        pageCount = ceil((rowCount.toDouble()) / pageSize.toDouble()).roundToInt()
+        pageCount = ceil((rowCount.coerceAtLeast(0).toDouble()) / pageSize.coerceAtLeast(1).toDouble())
+            .roundToInt()
     }
 
     override fun nextPage(currentPage: Int?): Int? =
         if (pageCount == 0) {
             null
         } else {
-            if (currentPage == pageCount) {
+            val coercedCurrentPage = currentPage?.coerceAtLeast(0)
+            if (coercedCurrentPage == pageCount) {
                 null
             } else {
-                currentPage?.inc()
+                coercedCurrentPage?.inc()
             }
         }
 
