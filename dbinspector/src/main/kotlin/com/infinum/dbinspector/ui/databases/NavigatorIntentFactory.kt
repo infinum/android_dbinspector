@@ -57,7 +57,7 @@ internal class NavigatorIntentFactory(
         try {
             (context as? Activity)?.let {
                 context.startActivity(
-                    ShareCompat.IntentBuilder.from(it)
+                    ShareCompat.IntentBuilder(it)
                         .setType("application/octet-stream")
                         .setStream(
                             FileProvider.getUriForFile(

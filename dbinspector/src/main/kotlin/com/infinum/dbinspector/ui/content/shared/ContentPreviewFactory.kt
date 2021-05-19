@@ -51,7 +51,7 @@ internal class ContentPreviewFactory(
             .setPositiveButton(R.string.dbinspector_action_share) { dialog: DialogInterface, _ ->
                 dialog.dismiss()
                 activity.startActivity(
-                    ShareCompat.IntentBuilder.from(activity)
+                    ShareCompat.IntentBuilder(activity)
                         .setType("text/plain")
                         .setText(text)
                         .intent
@@ -89,7 +89,7 @@ internal class ContentPreviewFactory(
                 .setPositiveButton(R.string.dbinspector_action_share) { dialog: DialogInterface, _ ->
                     dialog.dismiss()
                     activity.startActivity(
-                        ShareCompat.IntentBuilder.from(activity)
+                        ShareCompat.IntentBuilder(activity)
                             .setType("image/*")
                             .setStream(
                                 File(activity.cacheDir, "dbinspector_${imageBytes.toChecksum()}$suffix")
