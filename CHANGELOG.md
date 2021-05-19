@@ -1,6 +1,14 @@
 Changelog
 =========
 
+## Version 5.3.4
+
+_2021-05-20_
+
+* Update dependencies.
+* Add unit tests.
+* Fix small UI bugs.
+
 ## Version 5.3.3
 
 _2021-04-30_

@@ -1,5 +1,5 @@
 [versions]
-dbinspector = "5.3.3"
+dbinspector = "5.3.4"
 gradle = "4.2.1"
 kotlin = "1.5.0"
 coroutines = "1.5.0"
