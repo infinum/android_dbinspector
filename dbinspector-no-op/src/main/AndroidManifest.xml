@@ -16,6 +16,7 @@
 
         <activity
             android:name="com.infinum.dbinspector.ui.databases.DatabasesActivity"
+            android:exported="false"
             android:taskAffinity="com.infinum.dbinspector"
             android:theme="@android:style/Theme.NoDisplay" />
 

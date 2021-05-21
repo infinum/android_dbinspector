@@ -23,46 +23,55 @@
 
         <activity
             android:name="com.infinum.dbinspector.ui.databases.DatabasesActivity"
+            android:exported="false"
             android:taskAffinity="com.infinum.dbinspector"
             android:theme="@style/DbInspector.BaseTheme" />
 
         <activity
             android:name="com.infinum.dbinspector.ui.settings.SettingsActivity"
+            android:exported="false"
             android:taskAffinity="com.infinum.dbinspector"
             android:theme="@style/DbInspector.BaseTheme" />
 
         <activity
             android:name="com.infinum.dbinspector.ui.databases.edit.EditDatabaseActivity"
+            android:exported="false"
             android:taskAffinity="com.infinum.dbinspector"
             android:theme="@style/DbInspector.BaseTheme" />
 
         <activity
             android:name="com.infinum.dbinspector.ui.schema.SchemaActivity"
+            android:exported="false"
             android:taskAffinity="com.infinum.dbinspector"
             android:theme="@style/DbInspector.BaseTheme" />
 
         <activity
             android:name="com.infinum.dbinspector.ui.content.table.TableActivity"
+            android:exported="false"
             android:taskAffinity="com.infinum.dbinspector"
             android:theme="@style/DbInspector.BaseTheme" />
 
         <activity
             android:name="com.infinum.dbinspector.ui.content.view.ViewActivity"
+            android:exported="false"
             android:taskAffinity="com.infinum.dbinspector"
             android:theme="@style/DbInspector.BaseTheme" />
 
         <activity
             android:name="com.infinum.dbinspector.ui.content.trigger.TriggerActivity"
+            android:exported="false"
             android:taskAffinity="com.infinum.dbinspector"
             android:theme="@style/DbInspector.BaseTheme" />
 
         <activity
             android:name="com.infinum.dbinspector.ui.pragma.PragmaActivity"
+            android:exported="false"
             android:taskAffinity="com.infinum.dbinspector"
             android:theme="@style/DbInspector.BaseTheme" />
 
         <activity
             android:name="com.infinum.dbinspector.ui.edit.EditActivity"
+            android:exported="false"
             android:taskAffinity="com.infinum.dbinspector"
             android:theme="@style/DbInspector.BaseTheme" />
 

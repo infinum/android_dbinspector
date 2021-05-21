@@ -9,19 +9,20 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,RtlEnabled">
 
-<!--        &lt;!&ndash;suppress AndroidDomInspection &ndash;&gt;-->
-<!--        <activity-alias-->
-<!--            android:name="com.infinum.dbinspector.DbInspectorActivity"-->
-<!--            tools:node="remove" />-->
+        <!--        &lt;!&ndash;suppress AndroidDomInspection &ndash;&gt;-->
+        <!--        <activity-alias-->
+        <!--            android:name="com.infinum.dbinspector.DbInspectorActivity"-->
+        <!--            tools:node="remove" />-->
 
-<!--        &lt;!&ndash;suppress AndroidDomInspection &ndash;&gt;-->
-<!--        <activity-alias-->
-<!--            android:name="com.infinum.dbinspector.DbInspectorActivity"-->
-<!--            tools:replace="android:label"-->
-<!--            android:label="@string/app_name" />-->
+        <!--        &lt;!&ndash;suppress AndroidDomInspection &ndash;&gt;-->
+        <!--        <activity-alias-->
+        <!--            android:name="com.infinum.dbinspector.DbInspectorActivity"-->
+        <!--            tools:replace="android:label"-->
+        <!--            android:label="@string/app_name" />-->
 
         <activity
             android:name="com.infinum.dbinspector.sample.MainActivity"
+            android:exported="true"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
