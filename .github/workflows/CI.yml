@@ -18,18 +18,6 @@ jobs:
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1.0.3
 
-  qodana:
-    name: Qodana
-    needs: [ validation ]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Qodana - Code Inspection
-        uses: JetBrains/qodana-action@v2.0-eap
-        with:
-          project-dir: ${{ github.workspace }}
-          results-dir: ${{ github.workspace }}/qodana
-          cache-dir: /home/runner/work/_temp/_github_home/qodana-cache
-
   lint:
     name: Lint
     needs: [ validation ]
