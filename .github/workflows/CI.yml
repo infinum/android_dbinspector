@@ -20,7 +20,7 @@ jobs:
 
   lint:
     name: Lint
-    needs: [validation]
+    needs: [ validation ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -39,7 +39,7 @@ jobs:
 
   detekt:
     name: Detekt
-    needs: [validation]
+    needs: [ validation ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -58,7 +58,7 @@ jobs:
 
   ktlint:
     name: ktlint
-    needs: [validation]
+    needs: [ validation ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -77,7 +77,7 @@ jobs:
 
   cpd:
     name: CPD
-    needs: [validation]
+    needs: [ validation ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -96,7 +96,7 @@ jobs:
 
   tests:
     name: Tests
-    needs: [validation, lint, detekt, ktlint, cpd]
+    needs: [ validation, lint, detekt, ktlint, cpd ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

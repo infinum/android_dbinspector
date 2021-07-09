@@ -20,7 +20,7 @@ internal object LibraryKoin {
         koinApplication.apply {
             androidLogger(if (BuildConfig.DEBUG) Level.ERROR else Level.NONE)
             androidContext(context)
-            module { single<Logger>(override = true) { EmptyLogger() } }
+            module { single<Logger> { EmptyLogger() } }
             modules(Presentation.modules())
         }
         setLibraryLogger(EmptyLogger())
@@ -32,7 +32,7 @@ internal object LibraryKoin {
         koin().loadModules(
             listOf(
                 module {
-                    single(override = true) { logger }
+                    single { logger }
                 }
             )
         )
