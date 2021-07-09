@@ -1,6 +1,13 @@
 Changelog
 =========
 
+## Version 5.3.6
+
+_2021-07-09_
+
+* Update Kotlin to 1.5.20.
+* Update AndroidX Datastore to RC01.
+
 ## Version 5.3.5
 
 _2021-05-24_
