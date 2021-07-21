@@ -1,9 +1,6 @@
 package com.infinum.dbinspector.ui.edit
 
-import androidx.paging.PagingData
 import com.infinum.dbinspector.domain.UseCases
-import com.infinum.dbinspector.domain.history.models.History
-import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.domain.shared.models.Sort
 import com.infinum.dbinspector.domain.shared.models.Statements
 import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
@@ -15,7 +12,6 @@ import com.infinum.dbinspector.ui.shared.headers.Header
 import com.infinum.dbinspector.ui.shared.paging.PagingViewModel
 import com.infinum.dbinspector.ui.shared.views.editor.Keyword
 import com.infinum.dbinspector.ui.shared.views.editor.KeywordType
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -36,15 +32,9 @@ internal class EditViewModel(
     private val getHistory: UseCases.GetHistory,
     private val getSimilarExecution: UseCases.GetSimilarExecution,
     private val saveHistoryExecution: UseCases.SaveExecution
-) : PagingViewModel(openConnection, closeConnection) {
+) : PagingViewModel<EditState, EditEvent>(openConnection, closeConnection) {
 
     private var debounceSimilarExecutionJob: Job? = null
-
-    private var onError: suspend (value: Throwable) -> Unit = { }
-
-    override val errorHandler = CoroutineExceptionHandler { _, throwable ->
-        showError(throwable)
-    }
 
     override fun dataSource(databasePath: String, statement: String) =
         ContentDataSource(
@@ -53,12 +43,7 @@ internal class EditViewModel(
             useCase = getRawQuery
         )
 
-    fun header(
-        query: String,
-        onData: suspend (value: List<Header>) -> Unit,
-        onError: suspend (value: Throwable) -> Unit
-    ) {
-        this.onError = onError
+    fun header(query: String) {
         launch {
             val result = io {
                 getRawQueryHeaders(
@@ -74,28 +59,22 @@ internal class EditViewModel(
                         )
                     }
             }
-            onData(result)
+            setState(EditState.Headers(headers = result))
         }
     }
 
-    fun query(
-        query: String,
-        onData: suspend (value: PagingData<Cell>) -> Unit,
-        onError: suspend (value: Throwable) -> Unit
-    ) {
-        this.onError = onError
+    fun query(query: String) {
         launch {
-            pageFlow(databasePath, query) {
-                onData(it)
-            }
+            pageFlow(databasePath, query)
+                .flowOn(runningDispatchers)
+                .catch { error -> setError(error) }
+                .collectLatest {
+                    setState(EditState.Content(content = it))
+                }
         }
     }
 
-    fun affectedRows(
-        onData: suspend (value: String) -> Unit,
-        onError: suspend (value: Throwable) -> Unit
-    ) {
-        this.onError = onError
+    fun affectedRows() {
         launch {
             val result = io {
                 getAffectedRows(
@@ -106,15 +85,13 @@ internal class EditViewModel(
                 )
             }
             result.cells.firstOrNull()?.text?.let {
-                onData(it)
-            } ?: this@EditViewModel.onError(IllegalStateException("Unknown error."))
+                setState(EditState.AffectedRows(affectedRows = it))
+            } ?: setError(IllegalStateException("Unknown error."))
         }
     }
 
     @Suppress("LongMethod")
-    fun keywords(
-        onData: suspend (value: List<Keyword>) -> Unit
-    ) {
+    fun keywords() {
         launch {
             val result = io {
                 val tableNames: List<Keyword> = getTables(
@@ -184,23 +161,21 @@ internal class EditViewModel(
 
                 listOf<Keyword>().plus(tableNames).plus(viewNames).plus(triggerNames).plus(columnNames)
             }
-            onData(result)
+            emitEvent(EditEvent.Keywords(keywords = result))
         }
     }
 
-    fun history(onHistory: suspend (value: History) -> Unit) =
+    fun history() =
         launch {
             getHistory(HistoryParameters.All(databasePath))
                 .flowOn(runningDispatchers)
                 .catch { errorHandler.handleException(coroutineContext, it) }
-                .collectLatest { onHistory(it) }
+                .collectLatest {
+                    emitEvent(EditEvent.History(history = it))
+                }
         }
 
-    fun findSimilarExecution(
-        scope: CoroutineScope,
-        statement: String,
-        onData: suspend (value: History) -> Unit
-    ) {
+    fun findSimilarExecution(scope: CoroutineScope, statement: String) {
         debounceSimilarExecutionJob?.cancel()
         debounceSimilarExecutionJob = scope.launch {
             delay(Presentation.Constants.Limits.DEBOUNCE_MILIS)
@@ -214,22 +189,24 @@ internal class EditViewModel(
                     )
                 )
             }
-            onData(result)
+            emitEvent(EditEvent.SimilarExecution(history = result))
         }
     }
 
     @Suppress("RedundantUnitExpression")
-    suspend fun saveSuccessfulExecution(statement: String) {
+    fun saveSuccessfulExecution(statement: String) {
         if (statement.isNotBlank()) {
-            io {
-                saveHistoryExecution(
-                    HistoryParameters.Execution(
-                        databasePath = databasePath,
-                        statement = statement,
-                        timestamp = System.currentTimeMillis(),
-                        isSuccess = true
+            launch {
+                io {
+                    saveHistoryExecution(
+                        HistoryParameters.Execution(
+                            databasePath = databasePath,
+                            statement = statement,
+                            timestamp = System.currentTimeMillis(),
+                            isSuccess = true
+                        )
                     )
-                )
+                }
             }
         } else {
             Unit
@@ -255,9 +232,4 @@ internal class EditViewModel(
             Unit
         }
     }
-
-    private fun showError(throwable: Throwable) =
-        launch {
-            onError(throwable)
-        }
 }

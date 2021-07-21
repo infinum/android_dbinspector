@@ -14,7 +14,7 @@ import org.koin.dsl.module
 import org.koin.test.get
 import org.mockito.kotlin.any
 
-@DisplayName("SettingsRepository tests")
+@DisplayName("DatabaseRepository tests")
 internal class DatabaseRepositoryTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(

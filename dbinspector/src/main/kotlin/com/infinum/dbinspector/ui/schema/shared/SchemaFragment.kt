@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.activity.result.ActivityResultLauncher
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,9 +16,10 @@ import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import com.infinum.dbinspector.ui.shared.edgefactories.bounce.BounceEdgeEffectFactory
 import com.infinum.dbinspector.ui.shared.searchable.BaseSearchableFragment
+import kotlinx.coroutines.launch
 
 internal abstract class SchemaFragment :
-    BaseSearchableFragment(R.layout.dbinspector_fragment_schema) {
+    BaseSearchableFragment<SchemaState, Any>(R.layout.dbinspector_fragment_schema) {
 
     companion object {
 
@@ -52,7 +54,7 @@ internal abstract class SchemaFragment :
         arguments?.let {
             databasePath = it.getString(Presentation.Constants.Keys.DATABASE_PATH, "")
             databaseName = it.getString(Presentation.Constants.Keys.DATABASE_NAME, "")
-        } ?: (requireActivity() as? BaseActivity)?.showDatabaseParametersError()
+        } ?: (requireActivity() as? BaseActivity<*, *>)?.showDatabaseParametersError()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -103,6 +105,17 @@ internal abstract class SchemaFragment :
         super.onDestroyView()
     }
 
+    override fun onState(state: SchemaState) {
+        when (state) {
+            is SchemaState.Schema ->
+                viewLifecycleOwner.lifecycleScope.launch {
+                    schemaAdapter.submitData(state.schema)
+                }
+        }
+    }
+
+    override fun onEvent(event: Any) = Unit
+
     override fun search(query: String?) {
         query(query)
     }
@@ -110,9 +123,7 @@ internal abstract class SchemaFragment :
     fun refresh() = schemaAdapter.refresh()
 
     private fun query(query: String?) {
-        viewModel.query(databasePath, query) {
-            schemaAdapter.submitData(it)
-        }
+        viewModel.query(databasePath, query)
     }
 
     private fun show(name: String) =

@@ -1,10 +1,8 @@
 package com.infinum.dbinspector.ui.content.shared
 
-import androidx.paging.PagingData
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.schema.shared.models.exceptions.DropException
 import com.infinum.dbinspector.domain.shared.base.BaseUseCase
-import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.domain.shared.models.Page
 import com.infinum.dbinspector.domain.shared.models.Sort
 import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
@@ -12,6 +10,8 @@ import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
 import com.infinum.dbinspector.ui.shared.datasources.ContentDataSource
 import com.infinum.dbinspector.ui.shared.headers.Header
 import com.infinum.dbinspector.ui.shared.paging.PagingViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flowOn
 
 internal abstract class ContentViewModel(
     openConnection: UseCases.OpenConnection,
@@ -19,7 +19,7 @@ internal abstract class ContentViewModel(
     private val schemaInfo: BaseUseCase<PragmaParameters.Pragma, Page>,
     private val getSchema: BaseUseCase<ContentParameters, Page>,
     private val dropSchema: BaseUseCase<ContentParameters, Page>
-) : PagingViewModel(openConnection, closeConnection) {
+) : PagingViewModel<ContentState, ContentEvent>(openConnection, closeConnection) {
 
     abstract fun headerStatement(name: String): String
 
@@ -30,10 +30,7 @@ internal abstract class ContentViewModel(
     override fun dataSource(databasePath: String, statement: String) =
         ContentDataSource(databasePath, statement, getSchema)
 
-    fun header(
-        schemaName: String,
-        onData: suspend (value: List<Header>) -> Unit
-    ) =
+    fun header(schemaName: String) =
         launch {
             val result = io {
                 schemaInfo(
@@ -49,26 +46,24 @@ internal abstract class ContentViewModel(
                         )
                     }
             }
-            onData(result)
+            setState(ContentState.Headers(headers = result))
         }
 
     fun query(
         schemaName: String,
         orderBy: String?,
-        sort: Sort,
-        onData: suspend (value: PagingData<Cell>) -> Unit
+        sort: Sort
     ) {
         launch {
-            pageFlow(databasePath, schemaStatement(schemaName, orderBy, sort)) {
-                onData(it)
-            }
+            pageFlow(databasePath, schemaStatement(schemaName, orderBy, sort))
+                .flowOn(runningDispatchers)
+                .collectLatest {
+                    setState(ContentState.Content(content = it))
+                }
         }
     }
 
-    fun drop(
-        schemaName: String,
-        onDone: suspend () -> Unit
-    ) {
+    fun drop(schemaName: String) {
         launch {
             val result = io {
                 dropSchema(
@@ -79,7 +74,7 @@ internal abstract class ContentViewModel(
                 ).cells
             }
             if (result.isEmpty()) {
-                onDone()
+                emitEvent(ContentEvent.Dropped())
             } else {
                 throw DropException()
             }

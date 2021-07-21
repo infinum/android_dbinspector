@@ -23,7 +23,8 @@ import com.infinum.dbinspector.ui.shared.listeners.FabExtendingOnScrollListener
 import com.infinum.dbinspector.ui.shared.searchable.Searchable
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-internal class DatabasesActivity : BaseActivity(), Searchable {
+@Suppress("TooManyFunctions")
+internal class DatabasesActivity : BaseActivity<DatabaseState, Any>(), Searchable {
 
     override val binding by viewBinding(DbinspectorActivityDatabasesBinding::inflate)
 
@@ -81,12 +82,16 @@ internal class DatabasesActivity : BaseActivity(), Searchable {
 
         setupUi()
 
-        viewModel.databases.observeForever {
-            showDatabases(it)
-        }
-
         viewModel.browse(this)
     }
+
+    override fun onState(state: DatabaseState) {
+        when (state) {
+            is DatabaseState.Databases -> showDatabases(state.databases)
+        }
+    }
+
+    override fun onEvent(event: Any) = Unit
 
     override fun onSearchOpened() {
         with(binding) {

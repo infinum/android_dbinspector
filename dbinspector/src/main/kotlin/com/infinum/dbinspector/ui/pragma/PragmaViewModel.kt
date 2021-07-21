@@ -6,4 +6,4 @@ import com.infinum.dbinspector.ui.shared.base.lifecycle.LifecycleViewModel
 internal class PragmaViewModel(
     openConnection: UseCases.OpenConnection,
     closeConnection: UseCases.CloseConnection
-) : LifecycleViewModel(openConnection, closeConnection)
+) : LifecycleViewModel<Any, Any>(openConnection, closeConnection)

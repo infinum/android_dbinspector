@@ -16,7 +16,7 @@ internal class ContentViewHolder(
     fun bind(
         item: Cell?,
         row: Int,
-        onCellClicked: (Cell) -> Unit
+        onCellClicked: ((Cell) -> Unit)?
     ) {
         item?.let { cell ->
             bindValue(cell)
@@ -37,7 +37,7 @@ internal class ContentViewHolder(
     private fun bindRoot(
         row: Int,
         cell: Cell,
-        onCellClicked: (Cell) -> Unit
+        onCellClicked: ((Cell) -> Unit)?
     ) =
         with(viewBinding) {
             this.root.setBackgroundColor(
@@ -51,7 +51,7 @@ internal class ContentViewHolder(
                 )
             )
             this.root.setOnClickListener {
-                onCellClicked(cell)
+                onCellClicked?.invoke(cell)
             }
         }
 

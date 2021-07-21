@@ -6,10 +6,10 @@ import androidx.annotation.RestrictTo
 import com.infinum.dbinspector.ui.shared.base.BaseFragment
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-internal abstract class BaseSearchableFragment(
+internal abstract class BaseSearchableFragment<State, Event>(
     @LayoutRes contentLayoutId: Int
 ) :
-    BaseFragment(contentLayoutId),
+    BaseFragment<State, Event>(contentLayoutId),
     Searchable {
 
     private var parentSearchable: Searchable? = null

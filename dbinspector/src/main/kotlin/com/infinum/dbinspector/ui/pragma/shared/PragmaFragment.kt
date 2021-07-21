@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.updateLayoutParams
+import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -17,9 +18,10 @@ import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import com.infinum.dbinspector.ui.shared.edgefactories.bounce.BounceEdgeEffectFactory
 import com.infinum.dbinspector.ui.shared.headers.Header
 import com.infinum.dbinspector.ui.shared.headers.HeaderAdapter
+import kotlinx.coroutines.launch
 
 internal abstract class PragmaFragment :
-    BaseFragment(R.layout.dbinspector_fragment_pragma) {
+    BaseFragment<PragmaState, Any>(R.layout.dbinspector_fragment_pragma) {
 
     companion object {
 
@@ -52,7 +54,7 @@ internal abstract class PragmaFragment :
             tableName = it.getString(Presentation.Constants.Keys.SCHEMA_NAME, "")
 
             viewModel.databasePath = databasePath
-        } ?: (requireActivity() as? BaseActivity)?.showDatabaseParametersError()
+        } ?: (requireActivity() as? BaseActivity<*, *>)?.showDatabaseParametersError()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -105,7 +107,9 @@ internal abstract class PragmaFragment :
                 edgeEffectFactory = BounceEdgeEffectFactory()
             }
 
-            val headerAdapter = HeaderAdapter(headers().map { Header(name = it) }, false)
+            val headerAdapter = HeaderAdapter().apply {
+                setItems(headers().map { Header(name = it) })
+            }
 
             recyclerView.adapter = ConcatAdapter(headerAdapter, pragmaAdapter)
 
@@ -113,8 +117,17 @@ internal abstract class PragmaFragment :
         }
     }
 
-    private fun query() =
-        viewModel.query(tableName) {
-            pragmaAdapter.submitData(it)
+    override fun onState(state: PragmaState) {
+        when (state) {
+            is PragmaState.Pragma ->
+                viewLifecycleOwner.lifecycleScope.launch {
+                    pragmaAdapter.submitData(state.pragma)
+                }
         }
+    }
+
+    override fun onEvent(event: Any) = Unit
+
+    private fun query() =
+        viewModel.query(tableName)
 }

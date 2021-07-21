@@ -1,19 +1,19 @@
 package com.infinum.dbinspector.ui.schema.shared
 
-import androidx.paging.PagingData
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.shared.base.BaseUseCase
-import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.domain.shared.models.Page
 import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
 import com.infinum.dbinspector.ui.shared.datasources.ContentDataSource
 import com.infinum.dbinspector.ui.shared.paging.PagingViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flowOn
 
 internal abstract class SchemaSourceViewModel(
     openConnection: UseCases.OpenConnection,
     closeConnection: UseCases.CloseConnection,
     private val useCase: BaseUseCase<ContentParameters, Page>
-) : PagingViewModel(openConnection, closeConnection) {
+) : PagingViewModel<SchemaState, Any>(openConnection, closeConnection) {
 
     abstract fun schemaStatement(query: String?): String
 
@@ -26,13 +26,14 @@ internal abstract class SchemaSourceViewModel(
 
     fun query(
         databasePath: String,
-        query: String?,
-        onData: suspend (value: PagingData<Cell>) -> Unit
+        query: String?
     ) {
         launch {
-            pageFlow(databasePath, schemaStatement(query)) {
-                onData(it)
-            }
+            pageFlow(databasePath, schemaStatement(query))
+                .flowOn(runningDispatchers)
+                .collectLatest {
+                    setState(SchemaState.Schema(schema = it))
+                }
         }
     }
 }

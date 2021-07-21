@@ -19,7 +19,7 @@ import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import com.infinum.dbinspector.ui.shared.searchable.Searchable
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-internal class SchemaActivity : BaseActivity(), Searchable {
+internal class SchemaActivity : BaseActivity<Any, Any>(), Searchable {
 
     override val binding by viewBinding(DbinspectorActivitySchemaBinding::inflate)
 
@@ -56,6 +56,10 @@ internal class SchemaActivity : BaseActivity(), Searchable {
         viewModel.close()
         super.onDestroy()
     }
+
+    override fun onState(state: Any) = Unit
+
+    override fun onEvent(event: Any) = Unit
 
     override fun onSearchOpened() = Unit
 

@@ -16,32 +16,32 @@ internal class SettingsViewModel(
     private val linesCount: UseCases.SaveLinesCount,
     private val truncateMode: UseCases.SaveTruncateMode,
     private val blobPreviewMode: UseCases.SaveBlobPreviewMode
-) : BaseViewModel() {
+) : BaseViewModel<SettingsState, SettingsEvent>() {
 
-    fun load(action: suspend (Settings) -> Unit) =
+    fun load() =
         launch {
             val result = io {
                 getSettings(SettingsParameters.Get())
             }
-            action(result)
+            setState(SettingsState.Settings(settings = result))
         }
 
-    fun saveIgnoredTableName(newName: String, action: suspend (String) -> Unit) =
+    fun saveIgnoredTableName(newName: String) =
         launch {
             val result = io {
                 saveIgnoredTableName(SettingsParameters.IgnoredTableName(newName))
                 newName
             }
-            action(result)
+            emitEvent(SettingsEvent.AddIgnoredTable(name = result))
         }
 
-    fun removeIgnoredTableName(newName: String, action: suspend (String) -> Unit) =
+    fun removeIgnoredTableName(newName: String) =
         launch {
             val result = io {
                 removeIgnoredTableName(SettingsParameters.IgnoredTableName(newName))
                 newName
             }
-            action(result)
+            emitEvent(SettingsEvent.RemoveIgnoredTable(name = result))
         }
 
     fun toggleLinesLimit(isEnabled: Boolean) {

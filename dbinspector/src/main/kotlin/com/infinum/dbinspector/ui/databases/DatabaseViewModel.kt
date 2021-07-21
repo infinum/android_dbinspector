@@ -2,8 +2,6 @@ package com.infinum.dbinspector.ui.databases
 
 import android.content.Context
 import android.net.Uri
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
 import com.infinum.dbinspector.domain.shared.models.parameters.DatabaseParameters
@@ -14,16 +12,11 @@ internal class DatabaseViewModel(
     private val importDatabases: UseCases.ImportDatabases,
     private val removeDatabase: UseCases.RemoveDatabase,
     private val copyDatabase: UseCases.CopyDatabase
-) : BaseViewModel() {
-
-    private val currentDatabases: MutableLiveData<List<DatabaseDescriptor>> = MutableLiveData()
-
-    val databases: LiveData<List<DatabaseDescriptor>>
-        get() = currentDatabases
+) : BaseViewModel<DatabaseState, Any>() {
 
     fun browse(context: Context, query: String? = null) {
         launch {
-            currentDatabases.value = io {
+            val result = io {
                 getDatabases(
                     DatabaseParameters.Get(
                         context = context,
@@ -31,6 +24,7 @@ internal class DatabaseViewModel(
                     )
                 )
             }
+            setState(DatabaseState.Databases(databases = result))
         }
     }
 
