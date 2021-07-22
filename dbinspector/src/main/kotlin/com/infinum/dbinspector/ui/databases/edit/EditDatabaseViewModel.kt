@@ -8,13 +8,12 @@ import com.infinum.dbinspector.ui.shared.base.BaseViewModel
 
 internal class EditDatabaseViewModel(
     private val renameDatabase: UseCases.RenameDatabase
-) : BaseViewModel() {
+) : BaseViewModel<Any, EditDatabaseEvent>() {
 
     fun rename(
         context: Context,
         database: DatabaseDescriptor,
-        newName: String,
-        action: suspend (DatabaseDescriptor) -> Unit
+        newName: String
     ) =
         launch {
             val result = io {
@@ -27,7 +26,7 @@ internal class EditDatabaseViewModel(
                 )
             }
             if (result.isNotEmpty()) {
-                action(result.first())
+                emitEvent(EditDatabaseEvent.Renamed(descriptor = result.first()))
             }
         }
 }

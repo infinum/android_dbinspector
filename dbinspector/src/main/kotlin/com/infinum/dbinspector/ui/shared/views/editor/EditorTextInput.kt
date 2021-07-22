@@ -10,6 +10,7 @@ import android.util.AttributeSet
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputConnection
 import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
+import androidx.core.view.doOnLayout
 import androidx.core.widget.doOnTextChanged
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.extensions.getColorFromAttribute
@@ -85,11 +86,13 @@ internal class EditorTextInput @JvmOverloads constructor(
         isFocusableInTouchMode = true
 
         setDropDownBackgroundResource(R.drawable.dbinspector_keyword_popup_background)
-        doOnTextChanged { text, _, _, _ ->
-            dropDownHorizontalOffset = layout.getPrimaryHorizontal(
-                text?.toString().orEmpty().length
-            ).roundToInt() + lineCountPadding
-            dropDownVerticalOffset = layout.getLineTop(lineCount) + paddingTop
+        doOnLayout {
+            doOnTextChanged { text, _, _, _ ->
+                dropDownHorizontalOffset = layout.getPrimaryHorizontal(
+                    text?.toString().orEmpty().length
+                ).roundToInt() + lineCountPadding
+                dropDownVerticalOffset = layout.getLineTop(lineCount) + paddingTop
+            }
         }
 
         keywordAdapter.registerDataSetObserver(

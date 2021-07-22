@@ -29,7 +29,6 @@ internal class EditDatabaseViewModelTest : BaseTest() {
         val context: Context = get()
         val descriptor: DatabaseDescriptor = mockk()
         val newName = "invoices"
-        val action: suspend (DatabaseDescriptor) -> Unit = mockk()
         val useCase: UseCases.RenameDatabase = get()
         val result: List<DatabaseDescriptor> = listOf()
         coEvery { useCase.invoke(any()) } returns result
@@ -39,12 +38,12 @@ internal class EditDatabaseViewModelTest : BaseTest() {
         viewModel.rename(
             context,
             descriptor,
-            newName,
-            action
+            newName
         )
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        coVerify(exactly = 0) { action.invoke(descriptor) }
+        // TODO Lambdas are replaced
+//        coVerify(exactly = 0) { action.invoke(descriptor) }
     }
 
     @Test
@@ -52,7 +51,6 @@ internal class EditDatabaseViewModelTest : BaseTest() {
         val context: Context = get()
         val descriptor: DatabaseDescriptor = mockk()
         val newName = "invoices"
-        val action: suspend (DatabaseDescriptor) -> Unit = mockk()
         val useCase: UseCases.RenameDatabase = get()
         val result: List<DatabaseDescriptor> = listOf(descriptor)
         coEvery { useCase.invoke(any()) } returns result
@@ -62,11 +60,11 @@ internal class EditDatabaseViewModelTest : BaseTest() {
         viewModel.rename(
             context,
             descriptor,
-            newName,
-            action
+            newName
         )
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        coVerify(exactly = 1) { action.invoke(descriptor) }
+        // TODO Lambdas are replaced
+//        coVerify(exactly = 1) { action.invoke(descriptor) }
     }
 }

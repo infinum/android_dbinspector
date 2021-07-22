@@ -7,10 +7,10 @@ import com.infinum.dbinspector.databinding.DbinspectorItemCellBinding
 import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.ui.shared.diffutils.CellDiffUtil
 
-internal class ContentAdapter(
-    private val headersCount: Int,
-    private val onCellClicked: (Cell) -> Unit
-) : PagingDataAdapter<Cell, ContentViewHolder>(CellDiffUtil()) {
+internal class ContentAdapter : PagingDataAdapter<Cell, ContentViewHolder>(CellDiffUtil()) {
+
+    var headersCount: Int = 0
+    var onCellClicked: ((Cell) -> Unit)? = null
 
     init {
         stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
@@ -26,8 +26,10 @@ internal class ContentAdapter(
         )
 
     override fun onBindViewHolder(holder: ContentViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.bind(item, position / headersCount, onCellClicked)
+        if (headersCount > 0) {
+            val item = getItem(position)
+            holder.bind(item, position / headersCount, onCellClicked)
+        }
     }
 
     override fun onViewRecycled(holder: ContentViewHolder) =

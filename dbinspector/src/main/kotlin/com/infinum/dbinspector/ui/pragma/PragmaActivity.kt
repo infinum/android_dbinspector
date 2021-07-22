@@ -12,7 +12,7 @@ import com.infinum.dbinspector.ui.shared.delegates.lifecycleConnection
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-internal class PragmaActivity : BaseActivity() {
+internal class PragmaActivity : BaseActivity<Any, Any>() {
 
     override val binding by viewBinding(DbinspectorActivityPragmaBinding::inflate)
 
@@ -44,6 +44,10 @@ internal class PragmaActivity : BaseActivity() {
             showDatabaseParametersError()
         }
     }
+
+    override fun onState(state: Any) = Unit
+
+    override fun onEvent(event: Any) = Unit
 
     private fun setupUi(databaseName: String, databasePath: String, tableName: String) {
         with(binding) {

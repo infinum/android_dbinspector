@@ -9,20 +9,19 @@ import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.shared.base.BaseDataSource
 import com.infinum.dbinspector.ui.shared.base.lifecycle.LifecycleViewModel
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.Flow
 
-internal abstract class PagingViewModel(
+internal abstract class PagingViewModel<State, Event>(
     openConnection: UseCases.OpenConnection,
     closeConnection: UseCases.CloseConnection,
-) : LifecycleViewModel(openConnection, closeConnection) {
+) : LifecycleViewModel<State, Event>(openConnection, closeConnection) {
 
     abstract fun dataSource(databasePath: String, statement: String): BaseDataSource<*>
 
-    suspend fun pageFlow(
+    fun pageFlow(
         databasePath: String,
-        statement: String,
-        onData: suspend (value: PagingData<Cell>) -> Unit
-    ) =
+        statement: String
+    ): Flow<PagingData<Cell>> =
         Pager(
             config = PagingConfig(
                 pageSize = Presentation.Constants.Limits.PAGE_SIZE,
@@ -34,5 +33,4 @@ internal abstract class PagingViewModel(
         }
             .flow
             .cachedIn(runningScope)
-            .collectLatest { onData(it) }
 }

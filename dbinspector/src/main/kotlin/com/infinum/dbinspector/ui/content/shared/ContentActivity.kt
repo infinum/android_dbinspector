@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.MenuRes
 import androidx.annotation.StringRes
+import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
@@ -28,8 +29,10 @@ import com.infinum.dbinspector.ui.shared.delegates.lifecycleConnection
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import com.infinum.dbinspector.ui.shared.edgefactories.bounce.BounceEdgeEffectFactory
 import com.infinum.dbinspector.ui.shared.headers.HeaderAdapter
+import kotlinx.coroutines.launch
 
-internal abstract class ContentActivity : BaseActivity() {
+@Suppress("TooManyFunctions")
+internal abstract class ContentActivity : BaseActivity<ContentState, ContentEvent>() {
 
     override val binding by viewBinding(DbinspectorActivityContentBinding::inflate)
 
@@ -48,9 +51,9 @@ internal abstract class ContentActivity : BaseActivity() {
 
     private lateinit var contentPreviewFactory: ContentPreviewFactory
 
-    private lateinit var headerAdapter: HeaderAdapter
+    private val headerAdapter: HeaderAdapter = HeaderAdapter()
 
-    private lateinit var contentAdapter: ContentAdapter
+    private val contentAdapter: ContentAdapter = ContentAdapter()
 
     private lateinit var contract: ActivityResultLauncher<EditContract.Input>
 
@@ -60,6 +63,14 @@ internal abstract class ContentActivity : BaseActivity() {
         binding.toolbar.setNavigationOnClickListener { finish() }
 
         contentPreviewFactory = ContentPreviewFactory(this)
+
+        headerAdapter.isClickable = true
+        headerAdapter.onClick = { header ->
+            query(connection.schemaName!!, header.name, header.sort)
+            headerAdapter.updateHeader(header)
+        }
+
+        contentAdapter.onCellClicked = { cell -> contentPreviewFactory.showCell(cell) }
 
         contract = registerForActivityResult(EditContract()) { shouldRefresh ->
             if (shouldRefresh) {
@@ -76,16 +87,23 @@ internal abstract class ContentActivity : BaseActivity() {
                 connection.schemaName!!
             )
 
-            viewModel.header(connection.schemaName!!) { tableHeaders ->
-                headerAdapter = HeaderAdapter(tableHeaders, true) { header ->
-                    query(connection.schemaName!!, header.name, header.sort)
-                    headerAdapter.updateHeader(header)
-                }
+            viewModel.header(connection.schemaName!!)
+        } else {
+            showDatabaseParametersError()
+        }
+    }
 
-                contentAdapter = ContentAdapter(
-                    headersCount = tableHeaders.size,
-                    onCellClicked = { cell -> contentPreviewFactory.showCell(cell) }
-                )
+    override fun onDestroy() {
+        contract.unregister()
+        super.onDestroy()
+    }
+
+    override fun onState(state: ContentState) {
+        when (state) {
+            is ContentState.Headers -> {
+                headerAdapter.setItems(state.headers)
+
+                contentAdapter.headersCount = state.headers.size
 
                 with(binding) {
                     contentAdapter.addLoadStateListener { loadState ->
@@ -100,7 +118,7 @@ internal abstract class ContentActivity : BaseActivity() {
 
                     recyclerView.layoutManager = GridLayoutManager(
                         this@ContentActivity,
-                        tableHeaders.size,
+                        state.headers.size,
                         RecyclerView.VERTICAL,
                         false
                     )
@@ -110,14 +128,28 @@ internal abstract class ContentActivity : BaseActivity() {
 
                 query(connection.schemaName!!)
             }
-        } else {
-            showDatabaseParametersError()
+            is ContentState.Content -> {
+//                if (this::contentAdapter.isInitialized.not()) {
+//                    viewModel.header(connection.schemaName!!)
+//                } else {
+                lifecycleScope.launch {
+                    contentAdapter.submitData(state.content)
+                }
+//                }
+            }
         }
     }
 
-    override fun onDestroy() {
-        contract.unregister()
-        super.onDestroy()
+    override fun onEvent(event: ContentEvent) {
+        when (event) {
+            is ContentEvent.Dropped -> {
+                when (viewModel) {
+                    is TableViewModel -> clearTable()
+                    is TriggerViewModel -> dropTrigger()
+                    is ViewViewModel -> dropView()
+                }
+            }
+        }
     }
 
     private fun setupUi(databasePath: String, databaseName: String, schemaName: String) {
@@ -167,13 +199,7 @@ internal abstract class ContentActivity : BaseActivity() {
             .setTitle(R.string.dbinspector_title_info)
             .setMessage(String.format(getString(drop), name))
             .setPositiveButton(android.R.string.ok) { dialog: DialogInterface, _: Int ->
-                viewModel.drop(name) {
-                    when (viewModel) {
-                        is TableViewModel -> clearTable()
-                        is TriggerViewModel -> dropTrigger()
-                        is ViewViewModel -> dropView()
-                    }
-                }
+                viewModel.drop(name)
                 dialog.dismiss()
             }
             .setNegativeButton(android.R.string.cancel) { dialog: DialogInterface, _: Int ->
@@ -187,9 +213,7 @@ internal abstract class ContentActivity : BaseActivity() {
         orderBy: String? = null,
         sort: Sort = Sort.ASCENDING
     ) =
-        viewModel.query(name, orderBy, sort) {
-            contentAdapter.submitData(it)
-        }
+        viewModel.query(name, orderBy, sort)
 
     private fun clearTable() =
         contentAdapter.refresh()

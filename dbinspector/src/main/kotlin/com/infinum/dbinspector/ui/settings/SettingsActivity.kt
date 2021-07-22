@@ -17,7 +17,8 @@ import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import kotlin.math.roundToInt
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-internal class SettingsActivity : BaseActivity() {
+@Suppress("TooManyFunctions")
+internal class SettingsActivity : BaseActivity<SettingsState, SettingsEvent>() {
 
     override val binding by viewBinding(DbinspectorActivitySettingsBinding::inflate)
 
@@ -28,8 +29,18 @@ internal class SettingsActivity : BaseActivity() {
 
         initUi()
 
-        viewModel.load {
-            setupUi(it)
+        viewModel.load()
+    }
+
+    override fun onState(state: SettingsState) =
+        when (state) {
+            is SettingsState.Settings -> setupUi(state.settings)
+        }
+
+    override fun onEvent(event: SettingsEvent) {
+        when (event) {
+            is SettingsEvent.AddIgnoredTable -> addNewIgnoredTableNameView(event.name)
+            is SettingsEvent.RemoveIgnoredTable -> removeIgnoredTableNameView(event.name)
         }
     }
 
@@ -148,9 +159,7 @@ internal class SettingsActivity : BaseActivity() {
         val binding = DbinspectorItemIgnoredTableNameBinding.inflate(layoutInflater, binding.namesLayout, false)
         binding.nameView.text = name
         binding.removeButton.setOnClickListener {
-            viewModel.removeIgnoredTableName(binding.nameView.text.toString()) {
-                removeIgnoredTableNameView(it)
-            }
+            viewModel.removeIgnoredTableName(binding.nameView.text.toString())
         }
         binding.root.tag = name
         return binding.root
@@ -164,23 +173,25 @@ internal class SettingsActivity : BaseActivity() {
                 .toList()
 
             if (name !in ignoredNames) {
-                viewModel.saveIgnoredTableName(name) {
-                    namesLayout.addView(
-                        createIgnoredTableNameView(it),
-                        0
-                    )
-                    tableNameInputLayout.editText?.text?.clear()
-                }
+                viewModel.saveIgnoredTableName(name)
             }
         }
 
+    private fun addNewIgnoredTableNameView(name: String) {
+        with(binding) {
+            namesLayout.addView(
+                createIgnoredTableNameView(name),
+                0
+            )
+            tableNameInputLayout.editText?.text?.clear()
+        }
+    }
+
     private fun removeIgnoredTableNameView(name: String) =
         with(binding) {
-            viewModel.removeIgnoredTableName(name) { removedName ->
-                namesLayout.children
-                    .filterIsInstance<LinearLayout>()
-                    .find { it.tag == removedName }
-                    ?.let { namesLayout.removeView(it) }
-            }
+            namesLayout.children
+                .filterIsInstance<LinearLayout>()
+                .find { it.tag == name }
+                ?.let { namesLayout.removeView(it) }
         }
 }

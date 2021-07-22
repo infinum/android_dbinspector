@@ -17,7 +17,7 @@ import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import com.infinum.dbinspector.ui.shared.edgefactories.bounce.BounceEdgeEffectFactory
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-internal class HistoryDialog : BaseBottomSheetDialogFragment(R.layout.dbinspector_dialog_history) {
+internal class HistoryDialog : BaseBottomSheetDialogFragment<HistoryState, Any>(R.layout.dbinspector_dialog_history) {
 
     companion object {
         private var databaseName: String? = null
@@ -74,13 +74,21 @@ internal class HistoryDialog : BaseBottomSheetDialogFragment(R.layout.dbinspecto
 
         setupRecyclerView()
 
-        viewModel.history(databasePath) {
-            executionsAdapter.submitList(it.executions)
-            if (it.executions.isEmpty()) {
-                dismiss()
+        viewModel.history(databasePath)
+    }
+
+    override fun onState(state: HistoryState) {
+        when (state) {
+            is HistoryState.History -> {
+                executionsAdapter.submitList(state.history.executions)
+                if (state.history.executions.isEmpty()) {
+                    dismiss()
+                }
             }
         }
     }
+
+    override fun onEvent(event: Any) = Unit
 
     override fun onDetach() {
         listener = null

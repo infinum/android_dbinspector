@@ -24,9 +24,11 @@ import com.infinum.dbinspector.ui.shared.delegates.lifecycleConnection
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import com.infinum.dbinspector.ui.shared.edgefactories.bounce.BounceEdgeEffectFactory
 import com.infinum.dbinspector.ui.shared.headers.HeaderAdapter
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-internal class EditActivity : BaseActivity(), HistoryDialog.Listener {
+@Suppress("TooManyFunctions")
+internal class EditActivity : BaseActivity<EditState, EditEvent>(), HistoryDialog.Listener {
 
     override val binding by viewBinding(DbinspectorActivityEditBinding::inflate)
 
@@ -36,28 +38,83 @@ internal class EditActivity : BaseActivity(), HistoryDialog.Listener {
 
     private lateinit var contentPreviewFactory: ContentPreviewFactory
 
-    private lateinit var headerAdapter: HeaderAdapter
+    private val headerAdapter: HeaderAdapter = HeaderAdapter()
 
-    private lateinit var contentAdapter: ContentAdapter
+    private val contentAdapter: ContentAdapter = ContentAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         contentPreviewFactory = ContentPreviewFactory(this)
 
+        contentAdapter.onCellClicked = { cell -> contentPreviewFactory.showCell(cell) }
+
         binding.toolbar.setNavigationOnClickListener { finish() }
 
         if (connection.hasDatabaseData) {
             viewModel.databasePath = connection.databasePath!!
             viewModel.open()
-            viewModel.keywords { keywords ->
-                binding.editorInput.addKeywords(keywords)
-            }
+            viewModel.keywords()
 
             setupUi(connection.databaseName!!)
         } else {
             showDatabaseParametersError()
         }
+    }
+
+    override fun onState(state: EditState) {
+        when (state) {
+            is EditState.Headers -> {
+                if (state.headers.isNotEmpty()) {
+                    binding.errorView.isVisible = false
+                    binding.recyclerView.layoutManager = GridLayoutManager(
+                        this@EditActivity,
+                        state.headers.size,
+                        RecyclerView.VERTICAL,
+                        false
+                    )
+                    binding.recyclerView.edgeEffectFactory = BounceEdgeEffectFactory()
+
+                    headerAdapter.setItems(state.headers)
+
+                    contentAdapter.headersCount = state.headers.size
+
+                    with(binding) {
+                        recyclerView.adapter = ConcatAdapter(
+                            headerAdapter,
+                            contentAdapter
+                        )
+                    }
+
+                    val query = binding.editorInput.text?.toString().orEmpty().trim()
+                    viewModel.query(query = query)
+                } else {
+                    viewModel.affectedRows()
+                }
+            }
+            is EditState.Content -> showData(state.content)
+            is EditState.AffectedRows -> showAffectedRows(state.affectedRows)
+        }
+    }
+
+    override fun onEvent(event: EditEvent) {
+        when (event) {
+            is EditEvent.Keywords ->
+                binding.editorInput.addKeywords(event.keywords)
+            is EditEvent.History ->
+                binding.toolbar.menu.findItem(R.id.history).isEnabled = event.history.executions.isNotEmpty()
+            is EditEvent.SimilarExecution ->
+                with(binding) {
+                    suggestionButton.isVisible = event.history.executions.isNotEmpty() &&
+                        editorInput.text?.toString()?.trim().orEmpty().isNotBlank() &&
+                        (editorInput.text?.toString().orEmpty().trim() != suggestionButton.text)
+                    suggestionButton.text = event.history.executions.firstOrNull()?.statement
+                }
+        }
+    }
+
+    override fun onError(error: Throwable) {
+        showError(error.message)
     }
 
     override fun onHistorySelected(statement: String) {
@@ -89,15 +146,9 @@ internal class EditActivity : BaseActivity(), HistoryDialog.Listener {
             editorInput.doOnTextChanged { text, _, _, _ ->
                 toolbar.menu.findItem(R.id.clear).isEnabled = text.isNullOrBlank().not()
                 toolbar.menu.findItem(R.id.execute).isEnabled = text.isNullOrBlank().not()
-            }
-            editorInput.doOnTextChanged { text, _, _, _ ->
+
                 if (text?.toString()?.trim().orEmpty().isNotBlank()) {
-                    viewModel.findSimilarExecution(lifecycleScope, text?.toString()?.trim().orEmpty()) {
-                        suggestionButton.isVisible = it.executions.isNotEmpty() &&
-                            text?.toString()?.trim().orEmpty().isNotBlank() &&
-                            (binding.editorInput.text?.toString().orEmpty().trim() != suggestionButton.text)
-                        suggestionButton.text = it.executions.firstOrNull()?.statement
-                    }
+                    viewModel.findSimilarExecution(lifecycleScope, text?.toString()?.trim().orEmpty())
                 } else {
                     suggestionButton.isVisible = text?.toString()?.trim().orEmpty().isNotBlank()
                 }
@@ -105,9 +156,7 @@ internal class EditActivity : BaseActivity(), HistoryDialog.Listener {
         }
 
         binding.recyclerView.setupAsTable()
-        viewModel.history {
-            binding.toolbar.menu.findItem(R.id.history).isEnabled = it.executions.isNotEmpty()
-        }
+        viewModel.history()
     }
 
     private fun clearInput() =
@@ -124,62 +173,23 @@ internal class EditActivity : BaseActivity(), HistoryDialog.Listener {
 
     private fun query() {
         val query = binding.editorInput.text?.toString().orEmpty().trim()
-
-        viewModel.header(
-            query = query,
-            onData = { tableHeaders ->
-                if (tableHeaders.isNotEmpty()) {
-                    binding.errorView.isVisible = false
-                    binding.recyclerView.layoutManager = GridLayoutManager(
-                        this@EditActivity,
-                        tableHeaders.size,
-                        RecyclerView.VERTICAL,
-                        false
-                    )
-                    binding.recyclerView.edgeEffectFactory = BounceEdgeEffectFactory()
-
-                    headerAdapter = HeaderAdapter(tableHeaders, false) {}
-
-                    contentAdapter = ContentAdapter(
-                        headersCount = tableHeaders.size,
-                        onCellClicked = { cell -> contentPreviewFactory.showCell(cell) }
-                    )
-
-                    with(binding) {
-                        recyclerView.adapter = ConcatAdapter(
-                            headerAdapter,
-                            contentAdapter
-                        )
-                    }
-
-                    viewModel.query(
-                        query = query,
-                        onData = { showData(it) },
-                        onError = { showError(it.message) }
-                    )
-                } else {
-                    viewModel.affectedRows(
-                        onData = { showAffectedRows(it) },
-                        onError = { showError(it.message) }
-                    )
-                }
-            },
-            onError = { showError(it.message) }
-        )
+        viewModel.header(query = query)
     }
 
-    private suspend fun showData(cells: PagingData<Cell>) {
+    private fun showData(cells: PagingData<Cell>) {
         viewModel.saveSuccessfulExecution(binding.editorInput.text?.toString().orEmpty().trim())
         with(binding) {
             recyclerView.isVisible = true
             affectedRowsView.isVisible = false
             errorView.isVisible = false
         }.also {
-            contentAdapter.submitData(cells)
+            lifecycleScope.launch {
+                contentAdapter.submitData(cells)
+            }
         }
     }
 
-    private suspend fun showAffectedRows(rowCount: String) {
+    private fun showAffectedRows(rowCount: String) {
         viewModel.saveSuccessfulExecution(binding.editorInput.text?.toString().orEmpty().trim())
         with(binding) {
             recyclerView.isVisible = false

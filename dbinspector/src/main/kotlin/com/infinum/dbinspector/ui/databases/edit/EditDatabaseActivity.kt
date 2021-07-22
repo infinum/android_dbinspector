@@ -14,7 +14,7 @@ import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-internal class EditDatabaseActivity : BaseActivity() {
+internal class EditDatabaseActivity : BaseActivity<Any, EditDatabaseEvent>() {
 
     override val binding by viewBinding(DbinspectorActivityEditDatabaseBinding::inflate)
 
@@ -57,6 +57,23 @@ internal class EditDatabaseActivity : BaseActivity() {
         } ?: showDatabaseParametersError()
     }
 
+    override fun onState(state: Any) = Unit
+
+    override fun onEvent(event: EditDatabaseEvent) {
+        when (event) {
+            is EditDatabaseEvent.Renamed -> {
+                this.databasePath = event.descriptor.absolutePath
+                this.databaseName = event.descriptor.name
+                setResult(
+                    Activity.RESULT_OK,
+                    Intent().apply {
+                        putExtra(Presentation.Constants.Keys.SHOULD_REFRESH, true)
+                    }
+                )
+            }
+        }
+    }
+
     private fun setupUi() {
         with(binding) {
             toolbar.subtitle = databaseName
@@ -92,16 +109,7 @@ internal class EditDatabaseActivity : BaseActivity() {
                     extension = databaseExtension.orEmpty()
                 ),
                 newName = newDatabaseName
-            ) {
-                this.databasePath = it.absolutePath
-                this.databaseName = it.name
-                setResult(
-                    Activity.RESULT_OK,
-                    Intent().apply {
-                        putExtra(Presentation.Constants.Keys.SHOULD_REFRESH, true)
-                    }
-                )
-            }
+            )
         } ?: showDatabaseParametersError()
     }
 }

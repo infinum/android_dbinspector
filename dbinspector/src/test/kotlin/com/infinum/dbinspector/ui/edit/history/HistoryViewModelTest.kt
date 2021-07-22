@@ -28,14 +28,13 @@ internal class HistoryViewModelTest : BaseTest() {
     @Test
     fun `Load history for database path`() {
         val databasePath = "test.db"
-        val action: suspend (History) -> Unit = mockk()
         val useCase: UseCases.GetHistory = get()
         val result: Flow<History> = mockk()
         coEvery { useCase.invoke(any()) } returns result
 
         val viewModel: HistoryViewModel = get()
 
-        viewModel.history(databasePath, action)
+        viewModel.history(databasePath)
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
     }

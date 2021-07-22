@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.infinum.dbinspector.databinding.DbinspectorItemHeaderBinding
 
-internal class HeaderAdapter(
-    private var headerItems: List<Header>,
-    private val isClickable: Boolean = false,
-    private val onClick: ((Header) -> Unit)? = null
-) : RecyclerView.Adapter<HeaderViewHolder>() {
+internal class HeaderAdapter : RecyclerView.Adapter<HeaderViewHolder>() {
+
+    private var headerItems: List<Header> = listOf()
+    var isClickable: Boolean = false
+    var onClick: ((Header) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeaderViewHolder =
         HeaderViewHolder(
@@ -35,6 +35,11 @@ internal class HeaderAdapter(
 
     override fun getItemCount(): Int =
         headerItems.size
+
+    fun setItems(headers: List<Header>) {
+        headerItems = headers
+        notifyDataSetChanged()
+    }
 
     fun updateHeader(header: Header) {
         headerItems = headerItems.map {
