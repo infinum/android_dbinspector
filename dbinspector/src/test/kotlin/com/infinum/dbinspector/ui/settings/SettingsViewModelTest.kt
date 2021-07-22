@@ -7,7 +7,9 @@ import com.infinum.dbinspector.domain.shared.models.TruncateMode
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -35,46 +37,52 @@ internal class SettingsViewModelTest : BaseTest() {
 
     @Test
     fun `Get current default settings`() {
-        val action: suspend (Settings) -> Unit = mockk()
+        val expected: Settings = mockk {
+            every { linesLimitEnabled } returns false
+            every { linesCount } returns 100
+            every { truncateMode } returns TruncateMode.END
+            every { blobPreviewMode } returns BlobPreviewMode.PLACEHOLDER
+            every { ignoredTableNames } returns listOf()
+        }
         val useCase: UseCases.GetSettings = get()
         val result: Settings = mockk()
         coEvery { useCase.invoke(any()) } returns result
 
         val viewModel: SettingsViewModel = get()
-        viewModel.load(action)
+        viewModel.load()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        coVerify(exactly = 1) { action.invoke(result) }
+        assertEquals(viewModel.stateFlow.replayCache.first(), SettingsState.Settings(settings = expected))
+        // TODO Lambdas are replaced
+//        coVerify(exactly = 1) { action.invoke(result) }
     }
 
     @Test
     fun `Save ignored table name`() {
         val name = "android_metadata"
-        val action: suspend (String) -> Unit = mockk()
         val useCase: UseCases.SaveIgnoredTableName = get()
-        val result = "android_metadata"
         coEvery { useCase.invoke(any()) } returns Unit
 
         val viewModel: SettingsViewModel = get()
-        viewModel.saveIgnoredTableName(name, action)
+        viewModel.saveIgnoredTableName(name)
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        coVerify(exactly = 1) { action.invoke(result) }
+        // TODO Lambdas are replaced
+//        coVerify(exactly = 1) { action.invoke(result) }
     }
 
     @Test
     fun `Remove ignored table name`() {
         val name = "android_metadata"
-        val action: suspend (String) -> Unit = mockk()
         val useCase: UseCases.RemoveIgnoredTableName = get()
-        val result = "android_metadata"
         coEvery { useCase.invoke(any()) } returns Unit
 
         val viewModel: SettingsViewModel = get()
-        viewModel.removeIgnoredTableName(name, action)
+        viewModel.removeIgnoredTableName(name)
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        coVerify(exactly = 1) { action.invoke(result) }
+        // TODO Lambdas are replaced
+//        coVerify(exactly = 1) { action.invoke(result) }
     }
 
     @Test

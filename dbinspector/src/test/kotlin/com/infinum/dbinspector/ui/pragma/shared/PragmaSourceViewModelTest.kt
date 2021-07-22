@@ -1,9 +1,7 @@
 package com.infinum.dbinspector.ui.pragma.shared
 
-import androidx.paging.PagingData
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.shared.base.BaseUseCase
-import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.domain.shared.models.Page
 import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
 import com.infinum.dbinspector.shared.BaseTest
@@ -62,18 +60,18 @@ internal class PragmaSourceViewModelTest : BaseTest() {
     @Disabled("Not sure how to test Flow and collectLatest")
     fun `Query is invoked`() {
         val name = "my_statement"
-        val action: suspend (PagingData<Cell>) -> Unit = mockk()
         val useCase: BaseUseCase<PragmaParameters.Pragma, Page> = get()
 
         val viewModel: PragmaSourceViewModel = get()
 
         // coEvery { action.invoke(any()) } returns mockk()
-        coEvery { viewModel.pageFlow(any(), any(), action) } returns Unit
+        coEvery { viewModel.pageFlow(any(), any()) } returns mockk()
         coEvery { useCase.invoke(any()) } returns mockk()
 
-        viewModel.query(name, action)
+        viewModel.query(name)
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
+        // TODO Lambdas are replaced
         // coVerify(exactly = 1) { action.invoke(any()) }
     }
 }

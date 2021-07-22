@@ -1,12 +1,7 @@
 package com.infinum.dbinspector.ui.edit
 
-import androidx.paging.PagingData
 import com.infinum.dbinspector.domain.UseCases
-import com.infinum.dbinspector.domain.history.models.History
-import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.shared.BaseTest
-import com.infinum.dbinspector.ui.shared.headers.Header
-import com.infinum.dbinspector.ui.shared.views.editor.Keyword
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -74,8 +69,6 @@ internal class EditViewModelTest : BaseTest() {
     @Disabled("Lambda onData is not invoked")
     fun `Raw query content header is invoked`() {
         val query = "SELECT * FROM my_table"
-        val onData: suspend (List<Header>) -> Unit = mockk()
-        val onError: suspend (Throwable) -> Unit = mockk()
         val useCase: UseCases.GetRawQueryHeaders = get()
 
         val viewModel: EditViewModel = get()
@@ -83,9 +76,10 @@ internal class EditViewModelTest : BaseTest() {
         // coEvery { onData.invoke(any()) } returns mockk()
         coEvery { useCase.invoke(any()) } returns mockk()
 
-        viewModel.header(query, onData, onError)
+        viewModel.header(query)
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
+        // TODO Lambdas are replaced
         // coVerify(exactly = 1) { onData.invoke(any()) }
     }
 
@@ -93,8 +87,6 @@ internal class EditViewModelTest : BaseTest() {
     @Disabled("Lambda onData is not invoked")
     fun `Raw query content data is invoked`() {
         val query = "SELECT * FROM my_table"
-        val onData: suspend (PagingData<Cell>) -> Unit = mockk()
-        val onError: suspend (Throwable) -> Unit = mockk()
         val useCase: UseCases.GetRawQuery = get()
 
         val viewModel: EditViewModel = get()
@@ -102,9 +94,10 @@ internal class EditViewModelTest : BaseTest() {
         // coEvery { action.invoke(any()) } returns mockk()
         coEvery { useCase.invoke(any()) } returns mockk()
 
-        viewModel.query(query, onData, onError)
+        viewModel.query(query)
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
+        // TODO Lambdas are replaced
         // coVerify(exactly = 1) { action.invoke(result) }
     }
 
@@ -112,8 +105,6 @@ internal class EditViewModelTest : BaseTest() {
     @Disabled("Lambda onData is not invoked")
     fun `Raw query content data with affected rows is invoked`() {
         val query = "SELECT * FROM my_table"
-        val onData: suspend (PagingData<Cell>) -> Unit = mockk()
-        val onError: suspend (Throwable) -> Unit = mockk()
         val useCase: UseCases.GetAffectedRows = get()
 
         val viewModel: EditViewModel = get()
@@ -121,16 +112,16 @@ internal class EditViewModelTest : BaseTest() {
         // coEvery { action.invoke(any()) } returns mockk()
         coEvery { useCase.invoke(any()) } returns mockk()
 
-        viewModel.query(query, onData, onError)
+        viewModel.query(query)
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
+        // TODO Lambdas are replaced
         // coVerify(exactly = 1) { action.invoke(result) }
     }
 
     @Test
     @Disabled("Use cases not invoked in proper order or at all after first one")
     fun `Collect database keywords like table and column names, view names and trigger names`() {
-        val onData: suspend (List<Keyword>) -> Unit = mockk()
         val useCase: UseCases.GetTables = get()
         val useCaseTableInfo: UseCases.GetTableInfo = get()
 
@@ -140,17 +131,17 @@ internal class EditViewModelTest : BaseTest() {
         coEvery { useCase.invoke(any()) } returns mockk()
         coEvery { useCaseTableInfo.invoke(any()) } returns mockk()
 
-        viewModel.keywords(onData)
+        viewModel.keywords()
 
         coVerify(exactly = 3) { useCase.invoke(any()) }
         coVerify(exactly = 1) { useCaseTableInfo.invoke(any()) }
+        // TODO Lambdas are replaced
         // coVerify(exactly = 1) { action.invoke(result) }
     }
 
     @Test
     @Disabled("Lambda action is not invoked")
     fun `Get all history`() {
-        val action: suspend (History) -> Unit = mockk()
         val useCase: UseCases.GetHistory = get()
 
         val viewModel: EditViewModel = get()
@@ -158,9 +149,10 @@ internal class EditViewModelTest : BaseTest() {
 //        coEvery { action.invoke(any()) } returns Unit
         coEvery { useCase.invoke(any()) } returns mockk()
 
-        viewModel.history(action)
+        viewModel.history()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
+        // TODO Lambdas are replaced
 //        coVerify(exactly = 1) { action.invoke(any()) }
     }
 
@@ -168,7 +160,6 @@ internal class EditViewModelTest : BaseTest() {
     @Disabled("Use case is not invoked")
     fun `Find similar execution`() {
         val given = "my_execution"
-        val action: suspend (History) -> Unit = mockk()
         val useCase: UseCases.GetSimilarExecution = get()
 
         val viewModel: EditViewModel = get()
@@ -176,9 +167,10 @@ internal class EditViewModelTest : BaseTest() {
 //        coEvery { action.invoke(any()) } returns Unit
         coEvery { useCase.invoke(any()) } returns mockk()
 
-        viewModel.findSimilarExecution(testScope, given, action)
+        viewModel.findSimilarExecution(testScope, given)
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
+        // TODO Lambdas are replaced
 //        coVerify(exactly = 1) { action.invoke(any()) }
     }
 

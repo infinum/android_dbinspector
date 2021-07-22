@@ -1,6 +1,14 @@
 Changelog
 =========
 
+## Version 5.3.7
+
+_2021-07-22_
+
+* Update Kotlin to 1.5.21.
+* Remove lambdas as method parameters.
+* Fix memory leaks.
+
 ## Version 5.3.6
 
 _2021-07-09_
