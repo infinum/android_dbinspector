@@ -9,35 +9,21 @@ buildscript {
         gradlePluginPortal()
     }
     dependencies {
-        classpath libs.gradle
-        classpath libs.kotlin.plugin
+        classpath libs.tools.gradle
+        classpath libs.kotlin.gradle
         classpath libs.cpd
-        classpath libs.detekt.plugin
+        classpath libs.detekt.gradle
         classpath libs.ktlint
         classpath libs.dokka
-        classpath libs.protobuf.plugin
+        classpath libs.protobuf.gradle
     }
 }
 
 allprojects {
     repositories {
         google()
+        mavenLocal()
         mavenCentral()
-    }
-
-    def buildProperties = new Properties()
-    file(rootDir.absolutePath + "/build.properties").withInputStream { buildProperties.load(it) }
-    if (buildProperties.getProperty("build.debug").toBoolean()) {
-        configurations.all {
-            resolutionStrategy {
-                dependencySubstitution {
-                    def library = libs.library.get()
-                    def librarynoop = libs.librarynoop.get()
-                    substitute module(library.getModule().toString() + ":" + library.getVersionConstraint().toString()) with project(':dbinspector')
-                    substitute module(librarynoop.getModule().toString() + ":" + librarynoop.getVersionConstraint().toString()) with project(':dbinspector-no-op')
-                }
-            }
-        }
     }
 }
 
