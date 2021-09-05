@@ -18,4 +18,7 @@
     <dimen name="dbinspector_keyword_padding">16dp</dimen>
     <dimen name="dbinspector_keyword_corner">14dp</dimen>
     <dimen name="dbinspector_keyword_popup_corner">16dp</dimen>
+
+    <dimen name="dbinspector_bottom_sheet_corner_radius">16dp</dimen>
+    <dimen name="dbinspector_blur_radius">13dp</dimen>
 </resources>

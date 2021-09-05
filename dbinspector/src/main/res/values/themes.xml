@@ -1,18 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="DbInspector.BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/dbinspector_color_primary</item>
         <item name="colorPrimaryDark">@color/dbinspector_color_primary_dark</item>
         <item name="colorSecondary">@color/dbinspector_color_primary</item>
         <item name="colorOnSecondary">@android:color/white</item>
+        <item name="bottomSheetDialogTheme">@style/DbInspector.Theme.BottomSheetDialog</item>
         <item name="android:statusBarColor">@color/dbinspector_status_bar</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
     </style>
 
     <style name="DbInspector.ToggleButton" parent="@style/Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:textSize">12sp</item>
         <item name="cornerRadius">@dimen/dbinspector_toggle_button_corner_radius</item>
         <item name="android:layout_height">@dimen/dbinspector_toggle_button_size</item>
+    </style>
+
+    <style name="DbInspector.Theme.BottomSheetDialog" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/DbInspector.Theme.BottomSheetDialog.Style</item>
+        <item name="android:windowBlurBehindEnabled" tools:targetApi="s">true</item>
+        <item name="android:windowBlurBehindRadius" tools:targetApi="s">@dimen/dbinspector_blur_radius
+        </item>
+    </style>
+
+    <style name="DbInspector.Theme.BottomSheetDialog.Style" parent="Widget.MaterialComponents.BottomSheet">
+        <item name="shapeAppearanceOverlay">@style/DbInspector.ShapeAppearanceOverlay.BottomSheet</item>
+    </style>
+
+    <style name="DbInspector.ShapeAppearanceOverlay.BottomSheet" parent="">
+        <item name="cornerSizeTopLeft">@dimen/dbinspector_bottom_sheet_corner_radius</item>
+        <item name="cornerSizeTopRight">@dimen/dbinspector_bottom_sheet_corner_radius</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="cornerFamily">rounded</item>
     </style>
 
 </resources>
