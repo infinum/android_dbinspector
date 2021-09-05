@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 internal interface BaseView<State, Event> {
 
-    val viewModel: BaseViewModel<State, Event>
+    val viewModel: BaseViewModel<State, Event>?
 
     fun onState(state: State)
 
@@ -15,17 +15,17 @@ internal interface BaseView<State, Event> {
 
     fun collectFlows(lifecycleCoroutineScope: LifecycleCoroutineScope) {
         lifecycleCoroutineScope.launchWhenStarted {
-            viewModel.stateFlow.collectLatest { state ->
+            viewModel?.stateFlow?.collectLatest { state ->
                 state?.let { onState(it) }
             }
         }
         lifecycleCoroutineScope.launchWhenStarted {
-            viewModel.eventFlow.collectLatest {
+            viewModel?.eventFlow?.collectLatest {
                 onEvent(it)
             }
         }
         lifecycleCoroutineScope.launchWhenStarted {
-            viewModel.errorFlow.collectLatest { throwable ->
+            viewModel?.errorFlow?.collectLatest { throwable ->
                 throwable?.let { onError(it) }
             }
         }

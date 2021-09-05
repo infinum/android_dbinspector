@@ -10,7 +10,6 @@ import com.infinum.dbinspector.ui.shared.base.BaseViewModel
 internal class DatabaseViewModel(
     private val getDatabases: UseCases.GetDatabases,
     private val importDatabases: UseCases.ImportDatabases,
-    private val removeDatabase: UseCases.RemoveDatabase,
     private val copyDatabase: UseCases.CopyDatabase
 ) : BaseViewModel<DatabaseState, Any>() {
 
@@ -37,21 +36,6 @@ internal class DatabaseViewModel(
                 )
             )
             browse(context)
-        }
-
-    fun remove(context: Context, database: DatabaseDescriptor) =
-        launch {
-            val result = io {
-                removeDatabase(
-                    DatabaseParameters.Command(
-                        context = context,
-                        databaseDescriptor = database
-                    )
-                )
-            }
-            if (result.isNotEmpty()) {
-                browse(context)
-            }
         }
 
     fun copy(context: Context, database: DatabaseDescriptor) =

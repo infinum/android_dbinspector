@@ -1,21 +1,22 @@
 package com.infinum.dbinspector.ui.databases
 
 import android.app.Activity
-import android.content.DialogInterface
 import android.os.Bundle
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorActivityDatabasesBinding
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
 import com.infinum.dbinspector.extensions.scale
 import com.infinum.dbinspector.extensions.searchView
 import com.infinum.dbinspector.extensions.setup
+import com.infinum.dbinspector.ui.Presentation.Constants.Keys.REMOVE_DATABASE
+import com.infinum.dbinspector.ui.Presentation.Constants.Keys.SHOULD_REFRESH
 import com.infinum.dbinspector.ui.databases.edit.EditDatabaseContract
+import com.infinum.dbinspector.ui.databases.remove.RemoveDatabaseDialog
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import com.infinum.dbinspector.ui.shared.edgefactories.bounce.BounceEdgeEffectFactory
@@ -57,7 +58,11 @@ internal class DatabasesActivity : BaseActivity<DatabaseState, Any>(), Searchabl
     private val databasesAdapter: DatabasesAdapter = DatabasesAdapter(
         onClick = { navigatorIntentFactory.showSchema(it) },
         interactions = DatabaseInteractions(
-            onDelete = { removeDatabase(it) },
+            onDelete = {
+                RemoveDatabaseDialog
+                    .setDatabaseDescriptor(it)
+                    .show(supportFragmentManager, null)
+            },
             onEdit = {
                 editContract.launch(
                     EditDatabaseContract.Input(
@@ -81,6 +86,12 @@ internal class DatabasesActivity : BaseActivity<DatabaseState, Any>(), Searchabl
         super.onCreate(savedInstanceState)
 
         setupUi()
+
+        supportFragmentManager.setFragmentResultListener(REMOVE_DATABASE, this) { _, bundle ->
+            if (bundle.getBoolean(SHOULD_REFRESH, false)) {
+                refreshDatabases()
+            }
+        }
 
         viewModel.browse(this)
     }
@@ -183,18 +194,4 @@ internal class DatabasesActivity : BaseActivity<DatabaseState, Any>(), Searchabl
     private fun refreshDatabases() {
         search(searchQuery())
     }
-
-    private fun removeDatabase(database: DatabaseDescriptor) =
-        MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.dbinspector_title_confirm)
-            .setMessage(String.format(getString(R.string.dbinspector_delete_database_confirm), database.name))
-            .setPositiveButton(android.R.string.ok) { dialog: DialogInterface, _: Int ->
-                viewModel.remove(this, database)
-                dialog.dismiss()
-            }
-            .setNegativeButton(android.R.string.cancel) { dialog: DialogInterface, _: Int ->
-                dialog.dismiss()
-            }
-            .create()
-            .show()
 }

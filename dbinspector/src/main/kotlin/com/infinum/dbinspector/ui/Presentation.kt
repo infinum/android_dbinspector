@@ -10,6 +10,7 @@ import com.infinum.dbinspector.ui.content.trigger.TriggerViewModel
 import com.infinum.dbinspector.ui.content.view.ViewViewModel
 import com.infinum.dbinspector.ui.databases.DatabaseViewModel
 import com.infinum.dbinspector.ui.databases.edit.EditDatabaseViewModel
+import com.infinum.dbinspector.ui.databases.remove.RemoveDatabaseViewModel
 import com.infinum.dbinspector.ui.edit.EditViewModel
 import com.infinum.dbinspector.ui.edit.history.HistoryViewModel
 import com.infinum.dbinspector.ui.pragma.PragmaViewModel
@@ -37,6 +38,12 @@ internal object Presentation {
             const val DATABASE_EXTENSION = "KEY_DATABASE_EXTENSION"
             const val SCHEMA_NAME = "KEY_SCHEMA_NAME"
             const val SHOULD_REFRESH = "KEY_SHOULD_REFRESH"
+            const val ERROR_MESSAGE = "KEY_ERROR_MESSAGE"
+            const val REMOVE_DATABASE_DESCRIPTOR = "KEY_REMOVE_DATABASE_DESCRIPTOR"
+            const val REMOVE_DATABASE = "KEY_REMOVE_DATABASE"
+            const val DROP_MESSAGE = "KEY_DROP_MESSAGE"
+            const val DROP_NAME = "KEY_DROP_NAME"
+            const val DROP_CONTENT = "KEY_DROP_CONTENT"
         }
 
         object Limits {
@@ -78,8 +85,9 @@ internal object Presentation {
         )
 
     private fun viewModels() = module {
-        viewModel { DatabaseViewModel(get(), get(), get(), get()) }
+        viewModel { DatabaseViewModel(get(), get(), get()) }
         viewModel { EditDatabaseViewModel(get()) }
+        viewModel { RemoveDatabaseViewModel(get()) }
 
         viewModel { SettingsViewModel(get(), get(), get(), get(), get(), get(), get()) }
 

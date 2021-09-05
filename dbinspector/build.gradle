@@ -7,6 +7,7 @@ import groovy.time.TimeDuration
 plugins {
     id "com.android.library"
     id "kotlin-android"
+    id "kotlin-parcelize"
     id "com.google.protobuf"
 }
 
@@ -48,7 +49,7 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs += [
-                '-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi',
+                '-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi',
                 '-Xexplicit-api=strict'
         ]
     }

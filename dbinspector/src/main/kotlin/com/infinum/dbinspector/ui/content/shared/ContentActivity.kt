@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.ui.content.shared
 
 import android.app.Activity
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.ActivityResultLauncher
@@ -12,12 +11,14 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorActivityContentBinding
 import com.infinum.dbinspector.domain.shared.models.Sort
 import com.infinum.dbinspector.extensions.setupAsTable
 import com.infinum.dbinspector.ui.Presentation
+import com.infinum.dbinspector.ui.Presentation.Constants.Keys.DROP_CONTENT
+import com.infinum.dbinspector.ui.Presentation.Constants.Keys.DROP_NAME
+import com.infinum.dbinspector.ui.content.shared.drop.DropContentDialog
 import com.infinum.dbinspector.ui.content.table.TableViewModel
 import com.infinum.dbinspector.ui.content.trigger.TriggerViewModel
 import com.infinum.dbinspector.ui.content.view.ViewViewModel
@@ -76,6 +77,10 @@ internal abstract class ContentActivity : BaseActivity<ContentState, ContentEven
             if (shouldRefresh) {
                 contentAdapter.refresh()
             }
+        }
+
+        supportFragmentManager.setFragmentResultListener(DROP_CONTENT, this) { _, bundle ->
+            bundle.getString(DROP_NAME)?.let { viewModel.drop(it) }
         }
 
         if (connection.hasSchemaData) {
@@ -195,18 +200,9 @@ internal abstract class ContentActivity : BaseActivity<ContentState, ContentEven
     }
 
     private fun drop(name: String) =
-        MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.dbinspector_title_info)
-            .setMessage(String.format(getString(drop), name))
-            .setPositiveButton(android.R.string.ok) { dialog: DialogInterface, _: Int ->
-                viewModel.drop(name)
-                dialog.dismiss()
-            }
-            .setNegativeButton(android.R.string.cancel) { dialog: DialogInterface, _: Int ->
-                dialog.dismiss()
-            }
-            .create()
-            .show()
+        DropContentDialog
+            .setMessage(drop, name)
+            .show(supportFragmentManager, null)
 
     private fun query(
         name: String,
