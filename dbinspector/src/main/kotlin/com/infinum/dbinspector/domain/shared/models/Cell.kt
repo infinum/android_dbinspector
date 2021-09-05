@@ -1,14 +1,17 @@
 package com.infinum.dbinspector.domain.shared.models
 
+import android.os.Parcelable
 import com.infinum.dbinspector.domain.schema.shared.models.ImageType
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 internal data class Cell(
     val text: String? = null,
     val data: ByteArray? = null,
     val imageType: ImageType = ImageType.UNSUPPORTED,
     val linesShown: Int = Int.MAX_VALUE,
     val truncateMode: TruncateMode = TruncateMode.UNKNOWN
-) {
+) : Parcelable {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

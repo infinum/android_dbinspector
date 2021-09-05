@@ -44,6 +44,7 @@ internal object Presentation {
             const val DROP_MESSAGE = "KEY_DROP_MESSAGE"
             const val DROP_NAME = "KEY_DROP_NAME"
             const val DROP_CONTENT = "KEY_DROP_CONTENT"
+            const val PREVIEW_CELL = "KEY_PREVIEW_CELL"
         }
 
         object Limits {

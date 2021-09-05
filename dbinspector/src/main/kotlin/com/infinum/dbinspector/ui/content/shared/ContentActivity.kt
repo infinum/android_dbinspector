@@ -19,6 +19,7 @@ import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.Presentation.Constants.Keys.DROP_CONTENT
 import com.infinum.dbinspector.ui.Presentation.Constants.Keys.DROP_NAME
 import com.infinum.dbinspector.ui.content.shared.drop.DropContentDialog
+import com.infinum.dbinspector.ui.content.shared.preview.PreviewContentDialog
 import com.infinum.dbinspector.ui.content.table.TableViewModel
 import com.infinum.dbinspector.ui.content.trigger.TriggerViewModel
 import com.infinum.dbinspector.ui.content.view.ViewViewModel
@@ -50,8 +51,6 @@ internal abstract class ContentActivity : BaseActivity<ContentState, ContentEven
     @get:StringRes
     abstract val drop: Int
 
-    private lateinit var contentPreviewFactory: ContentPreviewFactory
-
     private val headerAdapter: HeaderAdapter = HeaderAdapter()
 
     private val contentAdapter: ContentAdapter = ContentAdapter()
@@ -63,15 +62,17 @@ internal abstract class ContentActivity : BaseActivity<ContentState, ContentEven
 
         binding.toolbar.setNavigationOnClickListener { finish() }
 
-        contentPreviewFactory = ContentPreviewFactory(this)
-
         headerAdapter.isClickable = true
         headerAdapter.onClick = { header ->
             query(connection.schemaName!!, header.name, header.sort)
             headerAdapter.updateHeader(header)
         }
 
-        contentAdapter.onCellClicked = { cell -> contentPreviewFactory.showCell(cell) }
+        contentAdapter.onCellClicked = { cell ->
+            PreviewContentDialog
+                .setCell(cell)
+                .show(supportFragmentManager, null)
+        }
 
         contract = registerForActivityResult(EditContract()) { shouldRefresh ->
             if (shouldRefresh) {
