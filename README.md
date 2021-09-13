@@ -44,13 +44,13 @@ Then add the following dependencies in your app `build.gradle` or `build.gradle.
 
 **Groovy**
 ```groovy
-debugImplementation "com.infinum.dbinspector:dbinspector:5.3.9"
-releaseImplementation "com.infinum.dbinspector:dbinspector-no-op:5.3.9"
+debugImplementation "com.infinum.dbinspector:dbinspector:5.4.0"
+releaseImplementation "com.infinum.dbinspector:dbinspector-no-op:5.4.0"
 ```
 **KotlinDSL**
 ```kotlin
-debugImplementation("com.infinum.dbinspector:dbinspector:5.3.9")
-releaseImplementation("com.infinum.dbinspector:dbinspector-no-op:5.3.9")
+debugImplementation("com.infinum.dbinspector:dbinspector:5.4.0")
+releaseImplementation("com.infinum.dbinspector:dbinspector-no-op:5.4.0")
 ```
 
 ### Usage
