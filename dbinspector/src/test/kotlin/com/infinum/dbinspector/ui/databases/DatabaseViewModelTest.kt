@@ -103,20 +103,20 @@ internal class DatabaseViewModelTest : BaseTest() {
         coVerify(exactly = 1) { useCase.invoke(any()) }
     }
 
-    @Test
-    fun `Remove database`() {
-        val context: Context = get()
-        val descriptor: DatabaseDescriptor = mockk()
-        val useCase: UseCases.RemoveDatabase = get()
-        val result: List<DatabaseDescriptor> = listOf()
-        coEvery { useCase.invoke(any()) } returns result
-
-        val viewModel: DatabaseViewModel = get()
-
-        viewModel.remove(context, descriptor)
-
-        coVerify(exactly = 1) { useCase.invoke(any()) }
-    }
+//    @Test
+//    fun `Remove database`() {
+//        val context: Context = get()
+//        val descriptor: DatabaseDescriptor = mockk()
+//        val useCase: UseCases.RemoveDatabase = get()
+//        val result: List<DatabaseDescriptor> = listOf()
+//        coEvery { useCase.invoke(any()) } returns result
+//
+//        val viewModel: DatabaseViewModel = get()
+//
+//        viewModel.remove(context, descriptor)
+//
+//        coVerify(exactly = 1) { useCase.invoke(any()) }
+//    }
 
     @Test
     fun `Copy database`() {

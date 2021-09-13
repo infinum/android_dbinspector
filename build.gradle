@@ -34,10 +34,6 @@ subprojects {
     apply from: "$rootDir/dokka.gradle"
 }
 
-tasks.withType(JavaCompile) {
-    options.compilerArgs += ["--release", "8"]
-}
-
 apply from: "deploy.gradle"
 
 task clean(type: Delete) {

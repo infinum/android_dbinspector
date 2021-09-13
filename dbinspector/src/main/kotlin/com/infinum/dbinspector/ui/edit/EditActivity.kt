@@ -16,7 +16,7 @@ import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.extensions.setupAsTable
 import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.content.shared.ContentAdapter
-import com.infinum.dbinspector.ui.content.shared.ContentPreviewFactory
+import com.infinum.dbinspector.ui.content.shared.preview.PreviewContentDialog
 import com.infinum.dbinspector.ui.edit.history.HistoryDialog
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.base.lifecycle.LifecycleConnection
@@ -36,8 +36,6 @@ internal class EditActivity : BaseActivity<EditState, EditEvent>(), HistoryDialo
 
     private val connection: LifecycleConnection by lifecycleConnection()
 
-    private lateinit var contentPreviewFactory: ContentPreviewFactory
-
     private val headerAdapter: HeaderAdapter = HeaderAdapter()
 
     private val contentAdapter: ContentAdapter = ContentAdapter()
@@ -45,9 +43,11 @@ internal class EditActivity : BaseActivity<EditState, EditEvent>(), HistoryDialo
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        contentPreviewFactory = ContentPreviewFactory(this)
-
-        contentAdapter.onCellClicked = { cell -> contentPreviewFactory.showCell(cell) }
+        contentAdapter.onCellClicked = { cell ->
+            PreviewContentDialog
+                .setCell(cell)
+                .show(supportFragmentManager, null)
+        }
 
         binding.toolbar.setNavigationOnClickListener { finish() }
 

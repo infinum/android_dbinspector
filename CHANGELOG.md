@@ -1,6 +1,26 @@
 Changelog
 =========
 
+## Version 5.4.0
+
+_2021-09-13_
+
+* Update to Kotlin 1.5.30.
+* Add blur for Android 12 devices.
+* Replace all AlertDialogs with BottomSheetDialogFragments.
+
+## Version 5.3.9
+
+_2021-08-23_
+
+* Fix R8 collisions on obfuscated class names.
+
+## Version 5.3.8
+
+_2021-08-21_
+
+* Update dependencies to stable version.
+
 ## Version 5.3.7
 
 _2021-07-22_

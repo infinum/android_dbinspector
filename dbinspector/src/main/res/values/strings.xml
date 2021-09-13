@@ -36,6 +36,8 @@
     <string name="dbinspector_action_edit">Edit</string>
     <string name="dbinspector_action_history">History</string>
     <string name="dbinspector_action_execute">Execute</string>
+    <string name="dbinspector_action_dismiss">Dismiss</string>
+    <string name="dbinspector_action_delete">Delete</string>
 
     <string name="dbinspector_delete_database_confirm">Delete database %s?</string>
     <string name="dbinspector_clear_table_confirm">Delete the content of the table %s?</string>
@@ -53,7 +55,6 @@
 
     <string name="dbinspector_error_parameters">Database parameters are missing.</string>
 
-    <string name="dbinspector_title_info">Info</string>
     <string name="dbinspector_title_confirm">Confirm</string>
     <string name="dbinspector_title_error">Error</string>
     <string name="dbinspector_title_preview">Preview</string>

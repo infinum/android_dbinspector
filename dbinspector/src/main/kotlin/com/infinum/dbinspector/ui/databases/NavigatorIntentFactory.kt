@@ -52,7 +52,7 @@ internal class NavigatorIntentFactory(
             context.getString(R.string.dbinspector_action_import)
         )
 
-    @Suppress("SwallowedException")
+    @Suppress("SwallowedException", "ThrowingExceptionsWithoutMessageOrCause")
     fun showShare(database: DatabaseDescriptor) =
         try {
             (context as? Activity)?.let {
