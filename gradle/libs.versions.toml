@@ -1,7 +1,7 @@
 [versions]
-dbinspector = "5.4.0"
+dbinspector = "5.4.1"
 gradle = "7.0.2"
-kotlin = "1.5.30"
+kotlin = "1.5.31"
 coroutines = "1.5.2"
 core = "1.6.0"
 appcompat = "1.3.1"
