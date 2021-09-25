@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <style name="DbInspector.BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/dbinspector_color_primary</item>
@@ -8,7 +8,6 @@
         <item name="colorOnSecondary">@android:color/white</item>
         <item name="bottomSheetDialogTheme">@style/DbInspector.Theme.BottomSheetDialog</item>
         <item name="android:statusBarColor">@color/dbinspector_status_bar</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
     </style>
 
     <style name="DbInspector.ToggleButton" parent="@style/Widget.MaterialComponents.Button.OutlinedButton">
@@ -19,13 +18,11 @@
 
     <style name="DbInspector.Theme.BottomSheetDialog" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/DbInspector.Theme.BottomSheetDialog.Style</item>
-        <item name="android:windowBlurBehindEnabled" tools:targetApi="s">true</item>
-        <item name="android:windowBlurBehindRadius" tools:targetApi="s">@dimen/dbinspector_blur_radius
-        </item>
     </style>
 
     <style name="DbInspector.Theme.BottomSheetDialog.Style" parent="Widget.MaterialComponents.BottomSheet">
-        <item name="shapeAppearanceOverlay">@style/DbInspector.ShapeAppearanceOverlay.BottomSheet</item>
+        <item name="shapeAppearanceOverlay">@style/DbInspector.ShapeAppearanceOverlay.BottomSheet
+        </item>
     </style>
 
     <style name="DbInspector.ShapeAppearanceOverlay.BottomSheet" parent="">

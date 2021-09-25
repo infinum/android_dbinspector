@@ -1,6 +1,13 @@
 Changelog
 =========
 
+## Version 5.4.1
+
+_2021-09-25_
+
+* Update to Kotlin 1.5.31.
+* Fix backwards compatibility for specific Android API levels.
+
 ## Version 5.4.0
 
 _2021-09-13_
