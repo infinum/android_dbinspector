@@ -6,6 +6,7 @@ import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
@@ -24,6 +25,7 @@ internal class RenameDatabaseInteractorTest : BaseTest() {
     )
 
     @Test
+    @Disabled("Fails with Kover and IntelliJ")
     fun `Invoking interactor invokes source renameDatabase`() {
         val interactor: Interactors.RenameDatabase = get()
         val source: Sources.Raw = get()

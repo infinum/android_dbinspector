@@ -1,7 +1,7 @@
 [versions]
 dbinspector = "5.4.2"
 gradle = "7.0.3"
-kotlin = "1.6.0"
+kotlin = "1.5.31"
 coroutines = "1.5.2"
 core = "1.7.0"
 appcompat = "1.4.0"
@@ -25,6 +25,7 @@ ktlintplugin = "10.2.0"
 ktlint = "0.43.0"
 cpd = "3.2"
 dokka = "1.5.31"
+kover = "0.4.2"
 jacoco = "0.8.7"
 junit5 = "5.8.1"
 mockk = "1.12.1"
@@ -76,6 +77,8 @@ ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlin
 cpd = { module = "de.aaschmid:gradle-cpd-plugin", version.ref = "cpd" }
 
 dokka = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
+
+kover = { module = "org.jetbrains.kotlinx:kover", version.ref = "kover" }
 
 junit5 = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit5" }
 

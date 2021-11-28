@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
             .also { setContentView(it.root) }
             .also {
                 it.show.setOnClickListener {
-                    DbInspector.show(AndroidLogger())
+                    DbInspector.show(logger = AndroidLogger())
                 }
             }
 

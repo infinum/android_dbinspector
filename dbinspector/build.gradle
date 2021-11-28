@@ -3,6 +3,7 @@ plugins {
     id "kotlin-android"
     id "kotlin-parcelize"
     id "com.google.protobuf"
+    id "kover"
 }
 
 android {
@@ -50,6 +51,54 @@ android {
 
     testOptions {
         unitTests.returnDefaultValues = true
+        unitTests.all {
+            kover {
+                enabled = name == "testDebugUnitTest"
+//                includes = ['com\\.infinum\\.dbinspector\\..*']
+//                excludes = ['com.infinum.dbinspector.databinding']
+//                includes = [
+//                        '**/*ViewModel*.*',
+//                        '**/*UseCase*.*',
+//                        '**/*Repository*.*',
+//                        '**/*Control*.*',
+//                        '**/*Converter*.*',
+//                        '**/*Mapper*.*',
+//                        '**/*Interactor*.*',
+//                        '**/data/sources**/**'
+//                ]
+//                excludes = [
+//                        '**/base/Base*.*',
+//                        '**/*Test*.*',
+//                        '**/AutoValue_*.*',
+//                        '**/*JavascriptBridge.class',
+//                        '**/R.class',
+//                        '**/R$*.class',
+//                        '**/Manifest*.*',
+//                        'android/**/*.*',
+//                        '**/BuildConfig.*',
+//                        '**/*$ViewBinder*.*',
+//                        '**/*$ViewInjector*.*',
+//                        '**/Lambda$*.class',
+//                        '**/Lambda.class',
+//                        '**/*Lambda.class',
+//                        '**/*Lambda*.class',
+//                        '**/lambda$*.class',
+//                        '**/lambda.class',
+//                        '**/*lambda.class',
+//                        '**/*lambda*.class',
+//                        '**/*$$special$$inlined$inject$*.*',
+//                        '**/*$InjectAdapter.class',
+//                        '**/*$ModuleAdapter.class',
+//                        '**/*$ViewInjector*.class',
+//                        '**/*$DefaultImpls*.*',
+//                        '**/*_MembersInjector.class', //Dagger2 generated code
+//                        '*/*_MembersInjector*.*', //Dagger2 generated code
+//                        '**/*_*Factory*.*', //Dagger2 generated code
+//                        '*/*Component*.*', //Dagger2 generated code
+//                        '**/*Module*.*' //Dagger2 generated code
+//                ]
+            }
+        }
     }
 
     sourceSets.each {
@@ -89,6 +138,14 @@ protobuf {
             }
         }
     }
+}
+
+kover {
+    enabled = true
+    coverageEngine.set(kotlinx.kover.api.CoverageEngine.INTELLIJ)
+    intellijEngineVersion.set('1.0.622')
+    jacocoEngineVersion.set(libs.versions.jacoco.get())
+    generateReportOnCheck.set(true)
 }
 
 tasks.withType(Test) {

@@ -24,7 +24,7 @@ internal class DatabaseViewModelTest : BaseTest() {
             single { mockk<UseCases.ImportDatabases>() }
             single { mockk<UseCases.RemoveDatabase>() }
             single { mockk<UseCases.CopyDatabase>() }
-            factory { DatabaseViewModel(get(), get(), get(), get()) }
+            factory { DatabaseViewModel(get(), get(), get()) }
         }
     )
 
