@@ -23,7 +23,7 @@ internal abstract class BaseActivity<State, Event> : AppCompatActivity(), BaseVi
 
         setContentView(binding.root)
 
-        collectFlows(lifecycleScope)
+        collectFlows(lifecycleScope, lifecycle)
     }
 
     fun showDatabaseParametersError() =

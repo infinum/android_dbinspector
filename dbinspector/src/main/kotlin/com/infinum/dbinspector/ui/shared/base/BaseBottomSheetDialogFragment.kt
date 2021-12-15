@@ -40,6 +40,6 @@ internal abstract class BaseBottomSheetDialogFragment<State, Event>(
 
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        collectFlows(viewLifecycleOwner.lifecycleScope)
+        collectFlows(viewLifecycleOwner.lifecycleScope, viewLifecycleOwner.lifecycle)
     }
 }

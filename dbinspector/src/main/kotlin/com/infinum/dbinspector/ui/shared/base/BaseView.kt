@@ -1,7 +1,10 @@
 package com.infinum.dbinspector.ui.shared.base
 
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.flowWithLifecycle
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 internal interface BaseView<State, Event> {
 
@@ -13,21 +16,21 @@ internal interface BaseView<State, Event> {
 
     fun onError(error: Throwable) {}
 
-    fun collectFlows(lifecycleCoroutineScope: LifecycleCoroutineScope) {
-        lifecycleCoroutineScope.launchWhenStarted {
-            viewModel?.stateFlow?.collectLatest { state ->
-                state?.let { onState(it) }
-            }
+    fun collectFlows(lifecycleCoroutineScope: LifecycleCoroutineScope, lifecycle: Lifecycle) {
+        lifecycleCoroutineScope.launch {
+            viewModel?.stateFlow
+                ?.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                ?.collectLatest { state -> state?.let { onState(it) } }
         }
-        lifecycleCoroutineScope.launchWhenStarted {
-            viewModel?.eventFlow?.collectLatest {
-                onEvent(it)
-            }
+        lifecycleCoroutineScope.launch {
+            viewModel?.eventFlow
+                ?.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                ?.collectLatest { onEvent(it) }
         }
-        lifecycleCoroutineScope.launchWhenStarted {
-            viewModel?.errorFlow?.collectLatest { throwable ->
-                throwable?.let { onError(it) }
-            }
+        lifecycleCoroutineScope.launch {
+            viewModel?.errorFlow
+                ?.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                ?.collectLatest { throwable -> throwable?.let { onError(it) } }
         }
     }
 }
