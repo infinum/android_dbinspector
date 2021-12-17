@@ -1,6 +1,12 @@
 Changelog
 =========
 
+## Version 5.4.2
+
+_2021-12-25_
+
+* Update to Kotlin 1.6.10.
+
 ## Version 5.4.1
 
 _2021-09-25_
