@@ -4,7 +4,6 @@ import com.infinum.dbinspector.data.Sources
 import com.infinum.dbinspector.data.models.local.cursor.input.Query
 import com.infinum.dbinspector.data.models.local.cursor.output.QueryResult
 import com.infinum.dbinspector.data.sources.local.cursor.shared.CursorSource
-import com.infinum.dbinspector.data.sources.memory.logger.Logger
 import com.infinum.dbinspector.data.sources.memory.pagination.Paginator
 import kotlinx.coroutines.suspendCancellableCoroutine
 
@@ -19,9 +18,8 @@ internal class SchemaSource(
     private val triggersPaginator: Paginator,
     private val triggerByNamePaginator: Paginator,
     private val dropTriggerPaginator: Paginator,
-    private val store: Sources.Local.Settings,
-    logger: Logger
-) : CursorSource(logger), Sources.Local.Schema {
+    private val store: Sources.Local.Settings
+) : CursorSource(), Sources.Local.Schema {
 
     // region Tables
     override suspend fun getTables(query: Query): QueryResult =

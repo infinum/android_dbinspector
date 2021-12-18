@@ -69,6 +69,7 @@ dependencies {
     implementation libs.material
     implementation libs.koin.android
 
-    debugImplementation libs.library
+//    debugImplementation libs.library
+    debugImplementation project(":dbinspector")
     releaseImplementation libs.librarynoop
 }
