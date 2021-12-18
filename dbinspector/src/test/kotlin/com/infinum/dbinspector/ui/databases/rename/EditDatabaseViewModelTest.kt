@@ -1,4 +1,4 @@
-package com.infinum.dbinspector.ui.databases.edit
+package com.infinum.dbinspector.ui.databases.rename
 
 import android.content.Context
 import com.infinum.dbinspector.domain.UseCases
@@ -20,7 +20,7 @@ internal class EditDatabaseViewModelTest : BaseTest() {
         module {
             single { mockk<Context>() }
             single { mockk<UseCases.RenameDatabase>() }
-            factory { EditDatabaseViewModel(get()) }
+            factory { RenameDatabaseViewModel(get()) }
         }
     )
 
@@ -33,7 +33,7 @@ internal class EditDatabaseViewModelTest : BaseTest() {
         val result: List<DatabaseDescriptor> = listOf()
         coEvery { useCase.invoke(any()) } returns result
 
-        val viewModel: EditDatabaseViewModel = get()
+        val viewModel: RenameDatabaseViewModel = get()
 
         viewModel.rename(
             context,
@@ -55,7 +55,7 @@ internal class EditDatabaseViewModelTest : BaseTest() {
         val result: List<DatabaseDescriptor> = listOf(descriptor)
         coEvery { useCase.invoke(any()) } returns result
 
-        val viewModel: EditDatabaseViewModel = get()
+        val viewModel: RenameDatabaseViewModel = get()
 
         viewModel.rename(
             context,

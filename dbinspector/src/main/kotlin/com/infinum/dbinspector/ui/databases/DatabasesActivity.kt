@@ -14,9 +14,10 @@ import com.infinum.dbinspector.extensions.scale
 import com.infinum.dbinspector.extensions.searchView
 import com.infinum.dbinspector.extensions.setup
 import com.infinum.dbinspector.ui.Presentation.Constants.Keys.REMOVE_DATABASE
+import com.infinum.dbinspector.ui.Presentation.Constants.Keys.RENAME_DATABASE
 import com.infinum.dbinspector.ui.Presentation.Constants.Keys.SHOULD_REFRESH
-import com.infinum.dbinspector.ui.databases.edit.EditDatabaseContract
 import com.infinum.dbinspector.ui.databases.remove.RemoveDatabaseDialog
+import com.infinum.dbinspector.ui.databases.rename.RenameDatabaseDialog
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import com.infinum.dbinspector.ui.shared.edgefactories.bounce.BounceEdgeEffectFactory
@@ -32,12 +33,6 @@ internal class DatabasesActivity : BaseActivity<DatabaseState, Any>(), Searchabl
     override val viewModel: DatabaseViewModel by viewModel()
 
     private val navigatorIntentFactory = NavigatorIntentFactory(this)
-
-    private val editContract = registerForActivityResult(EditDatabaseContract()) { shouldRefresh ->
-        if (shouldRefresh) {
-            refreshDatabases()
-        }
-    }
 
     private val importContract = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -60,18 +55,13 @@ internal class DatabasesActivity : BaseActivity<DatabaseState, Any>(), Searchabl
         interactions = DatabaseInteractions(
             onDelete = {
                 RemoveDatabaseDialog
-                    .setDatabaseDescriptor(it)
+                    .withDatabaseDescriptor(it)
                     .show(supportFragmentManager, null)
             },
-            onEdit = {
-                editContract.launch(
-                    EditDatabaseContract.Input(
-                        absolutePath = it.absolutePath,
-                        parentPath = it.parentPath,
-                        name = it.name,
-                        extension = it.extension
-                    )
-                )
+            onRename = {
+                RenameDatabaseDialog
+                    .withDatabaseDescriptor(it)
+                    .show(supportFragmentManager, null)
             },
             onCopy = { viewModel.copy(this, it) },
             onShare = { navigatorIntentFactory.showShare(it) },
@@ -88,6 +78,11 @@ internal class DatabasesActivity : BaseActivity<DatabaseState, Any>(), Searchabl
         setupUi()
 
         supportFragmentManager.setFragmentResultListener(REMOVE_DATABASE, this) { _, bundle ->
+            if (bundle.getBoolean(SHOULD_REFRESH, false)) {
+                refreshDatabases()
+            }
+        }
+        supportFragmentManager.setFragmentResultListener(RENAME_DATABASE, this) { _, bundle ->
             if (bundle.getBoolean(SHOULD_REFRESH, false)) {
                 refreshDatabases()
             }

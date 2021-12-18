@@ -18,7 +18,7 @@ internal class DatabaseViewHolder(
             this.name.text = item.name
             this.version.text = item.version
             this.removeButton.setOnClickListener { interactions.onDelete(item) }
-            this.editButton.setOnClickListener { interactions.onEdit(item) }
+            this.renameButton.setOnClickListener { interactions.onRename(item) }
             this.copyButton.setOnClickListener { interactions.onCopy(item) }
             this.shareButton.setOnClickListener { interactions.onShare(item) }
             this.content.setOnClickListener { onClick(item) }
@@ -28,7 +28,7 @@ internal class DatabaseViewHolder(
     fun unbind() {
         with(viewBinding) {
             this.removeButton.setOnClickListener(null)
-            this.editButton.setOnClickListener(null)
+            this.renameButton.setOnClickListener(null)
             this.copyButton.setOnClickListener(null)
             this.shareButton.setOnClickListener(null)
             this.content.setOnClickListener(null)

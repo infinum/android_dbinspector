@@ -34,12 +34,6 @@
             android:theme="@style/DbInspector.BaseTheme" />
 
         <activity
-            android:name="com.infinum.dbinspector.ui.databases.edit.EditDatabaseActivity"
-            android:exported="false"
-            android:taskAffinity="com.infinum.dbinspector"
-            android:theme="@style/DbInspector.BaseTheme" />
-
-        <activity
             android:name="com.infinum.dbinspector.ui.schema.SchemaActivity"
             android:exported="false"
             android:taskAffinity="com.infinum.dbinspector"

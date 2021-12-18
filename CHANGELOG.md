@@ -3,9 +3,10 @@ Changelog
 
 ## Version 5.4.2
 
-_2021-12-25_
+_2021-12-18_
 
 * Update to Kotlin 1.6.10.
+* Refactor edit database activity to rename database dialog.
 
 ## Version 5.4.1
 

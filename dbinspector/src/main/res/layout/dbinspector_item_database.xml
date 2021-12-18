@@ -111,7 +111,7 @@
                 app:strokeWidth="0dp" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/editButton"
+                android:id="@+id/renameButton"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
