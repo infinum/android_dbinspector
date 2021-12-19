@@ -25,7 +25,7 @@ internal class GetUserVersionInteractorTest : BaseTest() {
     )
 
     @Test
-    @Disabled("Fails with Kover and IntelliJ")
+    @Disabled("No idea why it fails")
     fun `Invoking interactor invokes source getUserVersion`() {
         val interactor: Interactors.GetUserVersion = get()
         val source: Sources.Local.Pragma = get()

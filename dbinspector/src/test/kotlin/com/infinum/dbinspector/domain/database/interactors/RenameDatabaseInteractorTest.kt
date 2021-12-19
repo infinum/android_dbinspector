@@ -25,7 +25,7 @@ internal class RenameDatabaseInteractorTest : BaseTest() {
     )
 
     @Test
-    @Disabled("Fails with Kover and IntelliJ")
+    @Disabled("No idea why it fails")
     fun `Invoking interactor invokes source renameDatabase`() {
         val interactor: Interactors.RenameDatabase = get()
         val source: Sources.Raw = get()

@@ -7,6 +7,7 @@ import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -31,14 +32,13 @@ internal class DatabaseViewModelTest : BaseTest() {
     @Test
     fun `Browse and collect all databases`() {
         val context: Context = get()
-        val query: String? = null
         val useCase: UseCases.GetDatabases = get()
         val result: List<DatabaseDescriptor> = listOf()
         coEvery { useCase.invoke(any()) } returns result
 
         val viewModel: DatabaseViewModel = get()
 
-        viewModel.browse(context, query)
+        viewModel.browse(context)
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
     }

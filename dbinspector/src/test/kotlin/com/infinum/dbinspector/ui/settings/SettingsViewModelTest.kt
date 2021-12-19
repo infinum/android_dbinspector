@@ -89,7 +89,6 @@ internal class SettingsViewModelTest : BaseTest() {
     }
 
     @Test
-    @Disabled("Fails with Kover and IntelliJ")
     fun `Toggle ON lines limit`() {
         val state = true
         val useCase: UseCases.ToggleLinesLimit = get()
@@ -126,7 +125,6 @@ internal class SettingsViewModelTest : BaseTest() {
 
     @ParameterizedTest
     @EnumSource(TruncateMode::class)
-    @Disabled("Fails with Kover and IntelliJ")
     fun `Save truncate per mode`(truncateMode: TruncateMode) {
         val useCase: UseCases.SaveTruncateMode = get()
         coEvery { useCase.invoke(any()) } returns Unit
