@@ -54,49 +54,31 @@ android {
         unitTests.all {
             kover {
                 enabled = name == "testDebugUnitTest"
-//                includes = ['com\\.infinum\\.dbinspector\\..*']
-//                excludes = ['com.infinum.dbinspector.databinding']
-//                includes = [
-//                        '**/*ViewModel*.*',
-//                        '**/*UseCase*.*',
-//                        '**/*Repository*.*',
-//                        '**/*Control*.*',
-//                        '**/*Converter*.*',
-//                        '**/*Mapper*.*',
-//                        '**/*Interactor*.*',
-//                        '**/data/sources**/**'
-//                ]
-//                excludes = [
-//                        '**/base/Base*.*',
-//                        '**/*Test*.*',
-//                        '**/AutoValue_*.*',
-//                        '**/*JavascriptBridge.class',
-//                        '**/R.class',
-//                        '**/R$*.class',
-//                        '**/Manifest*.*',
-//                        'android/**/*.*',
-//                        '**/BuildConfig.*',
-//                        '**/*$ViewBinder*.*',
-//                        '**/*$ViewInjector*.*',
-//                        '**/Lambda$*.class',
-//                        '**/Lambda.class',
-//                        '**/*Lambda.class',
-//                        '**/*Lambda*.class',
-//                        '**/lambda$*.class',
-//                        '**/lambda.class',
-//                        '**/*lambda.class',
-//                        '**/*lambda*.class',
-//                        '**/*$$special$$inlined$inject$*.*',
-//                        '**/*$InjectAdapter.class',
-//                        '**/*$ModuleAdapter.class',
-//                        '**/*$ViewInjector*.class',
-//                        '**/*$DefaultImpls*.*',
-//                        '**/*_MembersInjector.class', //Dagger2 generated code
-//                        '*/*_MembersInjector*.*', //Dagger2 generated code
-//                        '**/*_*Factory*.*', //Dagger2 generated code
-//                        '*/*Component*.*', //Dagger2 generated code
-//                        '**/*Module*.*' //Dagger2 generated code
-//                ]
+                includes = [
+                        "com.infinum.dbinspector.data.sources.*",
+                        "com.infinum.dbinspector.domain.*.*UseCase*.*",
+                        "com.infinum.dbinspector.domain.*.*Repository*.*",
+                        "com.infinum.dbinspector.domain.*.*Control*.*",
+                        "com.infinum.dbinspector.domain.*.*Converter*.*",
+                        "com.infinum.dbinspector.domain.*.*Mapper*.*",
+                        "com.infinum.dbinspector.domain.*.*Interactor*.*",
+                        "com.infinum.dbinspector.ui.*.*ViewModel*.*"
+                ]
+                excludes = [
+                        "com.infinum.dbinspector.di.*",
+                        "com.infinum.dbinspector.data.shared.base.*",
+                        "com.infinum.dbinspector.domain.schema.shared.models.*",
+                        "com.infinum.dbinspector.domain.shared.base.*",
+                        "com.infinum.dbinspector.domain.shared.models.dsl.*",
+                        "com.infinum.dbinspector.ui.shared.base.*",
+                        "com.infinum.dbinspector.ui.shared.delegates.*",
+                        "com.infinum.dbinspector.ui.shared.edgefactories.*",
+                        "com.infinum.dbinspector.ui.shared.listeners.*",
+                        "com.infinum.dbinspector.ui.shared.searchable.*",
+                        "com.infinum.dbinspector.ui.shared.views.*",
+                        "com.infinum.dbinspector.extensions.*",
+                        "com.infinum.dbinspector.databinding.*"
+                ]
             }
         }
     }
@@ -143,7 +125,7 @@ protobuf {
 kover {
     enabled = true
     coverageEngine.set(kotlinx.kover.api.CoverageEngine.INTELLIJ)
-    intellijEngineVersion.set('1.0.622')
+    intellijEngineVersion.set(libs.versions.intellij.get())
     jacocoEngineVersion.set(libs.versions.jacoco.get())
     generateReportOnCheck.set(true)
 }

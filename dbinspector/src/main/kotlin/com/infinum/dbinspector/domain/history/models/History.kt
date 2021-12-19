@@ -1,6 +1,5 @@
 package com.infinum.dbinspector.domain.history.models
 
-@JvmInline
-internal value class History(
+internal data class History(
     val executions: List<Execution> = listOf()
 )
