@@ -1,15 +1,12 @@
 package com.infinum.dbinspector.shared
 
 import androidx.annotation.CallSuper
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
-import kotlinx.coroutines.withContext
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.extension.RegisterExtension
@@ -19,8 +16,8 @@ import org.koin.test.junit5.KoinTestExtension
 
 internal abstract class BaseTest : KoinTest {
 
-    internal val testScope = lazyOf(TestCoroutineScope()).value
-    private val testDispatcher = lazyOf(TestCoroutineDispatcher()).value
+    internal val testScope = TestCoroutineScope()
+    private val testDispatcher = TestCoroutineDispatcher()
 
     abstract fun modules(): List<Module>
 
@@ -50,6 +47,7 @@ internal abstract class BaseTest : KoinTest {
     @CallSuper
     fun cleanUp() {
         Dispatchers.resetMain()
+        testDispatcher.cancel()
         testDispatcher.cleanupTestCoroutines()
         testScope.cleanupTestCoroutines()
     }

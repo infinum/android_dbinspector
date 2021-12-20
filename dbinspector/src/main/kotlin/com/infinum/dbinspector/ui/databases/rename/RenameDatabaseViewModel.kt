@@ -27,6 +27,8 @@ internal class RenameDatabaseViewModel(
             }
             if (result.isNotEmpty()) {
                 setState(RenameDatabaseState.Renamed(success = result.firstOrNull()?.name.equals(newName)))
+            } else {
+                setError(IllegalStateException())
             }
         }
 }

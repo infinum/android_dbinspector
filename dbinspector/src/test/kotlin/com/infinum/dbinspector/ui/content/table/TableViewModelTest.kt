@@ -19,12 +19,11 @@ internal class TableViewModelTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<UseCases.OpenConnection>() }
-            single { mockk<UseCases.CloseConnection>() }
-            single { mockk<UseCases.GetTableInfo>() }
-            single { mockk<UseCases.GetTable>() }
-            single { mockk<UseCases.DropTableContent>() }
-            factory { TableViewModel(get(), get(), get(), get(), get()) }
+            factory { mockk<UseCases.OpenConnection>() }
+            factory { mockk<UseCases.CloseConnection>() }
+            factory { mockk<UseCases.GetTableInfo>() }
+            factory { mockk<UseCases.GetTable>() }
+            factory { mockk<UseCases.DropTableContent>() }
         }
     )
 
@@ -33,7 +32,13 @@ internal class TableViewModelTest : BaseTest() {
         val given = "my_table"
         val expected = "PRAGMA \"table_info\"(\"$given\")"
 
-        val viewModel: TableViewModel = get()
+        val viewModel = TableViewModel(
+            get(),
+            get(),
+            get(),
+            get(),
+            get()
+        )
 
         val actual = viewModel.headerStatement(given)
 
@@ -47,7 +52,13 @@ internal class TableViewModelTest : BaseTest() {
         val given = "my_table"
         val expected = "SELECT * FROM \"$given\""
 
-        val viewModel: TableViewModel = get()
+        val viewModel = TableViewModel(
+            get(),
+            get(),
+            get(),
+            get(),
+            get()
+        )
 
         val actual = viewModel.schemaStatement(given, null, sort)
 
@@ -60,7 +71,13 @@ internal class TableViewModelTest : BaseTest() {
         val given = "my_table"
         val expected = "DELETE FROM \"$given\""
 
-        val viewModel: TableViewModel = get()
+        val viewModel = TableViewModel(
+            get(),
+            get(),
+            get(),
+            get(),
+            get()
+        )
 
         val actual = viewModel.dropStatement(given)
 

@@ -19,12 +19,11 @@ internal class ViewViewModelTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<UseCases.OpenConnection>() }
-            single { mockk<UseCases.CloseConnection>() }
-            single { mockk<UseCases.GetTableInfo>() }
-            single { mockk<UseCases.GetView>() }
-            single { mockk<UseCases.DropView>() }
-            factory { ViewViewModel(get(), get(), get(), get(), get()) }
+            factory { mockk<UseCases.OpenConnection>() }
+            factory { mockk<UseCases.CloseConnection>() }
+            factory { mockk<UseCases.GetTableInfo>() }
+            factory { mockk<UseCases.GetView>() }
+            factory { mockk<UseCases.DropView>() }
         }
     )
 
@@ -33,7 +32,13 @@ internal class ViewViewModelTest : BaseTest() {
         val given = "my_view"
         val expected = "PRAGMA \"table_info\"(\"$given\")"
 
-        val viewModel: ViewViewModel = get()
+        val viewModel = ViewViewModel(
+            get(),
+            get(),
+            get(),
+            get(),
+            get()
+        )
 
         val actual = viewModel.headerStatement(given)
 
@@ -47,7 +52,13 @@ internal class ViewViewModelTest : BaseTest() {
         val given = "my_view"
         val expected = "SELECT * FROM \"$given\""
 
-        val viewModel: ViewViewModel = get()
+        val viewModel = ViewViewModel(
+            get(),
+            get(),
+            get(),
+            get(),
+            get()
+        )
 
         val actual = viewModel.schemaStatement(given, null, sort)
 
@@ -60,7 +71,13 @@ internal class ViewViewModelTest : BaseTest() {
         val given = "my_view"
         val expected = "DROP VIEW \"$given\""
 
-        val viewModel: ViewViewModel = get()
+        val viewModel = ViewViewModel(
+            get(),
+            get(),
+            get(),
+            get(),
+            get()
+        )
 
         val actual = viewModel.dropStatement(given)
 

@@ -26,7 +26,7 @@ internal interface BaseView<State, Event> {
             }
             lifecycleScope.launch {
                 lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel?.eventFlow?.collectLatest { onEvent(it) }
+                    viewModel?.eventFlow?.collectLatest { event -> event?.let { onEvent(it) } }
                 }
             }
             lifecycleScope.launch {

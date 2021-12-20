@@ -40,7 +40,7 @@ internal class DatabaseViewModel(
 
     fun copy(context: Context, database: DatabaseDescriptor) =
         launch {
-            val ok = io {
+            val ok: List<DatabaseDescriptor> = io {
                 copyDatabase(
                     DatabaseParameters.Command(
                         context = context,
@@ -50,6 +50,8 @@ internal class DatabaseViewModel(
             }
             if (ok.isNotEmpty()) {
                 browse(context)
+            } else {
+                setError(IllegalStateException())
             }
         }
 }

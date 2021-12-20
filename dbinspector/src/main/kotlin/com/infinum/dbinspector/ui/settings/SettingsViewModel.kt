@@ -28,7 +28,7 @@ internal class SettingsViewModel(
 
     fun saveIgnoredTableName(newName: String) =
         launch {
-            val result = io {
+            val result: String = io {
                 saveIgnoredTableName(SettingsParameters.IgnoredTableName(newName))
                 newName
             }

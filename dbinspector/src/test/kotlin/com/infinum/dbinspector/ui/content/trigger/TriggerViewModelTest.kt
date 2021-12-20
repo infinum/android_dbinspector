@@ -19,12 +19,11 @@ internal class TriggerViewModelTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<UseCases.OpenConnection>() }
-            single { mockk<UseCases.CloseConnection>() }
-            single { mockk<UseCases.GetTriggerInfo>() }
-            single { mockk<UseCases.GetTrigger>() }
-            single { mockk<UseCases.DropTrigger>() }
-            factory { TriggerViewModel(get(), get(), get(), get(), get()) }
+            factory { mockk<UseCases.OpenConnection>() }
+            factory { mockk<UseCases.CloseConnection>() }
+            factory { mockk<UseCases.GetTriggerInfo>() }
+            factory { mockk<UseCases.GetTrigger>() }
+            factory { mockk<UseCases.DropTrigger>() }
         }
     )
 
@@ -33,7 +32,14 @@ internal class TriggerViewModelTest : BaseTest() {
         val given = ""
         val expected = ""
 
-        val viewModel: TriggerViewModel = get()
+        val viewModel = TriggerViewModel(
+            get(),
+            get(),
+            get(),
+            get(),
+            get()
+        )
+
         val actual = viewModel.headerStatement(given)
 
         assertTrue(actual.isBlank())
@@ -46,7 +52,14 @@ internal class TriggerViewModelTest : BaseTest() {
         val given = "my_trigger"
         val expected = "SELECT name, sql FROM \"sqlite_master\" WHERE (type = 'trigger' AND name = '$given') LIMIT 1"
 
-        val viewModel: TriggerViewModel = get()
+        val viewModel = TriggerViewModel(
+            get(),
+            get(),
+            get(),
+            get(),
+            get()
+        )
+
         val actual = viewModel.schemaStatement(given, null, sort)
 
         assertTrue(actual.isNotBlank())
@@ -58,7 +71,14 @@ internal class TriggerViewModelTest : BaseTest() {
         val given = "my_trigger"
         val expected = "DROP TRIGGER \"$given\""
 
-        val viewModel: TriggerViewModel = get()
+        val viewModel = TriggerViewModel(
+            get(),
+            get(),
+            get(),
+            get(),
+            get()
+        )
+
         val actual = viewModel.dropStatement(given)
 
         assertTrue(actual.isNotBlank())

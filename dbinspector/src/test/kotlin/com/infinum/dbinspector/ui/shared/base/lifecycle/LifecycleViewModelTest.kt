@@ -17,43 +17,56 @@ internal class LifecycleViewModelTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<UseCases.OpenConnection>() }
-            single { mockk<UseCases.CloseConnection>() }
-            factory<LifecycleViewModel<Any, Any>> {
-                object : LifecycleViewModel<Any, Any>(get(), get()) {}.apply {
-                    databasePath = "test.db"
-                }
-            }
+            factory { mockk<UseCases.OpenConnection>() }
+            factory { mockk<UseCases.CloseConnection>() }
         }
     )
 
     @Test
     fun `Can be instantiated`() {
-        val viewModel: LifecycleViewModel<Any, Any> = get()
+        val viewModel = object : LifecycleViewModel<Any, Any>(
+            get(),
+            get()
+        ) {}.apply {
+            databasePath = "test.db"
+        }
+
         assertNotNull(viewModel)
     }
 
     @Test
     fun `Open connection invoked`() {
-        val openConnectionUseCase: UseCases.OpenConnection = get()
+        val useCase: UseCases.OpenConnection = get()
 
-        coEvery { openConnectionUseCase.invoke(any()) } returns Unit
+        coEvery { useCase.invoke(any()) } returns Unit
 
-        val viewModel: LifecycleViewModel<Any, Any> = get()
+        val viewModel = object : LifecycleViewModel<Any, Any>(
+            useCase,
+            get()
+        ) {}.apply {
+            databasePath = "test.db"
+        }
+
         viewModel.open()
 
-        coVerify(exactly = 1) { openConnectionUseCase.invoke(any()) }
+        coVerify(exactly = 1) { useCase.invoke(any()) }
     }
 
     @Test
     fun `Close connection invoked`() {
-        val closeConnectionUseCase: UseCases.CloseConnection = get()
+        val useCase: UseCases.CloseConnection = get()
 
-        coEvery { closeConnectionUseCase.invoke(any()) } returns Unit
+        coEvery { useCase.invoke(any()) } returns Unit
 
-        val viewModel: LifecycleViewModel<Any, Any> = get()
+        val viewModel = object : LifecycleViewModel<Any, Any>(
+            get(),
+            useCase
+        ) {}.apply {
+            databasePath = "test.db"
+        }
+
         viewModel.close()
 
-        coVerify(exactly = 1) { closeConnectionUseCase.invoke(any()) }
+        coVerify(exactly = 1) { useCase.invoke(any()) }
     }
 }

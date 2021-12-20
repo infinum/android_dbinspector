@@ -1,5 +1,6 @@
 package com.infinum.dbinspector.ui.pragma.indexes
 
+import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -15,7 +16,9 @@ internal class IndexViewModelTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { IndexViewModel(mockk(), mockk(), mockk()) }
+            factory { mockk<UseCases.OpenConnection>() }
+            factory { mockk<UseCases.CloseConnection>() }
+            factory { mockk<UseCases.GetIndexes>() }
         }
     )
 
@@ -24,7 +27,7 @@ internal class IndexViewModelTest : BaseTest() {
         val given = "my_table"
         val expected = "PRAGMA \"index_list\"(\"$given\")"
 
-        val viewModel: IndexViewModel = get()
+        val viewModel = IndexViewModel(get(), get(), get())
 
         val actual = viewModel.pragmaStatement(given)
 
