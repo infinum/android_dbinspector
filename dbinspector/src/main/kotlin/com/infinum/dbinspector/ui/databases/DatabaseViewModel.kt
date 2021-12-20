@@ -51,7 +51,7 @@ internal class DatabaseViewModel(
             if (ok.isNotEmpty()) {
                 browse(context)
             } else {
-                setError(IllegalStateException())
+                setError(IllegalStateException("Copy failed."))
             }
         }
 }

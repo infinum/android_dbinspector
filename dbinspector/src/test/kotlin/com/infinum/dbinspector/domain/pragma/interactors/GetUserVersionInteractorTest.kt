@@ -1,10 +1,13 @@
 package com.infinum.dbinspector.domain.pragma.interactors
 
+import com.infinum.dbinspector.data.Data
 import com.infinum.dbinspector.data.Sources
-import com.infinum.dbinspector.domain.Interactors
+import com.infinum.dbinspector.data.models.local.cursor.input.Order
+import com.infinum.dbinspector.data.models.local.cursor.input.Query
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
@@ -19,21 +22,28 @@ internal class GetUserVersionInteractorTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Sources.Local.Pragma>() }
-            factory<Interactors.GetUserVersion> { GetUserVersionInteractor(get()) }
+            factory { mockk<Sources.Local.Pragma>() }
         }
     )
 
     @Test
-    @Disabled("No idea why it fails")
+    @Disabled("Fails because of NullPointerException")
     fun `Invoking interactor invokes source getUserVersion`() {
-        val interactor: Interactors.GetUserVersion = get()
+        val given = mockk<Query> {
+            every { databasePath } returns ""
+            every { database } returns mockk()
+            every { statement } returns ""
+            every { order } returns Order.ASCENDING
+            every { pageSize } returns Data.Constants.Limits.PAGE_SIZE
+            every { page } returns Data.Constants.Limits.INITIAL_PAGE
+        }
         val source: Sources.Local.Pragma = get()
+        val interactor = GetUserVersionInteractor(source)
 
         coEvery { source.getUserVersion(any()) } returns mockk()
 
         launch {
-            interactor.invoke(any())
+            interactor.invoke(given)
         }
 
         coVerify(exactly = 1) { source.getUserVersion(any()) }

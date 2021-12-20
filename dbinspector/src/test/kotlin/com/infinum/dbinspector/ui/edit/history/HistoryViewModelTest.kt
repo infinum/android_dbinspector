@@ -8,6 +8,8 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.flow.flow
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -17,8 +19,6 @@ import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.get
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
 
 @DisplayName("HistoryViewModel tests")
 internal class HistoryViewModelTest : BaseTest() {

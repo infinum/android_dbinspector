@@ -1,6 +1,5 @@
 package com.infinum.dbinspector.domain.shared.control
 
-import com.infinum.dbinspector.domain.Control
 import com.infinum.dbinspector.domain.Converters
 import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.shared.BaseTest
@@ -17,29 +16,30 @@ internal class ContentControlTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Mappers.Content>() }
-            single { mockk<Converters.Content>() }
-            factory<Control.Content> { ContentControl(get(), get()) }
+            factory { mockk<Mappers.Content>() }
+            factory { mockk<Converters.Content>() }
         }
     )
 
     @Test
     fun `Can be instantiated`() {
-        val control: Control.Content = get()
+        val control = ContentControl(get(), get())
 
         assertNotNull(control)
     }
 
     @Test
     fun `Control converter is not null`() {
-        val control: Control.Content = get()
+        val converter: Converters.Content = get()
+        val control = ContentControl(get(), converter)
 
         assertNotNull(control.converter)
     }
 
     @Test
     fun `Control mapper is not null`() {
-        val control: Control.Content = get()
+        val mappers: Mappers.Content = get()
+        val control = ContentControl(mappers, get())
 
         assertNotNull(control.mapper)
     }

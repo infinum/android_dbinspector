@@ -20,8 +20,7 @@ internal class HistoryMapperTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single<Mappers.Execution> { mockk<ExecutionMapper>() }
-            factory<Mappers.History> { HistoryMapper(get()) }
+            factory<Mappers.Execution> { mockk<ExecutionMapper>() }
         }
     )
 
@@ -32,8 +31,8 @@ internal class HistoryMapperTest : BaseTest() {
 
             val expected = History()
 
-            val mapper: Mappers.History = get()
             val executionMapper: Mappers.Execution = get()
+            val mapper = HistoryMapper(executionMapper)
 
             coEvery { executionMapper.invoke(any()) } returns mockk()
             val actual = test {
@@ -66,8 +65,8 @@ internal class HistoryMapperTest : BaseTest() {
                 )
             )
 
-            val mapper: Mappers.History = get()
             val executionMapper: Mappers.Execution = get()
+            val mapper = HistoryMapper(executionMapper)
 
             coEvery { executionMapper.invoke(any()) } returns expectedExecution
             val actual = test {

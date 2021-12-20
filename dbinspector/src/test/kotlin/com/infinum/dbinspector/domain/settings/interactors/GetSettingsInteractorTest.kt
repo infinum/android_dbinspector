@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.domain.settings.interactors
 
 import com.infinum.dbinspector.data.Sources
-import com.infinum.dbinspector.domain.Interactors
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -18,15 +17,14 @@ internal class GetSettingsInteractorTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Sources.Local.Settings>() }
-            factory<Interactors.GetSettings> { GetSettingsInteractor(get()) }
+            factory { mockk<Sources.Local.Settings>() }
         }
     )
 
     @Test
     fun `Invoking interactor invokes source current`() {
-        val interactor: Interactors.GetSettings = get()
         val source: Sources.Local.Settings = get()
+        val interactor = GetSettingsInteractor(source)
 
         coEvery { source.current() } returns mockk()
 

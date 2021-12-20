@@ -145,7 +145,6 @@ internal class ContentViewModelTest : BaseTest() {
             override fun schemaStatement(name: String, orderBy: String?, sort: Sort): String = ""
 
             override fun dropStatement(name: String): String = ""
-
         }.apply {
             databasePath = "test.db"
         }

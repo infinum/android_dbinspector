@@ -2,13 +2,13 @@ package com.infinum.dbinspector.domain.database.usecases
 
 import android.content.Context
 import com.infinum.dbinspector.domain.Repositories
-import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
 import com.infinum.dbinspector.domain.shared.models.parameters.ConnectionParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.DatabaseParameters
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
@@ -23,22 +23,24 @@ internal class GetDatabasesUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Context>() }
-            single { mockk<Repositories.Database>() }
-            single { mockk<Repositories.Connection>() }
-            single { mockk<Repositories.Pragma>() }
-            factory<UseCases.GetDatabases> { GetDatabasesUseCase(get(), get(), get()) }
+            factory { mockk<Context>() }
+            factory { mockk<Repositories.Database>() }
+            factory { mockk<Repositories.Connection>() }
+            factory { mockk<Repositories.Pragma>() }
         }
     )
 
     @Test
     fun `Invoking use case gets no databases`() {
-        val useCase: UseCases.GetDatabases = get()
         val databaseRepository: Repositories.Database = get()
         val connectionRepository: Repositories.Connection = get()
         val pragmaRepository: Repositories.Pragma = get()
+        val useCase = GetDatabasesUseCase(
+            databaseRepository,
+            connectionRepository,
+            pragmaRepository
+        )
 
-        coEvery { useCase.invoke(any()) } returns mockk()
         coEvery { databaseRepository.getPage(any()) } returns listOf()
         coEvery { connectionRepository.open(any()) } returns mockk()
         coEvery { pragmaRepository.getUserVersion(any()) } returns mockk()
@@ -55,17 +57,13 @@ internal class GetDatabasesUseCaseTest : BaseTest() {
     }
 
     @Test
-    @Disabled("Connection open and close are not called")
+    @Disabled("No idea why this fails")
     fun `Invoking use case gets databases`() {
-        val useCase: UseCases.GetDatabases = get()
-        val databaseRepository: Repositories.Database = get()
-        val connectionRepository: Repositories.Connection = get()
-        val pragmaRepository: Repositories.Pragma = get()
-
-        val given: DatabaseParameters.Get = DatabaseParameters.Get(
-            context = get(),
-            argument = null
-        )
+        val newContext: Context = get()
+        val given = mockk<DatabaseParameters.Get> {
+            every { context } returns newContext
+            every { argument } returns null
+        }
         val givenDescriptors: List<DatabaseDescriptor> = listOf(
             DatabaseDescriptor(
                 exists = false,
@@ -74,8 +72,15 @@ internal class GetDatabasesUseCaseTest : BaseTest() {
                 parentPath = ""
             )
         )
+        val databaseRepository: Repositories.Database = get()
+        val connectionRepository: Repositories.Connection = get()
+        val pragmaRepository: Repositories.Pragma = get()
+        val useCase = GetDatabasesUseCase(
+            databaseRepository,
+            connectionRepository,
+            pragmaRepository
+        )
 
-        coEvery { useCase.invoke(given) } returns mockk()
         coEvery { databaseRepository.getPage(any()) } returns givenDescriptors
         coEvery {
             connectionRepository.open(

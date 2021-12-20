@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.domain.schema.table.usecases
 
 import com.infinum.dbinspector.domain.Repositories
-import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
@@ -18,9 +17,8 @@ internal class DropTableContentUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Repositories.Schema>() }
-            single { mockk<Repositories.Connection>() }
-            factory<UseCases.DropTableContent> { DropTableContentUseCase(get(), get()) }
+            factory { mockk<Repositories.Schema>() }
+            factory { mockk<Repositories.Connection>() }
         }
     )
 
@@ -31,11 +29,10 @@ internal class DropTableContentUseCaseTest : BaseTest() {
             statement = "SELECT * FROM tables"
         )
 
-        val useCase: UseCases.DropTableContent = get()
         val connectionRepository: Repositories.Connection = get()
         val schemaRepository: Repositories.Schema = get()
+        val useCase = DropTableContentUseCase(connectionRepository, schemaRepository)
 
-        coEvery { useCase.invoke(given) } returns mockk()
         coEvery { connectionRepository.open(any()) } returns mockk()
         coEvery { schemaRepository.dropByName(any()) } returns mockk()
 

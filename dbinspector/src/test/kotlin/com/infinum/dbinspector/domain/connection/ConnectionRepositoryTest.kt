@@ -2,7 +2,6 @@ package com.infinum.dbinspector.domain.connection
 
 import com.infinum.dbinspector.domain.Control
 import com.infinum.dbinspector.domain.Interactors
-import com.infinum.dbinspector.domain.Repositories
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -19,20 +18,22 @@ internal class ConnectionRepositoryTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Interactors.OpenConnection>() }
-            single { mockk<Interactors.CloseConnection>() }
-            single { mockk<Control.Connection>() }
-            factory<Repositories.Connection> { ConnectionRepository(get(), get(), get()) }
+            factory { mockk<Interactors.OpenConnection>() }
+            factory { mockk<Interactors.CloseConnection>() }
+            factory { mockk<Control.Connection>() }
         }
     )
 
     @Test
     fun `Connection repository open calls open interactor`() {
-        val repository: Repositories.Connection = get()
         val interactor: Interactors.OpenConnection = get()
         val control: Control.Connection = get()
+        val repository = ConnectionRepository(
+            interactor,
+            get(),
+            control
+        )
 
-        coEvery { repository.open(any()) } returns mockk()
         coEvery { interactor.invoke(any()) } returns mockk()
         coEvery { control.mapper.invoke(any()) } returns mockk()
         coEvery { control.converter.invoke(any()) } returns ""
@@ -48,11 +49,14 @@ internal class ConnectionRepositoryTest : BaseTest() {
 
     @Test
     fun `Connection repository close calls close interactor`() {
-        val repository: Repositories.Connection = get()
         val interactor: Interactors.CloseConnection = get()
         val control: Control.Connection = get()
+        val repository = ConnectionRepository(
+            get(),
+            interactor,
+            control
+        )
 
-        coEvery { repository.close(any()) } returns mockk()
         coEvery { interactor.invoke(any()) } returns Unit
         coEvery { control.mapper.invoke(any()) } returns mockk()
         coEvery { control.converter.invoke(any()) } returns ""

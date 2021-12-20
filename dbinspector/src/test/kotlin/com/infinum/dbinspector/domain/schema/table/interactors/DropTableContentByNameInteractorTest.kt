@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.domain.schema.table.interactors
 
 import com.infinum.dbinspector.data.Sources
-import com.infinum.dbinspector.domain.Interactors
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -18,15 +17,14 @@ internal class DropTableContentByNameInteractorTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Sources.Local.Schema>() }
-            factory<Interactors.DropTableContentByName> { DropTableContentByNameInteractor(get()) }
+            factory { mockk<Sources.Local.Schema>() }
         }
     )
 
     @Test
     fun `Invoking interactor invokes source dropTriggerByName`() {
-        val interactor: Interactors.DropTableContentByName = get()
         val source: Sources.Local.Schema = get()
+        val interactor = DropTableContentByNameInteractor(source)
 
         coEvery { source.dropTableContentByName(any()) } returns mockk()
 

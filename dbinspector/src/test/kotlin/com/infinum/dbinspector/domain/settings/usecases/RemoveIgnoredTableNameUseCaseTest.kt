@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.domain.settings.usecases
 
 import com.infinum.dbinspector.domain.Repositories
-import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -18,23 +17,21 @@ internal class RemoveIgnoredTableNameUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Repositories.Settings>() }
-            factory<UseCases.RemoveIgnoredTableName> { RemoveIgnoredTableNameUseCase(get()) }
+            factory { mockk<Repositories.Settings>() }
         }
     )
 
     @Test
     fun `Invoking use case removes ignored table name from settings`() {
-        val useCase: UseCases.RemoveIgnoredTableName = get()
-        val settingsRepository: Repositories.Settings = get()
+        val repository: Repositories.Settings = get()
+        val useCase = RemoveIgnoredTableNameUseCase(repository)
 
-        coEvery { useCase.invoke(any()) } returns mockk()
-        coEvery { settingsRepository.removeIgnoredTableName(any()) } returns mockk()
+        coEvery { repository.removeIgnoredTableName(any()) } returns mockk()
 
         launch {
             useCase.invoke(any())
         }
 
-        coVerify(exactly = 1) { settingsRepository.removeIgnoredTableName(any()) }
+        coVerify(exactly = 1) { repository.removeIgnoredTableName(any()) }
     }
 }

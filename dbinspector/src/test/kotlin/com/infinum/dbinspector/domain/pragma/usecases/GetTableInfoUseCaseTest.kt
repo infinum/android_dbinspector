@@ -1,8 +1,6 @@
 package com.infinum.dbinspector.domain.pragma.usecases
 
 import com.infinum.dbinspector.domain.Repositories
-import com.infinum.dbinspector.domain.UseCases
-import com.infinum.dbinspector.domain.shared.models.Page
 import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
@@ -20,31 +18,27 @@ internal class GetTableInfoUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Repositories.Connection>() }
-            single { mockk<Repositories.Pragma>() }
-            factory<UseCases.GetTableInfo> { GetTableInfoUseCase(get(), get()) }
+            factory { mockk<Repositories.Connection>() }
+            factory { mockk<Repositories.Pragma>() }
         }
     )
 
     @Test
     fun `Invoking use case invokes connection open and pragma table info`() {
-        val given: PragmaParameters.Pragma = PragmaParameters.Pragma(
+        val given = PragmaParameters.Pragma(
             databasePath = "test.db",
             statement = "my_statement"
         )
 
-        val expected: Page = mockk {
+        val connectionRepository: Repositories.Connection = get()
+        val pragmaRepository: Repositories.Pragma = get()
+        val useCase = GetTableInfoUseCase(connectionRepository, pragmaRepository)
+
+        coEvery { connectionRepository.open(any()) } returns mockk()
+        coEvery { pragmaRepository.getTableInfo(any()) } returns mockk {
             every { cells } returns listOf()
             every { copy(null, 0, 0, listOf()) } returns this
         }
-
-        val useCase: UseCases.GetTableInfo = get()
-        val connectionRepository: Repositories.Connection = get()
-        val pragmaRepository: Repositories.Pragma = get()
-
-        coEvery { useCase.invoke(given) } returns expected
-        coEvery { connectionRepository.open(any()) } returns mockk()
-        coEvery { pragmaRepository.getTableInfo(any()) } returns expected
 
         launch {
             useCase.invoke(given)

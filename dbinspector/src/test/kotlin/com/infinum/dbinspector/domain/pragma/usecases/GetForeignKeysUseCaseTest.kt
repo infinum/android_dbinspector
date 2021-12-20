@@ -1,8 +1,6 @@
 package com.infinum.dbinspector.domain.pragma.usecases
 
 import com.infinum.dbinspector.domain.Repositories
-import com.infinum.dbinspector.domain.UseCases
-import com.infinum.dbinspector.domain.shared.models.Page
 import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
@@ -19,9 +17,8 @@ internal class GetForeignKeysUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Repositories.Connection>() }
-            single { mockk<Repositories.Pragma>() }
-            factory<UseCases.GetForeignKeys> { GetForeignKeysUseCase(get(), get()) }
+            factory { mockk<Repositories.Connection>() }
+            factory { mockk<Repositories.Pragma>() }
         }
     )
 
@@ -32,15 +29,12 @@ internal class GetForeignKeysUseCaseTest : BaseTest() {
             statement = "my_statement"
         )
 
-        val expected: Page = mockk()
-
-        val useCase: UseCases.GetForeignKeys = get()
         val connectionRepository: Repositories.Connection = get()
         val pragmaRepository: Repositories.Pragma = get()
+        val useCase = GetForeignKeysUseCase(connectionRepository, pragmaRepository)
 
-        coEvery { useCase.invoke(given) } returns expected
         coEvery { connectionRepository.open(any()) } returns mockk()
-        coEvery { pragmaRepository.getForeignKeys(any()) } returns expected
+        coEvery { pragmaRepository.getForeignKeys(any()) } returns mockk()
 
         launch {
             useCase.invoke(given)

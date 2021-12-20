@@ -3,13 +3,13 @@ package com.infinum.dbinspector.domain.shared.mappers
 import com.infinum.dbinspector.data.models.local.cursor.output.Field
 import com.infinum.dbinspector.data.models.local.cursor.output.FieldType
 import com.infinum.dbinspector.data.models.local.cursor.output.QueryResult
-import com.infinum.dbinspector.data.models.local.cursor.output.Row
 import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.domain.shared.models.Page
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import kotlin.test.assertEquals
 import org.junit.jupiter.api.DisplayName
@@ -23,23 +23,25 @@ internal class ContentMapperTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single<Mappers.Cell> { mockk<CellMapper>() }
-            factory<Mappers.Content> { ContentMapper(get()) }
+            factory<Mappers.Cell> { mockk<CellMapper>() }
         }
     )
 
     @Test
     fun `Empty local value maps to empty domain value`() =
         launch {
-            val given = QueryResult(
-                rows = listOf()
-            )
+            val given = mockk<QueryResult> {
+                every { rows } returns listOf()
+                every { nextPage } returns null
+                every { beforeCount } returns 0
+                every { afterCount } returns 0
+            }
             val expected = Page(
                 cells = listOf()
             )
 
-            val mapper: Mappers.Content = get()
             val cellMapper: Mappers.Cell = get()
+            val mapper = ContentMapper(cellMapper)
 
             coEvery { cellMapper.invoke(any()) } returns mockk()
             val actual = test {
@@ -53,19 +55,22 @@ internal class ContentMapperTest : BaseTest() {
     @Test
     fun `QueryResult local value maps to Page with same domain value`() =
         launch {
-            val given = QueryResult(
-                rows = listOf(
-                    Row(
-                        position = 0,
-                        fields = listOf(
+            val given = mockk<QueryResult> {
+                every { rows } returns listOf(
+                    mockk {
+                        every { position } returns 0
+                        every { fields } returns listOf(
                             Field(
                                 FieldType.INTEGER,
                                 text = "1"
                             )
                         )
-                    )
+                    }
                 )
-            )
+                every { nextPage } returns null
+                every { beforeCount } returns 0
+                every { afterCount } returns 0
+            }
             val expectedCell = Cell(
                 text = "1"
             )
@@ -75,8 +80,8 @@ internal class ContentMapperTest : BaseTest() {
                 )
             )
 
-            val mapper: Mappers.Content = get()
             val cellMapper: Mappers.Cell = get()
+            val mapper = ContentMapper(cellMapper)
 
             coEvery { cellMapper.invoke(any()) } returns expectedCell
             val actual = test {

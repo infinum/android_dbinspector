@@ -3,11 +3,12 @@ package com.infinum.dbinspector.ui.edit
 import app.cash.turbine.test
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.shared.BaseTest
-import com.infinum.dbinspector.ui.content.shared.ContentState
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 import kotlinx.coroutines.awaitCancellation
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Disabled
@@ -16,8 +17,6 @@ import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.get
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
 
 @DisplayName("EditViewModel tests")
 internal class EditViewModelTest : BaseTest() {
@@ -435,7 +434,7 @@ internal class EditViewModelTest : BaseTest() {
 
         coEvery { useCase.invoke(any()) } returns mockk()
 
-        viewModel.saveFailedExecution( "SELECT * FROM my_table")
+        viewModel.saveFailedExecution("SELECT * FROM my_table")
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
     }

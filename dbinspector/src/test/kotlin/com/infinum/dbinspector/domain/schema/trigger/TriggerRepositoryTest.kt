@@ -16,17 +16,16 @@ internal class TriggerRepositoryTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Interactors.GetTriggers>() }
-            single { mockk<Interactors.GetTriggerByName>() }
-            single { mockk<Interactors.DropTriggerByName>() }
-            single { mockk<Control.Content>() }
-            factory { TriggerRepository(get(), get(), get(), get()) }
+            factory { mockk<Interactors.GetTriggers>() }
+            factory { mockk<Interactors.GetTriggerByName>() }
+            factory { mockk<Interactors.DropTriggerByName>() }
+            factory { mockk<Control.Content>() }
         }
     )
 
     @Test
-    fun `Instance is not null`() {
-        val repository: TriggerRepository = get()
+    fun `Can be instantiated`() {
+        val repository = TriggerRepository(get(), get(), get(), get())
 
         assertNotNull(repository)
     }

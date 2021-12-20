@@ -4,7 +4,6 @@ import com.infinum.dbinspector.data.Sources
 import com.infinum.dbinspector.data.models.local.proto.input.SettingsTask
 import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
 import com.infinum.dbinspector.data.sources.local.proto.settings.SettingsDataStore
-import com.infinum.dbinspector.domain.Interactors
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -22,8 +21,7 @@ internal class SaveBlobPreviewModeInteractorTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single<Sources.Local.Settings> { mockk<SettingsDataStore>() }
-            factory<Interactors.SaveBlobPreviewMode> { SaveBlobPreviewModeInteractor(get()) }
+            factory<Sources.Local.Settings> { mockk<SettingsDataStore>() }
         }
     )
 
@@ -33,8 +31,8 @@ internal class SaveBlobPreviewModeInteractorTest : BaseTest() {
         val given: SettingsTask = mockk {
             every { blobPreviewMode } returns mode
         }
-        val interactor: Interactors.SaveBlobPreviewMode = get()
         val source: Sources.Local.Settings = get()
+        val interactor = SaveBlobPreviewModeInteractor(source)
 
         coEvery { source.store() } returns mockk {
             coEvery { updateData(any()) } returns mockk {

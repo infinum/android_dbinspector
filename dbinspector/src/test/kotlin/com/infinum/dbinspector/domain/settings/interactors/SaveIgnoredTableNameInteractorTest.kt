@@ -3,7 +3,6 @@ package com.infinum.dbinspector.domain.settings.interactors
 import com.infinum.dbinspector.data.Sources
 import com.infinum.dbinspector.data.models.local.proto.input.SettingsTask
 import com.infinum.dbinspector.data.sources.local.proto.settings.SettingsDataStore
-import com.infinum.dbinspector.domain.Interactors
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -21,8 +20,7 @@ internal class SaveIgnoredTableNameInteractorTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single<Sources.Local.Settings> { mockk<SettingsDataStore>() }
-            factory<Interactors.SaveIgnoredTableName> { SaveIgnoredTableNameInteractor(get()) }
+            factory<Sources.Local.Settings> { mockk<SettingsDataStore>() }
         }
     )
 
@@ -31,8 +29,8 @@ internal class SaveIgnoredTableNameInteractorTest : BaseTest() {
         val given: SettingsTask = mockk {
             every { ignoredTableName } returns "android_metadata"
         }
-        val interactor: Interactors.SaveIgnoredTableName = get()
         val source: Sources.Local.Settings = get()
+        val interactor = SaveIgnoredTableNameInteractor(source)
 
         coEvery { source.store() } returns mockk {
             coEvery { updateData(any()) } returns mockk {
@@ -56,8 +54,8 @@ internal class SaveIgnoredTableNameInteractorTest : BaseTest() {
         val given: SettingsTask = mockk {
             every { ignoredTableName } returns ""
         }
-        val interactor: Interactors.SaveIgnoredTableName = get()
         val source: Sources.Local.Settings = get()
+        val interactor = SaveIgnoredTableNameInteractor(source)
 
         coEvery { source.store() } returns mockk {
             coEvery { updateData(any()) } returns mockk {

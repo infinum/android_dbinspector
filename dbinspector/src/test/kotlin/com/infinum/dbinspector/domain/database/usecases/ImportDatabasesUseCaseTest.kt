@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.domain.database.usecases
 
 import com.infinum.dbinspector.domain.Repositories
-import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -18,23 +17,21 @@ internal class ImportDatabasesUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Repositories.Database>() }
-            factory<UseCases.ImportDatabases> { ImportDatabasesUseCase(get()) }
+            factory { mockk<Repositories.Database>() }
         }
     )
 
     @Test
     fun `Invoking use case clears history per database`() {
-        val useCase: UseCases.ImportDatabases = get()
-        val databaseRepository: Repositories.Database = get()
+        val repository: Repositories.Database = get()
+        val useCase = ImportDatabasesUseCase(repository)
 
-        coEvery { useCase.invoke(any()) } returns mockk()
-        coEvery { databaseRepository.import(any()) } returns mockk()
+        coEvery { repository.import(any()) } returns mockk()
 
         launch {
             useCase.invoke(any())
         }
 
-        coVerify(exactly = 1) { databaseRepository.import(any()) }
+        coVerify(exactly = 1) { repository.import(any()) }
     }
 }

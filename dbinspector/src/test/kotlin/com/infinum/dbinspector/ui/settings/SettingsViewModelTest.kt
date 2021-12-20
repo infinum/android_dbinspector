@@ -9,6 +9,9 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 import kotlinx.coroutines.awaitCancellation
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.DisplayName
@@ -19,9 +22,6 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.get
 import org.mockito.kotlin.any
-import kotlin.test.assertEquals
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
 
 @DisplayName("SettingsViewModel tests")
 internal class SettingsViewModelTest : BaseTest() {

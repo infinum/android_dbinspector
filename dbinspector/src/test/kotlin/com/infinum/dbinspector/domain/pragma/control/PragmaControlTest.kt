@@ -1,6 +1,5 @@
 package com.infinum.dbinspector.domain.pragma.control
 
-import com.infinum.dbinspector.domain.Control
 import com.infinum.dbinspector.domain.Converters
 import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.shared.BaseTest
@@ -17,29 +16,30 @@ internal class PragmaControlTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Mappers.Pragma>() }
-            single { mockk<Converters.Pragma>() }
-            factory<Control.Pragma> { PragmaControl(get(), get()) }
+            factory { mockk<Mappers.Pragma>() }
+            factory { mockk<Converters.Pragma>() }
         }
     )
 
     @Test
     fun `Can be instantiated`() {
-        val control: Control.Pragma = get()
+        val control = PragmaControl(get(), get())
 
         assertNotNull(control)
     }
 
     @Test
     fun `Control converter is not null`() {
-        val control: Control.Pragma = get()
+        val converter: Converters.Pragma = get()
+        val control = PragmaControl(get(), converter)
 
         assertNotNull(control.converter)
     }
 
     @Test
     fun `Control mapper is not null`() {
-        val control: Control.Pragma = get()
+        val mapper: Mappers.Pragma = get()
+        val control = PragmaControl(mapper, get())
 
         assertNotNull(control.mapper)
     }

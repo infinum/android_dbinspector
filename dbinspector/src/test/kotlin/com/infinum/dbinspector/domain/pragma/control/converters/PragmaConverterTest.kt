@@ -3,12 +3,14 @@ package com.infinum.dbinspector.domain.pragma.control.converters
 import com.infinum.dbinspector.data.models.local.cursor.input.Order
 import com.infinum.dbinspector.data.models.local.cursor.input.Query
 import com.infinum.dbinspector.domain.Converters
+import com.infinum.dbinspector.domain.Domain
 import com.infinum.dbinspector.domain.shared.converters.SortConverter
 import com.infinum.dbinspector.domain.shared.models.parameters.PragmaParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.SortParameters
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
@@ -23,8 +25,7 @@ internal class PragmaConverterTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single<Converters.Sort> { mockk<SortConverter>() }
-            factory<Converters.Pragma> { PragmaConverter(get()) }
+            factory<Converters.Sort> { mockk<SortConverter>() }
         }
     )
 
@@ -32,7 +33,8 @@ internal class PragmaConverterTest : BaseTest() {
     fun `Invoke is not implemented and should throw AbstractMethodError`() {
         val given = mockk<PragmaParameters>()
 
-        val converter: Converters.Pragma = get()
+        val sortConverter: Converters.Sort = get()
+        val converter = PragmaConverter(sortConverter)
 
         assertThrows<NotImplementedError> {
             runBlockingTest {
@@ -44,17 +46,19 @@ internal class PragmaConverterTest : BaseTest() {
     @Test
     fun `Version converts to data query with same values`() =
         launch {
-            val given = PragmaParameters.Version(
-                databasePath = "test.db",
-                statement = "PRAGMA version()"
-            )
+            val given = mockk<PragmaParameters.Version> {
+                every { databasePath } returns "test.db"
+                every { statement } returns "PRAGMA version()"
+                every { connection } returns null
+                every { page } returns null
+            }
             val expected = Query(
                 databasePath = "test.db",
                 statement = "PRAGMA version()"
             )
 
-            val converter: Converters.Pragma = get()
             val sortConverter: Converters.Sort = get()
+            val converter = PragmaConverter(sortConverter)
 
             coEvery { sortConverter.invoke(any()) } returns mockk()
             val actual = test {
@@ -62,25 +66,28 @@ internal class PragmaConverterTest : BaseTest() {
             }
 
             coVerify(exactly = 0) { sortConverter.invoke(any()) }
-//            assertEquals(expected, actual)
+            assertEquals(expected, actual)
         }
 
     @Test
     fun `Pragma converts to data query with same values`() =
         launch {
-            val given = PragmaParameters.Pragma(
-                databasePath = "test.db",
-                statement = "PRAGMA indexes()",
-                sort = SortParameters()
-            )
+            val given = mockk<PragmaParameters.Pragma> {
+                every { databasePath } returns "test.db"
+                every { statement } returns "PRAGMA indexes()"
+                every { connection } returns null
+                every { page } returns Domain.Constants.Limits.INITIAL_PAGE
+                every { pageSize } returns Domain.Constants.Limits.PAGE_SIZE
+                every { sort } returns SortParameters()
+            }
             val expected = Query(
                 databasePath = "test.db",
                 statement = "PRAGMA indexes()",
                 order = Order.ASCENDING
             )
 
-            val converter: Converters.Pragma = get()
             val sortConverter: Converters.Sort = get()
+            val converter = PragmaConverter(sortConverter)
 
             coEvery { sortConverter.invoke(any()) } returns expected.order
             val actual = test {

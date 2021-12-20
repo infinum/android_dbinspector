@@ -7,22 +7,16 @@ import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
-import org.koin.dsl.module
-import org.koin.test.get
 
 @DisplayName("CursorPaginator tests")
 internal class CursorPaginatorTest : BaseTest() {
 
-    override fun modules(): List<Module> = listOf(
-        module {
-            factory { CursorPaginator() }
-        }
-    )
+    override fun modules(): List<Module> = listOf()
 
     @Test
     fun `New instance has no page count`() {
         val expected = 0
-        val paginator: CursorPaginator = get()
+        val paginator = CursorPaginator()
 
         assertEquals(expected, paginator.pageCount)
     }
@@ -33,7 +27,7 @@ internal class CursorPaginatorTest : BaseTest() {
         val pageSize = 10
         val expected = 1
 
-        val paginator: CursorPaginator = get()
+        val paginator = CursorPaginator()
         paginator.setPageCount(given, pageSize)
 
         assertEquals(expected, paginator.pageCount)
@@ -45,7 +39,7 @@ internal class CursorPaginatorTest : BaseTest() {
         val pageSize = 10
         val expected = 0
 
-        val paginator: CursorPaginator = get()
+        val paginator = CursorPaginator()
         paginator.setPageCount(given, pageSize)
 
         assertEquals(expected, paginator.pageCount)
@@ -57,7 +51,7 @@ internal class CursorPaginatorTest : BaseTest() {
         val pageSize = 10
         val expected = 2
 
-        val paginator: CursorPaginator = get()
+        val paginator = CursorPaginator()
         paginator.setPageCount(given, pageSize)
 
         assertEquals(expected, paginator.pageCount)
@@ -69,7 +63,7 @@ internal class CursorPaginatorTest : BaseTest() {
         val pageSize = 0
         val expected = 0
 
-        val paginator: CursorPaginator = get()
+        val paginator = CursorPaginator()
         paginator.setPageCount(given, pageSize)
 
         assertEquals(expected, paginator.pageCount)
@@ -81,7 +75,7 @@ internal class CursorPaginatorTest : BaseTest() {
         val pageSize = 1
         val expected = 0
 
-        val paginator: CursorPaginator = get()
+        val paginator = CursorPaginator()
         paginator.setPageCount(given, pageSize)
 
         assertEquals(expected, paginator.pageCount)
@@ -93,7 +87,7 @@ internal class CursorPaginatorTest : BaseTest() {
         val pageSize = -1
         val expected = 0
 
-        val paginator: CursorPaginator = get()
+        val paginator = CursorPaginator()
         paginator.setPageCount(given, pageSize)
 
         assertEquals(expected, paginator.pageCount)
@@ -104,7 +98,7 @@ internal class CursorPaginatorTest : BaseTest() {
         val given: Int? = null
         val expected: Int? = null
 
-        val paginator: CursorPaginator = get()
+        val paginator = CursorPaginator()
         val actual = paginator.nextPage(given)
 
         assertEquals(expected, actual)
@@ -116,7 +110,7 @@ internal class CursorPaginatorTest : BaseTest() {
         val given = 1
         val expected: Int? = null
 
-        val paginator: CursorPaginator = get()
+        val paginator = CursorPaginator()
         paginator.pageCount = 0
         val actual = paginator.nextPage(given)
 
@@ -129,7 +123,7 @@ internal class CursorPaginatorTest : BaseTest() {
         val given = 1
         val expected: Int? = null
 
-        val paginator: CursorPaginator = get()
+        val paginator = CursorPaginator()
         paginator.pageCount = 1
         val actual = paginator.nextPage(given)
 
@@ -142,7 +136,7 @@ internal class CursorPaginatorTest : BaseTest() {
         val given = 1
         val expected = 2
 
-        val paginator: CursorPaginator = get()
+        val paginator = CursorPaginator()
         paginator.pageCount = 3
         val actual = paginator.nextPage(given)
 
@@ -155,7 +149,7 @@ internal class CursorPaginatorTest : BaseTest() {
         val given = -1
         val expected = 1
 
-        val paginator: CursorPaginator = get()
+        val paginator = CursorPaginator()
         paginator.pageCount = 2
         val actual = paginator.nextPage(given)
 
@@ -173,7 +167,7 @@ internal class CursorPaginatorTest : BaseTest() {
             endRow = 5
         )
 
-        val paginator: CursorPaginator = get()
+        val paginator = CursorPaginator()
         val actual = paginator.boundary(given, pageSize, rowCount)
 
         assertEquals(expected, actual)
@@ -189,7 +183,7 @@ internal class CursorPaginatorTest : BaseTest() {
             endRow = 10
         )
 
-        val paginator: CursorPaginator = get()
+        val paginator = CursorPaginator()
         val actual = paginator.boundary(given, pageSize, rowCount)
 
         assertEquals(expected, actual)
@@ -205,7 +199,7 @@ internal class CursorPaginatorTest : BaseTest() {
             endRow = 10
         )
 
-        val paginator: CursorPaginator = get()
+        val paginator = CursorPaginator()
         val actual = paginator.boundary(given, pageSize, rowCount)
 
         assertEquals(expected, actual)
@@ -221,7 +215,7 @@ internal class CursorPaginatorTest : BaseTest() {
             endRow = 10
         )
 
-        val paginator: CursorPaginator = get()
+        val paginator = CursorPaginator()
         val actual = paginator.boundary(given, pageSize, rowCount)
 
         assertEquals(expected, actual)
@@ -237,7 +231,7 @@ internal class CursorPaginatorTest : BaseTest() {
             endRow = 1
         )
 
-        val paginator: CursorPaginator = get()
+        val paginator = CursorPaginator()
         val actual = paginator.boundary(given, pageSize, rowCount)
 
         assertEquals(expected, actual)

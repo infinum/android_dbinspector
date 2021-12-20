@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.domain.settings.usecases
 
 import com.infinum.dbinspector.domain.Repositories
-import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -18,23 +17,21 @@ internal class GetSettingsUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Repositories.Settings>() }
-            factory<UseCases.GetSettings> { GetSettingsUseCase(get()) }
+            factory { mockk<Repositories.Settings>() }
         }
     )
 
     @Test
     fun `Invoking use case gets current settings`() {
-        val useCase: UseCases.GetSettings = get()
-        val settingsRepository: Repositories.Settings = get()
+        val repository: Repositories.Settings = get()
+        val useCase = GetSettingsUseCase(repository)
 
-        coEvery { useCase.invoke(any()) } returns mockk()
-        coEvery { settingsRepository.getPage(any()) } returns mockk()
+        coEvery { repository.getPage(any()) } returns mockk()
 
         launch {
             useCase.invoke(any())
         }
 
-        coVerify(exactly = 1) { settingsRepository.getPage(any()) }
+        coVerify(exactly = 1) { repository.getPage(any()) }
     }
 }

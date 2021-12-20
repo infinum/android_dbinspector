@@ -2,7 +2,6 @@ package com.infinum.dbinspector.domain.database
 
 import com.infinum.dbinspector.domain.Control
 import com.infinum.dbinspector.domain.Interactors
-import com.infinum.dbinspector.domain.Repositories
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -19,13 +18,12 @@ internal class DatabaseRepositoryTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Interactors.GetDatabases>() }
-            single { mockk<Interactors.ImportDatabases>() }
-            single { mockk<Interactors.RemoveDatabase>() }
-            single { mockk<Interactors.RenameDatabase>() }
-            single { mockk<Interactors.CopyDatabase>() }
-            single { mockk<Control.Database>() }
-            factory<Repositories.Database> { DatabaseRepository(get(), get(), get(), get(), get(), get()) }
+            factory { mockk<Interactors.GetDatabases>() }
+            factory { mockk<Interactors.ImportDatabases>() }
+            factory { mockk<Interactors.RemoveDatabase>() }
+            factory { mockk<Interactors.RenameDatabase>() }
+            factory { mockk<Interactors.CopyDatabase>() }
+            factory { mockk<Control.Database>() }
         }
     )
 
@@ -33,7 +31,14 @@ internal class DatabaseRepositoryTest : BaseTest() {
     fun `Get databases calls GetDatabases interactor and Database control`() {
         val interactor: Interactors.GetDatabases = get()
         val control: Control.Database = get()
-        val repository: Repositories.Database = get()
+        val repository = DatabaseRepository(
+            interactor,
+            get(),
+            get(),
+            get(),
+            get(),
+            control
+        )
 
         coEvery { interactor.invoke(any()) } returns listOf(mockk())
         coEvery { control.converter get any() } returns mockk()
@@ -52,7 +57,14 @@ internal class DatabaseRepositoryTest : BaseTest() {
     fun `Import databases calls ImportDatabases interactor and Database control`() {
         val interactor: Interactors.ImportDatabases = get()
         val control: Control.Database = get()
-        val repository: Repositories.Database = get()
+        val repository = DatabaseRepository(
+            get(),
+            interactor,
+            get(),
+            get(),
+            get(),
+            control
+        )
 
         coEvery { interactor.invoke(any()) } returns listOf(mockk())
         coEvery { control.converter import any() } returns mockk()
@@ -71,7 +83,14 @@ internal class DatabaseRepositoryTest : BaseTest() {
     fun `Rename database calls RenameDatabase interactor and Database control`() {
         val interactor: Interactors.RenameDatabase = get()
         val control: Control.Database = get()
-        val repository: Repositories.Database = get()
+        val repository = DatabaseRepository(
+            get(),
+            get(),
+            get(),
+            interactor,
+            get(),
+            control
+        )
 
         coEvery { interactor.invoke(any()) } returns listOf(mockk())
         coEvery { control.converter rename any() } returns mockk()
@@ -90,7 +109,14 @@ internal class DatabaseRepositoryTest : BaseTest() {
     fun `Remove database calls RemoveDatabase interactor and Database control`() {
         val interactor: Interactors.RemoveDatabase = get()
         val control: Control.Database = get()
-        val repository: Repositories.Database = get()
+        val repository = DatabaseRepository(
+            get(),
+            get(),
+            interactor,
+            get(),
+            get(),
+            control
+        )
 
         coEvery { interactor.invoke(any()) } returns listOf(mockk())
         coEvery { control.converter command any() } returns mockk()
@@ -109,7 +135,14 @@ internal class DatabaseRepositoryTest : BaseTest() {
     fun `Copy database calls CopyDatabase interactor and Database control`() {
         val interactor: Interactors.CopyDatabase = get()
         val control: Control.Database = get()
-        val repository: Repositories.Database = get()
+        val repository = DatabaseRepository(
+            get(),
+            get(),
+            get(),
+            get(),
+            interactor,
+            control
+        )
 
         coEvery { interactor.invoke(any()) } returns listOf(mockk())
         coEvery { control.converter command any() } returns mockk()

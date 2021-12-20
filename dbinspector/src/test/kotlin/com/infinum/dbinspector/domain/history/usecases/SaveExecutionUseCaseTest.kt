@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.domain.history.usecases
 
 import com.infinum.dbinspector.domain.Repositories
-import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -18,23 +17,21 @@ internal class SaveExecutionUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Repositories.History>() }
-            factory<UseCases.SaveExecution> { SaveExecutionUseCase(get()) }
+            factory { mockk<Repositories.History>() }
         }
     )
 
     @Test
     fun `Invoking use case saves execution to history`() {
-        val useCase: UseCases.SaveExecution = get()
-        val historyRepository: Repositories.History = get()
+        val repository: Repositories.History = get()
+        val useCase = SaveExecutionUseCase(repository)
 
-        coEvery { useCase.invoke(any()) } returns mockk()
-        coEvery { historyRepository.saveExecution(any()) } returns mockk()
+        coEvery { repository.saveExecution(any()) } returns mockk()
 
         launch {
             useCase.invoke(any())
         }
 
-        coVerify(exactly = 1) { historyRepository.saveExecution(any()) }
+        coVerify(exactly = 1) { repository.saveExecution(any()) }
     }
 }

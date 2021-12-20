@@ -1,6 +1,5 @@
 package com.infinum.dbinspector.domain.connection.control
 
-import com.infinum.dbinspector.domain.Control
 import com.infinum.dbinspector.domain.Converters
 import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.shared.BaseTest
@@ -17,29 +16,30 @@ internal class ConnectionControlTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Mappers.Connection>() }
-            single { mockk<Converters.Connection>() }
-            factory<Control.Connection> { ConnectionControl(get(), get()) }
+            factory { mockk<Mappers.Connection>() }
+            factory { mockk<Converters.Connection>() }
         }
     )
 
     @Test
     fun `Can be instantiated`() {
-        val control: Control.Connection = get()
+        val control = ConnectionControl(get(), get())
 
         assertNotNull(control)
     }
 
     @Test
     fun `Control converter is not null`() {
-        val control: Control.Connection = get()
+        val converter: Converters.Connection = get()
+        val control = ConnectionControl(get(), converter)
 
         assertNotNull(control.converter)
     }
 
     @Test
     fun `Control mapper is not null`() {
-        val control: Control.Connection = get()
+        val mapper: Mappers.Connection = get()
+        val control = ConnectionControl(mapper, get())
 
         assertNotNull(control.mapper)
     }

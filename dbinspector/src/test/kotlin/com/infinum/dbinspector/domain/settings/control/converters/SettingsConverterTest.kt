@@ -12,6 +12,7 @@ import com.infinum.dbinspector.domain.shared.models.parameters.SettingsParameter
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
@@ -26,9 +27,8 @@ internal class SettingsConverterTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single<Converters.TruncateMode> { mockk<TruncateModeConverter>() }
-            single<Converters.BlobPreview> { mockk<BlobPreviewConverter>() }
-            factory<Converters.Settings> { SettingsConverter(get(), get()) }
+            factory<Converters.TruncateMode> { mockk<TruncateModeConverter>() }
+            factory<Converters.BlobPreview> { mockk<BlobPreviewConverter>() }
         }
     )
 
@@ -36,7 +36,7 @@ internal class SettingsConverterTest : BaseTest() {
     fun `Invoke is not implemented and should throw AbstractMethodError`() {
         val given = mockk<SettingsParameters>()
 
-        val converter: Converters.Settings = get()
+        val converter = SettingsConverter(get(), get())
 
         assertThrows<NotImplementedError> {
             runBlockingTest {
@@ -48,12 +48,12 @@ internal class SettingsConverterTest : BaseTest() {
     @Test
     fun `Get converts to default data task values`() =
         launch {
-            val given = SettingsParameters.Get()
+            val given = mockk<SettingsParameters.Get>()
             val expected = SettingsTask()
 
-            val converter: Converters.Settings = get()
             val truncateModeConverter: Converters.TruncateMode = get()
             val blobPreviewConverter: Converters.BlobPreview = get()
+            val converter = SettingsConverter(truncateModeConverter, blobPreviewConverter)
 
             coEvery { truncateModeConverter.invoke(any()) } returns mockk()
             coEvery { blobPreviewConverter.invoke(any()) } returns mockk()
@@ -69,12 +69,14 @@ internal class SettingsConverterTest : BaseTest() {
     @Test
     fun `Lines limit enabled converts to data task with value true`() =
         launch {
-            val given = SettingsParameters.LinesLimit(isEnabled = true)
+            val given = mockk<SettingsParameters.LinesLimit> {
+                every { isEnabled } returns true
+            }
             val expected = SettingsTask(linesLimited = true)
 
-            val converter: Converters.Settings = get()
             val truncateModeConverter: Converters.TruncateMode = get()
             val blobPreviewConverter: Converters.BlobPreview = get()
+            val converter = SettingsConverter(truncateModeConverter, blobPreviewConverter)
 
             coEvery { truncateModeConverter.invoke(any()) } returns mockk()
             coEvery { blobPreviewConverter.invoke(any()) } returns mockk()
@@ -90,12 +92,14 @@ internal class SettingsConverterTest : BaseTest() {
     @Test
     fun `Lines limit disabled converts to data task with value false`() =
         launch {
-            val given = SettingsParameters.LinesLimit(isEnabled = false)
+            val given = mockk<SettingsParameters.LinesLimit> {
+                every { isEnabled } returns false
+            }
             val expected = SettingsTask(linesLimited = false)
 
-            val converter: Converters.Settings = get()
             val truncateModeConverter: Converters.TruncateMode = get()
             val blobPreviewConverter: Converters.BlobPreview = get()
+            val converter = SettingsConverter(truncateModeConverter, blobPreviewConverter)
 
             coEvery { truncateModeConverter.invoke(any()) } returns mockk()
             coEvery { blobPreviewConverter.invoke(any()) } returns mockk()
@@ -111,12 +115,14 @@ internal class SettingsConverterTest : BaseTest() {
     @Test
     fun `Lines count more than zero converts to data task with same value`() =
         launch {
-            val given = SettingsParameters.LinesCount(count = 3)
+            val given = mockk<SettingsParameters.LinesCount> {
+                every { count } returns 3
+            }
             val expected = SettingsTask(linesCount = 3)
 
-            val converter: Converters.Settings = get()
             val truncateModeConverter: Converters.TruncateMode = get()
             val blobPreviewConverter: Converters.BlobPreview = get()
+            val converter = SettingsConverter(truncateModeConverter, blobPreviewConverter)
 
             coEvery { truncateModeConverter.invoke(any()) } returns mockk()
             coEvery { blobPreviewConverter.invoke(any()) } returns mockk()
@@ -132,12 +138,14 @@ internal class SettingsConverterTest : BaseTest() {
     @Test
     fun `Lines count set to zero converts to data task with maximum value`() =
         launch {
-            val given = SettingsParameters.LinesCount(count = 0)
+            val given = mockk<SettingsParameters.LinesCount> {
+                every { count } returns 0
+            }
             val expected = SettingsTask(linesCount = Data.Constants.Settings.LINES_LIMIT_MAXIMUM)
 
-            val converter: Converters.Settings = get()
             val truncateModeConverter: Converters.TruncateMode = get()
             val blobPreviewConverter: Converters.BlobPreview = get()
+            val converter = SettingsConverter(truncateModeConverter, blobPreviewConverter)
 
             coEvery { truncateModeConverter.invoke(any()) } returns mockk()
             coEvery { blobPreviewConverter.invoke(any()) } returns mockk()
@@ -153,12 +161,14 @@ internal class SettingsConverterTest : BaseTest() {
     @Test
     fun `Truncate mode START converts to data task with same value`() =
         launch {
-            val given = SettingsParameters.Truncate(mode = TruncateMode.START)
+            val given = mockk<SettingsParameters.Truncate> {
+                every { mode } returns TruncateMode.START
+            }
             val expected = SettingsTask(truncateMode = SettingsEntity.TruncateMode.START)
 
-            val converter: Converters.Settings = get()
             val truncateModeConverter: Converters.TruncateMode = get()
             val blobPreviewConverter: Converters.BlobPreview = get()
+            val converter = SettingsConverter(truncateModeConverter, blobPreviewConverter)
 
             coEvery { truncateModeConverter.invoke(any()) } returns SettingsEntity.TruncateMode.START
             coEvery { blobPreviewConverter.invoke(any()) } returns mockk()
@@ -174,12 +184,14 @@ internal class SettingsConverterTest : BaseTest() {
     @Test
     fun `Truncate mode MIDDLE converts to data task with same value`() =
         launch {
-            val given = SettingsParameters.Truncate(mode = TruncateMode.MIDDLE)
+            val given = mockk<SettingsParameters.Truncate> {
+                every { mode } returns TruncateMode.MIDDLE
+            }
             val expected = SettingsTask(truncateMode = SettingsEntity.TruncateMode.MIDDLE)
 
-            val converter: Converters.Settings = get()
             val truncateModeConverter: Converters.TruncateMode = get()
             val blobPreviewConverter: Converters.BlobPreview = get()
+            val converter = SettingsConverter(truncateModeConverter, blobPreviewConverter)
 
             coEvery { truncateModeConverter.invoke(any()) } returns SettingsEntity.TruncateMode.MIDDLE
             coEvery { blobPreviewConverter.invoke(any()) } returns mockk()
@@ -195,12 +207,14 @@ internal class SettingsConverterTest : BaseTest() {
     @Test
     fun `Truncate mode END converts to data task with same value`() =
         launch {
-            val given = SettingsParameters.Truncate(mode = TruncateMode.END)
+            val given = mockk<SettingsParameters.Truncate> {
+                every { mode } returns TruncateMode.END
+            }
             val expected = SettingsTask(truncateMode = SettingsEntity.TruncateMode.END)
 
-            val converter: Converters.Settings = get()
             val truncateModeConverter: Converters.TruncateMode = get()
             val blobPreviewConverter: Converters.BlobPreview = get()
+            val converter = SettingsConverter(truncateModeConverter, blobPreviewConverter)
 
             coEvery { truncateModeConverter.invoke(any()) } returns SettingsEntity.TruncateMode.END
             coEvery { blobPreviewConverter.invoke(any()) } returns mockk()
@@ -216,12 +230,14 @@ internal class SettingsConverterTest : BaseTest() {
     @Test
     fun `Blob preview mode UNSUPPORTED converts to data task with UNRECOGNIZED value`() =
         launch {
-            val given = SettingsParameters.BlobPreview(mode = BlobPreviewMode.UNSUPPORTED)
+            val given = mockk<SettingsParameters.BlobPreview> {
+                every { mode } returns BlobPreviewMode.UNSUPPORTED
+            }
             val expected = SettingsTask(blobPreviewMode = SettingsEntity.BlobPreviewMode.UNRECOGNIZED)
 
-            val converter: Converters.Settings = get()
             val truncateModeConverter: Converters.TruncateMode = get()
             val blobPreviewConverter: Converters.BlobPreview = get()
+            val converter = SettingsConverter(truncateModeConverter, blobPreviewConverter)
 
             coEvery { truncateModeConverter.invoke(any()) } returns mockk()
             coEvery { blobPreviewConverter.invoke(any()) } returns SettingsEntity.BlobPreviewMode.UNRECOGNIZED
@@ -237,12 +253,14 @@ internal class SettingsConverterTest : BaseTest() {
     @Test
     fun `Blob preview mode PLACEHOLDER converts to data task with same value`() =
         launch {
-            val given = SettingsParameters.BlobPreview(mode = BlobPreviewMode.PLACEHOLDER)
+            val given = mockk<SettingsParameters.BlobPreview> {
+                every { mode } returns BlobPreviewMode.PLACEHOLDER
+            }
             val expected = SettingsTask(blobPreviewMode = SettingsEntity.BlobPreviewMode.PLACEHOLDER)
 
-            val converter: Converters.Settings = get()
             val truncateModeConverter: Converters.TruncateMode = get()
             val blobPreviewConverter: Converters.BlobPreview = get()
+            val converter = SettingsConverter(truncateModeConverter, blobPreviewConverter)
 
             coEvery { truncateModeConverter.invoke(any()) } returns mockk()
             coEvery { blobPreviewConverter.invoke(any()) } returns SettingsEntity.BlobPreviewMode.PLACEHOLDER
@@ -258,12 +276,14 @@ internal class SettingsConverterTest : BaseTest() {
     @Test
     fun `Blob preview mode UT8 converts to data task with same value`() =
         launch {
-            val given = SettingsParameters.BlobPreview(mode = BlobPreviewMode.UTF_8)
+            val given = mockk<SettingsParameters.BlobPreview> {
+                every { mode } returns BlobPreviewMode.UTF_8
+            }
             val expected = SettingsTask(blobPreviewMode = SettingsEntity.BlobPreviewMode.UTF8)
 
-            val converter: Converters.Settings = get()
             val truncateModeConverter: Converters.TruncateMode = get()
             val blobPreviewConverter: Converters.BlobPreview = get()
+            val converter = SettingsConverter(truncateModeConverter, blobPreviewConverter)
 
             coEvery { truncateModeConverter.invoke(any()) } returns mockk()
             coEvery { blobPreviewConverter.invoke(any()) } returns SettingsEntity.BlobPreviewMode.UTF8
@@ -279,12 +299,14 @@ internal class SettingsConverterTest : BaseTest() {
     @Test
     fun `Blob preview mode HEX converts to data task with same value`() =
         launch {
-            val given = SettingsParameters.BlobPreview(mode = BlobPreviewMode.HEX)
+            val given = mockk<SettingsParameters.BlobPreview> {
+                every { mode } returns BlobPreviewMode.HEX
+            }
             val expected = SettingsTask(blobPreviewMode = SettingsEntity.BlobPreviewMode.HEX)
 
-            val converter: Converters.Settings = get()
             val truncateModeConverter: Converters.TruncateMode = get()
             val blobPreviewConverter: Converters.BlobPreview = get()
+            val converter = SettingsConverter(truncateModeConverter, blobPreviewConverter)
 
             coEvery { truncateModeConverter.invoke(any()) } returns mockk()
             coEvery { blobPreviewConverter.invoke(any()) } returns SettingsEntity.BlobPreviewMode.HEX
@@ -300,12 +322,14 @@ internal class SettingsConverterTest : BaseTest() {
     @Test
     fun `Blob preview mode BASE_64 converts to data task with same value`() =
         launch {
-            val given = SettingsParameters.BlobPreview(mode = BlobPreviewMode.BASE_64)
+            val given = mockk<SettingsParameters.BlobPreview> {
+                every { mode } returns BlobPreviewMode.BASE_64
+            }
             val expected = SettingsTask(blobPreviewMode = SettingsEntity.BlobPreviewMode.BASE64)
 
-            val converter: Converters.Settings = get()
             val truncateModeConverter: Converters.TruncateMode = get()
             val blobPreviewConverter: Converters.BlobPreview = get()
+            val converter = SettingsConverter(truncateModeConverter, blobPreviewConverter)
 
             coEvery { truncateModeConverter.invoke(any()) } returns mockk()
             coEvery { blobPreviewConverter.invoke(any()) } returns SettingsEntity.BlobPreviewMode.BASE64
@@ -321,12 +345,14 @@ internal class SettingsConverterTest : BaseTest() {
     @Test
     fun `Empty ignored table name converts to data task with empty value`() =
         launch {
-            val given = SettingsParameters.IgnoredTableName(name = "")
+            val given = mockk<SettingsParameters.IgnoredTableName> {
+                every { name } returns ""
+            }
             val expected = SettingsTask(ignoredTableName = "")
 
-            val converter: Converters.Settings = get()
             val truncateModeConverter: Converters.TruncateMode = get()
             val blobPreviewConverter: Converters.BlobPreview = get()
+            val converter = SettingsConverter(truncateModeConverter, blobPreviewConverter)
 
             coEvery { truncateModeConverter.invoke(any()) } returns mockk()
             coEvery { blobPreviewConverter.invoke(any()) } returns mockk()
@@ -342,12 +368,14 @@ internal class SettingsConverterTest : BaseTest() {
     @Test
     fun `Ignored table name converts to data task with same value`() =
         launch {
-            val given = SettingsParameters.IgnoredTableName(name = "android_metadata")
+            val given = mockk<SettingsParameters.IgnoredTableName> {
+                every { name } returns "android_metadata"
+            }
             val expected = SettingsTask(ignoredTableName = "android_metadata")
 
-            val converter: Converters.Settings = get()
             val truncateModeConverter: Converters.TruncateMode = get()
             val blobPreviewConverter: Converters.BlobPreview = get()
+            val converter = SettingsConverter(truncateModeConverter, blobPreviewConverter)
 
             coEvery { truncateModeConverter.invoke(any()) } returns mockk()
             coEvery { blobPreviewConverter.invoke(any()) } returns mockk()

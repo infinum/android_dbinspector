@@ -6,6 +6,10 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.unmockkStatic
+import kotlin.collections.List
+import kotlin.collections.isNotEmpty
+import kotlin.collections.listOf
+import kotlin.collections.set
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
@@ -13,21 +17,15 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
-import org.koin.dsl.module
-import org.koin.test.get
 
 @DisplayName("AndroidConnectionSource tests")
 internal class AndroidConnectionSourceTest : BaseTest() {
 
-    override fun modules(): List<Module> = listOf(
-        module {
-            factory { AndroidConnectionSource() }
-        }
-    )
+    override fun modules(): List<Module> = listOf()
 
     @Test
     fun `New instance has empty but existing connection pool`() {
-        val source: AndroidConnectionSource = get()
+        val source = AndroidConnectionSource()
 
         assertTrue(source.connectionPool.isEmpty())
         assertNotNull(source.connectionPool)
@@ -42,7 +40,7 @@ internal class AndroidConnectionSourceTest : BaseTest() {
             every { path } returns given
         }
 
-        val source: AndroidConnectionSource = get()
+        val source = AndroidConnectionSource()
 
         launch {
             source.openConnection(given)
@@ -67,7 +65,7 @@ internal class AndroidConnectionSourceTest : BaseTest() {
             every { path } returns given
         }
 
-        val source: AndroidConnectionSource = get()
+        val source = AndroidConnectionSource()
 
         source.connectionPool[given] = expected
 
@@ -100,7 +98,7 @@ internal class AndroidConnectionSourceTest : BaseTest() {
             every { close() } returns Unit
         }
 
-        val source: AndroidConnectionSource = get()
+        val source = AndroidConnectionSource()
 
         source.connectionPool[given] = expected
 
@@ -126,7 +124,7 @@ internal class AndroidConnectionSourceTest : BaseTest() {
             every { close() } returns Unit
         }
 
-        val source: AndroidConnectionSource = get()
+        val source = AndroidConnectionSource()
 
         launch {
             source.closeConnection(given)

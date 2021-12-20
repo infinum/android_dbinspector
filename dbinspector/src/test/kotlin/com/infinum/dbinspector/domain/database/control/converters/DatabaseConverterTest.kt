@@ -2,11 +2,11 @@ package com.infinum.dbinspector.domain.database.control.converters
 
 import android.content.Context
 import android.net.Uri
-import com.infinum.dbinspector.domain.Converters
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
 import com.infinum.dbinspector.domain.database.models.Operation
 import com.infinum.dbinspector.domain.shared.models.parameters.DatabaseParameters
 import com.infinum.dbinspector.shared.BaseTest
+import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
@@ -21,8 +21,7 @@ internal class DatabaseConverterTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Context>() }
-            factory<Converters.Database> { DatabaseConverter() }
+            factory { mockk<Context>() }
         }
     )
 
@@ -30,7 +29,7 @@ internal class DatabaseConverterTest : BaseTest() {
     fun `Invoke is not implemented and should throw AbstractMethodError`() {
         val given = mockk<DatabaseParameters>()
 
-        val converter: Converters.Database = get()
+        val converter = DatabaseConverter()
 
         assertThrows<NotImplementedError> {
             runBlockingTest {
@@ -42,16 +41,17 @@ internal class DatabaseConverterTest : BaseTest() {
     @Test
     fun `Get converts to data operation with same values`() =
         launch {
-            val given = DatabaseParameters.Get(
-                context = get(),
-                argument = "test"
-            )
+            val newContext: Context = get()
+            val given = mockk<DatabaseParameters.Get> {
+                every { context } returns newContext
+                every { argument } returns "test"
+            }
             val expected = Operation(
-                context = get(),
+                context = newContext,
                 argument = "test"
             )
 
-            val converter: Converters.Database = get()
+            val converter = DatabaseConverter()
 
             val actual = test {
                 converter get given
@@ -63,16 +63,17 @@ internal class DatabaseConverterTest : BaseTest() {
     @Test
     fun `Import empty list converts to data operation with empty values`() =
         launch {
-            val given = DatabaseParameters.Import(
-                context = get(),
-                importUris = listOf()
-            )
+            val newContext: Context = get()
+            val given = mockk<DatabaseParameters.Import> {
+                every { context } returns newContext
+                every { importUris } returns listOf()
+            }
             val expected = Operation(
-                context = get(),
+                context = newContext,
                 importUris = listOf()
             )
 
-            val converter: Converters.Database = get()
+            val converter = DatabaseConverter()
 
             val actual = test {
                 converter import given
@@ -84,20 +85,21 @@ internal class DatabaseConverterTest : BaseTest() {
     @Test
     fun `Import converts to data operation with same values`() =
         launch {
-            val given = DatabaseParameters.Import(
-                context = get(),
-                importUris = listOf(
+            val newContext: Context = get()
+            val given = mockk<DatabaseParameters.Import> {
+                every { context } returns newContext
+                every { importUris } returns listOf(
                     Uri.parse("file://test.db")
                 )
-            )
+            }
             val expected = Operation(
-                context = get(),
+                context = newContext,
                 importUris = listOf(
                     Uri.parse("file://test.db")
                 )
             )
 
-            val converter: Converters.Database = get()
+            val converter = DatabaseConverter()
 
             val actual = test {
                 converter import given
@@ -109,20 +111,21 @@ internal class DatabaseConverterTest : BaseTest() {
     @Test
     fun `Rename converts to data operation with same values`() =
         launch {
-            val given = DatabaseParameters.Rename(
-                context = get(),
-                databaseDescriptor = DatabaseDescriptor(
-                    exists = false,
+            val newContext: Context = get()
+            val given = mockk<DatabaseParameters.Rename> {
+                every { context } returns newContext
+                every { databaseDescriptor } returns DatabaseDescriptor(
+                    exists = true,
                     name = "test",
                     extension = "db",
                     parentPath = ""
-                ),
-                argument = "new_test"
-            )
+                )
+                every { argument } returns "new_test"
+            }
             val expected = Operation(
-                context = get(),
+                context = newContext,
                 databaseDescriptor = DatabaseDescriptor(
-                    exists = false,
+                    exists = true,
                     name = "test",
                     extension = "db",
                     parentPath = ""
@@ -130,7 +133,7 @@ internal class DatabaseConverterTest : BaseTest() {
                 argument = "new_test"
             )
 
-            val converter: Converters.Database = get()
+            val converter = DatabaseConverter()
 
             val actual = test {
                 converter rename given
@@ -142,26 +145,27 @@ internal class DatabaseConverterTest : BaseTest() {
     @Test
     fun `Command converts to data operation with same values`() =
         launch {
-            val given = DatabaseParameters.Command(
-                context = get(),
-                databaseDescriptor = DatabaseDescriptor(
-                    exists = false,
+            val newContext: Context = get()
+            val given = mockk<DatabaseParameters.Command> {
+                every { context } returns newContext
+                every { databaseDescriptor } returns DatabaseDescriptor(
+                    exists = true,
                     name = "test",
                     extension = "db",
                     parentPath = ""
                 )
-            )
+            }
             val expected = Operation(
-                context = get(),
+                context = newContext,
                 databaseDescriptor = DatabaseDescriptor(
-                    exists = false,
+                    exists = true,
                     name = "test",
                     extension = "db",
                     parentPath = ""
                 )
             )
 
-            val converter: Converters.Database = get()
+            val converter = DatabaseConverter()
 
             val actual = test {
                 converter command given

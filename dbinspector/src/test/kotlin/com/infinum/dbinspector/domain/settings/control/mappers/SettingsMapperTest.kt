@@ -24,9 +24,8 @@ internal class SettingsMapperTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single<Mappers.BlobPreviewMode> { mockk<BlobPreviewModeMapper>() }
-            single<Mappers.TruncateMode> { mockk<TruncateModeMapper>() }
-            factory<Mappers.Settings> { SettingsMapper(get(), get()) }
+            factory<Mappers.BlobPreviewMode> { mockk<BlobPreviewModeMapper>() }
+            factory<Mappers.TruncateMode> { mockk<TruncateModeMapper>() }
         }
     )
 
@@ -36,9 +35,9 @@ internal class SettingsMapperTest : BaseTest() {
             val given = SettingsEntity.getDefaultInstance()
             val expected = Settings()
 
-            val mapper: Mappers.Settings = get()
             val trucateModeMapper: Mappers.TruncateMode = get()
             val blobPreviewModeMapper: Mappers.BlobPreviewMode = get()
+            val mapper = SettingsMapper(trucateModeMapper, blobPreviewModeMapper)
 
             coEvery { trucateModeMapper.invoke(any()) } returns expected.truncateMode
             coEvery { blobPreviewModeMapper.invoke(any()) } returns expected.blobPreviewMode
@@ -59,9 +58,9 @@ internal class SettingsMapperTest : BaseTest() {
                 .build()
             val expected = Settings(linesCount = 3)
 
-            val mapper: Mappers.Settings = get()
             val trucateModeMapper: Mappers.TruncateMode = get()
             val blobPreviewModeMapper: Mappers.BlobPreviewMode = get()
+            val mapper = SettingsMapper(trucateModeMapper, blobPreviewModeMapper)
 
             coEvery { trucateModeMapper.invoke(any()) } returns expected.truncateMode
             coEvery { blobPreviewModeMapper.invoke(any()) } returns expected.blobPreviewMode
@@ -82,9 +81,9 @@ internal class SettingsMapperTest : BaseTest() {
                 .build()
             val expected = Settings(linesCount = Domain.Constants.Settings.LINES_LIMIT_MAXIMUM)
 
-            val mapper: Mappers.Settings = get()
             val trucateModeMapper: Mappers.TruncateMode = get()
             val blobPreviewModeMapper: Mappers.BlobPreviewMode = get()
+            val mapper = SettingsMapper(trucateModeMapper, blobPreviewModeMapper)
 
             coEvery { trucateModeMapper.invoke(any()) } returns expected.truncateMode
             coEvery { blobPreviewModeMapper.invoke(any()) } returns expected.blobPreviewMode
@@ -108,9 +107,9 @@ internal class SettingsMapperTest : BaseTest() {
                 ).build()
             val expected = Settings(ignoredTableNames = listOf("android_metadata"))
 
-            val mapper: Mappers.Settings = get()
             val trucateModeMapper: Mappers.TruncateMode = get()
             val blobPreviewModeMapper: Mappers.BlobPreviewMode = get()
+            val mapper = SettingsMapper(trucateModeMapper, blobPreviewModeMapper)
 
             coEvery { trucateModeMapper.invoke(any()) } returns expected.truncateMode
             coEvery { blobPreviewModeMapper.invoke(any()) } returns expected.blobPreviewMode

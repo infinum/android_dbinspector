@@ -1,12 +1,10 @@
 package com.infinum.dbinspector.domain.database.interactors
 
 import com.infinum.dbinspector.data.Sources
-import com.infinum.dbinspector.domain.Interactors
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
@@ -19,16 +17,14 @@ internal class RenameDatabaseInteractorTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Sources.Raw>() }
-            factory<Interactors.RenameDatabase> { RenameDatabaseInteractor(get()) }
+            factory { mockk<Sources.Raw>() }
         }
     )
 
     @Test
-    @Disabled("No idea why it fails")
     fun `Invoking interactor invokes source renameDatabase`() {
-        val interactor: Interactors.RenameDatabase = get()
         val source: Sources.Raw = get()
+        val interactor = RenameDatabaseInteractor(source)
 
         coEvery { source.renameDatabase(any()) } returns mockk()
 

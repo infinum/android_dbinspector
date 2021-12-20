@@ -16,23 +16,17 @@ import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
-import org.koin.dsl.module
-import org.koin.test.get
 import org.mockito.kotlin.any
 
 @DisplayName("SettingsSerializer tests")
 internal class SettingsSerializerTest : BaseTest() {
 
-    override fun modules(): List<Module> = listOf(
-        module {
-            factory { SettingsSerializer() }
-        }
-    )
+    override fun modules(): List<Module> = listOf()
 
     @Test
     fun `Serializer has default value`() {
         val expected = SettingsEntity.getDefaultInstance()
-        val serializer: SettingsSerializer = get()
+        val serializer = SettingsSerializer()
 
         assertNotNull(serializer.defaultValue)
         assertEquals(expected, serializer.defaultValue)
@@ -41,7 +35,7 @@ internal class SettingsSerializerTest : BaseTest() {
     @Test
     @Disabled("Mockk says: 'The InputStream implementation is buggy.'")
     fun `Serializer reads stream into entity`() {
-        val serializer: SettingsSerializer = get()
+        val serializer = SettingsSerializer()
 
         mockkStatic(SettingsEntity::class)
         every { SettingsEntity.parseFrom(mockk<InputStream>()) } returns mockk()
@@ -59,7 +53,7 @@ internal class SettingsSerializerTest : BaseTest() {
     @Disabled("No idea how to test streams")
     fun `Serializer writes entity to stream`() {
         val given = SettingsEntity.getDefaultInstance()
-        val serializer: SettingsSerializer = get()
+        val serializer = SettingsSerializer()
         val stream: OutputStream = mockk()
 
         launch {
