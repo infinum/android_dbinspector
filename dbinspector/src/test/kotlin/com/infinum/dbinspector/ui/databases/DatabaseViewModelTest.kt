@@ -8,14 +8,14 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 import kotlinx.coroutines.awaitCancellation
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.get
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
 
 @DisplayName("DatabaseViewModel tests")
 internal class DatabaseViewModelTest : BaseTest() {
