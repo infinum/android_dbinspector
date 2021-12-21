@@ -2,7 +2,7 @@
 dbinspector = "5.4.2"
 gradle = "7.0.4"
 kotlin = "1.6.10"
-coroutines = "1.5.2"
+coroutines = "1.6.0-RC3"
 core = "1.7.0"
 appcompat = "1.4.0"
 activity = "1.4.0"
