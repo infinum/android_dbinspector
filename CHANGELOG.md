@@ -3,9 +3,11 @@ Changelog
 
 ## Version 5.4.2
 
-_2021-12-18_
+_2021-12-24_
 
 * Update to Kotlin 1.6.10.
+* Update Corooutines to 1.6.0.
+* Update Gradle wrapper to 7.3.3. 
 * Refactor edit database activity to rename database dialog.
 
 ## Version 5.4.1
