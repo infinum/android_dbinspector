@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.domain.schema.view.interactors
 
 import com.infinum.dbinspector.data.Sources
-import com.infinum.dbinspector.domain.Interactors
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -18,15 +17,14 @@ internal class GetViewByNameInteractorTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Sources.Local.Schema>() }
-            factory<Interactors.GetViewByName> { GetViewByNameInteractor(get()) }
+            factory { mockk<Sources.Local.Schema>() }
         }
     )
 
     @Test
     fun `Invoking interactor invokes source getViewByName`() {
-        val interactor: Interactors.GetViewByName = get()
         val source: Sources.Local.Schema = get()
+        val interactor = GetViewByNameInteractor(source)
 
         coEvery { source.getViewByName(any()) } returns mockk()
 

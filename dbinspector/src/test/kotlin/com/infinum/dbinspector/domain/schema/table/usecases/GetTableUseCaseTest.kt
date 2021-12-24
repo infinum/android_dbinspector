@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.domain.schema.table.usecases
 
 import com.infinum.dbinspector.domain.Repositories
-import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
@@ -18,9 +17,8 @@ internal class GetTableUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Repositories.Schema>() }
-            single { mockk<Repositories.Connection>() }
-            factory<UseCases.GetTable> { GetTableUseCase(get(), get()) }
+            factory { mockk<Repositories.Schema>() }
+            factory { mockk<Repositories.Connection>() }
         }
     )
 
@@ -31,11 +29,10 @@ internal class GetTableUseCaseTest : BaseTest() {
             statement = "SELECT * FROM tables"
         )
 
-        val useCase: UseCases.GetTable = get()
         val connectionRepository: Repositories.Connection = get()
         val schemaRepository: Repositories.Schema = get()
+        val useCase = GetTableUseCase(connectionRepository, schemaRepository)
 
-        coEvery { useCase.invoke(given) } returns mockk()
         coEvery { connectionRepository.open(any()) } returns mockk()
         coEvery { schemaRepository.getByName(any()) } returns mockk()
 

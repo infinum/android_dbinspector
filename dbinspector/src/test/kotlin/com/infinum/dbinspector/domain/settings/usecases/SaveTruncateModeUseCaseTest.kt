@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.domain.settings.usecases
 
 import com.infinum.dbinspector.domain.Repositories
-import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -18,23 +17,21 @@ internal class SaveTruncateModeUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Repositories.Settings>() }
-            factory<UseCases.SaveTruncateMode> { SaveTruncateModeUseCase(get()) }
+            factory { mockk<Repositories.Settings>() }
         }
     )
 
     @Test
     fun `Invoking use case saves truncate mode in settings`() {
-        val useCase: UseCases.SaveTruncateMode = get()
-        val settingsRepository: Repositories.Settings = get()
+        val repository: Repositories.Settings = get()
+        val useCase = SaveTruncateModeUseCase(repository)
 
-        coEvery { useCase.invoke(any()) } returns mockk()
-        coEvery { settingsRepository.saveTruncateMode(any()) } returns mockk()
+        coEvery { repository.saveTruncateMode(any()) } returns mockk()
 
         launch {
             useCase.invoke(any())
         }
 
-        coVerify(exactly = 1) { settingsRepository.saveTruncateMode(any()) }
+        coVerify(exactly = 1) { repository.saveTruncateMode(any()) }
     }
 }

@@ -5,7 +5,6 @@ import androidx.annotation.CallSuper
 import androidx.annotation.RestrictTo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowInsetsControllerCompat
-import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.di.LibraryKoinComponent
@@ -23,7 +22,7 @@ internal abstract class BaseActivity<State, Event> : AppCompatActivity(), BaseVi
 
         setContentView(binding.root)
 
-        collectFlows(lifecycleScope)
+        collectFlows(this)
     }
 
     fun showDatabaseParametersError() =

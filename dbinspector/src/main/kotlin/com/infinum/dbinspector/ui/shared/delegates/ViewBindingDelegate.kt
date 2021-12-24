@@ -7,10 +7,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewbinding.ViewBinding
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 internal class ViewBindingDelegate<T : ViewBinding>(
     private val fragment: Fragment,
@@ -20,14 +22,18 @@ internal class ViewBindingDelegate<T : ViewBinding>(
     private var binding: T? = null
 
     init {
-        fragment.lifecycleScope.launchWhenCreated {
-            fragment.viewLifecycleOwnerLiveData
-                .asFlow()
-                .collectLatest {
-                    if (it == null) {
-                        binding = null
-                    }
+        with(fragment) {
+            lifecycleScope.launch {
+                lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                    viewLifecycleOwnerLiveData
+                        .asFlow()
+                        .collectLatest {
+                            if (it == null) {
+                                binding = null
+                            }
+                        }
                 }
+            }
         }
     }
 

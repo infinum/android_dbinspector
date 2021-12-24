@@ -16,17 +16,16 @@ internal class ViewRepositoryTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Interactors.GetViews>() }
-            single { mockk<Interactors.GetViewByName>() }
-            single { mockk<Interactors.DropViewByName>() }
-            single { mockk<Control.Content>() }
-            factory { ViewRepository(get(), get(), get(), get()) }
+            factory { mockk<Interactors.GetViews>() }
+            factory { mockk<Interactors.GetViewByName>() }
+            factory { mockk<Interactors.DropViewByName>() }
+            factory { mockk<Control.Content>() }
         }
     )
 
     @Test
-    fun `Instance is not null`() {
-        val repository: ViewRepository = get()
+    fun `Can be instantiated`() {
+        val repository = ViewRepository(get(), get(), get(), get())
 
         assertNotNull(repository)
     }

@@ -1,5 +1,6 @@
 package com.infinum.dbinspector.ui.pragma.foreignkeys
 
+import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -15,7 +16,9 @@ internal class ForeignKeysViewModelTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { ForeignKeysViewModel(mockk(), mockk(), mockk()) }
+            factory { mockk<UseCases.OpenConnection>() }
+            factory { mockk<UseCases.CloseConnection>() }
+            factory { mockk<UseCases.GetForeignKeys>() }
         }
     )
 
@@ -24,7 +27,7 @@ internal class ForeignKeysViewModelTest : BaseTest() {
         val given = "my_table"
         val expected = "PRAGMA \"foreign_key_list\"(\"$given\")"
 
-        val viewModel: ForeignKeysViewModel = get()
+        val viewModel = ForeignKeysViewModel(get(), get(), get())
 
         val actual = viewModel.pragmaStatement(given)
 

@@ -1,5 +1,6 @@
 package com.infinum.dbinspector.ui.pragma.tableinfo
 
+import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -15,7 +16,9 @@ internal class TableInfoViewModelTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { TableInfoViewModel(mockk(), mockk(), mockk()) }
+            factory { mockk<UseCases.OpenConnection>() }
+            factory { mockk<UseCases.CloseConnection>() }
+            factory { mockk<UseCases.GetTablePragma>() }
         }
     )
 
@@ -24,7 +27,7 @@ internal class TableInfoViewModelTest : BaseTest() {
         val given = "my_table"
         val expected = "PRAGMA \"table_info\"(\"$given\")"
 
-        val viewModel: TableInfoViewModel = get()
+        val viewModel = TableInfoViewModel(get(), get(), get())
 
         val actual = viewModel.pragmaStatement(given)
 

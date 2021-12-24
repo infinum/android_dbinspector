@@ -3,6 +3,7 @@ package com.infinum.dbinspector.shared
 import androidx.annotation.CallSuper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
@@ -19,8 +20,8 @@ import org.koin.test.junit5.KoinTestExtension
 
 internal abstract class BaseTest : KoinTest {
 
-    internal val testScope = lazyOf(TestCoroutineScope()).value
-    private val testDispatcher = lazyOf(TestCoroutineDispatcher()).value
+    internal val testScope = TestCoroutineScope()
+    private val testDispatcher = TestCoroutineDispatcher()
 
     abstract fun modules(): List<Module>
 
@@ -40,8 +41,6 @@ internal abstract class BaseTest : KoinTest {
     protected suspend fun <T> test(block: suspend CoroutineScope.() -> T) =
         withContext(context = testDispatcher) { block.invoke(this) }
 
-    protected fun advanceUntilIdle() = testDispatcher.advanceUntilIdle()
-
     @BeforeEach
     @CallSuper
     fun setUp() {
@@ -52,6 +51,7 @@ internal abstract class BaseTest : KoinTest {
     @CallSuper
     fun cleanUp() {
         Dispatchers.resetMain()
+        testDispatcher.cancel()
         testDispatcher.cleanupTestCoroutines()
         testScope.cleanupTestCoroutines()
     }

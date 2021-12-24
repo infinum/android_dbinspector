@@ -1,6 +1,5 @@
 package com.infinum.dbinspector.domain.settings.control
 
-import com.infinum.dbinspector.domain.Control
 import com.infinum.dbinspector.domain.Converters
 import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.shared.BaseTest
@@ -17,29 +16,30 @@ internal class SettingsControlTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Mappers.Settings>() }
-            single { mockk<Converters.Settings>() }
-            factory<Control.Settings> { SettingsControl(get(), get()) }
+            factory { mockk<Mappers.Settings>() }
+            factory { mockk<Converters.Settings>() }
         }
     )
 
     @Test
     fun `Can be instantiated`() {
-        val control: Control.Settings = get()
+        val control = SettingsControl(get(), get())
 
         assertNotNull(control)
     }
 
     @Test
     fun `Control converter is not null`() {
-        val control: Control.Settings = get()
+        val converter: Converters.Settings = get()
+        val control = SettingsControl(get(), converter)
 
         assertNotNull(control.converter)
     }
 
     @Test
     fun `Control mapper is not null`() {
-        val control: Control.Settings = get()
+        val mapper: Mappers.Settings = get()
+        val control = SettingsControl(mapper, get())
 
         assertNotNull(control.mapper)
     }

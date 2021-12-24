@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.data.sources.local.proto.settings
 
 import androidx.datastore.core.DataStore
-import com.infinum.dbinspector.data.Sources
 import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
@@ -22,21 +21,19 @@ internal class SettingsDataStoreTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<DataStore<SettingsEntity>>() }
-            factory<Sources.Local.Settings> { SettingsDataStore(get()) }
+            factory { mockk<DataStore<SettingsEntity>>() }
         }
     )
 
     @Test
     fun `Data source exposes datastore`() {
         launch {
-            val source: Sources.Local.Settings = get()
-
-            val expected: DataStore<SettingsEntity> = get()
+            val store: DataStore<SettingsEntity> = get()
+            val source = SettingsDataStore(store)
 
             runBlockingTest {
                 val actual = source.store()
-                assertEquals(expected, actual)
+                assertEquals(store, actual)
             }
         }
     }
@@ -46,8 +43,8 @@ internal class SettingsDataStoreTest : BaseTest() {
     fun `No datastore entry returns default entity`() {
         val expected = SettingsEntity.getDefaultInstance()
 
-        val source: Sources.Local.Settings = get()
         val store: DataStore<SettingsEntity> = get()
+        val source = SettingsDataStore(store)
 
         coEvery { store.data } returns mockk {
 //            coEvery { collect(any()) } returns Unit
@@ -64,8 +61,8 @@ internal class SettingsDataStoreTest : BaseTest() {
 
     @Test
     fun `Data source exposes datastore as Flow`() {
-        val source: Sources.Local.Settings = get()
         val store: DataStore<SettingsEntity> = get()
+        val source = SettingsDataStore(store)
 
         every { store.data } returns mockk()
 

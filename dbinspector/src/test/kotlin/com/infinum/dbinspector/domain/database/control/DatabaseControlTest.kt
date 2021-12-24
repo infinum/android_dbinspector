@@ -1,6 +1,5 @@
 package com.infinum.dbinspector.domain.database.control
 
-import com.infinum.dbinspector.domain.Control
 import com.infinum.dbinspector.domain.Converters
 import com.infinum.dbinspector.domain.Mappers
 import com.infinum.dbinspector.shared.BaseTest
@@ -17,29 +16,30 @@ internal class DatabaseControlTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Mappers.Database>() }
-            single { mockk<Converters.Database>() }
-            factory<Control.Database> { DatabaseControl(get(), get()) }
+            factory { mockk<Mappers.Database>() }
+            factory { mockk<Converters.Database>() }
         }
     )
 
     @Test
     fun `Can be instantiated`() {
-        val control: Control.Database = get()
+        val control = DatabaseControl(get(), get())
 
         assertNotNull(control)
     }
 
     @Test
     fun `Control converter is not null`() {
-        val control: Control.Database = get()
+        val converter: Converters.Database = get()
+        val control = DatabaseControl(get(), converter)
 
         assertNotNull(control.converter)
     }
 
     @Test
     fun `Control mapper is not null`() {
-        val control: Control.Database = get()
+        val mapper: Mappers.Database = get()
+        val control = DatabaseControl(mapper, get())
 
         assertNotNull(control.mapper)
     }

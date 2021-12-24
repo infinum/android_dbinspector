@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.domain.history.usecases
 
 import com.infinum.dbinspector.domain.Repositories
-import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -18,23 +17,21 @@ internal class ClearHistoryUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Repositories.History>() }
-            factory<UseCases.ClearHistory> { ClearHistoryUseCase(get()) }
+            factory { mockk<Repositories.History>() }
         }
     )
 
     @Test
     fun `Invoking use case clears history per database`() {
-        val useCase: UseCases.ClearHistory = get()
-        val historyRepository: Repositories.History = get()
+        val repository: Repositories.History = get()
+        val useCase = ClearHistoryUseCase(repository)
 
-        coEvery { useCase.invoke(any()) } returns mockk()
-        coEvery { historyRepository.clearByDatabase(any()) } returns mockk()
+        coEvery { repository.clearByDatabase(any()) } returns mockk()
 
         launch {
             useCase.invoke(any())
         }
 
-        coVerify(exactly = 1) { historyRepository.clearByDatabase(any()) }
+        coVerify(exactly = 1) { repository.clearByDatabase(any()) }
     }
 }

@@ -2,7 +2,6 @@ package com.infinum.dbinspector.domain.settings
 
 import com.infinum.dbinspector.domain.Control
 import com.infinum.dbinspector.domain.Interactors
-import com.infinum.dbinspector.domain.Repositories
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -19,25 +18,31 @@ internal class SettingsRepositoryTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Interactors.GetSettings>() }
-            single { mockk<Interactors.SaveLinesLimit>() }
-            single { mockk<Interactors.SaveLinesCount>() }
-            single { mockk<Interactors.SaveTruncateMode>() }
-            single { mockk<Interactors.SaveBlobPreviewMode>() }
-            single { mockk<Interactors.SaveIgnoredTableName>() }
-            single { mockk<Interactors.RemoveIgnoredTableName>() }
-            single { mockk<Control.Settings>() }
-            factory<Repositories.Settings> {
-                SettingsRepository(get(), get(), get(), get(), get(), get(), get(), get())
-            }
+            factory { mockk<Interactors.GetSettings>() }
+            factory { mockk<Interactors.SaveLinesLimit>() }
+            factory { mockk<Interactors.SaveLinesCount>() }
+            factory { mockk<Interactors.SaveTruncateMode>() }
+            factory { mockk<Interactors.SaveBlobPreviewMode>() }
+            factory { mockk<Interactors.SaveIgnoredTableName>() }
+            factory { mockk<Interactors.RemoveIgnoredTableName>() }
+            factory { mockk<Control.Settings>() }
         }
     )
 
     @Test
-    fun `Get settings calls GetSettings interactor and Settings control`() {
+    fun `Get settings calls interactor and control once`() {
         val interactor: Interactors.GetSettings = get()
         val control: Control.Settings = get()
-        val repository: Repositories.Settings = get()
+        val repository = SettingsRepository(
+            interactor,
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            control
+        )
 
         coEvery { interactor.invoke(any()) } returns mockk()
         coEvery { control.converter get any() } returns mockk()
@@ -53,10 +58,19 @@ internal class SettingsRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `Save lines limit calls SaveLinesLimit interactor and Settings control converter`() {
+    fun `Save lines limit calls interactor and control converter once`() {
         val interactor: Interactors.SaveLinesLimit = get()
         val control: Control.Settings = get()
-        val repository: Repositories.Settings = get()
+        val repository = SettingsRepository(
+            get(),
+            interactor,
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            control
+        )
 
         coEvery { interactor.invoke(any()) } returns mockk()
         coEvery { control.converter linesLimit any() } returns mockk()
@@ -72,10 +86,19 @@ internal class SettingsRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `Save lines count calls SaveLinesCount interactor and Settings control converter`() {
+    fun `Save lines count calls interactor and control converter once`() {
         val interactor: Interactors.SaveLinesCount = get()
         val control: Control.Settings = get()
-        val repository: Repositories.Settings = get()
+        val repository = SettingsRepository(
+            get(),
+            get(),
+            interactor,
+            get(),
+            get(),
+            get(),
+            get(),
+            control
+        )
 
         coEvery { interactor.invoke(any()) } returns mockk()
         coEvery { control.converter linesCount any() } returns mockk()
@@ -91,10 +114,19 @@ internal class SettingsRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `Save truncate mode calls SaveTruncateMode interactor and Settings control converter`() {
+    fun `Save truncate mode calls interactor and control converter once`() {
         val interactor: Interactors.SaveTruncateMode = get()
         val control: Control.Settings = get()
-        val repository: Repositories.Settings = get()
+        val repository = SettingsRepository(
+            get(),
+            get(),
+            get(),
+            interactor,
+            get(),
+            get(),
+            get(),
+            control
+        )
 
         coEvery { interactor.invoke(any()) } returns mockk()
         coEvery { control.converter truncateMode any() } returns mockk()
@@ -110,10 +142,19 @@ internal class SettingsRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `Save blob preview mode calls SaveBlobPreviewMode interactor and Settings control converter`() {
+    fun `Save blob preview mode calls interactor and control converter once`() {
         val interactor: Interactors.SaveBlobPreviewMode = get()
         val control: Control.Settings = get()
-        val repository: Repositories.Settings = get()
+        val repository = SettingsRepository(
+            get(),
+            get(),
+            get(),
+            get(),
+            interactor,
+            get(),
+            get(),
+            control
+        )
 
         coEvery { interactor.invoke(any()) } returns mockk()
         coEvery { control.converter blobPreviewMode any() } returns mockk()
@@ -129,10 +170,19 @@ internal class SettingsRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `Save ignored table name mode calls SaveIgnoredTableName interactor and Settings control converter`() {
+    fun `Save ignored table name mode calls interactor and control converter once`() {
         val interactor: Interactors.SaveIgnoredTableName = get()
         val control: Control.Settings = get()
-        val repository: Repositories.Settings = get()
+        val repository = SettingsRepository(
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            interactor,
+            get(),
+            control
+        )
 
         coEvery { interactor.invoke(any()) } returns mockk()
         coEvery { control.converter ignoredTableName any() } returns mockk()
@@ -148,10 +198,19 @@ internal class SettingsRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `Remove ignored table name mode calls RemoveIgnoredTableName interactor and Settings control converter`() {
+    fun `Remove ignored table name mode calls interactor and control converter once`() {
         val interactor: Interactors.RemoveIgnoredTableName = get()
         val control: Control.Settings = get()
-        val repository: Repositories.Settings = get()
+        val repository = SettingsRepository(
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            interactor,
+            control
+        )
 
         coEvery { interactor.invoke(any()) } returns mockk()
         coEvery { control.converter ignoredTableName any() } returns mockk()

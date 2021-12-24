@@ -1,8 +1,6 @@
 package com.infinum.dbinspector.domain.pragma.usecases
 
 import com.infinum.dbinspector.domain.Repositories
-import com.infinum.dbinspector.domain.UseCases
-import com.infinum.dbinspector.domain.shared.models.Page
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -12,31 +10,28 @@ import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.get
+import org.mockito.kotlin.any
 
 @DisplayName("GetTriggerInfoUseCase tests")
 internal class GetTriggerInfoUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Repositories.Pragma>() }
-            factory<UseCases.GetTriggerInfo> { GetTriggerInfoUseCase(get()) }
+            factory { mockk<Repositories.Pragma>() }
         }
     )
 
     @Test
     fun `Invoking use case invokes pragma trigger info`() {
-        val expected: Page = mockk()
+        val repository: Repositories.Pragma = get()
+        val useCase = GetTriggerInfoUseCase(repository)
 
-        val useCase: UseCases.GetTriggerInfo = get()
-        val pragmaRepository: Repositories.Pragma = get()
-
-        coEvery { useCase.invoke(mockk()) } returns expected
-        coEvery { pragmaRepository.getTriggerInfo() } returns expected
+        coEvery { repository.getTriggerInfo() } returns mockk()
 
         launch {
-            useCase.invoke(mockk())
+            useCase.invoke(any())
         }
 
-        coVerify(exactly = 1) { pragmaRepository.getTriggerInfo() }
+        coVerify(exactly = 1) { repository.getTriggerInfo() }
     }
 }

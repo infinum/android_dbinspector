@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.domain.history.interactors
 
 import com.infinum.dbinspector.data.Sources
-import com.infinum.dbinspector.domain.Interactors
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -20,15 +19,14 @@ internal class RemoveExecutionInteractorTest : BaseTest() {
     override fun modules(): List<Module> = listOf(
         module {
             single { mockk<Sources.Local.History>() }
-            factory<Interactors.RemoveExecution> { RemoveExecutionInteractor(get()) }
         }
     )
 
     @Test
     @Disabled("Source is not invoked properly.")
     fun `Invoking interactor invokes source store`() {
-        val interactor: Interactors.RemoveExecution = get()
         val source: Sources.Local.History = get()
+        val interactor = RemoveExecutionInteractor(source)
 
         coEvery { source.store() } returns mockk()
 

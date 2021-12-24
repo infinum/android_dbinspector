@@ -1,14 +1,9 @@
-import org.gradle.api.tasks.testing.logging.TestLogEvent
-import org.gradle.api.tasks.testing.TestListener
-import org.gradle.api.tasks.testing.TestResult.ResultType
-import groovy.time.TimeCategory
-import groovy.time.TimeDuration
-
 plugins {
     id "com.android.library"
     id "kotlin-android"
     id "kotlin-parcelize"
     id "com.google.protobuf"
+    id "kover"
 }
 
 android {
@@ -56,6 +51,36 @@ android {
 
     testOptions {
         unitTests.returnDefaultValues = true
+        unitTests.all {
+            kover {
+                enabled = name == "testDebugUnitTest"
+                includes = [
+                        "com.infinum.dbinspector.data.sources.*",
+                        "com.infinum.dbinspector.domain.*.*UseCase*.*",
+                        "com.infinum.dbinspector.domain.*.*Repository*.*",
+                        "com.infinum.dbinspector.domain.*.*Control*.*",
+                        "com.infinum.dbinspector.domain.*.*Converter*.*",
+                        "com.infinum.dbinspector.domain.*.*Mapper*.*",
+                        "com.infinum.dbinspector.domain.*.*Interactor*.*",
+                        "com.infinum.dbinspector.ui.*.*ViewModel*.*"
+                ]
+                excludes = [
+                        "com.infinum.dbinspector.di.*",
+                        "com.infinum.dbinspector.data.shared.base.*",
+                        "com.infinum.dbinspector.domain.schema.shared.models.*",
+                        "com.infinum.dbinspector.domain.shared.base.*",
+                        "com.infinum.dbinspector.domain.shared.models.dsl.*",
+                        "com.infinum.dbinspector.ui.shared.base.*",
+                        "com.infinum.dbinspector.ui.shared.delegates.*",
+                        "com.infinum.dbinspector.ui.shared.edgefactories.*",
+                        "com.infinum.dbinspector.ui.shared.listeners.*",
+                        "com.infinum.dbinspector.ui.shared.searchable.*",
+                        "com.infinum.dbinspector.ui.shared.views.*",
+                        "com.infinum.dbinspector.extensions.*",
+                        "com.infinum.dbinspector.databinding.*"
+                ]
+            }
+        }
     }
 
     sourceSets.each {
@@ -97,122 +122,16 @@ protobuf {
     }
 }
 
-tasks.withType(Test) {
-    useJUnitPlatform()
-//    testLogging {
-//        events TestLogEvent.FAILED, TestLogEvent.SKIPPED // , TestLogEvent.PASSED
-//    }
-    def testListener = new TestListener() {
-
-        def template = """
-
-# {timestamp}
-## Duration
-{duration}
-## Count 
-| Total         | Passed         | Failed         | Failed          |
-|:-------------:|:--------------:|:--------------:|:---------------:|
-| {total_count} | {passed_count} | {failed_count} | {skipped_count} |
-## Details
-<details>
-  <summary>PASSED</summary>
-
-{passed}
-</details>
-<details>
-  <summary>FAILED</summary>
-  
-{failed}
-</details>
-<details>
-  <summary>SKIPPED</summary>
-  
-{skipped}
-</details>
-
-"""
-        ArrayList<TestDescriptor> passed = new ArrayList<TestDescriptor>()
-        ArrayList<TestDescriptor> failed = new ArrayList<TestDescriptor>()
-        ArrayList<TestDescriptor> skipped = new ArrayList<TestDescriptor>()
-
-        @Override
-        void beforeSuite(TestDescriptor testDescriptor) {
-
-        }
-
-        @Override
-        void afterSuite(TestDescriptor testDescriptor, TestResult testResult) {
-            if (testDescriptor.getParent() == null) {
-                TimeDuration duration = TimeCategory.minus(new Date(testResult.endTime), new Date(testResult.startTime))
-
-                def passedSuite = ""
-                Map<TestDescriptor, List<TestDescriptor>> passedMap = passed.groupBy { it.parent }
-                passedMap.each {
-                    passedSuite += "  * " + it.key.displayName
-                    passedSuite += "\n"
-                    it.value.each {
-                        passedSuite += "    * " + it.displayName
-                        passedSuite += "\n"
-                    }
-                }
-                def failedSuite = ""
-                Map<TestDescriptor, List<TestDescriptor>> failedMap = failed.groupBy { it.parent }
-                failedMap.each {
-                    failedSuite += "  * " + it.key.displayName
-                    failedSuite += "\n"
-                    it.value.each {
-                        failedSuite += "    * " + it.displayName
-                        failedSuite += "\n"
-                    }
-                }
-                def skippedSuite = ""
-                Map<TestDescriptor, List<TestDescriptor>> skippedMap = skipped.groupBy { it.parent }
-                skippedMap.each {
-                    skippedSuite += "  * " + it.key.displayName
-                    skippedSuite += "\n"
-                    it.value.each {
-                        skippedSuite += "    * " + it.displayName
-                        skippedSuite += "\n"
-                    }
-                }
-
-                File file = new File("test_report.md")
-                file << template
-                        .replace("{timestamp}", new Date().format("dd.MM.yyyy. - HH:mm"))
-                        .replace("{duration}", duration.toString())
-                        .replace("{total_count}", testResult.testCount + "")
-                        .replace("{passed_count}", testResult.successfulTestCount + "")
-                        .replace("{failed_count}", testResult.failedTestCount + "")
-                        .replace("{skipped_count}", testResult.skippedTestCount + "")
-                        .replace("{passed}", passedSuite)
-                        .replace("{failed}", failedSuite)
-                        .replace("{skipped}", skippedSuite)
-            }
-        }
-
-        @Override
-        void beforeTest(TestDescriptor testDescriptor) {
-
-        }
-
-        @Override
-        void afterTest(TestDescriptor testDescriptor, TestResult testResult) {
-//            println('\n\nNAME: ' + testDescriptor.name + '\nDISPLAY NAME: ' + testDescriptor.displayName + '\nCLASS NAME: ' + testDescriptor.className + '\nIS COMPOSITE: ' + testDescriptor.isComposite() + '\nPARENT: ' + testDescriptor.parent + '\nRESULT: ' + testResult.resultType)
-            if (testResult.resultType == ResultType.FAILURE || testResult.resultType == ResultType.SKIPPED) {
-                println('\n\nNAME: ' + testDescriptor.name + '\nDISPLAY NAME: ' + testDescriptor.displayName + '\nCLASS NAME: ' + testDescriptor.className + '\nIS COMPOSITE: ' + testDescriptor.isComposite() + '\nPARENT: ' + testDescriptor.parent + '\nRESULT: ' + testResult.resultType)
-            }
-            if (testResult.resultType == ResultType.FAILURE) {
-                failed += testDescriptor
-            } else if (testResult.resultType == ResultType.SKIPPED) {
-                skipped += testDescriptor
-            } else if (testResult.resultType == ResultType.SUCCESS) {
-                passed += testDescriptor
-            }
-        }
-    }
-    addTestListener(testListener)
-    finalizedBy jacocoTestReport
+kover {
+    enabled = true
+    coverageEngine.set(kotlinx.kover.api.CoverageEngine.INTELLIJ)
+    intellijEngineVersion.set(libs.versions.intellij.get())
+    jacocoEngineVersion.set(libs.versions.jacoco.get())
+    generateReportOnCheck.set(true)
 }
 
-apply from: "jacoco.gradle"
+tasks.withType(Test) {
+    useJUnitPlatform()
+}
+
 apply from: "publish.gradle"

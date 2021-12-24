@@ -16,23 +16,17 @@ import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
-import org.koin.dsl.module
-import org.koin.test.get
 import org.mockito.kotlin.any
 
 @DisplayName("HistorySerializer tests")
 internal class HistorySerializerTest : BaseTest() {
 
-    override fun modules(): List<Module> = listOf(
-        module {
-            factory { HistorySerializer() }
-        }
-    )
+    override fun modules(): List<Module> = listOf()
 
     @Test
     fun `Serializer has default value`() {
         val expected = HistoryEntity.getDefaultInstance()
-        val serializer: HistorySerializer = get()
+        val serializer = HistorySerializer()
 
         assertNotNull(serializer.defaultValue)
         assertEquals(expected, serializer.defaultValue)
@@ -41,7 +35,7 @@ internal class HistorySerializerTest : BaseTest() {
     @Test
     @Disabled("Mockk says: 'The InputStream implementation is buggy.'")
     fun `Serializer reads stream into entity`() {
-        val serializer: HistorySerializer = get()
+        val serializer = HistorySerializer()
 
         mockkStatic(HistoryEntity::class)
         every { HistoryEntity.parseFrom(mockk<InputStream>()) } returns mockk()
@@ -59,7 +53,7 @@ internal class HistorySerializerTest : BaseTest() {
     @Disabled("No idea how to test streams")
     fun `Serializer writes entity to stream`() {
         val given = HistoryEntity.getDefaultInstance()
-        val serializer: HistorySerializer = get()
+        val serializer = HistorySerializer()
         val stream: OutputStream = mockk()
 
         launch {

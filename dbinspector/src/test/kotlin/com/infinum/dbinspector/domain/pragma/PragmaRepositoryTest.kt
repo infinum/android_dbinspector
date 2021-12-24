@@ -2,7 +2,6 @@ package com.infinum.dbinspector.domain.pragma
 
 import com.infinum.dbinspector.domain.Control
 import com.infinum.dbinspector.domain.Interactors
-import com.infinum.dbinspector.domain.Repositories
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -21,20 +20,25 @@ internal class PragmaRepositoryTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Interactors.GetUserVersion>() }
-            single { mockk<Interactors.GetTableInfo>() }
-            single { mockk<Interactors.GetForeignKeys>() }
-            single { mockk<Interactors.GetIndexes>() }
-            single { mockk<Control.Pragma>() }
-            factory<Repositories.Pragma> { PragmaRepository(get(), get(), get(), get(), get()) }
+            factory { mockk<Interactors.GetUserVersion>() }
+            factory { mockk<Interactors.GetTableInfo>() }
+            factory { mockk<Interactors.GetForeignKeys>() }
+            factory { mockk<Interactors.GetIndexes>() }
+            factory { mockk<Control.Pragma>() }
         }
     )
 
     @Test
-    fun `Get user version calls GetUserVersion interactor and Pragma control`() {
+    fun `Get user version calls interactor and control once`() {
         val interactor: Interactors.GetUserVersion = get()
         val control: Control.Pragma = get()
-        val repository: Repositories.Pragma = get()
+        val repository = PragmaRepository(
+            interactor,
+            get(),
+            get(),
+            get(),
+            control
+        )
 
         coEvery { interactor.invoke(any()) } returns mockk()
         coEvery { control.converter version any() } returns mockk()
@@ -50,10 +54,16 @@ internal class PragmaRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `Get table info calls GetTableInfo interactor and Pragma control`() {
+    fun `Get table info calls interactor and control once`() {
         val interactor: Interactors.GetTableInfo = get()
         val control: Control.Pragma = get()
-        val repository: Repositories.Pragma = get()
+        val repository = PragmaRepository(
+            get(),
+            interactor,
+            get(),
+            get(),
+            control
+        )
 
         coEvery { interactor.invoke(any()) } returns mockk()
         coEvery { control.converter pragma any() } returns mockk()
@@ -72,7 +82,13 @@ internal class PragmaRepositoryTest : BaseTest() {
     @Disabled("This repository call is untestable and needs to be refactored first.")
     fun `Get trigger info uses TriggerInfoColumns enum and Pragma control mapper transformToHeader`() {
         val control: Control.Pragma = get()
-        val repository: Repositories.Pragma = get()
+        val repository = PragmaRepository(
+            get(),
+            get(),
+            get(),
+            get(),
+            control
+        )
 
         coEvery { control.converter pragma any() } returns mockk()
         every { control.mapper.transformToHeader() } returns mockk()
@@ -89,10 +105,16 @@ internal class PragmaRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `Get foreign keys calls GetForeignKeys interactor and Pragma control`() {
+    fun `Get foreign keys calls interactor and control once`() {
         val interactor: Interactors.GetForeignKeys = get()
         val control: Control.Pragma = get()
-        val repository: Repositories.Pragma = get()
+        val repository = PragmaRepository(
+            get(),
+            get(),
+            interactor,
+            get(),
+            control
+        )
 
         coEvery { interactor.invoke(any()) } returns mockk()
         coEvery { control.converter pragma any() } returns mockk()
@@ -108,10 +130,16 @@ internal class PragmaRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `Get indexes calls GetIndexes interactor and Pragma control`() {
+    fun `Get indexes calls interactor and control once`() {
         val interactor: Interactors.GetIndexes = get()
         val control: Control.Pragma = get()
-        val repository: Repositories.Pragma = get()
+        val repository = PragmaRepository(
+            get(),
+            get(),
+            get(),
+            interactor,
+            control
+        )
 
         coEvery { interactor.invoke(any()) } returns mockk()
         coEvery { control.converter pragma any() } returns mockk()

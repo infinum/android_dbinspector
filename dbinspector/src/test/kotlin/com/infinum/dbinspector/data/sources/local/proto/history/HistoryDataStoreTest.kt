@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.data.sources.local.proto.history
 
 import androidx.datastore.core.DataStore
-import com.infinum.dbinspector.data.Sources
 import com.infinum.dbinspector.data.models.local.proto.output.HistoryEntity
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
@@ -22,21 +21,19 @@ internal class HistoryDataStoreTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<DataStore<HistoryEntity>>() }
-            factory<Sources.Local.History> { HistoryDataStore(get()) }
+            factory { mockk<DataStore<HistoryEntity>>() }
         }
     )
 
     @Test
     fun `Data source exposes datastore`() {
         launch {
-            val source: Sources.Local.History = get()
-
-            val expected: DataStore<HistoryEntity> = get()
+            val store: DataStore<HistoryEntity> = get()
+            val source = HistoryDataStore(store)
 
             runBlockingTest {
                 val actual = source.store()
-                assertEquals(expected, actual)
+                assertEquals(store, actual)
             }
         }
     }
@@ -46,8 +43,8 @@ internal class HistoryDataStoreTest : BaseTest() {
     fun `No datastore entry returns default entity`() {
         val expected = HistoryEntity.getDefaultInstance()
 
-        val source: Sources.Local.History = get()
         val store: DataStore<HistoryEntity> = get()
+        val source = HistoryDataStore(store)
 
         coEvery { store.data } returns mockk {
 //            coEvery { collect(any()) } returns Unit
@@ -64,8 +61,8 @@ internal class HistoryDataStoreTest : BaseTest() {
 
     @Test
     fun `Data source exposes datastore as Flow`() {
-        val source: Sources.Local.History = get()
         val store: DataStore<HistoryEntity> = get()
+        val source = HistoryDataStore(store)
 
         every { store.data } returns mockk()
 

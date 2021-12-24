@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.domain.settings.usecases
 
 import com.infinum.dbinspector.domain.Repositories
-import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -18,23 +17,21 @@ internal class SaveBlobPreviewModeUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Repositories.Settings>() }
-            factory<UseCases.SaveBlobPreviewMode> { SaveBlobPreviewModeUseCase(get()) }
+            factory { mockk<Repositories.Settings>() }
         }
     )
 
     @Test
     fun `Invoking use case saves blob preview mode in settings`() {
-        val useCase: UseCases.SaveBlobPreviewMode = get()
-        val settingsRepository: Repositories.Settings = get()
+        val repository: Repositories.Settings = get()
+        val useCase = SaveBlobPreviewModeUseCase(repository)
 
-        coEvery { useCase.invoke(any()) } returns mockk()
-        coEvery { settingsRepository.saveBlobPreview(any()) } returns mockk()
+        coEvery { repository.saveBlobPreview(any()) } returns mockk()
 
         launch {
             useCase.invoke(any())
         }
 
-        coVerify(exactly = 1) { settingsRepository.saveBlobPreview(any()) }
+        coVerify(exactly = 1) { repository.saveBlobPreview(any()) }
     }
 }

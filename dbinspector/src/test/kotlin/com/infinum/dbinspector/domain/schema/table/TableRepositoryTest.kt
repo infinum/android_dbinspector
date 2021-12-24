@@ -16,17 +16,16 @@ internal class TableRepositoryTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Interactors.GetTables>() }
-            single { mockk<Interactors.GetTableByName>() }
-            single { mockk<Interactors.DropTableContentByName>() }
-            single { mockk<Control.Content>() }
-            factory { TableRepository(get(), get(), get(), get()) }
+            factory { mockk<Interactors.GetTables>() }
+            factory { mockk<Interactors.GetTableByName>() }
+            factory { mockk<Interactors.DropTableContentByName>() }
+            factory { mockk<Control.Content>() }
         }
     )
 
     @Test
-    fun `Instance is not null`() {
-        val repository: TableRepository = get()
+    fun `Can be instantiated`() {
+        val repository = TableRepository(get(), get(), get(), get())
 
         assertNotNull(repository)
     }

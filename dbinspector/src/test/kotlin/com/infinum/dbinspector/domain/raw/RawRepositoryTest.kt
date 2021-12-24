@@ -2,7 +2,6 @@ package com.infinum.dbinspector.domain.raw
 
 import com.infinum.dbinspector.domain.Control
 import com.infinum.dbinspector.domain.Interactors
-import com.infinum.dbinspector.domain.Repositories
 import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
@@ -19,25 +18,28 @@ internal class RawRepositoryTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Interactors.GetRawQuery>() }
-            single { mockk<Interactors.GetRawQueryHeaders>() }
-            single { mockk<Interactors.GetAffectedRows>() }
-            single { mockk<Control.Content>() }
-            factory<Repositories.RawQuery> { RawRepository(get(), get(), get(), get()) }
+            factory { mockk<Interactors.GetRawQuery>() }
+            factory { mockk<Interactors.GetRawQueryHeaders>() }
+            factory { mockk<Interactors.GetAffectedRows>() }
+            factory { mockk<Control.Content>() }
         }
     )
 
     @Test
-    fun `Get page calls GetRawQuery interactor and Content control once`() {
+    fun `Get page calls interactor and control once`() {
         val given: ContentParameters = mockk()
         val interactor: Interactors.GetRawQuery = get()
         val control: Control.Content = get()
-        val repository: Repositories.RawQuery = get()
+        val repository = RawRepository(
+            interactor,
+            get(),
+            get(),
+            control
+        )
 
         coEvery { interactor.invoke(any()) } returns mockk()
         coEvery { control.converter.invoke(any()) } returns mockk()
         coEvery { control.mapper.invoke(any()) } returns mockk()
-        coEvery { repository.getPage(given) } returns mockk()
 
         launch {
             repository.getPage(given)
@@ -49,11 +51,16 @@ internal class RawRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `Get headers calls GetRawQueryHeaders interactor and Content control once`() {
+    fun `Get headers calls interactor and control once`() {
         val given: ContentParameters = mockk()
         val interactor: Interactors.GetRawQueryHeaders = get()
         val control: Control.Content = get()
-        val repository: Repositories.RawQuery = get()
+        val repository = RawRepository(
+            get(),
+            interactor,
+            get(),
+            control
+        )
 
         coEvery { interactor.invoke(any()) } returns mockk()
         coEvery { control.converter.invoke(any()) } returns mockk()
@@ -70,16 +77,20 @@ internal class RawRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `Get affected rows calls GetAffectedRows interactor and Content control once`() {
+    fun `Get affected rows calls interactor and control once`() {
         val given: ContentParameters = mockk()
         val interactor: Interactors.GetAffectedRows = get()
         val control: Control.Content = get()
-        val repository: Repositories.RawQuery = get()
+        val repository = RawRepository(
+            get(),
+            get(),
+            interactor,
+            control
+        )
 
         coEvery { interactor.invoke(any()) } returns mockk()
         coEvery { control.converter.invoke(any()) } returns mockk()
         coEvery { control.mapper.invoke(any()) } returns mockk()
-        coEvery { repository.getAffectedRows(given) } returns mockk()
 
         launch {
             repository.getAffectedRows(given)

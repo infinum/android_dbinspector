@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.domain.raw.usecases
 
 import com.infinum.dbinspector.domain.Repositories
-import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
@@ -18,9 +17,8 @@ internal class GetRawQueryUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Repositories.RawQuery>() }
-            single { mockk<Repositories.Connection>() }
-            factory<UseCases.GetRawQuery> { GetRawQueryUseCase(get(), get()) }
+            factory { mockk<Repositories.RawQuery>() }
+            factory { mockk<Repositories.Connection>() }
         }
     )
 
@@ -31,11 +29,10 @@ internal class GetRawQueryUseCaseTest : BaseTest() {
             statement = "SELECT * FROM tables"
         )
 
-        val useCase: UseCases.GetRawQuery = get()
         val connectionRepository: Repositories.Connection = get()
         val rawQueryRepository: Repositories.RawQuery = get()
+        val useCase = GetRawQueryUseCase(connectionRepository, rawQueryRepository)
 
-        coEvery { useCase.invoke(given) } returns mockk()
         coEvery { connectionRepository.open(any()) } returns mockk()
         coEvery { rawQueryRepository.getPage(any()) } returns mockk()
 

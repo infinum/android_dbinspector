@@ -13,7 +13,7 @@ internal class HistoryDataStore(
     override suspend fun store(): DataStore<HistoryEntity> = store
 
     override suspend fun current(): HistoryEntity =
-        store.data.firstOrNull() ?: HistoryEntity.getDefaultInstance()
+        flow().firstOrNull() ?: HistoryEntity.getDefaultInstance()
 
     override fun flow(): Flow<HistoryEntity> =
         store.data

@@ -15,21 +15,20 @@ internal class PragmaViewModelTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<UseCases.OpenConnection>() }
-            single { mockk<UseCases.CloseConnection>() }
-            factory { PragmaViewModel(get(), get()) }
+            factory { mockk<UseCases.OpenConnection>() }
+            factory { mockk<UseCases.CloseConnection>() }
         }
     )
 
     @Test
     fun `Check use cases are instantiated and constructor invoked`() {
-        val openConnectionUseCase: UseCases.OpenConnection = get()
-        val closeConnectionUseCase: UseCases.CloseConnection = get()
+        val openUseCase: UseCases.OpenConnection = get()
+        val closeUseCase: UseCases.CloseConnection = get()
 
-        val viewModel: PragmaViewModel = get()
+        val viewModel = PragmaViewModel(openUseCase, closeUseCase)
 
-        assertNotNull(openConnectionUseCase)
-        assertNotNull(closeConnectionUseCase)
+        assertNotNull(openUseCase)
+        assertNotNull(closeUseCase)
         assertNotNull(viewModel)
     }
 }

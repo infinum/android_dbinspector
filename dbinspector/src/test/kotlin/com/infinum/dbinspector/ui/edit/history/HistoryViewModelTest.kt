@@ -1,12 +1,19 @@
 package com.infinum.dbinspector.ui.edit.history
 
+import app.cash.turbine.test
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.history.models.History
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.flow.Flow
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
+import kotlinx.coroutines.awaitCancellation
+import kotlinx.coroutines.flow.flow
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
@@ -18,47 +25,112 @@ internal class HistoryViewModelTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<UseCases.GetHistory>() }
-            single { mockk<UseCases.ClearHistory>() }
-            single { mockk<UseCases.RemoveExecution>() }
-            factory { HistoryViewModel(get(), get(), get()) }
+            factory { mockk<UseCases.GetHistory>() }
+            factory { mockk<UseCases.ClearHistory>() }
+            factory { mockk<UseCases.RemoveExecution>() }
         }
     )
 
     @Test
+    @Disabled("Unfinished coroutines during teardown.")
     fun `Load history for database path`() {
-        val databasePath = "test.db"
         val useCase: UseCases.GetHistory = get()
-        val result: Flow<History> = mockk()
-        coEvery { useCase.invoke(any()) } returns result
+        val viewModel = HistoryViewModel(
+            useCase,
+            get(),
+            get()
+        )
 
-        val viewModel: HistoryViewModel = get()
+        coEvery { useCase.invoke(any()) } returns flow {
+            mockk<History> {
+                every { executions } returns listOf(
+                    mockk {
+                        every { statement } returns "SELECT * from artists"
+                        every { timestamp } returns 1639989404L
+                        every { isSuccessful } returns true
+                    }
+                )
+            }
+        }
 
-        viewModel.history(databasePath)
+        viewModel.history("test.db")
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
+        launch {
+            viewModel.stateFlow.test {
+                assertNull(awaitItem())
+                val item: HistoryState? = awaitItem()
+                assertTrue(item is HistoryState.History)
+                assertNotNull(item.history)
+                awaitCancellation()
+            }
+            viewModel.eventFlow.test {
+                expectNoEvents()
+            }
+            viewModel.errorFlow.test {
+                expectNoEvents()
+            }
+        }
     }
 
-//    @Test
-//    fun `Clear history for database path`() {
-//        val databasePath = "test.db"
-//        val useCase: UseCases.ClearHistory = get()
-//        coEvery { useCase.invoke(any()) } returns Unit
-//
-//        viewModel.clearHistory(databasePath)
-//
-//        coVerify(exactly = 1) { useCase.invoke(any()) }
-//    }
-//
-//    @Test
-//    fun `Remove execution from history`() {
-//        val databasePath = "test.db"
-//        val execution: Execution = mockk()
-//        val useCase: UseCases.RemoveExecution = get()
-//        coEvery { useCase.invoke(any()) } returns Unit
-//
-//        viewModel.clearExecution(databasePath, execution)
-//
-//        coVerify(exactly = 1) { useCase.invoke(any()) }
-//    }
+    @Test
+    fun `Clear history for database path`() {
+        val useCase: UseCases.ClearHistory = get()
+        val viewModel = HistoryViewModel(
+            get(),
+            useCase,
+            get()
+        )
+
+        coEvery { useCase.invoke(any()) } returns Unit
+
+        viewModel.clearHistory("test.db")
+
+        coVerify(exactly = 1) { useCase.invoke(any()) }
+        launch {
+            viewModel.stateFlow.test {
+                assertNull(awaitItem())
+            }
+            viewModel.eventFlow.test {
+                expectNoEvents()
+            }
+            viewModel.errorFlow.test {
+                assertNull(awaitItem())
+            }
+        }
+    }
+
+    @Test
+    fun `Remove execution from history`() {
+        val useCase: UseCases.RemoveExecution = get()
+        val viewModel = HistoryViewModel(
+            get(),
+            get(),
+            useCase
+        )
+
+        coEvery { useCase.invoke(any()) } returns Unit
+
+        viewModel.clearExecution(
+            "test.db",
+            mockk {
+                every { statement } returns "SELECT * from artists"
+                every { timestamp } returns 1639989404L
+                every { isSuccessful } returns true
+            }
+        )
+
+        coVerify(exactly = 1) { useCase.invoke(any()) }
+        launch {
+            viewModel.stateFlow.test {
+                assertNull(awaitItem())
+            }
+            viewModel.eventFlow.test {
+                expectNoEvents()
+            }
+            viewModel.errorFlow.test {
+                assertNull(awaitItem())
+            }
+        }
+    }
 }

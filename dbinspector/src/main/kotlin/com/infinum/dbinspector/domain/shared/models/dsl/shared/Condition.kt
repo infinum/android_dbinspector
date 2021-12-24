@@ -21,7 +21,7 @@ internal abstract class Condition {
         addCondition(Eq(this, value))
     }
 
-    infix fun String.like(value: Any?) {
+    infix fun String.like(value: Any) {
         addCondition(Like(this, value))
     }
 }

@@ -145,7 +145,6 @@ internal object Data {
                 get(qualifier = Qualifiers.Schema.TRIGGERS),
                 get(qualifier = Qualifiers.Schema.TRIGGER_BY_NAME),
                 get(qualifier = Qualifiers.Schema.DROP_TRIGGER),
-                get(),
                 get()
             )
         }
@@ -155,7 +154,6 @@ internal object Data {
                 get(qualifier = Qualifiers.Pragma.TABLE_INFO),
                 get(qualifier = Qualifiers.Pragma.FOREIGN_KEYS),
                 get(qualifier = Qualifiers.Pragma.INDEXES),
-                get(),
                 get()
             )
         }
@@ -163,7 +161,6 @@ internal object Data {
         factory<Sources.Local.RawQuery> {
             RawQuerySource(
                 get(qualifier = Qualifiers.Schema.RAW_QUERY),
-                get(),
                 get()
             )
         }

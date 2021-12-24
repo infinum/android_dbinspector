@@ -25,8 +25,7 @@ internal class CellMapperTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single<Mappers.TruncateMode> { mockk<TruncateModeMapper>() }
-            factory<Mappers.Cell> { CellMapper(get()) }
+            factory<Mappers.TruncateMode> { mockk<TruncateModeMapper>() }
         }
     )
 
@@ -43,8 +42,8 @@ internal class CellMapperTest : BaseTest() {
                 truncateMode = TruncateMode.START
             )
 
-            val mapper: Mappers.Cell = get()
             val truncateMapper: Mappers.TruncateMode = get()
+            val mapper = CellMapper(truncateMapper)
 
             coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
             val actual = test {
@@ -69,8 +68,8 @@ internal class CellMapperTest : BaseTest() {
                 text = "1.0"
             )
 
-            val mapper: Mappers.Cell = get()
             val truncateMapper: Mappers.TruncateMode = get()
+            val mapper = CellMapper(truncateMapper)
 
             coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
             val actual = test {
@@ -95,8 +94,8 @@ internal class CellMapperTest : BaseTest() {
                 text = "test"
             )
 
-            val mapper: Mappers.Cell = get()
             val truncateMapper: Mappers.TruncateMode = get()
+            val mapper = CellMapper(truncateMapper)
 
             coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
             val actual = test {
@@ -124,8 +123,8 @@ internal class CellMapperTest : BaseTest() {
                 data = byteArrayOf(116, 101, 115, 116)
             )
 
-            val mapper: Mappers.Cell = get()
             val truncateMapper: Mappers.TruncateMode = get()
+            val mapper = CellMapper(truncateMapper)
 
             coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
             val actual = test {
@@ -153,8 +152,8 @@ internal class CellMapperTest : BaseTest() {
                 data = byteArrayOf(116, 101, 115, 116)
             )
 
-            val mapper: Mappers.Cell = get()
             val truncateMapper: Mappers.TruncateMode = get()
+            val mapper = CellMapper(truncateMapper)
 
             coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
             val actual = test {
@@ -182,8 +181,8 @@ internal class CellMapperTest : BaseTest() {
                 data = byteArrayOf(116, 101, 115, 116)
             )
 
-            val mapper: Mappers.Cell = get()
             val truncateMapper: Mappers.TruncateMode = get()
+            val mapper = CellMapper(truncateMapper)
 
             coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
             val actual = test {
@@ -209,8 +208,8 @@ internal class CellMapperTest : BaseTest() {
                 data = byteArrayOf(116, 101, 115, 116)
             )
 
-            val mapper: Mappers.Cell = get()
             val truncateMapper: Mappers.TruncateMode = get()
+            val mapper = CellMapper(truncateMapper)
 
             coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
             val actual = test {
@@ -236,8 +235,8 @@ internal class CellMapperTest : BaseTest() {
                 data = byteArrayOf(116, 101, 115, 116)
             )
 
-            val mapper: Mappers.Cell = get()
             val truncateMapper: Mappers.TruncateMode = get()
+            val mapper = CellMapper(truncateMapper)
 
             coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
             val actual = test {

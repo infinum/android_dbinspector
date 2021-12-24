@@ -12,8 +12,21 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 
 internal class SettingsSerializer : Serializer<SettingsEntity> {
 
+    companion object {
+        private const val DEFAULT_LINES_COUNT = 100
+    }
+
     override val defaultValue: SettingsEntity =
         SettingsEntity.getDefaultInstance()
+            .apply {
+                this.toBuilder()
+                    .setLinesLimit(false)
+                    .setLinesCount(DEFAULT_LINES_COUNT)
+                    .setTruncateMode(SettingsEntity.TruncateMode.END)
+                    .setBlobPreview(SettingsEntity.BlobPreviewMode.PLACEHOLDER)
+                    .addAllIgnoredTableNames(listOf())
+                    .build()
+            }
 
     override suspend fun readFrom(input: InputStream): SettingsEntity =
         suspendCancellableCoroutine { continuation ->

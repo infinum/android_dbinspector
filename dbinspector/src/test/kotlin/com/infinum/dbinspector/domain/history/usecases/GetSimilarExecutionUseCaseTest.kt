@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.domain.history.usecases
 
 import com.infinum.dbinspector.domain.Repositories
-import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -18,23 +17,21 @@ internal class GetSimilarExecutionUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Repositories.History>() }
-            factory<UseCases.GetSimilarExecution> { GetSimilarExecutionUseCase(get()) }
+            factory { mockk<Repositories.History>() }
         }
     )
 
     @Test
     fun `Invoking use case gets history of similar executions`() {
-        val useCase: UseCases.GetSimilarExecution = get()
-        val historyRepository: Repositories.History = get()
+        val repository: Repositories.History = get()
+        val useCase = GetSimilarExecutionUseCase(repository)
 
-        coEvery { useCase.invoke(any()) } returns mockk()
-        coEvery { historyRepository.getSimilarExecution(any()) } returns mockk()
+        coEvery { repository.getSimilarExecution(any()) } returns mockk()
 
         launch {
             useCase.invoke(any())
         }
 
-        coVerify(exactly = 1) { historyRepository.getSimilarExecution(any()) }
+        coVerify(exactly = 1) { repository.getSimilarExecution(any()) }
     }
 }

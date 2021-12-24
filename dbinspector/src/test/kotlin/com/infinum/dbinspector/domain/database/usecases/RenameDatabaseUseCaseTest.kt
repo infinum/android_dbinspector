@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.domain.database.usecases
 
 import com.infinum.dbinspector.domain.Repositories
-import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -18,23 +17,21 @@ internal class RenameDatabaseUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Repositories.Database>() }
-            factory<UseCases.RenameDatabase> { RenameDatabaseUseCase(get()) }
+            factory { mockk<Repositories.Database>() }
         }
     )
 
     @Test
     fun `Invoking use case renames database`() {
-        val useCase: UseCases.RenameDatabase = get()
-        val databaseRepository: Repositories.Database = get()
+        val repository: Repositories.Database = get()
+        val useCase = RenameDatabaseUseCase(repository)
 
-        coEvery { useCase.invoke(any()) } returns mockk()
-        coEvery { databaseRepository.rename(any()) } returns mockk()
+        coEvery { repository.rename(any()) } returns mockk()
 
         launch {
             useCase.invoke(any())
         }
 
-        coVerify(exactly = 1) { databaseRepository.rename(any()) }
+        coVerify(exactly = 1) { repository.rename(any()) }
     }
 }

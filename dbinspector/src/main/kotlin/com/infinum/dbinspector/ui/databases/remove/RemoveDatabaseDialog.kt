@@ -19,7 +19,7 @@ internal class RemoveDatabaseDialog :
     BaseBottomSheetDialogFragment<RemoveDatabaseState, Any>(R.layout.dbinspector_dialog_remove_database) {
 
     companion object {
-        fun setDatabaseDescriptor(database: DatabaseDescriptor): RemoveDatabaseDialog {
+        fun withDatabaseDescriptor(database: DatabaseDescriptor): RemoveDatabaseDialog {
             val fragment = RemoveDatabaseDialog()
             fragment.arguments = Bundle().apply {
                 putParcelable(REMOVE_DATABASE_DESCRIPTOR, database)
@@ -39,9 +39,7 @@ internal class RemoveDatabaseDialog :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        arguments?.let {
-            database = it.getParcelable(REMOVE_DATABASE_DESCRIPTOR)
-        }
+        database = arguments?.getParcelable(REMOVE_DATABASE_DESCRIPTOR)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

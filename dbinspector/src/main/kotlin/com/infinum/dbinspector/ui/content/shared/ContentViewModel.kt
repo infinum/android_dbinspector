@@ -3,6 +3,7 @@ package com.infinum.dbinspector.ui.content.shared
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.schema.shared.models.exceptions.DropException
 import com.infinum.dbinspector.domain.shared.base.BaseUseCase
+import com.infinum.dbinspector.domain.shared.models.Cell
 import com.infinum.dbinspector.domain.shared.models.Page
 import com.infinum.dbinspector.domain.shared.models.Sort
 import com.infinum.dbinspector.domain.shared.models.parameters.ContentParameters
@@ -65,7 +66,7 @@ internal abstract class ContentViewModel(
 
     fun drop(schemaName: String) {
         launch {
-            val result = io {
+            val result: List<Cell> = io {
                 dropSchema(
                     ContentParameters(
                         databasePath = databasePath,
@@ -76,7 +77,7 @@ internal abstract class ContentViewModel(
             if (result.isEmpty()) {
                 emitEvent(ContentEvent.Dropped())
             } else {
-                throw DropException()
+                setError(DropException())
             }
         }
     }
