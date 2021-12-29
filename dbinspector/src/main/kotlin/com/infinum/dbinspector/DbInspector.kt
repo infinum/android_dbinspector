@@ -9,7 +9,8 @@ import com.infinum.dbinspector.ui.databases.DatabasesActivity
 public object DbInspector {
 
     @JvmStatic
-    public fun show(logger: Logger = EmptyLogger()) {
+    @JvmOverloads
+    public fun show(logger: Logger? = null) {
         Presentation.setLogger(logger)
         with(Presentation.applicationContext()) {
             this.startActivity(
