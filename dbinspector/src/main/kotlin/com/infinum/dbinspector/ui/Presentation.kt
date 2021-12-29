@@ -66,8 +66,8 @@ internal object Presentation {
         this.context = context
     }
 
-    fun setLogger(logger: Logger) {
-        LibraryKoin.setLibraryLogger(logger)
+    fun setLogger(logger: Logger? = null) {
+        logger?.let { LibraryKoin.setLibraryLogger(it) }
     }
 
     fun applicationContext(): Context {

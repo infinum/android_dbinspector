@@ -1,6 +1,12 @@
 Changelog
 =========
 
+## Version 5.4.3
+
+_2021-12-29_
+
+* Fix implicit Kotlin 1.6 changes on static show methods.
+
 ## Version 5.4.2
 
 _2021-12-24_
