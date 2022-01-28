@@ -7,7 +7,6 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.MaterialComponents.Dark"
         app:liftOnScroll="true"
         app:liftOnScrollTargetViewId="@id/scrollView">
 
@@ -82,7 +81,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/suggestionButton"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
@@ -107,7 +106,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/errorView"
-                style="@style/TextAppearance.MaterialComponents.Body2"
+                style="@style/TextAppearance.Material3.BodyMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="12dp"
@@ -118,7 +117,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/affectedRowsView"
-                style="@style/TextAppearance.MaterialComponents.Body2"
+                style="@style/TextAppearance.Material3.BodyMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"

@@ -17,7 +17,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/name"
-            style="@style/TextAppearance.MaterialComponents.Headline6"
+            style="@style/TextAppearance.Material3.TitleLarge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -34,7 +34,7 @@
             android:orientation="horizontal">
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.MaterialComponents.Caption"
+                style="@style/TextAppearance.Material3.BodySmall"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="start|top"
@@ -44,7 +44,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/version"
-                style="@style/TextAppearance.MaterialComponents.Caption"
+                style="@style/TextAppearance.Material3.BodySmall"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
@@ -63,7 +63,7 @@
             android:orientation="horizontal">
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.MaterialComponents.Caption"
+                style="@style/TextAppearance.Material3.BodySmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="start|top"
@@ -73,7 +73,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/path"
-                style="@style/TextAppearance.MaterialComponents.Caption"
+                style="@style/TextAppearance.Material3.BodySmall"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -96,7 +96,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/removeButton"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_weight="1"
@@ -112,7 +112,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/renameButton"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_weight="1"
@@ -128,7 +128,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/copyButton"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_weight="1"
@@ -144,7 +144,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/shareButton"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_weight="1"

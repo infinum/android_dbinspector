@@ -22,7 +22,7 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/name"
-        style="@style/TextAppearance.MaterialComponents.Subtitle1"
+        style="@style/TextAppearance.Material3.BodyLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"

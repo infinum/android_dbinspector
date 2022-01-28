@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="dbinspector_color_primary">#0f80cc</color>
-    <color name="dbinspector_color_primary_dark">#003b57</color>
+    <color name="dbinspector_color_primary_container">#cfe5ff</color>
+    <color name="dbinspector_color_primary_on_container">#001d36</color>
+    <color name="dbinspector_color_secondary">#006491</color>
+    <color name="dbinspector_color_secondary_container">#C7E6FF</color>
+    <color name="dbinspector_color_secondary_on_container">#001E30</color>
     <color name="dbinspector_header_background">#bbbbbb</color>
     <color name="dbinspector_alternate_row_background">#F2F2F2</color>
-    <color name="dbinspector_status_bar">#003b57</color>
     <color name="dbinspector_splitter_background">#e1e1e1</color>
     <color name="dbinspector_splitter_dragging_background">#35000000</color>
+    <color name="dbinspector_color_fail">#BA1B1B</color>
+    <color name="dbinspector_color_success">#62C370</color>
+    <color name="dbinspector_color_remove">#BA1B1B</color>
+
     <color name="dbinspector_color_keyword_sql_keyword">#008ac0</color>
     <color name="dbinspector_color_keyword_sql_function">#EB8258</color>
     <color name="dbinspector_color_keyword_sql_type">#CC2E28</color>
@@ -15,7 +22,4 @@
     <color name="dbinspector_color_keyword_trigger_name">#BB3A8C</color>
     <color name="dbinspector_color_keyword_column_name">#abc96a</color>
     <color name="dbinspector_color_keyword_background">#aaaaaa</color>
-    <color name="dbinspector_color_fail">#f44336</color>
-    <color name="dbinspector_color_success">#4caf50</color>
-    <color name="dbinspector_color_remove">#ff1744</color>
 </resources>
