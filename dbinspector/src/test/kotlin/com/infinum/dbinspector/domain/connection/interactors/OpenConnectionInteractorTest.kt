@@ -17,13 +17,13 @@ internal class OpenConnectionInteractorTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Sources.Memory>() }
+            factory { mockk<Sources.Memory.Connection>() }
         }
     )
 
     @Test
     fun `Invoking interactor invokes source openConnection`() {
-        val source: Sources.Memory = get()
+        val source: Sources.Memory.Connection = get()
         val interactor = OpenConnectionInteractor(source)
 
         coEvery { source.openConnection(any()) } returns mockk()

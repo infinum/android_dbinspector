@@ -4,10 +4,10 @@ import com.infinum.dbinspector.data.Sources
 import com.infinum.dbinspector.data.models.local.proto.input.HistoryTask
 import com.infinum.dbinspector.data.models.local.proto.output.HistoryEntity
 import com.infinum.dbinspector.domain.Interactors
-import me.xdrop.fuzzywuzzy.FuzzySearch
 
 internal class GetExecutionInteractor(
-    private val dataStore: Sources.Local.History
+    private val dataStore: Sources.Local.History,
+    private val distance: Sources.Memory.Distance
 ) : Interactors.GetExecution {
 
     override suspend fun invoke(input: HistoryTask): HistoryEntity =
@@ -15,13 +15,11 @@ internal class GetExecutionInteractor(
             .executionsList
             .filter { it.databasePath == input.execution?.databasePath }
             .takeIf { it.isNotEmpty() }
-            ?.let { entities ->
-                FuzzySearch.extractOne(
+            ?.let { entities: List<HistoryEntity.ExecutionEntity> ->
+                distance.calculate(
                     input.execution?.execution.orEmpty(),
-                    entities.map { it.execution }
-                )
-                    ?.takeIf { it.score != 0 }
-                    ?.let { entities[it.index] }
+                    entities.map { it.execution },
+                )?.let { index -> entities[index] }
             }
             ?.let {
                 HistoryEntity.getDefaultInstance()

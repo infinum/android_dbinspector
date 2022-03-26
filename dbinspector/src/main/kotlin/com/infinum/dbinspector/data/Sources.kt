@@ -26,9 +26,17 @@ internal interface Sources {
 
     interface Memory {
 
-        suspend fun openConnection(path: String): SQLiteDatabase
+        interface Connection {
 
-        suspend fun closeConnection(path: String)
+            suspend fun openConnection(path: String): SQLiteDatabase
+
+            suspend fun closeConnection(path: String)
+        }
+
+        interface Distance {
+
+            suspend fun calculate(query: String, options: List<String>): Int?
+        }
     }
 
     interface Local {

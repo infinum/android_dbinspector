@@ -4,7 +4,7 @@ import android.database.sqlite.SQLiteDatabase
 import androidx.annotation.VisibleForTesting
 import com.infinum.dbinspector.data.Sources
 
-internal class AndroidConnectionSource : Sources.Memory {
+internal class AndroidConnectionSource : Sources.Memory.Connection {
 
     @VisibleForTesting
     internal val connectionPool: HashMap<String, SQLiteDatabase> = hashMapOf()

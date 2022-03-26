@@ -100,7 +100,6 @@ dependencies {
     implementation libs.protobuf.javalite
     implementation libs.material
     implementation libs.koin.android
-    implementation libs.fuzzy
 
     testImplementation libs.bundles.test
 }

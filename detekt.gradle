@@ -3,7 +3,3 @@ apply plugin: "io.gitlab.arturbosch.detekt"
 detekt {
     toolVersion = libs.versions.detekt.get()
 }
-
-dependencies {
-    detektPlugins libs.detekt.formatting
-}

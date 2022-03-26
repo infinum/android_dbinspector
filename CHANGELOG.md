@@ -3,9 +3,12 @@ Changelog
 
 ## Version 5.4.4
 
-_2022-01-29_
+_2022-03-26_
 
+* Compile with SDK 32.
 * Update dependencies to stable version.
+* Switch to Material3 theme.
+* Replace FuzzySearch library with Levenshtein algorithm implementation.
 
 ## Version 5.4.3
 
