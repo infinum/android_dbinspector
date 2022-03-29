@@ -5,7 +5,7 @@ import com.infinum.dbinspector.data.Sources
 import com.infinum.dbinspector.domain.Interactors
 
 internal class OpenConnectionInteractor(
-    private val source: Sources.Memory
+    private val source: Sources.Memory.Connection
 ) : Interactors.OpenConnection {
 
     override suspend fun invoke(input: String): SQLiteDatabase =

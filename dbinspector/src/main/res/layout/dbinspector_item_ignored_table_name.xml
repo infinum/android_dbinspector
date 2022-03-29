@@ -17,7 +17,7 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/nameView"
-        style="@style/TextAppearance.MaterialComponents.Body2"
+        style="@style/TextAppearance.Material3.BodyMedium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -27,7 +27,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/removeButton"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="@dimen/dbinspector_slider_button_size"
         android:layout_height="@dimen/dbinspector_slider_button_size"
         android:layout_gravity="center_vertical"

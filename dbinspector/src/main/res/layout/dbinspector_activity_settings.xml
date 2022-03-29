@@ -7,7 +7,6 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.MaterialComponents.Dark"
         app:liftOnScroll="true"
         app:liftOnScrollTargetViewId="@id/contentScrollView">
 
@@ -49,7 +48,7 @@
                     android:orientation="vertical">
 
                     <com.google.android.material.textview.MaterialTextView
-                        style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                        style="@style/TextAppearance.Material3.BodyLarge"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -58,7 +57,7 @@
                         android:text="@string/dbinspector_ignored_table_names" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        style="@style/TextAppearance.MaterialComponents.Caption"
+                        style="@style/TextAppearance.Material3.BodySmall"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -134,7 +133,7 @@
                     android:orientation="vertical">
 
                     <com.google.android.material.textview.MaterialTextView
-                        style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                        style="@style/TextAppearance.Material3.BodyLarge"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -143,7 +142,7 @@
                         android:text="@string/dbinspector_content_wrapping" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        style="@style/TextAppearance.MaterialComponents.Caption"
+                        style="@style/TextAppearance.Material3.BodySmall"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -172,7 +171,7 @@
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/linesView"
-                            style="@style/TextAppearance.MaterialComponents.Body1"
+                            style="@style/TextAppearance.Material3.BodyLarge"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -201,7 +200,7 @@
 
                             <com.google.android.material.button.MaterialButton
                                 android:id="@+id/decreaseLinesButton"
-                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                style="@style/Widget.Material3.Button.OutlinedButton"
                                 android:layout_width="@dimen/dbinspector_slider_button_size"
                                 android:layout_height="@dimen/dbinspector_slider_button_size"
                                 android:layout_gravity="center_vertical"
@@ -230,7 +229,7 @@
 
                             <com.google.android.material.button.MaterialButton
                                 android:id="@+id/increaseLinesButton"
-                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                style="@style/Widget.Material3.Button.OutlinedButton"
                                 android:layout_width="@dimen/dbinspector_slider_button_size"
                                 android:layout_height="@dimen/dbinspector_slider_button_size"
                                 android:layout_gravity="center_vertical"
@@ -250,7 +249,7 @@
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/truncateCaptionView"
-                            style="@style/TextAppearance.MaterialComponents.Caption"
+                            style="@style/TextAppearance.Material3.BodySmall"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
@@ -317,7 +316,7 @@
                     android:orientation="vertical">
 
                     <com.google.android.material.textview.MaterialTextView
-                        style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                        style="@style/TextAppearance.Material3.BodyLarge"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -326,7 +325,7 @@
                         android:text="@string/dbinspector_blob_preview" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        style="@style/TextAppearance.MaterialComponents.Caption"
+                        style="@style/TextAppearance.Material3.BodySmall"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"

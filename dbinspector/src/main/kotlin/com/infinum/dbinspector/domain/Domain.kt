@@ -274,7 +274,7 @@ internal object Domain {
         factory<Interactors.SaveExecution> { SaveExecutionInteractor(get()) }
         factory<Interactors.ClearHistory> { ClearHistoryInteractor(get()) }
         factory<Interactors.RemoveExecution> { RemoveExecutionInteractor(get()) }
-        factory<Interactors.GetExecution> { GetExecutionInteractor(get()) }
+        factory<Interactors.GetExecution> { GetExecutionInteractor(get(), get()) }
 
         factory<Mappers.Execution> { ExecutionMapper() }
         factory<Mappers.History> { HistoryMapper(get()) }

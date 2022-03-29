@@ -15,6 +15,7 @@ import com.infinum.dbinspector.data.sources.local.proto.history.HistorySerialize
 import com.infinum.dbinspector.data.sources.local.proto.settings.SettingsDataStore
 import com.infinum.dbinspector.data.sources.local.proto.settings.SettingsSerializer
 import com.infinum.dbinspector.data.sources.memory.connection.AndroidConnectionSource
+import com.infinum.dbinspector.data.sources.memory.distance.LevenshteinDistance
 import com.infinum.dbinspector.data.sources.memory.pagination.CursorPaginator
 import com.infinum.dbinspector.data.sources.memory.pagination.Paginator
 import com.infinum.dbinspector.data.sources.raw.AndroidDatabasesSource
@@ -102,7 +103,9 @@ internal object Data {
 
         factory<Paginator>(qualifier = Qualifiers.Schema.RAW_QUERY) { CursorPaginator() }
 
-        single<Sources.Memory> { AndroidConnectionSource() }
+        single<Sources.Memory.Connection> { AndroidConnectionSource() }
+
+        single<Sources.Memory.Distance> { LevenshteinDistance() }
     }
 
     private fun local() = module {
