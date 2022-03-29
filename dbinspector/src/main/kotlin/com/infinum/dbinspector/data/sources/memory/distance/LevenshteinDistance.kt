@@ -14,7 +14,7 @@ internal class LevenshteinDistance : Sources.Memory.Distance {
 
     /**
      * Iterates over options and calculates unlimited distance between each option and query String.
-     * Maps a tuble of index, optiona and distance, then finds minimum distance tuple and returns index.
+     * Maps a tuple of index, option, and distance, then finds minimum distance tuple and returns index.
      *
      * @return result index of option with minimum distance.
      */
