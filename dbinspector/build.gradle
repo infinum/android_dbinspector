@@ -123,11 +123,11 @@ protobuf {
 }
 
 kover {
-    enabled = true
+    disabled = false
     coverageEngine.set(kotlinx.kover.api.CoverageEngine.INTELLIJ)
     intellijEngineVersion.set(libs.versions.intellij.get())
     jacocoEngineVersion.set(libs.versions.jacoco.get())
-    generateReportOnCheck.set(true)
+    generateReportOnCheck = true
 }
 
 tasks.withType(Test) {
