@@ -5,10 +5,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.TestCoroutineExceptionHandler
 import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.createTestCoroutineScope
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import kotlinx.coroutines.withContext
 import org.junit.jupiter.api.AfterEach
@@ -20,8 +25,8 @@ import org.koin.test.junit5.KoinTestExtension
 
 internal abstract class BaseTest : KoinTest {
 
-    internal val testScope = TestCoroutineScope()
-    private val testDispatcher = TestCoroutineDispatcher()
+    internal val testScope = TestScope()
+    private val testDispatcher = StandardTestDispatcher()
 
     abstract fun modules(): List<Module>
 
@@ -31,8 +36,9 @@ internal abstract class BaseTest : KoinTest {
         modules(this@BaseTest.modules())
     }
 
-    protected fun runBlockingTest(block: suspend TestCoroutineScope.() -> Unit) =
-        testDispatcher.runBlockingTest(block)
+    protected fun runBlockingTest(block: suspend TestScope.() -> Unit) =
+        runTest(testDispatcher) { block.invoke(this) }
+//        testDispatcher.runBlockingTest(block)
 
     protected fun launch(block: suspend CoroutineScope.() -> Unit) {
         testScope.launch { block.invoke(this) }
@@ -52,7 +58,7 @@ internal abstract class BaseTest : KoinTest {
     fun cleanUp() {
         Dispatchers.resetMain()
         testDispatcher.cancel()
-        testDispatcher.cleanupTestCoroutines()
-        testScope.cleanupTestCoroutines()
+//        testDispatcher.cleanupTestCoroutines()
+//        testScope.cleanupTestCoroutines()
     }
 }

@@ -45,7 +45,8 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs += [
                 '-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi',
-                '-Xexplicit-api=strict'
+                '-Xexplicit-api=strict',
+                '-Xjvm-default=all'
         ]
     }
 
