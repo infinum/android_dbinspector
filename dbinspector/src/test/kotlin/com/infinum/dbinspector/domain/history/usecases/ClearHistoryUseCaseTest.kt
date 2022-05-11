@@ -28,7 +28,7 @@ internal class ClearHistoryUseCaseTest : BaseTest() {
 
         coEvery { repository.clearByDatabase(any()) } returns mockk()
 
-        launch {
+        test {
             useCase.invoke(any())
         }
 

@@ -28,7 +28,7 @@ internal class SaveIgnoredTableNameUseCaseTest : BaseTest() {
 
         coEvery { repository.saveIgnoredTableName(any()) } returns mockk()
 
-        launch {
+        test {
             useCase.invoke(any())
         }
 

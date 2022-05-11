@@ -36,7 +36,7 @@ internal class GetIndexesUseCaseTest : BaseTest() {
         coEvery { connectionRepository.open(any()) } returns mockk()
         coEvery { pragmaRepository.getIndexes(any()) } returns mockk()
 
-        launch {
+        test {
             useCase.invoke(given)
         }
 

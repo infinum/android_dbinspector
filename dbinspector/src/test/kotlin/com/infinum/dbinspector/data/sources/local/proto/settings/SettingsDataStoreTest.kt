@@ -27,14 +27,12 @@ internal class SettingsDataStoreTest : BaseTest() {
 
     @Test
     fun `Data source exposes datastore`() {
-        launch {
+        blockingTest {
             val store: DataStore<SettingsEntity> = get()
             val source = SettingsDataStore(store)
 
-            runBlockingTest {
-                val actual = source.store()
-                assertEquals(store, actual)
-            }
+            val actual = source.store()
+            assertEquals(store, actual)
         }
     }
 
@@ -51,11 +49,9 @@ internal class SettingsDataStoreTest : BaseTest() {
             coEvery { firstOrNull() } returns null
         }
 
-        launch {
-            runBlockingTest {
-                val actual = source.current()
-                assertEquals(expected, actual)
-            }
+        blockingTest {
+            val actual = source.current()
+            assertEquals(expected, actual)
         }
     }
 

@@ -24,49 +24,55 @@ internal class LifecycleViewModelTest : BaseTest() {
 
     @Test
     fun `Can be instantiated`() {
-        val viewModel = object : LifecycleViewModel<Any, Any>(
-            get(),
-            get()
-        ) {}.apply {
-            databasePath = "test.db"
-        }
+        test {
+            val viewModel = object : LifecycleViewModel<Any, Any>(
+                get(),
+                get()
+            ) {}.apply {
+                databasePath = "test.db"
+            }
 
-        assertNotNull(viewModel)
+            assertNotNull(viewModel)
+        }
     }
 
     @Test
     fun `Open connection invoked`() {
-        val useCase: UseCases.OpenConnection = get()
+        test {
+            val useCase: UseCases.OpenConnection = get()
 
-        coEvery { useCase.invoke(any()) } returns Unit
+            coEvery { useCase.invoke(any()) } returns Unit
 
-        val viewModel = object : LifecycleViewModel<Any, Any>(
-            useCase,
-            get()
-        ) {}.apply {
-            databasePath = "test.db"
+            val viewModel = object : LifecycleViewModel<Any, Any>(
+                useCase,
+                get()
+            ) {}.apply {
+                databasePath = "test.db"
+            }
+
+            viewModel.open()
+
+            coVerify(exactly = 1) { useCase.invoke(any()) }
         }
-
-        viewModel.open()
-
-        coVerify(exactly = 1) { useCase.invoke(any()) }
     }
 
     @Test
     fun `Close connection invoked`() {
-        val useCase: UseCases.CloseConnection = get()
+        test {
+            val useCase: UseCases.CloseConnection = get()
 
-        coEvery { useCase.invoke(any()) } returns Unit
+            coEvery { useCase.invoke(any()) } returns Unit
 
-        val viewModel = object : LifecycleViewModel<Any, Any>(
-            get(),
-            useCase
-        ) {}.apply {
-            databasePath = "test.db"
+            val viewModel = object : LifecycleViewModel<Any, Any>(
+                get(),
+                useCase
+            ) {}.apply {
+                databasePath = "test.db"
+            }
+
+            viewModel.close()
+
+            coVerify(exactly = 1) { useCase.invoke(any()) }
         }
-
-        viewModel.close()
-
-        coVerify(exactly = 1) { useCase.invoke(any()) }
     }
 }

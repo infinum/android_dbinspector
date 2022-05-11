@@ -29,7 +29,7 @@ internal class ContentConverterTest : BaseTest() {
 
     @Test
     fun `Statement converts to data query with same value`() =
-        launch {
+        test {
             val given = mockk<ContentParameters> {
                 every { databasePath } returns ""
                 every { connection } returns null
@@ -48,9 +48,8 @@ internal class ContentConverterTest : BaseTest() {
             val converter = ContentConverter(sortConverter)
 
             coEvery { sortConverter.invoke(any()) } returns expected.order
-            val actual = test {
-                converter(given)
-            }
+
+            val actual = converter(given)
 
             coVerify(exactly = 1) { sortConverter.invoke(any()) }
             assertEquals(expected, actual)

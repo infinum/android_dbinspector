@@ -26,7 +26,7 @@ internal class HistoryMapperTest : BaseTest() {
 
     @Test
     fun `Empty local values maps to empty domain values`() =
-        launch {
+        test {
             val given = HistoryEntity.getDefaultInstance()
 
             val expected = History()
@@ -35,9 +35,8 @@ internal class HistoryMapperTest : BaseTest() {
             val mapper = HistoryMapper(executionMapper)
 
             coEvery { executionMapper.invoke(any()) } returns mockk()
-            val actual = test {
-                mapper(given)
-            }
+
+            val actual = mapper(given)
 
             coVerify(exactly = 0) { executionMapper.invoke(any()) }
             assertEquals(expected, actual)
@@ -45,7 +44,7 @@ internal class HistoryMapperTest : BaseTest() {
 
     @Test
     fun `Specific Execution local values map to same domain values`() =
-        launch {
+        test {
             val given = HistoryEntity.newBuilder().addExecutions(
                 HistoryEntity.ExecutionEntity.newBuilder()
                     .setExecution("SELECT * FROM users")
@@ -69,9 +68,8 @@ internal class HistoryMapperTest : BaseTest() {
             val mapper = HistoryMapper(executionMapper)
 
             coEvery { executionMapper.invoke(any()) } returns expectedExecution
-            val actual = test {
-                mapper(given)
-            }
+
+            val actual = mapper(given)
 
             coVerify(exactly = 1) { executionMapper.invoke(any()) }
             assertEquals(expected, actual)

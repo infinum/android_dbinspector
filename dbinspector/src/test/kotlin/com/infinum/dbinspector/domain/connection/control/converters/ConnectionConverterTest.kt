@@ -16,7 +16,7 @@ internal class ConnectionConverterTest : BaseTest() {
 
     @Test
     fun `Default converts to data model with same value`() =
-        launch {
+        test {
             val given = mockk<ConnectionParameters> {
                 every { databasePath } returns "test.db"
             }
@@ -24,9 +24,8 @@ internal class ConnectionConverterTest : BaseTest() {
 
             val converter = ConnectionConverter()
 
-            val actual = test {
-                converter(given)
-            }
+            val actual = converter(given)
+
             assertEquals(expected, actual)
         }
 }

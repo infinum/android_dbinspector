@@ -31,7 +31,7 @@ internal class SaveExecutionInteractorTest : BaseTest() {
         coEvery { source.store() } returns mockk()
         coEvery { source.store().updateData { mockk() } } returns mockk()
 
-        launch {
+        test {
             interactor.invoke(any())
         }
 

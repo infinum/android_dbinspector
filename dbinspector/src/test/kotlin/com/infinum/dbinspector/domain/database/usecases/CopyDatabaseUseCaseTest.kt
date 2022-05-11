@@ -28,7 +28,7 @@ internal class CopyDatabaseUseCaseTest : BaseTest() {
 
         coEvery { repository.copy(any()) } returns mockk()
 
-        launch {
+        test {
             useCase.invoke(any())
         }
 

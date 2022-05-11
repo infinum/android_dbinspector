@@ -28,7 +28,7 @@ internal class GetSimilarExecutionUseCaseTest : BaseTest() {
 
         coEvery { repository.getSimilarExecution(any()) } returns mockk()
 
-        launch {
+        test {
             useCase.invoke(any())
         }
 

@@ -29,7 +29,7 @@ internal class ContentMapperTest : BaseTest() {
 
     @Test
     fun `Empty local value maps to empty domain value`() =
-        launch {
+        test {
             val given = mockk<QueryResult> {
                 every { rows } returns listOf()
                 every { nextPage } returns null
@@ -44,9 +44,8 @@ internal class ContentMapperTest : BaseTest() {
             val mapper = ContentMapper(cellMapper)
 
             coEvery { cellMapper.invoke(any()) } returns mockk()
-            val actual = test {
-                mapper(given)
-            }
+
+            val actual = mapper(given)
 
             coVerify(exactly = 0) { cellMapper.invoke(any()) }
             assertEquals(expected, actual)
@@ -54,7 +53,7 @@ internal class ContentMapperTest : BaseTest() {
 
     @Test
     fun `QueryResult local value maps to Page with same domain value`() =
-        launch {
+        test {
             val given = mockk<QueryResult> {
                 every { rows } returns listOf(
                     mockk {
@@ -84,9 +83,8 @@ internal class ContentMapperTest : BaseTest() {
             val mapper = ContentMapper(cellMapper)
 
             coEvery { cellMapper.invoke(any()) } returns expectedCell
-            val actual = test {
-                mapper(given)
-            }
+
+            val actual = mapper(given)
 
             coVerify(exactly = 1) { cellMapper.invoke(any()) }
             assertEquals(expected, actual)

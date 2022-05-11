@@ -48,7 +48,7 @@ internal class RemoveIgnoredTableNameInteractorTest : BaseTest() {
             }
         }
 
-        launch {
+        test {
             interactor.invoke(given)
         }
 
@@ -69,7 +69,7 @@ internal class RemoveIgnoredTableNameInteractorTest : BaseTest() {
             }
         }
 
-        launch {
+        test {
             assertThrows<IllegalStateException> {
                 interactor.invoke(given)
             }

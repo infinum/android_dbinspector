@@ -28,7 +28,7 @@ internal class ImportDatabasesInteractorTest : BaseTest() {
 
         coEvery { source.importDatabases(any()) } returns mockk()
 
-        launch {
+        test {
             interactor.invoke(any())
         }
 

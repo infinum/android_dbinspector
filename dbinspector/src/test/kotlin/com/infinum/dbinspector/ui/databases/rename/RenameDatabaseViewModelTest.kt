@@ -45,7 +45,7 @@ internal class RenameDatabaseViewModelTest : BaseTest() {
         )
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        launch {
+        test {
             viewModel.stateFlow.test {
                 val item: RenameDatabaseState? = awaitItem()
                 assertTrue(item is RenameDatabaseState.Renamed)
@@ -77,7 +77,7 @@ internal class RenameDatabaseViewModelTest : BaseTest() {
         )
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        launch {
+        test {
             viewModel.stateFlow.test {
                 assertNull(awaitItem())
             }

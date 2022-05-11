@@ -28,7 +28,7 @@ internal class DropTriggerByNameInteractorTest : BaseTest() {
 
         coEvery { source.dropTriggerByName(any()) } returns mockk()
 
-        launch {
+        test {
             interactor.invoke(any())
         }
 

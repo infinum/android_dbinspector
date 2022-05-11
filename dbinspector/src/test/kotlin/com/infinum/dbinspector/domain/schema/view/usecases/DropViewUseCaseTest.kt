@@ -36,7 +36,7 @@ internal class DropViewUseCaseTest : BaseTest() {
         coEvery { connectionRepository.open(any()) } returns mockk()
         coEvery { schemaRepository.dropByName(any()) } returns mockk()
 
-        launch {
+        test {
             useCase.invoke(given)
         }
 

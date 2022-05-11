@@ -81,7 +81,7 @@ internal class SchemaSourceViewModelTest : BaseTest() {
         viewModel.query(viewModel.databasePath, "my_statement")
 
         coVerify(exactly = 0) { useCase.invoke(any()) }
-        launch {
+        test {
             viewModel.stateFlow.test {
                 val item: SchemaState? = awaitItem()
                 assertTrue(item is SchemaState.Schema)

@@ -15,71 +15,66 @@ internal class BlobPreviewModeMapperTest : BaseTest() {
 
     @Test
     fun `Local value PLACEHOLDER maps to same domain value`() =
-        launch {
+        test {
             val given = SettingsEntity.BlobPreviewMode.PLACEHOLDER
             val expected = BlobPreviewMode.PLACEHOLDER
 
             val mapper = BlobPreviewModeMapper()
 
-            val actual = test {
-                mapper(given)
-            }
+            val actual = mapper(given)
+
             assertEquals(expected, actual)
         }
 
     @Test
     fun `Local value UTF8 maps to same domain value`() =
-        launch {
+        test {
             val given = SettingsEntity.BlobPreviewMode.UTF8
             val expected = BlobPreviewMode.UTF_8
 
             val mapper = BlobPreviewModeMapper()
 
-            val actual = test {
-                mapper(given)
-            }
+            val actual = mapper(given)
+
             assertEquals(expected, actual)
         }
 
     @Test
     fun `Local value HEX maps to same domain value`() =
-        launch {
+        test {
             val given = SettingsEntity.BlobPreviewMode.HEX
             val expected = BlobPreviewMode.HEX
 
             val mapper = BlobPreviewModeMapper()
 
-            val actual = test {
-                mapper(given)
-            }
+            val actual = mapper(given)
+
             assertEquals(expected, actual)
         }
 
     @Test
     fun `Local value BASE64 maps to same domain value`() =
-        launch {
+        test {
             val given = SettingsEntity.BlobPreviewMode.BASE64
             val expected = BlobPreviewMode.BASE_64
 
             val mapper = BlobPreviewModeMapper()
 
-            val actual = test {
-                mapper(given)
-            }
+            val actual = mapper(given)
+
             assertEquals(expected, actual)
         }
 
     @Test
     fun `Local value UNRECOGNIZED maps to default PLACEHOLDER domain value`() =
-        launch {
+        test {
             val given = SettingsEntity.BlobPreviewMode.UNRECOGNIZED
             val expected = BlobPreviewMode.PLACEHOLDER
 
             val mapper = BlobPreviewModeMapper()
 
-            val actual = test {
-                mapper(given)
-            }
+            val actual = mapper(given)
+
             assertEquals(expected, actual)
         }
 }

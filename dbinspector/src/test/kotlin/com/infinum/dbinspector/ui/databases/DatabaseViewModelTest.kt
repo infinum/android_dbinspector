@@ -48,7 +48,7 @@ internal class DatabaseViewModelTest : BaseTest() {
         viewModel.browse(get())
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        launch {
+        test {
             viewModel.stateFlow.test {
                 val item: DatabaseState? = awaitItem()
                 assertTrue(item is DatabaseState.Databases)
@@ -83,7 +83,7 @@ internal class DatabaseViewModelTest : BaseTest() {
         viewModel.browse(get(), "log")
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        launch {
+        test {
             viewModel.stateFlow.test {
                 val item: DatabaseState? = awaitItem()
                 assertTrue(item is DatabaseState.Databases)
@@ -114,7 +114,7 @@ internal class DatabaseViewModelTest : BaseTest() {
         viewModel.browse(get(), "south")
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        launch {
+        test {
             viewModel.stateFlow.test {
                 val item: DatabaseState? = awaitItem()
                 assertTrue(item is DatabaseState.Databases)
@@ -151,7 +151,7 @@ internal class DatabaseViewModelTest : BaseTest() {
 
         coVerify(exactly = 1) { importUseCase.invoke(any()) }
         coVerify(exactly = 1) { getUseCase.invoke(any()) }
-        launch {
+        test {
             viewModel.stateFlow.test {
                 val item: DatabaseState? = awaitItem()
                 assertTrue(item is DatabaseState.Databases)
@@ -189,7 +189,7 @@ internal class DatabaseViewModelTest : BaseTest() {
 
         coVerify(exactly = 1) { importUseCase.invoke(any()) }
         coVerify(exactly = 1) { getUseCase.invoke(any()) }
-        launch {
+        test {
             viewModel.stateFlow.test {
                 val item: DatabaseState? = awaitItem()
                 assertTrue(item is DatabaseState.Databases)
@@ -230,7 +230,7 @@ internal class DatabaseViewModelTest : BaseTest() {
 
         coVerify(exactly = 1) { importUseCase.invoke(any()) }
         coVerify(exactly = 1) { getUseCase.invoke(any()) }
-        launch {
+        test {
             viewModel.stateFlow.test {
                 val item: DatabaseState? = awaitItem()
                 assertTrue(item is DatabaseState.Databases)
@@ -286,7 +286,7 @@ internal class DatabaseViewModelTest : BaseTest() {
 
         coVerify(exactly = 1) { copyUseCase.invoke(any()) }
         coVerify(exactly = 1) { getUseCase.invoke(any()) }
-        launch {
+        test {
             viewModel.stateFlow.test {
                 val item: DatabaseState? = awaitItem()
                 assertTrue(item is DatabaseState.Databases)
@@ -320,7 +320,7 @@ internal class DatabaseViewModelTest : BaseTest() {
 
         coVerify(exactly = 1) { copyUseCase.invoke(any()) }
         coVerify(exactly = 0) { getUseCase.invoke(any()) }
-        launch {
+        test {
             viewModel.stateFlow.test {
                 assertNull(awaitItem())
             }

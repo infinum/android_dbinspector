@@ -62,7 +62,7 @@ internal class SettingsViewModelTest : BaseTest() {
         viewModel.load()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        launch {
+        test {
             viewModel.stateFlow.test {
                 val item: SettingsState? = awaitItem()
                 assertTrue(item is SettingsState.Settings)
@@ -100,7 +100,7 @@ internal class SettingsViewModelTest : BaseTest() {
         viewModel.saveIgnoredTableName("android_metadata")
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        launch {
+        test {
             viewModel.stateFlow.test {
                 assertNull(awaitItem())
             }
@@ -134,7 +134,7 @@ internal class SettingsViewModelTest : BaseTest() {
         viewModel.removeIgnoredTableName("android_metadata")
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        launch {
+        test {
             viewModel.stateFlow.test {
                 assertNull(awaitItem())
             }
@@ -168,7 +168,7 @@ internal class SettingsViewModelTest : BaseTest() {
         viewModel.toggleLinesLimit(true)
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        launch {
+        test {
             viewModel.stateFlow.test {
                 assertNull(awaitItem())
             }
@@ -199,7 +199,7 @@ internal class SettingsViewModelTest : BaseTest() {
         viewModel.toggleLinesLimit(false)
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        launch {
+        test {
             viewModel.stateFlow.test {
                 assertNull(awaitItem())
             }
@@ -230,7 +230,7 @@ internal class SettingsViewModelTest : BaseTest() {
         viewModel.saveLinesCount(any())
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        launch {
+        test {
             viewModel.stateFlow.test {
                 assertNull(awaitItem())
             }
@@ -246,23 +246,23 @@ internal class SettingsViewModelTest : BaseTest() {
     @ParameterizedTest
     @EnumSource(TruncateMode::class)
     fun `Save truncate per mode`(truncateMode: TruncateMode) {
-        val useCase: UseCases.SaveTruncateMode = get()
-        val viewModel = SettingsViewModel(
-            get(),
-            get(),
-            get(),
-            get(),
-            get(),
-            useCase,
-            get()
-        )
+        test {
+            val useCase: UseCases.SaveTruncateMode = get()
+            val viewModel = SettingsViewModel(
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                useCase,
+                get()
+            )
 
-        coEvery { useCase.invoke(any()) } returns Unit
+            coEvery { useCase.invoke(any()) } returns Unit
 
-        viewModel.saveTruncateMode(truncateMode)
+            viewModel.saveTruncateMode(truncateMode)
 
-        coVerify(exactly = 1) { useCase.invoke(any()) }
-        launch {
+            coVerify(exactly = 1) { useCase.invoke(any()) }
             viewModel.stateFlow.test {
                 assertNull(awaitItem())
             }
@@ -294,7 +294,7 @@ internal class SettingsViewModelTest : BaseTest() {
         viewModel.saveBlobPreviewType(blobPreviewMode)
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        launch {
+        test {
             viewModel.stateFlow.test {
                 assertNull(awaitItem())
             }

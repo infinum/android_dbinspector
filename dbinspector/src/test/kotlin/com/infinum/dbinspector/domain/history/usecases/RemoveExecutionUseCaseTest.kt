@@ -28,7 +28,7 @@ internal class RemoveExecutionUseCaseTest : BaseTest() {
 
         coEvery { repository.removeExecution(any()) } returns mockk()
 
-        launch {
+        test {
             useCase.invoke(any())
         }
 

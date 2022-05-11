@@ -32,7 +32,7 @@ internal class DatabaseConverterTest : BaseTest() {
         val converter = DatabaseConverter()
 
         assertThrows<NotImplementedError> {
-            runBlockingTest {
+            blockingTest {
                 converter.invoke(given)
             }
         }
@@ -40,7 +40,7 @@ internal class DatabaseConverterTest : BaseTest() {
 
     @Test
     fun `Get converts to data operation with same values`() =
-        launch {
+        test {
             val newContext: Context = get()
             val given = mockk<DatabaseParameters.Get> {
                 every { context } returns newContext
@@ -53,16 +53,14 @@ internal class DatabaseConverterTest : BaseTest() {
 
             val converter = DatabaseConverter()
 
-            val actual = test {
-                converter get given
-            }
+            val actual = converter get given
 
             assertEquals(expected, actual)
         }
 
     @Test
     fun `Import empty list converts to data operation with empty values`() =
-        launch {
+        test {
             val newContext: Context = get()
             val given = mockk<DatabaseParameters.Import> {
                 every { context } returns newContext
@@ -75,16 +73,14 @@ internal class DatabaseConverterTest : BaseTest() {
 
             val converter = DatabaseConverter()
 
-            val actual = test {
-                converter import given
-            }
+            val actual = converter import given
 
             assertEquals(expected, actual)
         }
 
     @Test
     fun `Import converts to data operation with same values`() =
-        launch {
+        test {
             val newContext: Context = get()
             val given = mockk<DatabaseParameters.Import> {
                 every { context } returns newContext
@@ -101,16 +97,14 @@ internal class DatabaseConverterTest : BaseTest() {
 
             val converter = DatabaseConverter()
 
-            val actual = test {
-                converter import given
-            }
+            val actual = converter import given
 
             assertEquals(expected, actual)
         }
 
     @Test
     fun `Rename converts to data operation with same values`() =
-        launch {
+        test {
             val newContext: Context = get()
             val given = mockk<DatabaseParameters.Rename> {
                 every { context } returns newContext
@@ -135,16 +129,14 @@ internal class DatabaseConverterTest : BaseTest() {
 
             val converter = DatabaseConverter()
 
-            val actual = test {
-                converter rename given
-            }
+            val actual = converter rename given
 
             assertEquals(expected, actual)
         }
 
     @Test
     fun `Command converts to data operation with same values`() =
-        launch {
+        test {
             val newContext: Context = get()
             val given = mockk<DatabaseParameters.Command> {
                 every { context } returns newContext
@@ -167,9 +159,7 @@ internal class DatabaseConverterTest : BaseTest() {
 
             val converter = DatabaseConverter()
 
-            val actual = test {
-                converter command given
-            }
+            val actual = converter command given
 
             assertEquals(expected, actual)
         }

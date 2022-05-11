@@ -44,7 +44,7 @@ internal class DatabaseRepositoryTest : BaseTest() {
         coEvery { control.converter get any() } returns mockk()
         coEvery { control.mapper.invoke(any()) } returns mockk()
 
-        launch {
+        test {
             repository.getPage(any())
         }
 
@@ -70,7 +70,7 @@ internal class DatabaseRepositoryTest : BaseTest() {
         coEvery { control.converter import any() } returns mockk()
         coEvery { control.mapper.invoke(any()) } returns mockk()
 
-        launch {
+        test {
             repository.import(any())
         }
 
@@ -96,7 +96,7 @@ internal class DatabaseRepositoryTest : BaseTest() {
         coEvery { control.converter rename any() } returns mockk()
         coEvery { control.mapper.invoke(any()) } returns mockk()
 
-        launch {
+        test {
             repository.rename(any())
         }
 
@@ -122,7 +122,7 @@ internal class DatabaseRepositoryTest : BaseTest() {
         coEvery { control.converter command any() } returns mockk()
         coEvery { control.mapper.invoke(any()) } returns mockk()
 
-        launch {
+        test {
             repository.remove(any())
         }
 
@@ -148,7 +148,7 @@ internal class DatabaseRepositoryTest : BaseTest() {
         coEvery { control.converter command any() } returns mockk()
         coEvery { control.mapper.invoke(any()) } returns mockk()
 
-        launch {
+        test {
             repository.copy(any())
         }
 

@@ -36,7 +36,7 @@ internal class GetTablePragmaUseCaseTest : BaseTest() {
         coEvery { connectionRepository.open(any()) } returns mockk()
         coEvery { pragmaRepository.getTableInfo(any()) } returns mockk()
 
-        launch {
+        test {
             useCase.invoke(given)
         }
 

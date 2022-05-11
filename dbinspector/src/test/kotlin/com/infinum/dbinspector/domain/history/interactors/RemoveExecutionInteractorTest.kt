@@ -30,7 +30,7 @@ internal class RemoveExecutionInteractorTest : BaseTest() {
 
         coEvery { source.store() } returns mockk()
 
-        launch {
+        test {
             interactor.invoke(any())
         }
 

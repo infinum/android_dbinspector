@@ -28,7 +28,7 @@ internal class GetRawQueryHeadersInteractorTest : BaseTest() {
 
         coEvery { source.rawQueryHeaders(any()) } returns mockk()
 
-        launch {
+        test {
             interactor.invoke(any())
         }
 

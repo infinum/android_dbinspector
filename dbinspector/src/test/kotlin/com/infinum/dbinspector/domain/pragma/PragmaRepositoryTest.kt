@@ -44,7 +44,7 @@ internal class PragmaRepositoryTest : BaseTest() {
         coEvery { control.converter version any() } returns mockk()
         coEvery { control.mapper.invoke(any()) } returns mockk()
 
-        launch {
+        test {
             repository.getUserVersion(any())
         }
 
@@ -69,7 +69,7 @@ internal class PragmaRepositoryTest : BaseTest() {
         coEvery { control.converter pragma any() } returns mockk()
         coEvery { control.mapper.invoke(any()) } returns mockk()
 
-        launch {
+        test {
             repository.getTableInfo(any())
         }
 
@@ -96,7 +96,7 @@ internal class PragmaRepositoryTest : BaseTest() {
             every { cells } returns listOf()
         }
 
-        launch {
+        test {
             repository.getTriggerInfo()
         }
 
@@ -120,7 +120,7 @@ internal class PragmaRepositoryTest : BaseTest() {
         coEvery { control.converter pragma any() } returns mockk()
         coEvery { control.mapper.invoke(any()) } returns mockk()
 
-        launch {
+        test {
             repository.getForeignKeys(any())
         }
 
@@ -145,7 +145,7 @@ internal class PragmaRepositoryTest : BaseTest() {
         coEvery { control.converter pragma any() } returns mockk()
         coEvery { control.mapper.invoke(any()) } returns mockk()
 
-        launch {
+        test {
             repository.getIndexes(any())
         }
 

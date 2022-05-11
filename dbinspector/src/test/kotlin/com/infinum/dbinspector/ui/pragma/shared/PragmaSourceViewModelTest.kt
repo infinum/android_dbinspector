@@ -81,7 +81,7 @@ internal class PragmaSourceViewModelTest : BaseTest() {
         viewModel.query("my_statement")
 
         coVerify(exactly = 0) { useCase.invoke(any()) }
-        launch {
+        test {
             viewModel.stateFlow.test {
                 val item: PragmaState? = awaitItem()
                 assertTrue(item is PragmaState.Pragma)

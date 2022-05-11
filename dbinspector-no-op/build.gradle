@@ -27,6 +27,7 @@ android {
         }
     }
 
+    namespace releaseConfig.group
     resourcePrefix "dbinspector_"
 
     compileOptions {
@@ -37,7 +38,8 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs += [
-                '-Xexplicit-api=strict'
+                '-Xexplicit-api=strict',
+                '-Xjvm-default=all'
         ]
     }
 

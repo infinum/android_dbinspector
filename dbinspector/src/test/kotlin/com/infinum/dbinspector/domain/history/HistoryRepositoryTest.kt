@@ -50,7 +50,7 @@ internal class HistoryRepositoryTest : BaseTest() {
         coEvery { control.converter.invoke(any()) } throws NotImplementedError()
         coEvery { control.mapper.invoke(any()) } returns mockk()
 
-        launch {
+        test {
             repository.getByDatabase(given)
         }
 
@@ -83,7 +83,7 @@ internal class HistoryRepositoryTest : BaseTest() {
         coEvery { control.converter.invoke(any()) } throws NotImplementedError()
         coEvery { control.mapper.invoke(any()) } returns mockk()
 
-        launch {
+        test {
             repository.saveExecution(given)
         }
 
@@ -113,7 +113,7 @@ internal class HistoryRepositoryTest : BaseTest() {
         coEvery { control.converter.invoke(any()) } throws NotImplementedError()
         coEvery { control.mapper.invoke(any()) } returns mockk()
 
-        launch {
+        test {
             repository.clearByDatabase(given)
         }
 
@@ -146,7 +146,7 @@ internal class HistoryRepositoryTest : BaseTest() {
         coEvery { control.converter.invoke(any()) } throws NotImplementedError()
         coEvery { control.mapper.invoke(any()) } returns mockk()
 
-        launch {
+        test {
             repository.removeExecution(given)
         }
 
@@ -179,7 +179,7 @@ internal class HistoryRepositoryTest : BaseTest() {
         coEvery { control.converter.invoke(any()) } throws NotImplementedError()
         coEvery { control.mapper.invoke(any()) } returns mockk()
 
-        launch {
+        test {
             repository.getSimilarExecution(given)
         }
 

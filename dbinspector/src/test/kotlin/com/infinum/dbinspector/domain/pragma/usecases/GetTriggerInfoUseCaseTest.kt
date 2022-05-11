@@ -28,7 +28,7 @@ internal class GetTriggerInfoUseCaseTest : BaseTest() {
 
         coEvery { repository.getTriggerInfo() } returns mockk()
 
-        launch {
+        test {
             useCase.invoke(any())
         }
 

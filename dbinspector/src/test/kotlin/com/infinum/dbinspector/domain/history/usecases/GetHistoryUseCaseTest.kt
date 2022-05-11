@@ -33,7 +33,7 @@ internal class GetHistoryUseCaseTest : BaseTest() {
 
         coEvery { repository.getByDatabase(any()) } returns mockk()
 
-        launch {
+        test {
             useCase.invoke(given)
         }
 

@@ -28,7 +28,7 @@ internal class GetSettingsUseCaseTest : BaseTest() {
 
         coEvery { repository.getPage(any()) } returns mockk()
 
-        launch {
+        test {
             useCase.invoke(any())
         }
 

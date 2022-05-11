@@ -28,7 +28,7 @@ internal class GetTriggerByNameInteractorTest : BaseTest() {
 
         coEvery { source.getTriggerByName(any()) } returns mockk()
 
-        launch {
+        test {
             interactor.invoke(any())
         }
 
