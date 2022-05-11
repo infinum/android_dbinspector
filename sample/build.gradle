@@ -16,6 +16,8 @@ android {
         versionName releaseConfig.version
     }
 
+    namespace releaseConfig.group + ".sample"
+
     signingConfigs {
         dummy {
             storeFile file("dummy.jks")

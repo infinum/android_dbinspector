@@ -27,6 +27,7 @@ android {
         }
     }
 
+    namespace releaseConfig.group
     resourcePrefix "dbinspector_"
 
     compileOptions {

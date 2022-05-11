@@ -1,6 +1,14 @@
 Changelog
 =========
 
+## Version 5.4.6
+
+_2022-05-11_
+
+* Update dependencies to stable version.
+* Fix some tests.
+* Fix Gradle scripts.
+
 ## Version 5.4.5
 
 _2022-04-09_
