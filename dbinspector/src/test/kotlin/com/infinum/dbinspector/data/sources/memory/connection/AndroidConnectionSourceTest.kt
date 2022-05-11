@@ -42,7 +42,7 @@ internal class AndroidConnectionSourceTest : BaseTest() {
 
         val source = AndroidConnectionSource()
 
-        launch {
+        test {
             source.openConnection(given)
         }
 
@@ -69,7 +69,7 @@ internal class AndroidConnectionSourceTest : BaseTest() {
 
         source.connectionPool[given] = expected
 
-        launch {
+        test {
             source.openConnection(given)
         }
 
@@ -102,7 +102,7 @@ internal class AndroidConnectionSourceTest : BaseTest() {
 
         source.connectionPool[given] = expected
 
-        launch {
+        test {
             source.closeConnection(given)
         }
 
@@ -126,7 +126,7 @@ internal class AndroidConnectionSourceTest : BaseTest() {
 
         val source = AndroidConnectionSource()
 
-        launch {
+        test {
             source.closeConnection(given)
         }
 

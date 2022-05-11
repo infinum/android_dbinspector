@@ -28,7 +28,7 @@ internal class CloseConnectionInteractorTest : BaseTest() {
 
         coEvery { source.closeConnection(any()) } returns mockk()
 
-        launch {
+        test {
             interactor.invoke(any())
         }
 

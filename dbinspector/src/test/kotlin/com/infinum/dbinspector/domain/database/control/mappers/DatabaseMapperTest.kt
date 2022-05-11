@@ -17,7 +17,7 @@ internal class DatabaseMapperTest : BaseTest() {
 
     @Test
     fun `Database name with extension maps to domain with same values for name and extension`() =
-        launch {
+        test {
             val given = mockk<File> {
                 every { path } returns "test.db"
                 every { exists() } returns true
@@ -35,16 +35,15 @@ internal class DatabaseMapperTest : BaseTest() {
             )
 
             val mapper = DatabaseMapper()
-            val actual = test {
-                mapper(given)
-            }
+
+            val actual = mapper(given)
 
             assertEquals(expected, actual)
         }
 
     @Test
     fun `Database name without extension maps to domain with same values for name only`() =
-        launch {
+        test {
             val given = mockk<File> {
                 every { path } returns "test"
                 every { exists() } returns true
@@ -61,16 +60,15 @@ internal class DatabaseMapperTest : BaseTest() {
                 parentPath = ""
             )
             val mapper = DatabaseMapper()
-            val actual = test {
-                mapper(given)
-            }
+
+            val actual = mapper(given)
 
             assertEquals(expected, actual)
         }
 
     @Test
     fun `Database without name maps to domain with no values for name`() =
-        launch {
+        test {
             val given = mockk<File> {
                 every { path } returns ""
                 every { exists() } returns true
@@ -88,16 +86,15 @@ internal class DatabaseMapperTest : BaseTest() {
             )
 
             val mapper = DatabaseMapper()
-            val actual = test {
-                mapper(given)
-            }
+
+            val actual = mapper(given)
 
             assertEquals(expected, actual)
         }
 
     @Test
     fun `Database without name and extension maps to domain with no values for name and extension`() =
-        launch {
+        test {
             val given = mockk<File> {
                 every { path } returns ""
                 every { exists() } returns false
@@ -115,9 +112,8 @@ internal class DatabaseMapperTest : BaseTest() {
             )
 
             val mapper = DatabaseMapper()
-            val actual = test {
-                mapper(given)
-            }
+
+            val actual = mapper(given)
 
             assertEquals(expected, actual)
         }

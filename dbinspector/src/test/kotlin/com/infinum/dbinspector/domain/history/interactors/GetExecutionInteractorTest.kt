@@ -36,7 +36,7 @@ internal class GetExecutionInteractorTest : BaseTest() {
         coEvery { source.flow() } returns flow { mockk() }
         coEvery { source.current() } returns mockk()
 
-        launch {
+        test {
             interactor.invoke(any())
         }
 

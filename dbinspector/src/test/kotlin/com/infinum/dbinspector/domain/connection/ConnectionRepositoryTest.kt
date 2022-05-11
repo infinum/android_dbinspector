@@ -38,7 +38,7 @@ internal class ConnectionRepositoryTest : BaseTest() {
         coEvery { control.mapper.invoke(any()) } returns mockk()
         coEvery { control.converter.invoke(any()) } returns ""
 
-        launch {
+        test {
             repository.open(any())
         }
 
@@ -61,7 +61,7 @@ internal class ConnectionRepositoryTest : BaseTest() {
         coEvery { control.mapper.invoke(any()) } returns mockk()
         coEvery { control.converter.invoke(any()) } returns ""
 
-        launch {
+        test {
             repository.close(any())
         }
 

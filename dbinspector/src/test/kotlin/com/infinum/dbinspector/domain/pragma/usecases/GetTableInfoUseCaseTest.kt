@@ -40,7 +40,7 @@ internal class GetTableInfoUseCaseTest : BaseTest() {
             every { copy(null, 0, 0, listOf()) } returns this
         }
 
-        launch {
+        test {
             useCase.invoke(given)
         }
 

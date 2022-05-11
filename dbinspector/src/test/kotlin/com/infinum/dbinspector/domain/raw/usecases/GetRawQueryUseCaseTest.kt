@@ -36,7 +36,7 @@ internal class GetRawQueryUseCaseTest : BaseTest() {
         coEvery { connectionRepository.open(any()) } returns mockk()
         coEvery { rawQueryRepository.getPage(any()) } returns mockk()
 
-        launch {
+        test {
             useCase.invoke(given)
         }
 

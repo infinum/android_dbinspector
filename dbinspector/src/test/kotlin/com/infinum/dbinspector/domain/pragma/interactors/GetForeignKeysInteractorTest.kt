@@ -41,7 +41,7 @@ internal class GetForeignKeysInteractorTest : BaseTest() {
 
         coEvery { source.getForeignKeys(any()) } returns mockk()
 
-        launch {
+        test {
             interactor.invoke(given)
         }
 

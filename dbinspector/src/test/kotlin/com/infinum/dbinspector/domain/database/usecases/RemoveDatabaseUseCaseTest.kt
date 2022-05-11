@@ -28,7 +28,7 @@ internal class RemoveDatabaseUseCaseTest : BaseTest() {
 
         coEvery { repository.remove(any()) } returns mockk()
 
-        launch {
+        test {
             useCase.invoke(any())
         }
 

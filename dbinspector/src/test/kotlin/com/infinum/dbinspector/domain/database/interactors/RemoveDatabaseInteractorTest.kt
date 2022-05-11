@@ -30,7 +30,7 @@ internal class RemoveDatabaseInteractorTest : BaseTest() {
 
         coEvery { source.removeDatabase(any()) } returns mockk()
 
-        launch {
+        test {
             interactor.invoke(any())
         }
 

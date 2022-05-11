@@ -32,7 +32,7 @@ internal class ClearHistoryInteractorTest : BaseTest() {
             coEvery { updateData { mockk() } } returns mockk()
         }
 
-        launch {
+        test {
             interactor.invoke(any())
         }
 

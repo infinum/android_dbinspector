@@ -28,7 +28,7 @@ internal class DropTableContentByNameInteractorTest : BaseTest() {
 
         coEvery { source.dropTableContentByName(any()) } returns mockk()
 
-        launch {
+        test {
             interactor.invoke(any())
         }
 

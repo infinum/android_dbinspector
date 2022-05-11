@@ -28,7 +28,7 @@ internal class RenameDatabaseUseCaseTest : BaseTest() {
 
         coEvery { repository.rename(any()) } returns mockk()
 
-        launch {
+        test {
             useCase.invoke(any())
         }
 

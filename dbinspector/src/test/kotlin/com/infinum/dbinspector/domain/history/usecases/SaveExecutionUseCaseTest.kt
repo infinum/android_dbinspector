@@ -28,7 +28,7 @@ internal class SaveExecutionUseCaseTest : BaseTest() {
 
         coEvery { repository.saveExecution(any()) } returns mockk()
 
-        launch {
+        test {
             useCase.invoke(any())
         }
 

@@ -23,7 +23,7 @@ internal class PragmaMapperTest : BaseTest() {
 
     @Test
     fun `Empty local value maps to empty domain value`() =
-        launch {
+        test {
             val given = mockk<QueryResult> {
                 every { rows } returns listOf()
                 every { nextPage } returns null
@@ -35,16 +35,15 @@ internal class PragmaMapperTest : BaseTest() {
             )
 
             val mapper = PragmaMapper()
-            val actual = test {
-                mapper(given)
-            }
+
+            val actual = mapper(given)
 
             assertEquals(expected, actual)
         }
 
     @Test
     fun `QueryResult local value maps to Page with same domain value`() =
-        launch {
+        test {
             val given = mockk<QueryResult> {
                 every { rows } returns listOf(
                     mockk {
@@ -70,9 +69,8 @@ internal class PragmaMapperTest : BaseTest() {
             )
 
             val mapper = PragmaMapper()
-            val actual = test {
-                mapper(given)
-            }
+
+            val actual = mapper(given)
 
             assertEquals(expected, actual)
             assertTrue(actual.cells.size == 1)

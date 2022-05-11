@@ -48,7 +48,7 @@ internal class SettingsRepositoryTest : BaseTest() {
         coEvery { control.converter get any() } returns mockk()
         coEvery { control.mapper.invoke(any()) } returns mockk()
 
-        launch {
+        test {
             repository.getPage(any())
         }
 
@@ -76,7 +76,7 @@ internal class SettingsRepositoryTest : BaseTest() {
         coEvery { control.converter linesLimit any() } returns mockk()
         coEvery { control.mapper.invoke(any()) } returns mockk()
 
-        launch {
+        test {
             repository.saveLinesLimit(any())
         }
 
@@ -104,7 +104,7 @@ internal class SettingsRepositoryTest : BaseTest() {
         coEvery { control.converter linesCount any() } returns mockk()
         coEvery { control.mapper.invoke(any()) } returns mockk()
 
-        launch {
+        test {
             repository.saveLinesCount(any())
         }
 
@@ -132,7 +132,7 @@ internal class SettingsRepositoryTest : BaseTest() {
         coEvery { control.converter truncateMode any() } returns mockk()
         coEvery { control.mapper.invoke(any()) } returns mockk()
 
-        launch {
+        test {
             repository.saveTruncateMode(any())
         }
 
@@ -160,7 +160,7 @@ internal class SettingsRepositoryTest : BaseTest() {
         coEvery { control.converter blobPreviewMode any() } returns mockk()
         coEvery { control.mapper.invoke(any()) } returns mockk()
 
-        launch {
+        test {
             repository.saveBlobPreview(any())
         }
 
@@ -188,7 +188,7 @@ internal class SettingsRepositoryTest : BaseTest() {
         coEvery { control.converter ignoredTableName any() } returns mockk()
         coEvery { control.mapper.invoke(any()) } returns mockk()
 
-        launch {
+        test {
             repository.saveIgnoredTableName(any())
         }
 
@@ -216,7 +216,7 @@ internal class SettingsRepositoryTest : BaseTest() {
         coEvery { control.converter ignoredTableName any() } returns mockk()
         coEvery { control.mapper.invoke(any()) } returns mockk()
 
-        launch {
+        test {
             repository.removeIgnoredTableName(any())
         }
 

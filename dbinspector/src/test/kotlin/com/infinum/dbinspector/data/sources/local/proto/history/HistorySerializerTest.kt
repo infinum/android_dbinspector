@@ -40,7 +40,7 @@ internal class HistorySerializerTest : BaseTest() {
         mockkStatic(HistoryEntity::class)
         every { HistoryEntity.parseFrom(mockk<InputStream>()) } returns mockk()
 
-        launch {
+        test {
             serializer.readFrom(any())
         }
 
@@ -56,7 +56,7 @@ internal class HistorySerializerTest : BaseTest() {
         val serializer = HistorySerializer()
         val stream: OutputStream = mockk()
 
-        launch {
+        test {
             serializer.writeTo(given, stream)
         }
 

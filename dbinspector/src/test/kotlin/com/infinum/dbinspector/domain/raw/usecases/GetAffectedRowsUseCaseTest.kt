@@ -36,7 +36,7 @@ internal class GetAffectedRowsUseCaseTest : BaseTest() {
         coEvery { connectionRepository.open(any()) } returns mockk()
         coEvery { rawQueryRepository.getAffectedRows(any()) } returns mockk()
 
-        launch {
+        test {
             useCase.invoke(given)
         }
 

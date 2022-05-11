@@ -28,7 +28,7 @@ internal class ImportDatabasesUseCaseTest : BaseTest() {
 
         coEvery { repository.import(any()) } returns mockk()
 
-        launch {
+        test {
             useCase.invoke(any())
         }
 

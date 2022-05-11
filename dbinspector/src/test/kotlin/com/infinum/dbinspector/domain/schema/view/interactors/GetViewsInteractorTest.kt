@@ -28,7 +28,7 @@ internal class GetViewsInteractorTest : BaseTest() {
 
         coEvery { source.getViews(any()) } returns mockk()
 
-        launch {
+        test {
             interactor.invoke(any())
         }
 

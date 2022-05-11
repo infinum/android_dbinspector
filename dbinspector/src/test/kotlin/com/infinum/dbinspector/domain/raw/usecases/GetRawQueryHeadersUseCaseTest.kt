@@ -36,7 +36,7 @@ internal class GetRawQueryHeadersUseCaseTest : BaseTest() {
         coEvery { connectionRepository.open(any()) } returns mockk()
         coEvery { rawQueryRepository.getHeaders(any()) } returns mockk()
 
-        launch {
+        test {
             useCase.invoke(given)
         }
 

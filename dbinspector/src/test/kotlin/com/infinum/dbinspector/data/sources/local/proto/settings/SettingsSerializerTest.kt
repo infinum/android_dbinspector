@@ -40,7 +40,7 @@ internal class SettingsSerializerTest : BaseTest() {
         mockkStatic(SettingsEntity::class)
         every { SettingsEntity.parseFrom(mockk<InputStream>()) } returns mockk()
 
-        launch {
+        test {
             serializer.readFrom(any())
         }
 
@@ -56,7 +56,7 @@ internal class SettingsSerializerTest : BaseTest() {
         val serializer = SettingsSerializer()
         val stream: OutputStream = mockk()
 
-        launch {
+        test {
             serializer.writeTo(given, stream)
         }
 

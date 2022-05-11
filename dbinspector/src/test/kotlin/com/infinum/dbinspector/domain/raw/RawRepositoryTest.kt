@@ -41,7 +41,7 @@ internal class RawRepositoryTest : BaseTest() {
         coEvery { control.converter.invoke(any()) } returns mockk()
         coEvery { control.mapper.invoke(any()) } returns mockk()
 
-        launch {
+        test {
             repository.getPage(given)
         }
 
@@ -67,7 +67,7 @@ internal class RawRepositoryTest : BaseTest() {
         coEvery { control.mapper.invoke(any()) } returns mockk()
         coEvery { repository.getHeaders(given) } returns mockk()
 
-        launch {
+        test {
             repository.getHeaders(given)
         }
 
@@ -92,7 +92,7 @@ internal class RawRepositoryTest : BaseTest() {
         coEvery { control.converter.invoke(any()) } returns mockk()
         coEvery { control.mapper.invoke(any()) } returns mockk()
 
-        launch {
+        test {
             repository.getAffectedRows(given)
         }
 

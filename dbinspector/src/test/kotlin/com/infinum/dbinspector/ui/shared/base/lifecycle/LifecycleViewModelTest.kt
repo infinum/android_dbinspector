@@ -24,6 +24,7 @@ internal class LifecycleViewModelTest : BaseTest() {
 
     @Test
     fun `Can be instantiated`() {
+        test {
         val viewModel = object : LifecycleViewModel<Any, Any>(
             get(),
             get()
@@ -33,27 +34,31 @@ internal class LifecycleViewModelTest : BaseTest() {
 
         assertNotNull(viewModel)
     }
+    }
 
     @Test
     fun `Open connection invoked`() {
-        val useCase: UseCases.OpenConnection = get()
+        test {
+            val useCase: UseCases.OpenConnection = get()
 
-        coEvery { useCase.invoke(any()) } returns Unit
+            coEvery { useCase.invoke(any()) } returns Unit
 
-        val viewModel = object : LifecycleViewModel<Any, Any>(
-            useCase,
-            get()
-        ) {}.apply {
-            databasePath = "test.db"
+            val viewModel = object : LifecycleViewModel<Any, Any>(
+                useCase,
+                get()
+            ) {}.apply {
+                databasePath = "test.db"
+            }
+
+            viewModel.open()
+
+            coVerify(exactly = 1) { useCase.invoke(any()) }
         }
-
-        viewModel.open()
-
-        coVerify(exactly = 1) { useCase.invoke(any()) }
     }
 
     @Test
     fun `Close connection invoked`() {
+        test {
         val useCase: UseCases.CloseConnection = get()
 
         coEvery { useCase.invoke(any()) } returns Unit
@@ -68,5 +73,6 @@ internal class LifecycleViewModelTest : BaseTest() {
         viewModel.close()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
+    }
     }
 }

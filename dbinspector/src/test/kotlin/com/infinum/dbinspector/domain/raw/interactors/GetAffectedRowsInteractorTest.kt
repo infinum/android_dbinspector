@@ -28,7 +28,7 @@ internal class GetAffectedRowsInteractorTest : BaseTest() {
 
         coEvery { source.affectedRows(any()) } returns mockk()
 
-        launch {
+        test {
             interactor.invoke(any())
         }
 

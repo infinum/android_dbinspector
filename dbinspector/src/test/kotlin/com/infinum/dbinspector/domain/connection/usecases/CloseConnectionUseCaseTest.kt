@@ -28,7 +28,7 @@ internal class CloseConnectionUseCaseTest : BaseTest() {
 
         coEvery { repository.close(any()) } returns Unit
 
-        launch {
+        test {
             useCase.invoke(any())
         }
 

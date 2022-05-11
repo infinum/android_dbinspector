@@ -1,6 +1,12 @@
 Changelog
 =========
 
+## Version 5.4.5
+
+_2022-04-09_
+
+* Update dependencies to stable version.
+
 ## Version 5.4.4
 
 _2022-03-26_

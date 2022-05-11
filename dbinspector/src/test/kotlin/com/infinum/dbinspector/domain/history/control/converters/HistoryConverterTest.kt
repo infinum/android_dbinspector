@@ -24,7 +24,7 @@ internal class HistoryConverterTest : BaseTest() {
         val converter = HistoryConverter()
 
         assertThrows<NotImplementedError> {
-            runBlockingTest {
+            blockingTest {
                 converter.invoke(given)
             }
         }
@@ -32,7 +32,7 @@ internal class HistoryConverterTest : BaseTest() {
 
     @Test
     fun `Get converts to data task with same value`() =
-        launch {
+        test {
             val given = mockk<HistoryParameters.All> {
                 every { databasePath } returns "test.db"
             }
@@ -42,16 +42,14 @@ internal class HistoryConverterTest : BaseTest() {
 
             val converter = HistoryConverter()
 
-            val actual = test {
-                converter get given
-            }
+            val actual = converter get given
 
             assertEquals(expected, actual)
         }
 
     @Test
     fun `Execution converts to data task with same values`() =
-        launch {
+        test {
             val given = mockk<HistoryParameters.Execution> {
                 every { statement } returns "SELECT * FROM users"
                 every { databasePath } returns "test.db"
@@ -69,16 +67,14 @@ internal class HistoryConverterTest : BaseTest() {
 
             val converter = HistoryConverter()
 
-            val actual = test {
-                converter execution given
-            }
+            val actual = converter execution given
 
             assertEquals(expected, actual)
         }
 
     @Test
     fun `Clear converts to data task with same value`() =
-        launch {
+        test {
             val given = mockk<HistoryParameters.All> {
                 every { databasePath } returns "test.db"
             }
@@ -88,9 +84,7 @@ internal class HistoryConverterTest : BaseTest() {
 
             val converter = HistoryConverter()
 
-            val actual = test {
-                converter clear given
-            }
+            val actual = converter clear given
 
             assertEquals(expected, actual)
         }

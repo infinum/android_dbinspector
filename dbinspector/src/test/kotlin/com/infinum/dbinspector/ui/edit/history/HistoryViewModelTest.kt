@@ -56,7 +56,7 @@ internal class HistoryViewModelTest : BaseTest() {
         viewModel.history("test.db")
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        launch {
+        test {
             viewModel.stateFlow.test {
                 assertNull(awaitItem())
                 val item: HistoryState? = awaitItem()
@@ -87,7 +87,7 @@ internal class HistoryViewModelTest : BaseTest() {
         viewModel.clearHistory("test.db")
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        launch {
+        test {
             viewModel.stateFlow.test {
                 assertNull(awaitItem())
             }
@@ -121,7 +121,7 @@ internal class HistoryViewModelTest : BaseTest() {
         )
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        launch {
+        test {
             viewModel.stateFlow.test {
                 assertNull(awaitItem())
             }

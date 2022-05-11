@@ -28,7 +28,7 @@ internal class SaveTruncateModeUseCaseTest : BaseTest() {
 
         coEvery { repository.saveTruncateMode(any()) } returns mockk()
 
-        launch {
+        test {
             useCase.invoke(any())
         }
 

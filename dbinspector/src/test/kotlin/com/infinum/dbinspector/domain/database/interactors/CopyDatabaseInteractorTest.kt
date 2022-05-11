@@ -28,7 +28,7 @@ internal class CopyDatabaseInteractorTest : BaseTest() {
 
         coEvery { source.copyDatabase(any()) } returns mockk()
 
-        launch {
+        test {
             interactor.invoke(any())
         }
 

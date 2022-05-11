@@ -28,7 +28,7 @@ internal class SaveLinesCountUseCaseTest : BaseTest() {
 
         coEvery { repository.saveLinesCount(any()) } returns mockk()
 
-        launch {
+        test {
             useCase.invoke(any())
         }
 

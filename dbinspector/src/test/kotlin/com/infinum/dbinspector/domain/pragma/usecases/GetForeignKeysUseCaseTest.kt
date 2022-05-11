@@ -36,7 +36,7 @@ internal class GetForeignKeysUseCaseTest : BaseTest() {
         coEvery { connectionRepository.open(any()) } returns mockk()
         coEvery { pragmaRepository.getForeignKeys(any()) } returns mockk()
 
-        launch {
+        test {
             useCase.invoke(given)
         }
 

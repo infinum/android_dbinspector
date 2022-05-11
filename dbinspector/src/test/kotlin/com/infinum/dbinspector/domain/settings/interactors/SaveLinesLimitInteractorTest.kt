@@ -37,7 +37,7 @@ internal class SaveLinesLimitInteractorTest : BaseTest() {
             }
         }
 
-        launch {
+        test {
             interactor.invoke(given)
         }
 
@@ -58,7 +58,7 @@ internal class SaveLinesLimitInteractorTest : BaseTest() {
             }
         }
 
-        launch {
+        test {
             interactor.invoke(given)
         }
 

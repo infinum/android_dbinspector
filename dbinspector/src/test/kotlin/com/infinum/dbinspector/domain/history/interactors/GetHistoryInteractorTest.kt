@@ -30,7 +30,7 @@ internal class GetHistoryInteractorTest : BaseTest() {
 
         coEvery { source.flow() } returns mockk()
 
-        launch {
+        test {
             interactor.invoke(any())
         }
 

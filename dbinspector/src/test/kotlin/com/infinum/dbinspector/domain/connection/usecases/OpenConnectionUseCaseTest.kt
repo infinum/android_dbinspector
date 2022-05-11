@@ -28,7 +28,7 @@ internal class OpenConnectionUseCaseTest : BaseTest() {
 
         coEvery { repository.open(any()) } returns mockk()
 
-        launch {
+        test {
             useCase.invoke(any())
         }
 

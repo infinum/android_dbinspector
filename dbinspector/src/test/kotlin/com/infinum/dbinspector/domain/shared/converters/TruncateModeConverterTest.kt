@@ -18,7 +18,7 @@ internal class TruncateModeConverterTest : BaseTest() {
 
     @Test
     fun `Truncate mode START converts to data entity with same value`() =
-        launch {
+        test {
             val given = mockk<SettingsParameters.Truncate> {
                 every { mode } returns TruncateMode.START
             }
@@ -26,16 +26,14 @@ internal class TruncateModeConverterTest : BaseTest() {
 
             val converter = TruncateModeConverter()
 
-            val actual = test {
-                converter(given)
-            }
+            val actual = converter(given)
 
             assertEquals(expected, actual)
         }
 
     @Test
     fun `Truncate mode MIDDLE converts to data entity with same value`() =
-        launch {
+        test {
             val given = mockk<SettingsParameters.Truncate> {
                 every { mode } returns TruncateMode.MIDDLE
             }
@@ -43,16 +41,14 @@ internal class TruncateModeConverterTest : BaseTest() {
 
             val converter = TruncateModeConverter()
 
-            val actual = test {
-                converter(given)
-            }
+            val actual = converter(given)
 
             assertEquals(expected, actual)
         }
 
     @Test
     fun `Truncate mode END converts to data entity with same value`() =
-        launch {
+        test {
             val given = mockk<SettingsParameters.Truncate> {
                 every { mode } returns TruncateMode.END
             }
@@ -60,16 +56,14 @@ internal class TruncateModeConverterTest : BaseTest() {
 
             val converter = TruncateModeConverter()
 
-            val actual = test {
-                converter(given)
-            }
+            val actual = converter(given)
 
             assertEquals(expected, actual)
         }
 
     @Test
     fun `Unknown truncate mode converts to data entity with value END`() =
-        launch {
+        test {
             val given = mockk<SettingsParameters.Truncate> {
                 every { mode } returns TruncateMode.UNKNOWN
             }
@@ -77,9 +71,7 @@ internal class TruncateModeConverterTest : BaseTest() {
 
             val converter = TruncateModeConverter()
 
-            val actual = test {
-                converter(given)
-            }
+            val actual = converter(given)
 
             assertEquals(expected, actual)
         }

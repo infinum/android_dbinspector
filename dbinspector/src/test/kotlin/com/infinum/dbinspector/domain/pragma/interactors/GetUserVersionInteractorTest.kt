@@ -42,7 +42,7 @@ internal class GetUserVersionInteractorTest : BaseTest() {
 
         coEvery { source.getUserVersion(any()) } returns mockk()
 
-        launch {
+        test {
             interactor.invoke(given)
         }
 

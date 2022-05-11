@@ -40,7 +40,7 @@ internal class SaveLinesCountInteractorTest : BaseTest() {
             }
         }
 
-        launch {
+        test {
             interactor.invoke(given)
         }
 
@@ -62,7 +62,7 @@ internal class SaveLinesCountInteractorTest : BaseTest() {
             }
         }
 
-        launch {
+        test {
             assertThrows<IllegalArgumentException> {
                 interactor.invoke(given)
             }

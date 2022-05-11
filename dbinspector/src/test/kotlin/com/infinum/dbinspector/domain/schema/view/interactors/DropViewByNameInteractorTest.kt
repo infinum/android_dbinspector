@@ -28,7 +28,7 @@ internal class DropViewByNameInteractorTest : BaseTest() {
 
         coEvery { source.dropViewByName(any()) } returns mockk()
 
-        launch {
+        test {
             interactor.invoke(any())
         }
 
