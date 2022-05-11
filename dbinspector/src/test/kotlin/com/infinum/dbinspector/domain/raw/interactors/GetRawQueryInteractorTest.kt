@@ -28,7 +28,7 @@ internal class GetRawQueryInteractorTest : BaseTest() {
 
         coEvery { source.rawQuery(any()) } returns mockk()
 
-        launch {
+        test {
             interactor.invoke(any())
         }
 

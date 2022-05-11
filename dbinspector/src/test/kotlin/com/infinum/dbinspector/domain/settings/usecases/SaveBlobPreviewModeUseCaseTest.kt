@@ -28,7 +28,7 @@ internal class SaveBlobPreviewModeUseCaseTest : BaseTest() {
 
         coEvery { repository.saveBlobPreview(any()) } returns mockk()
 
-        launch {
+        test {
             useCase.invoke(any())
         }
 

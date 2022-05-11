@@ -28,7 +28,7 @@ internal class GetTableByNameInteractorTest : BaseTest() {
 
         coEvery { source.getTableByName(any()) } returns mockk()
 
-        launch {
+        test {
             interactor.invoke(any())
         }
 

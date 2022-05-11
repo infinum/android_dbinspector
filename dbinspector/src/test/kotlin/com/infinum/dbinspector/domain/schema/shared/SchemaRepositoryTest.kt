@@ -56,7 +56,7 @@ internal class SchemaRepositoryTest : BaseTest() {
         coEvery { control.converter.invoke(any()) } returns mockk()
         coEvery { control.mapper.invoke(any()) } returns mockk()
 
-        launch {
+        test {
             repository.getPage(any())
         }
 
@@ -80,7 +80,7 @@ internal class SchemaRepositoryTest : BaseTest() {
         coEvery { control.converter.invoke(any()) } returns mockk()
         coEvery { control.mapper.invoke(any()) } returns mockk()
 
-        launch {
+        test {
             repository.getByName(any())
         }
 
@@ -104,7 +104,7 @@ internal class SchemaRepositoryTest : BaseTest() {
         coEvery { control.converter.invoke(any()) } returns mockk()
         coEvery { control.mapper.invoke(any()) } returns mockk()
 
-        launch {
+        test {
             repository.dropByName(any())
         }
 

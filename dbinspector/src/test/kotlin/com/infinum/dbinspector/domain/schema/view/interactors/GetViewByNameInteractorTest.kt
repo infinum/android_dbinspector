@@ -28,7 +28,7 @@ internal class GetViewByNameInteractorTest : BaseTest() {
 
         coEvery { source.getViewByName(any()) } returns mockk()
 
-        launch {
+        test {
             interactor.invoke(any())
         }
 

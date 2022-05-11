@@ -28,7 +28,7 @@ internal class RenameDatabaseInteractorTest : BaseTest() {
 
         coEvery { source.renameDatabase(any()) } returns mockk()
 
-        launch {
+        test {
             interactor.invoke(any())
         }
 

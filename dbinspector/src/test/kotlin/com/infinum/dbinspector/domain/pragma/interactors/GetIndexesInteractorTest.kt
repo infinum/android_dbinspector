@@ -28,7 +28,7 @@ internal class GetIndexesInteractorTest : BaseTest() {
 
         coEvery { source.getIndexes(any()) } returns mockk()
 
-        launch {
+        test {
             interactor.invoke(any())
         }
 

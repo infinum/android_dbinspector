@@ -28,7 +28,7 @@ internal class GetTablesInteractorTest : BaseTest() {
 
         coEvery { source.getTables(any()) } returns mockk()
 
-        launch {
+        test {
             interactor.invoke(any())
         }
 

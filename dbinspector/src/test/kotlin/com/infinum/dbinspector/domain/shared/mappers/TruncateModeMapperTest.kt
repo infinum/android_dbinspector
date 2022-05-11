@@ -15,57 +15,53 @@ internal class TruncateModeMapperTest : BaseTest() {
 
     @Test
     fun `Local value START maps to same domain value`() =
-        launch {
+        test {
             val given = SettingsEntity.TruncateMode.START
             val expected = TruncateMode.START
 
             val mapper = TruncateModeMapper()
 
-            val actual = test {
-                mapper(given)
-            }
+            val actual = mapper(given)
+
             assertEquals(expected, actual)
         }
 
     @Test
     fun `Local value MIDDLE maps to same domain value`() =
-        launch {
+        test {
             val given = SettingsEntity.TruncateMode.MIDDLE
             val expected = TruncateMode.MIDDLE
 
             val mapper = TruncateModeMapper()
 
-            val actual = test {
-                mapper(given)
-            }
+            val actual = mapper(given)
+
             assertEquals(expected, actual)
         }
 
     @Test
     fun `Local value END maps to same domain value`() =
-        launch {
+        test {
             val given = SettingsEntity.TruncateMode.END
             val expected = TruncateMode.END
 
             val mapper = TruncateModeMapper()
 
-            val actual = test {
-                mapper(given)
-            }
+            val actual = mapper(given)
+
             assertEquals(expected, actual)
         }
 
     @Test
     fun `Local value UNRECOGNIZED maps to UNKNOWN domain value`() =
-        launch {
+        test {
             val given = SettingsEntity.TruncateMode.UNRECOGNIZED
             val expected = TruncateMode.UNKNOWN
 
             val mapper = TruncateModeMapper()
 
-            val actual = test {
-                mapper(given)
-            }
+            val actual = mapper(given)
+
             assertEquals(expected, actual)
         }
 }

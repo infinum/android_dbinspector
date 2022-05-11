@@ -31,7 +31,7 @@ internal class CellMapperTest : BaseTest() {
 
     @Test
     fun `Local Field type INTEGER value maps to domain Cell with same value`() =
-        launch {
+        test {
             val given = Field(
                 type = FieldType.INTEGER,
                 text = "1",
@@ -46,9 +46,8 @@ internal class CellMapperTest : BaseTest() {
             val mapper = CellMapper(truncateMapper)
 
             coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
-            val actual = test {
-                mapper(given)
-            }
+
+            val actual = mapper(given)
 
             coVerify(exactly = 1) { truncateMapper.invoke(any()) }
             assertEquals(expected, actual)
@@ -59,7 +58,7 @@ internal class CellMapperTest : BaseTest() {
 
     @Test
     fun `Local Field type FLOAT value maps to domain Cell with same value`() =
-        launch {
+        test {
             val given = Field(
                 type = FieldType.FLOAT,
                 text = "1.0"
@@ -72,9 +71,8 @@ internal class CellMapperTest : BaseTest() {
             val mapper = CellMapper(truncateMapper)
 
             coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
-            val actual = test {
-                mapper(given)
-            }
+
+            val actual = mapper(given)
 
             coVerify(exactly = 1) { truncateMapper.invoke(any()) }
             assertEquals(expected, actual)
@@ -85,7 +83,7 @@ internal class CellMapperTest : BaseTest() {
 
     @Test
     fun `Local Field type STRING value maps to domain Cell with same value`() =
-        launch {
+        test {
             val given = Field(
                 type = FieldType.STRING,
                 text = "test"
@@ -98,9 +96,8 @@ internal class CellMapperTest : BaseTest() {
             val mapper = CellMapper(truncateMapper)
 
             coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
-            val actual = test {
-                mapper(given)
-            }
+
+            val actual = mapper(given)
 
             coVerify(exactly = 1) { truncateMapper.invoke(any()) }
             assertEquals(expected, actual)
@@ -112,7 +109,7 @@ internal class CellMapperTest : BaseTest() {
 
     @Test
     fun `Local Field type BLOB value maps to domain Cell with same value in UTF8 encoded String`() =
-        launch {
+        test {
             val given = Field(
                 type = FieldType.BLOB,
                 blob = byteArrayOf(116, 101, 115, 116),
@@ -127,9 +124,8 @@ internal class CellMapperTest : BaseTest() {
             val mapper = CellMapper(truncateMapper)
 
             coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
-            val actual = test {
-                mapper(given)
-            }
+
+            val actual = mapper(given)
 
             coVerify(exactly = 1) { truncateMapper.invoke(any()) }
             assertEquals(expected, actual)
@@ -141,7 +137,7 @@ internal class CellMapperTest : BaseTest() {
 
     @Test
     fun `Local Field type BLOB value maps to domain Cell with value as PLACEHOLDER`() =
-        launch {
+        test {
             val given = Field(
                 type = FieldType.BLOB,
                 blob = byteArrayOf(116, 101, 115, 116),
@@ -156,9 +152,8 @@ internal class CellMapperTest : BaseTest() {
             val mapper = CellMapper(truncateMapper)
 
             coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
-            val actual = test {
-                mapper(given)
-            }
+
+            val actual = mapper(given)
 
             coVerify(exactly = 1) { truncateMapper.invoke(any()) }
             assertEquals(expected, actual)
@@ -170,7 +165,7 @@ internal class CellMapperTest : BaseTest() {
 
     @Test
     fun `Local Field type BLOB value maps to domain Cell with same value in HEX`() =
-        launch {
+        test {
             val given = Field(
                 type = FieldType.BLOB,
                 blob = byteArrayOf(116, 101, 115, 116),
@@ -185,9 +180,8 @@ internal class CellMapperTest : BaseTest() {
             val mapper = CellMapper(truncateMapper)
 
             coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
-            val actual = test {
-                mapper(given)
-            }
+
+            val actual = mapper(given)
 
             coVerify(exactly = 1) { truncateMapper.invoke(any()) }
             assertEquals(expected, actual)
@@ -197,7 +191,7 @@ internal class CellMapperTest : BaseTest() {
 
     @Test
     fun `Local Field type BLOB value maps to domain Cell with same value encoded with BASE64`() =
-        launch {
+        test {
             val given = Field(
                 type = FieldType.BLOB,
                 blob = byteArrayOf(116, 101, 115, 116),
@@ -212,9 +206,8 @@ internal class CellMapperTest : BaseTest() {
             val mapper = CellMapper(truncateMapper)
 
             coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
-            val actual = test {
-                mapper(given)
-            }
+
+            val actual = mapper(given)
 
             coVerify(exactly = 1) { truncateMapper.invoke(any()) }
             assertEquals(expected, actual)
@@ -224,7 +217,7 @@ internal class CellMapperTest : BaseTest() {
 
     @Test
     fun `Local Field type BLOB value maps to domain Cell with same value in default UTF8 encoded String`() =
-        launch {
+        test {
             val given = Field(
                 type = FieldType.BLOB,
                 blob = byteArrayOf(116, 101, 115, 116),
@@ -239,9 +232,8 @@ internal class CellMapperTest : BaseTest() {
             val mapper = CellMapper(truncateMapper)
 
             coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
-            val actual = test {
-                mapper(given)
-            }
+
+            val actual = mapper(given)
 
             coVerify(exactly = 1) { truncateMapper.invoke(any()) }
             assertEquals(expected, actual)

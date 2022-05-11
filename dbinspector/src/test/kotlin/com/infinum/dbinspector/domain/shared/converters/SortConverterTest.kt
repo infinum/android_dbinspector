@@ -18,7 +18,7 @@ internal class SortConverterTest : BaseTest() {
 
     @Test
     fun `Sort ASCENDING converts to data entity with same value`() =
-        launch {
+        test {
             val given = mockk<SortParameters> {
                 every { sort } returns Sort.ASCENDING
             }
@@ -26,16 +26,14 @@ internal class SortConverterTest : BaseTest() {
 
             val converter = SortConverter()
 
-            val actual = test {
-                converter(given)
-            }
+            val actual = converter(given)
 
             assertEquals(expected, actual)
         }
 
     @Test
     fun `Sort DESCENDING converts to data entity with same value`() =
-        launch {
+        test {
             val given = mockk<SortParameters> {
                 every { sort } returns Sort.DESCENDING
             }
@@ -43,9 +41,7 @@ internal class SortConverterTest : BaseTest() {
 
             val converter = SortConverter()
 
-            val actual = test {
-                converter(given)
-            }
+            val actual = converter(given)
 
             assertEquals(expected, actual)
         }

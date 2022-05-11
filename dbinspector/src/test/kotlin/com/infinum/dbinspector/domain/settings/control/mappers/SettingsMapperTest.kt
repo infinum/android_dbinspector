@@ -31,7 +31,7 @@ internal class SettingsMapperTest : BaseTest() {
 
     @Test
     fun `Default local values maps to default domain values`() =
-        launch {
+        test {
             val given = SettingsEntity.getDefaultInstance()
             val expected = Settings()
 
@@ -41,9 +41,8 @@ internal class SettingsMapperTest : BaseTest() {
 
             coEvery { trucateModeMapper.invoke(any()) } returns expected.truncateMode
             coEvery { blobPreviewModeMapper.invoke(any()) } returns expected.blobPreviewMode
-            val actual = test {
-                mapper(given)
-            }
+
+            val actual = mapper(given)
 
             coVerify(exactly = 1) { trucateModeMapper.invoke(any()) }
             coVerify(exactly = 1) { blobPreviewModeMapper.invoke(any()) }
@@ -52,7 +51,7 @@ internal class SettingsMapperTest : BaseTest() {
 
     @Test
     fun `Local values with lines count limit more than zero maps to domain values with same lines count limit`() =
-        launch {
+        test {
             val given = SettingsEntity.newBuilder()
                 .setLinesCount(3)
                 .build()
@@ -64,9 +63,8 @@ internal class SettingsMapperTest : BaseTest() {
 
             coEvery { trucateModeMapper.invoke(any()) } returns expected.truncateMode
             coEvery { blobPreviewModeMapper.invoke(any()) } returns expected.blobPreviewMode
-            val actual = test {
-                mapper(given)
-            }
+
+            val actual = mapper(given)
 
             coVerify(exactly = 1) { trucateModeMapper.invoke(any()) }
             coVerify(exactly = 1) { blobPreviewModeMapper.invoke(any()) }
@@ -75,7 +73,7 @@ internal class SettingsMapperTest : BaseTest() {
 
     @Test
     fun `Local values with lines count limit zero maps to domain values with maximum lines count limit`() =
-        launch {
+        test {
             val given = SettingsEntity.newBuilder()
                 .setLinesCount(0)
                 .build()
@@ -87,9 +85,8 @@ internal class SettingsMapperTest : BaseTest() {
 
             coEvery { trucateModeMapper.invoke(any()) } returns expected.truncateMode
             coEvery { blobPreviewModeMapper.invoke(any()) } returns expected.blobPreviewMode
-            val actual = test {
-                mapper(given)
-            }
+
+            val actual = mapper(given)
 
             coVerify(exactly = 1) { trucateModeMapper.invoke(any()) }
             coVerify(exactly = 1) { blobPreviewModeMapper.invoke(any()) }
@@ -98,7 +95,7 @@ internal class SettingsMapperTest : BaseTest() {
 
     @Test
     fun `Local values with ignored names maps to domain values with list of same names`() =
-        launch {
+        test {
             val given = SettingsEntity.newBuilder()
                 .addIgnoredTableNames(
                     SettingsEntity.IgnoredTableName.newBuilder()
@@ -113,9 +110,8 @@ internal class SettingsMapperTest : BaseTest() {
 
             coEvery { trucateModeMapper.invoke(any()) } returns expected.truncateMode
             coEvery { blobPreviewModeMapper.invoke(any()) } returns expected.blobPreviewMode
-            val actual = test {
-                mapper(given)
-            }
+
+            val actual = mapper(given)
 
             coVerify(exactly = 1) { trucateModeMapper.invoke(any()) }
             coVerify(exactly = 1) { blobPreviewModeMapper.invoke(any()) }

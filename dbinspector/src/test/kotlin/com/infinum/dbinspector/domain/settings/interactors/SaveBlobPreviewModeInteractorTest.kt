@@ -40,7 +40,7 @@ internal class SaveBlobPreviewModeInteractorTest : BaseTest() {
             }
         }
 
-        launch {
+        test {
             interactor.invoke(given)
         }
 

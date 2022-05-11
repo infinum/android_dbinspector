@@ -44,7 +44,7 @@ internal class RemoveDatabaseViewModelTest : BaseTest() {
         )
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        launch {
+        test {
             viewModel.stateFlow.test {
                 val item: RemoveDatabaseState? = awaitItem()
                 assertTrue(item is RemoveDatabaseState.Removed)
@@ -75,7 +75,7 @@ internal class RemoveDatabaseViewModelTest : BaseTest() {
         )
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        launch {
+        test {
             viewModel.stateFlow.test {
                 val item: RemoveDatabaseState? = awaitItem()
                 assertTrue(item is RemoveDatabaseState.Removed)

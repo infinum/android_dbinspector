@@ -46,7 +46,7 @@ internal class GetDatabasesUseCaseTest : BaseTest() {
         coEvery { pragmaRepository.getUserVersion(any()) } returns mockk()
         coEvery { connectionRepository.close(any()) } returns Unit
 
-        launch {
+        test {
             useCase.invoke(any())
         }
 
@@ -94,7 +94,7 @@ internal class GetDatabasesUseCaseTest : BaseTest() {
             )
         } returns Unit
 
-        launch {
+        test {
             useCase.invoke(given)
         }
 

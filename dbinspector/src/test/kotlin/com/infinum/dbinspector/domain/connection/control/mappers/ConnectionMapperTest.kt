@@ -16,14 +16,13 @@ internal class ConnectionMapperTest : BaseTest() {
 
     @Test
     fun `Default local values maps to default domain values`() =
-        launch {
+        test {
             val given: SQLiteDatabase = mockk()
             val expected = DatabaseConnection(database = given)
 
             val mapper = ConnectionMapper()
-            val actual = test {
-                mapper(given)
-            }
+
+            val actual = mapper(given)
 
             assertEquals(expected, actual)
         }

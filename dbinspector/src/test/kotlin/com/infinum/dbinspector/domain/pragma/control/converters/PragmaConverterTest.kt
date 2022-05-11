@@ -37,7 +37,7 @@ internal class PragmaConverterTest : BaseTest() {
         val converter = PragmaConverter(sortConverter)
 
         assertThrows<NotImplementedError> {
-            runBlockingTest {
+            blockingTest {
                 converter.invoke(given)
             }
         }
@@ -45,7 +45,7 @@ internal class PragmaConverterTest : BaseTest() {
 
     @Test
     fun `Version converts to data query with same values`() =
-        launch {
+        test {
             val given = mockk<PragmaParameters.Version> {
                 every { databasePath } returns "test.db"
                 every { statement } returns "PRAGMA version()"
@@ -61,9 +61,8 @@ internal class PragmaConverterTest : BaseTest() {
             val converter = PragmaConverter(sortConverter)
 
             coEvery { sortConverter.invoke(any()) } returns mockk()
-            val actual = test {
-                converter version given
-            }
+
+            val actual = converter version given
 
             coVerify(exactly = 0) { sortConverter.invoke(any()) }
             assertEquals(expected, actual)
@@ -71,7 +70,7 @@ internal class PragmaConverterTest : BaseTest() {
 
     @Test
     fun `Pragma converts to data query with same values`() =
-        launch {
+        test {
             val given = mockk<PragmaParameters.Pragma> {
                 every { databasePath } returns "test.db"
                 every { statement } returns "PRAGMA indexes()"
@@ -90,9 +89,8 @@ internal class PragmaConverterTest : BaseTest() {
             val converter = PragmaConverter(sortConverter)
 
             coEvery { sortConverter.invoke(any()) } returns expected.order
-            val actual = test {
-                converter pragma given
-            }
+
+            val actual = converter pragma given
 
             coVerify(exactly = 1) { sortConverter.invoke(any()) }
             assertEquals(expected, actual)

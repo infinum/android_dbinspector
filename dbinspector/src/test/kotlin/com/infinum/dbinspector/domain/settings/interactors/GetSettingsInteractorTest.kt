@@ -28,7 +28,7 @@ internal class GetSettingsInteractorTest : BaseTest() {
 
         coEvery { source.current() } returns mockk()
 
-        launch {
+        test {
             interactor.invoke(any())
         }
 

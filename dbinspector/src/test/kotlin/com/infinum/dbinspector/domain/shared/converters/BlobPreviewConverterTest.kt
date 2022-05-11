@@ -18,7 +18,7 @@ internal class BlobPreviewConverterTest : BaseTest() {
 
     @Test
     fun `Blob preview mode UNSUPPORTED converts to data entity with same value`() =
-        launch {
+        test {
             val given = mockk<SettingsParameters.BlobPreview> {
                 every { mode } returns BlobPreviewMode.UNSUPPORTED
             }
@@ -26,16 +26,14 @@ internal class BlobPreviewConverterTest : BaseTest() {
 
             val converter = BlobPreviewConverter()
 
-            val actual = test {
-                converter(given)
-            }
+            val actual = converter(given)
 
             assertEquals(expected, actual)
         }
 
     @Test
     fun `Blob preview mode PLACEHOLDER converts to data entity with same value`() =
-        launch {
+        test {
             val given = mockk<SettingsParameters.BlobPreview> {
                 every { mode } returns BlobPreviewMode.PLACEHOLDER
             }
@@ -43,16 +41,14 @@ internal class BlobPreviewConverterTest : BaseTest() {
 
             val converter = BlobPreviewConverter()
 
-            val actual = test {
-                converter(given)
-            }
+            val actual = converter(given)
 
             assertEquals(expected, actual)
         }
 
     @Test
     fun `Blob preview mode UTF_8 converts to data entity with same value`() =
-        launch {
+        test {
             val given = mockk<SettingsParameters.BlobPreview> {
                 every { mode } returns BlobPreviewMode.UTF_8
             }
@@ -60,16 +56,14 @@ internal class BlobPreviewConverterTest : BaseTest() {
 
             val converter = BlobPreviewConverter()
 
-            val actual = test {
-                converter(given)
-            }
+            val actual = converter(given)
 
             assertEquals(expected, actual)
         }
 
     @Test
     fun `Blob preview mode HEX converts to data entity with same value`() =
-        launch {
+        test {
             val given = mockk<SettingsParameters.BlobPreview> {
                 every { mode } returns BlobPreviewMode.HEX
             }
@@ -77,16 +71,14 @@ internal class BlobPreviewConverterTest : BaseTest() {
 
             val converter = BlobPreviewConverter()
 
-            val actual = test {
-                converter(given)
-            }
+            val actual = converter(given)
 
             assertEquals(expected, actual)
         }
 
     @Test
     fun `Blob preview mode BASE_64 converts to data entity with same value`() =
-        launch {
+        test {
             val given = mockk<SettingsParameters.BlobPreview> {
                 every { mode } returns BlobPreviewMode.BASE_64
             }
@@ -94,9 +86,7 @@ internal class BlobPreviewConverterTest : BaseTest() {
 
             val converter = BlobPreviewConverter()
 
-            val actual = test {
-                converter(given)
-            }
+            val actual = converter(given)
 
             assertEquals(expected, actual)
         }

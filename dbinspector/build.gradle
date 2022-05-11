@@ -30,9 +30,10 @@ android {
         }
     }
 
+    namespace releaseConfig.group
     resourcePrefix "dbinspector_"
 
-    lintOptions {
+    lint {
         disable 'RtlEnabled', 'VectorPath', 'IconLocation'
     }
 
@@ -44,8 +45,9 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs += [
-                '-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi',
-                '-Xexplicit-api=strict'
+                '-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi',
+                '-Xexplicit-api=strict',
+                '-Xjvm-default=all'
         ]
     }
 
@@ -122,11 +124,11 @@ protobuf {
 }
 
 kover {
-    enabled = true
+    disabled = false
     coverageEngine.set(kotlinx.kover.api.CoverageEngine.INTELLIJ)
     intellijEngineVersion.set(libs.versions.intellij.get())
     jacocoEngineVersion.set(libs.versions.jacoco.get())
-    generateReportOnCheck.set(true)
+    generateReportOnCheck = true
 }
 
 tasks.withType(Test) {

@@ -28,7 +28,7 @@ internal class ToggleLinesLimitUseCaseTest : BaseTest() {
 
         coEvery { repository.saveLinesLimit(any()) } returns mockk()
 
-        launch {
+        test {
             useCase.invoke(any())
         }
 

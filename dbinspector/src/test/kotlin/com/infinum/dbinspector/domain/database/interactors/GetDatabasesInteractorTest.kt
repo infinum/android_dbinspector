@@ -28,7 +28,7 @@ internal class GetDatabasesInteractorTest : BaseTest() {
 
         coEvery { source.getDatabases(any()) } returns mockk()
 
-        launch {
+        test {
             interactor.invoke(any())
         }
 

@@ -28,7 +28,7 @@ internal class OpenConnectionInteractorTest : BaseTest() {
 
         coEvery { source.openConnection(any()) } returns mockk()
 
-        launch {
+        test {
             interactor.invoke(any())
         }
 

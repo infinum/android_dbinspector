@@ -41,7 +41,7 @@ internal class SaveTruncateModeInteractorTest : BaseTest() {
             }
         }
 
-        launch {
+        test {
             interactor.invoke(given)
         }
 

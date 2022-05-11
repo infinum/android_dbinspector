@@ -36,7 +36,7 @@ internal class GetTriggersUseCaseTest : BaseTest() {
         coEvery { connectionRepository.open(any()) } returns mockk()
         coEvery { schemaRepository.getPage(any()) } returns mockk()
 
-        launch {
+        test {
             useCase.invoke(given)
         }
 

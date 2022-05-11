@@ -10,6 +10,7 @@ import io.mockk.mockk
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import kotlinx.coroutines.awaitCancellation
+import kotlinx.coroutines.test.TestScope
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
@@ -109,7 +110,7 @@ internal class EditViewModelTest : BaseTest() {
         viewModel.header("SELECT * FROM my_table")
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        launch {
+        test {
             viewModel.stateFlow.test {
                 val item: EditState? = awaitItem()
                 assertTrue(item is EditState.Headers)
@@ -148,7 +149,7 @@ internal class EditViewModelTest : BaseTest() {
         viewModel.query("SELECT * FROM my_table")
 
         coVerify(exactly = 0) { useCase.invoke(any()) }
-        launch {
+        test {
             viewModel.stateFlow.test {
                 val item: EditState? = awaitItem()
                 assertTrue(item is EditState.Content)
@@ -187,7 +188,7 @@ internal class EditViewModelTest : BaseTest() {
         viewModel.query("SELECT * FROM my_table")
 
         coVerify(exactly = 0) { useCase.invoke(any()) }
-        launch {
+        test {
             viewModel.stateFlow.test {
                 val item: EditState? = awaitItem()
                 assertTrue(item is EditState.Content)
@@ -241,7 +242,7 @@ internal class EditViewModelTest : BaseTest() {
 
 //        coVerify(exactly = 3) { getTablesUseCase.invoke(any()) }
 //        coVerify(exactly = 1) { getTableInfoUseCase.invoke(any()) }
-        launch {
+        test {
             viewModel.stateFlow.test {
                 assertNull(awaitItem())
             }
@@ -278,12 +279,12 @@ internal class EditViewModelTest : BaseTest() {
 
         coEvery { useCase.invoke(any()) } returns mockk()
 
-        launch {
+        test {
             viewModel.history()
         }
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        launch {
+        test {
             viewModel.stateFlow.test {
                 assertNull(awaitItem())
             }
@@ -302,28 +303,29 @@ internal class EditViewModelTest : BaseTest() {
     @Test
     @Disabled("How to test with delay")
     fun `Find similar execution`() {
-        val useCase: UseCases.GetSimilarExecution = get()
-        val viewModel = EditViewModel(
-            get(),
-            get(),
-            get(),
-            get(),
-            get(),
-            get(),
-            get(),
-            get(),
-            useCase,
-            get()
-        ).apply {
-            databasePath = "test.db"
-        }
+        test {
+            val useCase: UseCases.GetSimilarExecution = get()
+            val viewModel = EditViewModel(
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                useCase,
+                get()
+            ).apply {
+                databasePath = "test.db"
+            }
 
-        coEvery { useCase.invoke(any()) } returns mockk()
+            coEvery { useCase.invoke(any()) } returns mockk()
 
-        viewModel.findSimilarExecution(testScope, "my_execution")
+            viewModel.findSimilarExecution(TestScope(), "my_execution")
 
-        coVerify(exactly = 1) { useCase.invoke(any()) }
-        launch {
+            coVerify(exactly = 1) { useCase.invoke(any()) }
+
             viewModel.stateFlow.test {
                 assertNull(awaitItem())
             }

@@ -28,7 +28,7 @@ internal class GetTableInfoInteractorTest : BaseTest() {
 
         coEvery { source.getTableInfo(any()) } returns mockk()
 
-        launch {
+        test {
             interactor.invoke(any())
         }
 
