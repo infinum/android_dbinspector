@@ -12,6 +12,8 @@ internal class DbInspectorInitializer : Initializer<Class<DbInspectorInitializer
 
         Presentation.init(context)
 
+        DbInspectorShortcutManager.init(context)
+
         return DbInspectorInitializer::class.java
     }
 

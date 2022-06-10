@@ -1,6 +1,14 @@
 Changelog
 =========
 
+## Version 5.4.7
+
+_2022-06-10_
+
+* Update Kotlin to 1.7.0.
+* Update dependencies to stable version.
+* Implement dynamic shortcut.
+
 ## Version 5.4.6
 
 _2022-05-11_
