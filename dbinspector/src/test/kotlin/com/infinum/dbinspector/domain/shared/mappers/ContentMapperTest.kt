@@ -23,7 +23,7 @@ internal class ContentMapperTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory<Mappers.Cell> { mockk<CellMapper>() }
+            factory<com.infinum.dbinspector.domain.Mappers.Cell> { mockk<CellMapper>() }
         }
     )
 
@@ -40,7 +40,7 @@ internal class ContentMapperTest : BaseTest() {
                 cells = listOf()
             )
 
-            val cellMapper: Mappers.Cell = get()
+            val cellMapper: com.infinum.dbinspector.domain.Mappers.Cell = get()
             val mapper = ContentMapper(cellMapper)
 
             coEvery { cellMapper.invoke(any()) } returns mockk()
@@ -79,7 +79,7 @@ internal class ContentMapperTest : BaseTest() {
                 )
             )
 
-            val cellMapper: Mappers.Cell = get()
+            val cellMapper: com.infinum.dbinspector.domain.Mappers.Cell = get()
             val mapper = ContentMapper(cellMapper)
 
             coEvery { cellMapper.invoke(any()) } returns expectedCell

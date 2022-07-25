@@ -5,8 +5,8 @@ import com.infinum.dbinspector.domain.shared.models.parameters.ConnectionParamet
 import com.infinum.dbinspector.ui.shared.base.BaseViewModel
 
 internal abstract class LifecycleViewModel<State, Event>(
-    private val openConnection: UseCases.OpenConnection,
-    private val closeConnection: UseCases.CloseConnection
+    private val openConnection: com.infinum.dbinspector.domain.UseCases.OpenConnection,
+    private val closeConnection: com.infinum.dbinspector.domain.UseCases.CloseConnection
 ) : BaseViewModel<State, Event>() {
 
     lateinit var databasePath: String

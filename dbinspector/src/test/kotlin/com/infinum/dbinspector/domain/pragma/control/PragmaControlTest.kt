@@ -16,8 +16,8 @@ internal class PragmaControlTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Mappers.Pragma>() }
-            factory { mockk<Converters.Pragma>() }
+            factory { mockk<com.infinum.dbinspector.domain.Mappers.Pragma>() }
+            factory { mockk<com.infinum.dbinspector.domain.Converters.Pragma>() }
         }
     )
 
@@ -30,7 +30,7 @@ internal class PragmaControlTest : BaseTest() {
 
     @Test
     fun `Control converter is not null`() {
-        val converter: Converters.Pragma = get()
+        val converter: com.infinum.dbinspector.domain.Converters.Pragma = get()
         val control = PragmaControl(get(), converter)
 
         assertNotNull(control.converter)
@@ -38,7 +38,7 @@ internal class PragmaControlTest : BaseTest() {
 
     @Test
     fun `Control mapper is not null`() {
-        val mapper: Mappers.Pragma = get()
+        val mapper: com.infinum.dbinspector.domain.Mappers.Pragma = get()
         val control = PragmaControl(mapper, get())
 
         assertNotNull(control.mapper)

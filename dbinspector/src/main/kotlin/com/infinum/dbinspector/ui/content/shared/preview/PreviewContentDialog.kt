@@ -16,8 +16,8 @@ import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorDialogPreviewContentBinding
 import com.infinum.dbinspector.domain.schema.shared.models.ImageType
 import com.infinum.dbinspector.domain.shared.models.Cell
-import com.infinum.dbinspector.extensions.toChecksum
-import com.infinum.dbinspector.extensions.toUtf8String
+import com.infinum.dbinspector.ui.extensions.toChecksum
+import com.infinum.dbinspector.ui.extensions.toUtf8String
 import com.infinum.dbinspector.ui.Presentation.Constants.Keys.PREVIEW_CELL
 import com.infinum.dbinspector.ui.shared.base.BaseBottomSheetDialogFragment
 import com.infinum.dbinspector.ui.shared.base.BaseViewModel

@@ -6,9 +6,9 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorActivitySchemaBinding
 import com.infinum.dbinspector.domain.schema.shared.models.SchemaType
-import com.infinum.dbinspector.extensions.searchView
-import com.infinum.dbinspector.extensions.setup
-import com.infinum.dbinspector.extensions.uppercase
+import com.infinum.dbinspector.ui.extensions.searchView
+import com.infinum.dbinspector.ui.extensions.setup
+import com.infinum.dbinspector.ui.extensions.uppercase
 import com.infinum.dbinspector.ui.schema.shared.SchemaFragment
 import com.infinum.dbinspector.ui.schema.shared.SchemaTypeAdapter
 import com.infinum.dbinspector.ui.shared.base.BaseActivity

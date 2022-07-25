@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.domain.history
 
-import com.infinum.dbinspector.domain.Control
-import com.infinum.dbinspector.domain.Interactors
+import com.infinum.dbinspector.data.Interactors
 import com.infinum.dbinspector.domain.shared.models.parameters.HistoryParameters
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
@@ -20,12 +19,12 @@ internal class HistoryRepositoryTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Interactors.GetHistory>() }
-            factory { mockk<Interactors.SaveExecution>() }
-            factory { mockk<Interactors.ClearHistory>() }
-            factory { mockk<Interactors.RemoveExecution>() }
-            factory { mockk<Interactors.GetExecution>() }
-            factory { mockk<Control.History>() }
+            factory { mockk<com.infinum.dbinspector.data.Interactors.GetHistory>() }
+            factory { mockk<com.infinum.dbinspector.data.Interactors.SaveExecution>() }
+            factory { mockk<com.infinum.dbinspector.data.Interactors.ClearHistory>() }
+            factory { mockk<com.infinum.dbinspector.data.Interactors.RemoveExecution>() }
+            factory { mockk<com.infinum.dbinspector.data.Interactors.GetExecution>() }
+            factory { mockk<com.infinum.dbinspector.domain.Control.History>() }
         }
     )
 
@@ -34,8 +33,8 @@ internal class HistoryRepositoryTest : BaseTest() {
         val given: HistoryParameters.All = mockk {
             every { databasePath } returns "test.db"
         }
-        val interactor: Interactors.GetHistory = get()
-        val control: Control.History = get()
+        val interactor: com.infinum.dbinspector.data.Interactors.GetHistory = get()
+        val control: com.infinum.dbinspector.domain.Control.History = get()
         val repository = HistoryRepository(
             interactor,
             get(),
@@ -67,8 +66,8 @@ internal class HistoryRepositoryTest : BaseTest() {
             every { timestamp } returns 1L
             every { isSuccess } returns true
         }
-        val interactor: Interactors.SaveExecution = get()
-        val control: Control.History = get()
+        val interactor: com.infinum.dbinspector.data.Interactors.SaveExecution = get()
+        val control: com.infinum.dbinspector.domain.Control.History = get()
         val repository = HistoryRepository(
             get(),
             interactor,
@@ -97,8 +96,8 @@ internal class HistoryRepositoryTest : BaseTest() {
         val given: HistoryParameters.All = mockk {
             every { databasePath } returns "test.db"
         }
-        val interactor: Interactors.ClearHistory = get()
-        val control: Control.History = get()
+        val interactor: com.infinum.dbinspector.data.Interactors.ClearHistory = get()
+        val control: com.infinum.dbinspector.domain.Control.History = get()
         val repository = HistoryRepository(
             get(),
             get(),
@@ -130,8 +129,8 @@ internal class HistoryRepositoryTest : BaseTest() {
             every { timestamp } returns 1L
             every { isSuccess } returns true
         }
-        val interactor: Interactors.RemoveExecution = get()
-        val control: Control.History = get()
+        val interactor: com.infinum.dbinspector.data.Interactors.RemoveExecution = get()
+        val control: com.infinum.dbinspector.domain.Control.History = get()
         val repository = HistoryRepository(
             get(),
             get(),
@@ -163,8 +162,8 @@ internal class HistoryRepositoryTest : BaseTest() {
             every { timestamp } returns 1L
             every { isSuccess } returns true
         }
-        val interactor: Interactors.GetExecution = get()
-        val control: Control.History = get()
+        val interactor: com.infinum.dbinspector.data.Interactors.GetExecution = get()
+        val control: com.infinum.dbinspector.domain.Control.History = get()
         val repository = HistoryRepository(
             get(),
             get(),

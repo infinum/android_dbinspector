@@ -1,6 +1,5 @@
 package com.infinum.dbinspector.domain.schema.trigger.interactors
 
-import com.infinum.dbinspector.data.Sources
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -17,14 +16,17 @@ internal class GetTriggerByNameInteractorTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Sources.Local.Schema>() }
+            factory { mockk<com.infinum.dbinspector.data.Sources.Local.Schema>() }
         }
     )
 
     @Test
     fun `Invoking interactor invokes source getTriggerByName`() {
-        val source: Sources.Local.Schema = get()
-        val interactor = GetTriggerByNameInteractor(source)
+        val source: com.infinum.dbinspector.data.Sources.Local.Schema = get()
+        val interactor =
+            com.infinum.dbinspector.data.interactors.schema.trigger.GetTriggerByNameInteractor(
+                source
+            )
 
         coEvery { source.getTriggerByName(any()) } returns mockk()
 

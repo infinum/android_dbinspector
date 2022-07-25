@@ -1,7 +1,7 @@
 package com.infinum.dbinspector.ui.pragma.tableinfo
 
 import com.infinum.dbinspector.domain.pragma.models.TableInfoColumns
-import com.infinum.dbinspector.extensions.lowercase
+import com.infinum.dbinspector.ui.extensions.lowercase
 import com.infinum.dbinspector.ui.pragma.shared.PragmaFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

@@ -19,11 +19,11 @@ internal class TableViewModelTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<UseCases.OpenConnection>() }
-            factory { mockk<UseCases.CloseConnection>() }
-            factory { mockk<UseCases.GetTableInfo>() }
-            factory { mockk<UseCases.GetTable>() }
-            factory { mockk<UseCases.DropTableContent>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.OpenConnection>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.CloseConnection>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.GetTableInfo>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.GetTable>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.DropTableContent>() }
         }
     )
 

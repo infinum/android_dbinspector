@@ -24,8 +24,8 @@ internal class SettingsMapperTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory<Mappers.BlobPreviewMode> { mockk<BlobPreviewModeMapper>() }
-            factory<Mappers.TruncateMode> { mockk<TruncateModeMapper>() }
+            factory<com.infinum.dbinspector.domain.Mappers.BlobPreviewMode> { mockk<BlobPreviewModeMapper>() }
+            factory<com.infinum.dbinspector.domain.Mappers.TruncateMode> { mockk<TruncateModeMapper>() }
         }
     )
 
@@ -35,8 +35,8 @@ internal class SettingsMapperTest : BaseTest() {
             val given = SettingsEntity.getDefaultInstance()
             val expected = Settings()
 
-            val trucateModeMapper: Mappers.TruncateMode = get()
-            val blobPreviewModeMapper: Mappers.BlobPreviewMode = get()
+            val trucateModeMapper: com.infinum.dbinspector.domain.Mappers.TruncateMode = get()
+            val blobPreviewModeMapper: com.infinum.dbinspector.domain.Mappers.BlobPreviewMode = get()
             val mapper = SettingsMapper(trucateModeMapper, blobPreviewModeMapper)
 
             coEvery { trucateModeMapper.invoke(any()) } returns expected.truncateMode
@@ -57,8 +57,8 @@ internal class SettingsMapperTest : BaseTest() {
                 .build()
             val expected = Settings(linesCount = 3)
 
-            val trucateModeMapper: Mappers.TruncateMode = get()
-            val blobPreviewModeMapper: Mappers.BlobPreviewMode = get()
+            val trucateModeMapper: com.infinum.dbinspector.domain.Mappers.TruncateMode = get()
+            val blobPreviewModeMapper: com.infinum.dbinspector.domain.Mappers.BlobPreviewMode = get()
             val mapper = SettingsMapper(trucateModeMapper, blobPreviewModeMapper)
 
             coEvery { trucateModeMapper.invoke(any()) } returns expected.truncateMode
@@ -77,10 +77,10 @@ internal class SettingsMapperTest : BaseTest() {
             val given = SettingsEntity.newBuilder()
                 .setLinesCount(0)
                 .build()
-            val expected = Settings(linesCount = Domain.Constants.Settings.LINES_LIMIT_MAXIMUM)
+            val expected = Settings(linesCount = com.infinum.dbinspector.domain.Domain.Constants.Settings.LINES_LIMIT_MAXIMUM)
 
-            val trucateModeMapper: Mappers.TruncateMode = get()
-            val blobPreviewModeMapper: Mappers.BlobPreviewMode = get()
+            val trucateModeMapper: com.infinum.dbinspector.domain.Mappers.TruncateMode = get()
+            val blobPreviewModeMapper: com.infinum.dbinspector.domain.Mappers.BlobPreviewMode = get()
             val mapper = SettingsMapper(trucateModeMapper, blobPreviewModeMapper)
 
             coEvery { trucateModeMapper.invoke(any()) } returns expected.truncateMode
@@ -104,8 +104,8 @@ internal class SettingsMapperTest : BaseTest() {
                 ).build()
             val expected = Settings(ignoredTableNames = listOf("android_metadata"))
 
-            val trucateModeMapper: Mappers.TruncateMode = get()
-            val blobPreviewModeMapper: Mappers.BlobPreviewMode = get()
+            val trucateModeMapper: com.infinum.dbinspector.domain.Mappers.TruncateMode = get()
+            val blobPreviewModeMapper: com.infinum.dbinspector.domain.Mappers.BlobPreviewMode = get()
             val mapper = SettingsMapper(trucateModeMapper, blobPreviewModeMapper)
 
             coEvery { trucateModeMapper.invoke(any()) } returns expected.truncateMode

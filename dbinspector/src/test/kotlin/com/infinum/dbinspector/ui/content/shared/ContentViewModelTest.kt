@@ -30,8 +30,8 @@ internal class ContentViewModelTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<UseCases.OpenConnection>() }
-            factory { mockk<UseCases.CloseConnection>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.OpenConnection>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.CloseConnection>() }
             factory(qualifier = StringQualifier("schemaInfo")) { mockk<BaseUseCase<PragmaParameters.Pragma, Page>>() }
             factory(qualifier = StringQualifier("getSchema")) { mockk<BaseUseCase<ContentParameters, Page>>() }
             factory(qualifier = StringQualifier("dropSchema")) { mockk<BaseUseCase<ContentParameters, Page>>() }

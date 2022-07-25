@@ -23,16 +23,16 @@ internal class DatabaseViewModelTest : BaseTest() {
     override fun modules(): List<Module> = listOf(
         module {
             factory { mockk<Context>() }
-            factory { mockk<UseCases.GetDatabases>() }
-            factory { mockk<UseCases.ImportDatabases>() }
-            factory { mockk<UseCases.RemoveDatabase>() }
-            factory { mockk<UseCases.CopyDatabase>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.GetDatabases>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.ImportDatabases>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.RemoveDatabase>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.CopyDatabase>() }
         }
     )
 
     @Test
     fun `Browse and collect all databases`() {
-        val useCase: UseCases.GetDatabases = get()
+        val useCase: com.infinum.dbinspector.domain.UseCases.GetDatabases = get()
         val viewModel = DatabaseViewModel(
             useCase,
             get(),
@@ -69,7 +69,7 @@ internal class DatabaseViewModelTest : BaseTest() {
 
     @Test
     fun `Search database by name with result found`() {
-        val useCase: UseCases.GetDatabases = get()
+        val useCase: com.infinum.dbinspector.domain.UseCases.GetDatabases = get()
         val viewModel = DatabaseViewModel(
             useCase,
             get(),
@@ -102,7 +102,7 @@ internal class DatabaseViewModelTest : BaseTest() {
 
     @Test
     fun `Search database by name without result found`() {
-        val useCase: UseCases.GetDatabases = get()
+        val useCase: com.infinum.dbinspector.domain.UseCases.GetDatabases = get()
         val viewModel = DatabaseViewModel(
             useCase,
             get(),
@@ -133,8 +133,8 @@ internal class DatabaseViewModelTest : BaseTest() {
 
     @Test
     fun `Import empty list of databases`() {
-        val getUseCase: UseCases.GetDatabases = get()
-        val importUseCase: UseCases.ImportDatabases = get()
+        val getUseCase: com.infinum.dbinspector.domain.UseCases.GetDatabases = get()
+        val importUseCase: com.infinum.dbinspector.domain.UseCases.ImportDatabases = get()
 
         val viewModel = DatabaseViewModel(
             getUseCase,
@@ -170,8 +170,8 @@ internal class DatabaseViewModelTest : BaseTest() {
 
     @Test
     fun `Import a single database`() {
-        val getUseCase: UseCases.GetDatabases = get()
-        val importUseCase: UseCases.ImportDatabases = get()
+        val getUseCase: com.infinum.dbinspector.domain.UseCases.GetDatabases = get()
+        val importUseCase: com.infinum.dbinspector.domain.UseCases.ImportDatabases = get()
         val viewModel = DatabaseViewModel(
             getUseCase,
             importUseCase,
@@ -208,8 +208,8 @@ internal class DatabaseViewModelTest : BaseTest() {
 
     @Test
     fun `Import multiple databases`() {
-        val getUseCase: UseCases.GetDatabases = get()
-        val importUseCase: UseCases.ImportDatabases = get()
+        val getUseCase: com.infinum.dbinspector.domain.UseCases.GetDatabases = get()
+        val importUseCase: com.infinum.dbinspector.domain.UseCases.ImportDatabases = get()
         val viewModel = DatabaseViewModel(
             getUseCase,
             importUseCase,
@@ -266,8 +266,8 @@ internal class DatabaseViewModelTest : BaseTest() {
 
     @Test
     fun `Copy database successful`() {
-        val getUseCase: UseCases.GetDatabases = get()
-        val copyUseCase: UseCases.CopyDatabase = get()
+        val getUseCase: com.infinum.dbinspector.domain.UseCases.GetDatabases = get()
+        val copyUseCase: com.infinum.dbinspector.domain.UseCases.CopyDatabase = get()
         val viewModel = DatabaseViewModel(
             getUseCase,
             get(),
@@ -306,8 +306,8 @@ internal class DatabaseViewModelTest : BaseTest() {
 
     @Test
     fun `Copy database failed`() {
-        val getUseCase: UseCases.GetDatabases = get()
-        val copyUseCase: UseCases.CopyDatabase = get()
+        val getUseCase: com.infinum.dbinspector.domain.UseCases.GetDatabases = get()
+        val copyUseCase: com.infinum.dbinspector.domain.UseCases.CopyDatabase = get()
         val viewModel = DatabaseViewModel(
             getUseCase,
             get(),

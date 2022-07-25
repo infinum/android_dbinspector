@@ -28,19 +28,19 @@ internal class SettingsViewModelTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<UseCases.GetSettings>() }
-            factory { mockk<UseCases.SaveIgnoredTableName>() }
-            factory { mockk<UseCases.RemoveIgnoredTableName>() }
-            factory { mockk<UseCases.ToggleLinesLimit>() }
-            factory { mockk<UseCases.SaveLinesCount>() }
-            factory { mockk<UseCases.SaveTruncateMode>() }
-            factory { mockk<UseCases.SaveBlobPreviewMode>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.GetSettings>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.SaveIgnoredTableName>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.RemoveIgnoredTableName>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.ToggleLinesLimit>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.SaveLinesCount>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.SaveTruncateMode>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.SaveBlobPreviewMode>() }
         }
     )
 
     @Test
     fun `Get current default settings`() {
-        val useCase: UseCases.GetSettings = get()
+        val useCase: com.infinum.dbinspector.domain.UseCases.GetSettings = get()
         val viewModel = SettingsViewModel(
             useCase,
             get(),
@@ -84,7 +84,7 @@ internal class SettingsViewModelTest : BaseTest() {
 
     @Test
     fun `Save ignored table name`() {
-        val useCase: UseCases.SaveIgnoredTableName = get()
+        val useCase: com.infinum.dbinspector.domain.UseCases.SaveIgnoredTableName = get()
         val viewModel = SettingsViewModel(
             get(),
             useCase,
@@ -118,7 +118,7 @@ internal class SettingsViewModelTest : BaseTest() {
 
     @Test
     fun `Remove ignored table name`() {
-        val useCase: UseCases.RemoveIgnoredTableName = get()
+        val useCase: com.infinum.dbinspector.domain.UseCases.RemoveIgnoredTableName = get()
         val viewModel = SettingsViewModel(
             get(),
             get(),
@@ -152,7 +152,7 @@ internal class SettingsViewModelTest : BaseTest() {
 
     @Test
     fun `Toggle ON lines limit`() {
-        val useCase: UseCases.ToggleLinesLimit = get()
+        val useCase: com.infinum.dbinspector.domain.UseCases.ToggleLinesLimit = get()
         val viewModel = SettingsViewModel(
             get(),
             get(),
@@ -183,7 +183,7 @@ internal class SettingsViewModelTest : BaseTest() {
 
     @Test
     fun `Toggle OFF lines limit`() {
-        val useCase: UseCases.ToggleLinesLimit = get()
+        val useCase: com.infinum.dbinspector.domain.UseCases.ToggleLinesLimit = get()
         val viewModel = SettingsViewModel(
             get(),
             get(),
@@ -214,7 +214,7 @@ internal class SettingsViewModelTest : BaseTest() {
 
     @Test
     fun `Save lines limit count`() {
-        val useCase: UseCases.SaveLinesCount = get()
+        val useCase: com.infinum.dbinspector.domain.UseCases.SaveLinesCount = get()
         val viewModel = SettingsViewModel(
             get(),
             get(),
@@ -247,7 +247,7 @@ internal class SettingsViewModelTest : BaseTest() {
     @EnumSource(TruncateMode::class)
     fun `Save truncate per mode`(truncateMode: TruncateMode) {
         test {
-            val useCase: UseCases.SaveTruncateMode = get()
+            val useCase: com.infinum.dbinspector.domain.UseCases.SaveTruncateMode = get()
             val viewModel = SettingsViewModel(
                 get(),
                 get(),
@@ -278,7 +278,7 @@ internal class SettingsViewModelTest : BaseTest() {
     @ParameterizedTest
     @EnumSource(BlobPreviewMode::class)
     fun `Save blob preview per mode`(blobPreviewMode: BlobPreviewMode) {
-        val useCase: UseCases.SaveBlobPreviewMode = get()
+        val useCase: com.infinum.dbinspector.domain.UseCases.SaveBlobPreviewMode = get()
         val viewModel = SettingsViewModel(
             get(),
             get(),

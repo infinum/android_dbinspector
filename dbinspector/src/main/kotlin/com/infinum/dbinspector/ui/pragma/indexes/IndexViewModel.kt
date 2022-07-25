@@ -5,9 +5,9 @@ import com.infinum.dbinspector.domain.shared.models.Statements
 import com.infinum.dbinspector.ui.pragma.shared.PragmaSourceViewModel
 
 internal class IndexViewModel(
-    openConnection: UseCases.OpenConnection,
-    closeConnection: UseCases.CloseConnection,
-    getIndexes: UseCases.GetIndexes
+    openConnection: com.infinum.dbinspector.domain.UseCases.OpenConnection,
+    closeConnection: com.infinum.dbinspector.domain.UseCases.CloseConnection,
+    getIndexes: com.infinum.dbinspector.domain.UseCases.GetIndexes
 ) : PragmaSourceViewModel(openConnection, closeConnection, getIndexes) {
 
     override fun pragmaStatement(name: String) =

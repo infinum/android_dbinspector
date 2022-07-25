@@ -1,6 +1,5 @@
 package com.infinum.dbinspector.domain.raw.interactors
 
-import com.infinum.dbinspector.data.Sources
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -17,14 +16,15 @@ internal class GetAffectedRowsInteractorTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Sources.Local.RawQuery>() }
+            factory { mockk<com.infinum.dbinspector.data.Sources.Local.RawQuery>() }
         }
     )
 
     @Test
     fun `Invoking interactor invokes source affectedRows`() {
-        val source: Sources.Local.RawQuery = get()
-        val interactor = GetAffectedRowsInteractor(source)
+        val source: com.infinum.dbinspector.data.Sources.Local.RawQuery = get()
+        val interactor =
+            com.infinum.dbinspector.data.interactors.raw.GetAffectedRowsInteractor(source)
 
         coEvery { source.affectedRows(any()) } returns mockk()
 

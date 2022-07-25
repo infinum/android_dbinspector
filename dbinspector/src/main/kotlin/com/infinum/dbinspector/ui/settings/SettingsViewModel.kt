@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.ui.settings
 
 import com.infinum.dbinspector.domain.UseCases
-import com.infinum.dbinspector.domain.settings.models.Settings
 import com.infinum.dbinspector.domain.shared.models.BlobPreviewMode
 import com.infinum.dbinspector.domain.shared.models.TruncateMode
 import com.infinum.dbinspector.domain.shared.models.parameters.SettingsParameters
@@ -9,13 +8,13 @@ import com.infinum.dbinspector.ui.shared.base.BaseViewModel
 
 @Suppress("LongParameterList")
 internal class SettingsViewModel(
-    private val getSettings: UseCases.GetSettings,
-    private val saveIgnoredTableName: UseCases.SaveIgnoredTableName,
-    private val removeIgnoredTableName: UseCases.RemoveIgnoredTableName,
-    private val linesLimit: UseCases.ToggleLinesLimit,
-    private val linesCount: UseCases.SaveLinesCount,
-    private val truncateMode: UseCases.SaveTruncateMode,
-    private val blobPreviewMode: UseCases.SaveBlobPreviewMode
+    private val getSettings: com.infinum.dbinspector.domain.UseCases.GetSettings,
+    private val saveIgnoredTableName: com.infinum.dbinspector.domain.UseCases.SaveIgnoredTableName,
+    private val removeIgnoredTableName: com.infinum.dbinspector.domain.UseCases.RemoveIgnoredTableName,
+    private val linesLimit: com.infinum.dbinspector.domain.UseCases.ToggleLinesLimit,
+    private val linesCount: com.infinum.dbinspector.domain.UseCases.SaveLinesCount,
+    private val truncateMode: com.infinum.dbinspector.domain.UseCases.SaveTruncateMode,
+    private val blobPreviewMode: com.infinum.dbinspector.domain.UseCases.SaveBlobPreviewMode
 ) : BaseViewModel<SettingsState, SettingsEvent>() {
 
     fun load() =

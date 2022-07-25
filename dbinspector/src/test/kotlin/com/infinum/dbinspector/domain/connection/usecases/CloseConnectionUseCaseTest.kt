@@ -17,13 +17,13 @@ internal class CloseConnectionUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Repositories.Connection>() }
+            factory { mockk<com.infinum.dbinspector.domain.Repositories.Connection>() }
         }
     )
 
     @Test
     fun `Invoking use case invokes connection close`() {
-        val repository: Repositories.Connection = get()
+        val repository: com.infinum.dbinspector.domain.Repositories.Connection = get()
         val useCase = CloseConnectionUseCase(repository)
 
         coEvery { repository.close(any()) } returns Unit

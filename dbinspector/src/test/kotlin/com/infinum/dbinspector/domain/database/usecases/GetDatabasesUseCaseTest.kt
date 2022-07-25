@@ -24,17 +24,17 @@ internal class GetDatabasesUseCaseTest : BaseTest() {
     override fun modules(): List<Module> = listOf(
         module {
             factory { mockk<Context>() }
-            factory { mockk<Repositories.Database>() }
-            factory { mockk<Repositories.Connection>() }
-            factory { mockk<Repositories.Pragma>() }
+            factory { mockk<com.infinum.dbinspector.domain.Repositories.Database>() }
+            factory { mockk<com.infinum.dbinspector.domain.Repositories.Connection>() }
+            factory { mockk<com.infinum.dbinspector.domain.Repositories.Pragma>() }
         }
     )
 
     @Test
     fun `Invoking use case gets no databases`() {
-        val databaseRepository: Repositories.Database = get()
-        val connectionRepository: Repositories.Connection = get()
-        val pragmaRepository: Repositories.Pragma = get()
+        val databaseRepository: com.infinum.dbinspector.domain.Repositories.Database = get()
+        val connectionRepository: com.infinum.dbinspector.domain.Repositories.Connection = get()
+        val pragmaRepository: com.infinum.dbinspector.domain.Repositories.Pragma = get()
         val useCase = GetDatabasesUseCase(
             databaseRepository,
             connectionRepository,
@@ -72,9 +72,9 @@ internal class GetDatabasesUseCaseTest : BaseTest() {
                 parentPath = ""
             )
         )
-        val databaseRepository: Repositories.Database = get()
-        val connectionRepository: Repositories.Connection = get()
-        val pragmaRepository: Repositories.Pragma = get()
+        val databaseRepository: com.infinum.dbinspector.domain.Repositories.Database = get()
+        val connectionRepository: com.infinum.dbinspector.domain.Repositories.Connection = get()
+        val pragmaRepository: com.infinum.dbinspector.domain.Repositories.Pragma = get()
         val useCase = GetDatabasesUseCase(
             databaseRepository,
             connectionRepository,

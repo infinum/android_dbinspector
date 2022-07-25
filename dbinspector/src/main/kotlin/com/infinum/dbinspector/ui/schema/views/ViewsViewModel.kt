@@ -5,9 +5,9 @@ import com.infinum.dbinspector.domain.shared.models.Statements
 import com.infinum.dbinspector.ui.schema.shared.SchemaSourceViewModel
 
 internal class ViewsViewModel(
-    openConnection: UseCases.OpenConnection,
-    closeConnection: UseCases.CloseConnection,
-    getViews: UseCases.GetViews
+    openConnection: com.infinum.dbinspector.domain.UseCases.OpenConnection,
+    closeConnection: com.infinum.dbinspector.domain.UseCases.CloseConnection,
+    getViews: com.infinum.dbinspector.domain.UseCases.GetViews
 ) : SchemaSourceViewModel(openConnection, closeConnection, getViews) {
 
     override fun schemaStatement(query: String?): String =

@@ -23,7 +23,7 @@ internal class ContentConverterTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory<Converters.Sort> { mockk<SortConverter>() }
+            factory<com.infinum.dbinspector.domain.Converters.Sort> { mockk<SortConverter>() }
         }
     )
 
@@ -33,8 +33,8 @@ internal class ContentConverterTest : BaseTest() {
             val given = mockk<ContentParameters> {
                 every { databasePath } returns ""
                 every { connection } returns null
-                every { pageSize } returns Domain.Constants.Limits.PAGE_SIZE
-                every { page } returns Domain.Constants.Limits.INITIAL_PAGE
+                every { pageSize } returns com.infinum.dbinspector.domain.Domain.Constants.Limits.PAGE_SIZE
+                every { page } returns com.infinum.dbinspector.domain.Domain.Constants.Limits.INITIAL_PAGE
                 every { connection } returns null
                 every { statement } returns "SELECT * FROM users"
                 every { sort } returns SortParameters()
@@ -44,7 +44,7 @@ internal class ContentConverterTest : BaseTest() {
                 order = Order.ASCENDING
             )
 
-            val sortConverter: Converters.Sort = get()
+            val sortConverter: com.infinum.dbinspector.domain.Converters.Sort = get()
             val converter = ContentConverter(sortConverter)
 
             coEvery { sortConverter.invoke(any()) } returns expected.order

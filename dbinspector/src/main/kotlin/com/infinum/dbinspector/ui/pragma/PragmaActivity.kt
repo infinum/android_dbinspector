@@ -4,7 +4,7 @@ import android.os.Bundle
 import com.google.android.material.tabs.TabLayoutMediator
 import com.infinum.dbinspector.databinding.DbinspectorActivityPragmaBinding
 import com.infinum.dbinspector.domain.pragma.models.PragmaType
-import com.infinum.dbinspector.extensions.uppercase
+import com.infinum.dbinspector.ui.extensions.uppercase
 import com.infinum.dbinspector.ui.pragma.shared.PragmaTypeAdapter
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.base.lifecycle.LifecycleConnection

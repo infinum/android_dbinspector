@@ -4,7 +4,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.infinum.dbinspector.databinding.DbinspectorItemHeaderBinding
 import com.infinum.dbinspector.domain.shared.models.Sort
-import com.infinum.dbinspector.extensions.drawableFromAttribute
+import com.infinum.dbinspector.ui.extensions.drawableFromAttribute
 
 internal class HeaderViewHolder(
     private val viewBinding: DbinspectorItemHeaderBinding

@@ -1,0 +1,9 @@
+-keeppackagenames
+-keep public class com.infinum.dbinspector.* {
+  public protected *;
+}
+-keep class * extends com.google.protobuf.GeneratedMessageLite { *; }
+-keep public class com.infinum.dbinspector.data.models.local.proto.output.* {
+  public protected *;
+}
+

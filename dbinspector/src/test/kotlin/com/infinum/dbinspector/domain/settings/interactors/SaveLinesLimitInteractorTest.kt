@@ -1,6 +1,5 @@
 package com.infinum.dbinspector.domain.settings.interactors
 
-import com.infinum.dbinspector.data.Sources
 import com.infinum.dbinspector.data.models.local.proto.input.SettingsTask
 import com.infinum.dbinspector.data.sources.local.proto.settings.SettingsDataStore
 import com.infinum.dbinspector.shared.BaseTest
@@ -19,7 +18,7 @@ internal class SaveLinesLimitInteractorTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory<Sources.Local.Settings> { mockk<SettingsDataStore>() }
+            factory<com.infinum.dbinspector.data.Sources.Local.Settings> { mockk<SettingsDataStore>() }
         }
     )
 
@@ -28,8 +27,9 @@ internal class SaveLinesLimitInteractorTest : BaseTest() {
         val given: SettingsTask = mockk {
             every { linesLimited } returns true
         }
-        val source: Sources.Local.Settings = get()
-        val interactor = SaveLinesLimitInteractor(source)
+        val source: com.infinum.dbinspector.data.Sources.Local.Settings = get()
+        val interactor =
+            com.infinum.dbinspector.data.interactors.settings.SaveLinesLimitInteractor(source)
 
         coEvery { source.store() } returns mockk {
             coEvery { updateData(any()) } returns mockk {
@@ -49,8 +49,9 @@ internal class SaveLinesLimitInteractorTest : BaseTest() {
         val given: SettingsTask = mockk {
             every { linesLimited } returns false
         }
-        val source: Sources.Local.Settings = get()
-        val interactor = SaveLinesLimitInteractor(source)
+        val source: com.infinum.dbinspector.data.Sources.Local.Settings = get()
+        val interactor =
+            com.infinum.dbinspector.data.interactors.settings.SaveLinesLimitInteractor(source)
 
         coEvery { source.store() } returns mockk {
             coEvery { updateData(any()) } returns mockk {

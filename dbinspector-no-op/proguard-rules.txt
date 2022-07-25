@@ -5,13 +5,13 @@
 -keep public class com.infinum.dbinspector.data.models.memory.logger.Level {
   public protected *;
 }
--keep public class com.infinum.dbinspector.data.sources.memory.logger.Logger {
+-keep public class com.infinum.dbinspector.ui.logger.Logger {
   public protected *;
 }
--keep public class com.infinum.dbinspector.data.sources.memory.logger.EmptyLogger {
+-keep public class com.infinum.dbinspector.ui.logger.EmptyLogger {
   public protected *;
 }
--keep public class com.infinum.dbinspector.data.sources.memory.logger.AndroidLogger {
+-keep public class com.infinum.dbinspector.ui.logger.AndroidLogger {
   public protected *;
 }
 

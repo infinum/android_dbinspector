@@ -12,8 +12,8 @@ import com.infinum.dbinspector.ui.shared.base.lifecycle.LifecycleViewModel
 import kotlinx.coroutines.flow.Flow
 
 internal abstract class PagingViewModel<State, Event>(
-    openConnection: UseCases.OpenConnection,
-    closeConnection: UseCases.CloseConnection,
+    openConnection: com.infinum.dbinspector.domain.UseCases.OpenConnection,
+    closeConnection: com.infinum.dbinspector.domain.UseCases.CloseConnection,
 ) : LifecycleViewModel<State, Event>(openConnection, closeConnection) {
 
     abstract fun dataSource(databasePath: String, statement: String): BaseDataSource<*>

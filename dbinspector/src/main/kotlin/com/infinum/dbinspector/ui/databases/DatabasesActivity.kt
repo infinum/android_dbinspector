@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorActivityDatabasesBinding
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
-import com.infinum.dbinspector.extensions.scale
-import com.infinum.dbinspector.extensions.searchView
-import com.infinum.dbinspector.extensions.setup
+import com.infinum.dbinspector.ui.extensions.scale
+import com.infinum.dbinspector.ui.extensions.searchView
+import com.infinum.dbinspector.ui.extensions.setup
 import com.infinum.dbinspector.ui.Presentation.Constants.Keys.REMOVE_DATABASE
 import com.infinum.dbinspector.ui.Presentation.Constants.Keys.RENAME_DATABASE
 import com.infinum.dbinspector.ui.Presentation.Constants.Keys.SHOULD_REFRESH

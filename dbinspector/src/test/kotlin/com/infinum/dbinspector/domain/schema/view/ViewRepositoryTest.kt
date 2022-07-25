@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.domain.schema.view
 
-import com.infinum.dbinspector.domain.Control
-import com.infinum.dbinspector.domain.Interactors
+import com.infinum.dbinspector.data.Interactors
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -16,10 +15,10 @@ internal class ViewRepositoryTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Interactors.GetViews>() }
-            factory { mockk<Interactors.GetViewByName>() }
-            factory { mockk<Interactors.DropViewByName>() }
-            factory { mockk<Control.Content>() }
+            factory { mockk<com.infinum.dbinspector.data.Interactors.GetViews>() }
+            factory { mockk<com.infinum.dbinspector.data.Interactors.GetViewByName>() }
+            factory { mockk<com.infinum.dbinspector.data.Interactors.DropViewByName>() }
+            factory { mockk<com.infinum.dbinspector.domain.Control.Content>() }
         }
     )
 

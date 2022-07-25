@@ -19,11 +19,11 @@ internal class TriggerViewModelTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<UseCases.OpenConnection>() }
-            factory { mockk<UseCases.CloseConnection>() }
-            factory { mockk<UseCases.GetTriggerInfo>() }
-            factory { mockk<UseCases.GetTrigger>() }
-            factory { mockk<UseCases.DropTrigger>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.OpenConnection>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.CloseConnection>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.GetTriggerInfo>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.GetTrigger>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.DropTrigger>() }
         }
     )
 

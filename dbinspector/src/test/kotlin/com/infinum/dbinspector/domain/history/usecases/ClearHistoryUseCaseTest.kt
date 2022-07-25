@@ -17,13 +17,13 @@ internal class ClearHistoryUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Repositories.History>() }
+            factory { mockk<com.infinum.dbinspector.domain.Repositories.History>() }
         }
     )
 
     @Test
     fun `Invoking use case clears history per database`() {
-        val repository: Repositories.History = get()
+        val repository: com.infinum.dbinspector.domain.Repositories.History = get()
         val useCase = ClearHistoryUseCase(repository)
 
         coEvery { repository.clearByDatabase(any()) } returns mockk()

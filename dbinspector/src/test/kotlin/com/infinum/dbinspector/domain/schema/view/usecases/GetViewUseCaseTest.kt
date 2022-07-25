@@ -17,8 +17,8 @@ internal class GetViewUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Repositories.Schema>() }
-            factory { mockk<Repositories.Connection>() }
+            factory { mockk<com.infinum.dbinspector.domain.Repositories.Schema>() }
+            factory { mockk<com.infinum.dbinspector.domain.Repositories.Connection>() }
         }
     )
 
@@ -29,8 +29,8 @@ internal class GetViewUseCaseTest : BaseTest() {
             statement = "SELECT * FROM tables"
         )
 
-        val connectionRepository: Repositories.Connection = get()
-        val schemaRepository: Repositories.Schema = get()
+        val connectionRepository: com.infinum.dbinspector.domain.Repositories.Connection = get()
+        val schemaRepository: com.infinum.dbinspector.domain.Repositories.Schema = get()
         val useCase = GetViewUseCase(connectionRepository, schemaRepository)
 
         coEvery { connectionRepository.open(any()) } returns mockk()

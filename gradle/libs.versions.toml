@@ -3,6 +3,7 @@ dbinspector = "5.4.7"
 gradle = "7.2.1"
 kotlin = "1.7.0"
 coroutines = "1.6.2"
+annotation = "1.4.0"
 core = "1.8.0"
 appcompat = "1.4.2"
 activity = "1.4.0"
@@ -42,9 +43,11 @@ tools-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradl
 kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-core = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
 
+coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 
+androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "core" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-activity = { module = "androidx.activity:activity-ktx", version.ref = "activity" }
@@ -66,6 +69,7 @@ protobuf-artifact = { module = "com.google.protobuf:protoc", version.ref = "prot
 protobuf-javalite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobuf-core" }
 protobuf-gradle = { module = "com.google.protobuf:protobuf-gradle-plugin", version.ref = "protobuf-plugin" }
 
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
 koin-junit5 = { module = "io.insert-koin:koin-test-junit5", version.ref = "koin" }
@@ -91,7 +95,14 @@ mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 [bundles]
-androidx = [
+androidx-data = [
+    "androidx-core",
+    "androidx-datastore"
+]
+androidx-domain = [
+    "androidx-annotation"
+]
+androidx-ui = [
     "androidx-core",
     "androidx-appcompat",
     "androidx-activity",
@@ -104,7 +115,6 @@ androidx = [
     "androidx-paging",
     "androidx-swiperefresh",
     "androidx-startup",
-    "androidx-datastore",
     "androidx-dynamicanimation"
 ]
 

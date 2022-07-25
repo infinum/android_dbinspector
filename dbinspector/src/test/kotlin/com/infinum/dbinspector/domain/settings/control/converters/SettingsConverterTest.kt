@@ -1,6 +1,5 @@
 package com.infinum.dbinspector.domain.settings.control.converters
 
-import com.infinum.dbinspector.data.Data
 import com.infinum.dbinspector.data.models.local.proto.input.SettingsTask
 import com.infinum.dbinspector.data.models.local.proto.output.SettingsEntity
 import com.infinum.dbinspector.domain.Converters
@@ -27,8 +26,8 @@ internal class SettingsConverterTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory<Converters.TruncateMode> { mockk<TruncateModeConverter>() }
-            factory<Converters.BlobPreview> { mockk<BlobPreviewConverter>() }
+            factory<com.infinum.dbinspector.domain.Converters.TruncateMode> { mockk<TruncateModeConverter>() }
+            factory<com.infinum.dbinspector.domain.Converters.BlobPreview> { mockk<BlobPreviewConverter>() }
         }
     )
 
@@ -51,8 +50,8 @@ internal class SettingsConverterTest : BaseTest() {
             val given = mockk<SettingsParameters.Get>()
             val expected = SettingsTask()
 
-            val truncateModeConverter: Converters.TruncateMode = get()
-            val blobPreviewConverter: Converters.BlobPreview = get()
+            val truncateModeConverter: com.infinum.dbinspector.domain.Converters.TruncateMode = get()
+            val blobPreviewConverter: com.infinum.dbinspector.domain.Converters.BlobPreview = get()
             val converter = SettingsConverter(truncateModeConverter, blobPreviewConverter)
 
             coEvery { truncateModeConverter.invoke(any()) } returns mockk()
@@ -73,8 +72,8 @@ internal class SettingsConverterTest : BaseTest() {
             }
             val expected = SettingsTask(linesLimited = true)
 
-            val truncateModeConverter: Converters.TruncateMode = get()
-            val blobPreviewConverter: Converters.BlobPreview = get()
+            val truncateModeConverter: com.infinum.dbinspector.domain.Converters.TruncateMode = get()
+            val blobPreviewConverter: com.infinum.dbinspector.domain.Converters.BlobPreview = get()
             val converter = SettingsConverter(truncateModeConverter, blobPreviewConverter)
 
             coEvery { truncateModeConverter.invoke(any()) } returns mockk()
@@ -95,8 +94,8 @@ internal class SettingsConverterTest : BaseTest() {
             }
             val expected = SettingsTask(linesLimited = false)
 
-            val truncateModeConverter: Converters.TruncateMode = get()
-            val blobPreviewConverter: Converters.BlobPreview = get()
+            val truncateModeConverter: com.infinum.dbinspector.domain.Converters.TruncateMode = get()
+            val blobPreviewConverter: com.infinum.dbinspector.domain.Converters.BlobPreview = get()
             val converter = SettingsConverter(truncateModeConverter, blobPreviewConverter)
 
             coEvery { truncateModeConverter.invoke(any()) } returns mockk()
@@ -117,8 +116,8 @@ internal class SettingsConverterTest : BaseTest() {
             }
             val expected = SettingsTask(linesCount = 3)
 
-            val truncateModeConverter: Converters.TruncateMode = get()
-            val blobPreviewConverter: Converters.BlobPreview = get()
+            val truncateModeConverter: com.infinum.dbinspector.domain.Converters.TruncateMode = get()
+            val blobPreviewConverter: com.infinum.dbinspector.domain.Converters.BlobPreview = get()
             val converter = SettingsConverter(truncateModeConverter, blobPreviewConverter)
 
             coEvery { truncateModeConverter.invoke(any()) } returns mockk()
@@ -137,10 +136,10 @@ internal class SettingsConverterTest : BaseTest() {
             val given = mockk<SettingsParameters.LinesCount> {
                 every { count } returns 0
             }
-            val expected = SettingsTask(linesCount = Data.Constants.Settings.LINES_LIMIT_MAXIMUM)
+            val expected = SettingsTask(linesCount = com.infinum.dbinspector.data.Data.Constants.Settings.LINES_LIMIT_MAXIMUM)
 
-            val truncateModeConverter: Converters.TruncateMode = get()
-            val blobPreviewConverter: Converters.BlobPreview = get()
+            val truncateModeConverter: com.infinum.dbinspector.domain.Converters.TruncateMode = get()
+            val blobPreviewConverter: com.infinum.dbinspector.domain.Converters.BlobPreview = get()
             val converter = SettingsConverter(truncateModeConverter, blobPreviewConverter)
 
             coEvery { truncateModeConverter.invoke(any()) } returns mockk()
@@ -161,8 +160,8 @@ internal class SettingsConverterTest : BaseTest() {
             }
             val expected = SettingsTask(truncateMode = SettingsEntity.TruncateMode.START)
 
-            val truncateModeConverter: Converters.TruncateMode = get()
-            val blobPreviewConverter: Converters.BlobPreview = get()
+            val truncateModeConverter: com.infinum.dbinspector.domain.Converters.TruncateMode = get()
+            val blobPreviewConverter: com.infinum.dbinspector.domain.Converters.BlobPreview = get()
             val converter = SettingsConverter(truncateModeConverter, blobPreviewConverter)
 
             coEvery { truncateModeConverter.invoke(any()) } returns SettingsEntity.TruncateMode.START
@@ -183,8 +182,8 @@ internal class SettingsConverterTest : BaseTest() {
             }
             val expected = SettingsTask(truncateMode = SettingsEntity.TruncateMode.MIDDLE)
 
-            val truncateModeConverter: Converters.TruncateMode = get()
-            val blobPreviewConverter: Converters.BlobPreview = get()
+            val truncateModeConverter: com.infinum.dbinspector.domain.Converters.TruncateMode = get()
+            val blobPreviewConverter: com.infinum.dbinspector.domain.Converters.BlobPreview = get()
             val converter = SettingsConverter(truncateModeConverter, blobPreviewConverter)
 
             coEvery { truncateModeConverter.invoke(any()) } returns SettingsEntity.TruncateMode.MIDDLE
@@ -205,8 +204,8 @@ internal class SettingsConverterTest : BaseTest() {
             }
             val expected = SettingsTask(truncateMode = SettingsEntity.TruncateMode.END)
 
-            val truncateModeConverter: Converters.TruncateMode = get()
-            val blobPreviewConverter: Converters.BlobPreview = get()
+            val truncateModeConverter: com.infinum.dbinspector.domain.Converters.TruncateMode = get()
+            val blobPreviewConverter: com.infinum.dbinspector.domain.Converters.BlobPreview = get()
             val converter = SettingsConverter(truncateModeConverter, blobPreviewConverter)
 
             coEvery { truncateModeConverter.invoke(any()) } returns SettingsEntity.TruncateMode.END
@@ -227,8 +226,8 @@ internal class SettingsConverterTest : BaseTest() {
             }
             val expected = SettingsTask(blobPreviewMode = SettingsEntity.BlobPreviewMode.UNRECOGNIZED)
 
-            val truncateModeConverter: Converters.TruncateMode = get()
-            val blobPreviewConverter: Converters.BlobPreview = get()
+            val truncateModeConverter: com.infinum.dbinspector.domain.Converters.TruncateMode = get()
+            val blobPreviewConverter: com.infinum.dbinspector.domain.Converters.BlobPreview = get()
             val converter = SettingsConverter(truncateModeConverter, blobPreviewConverter)
 
             coEvery { truncateModeConverter.invoke(any()) } returns mockk()
@@ -249,8 +248,8 @@ internal class SettingsConverterTest : BaseTest() {
             }
             val expected = SettingsTask(blobPreviewMode = SettingsEntity.BlobPreviewMode.PLACEHOLDER)
 
-            val truncateModeConverter: Converters.TruncateMode = get()
-            val blobPreviewConverter: Converters.BlobPreview = get()
+            val truncateModeConverter: com.infinum.dbinspector.domain.Converters.TruncateMode = get()
+            val blobPreviewConverter: com.infinum.dbinspector.domain.Converters.BlobPreview = get()
             val converter = SettingsConverter(truncateModeConverter, blobPreviewConverter)
 
             coEvery { truncateModeConverter.invoke(any()) } returns mockk()
@@ -271,8 +270,8 @@ internal class SettingsConverterTest : BaseTest() {
             }
             val expected = SettingsTask(blobPreviewMode = SettingsEntity.BlobPreviewMode.UTF8)
 
-            val truncateModeConverter: Converters.TruncateMode = get()
-            val blobPreviewConverter: Converters.BlobPreview = get()
+            val truncateModeConverter: com.infinum.dbinspector.domain.Converters.TruncateMode = get()
+            val blobPreviewConverter: com.infinum.dbinspector.domain.Converters.BlobPreview = get()
             val converter = SettingsConverter(truncateModeConverter, blobPreviewConverter)
 
             coEvery { truncateModeConverter.invoke(any()) } returns mockk()
@@ -293,8 +292,8 @@ internal class SettingsConverterTest : BaseTest() {
             }
             val expected = SettingsTask(blobPreviewMode = SettingsEntity.BlobPreviewMode.HEX)
 
-            val truncateModeConverter: Converters.TruncateMode = get()
-            val blobPreviewConverter: Converters.BlobPreview = get()
+            val truncateModeConverter: com.infinum.dbinspector.domain.Converters.TruncateMode = get()
+            val blobPreviewConverter: com.infinum.dbinspector.domain.Converters.BlobPreview = get()
             val converter = SettingsConverter(truncateModeConverter, blobPreviewConverter)
 
             coEvery { truncateModeConverter.invoke(any()) } returns mockk()
@@ -315,8 +314,8 @@ internal class SettingsConverterTest : BaseTest() {
             }
             val expected = SettingsTask(blobPreviewMode = SettingsEntity.BlobPreviewMode.BASE64)
 
-            val truncateModeConverter: Converters.TruncateMode = get()
-            val blobPreviewConverter: Converters.BlobPreview = get()
+            val truncateModeConverter: com.infinum.dbinspector.domain.Converters.TruncateMode = get()
+            val blobPreviewConverter: com.infinum.dbinspector.domain.Converters.BlobPreview = get()
             val converter = SettingsConverter(truncateModeConverter, blobPreviewConverter)
 
             coEvery { truncateModeConverter.invoke(any()) } returns mockk()
@@ -337,8 +336,8 @@ internal class SettingsConverterTest : BaseTest() {
             }
             val expected = SettingsTask(ignoredTableName = "")
 
-            val truncateModeConverter: Converters.TruncateMode = get()
-            val blobPreviewConverter: Converters.BlobPreview = get()
+            val truncateModeConverter: com.infinum.dbinspector.domain.Converters.TruncateMode = get()
+            val blobPreviewConverter: com.infinum.dbinspector.domain.Converters.BlobPreview = get()
             val converter = SettingsConverter(truncateModeConverter, blobPreviewConverter)
 
             coEvery { truncateModeConverter.invoke(any()) } returns mockk()
@@ -359,8 +358,8 @@ internal class SettingsConverterTest : BaseTest() {
             }
             val expected = SettingsTask(ignoredTableName = "android_metadata")
 
-            val truncateModeConverter: Converters.TruncateMode = get()
-            val blobPreviewConverter: Converters.BlobPreview = get()
+            val truncateModeConverter: com.infinum.dbinspector.domain.Converters.TruncateMode = get()
+            val blobPreviewConverter: com.infinum.dbinspector.domain.Converters.BlobPreview = get()
             val converter = SettingsConverter(truncateModeConverter, blobPreviewConverter)
 
             coEvery { truncateModeConverter.invoke(any()) } returns mockk()

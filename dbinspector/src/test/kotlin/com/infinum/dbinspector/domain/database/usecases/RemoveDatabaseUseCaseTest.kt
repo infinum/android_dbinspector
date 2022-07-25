@@ -17,13 +17,13 @@ internal class RemoveDatabaseUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Repositories.Database>() }
+            factory { mockk<com.infinum.dbinspector.domain.Repositories.Database>() }
         }
     )
 
     @Test
     fun `Invoking use case clears history per database`() {
-        val repository: Repositories.Database = get()
+        val repository: com.infinum.dbinspector.domain.Repositories.Database = get()
         val useCase = RemoveDatabaseUseCase(repository)
 
         coEvery { repository.remove(any()) } returns mockk()

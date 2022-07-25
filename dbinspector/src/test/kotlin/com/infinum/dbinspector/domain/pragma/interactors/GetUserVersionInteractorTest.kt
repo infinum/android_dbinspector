@@ -1,7 +1,5 @@
 package com.infinum.dbinspector.domain.pragma.interactors
 
-import com.infinum.dbinspector.data.Data
-import com.infinum.dbinspector.data.Sources
 import com.infinum.dbinspector.data.models.local.cursor.input.Order
 import com.infinum.dbinspector.data.models.local.cursor.input.Query
 import com.infinum.dbinspector.shared.BaseTest
@@ -15,14 +13,13 @@ import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.koin.test.get
-import org.mockito.kotlin.any
 
 @DisplayName("GetUserVersionInteractor tests")
 internal class GetUserVersionInteractorTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Sources.Local.Pragma>() }
+            factory { mockk<com.infinum.dbinspector.data.Sources.Local.Pragma>() }
         }
     )
 
@@ -34,11 +31,12 @@ internal class GetUserVersionInteractorTest : BaseTest() {
             every { database } returns mockk()
             every { statement } returns ""
             every { order } returns Order.ASCENDING
-            every { pageSize } returns Data.Constants.Limits.PAGE_SIZE
-            every { page } returns Data.Constants.Limits.INITIAL_PAGE
+            every { pageSize } returns com.infinum.dbinspector.data.Data.Constants.Limits.PAGE_SIZE
+            every { page } returns com.infinum.dbinspector.data.Data.Constants.Limits.INITIAL_PAGE
         }
-        val source: Sources.Local.Pragma = get()
-        val interactor = GetUserVersionInteractor(source)
+        val source: com.infinum.dbinspector.data.Sources.Local.Pragma = get()
+        val interactor =
+            com.infinum.dbinspector.data.interactors.pragma.GetUserVersionInteractor(source)
 
         coEvery { source.getUserVersion(any()) } returns mockk()
 

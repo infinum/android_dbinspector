@@ -17,13 +17,13 @@ internal class RemoveExecutionUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Repositories.History>() }
+            factory { mockk<com.infinum.dbinspector.domain.Repositories.History>() }
         }
     )
 
     @Test
     fun `Invoking use case removes execution from history`() {
-        val repository: Repositories.History = get()
+        val repository: com.infinum.dbinspector.domain.Repositories.History = get()
         val useCase = RemoveExecutionUseCase(repository)
 
         coEvery { repository.removeExecution(any()) } returns mockk()

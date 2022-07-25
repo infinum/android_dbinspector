@@ -17,13 +17,13 @@ internal class OpenConnectionUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Repositories.Connection>() }
+            factory { mockk<com.infinum.dbinspector.domain.Repositories.Connection>() }
         }
     )
 
     @Test
     fun `Invoking use case invokes connection open`() {
-        val repository: Repositories.Connection = get()
+        val repository: com.infinum.dbinspector.domain.Repositories.Connection = get()
         val useCase = OpenConnectionUseCase(repository)
 
         coEvery { repository.open(any()) } returns mockk()

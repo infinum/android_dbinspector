@@ -13,7 +13,7 @@ import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
 import androidx.core.view.doOnLayout
 import androidx.core.widget.doOnTextChanged
 import com.infinum.dbinspector.R
-import com.infinum.dbinspector.extensions.getColorFromAttribute
+import com.infinum.dbinspector.ui.extensions.getColorFromAttribute
 import kotlin.math.roundToInt
 
 internal class EditorTextInput @JvmOverloads constructor(

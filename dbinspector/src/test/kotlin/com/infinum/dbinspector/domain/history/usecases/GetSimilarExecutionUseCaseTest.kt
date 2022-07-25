@@ -17,13 +17,13 @@ internal class GetSimilarExecutionUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Repositories.History>() }
+            factory { mockk<com.infinum.dbinspector.domain.Repositories.History>() }
         }
     )
 
     @Test
     fun `Invoking use case gets history of similar executions`() {
-        val repository: Repositories.History = get()
+        val repository: com.infinum.dbinspector.domain.Repositories.History = get()
         val useCase = GetSimilarExecutionUseCase(repository)
 
         coEvery { repository.getSimilarExecution(any()) } returns mockk()

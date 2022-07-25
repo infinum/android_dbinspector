@@ -17,8 +17,8 @@ internal class GetAffectedRowsUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Repositories.RawQuery>() }
-            factory { mockk<Repositories.Connection>() }
+            factory { mockk<com.infinum.dbinspector.domain.Repositories.RawQuery>() }
+            factory { mockk<com.infinum.dbinspector.domain.Repositories.Connection>() }
         }
     )
 
@@ -29,8 +29,8 @@ internal class GetAffectedRowsUseCaseTest : BaseTest() {
             statement = "SELECT * FROM tables"
         )
 
-        val connectionRepository: Repositories.Connection = get()
-        val rawQueryRepository: Repositories.RawQuery = get()
+        val connectionRepository: com.infinum.dbinspector.domain.Repositories.Connection = get()
+        val rawQueryRepository: com.infinum.dbinspector.domain.Repositories.RawQuery = get()
         val useCase = GetAffectedRowsUseCase(connectionRepository, rawQueryRepository)
 
         coEvery { connectionRepository.open(any()) } returns mockk()

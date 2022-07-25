@@ -6,11 +6,11 @@ import com.infinum.dbinspector.domain.shared.models.Statements
 import com.infinum.dbinspector.ui.content.shared.ContentViewModel
 
 internal class TriggerViewModel(
-    openConnection: UseCases.OpenConnection,
-    closeConnection: UseCases.CloseConnection,
-    triggerInfo: UseCases.GetTriggerInfo,
-    trigger: UseCases.GetTrigger,
-    dropTrigger: UseCases.DropTrigger
+    openConnection: com.infinum.dbinspector.domain.UseCases.OpenConnection,
+    closeConnection: com.infinum.dbinspector.domain.UseCases.CloseConnection,
+    triggerInfo: com.infinum.dbinspector.domain.UseCases.GetTriggerInfo,
+    trigger: com.infinum.dbinspector.domain.UseCases.GetTrigger,
+    dropTrigger: com.infinum.dbinspector.domain.UseCases.DropTrigger
 ) : ContentViewModel(
     openConnection,
     closeConnection,

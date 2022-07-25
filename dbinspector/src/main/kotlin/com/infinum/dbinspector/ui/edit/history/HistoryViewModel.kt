@@ -9,9 +9,9 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOn
 
 internal class HistoryViewModel(
-    private val getHistory: UseCases.GetHistory,
-    private val clearHistory: UseCases.ClearHistory,
-    private val removeExecution: UseCases.RemoveExecution
+    private val getHistory: com.infinum.dbinspector.domain.UseCases.GetHistory,
+    private val clearHistory: com.infinum.dbinspector.domain.UseCases.ClearHistory,
+    private val removeExecution: com.infinum.dbinspector.domain.UseCases.RemoveExecution
 ) : BaseViewModel<HistoryState, Any>() {
 
     fun history(databasePath: String) =

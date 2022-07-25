@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.domain.database
 
-import com.infinum.dbinspector.domain.Control
-import com.infinum.dbinspector.domain.Interactors
+import com.infinum.dbinspector.data.Interactors
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -18,19 +17,19 @@ internal class DatabaseRepositoryTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Interactors.GetDatabases>() }
-            factory { mockk<Interactors.ImportDatabases>() }
-            factory { mockk<Interactors.RemoveDatabase>() }
-            factory { mockk<Interactors.RenameDatabase>() }
-            factory { mockk<Interactors.CopyDatabase>() }
-            factory { mockk<Control.Database>() }
+            factory { mockk<com.infinum.dbinspector.data.Interactors.GetDatabases>() }
+            factory { mockk<com.infinum.dbinspector.data.Interactors.ImportDatabases>() }
+            factory { mockk<com.infinum.dbinspector.data.Interactors.RemoveDatabase>() }
+            factory { mockk<com.infinum.dbinspector.data.Interactors.RenameDatabase>() }
+            factory { mockk<com.infinum.dbinspector.data.Interactors.CopyDatabase>() }
+            factory { mockk<com.infinum.dbinspector.domain.Control.Database>() }
         }
     )
 
     @Test
     fun `Get databases calls GetDatabases interactor and Database control`() {
-        val interactor: Interactors.GetDatabases = get()
-        val control: Control.Database = get()
+        val interactor: com.infinum.dbinspector.data.Interactors.GetDatabases = get()
+        val control: com.infinum.dbinspector.domain.Control.Database = get()
         val repository = DatabaseRepository(
             interactor,
             get(),
@@ -55,8 +54,8 @@ internal class DatabaseRepositoryTest : BaseTest() {
 
     @Test
     fun `Import databases calls ImportDatabases interactor and Database control`() {
-        val interactor: Interactors.ImportDatabases = get()
-        val control: Control.Database = get()
+        val interactor: com.infinum.dbinspector.data.Interactors.ImportDatabases = get()
+        val control: com.infinum.dbinspector.domain.Control.Database = get()
         val repository = DatabaseRepository(
             get(),
             interactor,
@@ -81,8 +80,8 @@ internal class DatabaseRepositoryTest : BaseTest() {
 
     @Test
     fun `Rename database calls RenameDatabase interactor and Database control`() {
-        val interactor: Interactors.RenameDatabase = get()
-        val control: Control.Database = get()
+        val interactor: com.infinum.dbinspector.data.Interactors.RenameDatabase = get()
+        val control: com.infinum.dbinspector.domain.Control.Database = get()
         val repository = DatabaseRepository(
             get(),
             get(),
@@ -107,8 +106,8 @@ internal class DatabaseRepositoryTest : BaseTest() {
 
     @Test
     fun `Remove database calls RemoveDatabase interactor and Database control`() {
-        val interactor: Interactors.RemoveDatabase = get()
-        val control: Control.Database = get()
+        val interactor: com.infinum.dbinspector.data.Interactors.RemoveDatabase = get()
+        val control: com.infinum.dbinspector.domain.Control.Database = get()
         val repository = DatabaseRepository(
             get(),
             get(),
@@ -133,8 +132,8 @@ internal class DatabaseRepositoryTest : BaseTest() {
 
     @Test
     fun `Copy database calls CopyDatabase interactor and Database control`() {
-        val interactor: Interactors.CopyDatabase = get()
-        val control: Control.Database = get()
+        val interactor: com.infinum.dbinspector.data.Interactors.CopyDatabase = get()
+        val control: com.infinum.dbinspector.domain.Control.Database = get()
         val repository = DatabaseRepository(
             get(),
             get(),

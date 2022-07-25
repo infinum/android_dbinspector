@@ -19,11 +19,11 @@ internal class ViewViewModelTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<UseCases.OpenConnection>() }
-            factory { mockk<UseCases.CloseConnection>() }
-            factory { mockk<UseCases.GetTableInfo>() }
-            factory { mockk<UseCases.GetView>() }
-            factory { mockk<UseCases.DropView>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.OpenConnection>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.CloseConnection>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.GetTableInfo>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.GetView>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.DropView>() }
         }
     )
 

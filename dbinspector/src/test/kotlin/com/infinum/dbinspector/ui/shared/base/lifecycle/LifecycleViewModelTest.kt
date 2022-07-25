@@ -17,8 +17,8 @@ internal class LifecycleViewModelTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<UseCases.OpenConnection>() }
-            factory { mockk<UseCases.CloseConnection>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.OpenConnection>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.CloseConnection>() }
         }
     )
 
@@ -39,7 +39,7 @@ internal class LifecycleViewModelTest : BaseTest() {
     @Test
     fun `Open connection invoked`() {
         test {
-            val useCase: UseCases.OpenConnection = get()
+            val useCase: com.infinum.dbinspector.domain.UseCases.OpenConnection = get()
 
             coEvery { useCase.invoke(any()) } returns Unit
 
@@ -59,7 +59,7 @@ internal class LifecycleViewModelTest : BaseTest() {
     @Test
     fun `Close connection invoked`() {
         test {
-            val useCase: UseCases.CloseConnection = get()
+            val useCase: com.infinum.dbinspector.domain.UseCases.CloseConnection = get()
 
             coEvery { useCase.invoke(any()) } returns Unit
 

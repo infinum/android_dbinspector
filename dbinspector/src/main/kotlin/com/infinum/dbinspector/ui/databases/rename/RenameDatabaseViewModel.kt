@@ -7,7 +7,7 @@ import com.infinum.dbinspector.domain.shared.models.parameters.DatabaseParameter
 import com.infinum.dbinspector.ui.shared.base.BaseViewModel
 
 internal class RenameDatabaseViewModel(
-    private val renameDatabase: UseCases.RenameDatabase
+    private val renameDatabase: com.infinum.dbinspector.domain.UseCases.RenameDatabase
 ) : BaseViewModel<RenameDatabaseState, Any>() {
 
     fun rename(

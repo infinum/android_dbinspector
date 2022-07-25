@@ -17,13 +17,13 @@ internal class SaveLinesCountUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            single { mockk<Repositories.Settings>() }
+            single { mockk<com.infinum.dbinspector.domain.Repositories.Settings>() }
         }
     )
 
     @Test
     fun `Invoking use case saves lines count in settings`() {
-        val repository: Repositories.Settings = get()
+        val repository: com.infinum.dbinspector.domain.Repositories.Settings = get()
         val useCase = SaveLinesCountUseCase(repository)
 
         coEvery { repository.saveLinesCount(any()) } returns mockk()

@@ -22,16 +22,16 @@ import kotlinx.coroutines.launch
 
 @Suppress("LongParameterList")
 internal class EditViewModel(
-    openConnection: UseCases.OpenConnection,
-    closeConnection: UseCases.CloseConnection,
-    private val getRawQueryHeaders: UseCases.GetRawQueryHeaders,
-    private val getRawQuery: UseCases.GetRawQuery,
-    private val getAffectedRows: UseCases.GetAffectedRows,
-    private val getTables: UseCases.GetTables,
-    private val getTableInfo: UseCases.GetTableInfo,
-    private val getHistory: UseCases.GetHistory,
-    private val getSimilarExecution: UseCases.GetSimilarExecution,
-    private val saveHistoryExecution: UseCases.SaveExecution
+    openConnection: com.infinum.dbinspector.domain.UseCases.OpenConnection,
+    closeConnection: com.infinum.dbinspector.domain.UseCases.CloseConnection,
+    private val getRawQueryHeaders: com.infinum.dbinspector.domain.UseCases.GetRawQueryHeaders,
+    private val getRawQuery: com.infinum.dbinspector.domain.UseCases.GetRawQuery,
+    private val getAffectedRows: com.infinum.dbinspector.domain.UseCases.GetAffectedRows,
+    private val getTables: com.infinum.dbinspector.domain.UseCases.GetTables,
+    private val getTableInfo: com.infinum.dbinspector.domain.UseCases.GetTableInfo,
+    private val getHistory: com.infinum.dbinspector.domain.UseCases.GetHistory,
+    private val getSimilarExecution: com.infinum.dbinspector.domain.UseCases.GetSimilarExecution,
+    private val saveHistoryExecution: com.infinum.dbinspector.domain.UseCases.SaveExecution
 ) : PagingViewModel<EditState, EditEvent>(openConnection, closeConnection) {
 
     private var debounceSimilarExecutionJob: Job? = null

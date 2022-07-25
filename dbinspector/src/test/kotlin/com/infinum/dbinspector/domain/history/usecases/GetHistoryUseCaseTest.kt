@@ -18,7 +18,7 @@ internal class GetHistoryUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Repositories.History>() }
+            factory { mockk<com.infinum.dbinspector.domain.Repositories.History>() }
         }
     )
 
@@ -28,7 +28,7 @@ internal class GetHistoryUseCaseTest : BaseTest() {
             every { databasePath } returns "test.db"
         }
 
-        val repository: Repositories.History = get()
+        val repository: com.infinum.dbinspector.domain.Repositories.History = get()
         val useCase = GetHistoryUseCase(repository)
 
         coEvery { repository.getByDatabase(any()) } returns mockk()

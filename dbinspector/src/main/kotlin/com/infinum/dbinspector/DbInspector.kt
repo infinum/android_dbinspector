@@ -1,9 +1,9 @@
 package com.infinum.dbinspector
 
 import android.content.Intent
-import com.infinum.dbinspector.data.sources.memory.logger.Logger
 import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.databases.DatabasesActivity
+import com.infinum.dbinspector.ui.logger.Logger
 
 public object DbInspector {
 

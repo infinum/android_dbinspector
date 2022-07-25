@@ -16,8 +16,8 @@ internal class ConnectionControlTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Mappers.Connection>() }
-            factory { mockk<Converters.Connection>() }
+            factory { mockk<com.infinum.dbinspector.domain.Mappers.Connection>() }
+            factory { mockk<com.infinum.dbinspector.domain.Converters.Connection>() }
         }
     )
 
@@ -30,7 +30,7 @@ internal class ConnectionControlTest : BaseTest() {
 
     @Test
     fun `Control converter is not null`() {
-        val converter: Converters.Connection = get()
+        val converter: com.infinum.dbinspector.domain.Converters.Connection = get()
         val control = ConnectionControl(get(), converter)
 
         assertNotNull(control.converter)
@@ -38,7 +38,7 @@ internal class ConnectionControlTest : BaseTest() {
 
     @Test
     fun `Control mapper is not null`() {
-        val mapper: Mappers.Connection = get()
+        val mapper: com.infinum.dbinspector.domain.Mappers.Connection = get()
         val control = ConnectionControl(mapper, get())
 
         assertNotNull(control.mapper)

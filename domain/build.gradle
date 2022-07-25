@@ -1,0 +1,107 @@
+plugins {
+    id 'com.android.library'
+    id "kotlin-android"
+    id "kotlin-parcelize"
+    id "kover"
+}
+
+android {
+    compileSdkVersion buildConfig.compileSdk
+    buildToolsVersion buildConfig.buildTools
+
+    defaultConfig {
+        minSdkVersion buildConfig.minSdk
+        targetSdkVersion buildConfig.targetSdk
+        versionCode releaseConfig.versionCode
+        versionName releaseConfig.version
+    }
+
+    buildTypes {
+        debug {
+            testCoverageEnabled true
+            debuggable true
+            minifyEnabled false
+        }
+        release {
+            debuggable false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt"
+        }
+    }
+
+    namespace releaseConfig.group
+    resourcePrefix "dbinspector_"
+
+    lint {
+        disable 'RtlEnabled', 'VectorPath', 'IconLocation'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        freeCompilerArgs += [
+                '-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi',
+                '-Xexplicit-api=strict',
+                '-Xjvm-default=all'
+        ]
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+        unitTests.all {
+            kover {
+                enabled = name == "testDebugUnitTest"
+                includes = [
+                        "com.infinum.dbinspector.domain.*.*UseCase*.*",
+                        "com.infinum.dbinspector.domain.*.*Repository*.*",
+                        "com.infinum.dbinspector.domain.*.*Control*.*",
+                        "com.infinum.dbinspector.domain.*.*Converter*.*",
+                        "com.infinum.dbinspector.domain.*.*Mapper*.*",
+                        "com.infinum.dbinspector.domain.*.*Interactor*.*",
+                ]
+                excludes = [
+                        "com.infinum.dbinspector.domain.schema.shared.models.*",
+                        "com.infinum.dbinspector.domain.shared.base.*",
+                        "com.infinum.dbinspector.domain.shared.models.dsl.*",
+                        "com.infinum.dbinspector.domain.extensions.*"
+                ]
+            }
+        }
+    }
+
+    sourceSets.each {
+        it.java.srcDirs += "src/$it.name/kotlin"
+    }
+
+    buildFeatures {
+        viewBinding false
+        buildConfig false
+    }
+}
+
+dependencies {
+    implementation project(path: ":data")
+    implementation libs.kotlin.core
+    implementation libs.coroutines.core
+    implementation libs.bundles.androidx.domain
+    implementation libs.protobuf.javalite
+    implementation libs.koin.core
+
+    testImplementation libs.bundles.test
+}
+
+kover {
+    disabled = false
+    coverageEngine.set(kotlinx.kover.api.CoverageEngine.INTELLIJ)
+    intellijEngineVersion.set(libs.versions.intellij.get())
+    jacocoEngineVersion.set(libs.versions.jacoco.get())
+    generateReportOnCheck = true
+}
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+}

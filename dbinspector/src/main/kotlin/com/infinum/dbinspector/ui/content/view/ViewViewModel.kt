@@ -6,11 +6,11 @@ import com.infinum.dbinspector.domain.shared.models.Statements
 import com.infinum.dbinspector.ui.content.shared.ContentViewModel
 
 internal class ViewViewModel(
-    openConnection: UseCases.OpenConnection,
-    closeConnection: UseCases.CloseConnection,
-    tableInfo: UseCases.GetTableInfo,
-    view: UseCases.GetView,
-    dropView: UseCases.DropView
+    openConnection: com.infinum.dbinspector.domain.UseCases.OpenConnection,
+    closeConnection: com.infinum.dbinspector.domain.UseCases.CloseConnection,
+    tableInfo: com.infinum.dbinspector.domain.UseCases.GetTableInfo,
+    view: com.infinum.dbinspector.domain.UseCases.GetView,
+    dropView: com.infinum.dbinspector.domain.UseCases.DropView
 ) : ContentViewModel(
     openConnection,
     closeConnection,

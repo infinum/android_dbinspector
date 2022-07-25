@@ -25,16 +25,16 @@ internal class HistoryViewModelTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<UseCases.GetHistory>() }
-            factory { mockk<UseCases.ClearHistory>() }
-            factory { mockk<UseCases.RemoveExecution>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.GetHistory>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.ClearHistory>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.RemoveExecution>() }
         }
     )
 
     @Test
     @Disabled("Unfinished coroutines during teardown.")
     fun `Load history for database path`() {
-        val useCase: UseCases.GetHistory = get()
+        val useCase: com.infinum.dbinspector.domain.UseCases.GetHistory = get()
         val viewModel = HistoryViewModel(
             useCase,
             get(),
@@ -75,7 +75,7 @@ internal class HistoryViewModelTest : BaseTest() {
 
     @Test
     fun `Clear history for database path`() {
-        val useCase: UseCases.ClearHistory = get()
+        val useCase: com.infinum.dbinspector.domain.UseCases.ClearHistory = get()
         val viewModel = HistoryViewModel(
             get(),
             useCase,
@@ -102,7 +102,7 @@ internal class HistoryViewModelTest : BaseTest() {
 
     @Test
     fun `Remove execution from history`() {
-        val useCase: UseCases.RemoveExecution = get()
+        val useCase: com.infinum.dbinspector.domain.UseCases.RemoveExecution = get()
         val viewModel = HistoryViewModel(
             get(),
             get(),

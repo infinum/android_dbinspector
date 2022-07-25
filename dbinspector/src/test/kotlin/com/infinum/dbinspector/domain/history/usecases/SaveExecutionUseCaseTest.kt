@@ -17,13 +17,13 @@ internal class SaveExecutionUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Repositories.History>() }
+            factory { mockk<com.infinum.dbinspector.domain.Repositories.History>() }
         }
     )
 
     @Test
     fun `Invoking use case saves execution to history`() {
-        val repository: Repositories.History = get()
+        val repository: com.infinum.dbinspector.domain.Repositories.History = get()
         val useCase = SaveExecutionUseCase(repository)
 
         coEvery { repository.saveExecution(any()) } returns mockk()

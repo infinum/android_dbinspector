@@ -2,7 +2,7 @@
 
 package com.infinum.dbinspector
 
-import com.infinum.dbinspector.data.sources.memory.logger.Logger
+import com.infinum.dbinspector.ui.logger.Logger
 
 @Suppress("UnusedPrivateMember")
 public object DbInspector {

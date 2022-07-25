@@ -16,8 +16,8 @@ internal class ContentControlTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Mappers.Content>() }
-            factory { mockk<Converters.Content>() }
+            factory { mockk<com.infinum.dbinspector.domain.Mappers.Content>() }
+            factory { mockk<com.infinum.dbinspector.domain.Converters.Content>() }
         }
     )
 
@@ -30,7 +30,7 @@ internal class ContentControlTest : BaseTest() {
 
     @Test
     fun `Control converter is not null`() {
-        val converter: Converters.Content = get()
+        val converter: com.infinum.dbinspector.domain.Converters.Content = get()
         val control = ContentControl(get(), converter)
 
         assertNotNull(control.converter)
@@ -38,7 +38,7 @@ internal class ContentControlTest : BaseTest() {
 
     @Test
     fun `Control mapper is not null`() {
-        val mappers: Mappers.Content = get()
+        val mappers: com.infinum.dbinspector.domain.Mappers.Content = get()
         val control = ContentControl(mappers, get())
 
         assertNotNull(control.mapper)

@@ -17,13 +17,13 @@ internal class GetSettingsUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Repositories.Settings>() }
+            factory { mockk<com.infinum.dbinspector.domain.Repositories.Settings>() }
         }
     )
 
     @Test
     fun `Invoking use case gets current settings`() {
-        val repository: Repositories.Settings = get()
+        val repository: com.infinum.dbinspector.domain.Repositories.Settings = get()
         val useCase = GetSettingsUseCase(repository)
 
         coEvery { repository.getPage(any()) } returns mockk()

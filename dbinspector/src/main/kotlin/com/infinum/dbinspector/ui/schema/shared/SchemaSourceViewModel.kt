@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOn
 
 internal abstract class SchemaSourceViewModel(
-    openConnection: UseCases.OpenConnection,
-    closeConnection: UseCases.CloseConnection,
+    openConnection: com.infinum.dbinspector.domain.UseCases.OpenConnection,
+    closeConnection: com.infinum.dbinspector.domain.UseCases.CloseConnection,
     private val useCase: BaseUseCase<ContentParameters, Page>
 ) : PagingViewModel<SchemaState, Any>(openConnection, closeConnection) {
 

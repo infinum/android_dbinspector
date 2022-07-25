@@ -25,7 +25,7 @@ internal class PragmaConverterTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory<Converters.Sort> { mockk<SortConverter>() }
+            factory<com.infinum.dbinspector.domain.Converters.Sort> { mockk<SortConverter>() }
         }
     )
 
@@ -33,7 +33,7 @@ internal class PragmaConverterTest : BaseTest() {
     fun `Invoke is not implemented and should throw AbstractMethodError`() {
         val given = mockk<PragmaParameters>()
 
-        val sortConverter: Converters.Sort = get()
+        val sortConverter: com.infinum.dbinspector.domain.Converters.Sort = get()
         val converter = PragmaConverter(sortConverter)
 
         assertThrows<NotImplementedError> {
@@ -57,7 +57,7 @@ internal class PragmaConverterTest : BaseTest() {
                 statement = "PRAGMA version()"
             )
 
-            val sortConverter: Converters.Sort = get()
+            val sortConverter: com.infinum.dbinspector.domain.Converters.Sort = get()
             val converter = PragmaConverter(sortConverter)
 
             coEvery { sortConverter.invoke(any()) } returns mockk()
@@ -75,8 +75,8 @@ internal class PragmaConverterTest : BaseTest() {
                 every { databasePath } returns "test.db"
                 every { statement } returns "PRAGMA indexes()"
                 every { connection } returns null
-                every { page } returns Domain.Constants.Limits.INITIAL_PAGE
-                every { pageSize } returns Domain.Constants.Limits.PAGE_SIZE
+                every { page } returns com.infinum.dbinspector.domain.Domain.Constants.Limits.INITIAL_PAGE
+                every { pageSize } returns com.infinum.dbinspector.domain.Domain.Constants.Limits.PAGE_SIZE
                 every { sort } returns SortParameters()
             }
             val expected = Query(
@@ -85,7 +85,7 @@ internal class PragmaConverterTest : BaseTest() {
                 order = Order.ASCENDING
             )
 
-            val sortConverter: Converters.Sort = get()
+            val sortConverter: com.infinum.dbinspector.domain.Converters.Sort = get()
             val converter = PragmaConverter(sortConverter)
 
             coEvery { sortConverter.invoke(any()) } returns expected.order

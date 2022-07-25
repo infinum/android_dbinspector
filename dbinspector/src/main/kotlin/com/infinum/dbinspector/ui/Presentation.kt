@@ -2,7 +2,6 @@ package com.infinum.dbinspector.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
-import com.infinum.dbinspector.data.sources.memory.logger.Logger
 import com.infinum.dbinspector.di.LibraryKoin
 import com.infinum.dbinspector.domain.Domain
 import com.infinum.dbinspector.ui.content.table.TableViewModel
@@ -13,6 +12,7 @@ import com.infinum.dbinspector.ui.databases.remove.RemoveDatabaseViewModel
 import com.infinum.dbinspector.ui.databases.rename.RenameDatabaseViewModel
 import com.infinum.dbinspector.ui.edit.EditViewModel
 import com.infinum.dbinspector.ui.edit.history.HistoryViewModel
+import com.infinum.dbinspector.ui.logger.Logger
 import com.infinum.dbinspector.ui.pragma.PragmaViewModel
 import com.infinum.dbinspector.ui.pragma.foreignkeys.ForeignKeysViewModel
 import com.infinum.dbinspector.ui.pragma.indexes.IndexViewModel
@@ -56,7 +56,6 @@ internal object Presentation {
         object Settings {
             const val LINES_LIMIT_MINIMUM = 1
             const val LINES_LIMIT_MAXIMUM = 100
-            const val BLOB_DATA_PLACEHOLDER = "[ DATA ]"
         }
     }
 

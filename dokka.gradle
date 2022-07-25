@@ -21,7 +21,7 @@ tasks.named("dokkaJavadoc") {
                 remoteLineSuffix.set("#L")
             }
             perPackageOption {
-                prefix.set("com.infinum.dbinspector.extensions")
+                prefix.set("com.infinum.dbinspector.ui.extensions")
                 suppress.set(true)
             }
             perPackageOption {

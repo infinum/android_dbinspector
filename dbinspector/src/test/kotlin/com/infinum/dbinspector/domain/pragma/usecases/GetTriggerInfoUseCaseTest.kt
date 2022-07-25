@@ -17,13 +17,13 @@ internal class GetTriggerInfoUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Repositories.Pragma>() }
+            factory { mockk<com.infinum.dbinspector.domain.Repositories.Pragma>() }
         }
     )
 
     @Test
     fun `Invoking use case invokes pragma trigger info`() {
-        val repository: Repositories.Pragma = get()
+        val repository: com.infinum.dbinspector.domain.Repositories.Pragma = get()
         val useCase = GetTriggerInfoUseCase(repository)
 
         coEvery { repository.getTriggerInfo() } returns mockk()

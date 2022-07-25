@@ -1,6 +1,5 @@
 package com.infinum.dbinspector.domain.database.interactors
 
-import com.infinum.dbinspector.data.Sources
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -17,14 +16,15 @@ internal class ImportDatabasesInteractorTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Sources.Raw>() }
+            factory { mockk<com.infinum.dbinspector.data.Sources.Raw>() }
         }
     )
 
     @Test
     fun `Invoking interactor invokes source importDatabases`() {
-        val source: Sources.Raw = get()
-        val interactor = ImportDatabasesInteractor(source)
+        val source: com.infinum.dbinspector.data.Sources.Raw = get()
+        val interactor =
+            com.infinum.dbinspector.data.interactors.database.ImportDatabasesInteractor(source)
 
         coEvery { source.importDatabases(any()) } returns mockk()
 

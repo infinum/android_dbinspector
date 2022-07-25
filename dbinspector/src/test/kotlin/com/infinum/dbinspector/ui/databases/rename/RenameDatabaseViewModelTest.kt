@@ -23,13 +23,13 @@ internal class RenameDatabaseViewModelTest : BaseTest() {
     override fun modules(): List<Module> = listOf(
         module {
             factory { mockk<Context>() }
-            factory { mockk<UseCases.RenameDatabase>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.RenameDatabase>() }
         }
     )
 
     @Test
     fun `Rename database successful`() {
-        val useCase: UseCases.RenameDatabase = get()
+        val useCase: com.infinum.dbinspector.domain.UseCases.RenameDatabase = get()
         val viewModel = RenameDatabaseViewModel(
             useCase
         )
@@ -63,7 +63,7 @@ internal class RenameDatabaseViewModelTest : BaseTest() {
 
     @Test
     fun `Rename database failed`() {
-        val useCase: UseCases.RenameDatabase = get()
+        val useCase: com.infinum.dbinspector.domain.UseCases.RenameDatabase = get()
         val viewModel = RenameDatabaseViewModel(
             useCase
         )

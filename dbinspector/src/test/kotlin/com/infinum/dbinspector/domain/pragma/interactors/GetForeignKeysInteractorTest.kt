@@ -1,7 +1,5 @@
 package com.infinum.dbinspector.domain.pragma.interactors
 
-import com.infinum.dbinspector.data.Data
-import com.infinum.dbinspector.data.Sources
 import com.infinum.dbinspector.data.models.local.cursor.input.Order
 import com.infinum.dbinspector.data.models.local.cursor.input.Query
 import com.infinum.dbinspector.shared.BaseTest
@@ -21,7 +19,7 @@ internal class GetForeignKeysInteractorTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Sources.Local.Pragma>() }
+            factory { mockk<com.infinum.dbinspector.data.Sources.Local.Pragma>() }
         }
     )
 
@@ -33,11 +31,12 @@ internal class GetForeignKeysInteractorTest : BaseTest() {
             every { database } returns mockk()
             every { statement } returns ""
             every { order } returns Order.ASCENDING
-            every { pageSize } returns Data.Constants.Limits.PAGE_SIZE
-            every { page } returns Data.Constants.Limits.INITIAL_PAGE
+            every { pageSize } returns com.infinum.dbinspector.data.Data.Constants.Limits.PAGE_SIZE
+            every { page } returns com.infinum.dbinspector.data.Data.Constants.Limits.INITIAL_PAGE
         }
-        val source: Sources.Local.Pragma = get()
-        val interactor = GetForeignKeysInteractor(source)
+        val source: com.infinum.dbinspector.data.Sources.Local.Pragma = get()
+        val interactor =
+            com.infinum.dbinspector.data.interactors.pragma.GetForeignKeysInteractor(source)
 
         coEvery { source.getForeignKeys(any()) } returns mockk()
 

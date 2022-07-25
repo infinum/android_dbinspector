@@ -1,0 +1,117 @@
+plugins {
+    id 'com.android.library'
+    id "kotlin-android"
+    id "com.google.protobuf"
+    id "kover"
+}
+
+android {
+    compileSdkVersion buildConfig.compileSdk
+    buildToolsVersion buildConfig.buildTools
+
+    defaultConfig {
+        minSdkVersion buildConfig.minSdk
+        targetSdkVersion buildConfig.targetSdk
+        versionCode releaseConfig.versionCode
+        versionName releaseConfig.version
+    }
+
+    buildTypes {
+        debug {
+            testCoverageEnabled true
+            debuggable true
+            minifyEnabled false
+        }
+        release {
+            debuggable false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt"
+        }
+    }
+
+    namespace releaseConfig.group
+    resourcePrefix "dbinspector_"
+
+    lint {
+        disable 'RtlEnabled', 'VectorPath', 'IconLocation'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        freeCompilerArgs += [
+                '-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi',
+                '-Xexplicit-api=strict',
+                '-Xjvm-default=all'
+        ]
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+        unitTests.all {
+            kover {
+                enabled = name == "testDebugUnitTest"
+                includes = [
+                        "com.infinum.dbinspector.data.sources.*",
+                ]
+                excludes = [
+                        "com.infinum.dbinspector.data.shared.base.*",
+                        "com.infinum.dbinspector.data.extensions.*"
+                ]
+            }
+        }
+    }
+
+    sourceSets.each {
+        it.proto.srcDirs += "src/$it.name/proto"
+        it.java.srcDirs += "src/$it.name/kotlin"
+    }
+
+    buildFeatures {
+        viewBinding false
+        buildConfig false
+    }
+}
+
+dependencies {
+    implementation libs.kotlin.core
+    implementation libs.coroutines.core
+    implementation libs.bundles.androidx.data
+    implementation libs.protobuf.javalite
+    implementation libs.koin.core
+
+    testImplementation libs.bundles.test
+}
+
+protobuf {
+    protoc {
+        def protobufArtifact = libs.protobuf.artifact.get()
+        artifact = protobufArtifact.getModule().toString() + ":" + protobufArtifact.getVersionConstraint().toString()
+    }
+
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                java {
+                    option "lite"
+                }
+            }
+        }
+    }
+}
+
+kover {
+    disabled = false
+    coverageEngine.set(kotlinx.kover.api.CoverageEngine.INTELLIJ)
+    intellijEngineVersion.set(libs.versions.intellij.get())
+    jacocoEngineVersion.set(libs.versions.jacoco.get())
+    generateReportOnCheck = true
+}
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+}

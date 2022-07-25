@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dbinspector_pragma_table_info">Table info</string>
+    <string name="dbinspector_pragma_foreign_key">Foreign keys</string>
+    <string name="dbinspector_pragma_index">Indexes</string>
+
+    <string name="dbinspector_schema_tables">Tables</string>
+    <string name="dbinspector_schema_views">Views</string>
+    <string name="dbinspector_schema_triggers">Triggers</string>
+</resources>

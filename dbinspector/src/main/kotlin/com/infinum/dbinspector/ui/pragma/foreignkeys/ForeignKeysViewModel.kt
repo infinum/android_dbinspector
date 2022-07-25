@@ -5,9 +5,9 @@ import com.infinum.dbinspector.domain.shared.models.Statements
 import com.infinum.dbinspector.ui.pragma.shared.PragmaSourceViewModel
 
 internal class ForeignKeysViewModel(
-    openConnection: UseCases.OpenConnection,
-    closeConnection: UseCases.CloseConnection,
-    getForeignKeys: UseCases.GetForeignKeys
+    openConnection: com.infinum.dbinspector.domain.UseCases.OpenConnection,
+    closeConnection: com.infinum.dbinspector.domain.UseCases.CloseConnection,
+    getForeignKeys: com.infinum.dbinspector.domain.UseCases.GetForeignKeys
 ) : PragmaSourceViewModel(openConnection, closeConnection, getForeignKeys) {
 
     override fun pragmaStatement(name: String) =

@@ -3,7 +3,6 @@ package com.infinum.dbinspector.domain.database.control.converters
 import android.content.Context
 import android.net.Uri
 import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
-import com.infinum.dbinspector.domain.database.models.Operation
 import com.infinum.dbinspector.domain.shared.models.parameters.DatabaseParameters
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.every

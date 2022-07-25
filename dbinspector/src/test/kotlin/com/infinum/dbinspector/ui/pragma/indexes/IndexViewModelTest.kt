@@ -16,9 +16,9 @@ internal class IndexViewModelTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<UseCases.OpenConnection>() }
-            factory { mockk<UseCases.CloseConnection>() }
-            factory { mockk<UseCases.GetIndexes>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.OpenConnection>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.CloseConnection>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.GetIndexes>() }
         }
     )
 

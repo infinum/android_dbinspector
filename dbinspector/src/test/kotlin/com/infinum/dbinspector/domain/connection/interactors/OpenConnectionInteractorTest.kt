@@ -1,6 +1,5 @@
 package com.infinum.dbinspector.domain.connection.interactors
 
-import com.infinum.dbinspector.data.Sources
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -17,14 +16,15 @@ internal class OpenConnectionInteractorTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Sources.Memory.Connection>() }
+            factory { mockk<com.infinum.dbinspector.data.Sources.Memory.Connection>() }
         }
     )
 
     @Test
     fun `Invoking interactor invokes source openConnection`() {
-        val source: Sources.Memory.Connection = get()
-        val interactor = OpenConnectionInteractor(source)
+        val source: com.infinum.dbinspector.data.Sources.Memory.Connection = get()
+        val interactor =
+            com.infinum.dbinspector.data.interactors.connection.OpenConnectionInteractor(source)
 
         coEvery { source.openConnection(any()) } returns mockk()
 

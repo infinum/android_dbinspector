@@ -16,8 +16,8 @@ internal class HistoryControlTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Mappers.History>() }
-            factory { mockk<Converters.History>() }
+            factory { mockk<com.infinum.dbinspector.domain.Mappers.History>() }
+            factory { mockk<com.infinum.dbinspector.domain.Converters.History>() }
         }
     )
 
@@ -30,7 +30,7 @@ internal class HistoryControlTest : BaseTest() {
 
     @Test
     fun `Control converter is not null`() {
-        val converter: Converters.History = get()
+        val converter: com.infinum.dbinspector.domain.Converters.History = get()
         val control = HistoryControl(get(), converter)
 
         assertNotNull(control.converter)
@@ -38,7 +38,7 @@ internal class HistoryControlTest : BaseTest() {
 
     @Test
     fun `Control mapper is not null`() {
-        val mapper: Mappers.History = get()
+        val mapper: com.infinum.dbinspector.domain.Mappers.History = get()
         val control = HistoryControl(mapper, get())
 
         assertNotNull(control.mapper)

@@ -18,8 +18,8 @@ internal class GetTableInfoUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Repositories.Connection>() }
-            factory { mockk<Repositories.Pragma>() }
+            factory { mockk<com.infinum.dbinspector.domain.Repositories.Connection>() }
+            factory { mockk<com.infinum.dbinspector.domain.Repositories.Pragma>() }
         }
     )
 
@@ -30,8 +30,8 @@ internal class GetTableInfoUseCaseTest : BaseTest() {
             statement = "my_statement"
         )
 
-        val connectionRepository: Repositories.Connection = get()
-        val pragmaRepository: Repositories.Pragma = get()
+        val connectionRepository: com.infinum.dbinspector.domain.Repositories.Connection = get()
+        val pragmaRepository: com.infinum.dbinspector.domain.Repositories.Pragma = get()
         val useCase = GetTableInfoUseCase(connectionRepository, pragmaRepository)
 
         coEvery { connectionRepository.open(any()) } returns mockk()

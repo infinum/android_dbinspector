@@ -8,18 +8,10 @@
 
     <string name="dbinspector_schema">Schema</string>
 
-    <string name="dbinspector_schema_tables">Tables</string>
-    <string name="dbinspector_schema_views">Views</string>
-    <string name="dbinspector_schema_triggers">Triggers</string>
-
     <string name="dbinspector_table">Table</string>
     <string name="dbinspector_view">View</string>
     <string name="dbinspector_trigger">Trigger</string>
     <string name="dbinspector_pragma">Pragma</string>
-
-    <string name="dbinspector_pragma_table_info">Table info</string>
-    <string name="dbinspector_pragma_foreign_key">Foreign keys</string>
-    <string name="dbinspector_pragma_index">Indexes</string>
 
     <string name="dbinspector_edit">Edit</string>
     <string name="dbinspector_database_name">Name</string>

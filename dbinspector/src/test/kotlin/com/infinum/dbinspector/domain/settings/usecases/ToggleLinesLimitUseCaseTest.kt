@@ -17,13 +17,13 @@ internal class ToggleLinesLimitUseCaseTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Repositories.Settings>() }
+            factory { mockk<com.infinum.dbinspector.domain.Repositories.Settings>() }
         }
     )
 
     @Test
     fun `Invoking use case toggles line limit in settings`() {
-        val repository: Repositories.Settings = get()
+        val repository: com.infinum.dbinspector.domain.Repositories.Settings = get()
         val useCase = ToggleLinesLimitUseCase(repository)
 
         coEvery { repository.saveLinesLimit(any()) } returns mockk()

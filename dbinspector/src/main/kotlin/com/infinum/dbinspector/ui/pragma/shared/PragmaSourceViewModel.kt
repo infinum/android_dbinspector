@@ -9,8 +9,8 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOn
 
 internal abstract class PragmaSourceViewModel(
-    openConnection: UseCases.OpenConnection,
-    closeConnection: UseCases.CloseConnection,
+    openConnection: com.infinum.dbinspector.domain.UseCases.OpenConnection,
+    closeConnection: com.infinum.dbinspector.domain.UseCases.CloseConnection,
     private val useCase: BaseUseCase<PragmaParameters.Pragma, Page>
 ) : PagingViewModel<PragmaState, Any>(openConnection, closeConnection) {
 

@@ -8,9 +8,9 @@ import com.infinum.dbinspector.domain.shared.models.parameters.DatabaseParameter
 import com.infinum.dbinspector.ui.shared.base.BaseViewModel
 
 internal class DatabaseViewModel(
-    private val getDatabases: UseCases.GetDatabases,
-    private val importDatabases: UseCases.ImportDatabases,
-    private val copyDatabase: UseCases.CopyDatabase
+    private val getDatabases: com.infinum.dbinspector.domain.UseCases.GetDatabases,
+    private val importDatabases: com.infinum.dbinspector.domain.UseCases.ImportDatabases,
+    private val copyDatabase: com.infinum.dbinspector.domain.UseCases.CopyDatabase
 ) : BaseViewModel<DatabaseState, Any>() {
 
     fun browse(context: Context, query: String? = null) {

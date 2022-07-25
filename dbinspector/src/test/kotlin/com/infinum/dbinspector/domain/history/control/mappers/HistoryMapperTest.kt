@@ -20,7 +20,7 @@ internal class HistoryMapperTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory<Mappers.Execution> { mockk<ExecutionMapper>() }
+            factory<com.infinum.dbinspector.domain.Mappers.Execution> { mockk<ExecutionMapper>() }
         }
     )
 
@@ -31,7 +31,7 @@ internal class HistoryMapperTest : BaseTest() {
 
             val expected = History()
 
-            val executionMapper: Mappers.Execution = get()
+            val executionMapper: com.infinum.dbinspector.domain.Mappers.Execution = get()
             val mapper = HistoryMapper(executionMapper)
 
             coEvery { executionMapper.invoke(any()) } returns mockk()
@@ -64,7 +64,7 @@ internal class HistoryMapperTest : BaseTest() {
                 )
             )
 
-            val executionMapper: Mappers.Execution = get()
+            val executionMapper: com.infinum.dbinspector.domain.Mappers.Execution = get()
             val mapper = HistoryMapper(executionMapper)
 
             coEvery { executionMapper.invoke(any()) } returns expectedExecution

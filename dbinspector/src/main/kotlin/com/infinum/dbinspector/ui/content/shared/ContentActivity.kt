@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorActivityContentBinding
 import com.infinum.dbinspector.domain.shared.models.Sort
-import com.infinum.dbinspector.extensions.setupAsTable
+import com.infinum.dbinspector.ui.extensions.setupAsTable
 import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.Presentation.Constants.Keys.DROP_CONTENT
 import com.infinum.dbinspector.ui.Presentation.Constants.Keys.DROP_NAME

@@ -2,7 +2,6 @@ plugins {
     id "com.android.library"
     id "kotlin-android"
     id "kotlin-parcelize"
-    id "com.google.protobuf"
     id "kover"
 }
 
@@ -57,28 +56,17 @@ android {
             kover {
                 enabled = name == "testDebugUnitTest"
                 includes = [
-                        "com.infinum.dbinspector.data.sources.*",
-                        "com.infinum.dbinspector.domain.*.*UseCase*.*",
-                        "com.infinum.dbinspector.domain.*.*Repository*.*",
-                        "com.infinum.dbinspector.domain.*.*Control*.*",
-                        "com.infinum.dbinspector.domain.*.*Converter*.*",
-                        "com.infinum.dbinspector.domain.*.*Mapper*.*",
-                        "com.infinum.dbinspector.domain.*.*Interactor*.*",
                         "com.infinum.dbinspector.ui.*.*ViewModel*.*"
                 ]
                 excludes = [
                         "com.infinum.dbinspector.di.*",
-                        "com.infinum.dbinspector.data.shared.base.*",
-                        "com.infinum.dbinspector.domain.schema.shared.models.*",
-                        "com.infinum.dbinspector.domain.shared.base.*",
-                        "com.infinum.dbinspector.domain.shared.models.dsl.*",
                         "com.infinum.dbinspector.ui.shared.base.*",
                         "com.infinum.dbinspector.ui.shared.delegates.*",
                         "com.infinum.dbinspector.ui.shared.edgefactories.*",
                         "com.infinum.dbinspector.ui.shared.listeners.*",
                         "com.infinum.dbinspector.ui.shared.searchable.*",
                         "com.infinum.dbinspector.ui.shared.views.*",
-                        "com.infinum.dbinspector.extensions.*",
+                        "com.infinum.dbinspector.ui.extensions.*",
                         "com.infinum.dbinspector.databinding.*"
                 ]
             }
@@ -86,41 +74,24 @@ android {
     }
 
     sourceSets.each {
-        it.proto.srcDirs += "src/$it.name/proto"
         it.java.srcDirs += "src/$it.name/kotlin"
     }
 
     buildFeatures {
         viewBinding true
+        buildConfig true
     }
 }
 
 dependencies {
+    implementation project(path: ":domain")
     implementation libs.kotlin.core
     implementation libs.coroutines.android
-    implementation libs.bundles.androidx
-    implementation libs.protobuf.javalite
+    implementation libs.bundles.androidx.ui
     implementation libs.material
     implementation libs.koin.android
 
     testImplementation libs.bundles.test
-}
-
-protobuf {
-    protoc {
-        def protobufArtifact = libs.protobuf.artifact.get()
-        artifact = protobufArtifact.getModule().toString() + ":" + protobufArtifact.getVersionConstraint().toString()
-    }
-
-    generateProtoTasks {
-        all().each { task ->
-            task.builtins {
-                java {
-                    option "lite"
-                }
-            }
-        }
-    }
 }
 
 kover {

@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.domain.connection
 
-import com.infinum.dbinspector.domain.Control
-import com.infinum.dbinspector.domain.Interactors
+import com.infinum.dbinspector.data.Interactors
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -18,16 +17,16 @@ internal class ConnectionRepositoryTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Interactors.OpenConnection>() }
-            factory { mockk<Interactors.CloseConnection>() }
-            factory { mockk<Control.Connection>() }
+            factory { mockk<com.infinum.dbinspector.data.Interactors.OpenConnection>() }
+            factory { mockk<com.infinum.dbinspector.data.Interactors.CloseConnection>() }
+            factory { mockk<com.infinum.dbinspector.domain.Control.Connection>() }
         }
     )
 
     @Test
     fun `Connection repository open calls open interactor`() {
-        val interactor: Interactors.OpenConnection = get()
-        val control: Control.Connection = get()
+        val interactor: com.infinum.dbinspector.data.Interactors.OpenConnection = get()
+        val control: com.infinum.dbinspector.domain.Control.Connection = get()
         val repository = ConnectionRepository(
             interactor,
             get(),
@@ -49,8 +48,8 @@ internal class ConnectionRepositoryTest : BaseTest() {
 
     @Test
     fun `Connection repository close calls close interactor`() {
-        val interactor: Interactors.CloseConnection = get()
-        val control: Control.Connection = get()
+        val interactor: com.infinum.dbinspector.data.Interactors.CloseConnection = get()
+        val control: com.infinum.dbinspector.domain.Control.Connection = get()
         val repository = ConnectionRepository(
             get(),
             interactor,

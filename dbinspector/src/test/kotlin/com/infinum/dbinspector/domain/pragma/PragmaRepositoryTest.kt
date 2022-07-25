@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.domain.pragma
 
-import com.infinum.dbinspector.domain.Control
-import com.infinum.dbinspector.domain.Interactors
+import com.infinum.dbinspector.data.Interactors
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -20,18 +19,18 @@ internal class PragmaRepositoryTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Interactors.GetUserVersion>() }
-            factory { mockk<Interactors.GetTableInfo>() }
-            factory { mockk<Interactors.GetForeignKeys>() }
-            factory { mockk<Interactors.GetIndexes>() }
-            factory { mockk<Control.Pragma>() }
+            factory { mockk<com.infinum.dbinspector.data.Interactors.GetUserVersion>() }
+            factory { mockk<com.infinum.dbinspector.data.Interactors.GetTableInfo>() }
+            factory { mockk<com.infinum.dbinspector.data.Interactors.GetForeignKeys>() }
+            factory { mockk<com.infinum.dbinspector.data.Interactors.GetIndexes>() }
+            factory { mockk<com.infinum.dbinspector.domain.Control.Pragma>() }
         }
     )
 
     @Test
     fun `Get user version calls interactor and control once`() {
-        val interactor: Interactors.GetUserVersion = get()
-        val control: Control.Pragma = get()
+        val interactor: com.infinum.dbinspector.data.Interactors.GetUserVersion = get()
+        val control: com.infinum.dbinspector.domain.Control.Pragma = get()
         val repository = PragmaRepository(
             interactor,
             get(),
@@ -55,8 +54,8 @@ internal class PragmaRepositoryTest : BaseTest() {
 
     @Test
     fun `Get table info calls interactor and control once`() {
-        val interactor: Interactors.GetTableInfo = get()
-        val control: Control.Pragma = get()
+        val interactor: com.infinum.dbinspector.data.Interactors.GetTableInfo = get()
+        val control: com.infinum.dbinspector.domain.Control.Pragma = get()
         val repository = PragmaRepository(
             get(),
             interactor,
@@ -81,7 +80,7 @@ internal class PragmaRepositoryTest : BaseTest() {
     @Test
     @Disabled("This repository call is untestable and needs to be refactored first.")
     fun `Get trigger info uses TriggerInfoColumns enum and Pragma control mapper transformToHeader`() {
-        val control: Control.Pragma = get()
+        val control: com.infinum.dbinspector.domain.Control.Pragma = get()
         val repository = PragmaRepository(
             get(),
             get(),
@@ -106,8 +105,8 @@ internal class PragmaRepositoryTest : BaseTest() {
 
     @Test
     fun `Get foreign keys calls interactor and control once`() {
-        val interactor: Interactors.GetForeignKeys = get()
-        val control: Control.Pragma = get()
+        val interactor: com.infinum.dbinspector.data.Interactors.GetForeignKeys = get()
+        val control: com.infinum.dbinspector.domain.Control.Pragma = get()
         val repository = PragmaRepository(
             get(),
             get(),
@@ -131,8 +130,8 @@ internal class PragmaRepositoryTest : BaseTest() {
 
     @Test
     fun `Get indexes calls interactor and control once`() {
-        val interactor: Interactors.GetIndexes = get()
-        val control: Control.Pragma = get()
+        val interactor: com.infinum.dbinspector.data.Interactors.GetIndexes = get()
+        val control: com.infinum.dbinspector.domain.Control.Pragma = get()
         val repository = PragmaRepository(
             get(),
             get(),

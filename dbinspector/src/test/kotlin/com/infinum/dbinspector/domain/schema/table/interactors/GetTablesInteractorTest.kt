@@ -1,6 +1,5 @@
 package com.infinum.dbinspector.domain.schema.table.interactors
 
-import com.infinum.dbinspector.data.Sources
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -17,14 +16,15 @@ internal class GetTablesInteractorTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Sources.Local.Schema>() }
+            factory { mockk<com.infinum.dbinspector.data.Sources.Local.Schema>() }
         }
     )
 
     @Test
     fun `Invoking interactor invokes source getTables`() {
-        val source: Sources.Local.Schema = get()
-        val interactor = GetTablesInteractor(source)
+        val source: com.infinum.dbinspector.data.Sources.Local.Schema = get()
+        val interactor =
+            com.infinum.dbinspector.data.interactors.schema.table.GetTablesInteractor(source)
 
         coEvery { source.getTables(any()) } returns mockk()
 

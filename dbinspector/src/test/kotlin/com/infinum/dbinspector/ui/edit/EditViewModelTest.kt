@@ -24,16 +24,16 @@ internal class EditViewModelTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<UseCases.OpenConnection>() }
-            factory { mockk<UseCases.CloseConnection>() }
-            factory { mockk<UseCases.GetRawQueryHeaders>() }
-            factory { mockk<UseCases.GetRawQuery>() }
-            factory { mockk<UseCases.GetAffectedRows>() }
-            factory { mockk<UseCases.GetTables>() }
-            factory { mockk<UseCases.GetTableInfo>() }
-            factory { mockk<UseCases.GetHistory>() }
-            factory { mockk<UseCases.GetSimilarExecution>() }
-            factory { mockk<UseCases.SaveExecution>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.OpenConnection>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.CloseConnection>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.GetRawQueryHeaders>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.GetRawQuery>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.GetAffectedRows>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.GetTables>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.GetTableInfo>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.GetHistory>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.GetSimilarExecution>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.SaveExecution>() }
         }
     )
 
@@ -83,7 +83,7 @@ internal class EditViewModelTest : BaseTest() {
 
     @Test
     fun `Raw query content header is invoked`() {
-        val useCase: UseCases.GetRawQueryHeaders = get()
+        val useCase: com.infinum.dbinspector.domain.UseCases.GetRawQueryHeaders = get()
         val viewModel = EditViewModel(
             get(),
             get(),
@@ -128,7 +128,7 @@ internal class EditViewModelTest : BaseTest() {
 
     @Test
     fun `Raw query content data has cells`() {
-        val useCase: UseCases.GetRawQuery = get()
+        val useCase: com.infinum.dbinspector.domain.UseCases.GetRawQuery = get()
         val viewModel = EditViewModel(
             get(),
             get(),
@@ -167,7 +167,7 @@ internal class EditViewModelTest : BaseTest() {
 
     @Test
     fun `Raw query content data with affected rows successful`() {
-        val useCase: UseCases.GetAffectedRows = get()
+        val useCase: com.infinum.dbinspector.domain.UseCases.GetAffectedRows = get()
         val viewModel = EditViewModel(
             get(),
             get(),
@@ -206,8 +206,8 @@ internal class EditViewModelTest : BaseTest() {
 
     @Test
     fun `Collect database keywords like table and column names, view names and trigger names`() {
-        val getTablesUseCase: UseCases.GetTables = get()
-        val getTableInfoUseCase: UseCases.GetTableInfo = get()
+        val getTablesUseCase: com.infinum.dbinspector.domain.UseCases.GetTables = get()
+        val getTableInfoUseCase: com.infinum.dbinspector.domain.UseCases.GetTableInfo = get()
         val viewModel = EditViewModel(
             get(),
             get(),
@@ -261,7 +261,7 @@ internal class EditViewModelTest : BaseTest() {
     @Test
     @Disabled("Unfinished coroutines during teardown.")
     fun `Get all history`() {
-        val useCase: UseCases.GetHistory = get()
+        val useCase: com.infinum.dbinspector.domain.UseCases.GetHistory = get()
         val viewModel = EditViewModel(
             get(),
             get(),
@@ -304,7 +304,7 @@ internal class EditViewModelTest : BaseTest() {
     @Disabled("How to test with delay")
     fun `Find similar execution`() {
         test {
-            val useCase: UseCases.GetSimilarExecution = get()
+            val useCase: com.infinum.dbinspector.domain.UseCases.GetSimilarExecution = get()
             val viewModel = EditViewModel(
                 get(),
                 get(),
@@ -343,7 +343,7 @@ internal class EditViewModelTest : BaseTest() {
 
     @Test
     fun `Empty successful execution is not saved`() {
-        val useCase: UseCases.SaveExecution = get()
+        val useCase: com.infinum.dbinspector.domain.UseCases.SaveExecution = get()
         val viewModel = EditViewModel(
             get(),
             get(),
@@ -368,7 +368,7 @@ internal class EditViewModelTest : BaseTest() {
 
     @Test
     fun `Successful execution is saved`() {
-        val useCase: UseCases.SaveExecution = get()
+        val useCase: com.infinum.dbinspector.domain.UseCases.SaveExecution = get()
         val viewModel = EditViewModel(
             get(),
             get(),
@@ -393,7 +393,7 @@ internal class EditViewModelTest : BaseTest() {
 
     @Test
     fun `Empty failed execution is not saved`() {
-        val useCase: UseCases.SaveExecution = get()
+        val useCase: com.infinum.dbinspector.domain.UseCases.SaveExecution = get()
         val viewModel = EditViewModel(
             get(),
             get(),
@@ -418,7 +418,7 @@ internal class EditViewModelTest : BaseTest() {
 
     @Test
     fun `Failed execution is saved`() {
-        val useCase: UseCases.SaveExecution = get()
+        val useCase: com.infinum.dbinspector.domain.UseCases.SaveExecution = get()
         val viewModel = EditViewModel(
             get(),
             get(),

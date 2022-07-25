@@ -7,7 +7,7 @@ import com.infinum.dbinspector.domain.shared.models.parameters.DatabaseParameter
 import com.infinum.dbinspector.ui.shared.base.BaseViewModel
 
 internal class RemoveDatabaseViewModel(
-    private val removeDatabase: UseCases.RemoveDatabase,
+    private val removeDatabase: com.infinum.dbinspector.domain.UseCases.RemoveDatabase,
 ) : BaseViewModel<RemoveDatabaseState, Any>() {
 
     fun remove(context: Context, database: DatabaseDescriptor) =

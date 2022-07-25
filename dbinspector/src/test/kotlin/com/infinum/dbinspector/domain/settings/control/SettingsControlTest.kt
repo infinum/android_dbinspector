@@ -16,8 +16,8 @@ internal class SettingsControlTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Mappers.Settings>() }
-            factory { mockk<Converters.Settings>() }
+            factory { mockk<com.infinum.dbinspector.domain.Mappers.Settings>() }
+            factory { mockk<com.infinum.dbinspector.domain.Converters.Settings>() }
         }
     )
 
@@ -30,7 +30,7 @@ internal class SettingsControlTest : BaseTest() {
 
     @Test
     fun `Control converter is not null`() {
-        val converter: Converters.Settings = get()
+        val converter: com.infinum.dbinspector.domain.Converters.Settings = get()
         val control = SettingsControl(get(), converter)
 
         assertNotNull(control.converter)
@@ -38,7 +38,7 @@ internal class SettingsControlTest : BaseTest() {
 
     @Test
     fun `Control mapper is not null`() {
-        val mapper: Mappers.Settings = get()
+        val mapper: com.infinum.dbinspector.domain.Mappers.Settings = get()
         val control = SettingsControl(mapper, get())
 
         assertNotNull(control.mapper)

@@ -5,9 +5,9 @@ import com.infinum.dbinspector.domain.shared.models.Statements
 import com.infinum.dbinspector.ui.pragma.shared.PragmaSourceViewModel
 
 internal class TableInfoViewModel(
-    openConnection: UseCases.OpenConnection,
-    closeConnection: UseCases.CloseConnection,
-    getTable: UseCases.GetTablePragma
+    openConnection: com.infinum.dbinspector.domain.UseCases.OpenConnection,
+    closeConnection: com.infinum.dbinspector.domain.UseCases.CloseConnection,
+    getTable: com.infinum.dbinspector.domain.UseCases.GetTablePragma
 ) : PragmaSourceViewModel(openConnection, closeConnection, getTable) {
 
     override fun pragmaStatement(name: String) =

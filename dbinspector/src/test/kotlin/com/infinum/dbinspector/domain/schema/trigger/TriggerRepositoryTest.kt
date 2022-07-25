@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.domain.schema.trigger
 
-import com.infinum.dbinspector.domain.Control
-import com.infinum.dbinspector.domain.Interactors
+import com.infinum.dbinspector.data.Interactors
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -16,10 +15,10 @@ internal class TriggerRepositoryTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Interactors.GetTriggers>() }
-            factory { mockk<Interactors.GetTriggerByName>() }
-            factory { mockk<Interactors.DropTriggerByName>() }
-            factory { mockk<Control.Content>() }
+            factory { mockk<com.infinum.dbinspector.data.Interactors.GetTriggers>() }
+            factory { mockk<com.infinum.dbinspector.data.Interactors.GetTriggerByName>() }
+            factory { mockk<com.infinum.dbinspector.data.Interactors.DropTriggerByName>() }
+            factory { mockk<com.infinum.dbinspector.domain.Control.Content>() }
         }
     )
 

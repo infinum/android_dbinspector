@@ -16,8 +16,8 @@ internal class DatabaseControlTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Mappers.Database>() }
-            factory { mockk<Converters.Database>() }
+            factory { mockk<com.infinum.dbinspector.domain.Mappers.Database>() }
+            factory { mockk<com.infinum.dbinspector.domain.Converters.Database>() }
         }
     )
 
@@ -30,7 +30,7 @@ internal class DatabaseControlTest : BaseTest() {
 
     @Test
     fun `Control converter is not null`() {
-        val converter: Converters.Database = get()
+        val converter: com.infinum.dbinspector.domain.Converters.Database = get()
         val control = DatabaseControl(get(), converter)
 
         assertNotNull(control.converter)
@@ -38,7 +38,7 @@ internal class DatabaseControlTest : BaseTest() {
 
     @Test
     fun `Control mapper is not null`() {
-        val mapper: Mappers.Database = get()
+        val mapper: com.infinum.dbinspector.domain.Mappers.Database = get()
         val control = DatabaseControl(mapper, get())
 
         assertNotNull(control.mapper)

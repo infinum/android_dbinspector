@@ -1,7 +1,7 @@
 package com.infinum.dbinspector.ui.pragma.indexes
 
 import com.infinum.dbinspector.domain.pragma.models.IndexListColumns
-import com.infinum.dbinspector.extensions.lowercase
+import com.infinum.dbinspector.ui.extensions.lowercase
 import com.infinum.dbinspector.ui.pragma.shared.PragmaFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

@@ -25,7 +25,7 @@ internal class CellMapperTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory<Mappers.TruncateMode> { mockk<TruncateModeMapper>() }
+            factory<com.infinum.dbinspector.domain.Mappers.TruncateMode> { mockk<TruncateModeMapper>() }
         }
     )
 
@@ -42,7 +42,7 @@ internal class CellMapperTest : BaseTest() {
                 truncateMode = TruncateMode.START
             )
 
-            val truncateMapper: Mappers.TruncateMode = get()
+            val truncateMapper: com.infinum.dbinspector.domain.Mappers.TruncateMode = get()
             val mapper = CellMapper(truncateMapper)
 
             coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
@@ -67,7 +67,7 @@ internal class CellMapperTest : BaseTest() {
                 text = "1.0"
             )
 
-            val truncateMapper: Mappers.TruncateMode = get()
+            val truncateMapper: com.infinum.dbinspector.domain.Mappers.TruncateMode = get()
             val mapper = CellMapper(truncateMapper)
 
             coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
@@ -92,7 +92,7 @@ internal class CellMapperTest : BaseTest() {
                 text = "test"
             )
 
-            val truncateMapper: Mappers.TruncateMode = get()
+            val truncateMapper: com.infinum.dbinspector.domain.Mappers.TruncateMode = get()
             val mapper = CellMapper(truncateMapper)
 
             coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
@@ -120,7 +120,7 @@ internal class CellMapperTest : BaseTest() {
                 data = byteArrayOf(116, 101, 115, 116)
             )
 
-            val truncateMapper: Mappers.TruncateMode = get()
+            val truncateMapper: com.infinum.dbinspector.domain.Mappers.TruncateMode = get()
             val mapper = CellMapper(truncateMapper)
 
             coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
@@ -148,7 +148,7 @@ internal class CellMapperTest : BaseTest() {
                 data = byteArrayOf(116, 101, 115, 116)
             )
 
-            val truncateMapper: Mappers.TruncateMode = get()
+            val truncateMapper: com.infinum.dbinspector.domain.Mappers.TruncateMode = get()
             val mapper = CellMapper(truncateMapper)
 
             coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
@@ -176,7 +176,7 @@ internal class CellMapperTest : BaseTest() {
                 data = byteArrayOf(116, 101, 115, 116)
             )
 
-            val truncateMapper: Mappers.TruncateMode = get()
+            val truncateMapper: com.infinum.dbinspector.domain.Mappers.TruncateMode = get()
             val mapper = CellMapper(truncateMapper)
 
             coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
@@ -202,7 +202,7 @@ internal class CellMapperTest : BaseTest() {
                 data = byteArrayOf(116, 101, 115, 116)
             )
 
-            val truncateMapper: Mappers.TruncateMode = get()
+            val truncateMapper: com.infinum.dbinspector.domain.Mappers.TruncateMode = get()
             val mapper = CellMapper(truncateMapper)
 
             coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode
@@ -228,7 +228,7 @@ internal class CellMapperTest : BaseTest() {
                 data = byteArrayOf(116, 101, 115, 116)
             )
 
-            val truncateMapper: Mappers.TruncateMode = get()
+            val truncateMapper: com.infinum.dbinspector.domain.Mappers.TruncateMode = get()
             val mapper = CellMapper(truncateMapper)
 
             coEvery { truncateMapper.invoke(any()) } returns expected.truncateMode

@@ -23,13 +23,13 @@ internal class RemoveDatabaseViewModelTest : BaseTest() {
     override fun modules(): List<Module> = listOf(
         module {
             factory { mockk<Context>() }
-            factory { mockk<UseCases.RemoveDatabase>() }
+            factory { mockk<com.infinum.dbinspector.domain.UseCases.RemoveDatabase>() }
         }
     )
 
     @Test
     fun `Remove database successful`() {
-        val useCase: UseCases.RemoveDatabase = get()
+        val useCase: com.infinum.dbinspector.domain.UseCases.RemoveDatabase = get()
         val viewModel = RemoveDatabaseViewModel(
             useCase
         )
@@ -62,7 +62,7 @@ internal class RemoveDatabaseViewModelTest : BaseTest() {
 
     @Test
     fun `Remove database failed`() {
-        val useCase: UseCases.RemoveDatabase = get()
+        val useCase: com.infinum.dbinspector.domain.UseCases.RemoveDatabase = get()
         val viewModel = RemoveDatabaseViewModel(
             useCase
         )

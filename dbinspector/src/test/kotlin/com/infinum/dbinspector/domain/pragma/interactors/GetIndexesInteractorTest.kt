@@ -1,6 +1,5 @@
 package com.infinum.dbinspector.domain.pragma.interactors
 
-import com.infinum.dbinspector.data.Sources
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -17,14 +16,15 @@ internal class GetIndexesInteractorTest : BaseTest() {
 
     override fun modules(): List<Module> = listOf(
         module {
-            factory { mockk<Sources.Local.Pragma>() }
+            factory { mockk<com.infinum.dbinspector.data.Sources.Local.Pragma>() }
         }
     )
 
     @Test
     fun `Invoking interactor invokes source getIndexes`() {
-        val source: Sources.Local.Pragma = get()
-        val interactor = GetIndexesInteractor(source)
+        val source: com.infinum.dbinspector.data.Sources.Local.Pragma = get()
+        val interactor =
+            com.infinum.dbinspector.data.interactors.pragma.GetIndexesInteractor(source)
 
         coEvery { source.getIndexes(any()) } returns mockk()
 
