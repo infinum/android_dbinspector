@@ -2,6 +2,6 @@ enableFeaturePreview("VERSION_CATALOGS")
 
 rootProject.name="DbInspector"
 
-include "dbinspector"
-include "dbinspector-no-op"
+include ":dbinspector"
+include ":dbinspector-no-op"
 include ":sample"

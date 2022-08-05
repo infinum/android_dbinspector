@@ -1,6 +1,13 @@
 Changelog
 =========
 
+## Version 5.4.8
+
+_2022-08-05_
+
+* Update Kotlin to 1.7.10.
+* Update dependencies to stable version.
+
 ## Version 5.4.7
 
 _2022-06-10_
