@@ -19,7 +19,7 @@ internal class Pragma {
 
     fun build(): String {
         if (!::pragmaName.isInitialized) {
-            throw IllegalStateException("Failed to build - pragmaName is undefined")
+            error("Failed to build - pragmaName is undefined")
         }
         return toString()
     }

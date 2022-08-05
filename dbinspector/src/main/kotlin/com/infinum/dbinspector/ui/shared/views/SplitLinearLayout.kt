@@ -631,7 +631,7 @@ internal class SplitLinearLayout @JvmOverloads constructor(
 
     private fun checkChildCount() {
         if (childCount != 2) {
-            throw IllegalStateException("SplitLinearLayout must have exactly 2 child views.")
+            error("SplitLinearLayout must have exactly 2 child views.")
         }
     }
 

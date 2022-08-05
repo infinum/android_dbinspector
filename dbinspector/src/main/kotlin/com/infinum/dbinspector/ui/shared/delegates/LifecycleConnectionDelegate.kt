@@ -30,7 +30,7 @@ internal class LifecycleConnectionDelegate(
                         .currentState
                         .isAtLeast(Lifecycle.State.INITIALIZED).not()
                 ) {
-                    throw IllegalStateException("Owner has not passed created yet.")
+                    error("Owner has not passed created yet.")
                 }
 
                 val extras = when (thisRef) {

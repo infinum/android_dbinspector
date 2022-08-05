@@ -19,7 +19,7 @@ internal class Select {
 
     fun columns(vararg columns: String) {
         if (this.columns.isNotEmpty()) {
-            throw IllegalStateException("Detected an attempt to re-define columns to fetch.")
+            error("Detected an attempt to re-define columns to fetch.")
         }
         this.columns.addAll(columns)
     }
@@ -39,7 +39,7 @@ internal class Select {
             throw IllegalArgumentException("At least one column should be defined")
         }
         if (this.orderByColumns.isNotEmpty()) {
-            throw IllegalStateException("Detected an attempt to re-define ORDER BY columns.")
+            error("Detected an attempt to re-define ORDER BY columns.")
         }
         this.orderByColumns = columns.toList().filterNotNull()
     }
@@ -50,7 +50,7 @@ internal class Select {
 
     fun build(): String {
         if (!::table.isInitialized) {
-            throw IllegalStateException("Failed to build - target table is undefined")
+            error("Failed to build - target table is undefined")
         }
         return toString()
     }

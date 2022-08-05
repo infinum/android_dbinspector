@@ -14,7 +14,7 @@ internal class DropTrigger {
 
     fun build(): String {
         if (!::trigger.isInitialized) {
-            throw IllegalStateException("Failed to build - target view is undefined")
+            error("Failed to build - target view is undefined")
         }
         return toString()
     }

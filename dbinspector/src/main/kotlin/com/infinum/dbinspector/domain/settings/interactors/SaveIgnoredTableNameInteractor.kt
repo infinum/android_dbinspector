@@ -21,6 +21,6 @@ internal class SaveIgnoredTableNameInteractor(
                     )
                     .build()
             }
-        } ?: throw IllegalStateException("Ignored table name cannot be empty or blank.")
+        } ?: error("Ignored table name cannot be empty or blank.")
     }
 }

@@ -46,6 +46,13 @@ android {
     sourceSets.each {
         it.java.srcDirs += "src/$it.name/kotlin"
     }
+
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 dependencies {

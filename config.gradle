@@ -1,4 +1,8 @@
 ext {
+    def major = 5
+    def minor = 4
+    def patch = 8
+
     buildConfig = [
             "minSdk"    : 21,
             "compileSdk": 32,
@@ -7,7 +11,7 @@ ext {
     ]
     releaseConfig = [
             "group"      : "com.infinum.dbinspector",
-            "version"    : "5.4.7",
-            "versionCode": 5 * 100 * 100 + 4 * 100 + 7
+            "version"    : "$major.$minor.$patch",
+            "versionCode": major * 100 * 100 + minor * 100 + patch
     ]
 }

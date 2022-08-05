@@ -14,7 +14,7 @@ internal class DropView {
 
     fun build(): String {
         if (!::view.isInitialized) {
-            throw IllegalStateException("Failed to build - target view is undefined")
+            error("Failed to build - target view is undefined")
         }
         return toString()
     }

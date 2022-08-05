@@ -82,3 +82,9 @@ task runStaticChecks(dependsOn: [
     group = "Verification"
     description = "Run static checks on all modules"
 }
+
+task cleanMavenLocal {
+    doLast {
+        new File('~/.m2/repository/example').deleteDir()
+    }
+}

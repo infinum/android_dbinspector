@@ -48,7 +48,7 @@ internal class ViewBindingDelegate<T : ViewBinding>(
                         .currentState
                         .isAtLeast(Lifecycle.State.INITIALIZED).not()
                 ) {
-                    throw IllegalStateException("Fragment views are not created yet.")
+                    error("Fragment views are not created yet.")
                 }
 
                 viewBindingFactory(thisRef.requireView()).also { this.binding = it }
