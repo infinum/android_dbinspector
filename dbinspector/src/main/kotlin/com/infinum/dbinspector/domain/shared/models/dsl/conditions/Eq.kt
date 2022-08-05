@@ -14,7 +14,7 @@ internal class Eq(
     }
 
     override fun addCondition(condition: Condition) {
-        throw IllegalStateException("Can't add a nested condition to 'eq'")
+        error("Can't add a nested condition to 'eq'")
     }
 
     override fun toString(): String =

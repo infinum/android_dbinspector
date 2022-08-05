@@ -16,7 +16,7 @@ internal class Like(
     }
 
     override fun addCondition(condition: Condition): Unit =
-        throw IllegalStateException("Can't add a nested condition to 'like'")
+        error("Can't add a nested condition to 'like'")
 
     override fun toString(): String =
         "$column LIKE \"%%$value%%\""

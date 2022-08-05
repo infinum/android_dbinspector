@@ -22,7 +22,7 @@ internal class Delete {
 
     fun build(): String {
         if (!::table.isInitialized) {
-            throw IllegalStateException("Failed to build - target table is undefined")
+            error("Failed to build - target table is undefined")
         }
         return toString()
     }
