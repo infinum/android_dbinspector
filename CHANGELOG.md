@@ -1,6 +1,12 @@
 Changelog
 =========
 
+## Version 5.4.9
+
+_2022-MM-DD_
+
+* Implement Android 13 compatibility and changes.
+
 ## Version 5.4.8
 
 _2022-08-05_

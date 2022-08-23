@@ -15,6 +15,7 @@ import com.infinum.dbinspector.ui.Presentation.Constants.Keys.RENAME_DATABASE_DE
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.base.BaseBottomSheetDialogFragment
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
+import getParcelableCompat
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 internal class RenameDatabaseDialog :
@@ -46,7 +47,10 @@ internal class RenameDatabaseDialog :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        database = arguments?.getParcelable(RENAME_DATABASE_DESCRIPTOR)
+        database = arguments?.getParcelableCompat(
+            RENAME_DATABASE_DESCRIPTOR,
+            DatabaseDescriptor::class.java
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -64,7 +68,8 @@ internal class RenameDatabaseDialog :
             nameInput.setText(database?.name)
             nameInput.doOnTextChanged { text, _, _, _ ->
                 if (text.isNullOrBlank()) {
-                    nameInputLayout.error = getString(R.string.dbinspector_rename_database_error_blank)
+                    nameInputLayout.error =
+                        getString(R.string.dbinspector_rename_database_error_blank)
                 } else {
                     nameInputLayout.error = null
                 }

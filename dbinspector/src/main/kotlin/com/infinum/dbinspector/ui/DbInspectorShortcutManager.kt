@@ -10,6 +10,7 @@ import android.graphics.drawable.Icon
 import android.os.Build
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.data.sources.memory.logger.AndroidLogger
+import com.infinum.dbinspector.extensions.queryIntentActivitiesCompat
 import com.infinum.dbinspector.ui.databases.DatabasesActivity
 
 @SuppressLint("StaticFieldLeak")
@@ -17,34 +18,38 @@ internal object DbInspectorShortcutManager {
 
     private const val ACTIVITY_INFO_NAME = "com.infinum.dbinspector.ui.databases.DatabasesActivity"
 
-    private const val LAUNCHER_DYNAMIC_SHORTCUT_ID = "com.infinum.dbinspector.ui.dynamic_shortcut_launcher"
+    private const val LAUNCHER_DYNAMIC_SHORTCUT_ID =
+        "com.infinum.dbinspector.ui.dynamic_shortcut_launcher"
 
     fun init(context: Context) = addDynamicShortcut(context)
 
     @Suppress("LongMethod", "NestedBlockDepth")
     private fun addDynamicShortcut(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-            val shortcutManager: ShortcutManager = context.getSystemService(ShortcutManager::class.java)
+            val shortcutManager: ShortcutManager =
+                context.getSystemService(ShortcutManager::class.java)
             val dynamicShortcuts: MutableList<ShortcutInfo> = shortcutManager.dynamicShortcuts
 
             dynamicShortcuts
                 .none { shortcut -> shortcut.id == LAUNCHER_DYNAMIC_SHORTCUT_ID }
                 .takeIf { it }
                 ?.let {
-                    context.packageManager.queryIntentActivities(
+                    context.queryIntentActivitiesCompat(
                         Intent(Intent.ACTION_MAIN, null)
                             .apply {
                                 addCategory(Intent.CATEGORY_LAUNCHER)
                                 setPackage(context.packageName)
-                            },
-                        0
+                            }
                     )
                         .filter { it.activityInfo.name != ACTIVITY_INFO_NAME }
                         .takeIf { it.isNotEmpty() }
                         ?.let { activities ->
                             val dbInspectorActivity = activities.first().activityInfo
 
-                            val componentName = ComponentName(dbInspectorActivity.packageName, dbInspectorActivity.name)
+                            val componentName = ComponentName(
+                                dbInspectorActivity.packageName,
+                                dbInspectorActivity.name
+                            )
 
                             dynamicShortcuts.let {
                                 it.count { shortcutInfo ->
@@ -70,7 +75,12 @@ internal object DbInspectorShortcutManager {
                                         .setLongLabel(context.getString(R.string.dbinspector_launcher_name))
                                         .setShortLabel(context.getString(R.string.dbinspector_launcher_name))
                                         .setActivity(componentName)
-                                        .setIcon(Icon.createWithResource(context, R.mipmap.dbinspector_launcher))
+                                        .setIcon(
+                                            Icon.createWithResource(
+                                                context,
+                                                R.mipmap.dbinspector_launcher
+                                            )
+                                        )
                                         .setIntent(intent)
                                         .build()
                                 }

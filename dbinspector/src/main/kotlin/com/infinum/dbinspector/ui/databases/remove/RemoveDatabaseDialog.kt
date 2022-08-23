@@ -13,6 +13,7 @@ import com.infinum.dbinspector.ui.Presentation.Constants.Keys.SHOULD_REFRESH
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.base.BaseBottomSheetDialogFragment
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
+import getParcelableCompat
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 internal class RemoveDatabaseDialog :
@@ -39,7 +40,10 @@ internal class RemoveDatabaseDialog :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        database = arguments?.getParcelable(REMOVE_DATABASE_DESCRIPTOR)
+        database = arguments?.getParcelableCompat(
+            REMOVE_DATABASE_DESCRIPTOR,
+            DatabaseDescriptor::class.java
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
