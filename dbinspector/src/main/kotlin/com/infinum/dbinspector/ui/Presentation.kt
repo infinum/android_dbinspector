@@ -2,9 +2,9 @@ package com.infinum.dbinspector.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
-import com.infinum.dbinspector.data.sources.memory.logger.Logger
 import com.infinum.dbinspector.di.LibraryKoin
 import com.infinum.dbinspector.domain.Domain
+import com.infinum.dbinspector.logger.Logger
 import com.infinum.dbinspector.ui.content.table.TableViewModel
 import com.infinum.dbinspector.ui.content.trigger.TriggerViewModel
 import com.infinum.dbinspector.ui.content.view.ViewViewModel

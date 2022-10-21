@@ -5,18 +5,13 @@
 -keep public class com.infinum.dbinspector.DbInspector {
   public protected *;
 }
--keep public class com.infinum.dbinspector.data.models.memory.logger.Level {
+-keep public class com.infinum.dbinspector.logger.Level {
   public protected *;
 }
-
--keep public class com.infinum.dbinspector.data.sources.memory.logger.Logger {
+-keep public class com.infinum.dbinspector.logger.Logger {
   public protected *;
 }
-
--keep public class com.infinum.dbinspector.data.sources.memory.logger.EmptyLogger {
-  public protected *;
-}
--keep public class com.infinum.dbinspector.data.sources.memory.logger.AndroidLogger {
+-keep public class com.infinum.dbinspector.logger.AndroidLogger {
   public protected *;
 }
 -keep class androidx.datastore.*.* {*;}

@@ -1,8 +1,11 @@
 package com.infinum.dbinspector.extensions
 
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.TypedArray
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.util.TypedValue
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
@@ -30,3 +33,11 @@ internal fun Context.getColorFromAttribute(@AttrRes attrId: Int): Int {
     typedArray.recycle()
     return color
 }
+
+internal fun Context.queryIntentActivitiesCompat(intent: Intent) =
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        packageManager.queryIntentActivities(intent, PackageManager.ResolveInfoFlags.of(0L))
+    } else {
+        @Suppress("DEPRECATION")
+        packageManager.queryIntentActivities(intent, 0)
+    }

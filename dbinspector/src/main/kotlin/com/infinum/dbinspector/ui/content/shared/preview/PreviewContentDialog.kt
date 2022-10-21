@@ -22,6 +22,7 @@ import com.infinum.dbinspector.ui.Presentation.Constants.Keys.PREVIEW_CELL
 import com.infinum.dbinspector.ui.shared.base.BaseBottomSheetDialogFragment
 import com.infinum.dbinspector.ui.shared.base.BaseViewModel
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
+import getParcelableCompat
 import java.io.File
 import java.io.FileOutputStream
 
@@ -53,7 +54,10 @@ internal class PreviewContentDialog :
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            cell = it.getParcelable(PREVIEW_CELL)
+            cell = it.getParcelableCompat(
+                PREVIEW_CELL,
+                Cell::class.java
+            )
         }
     }
 
@@ -166,7 +170,10 @@ internal class PreviewContentDialog :
                     imageLayout.isVisible = true
                     imageView.setImageBitmap(image)
                     descriptionView.text = "${image.width} x ${image.height} " +
-                        Formatter.formatShortFileSize(descriptionView.context, imageBytes.size.toLong())
+                        Formatter.formatShortFileSize(
+                            descriptionView.context,
+                            imageBytes.size.toLong()
+                        )
                 }
             }
         }
@@ -180,7 +187,9 @@ internal class PreviewContentDialog :
                     content
                 )
             )
-            Toast.makeText(activity, R.string.dbinspector_preview_success, Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, R.string.dbinspector_preview_success, Toast.LENGTH_SHORT)
+                .show()
         }
-            ?: Toast.makeText(activity, R.string.dbinspector_preview_failed, Toast.LENGTH_SHORT).show()
+            ?: Toast.makeText(activity, R.string.dbinspector_preview_failed, Toast.LENGTH_SHORT)
+                .show()
 }

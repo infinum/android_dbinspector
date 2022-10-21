@@ -2,9 +2,9 @@ package com.infinum.dbinspector.ui.shared.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.infinum.dbinspector.data.sources.memory.logger.Logger
 import com.infinum.dbinspector.di.LibraryKoin
 import com.infinum.dbinspector.di.LibraryKoinComponent
+import com.infinum.dbinspector.logger.Logger
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -49,7 +49,10 @@ internal abstract class BaseViewModel<State, Event> : ViewModel(), LibraryKoinCo
         supervisorJob.cancel()
     }
 
-    protected fun launch(scope: CoroutineScope = runningScope, block: suspend CoroutineScope.() -> Unit) {
+    protected fun launch(
+        scope: CoroutineScope = runningScope,
+        block: suspend CoroutineScope.() -> Unit
+    ) {
         scope.launch(errorHandler + mainDispatchers + supervisorJob) { block.invoke(this) }
     }
 

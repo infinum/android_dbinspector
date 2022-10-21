@@ -7,7 +7,7 @@
 
 _DbInspector_ provides a simple way to view the contents of the in-app database for debugging purposes.
 There is no need to pull the database from a connected device.
-This library supports inspecting of the SQLite databases created by CouchBase Lite out of the box.
+This library also supports inspecting of the SQLite databases created by CouchBase Lite out of the box.
 With this library you can:
 * preview all application sandbox databases
 * import single or multiple databases at once
@@ -44,13 +44,13 @@ Then add the following dependencies in your app `build.gradle` or `build.gradle.
 
 **Groovy**
 ```groovy
-debugImplementation "com.infinum.dbinspector:dbinspector:5.4.8"
-releaseImplementation "com.infinum.dbinspector:dbinspector-no-op:5.4.8"
+debugImplementation "com.infinum.dbinspector:dbinspector:5.4.9"
+releaseImplementation "com.infinum.dbinspector:dbinspector-no-op:5.4.9"
 ```
 **KotlinDSL**
 ```kotlin
-debugImplementation("com.infinum.dbinspector:dbinspector:5.4.8")
-releaseImplementation("com.infinum.dbinspector:dbinspector-no-op:5.4.8")
+debugImplementation("com.infinum.dbinspector:dbinspector:5.4.9")
+releaseImplementation("com.infinum.dbinspector:dbinspector-no-op:5.4.9")
 ```
 
 ### Usage
@@ -86,7 +86,7 @@ Further modification can be done according to rules of [manifest merging](https:
 _DbInspector_ has a build in editor scoped per database connection currently used.  
 It offers autocomplete of SQLite3 keywords and functions, current table and column names.  
 Built in editor also provides a history of executed statements, not matter if they were successful or not.  
-Hisotry of statements is persisted between sessions and can be cleared on demand at any point.  
+History of statements is persisted between sessions and can be cleared on demand at any point.  
 Panes between editors' input and result are scalable and can be adjusted by dragging the splitter between them.  
 Landscape mode is supported too for better result preview of large datasets.  
 
