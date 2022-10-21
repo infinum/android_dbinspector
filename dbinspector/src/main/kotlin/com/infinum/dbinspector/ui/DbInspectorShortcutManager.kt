@@ -9,7 +9,7 @@ import android.content.pm.ShortcutManager
 import android.graphics.drawable.Icon
 import android.os.Build
 import com.infinum.dbinspector.R
-import com.infinum.dbinspector.data.sources.memory.logger.AndroidLogger
+import com.infinum.dbinspector.logger.AndroidLogger
 import com.infinum.dbinspector.extensions.queryIntentActivitiesCompat
 import com.infinum.dbinspector.ui.databases.DatabasesActivity
 

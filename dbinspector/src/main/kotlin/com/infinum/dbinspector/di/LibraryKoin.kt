@@ -2,8 +2,7 @@ package com.infinum.dbinspector.di
 
 import android.content.Context
 import com.infinum.dbinspector.BuildConfig
-import com.infinum.dbinspector.data.sources.memory.logger.EmptyLogger
-import com.infinum.dbinspector.data.sources.memory.logger.Logger
+import com.infinum.dbinspector.logger.Logger
 import com.infinum.dbinspector.ui.Presentation
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -20,10 +19,8 @@ internal object LibraryKoin {
         koinApplication.apply {
             androidLogger(if (BuildConfig.DEBUG) Level.ERROR else Level.NONE)
             androidContext(context)
-            module { single<Logger> { EmptyLogger() } }
             modules(Presentation.modules())
         }
-        setLibraryLogger(EmptyLogger())
     }
 
     fun koin(): Koin = koinApplication.koin

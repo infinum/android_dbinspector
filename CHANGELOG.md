@@ -3,9 +3,13 @@ Changelog
 
 ## Version 5.4.9
 
-_2022-MM-DD_
+_2022-10-21_
 
+* Update Kotlin to 1.7.20.
+* Update dependencies to stable version.
 * Implement Android 13 compatibility and changes.
+* Refactor logger interface and classes.
+* Add KDoc on all public classes.
 
 ## Version 5.4.8
 
