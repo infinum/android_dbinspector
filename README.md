@@ -91,7 +91,7 @@ Panes between editors' input and result are scalable and can be adjusted by drag
 Landscape mode is supported too for better result preview of large datasets.  
 
 ## Logging
-_DbInspector_ provides a independent and built in logger mechanism. Per default logger is initiated as an `EmptyLogger` omitting any output whatsoever.  
+_DbInspector_ provides a independent and built in logger mechanism. Per default logger is not initialized, omitting any output whatsoever.  
 In case logs output is required, `AndroidLogger` should be used as shown below:
 ```kotlin
 DbInspector.show(logger = AndroidLogger())
