@@ -57,6 +57,10 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
+    packagingOptions {
+        exclude 'META-INF/INDEX.LIST'
+        exclude 'META-INF/io.netty.versions.properties'
+    }
 
     sourceSets.forEach {
         it.java.srcDirs += "src/$it.name/kotlin"
@@ -71,6 +75,7 @@ dependencies {
     implementation libs.material
     implementation libs.koin.android
 
-    debugImplementation libs.library
+//    debugImplementation libs.library
+    debugImplementation project(":dbinspector")
     releaseImplementation libs.librarynoop
 }

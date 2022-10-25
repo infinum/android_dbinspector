@@ -24,10 +24,24 @@
             android:text="@string/data_created" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/show"
+            android:id="@+id/run"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Run"
+            tools:ignore="HardcodedText" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start server"
+            tools:ignore="HardcodedText" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stop server"
             tools:ignore="HardcodedText" />
 
     </LinearLayout>

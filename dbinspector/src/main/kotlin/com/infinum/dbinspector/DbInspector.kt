@@ -2,6 +2,7 @@ package com.infinum.dbinspector
 
 import android.content.Intent
 import com.infinum.dbinspector.logger.Logger
+import com.infinum.dbinspector.server.WebServer
 import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.databases.DatabasesActivity
 
@@ -23,6 +24,8 @@ import com.infinum.dbinspector.ui.databases.DatabasesActivity
  */
 public object DbInspector {
 
+    private val server = WebServer(Presentation.applicationContext())
+
     /**
      * Show a list of databases.
      *
@@ -42,5 +45,13 @@ public object DbInspector {
                 }
             )
         }
+    }
+
+    public fun start() {
+        server.start()
+    }
+
+    public fun stop() {
+        server.stop()
     }
 }

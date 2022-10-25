@@ -4,6 +4,8 @@ plugins {
     id "kotlin-parcelize"
     id "com.google.protobuf"
     id "kover"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.7.20"
+
 }
 
 android {
@@ -49,6 +51,10 @@ android {
                 '-Xexplicit-api=strict',
                 '-Xjvm-default=all'
         ]
+    }
+
+    packagingOptions {
+        exclude 'META-INF/INDEX.LIST'
     }
 
     testOptions {
@@ -109,6 +115,13 @@ dependencies {
     implementation libs.protobuf.javalite
     implementation libs.material
     implementation libs.koin.android
+
+    implementation("io.ktor:ktor-server-core:2.1.2")
+    implementation("io.ktor:ktor-server-netty:2.1.2")
+    implementation("io.ktor:ktor-server-content-negotiation:2.1.2")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.1.2")
+    implementation("io.ktor:ktor-server-status-pages:2.1.2")
+    implementation("io.ktor:ktor-server-call-logging:2.1.2")
 
     testImplementation libs.bundles.test
 }

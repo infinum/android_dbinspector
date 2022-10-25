@@ -20,8 +20,14 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
             .also { setContentView(it.root) }
             .also {
-                it.show.setOnClickListener {
+                it.run.setOnClickListener {
                     DbInspector.show(logger = AndroidLogger())
+                }
+                it.start.setOnClickListener {
+                    DbInspector.start()
+                }
+                it.stop.setOnClickListener {
+                    DbInspector.stop()
                 }
             }
 
