@@ -1,7 +1,7 @@
-package com.infinum.dbinspector.server
+package com.infinum.dbinspector.server.routes
 
-import android.content.Context
 import com.infinum.dbinspector.data.models.remote.DatabaseResponse
+import com.infinum.dbinspector.server.controllers.DatabaseController
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.request.receiveParameters
@@ -14,12 +14,11 @@ import io.ktor.server.routing.patch
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 
-internal fun Route.table(context: Context): Route =
-    route("/table") {
-        val databaseController = DatabaseController(context)
-
+internal fun Route.databases(controller: DatabaseController): Route =
+    route("/databases") {
         get {
-            val response: List<DatabaseResponse> = databaseController.get()
+            val query: String? = call.parameters["query"]
+            val response: List<DatabaseResponse> = controller.getAll(query)
             call.respond(response)
         }
         get("{id?}") {
@@ -27,7 +26,7 @@ internal fun Route.table(context: Context): Route =
                 "Missing id", status = HttpStatusCode.BadRequest
             )
 
-            databaseController.get(id)?.let {
+            controller.getById(id)?.let {
                 call.respond(it)
             } ?: call.respondText(
                 "No database with id $id", status = HttpStatusCode.NotFound
@@ -38,7 +37,7 @@ internal fun Route.table(context: Context): Route =
                 "Missing id", status = HttpStatusCode.BadRequest
             )
 
-            databaseController.copy(id)?.let { response ->
+            controller.copy(id)?.let { response ->
                 call.respond(
                     status = HttpStatusCode.Created, response
                 )
@@ -52,7 +51,7 @@ internal fun Route.table(context: Context): Route =
                 "Missing new name", status = HttpStatusCode.BadRequest
             )
 
-            databaseController.rename(id, newName)?.let {
+            controller.rename(id, newName)?.let {
                 call.respond(
                     status = HttpStatusCode.Accepted, it
                 )
@@ -63,7 +62,7 @@ internal fun Route.table(context: Context): Route =
                 "Missing id", status = HttpStatusCode.BadRequest
             )
 
-            databaseController.remove(id)?.let {
+            controller.remove(id)?.let {
                 call.respondText(
                     "", status = HttpStatusCode.Accepted
                 )

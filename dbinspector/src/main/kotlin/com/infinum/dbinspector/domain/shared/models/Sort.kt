@@ -5,5 +5,11 @@ import com.infinum.dbinspector.R
 
 internal enum class Sort(val rawValue: String, @DrawableRes val icon: Int) {
     ASCENDING("ASC", R.drawable.dbinspector_ic_sort_arrows_desc),
-    DESCENDING("DESC", R.drawable.dbinspector_ic_sort_arrows_asc)
+    DESCENDING("DESC", R.drawable.dbinspector_ic_sort_arrows_asc);
+
+    internal companion object {
+
+        internal operator fun invoke(value: String): Sort? =
+            values().firstOrNull { it.rawValue.lowercase() == value.lowercase() }
+    }
 }

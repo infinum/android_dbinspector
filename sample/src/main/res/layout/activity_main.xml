@@ -11,6 +11,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:orientation="vertical"
+        android:padding="32dp"
         tools:ignore="UselessParent">
 
         <com.google.android.material.textview.MaterialTextView
@@ -24,22 +25,22 @@
             android:text="@string/data_created" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/run"
-            android:layout_width="wrap_content"
+            android:id="@+id/show"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Run"
+            android:text="Show"
             tools:ignore="HardcodedText" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/start"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Start server"
             tools:ignore="HardcodedText" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/stop"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Stop server"
             tools:ignore="HardcodedText" />

@@ -77,10 +77,11 @@ internal object Statements {
                 orderBy(sort, orderBy)
             }
 
-        fun view(name: String) =
+        fun view(name: String, orderBy: String? = null, sort: Sort = Sort.ASCENDING) =
             select {
                 columns()
                 from(name)
+                orderBy(sort, orderBy)
             }
 
         fun trigger(name: String) =

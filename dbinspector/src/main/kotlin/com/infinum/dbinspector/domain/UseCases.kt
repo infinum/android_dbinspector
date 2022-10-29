@@ -81,13 +81,13 @@ internal interface UseCases {
     // region Pragma
     interface GetTableInfo : BaseUseCase<PragmaParameters.Pragma, Page>
 
-    interface GetTriggerInfo : BaseUseCase<PragmaParameters.Pragma, Page>
-
     interface GetTablePragma : BaseUseCase<PragmaParameters.Pragma, Page>
 
     interface GetForeignKeys : BaseUseCase<PragmaParameters.Pragma, Page>
 
     interface GetIndexes : BaseUseCase<PragmaParameters.Pragma, Page>
+
+    interface GetTriggerInfo : BaseUseCase<PragmaParameters.Pragma, Page>
     // endregion
 
     // region Settings

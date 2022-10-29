@@ -1,14 +1,20 @@
 package com.infinum.dbinspector.server
 
 import android.content.Context
+import com.infinum.dbinspector.server.controllers.ContentController
+import com.infinum.dbinspector.server.controllers.DatabaseController
+import com.infinum.dbinspector.server.controllers.PragmaController
+import com.infinum.dbinspector.server.controllers.SchemaController
+import com.infinum.dbinspector.server.routes.content
+import com.infinum.dbinspector.server.routes.databases
+import com.infinum.dbinspector.server.routes.pragma
+import com.infinum.dbinspector.server.routes.root
+import com.infinum.dbinspector.server.routes.schema
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
-import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.install
 import io.ktor.server.engine.embeddedServer
-import io.ktor.server.http.content.files
-import io.ktor.server.http.content.static
 import io.ktor.server.netty.Netty
 import io.ktor.server.netty.NettyApplicationEngine
 import io.ktor.server.plugins.callloging.CallLogging
@@ -42,7 +48,11 @@ internal class WebServer(
                 }
                 install(StatusPages) {
                     exception(Throwable::class) { call, throwable ->
-                        call.respondText(throwable.localizedMessage.orEmpty(), ContentType.Text.Plain, HttpStatusCode.InternalServerError)
+                        call.respondText(
+                            throwable.localizedMessage.orEmpty(),
+                            ContentType.Text.Plain,
+                            HttpStatusCode.InternalServerError
+                        )
                     }
                 }
                 install(ContentNegotiation) {
@@ -64,10 +74,11 @@ internal class WebServer(
 
                 routing {
                     // TODO: Design a landing page with showcase and call to action to list /databases
-                    static("/") {
-                        files(webDir)
-                    }
-                    databases(context)
+                    root(webDir)
+                    databases(DatabaseController(context))
+                    schema(SchemaController(context))
+                    content(ContentController(context))
+                    pragma(PragmaController(context))
                 }
             }.start(wait = false)
             currentServer = server

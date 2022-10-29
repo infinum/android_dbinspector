@@ -22,7 +22,7 @@ internal class ViewViewModel(
         Statements.Pragma.tableInfo(name)
 
     override fun schemaStatement(name: String, orderBy: String?, sort: Sort) =
-        Statements.Schema.view(name)
+        Statements.Schema.view(name, orderBy, sort)
 
     override fun dropStatement(name: String) =
         Statements.Schema.dropView(name)
