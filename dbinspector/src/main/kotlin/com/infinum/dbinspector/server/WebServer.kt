@@ -28,10 +28,18 @@ import java.io.FileOutputStream
 import org.slf4j.event.Level
 
 internal class WebServer(
-    private val context: Context
+    private val context: Context,
+    private val port: Int = 8080,
+    private val autoStart: Boolean = false
 ) {
 
     private var currentServer: NettyApplicationEngine? = null
+
+    init {
+        if (autoStart) {
+            start()
+        }
+    }
 
     fun start() {
         if (currentServer == null) {
@@ -42,7 +50,7 @@ internal class WebServer(
                 copyWebResources("web", webDir)
             }
 
-            val server = embeddedServer(Netty, port = 8080) {
+            val server = embeddedServer(Netty, port = port) {
                 install(CallLogging) {
                     level = Level.INFO
                 }
@@ -75,6 +83,7 @@ internal class WebServer(
                 routing {
                     // TODO: Design a landing page with showcase and call to action to list /databases
                     root(webDir)
+                    // TODO: Design a pagination on all routes
                     databases(DatabaseController(context))
                     schema(SchemaController(context))
                     content(ContentController(context))
