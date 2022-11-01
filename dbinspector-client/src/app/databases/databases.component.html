@@ -12,32 +12,36 @@
   </button>
 </mat-toolbar>
 
-<mat-card role="button" tabindex="0" class="is-focusable">
-  <mat-card-title>blog</mat-card-title>
-  <div>
-    <mat-card-subtitle>
+<ul>
+  <li *ngFor="let database of databases">
+    <mat-card role="button" tabindex="0" class="is-focusable">
+      <mat-card-title>{{database.name}}</mat-card-title>
       <div>
-        <h5>
-          <span>Version</span>&nbsp;<span>1</span>
-        </h5>
-        <h5>
-          <span>Path</span>&nbsp;<span>/data/user/0/com.sample.debug/databases</span>
-        </h5>
+        <mat-card-subtitle>
+          <div>
+            <h5>
+              <span>Version</span>&nbsp;<span>{{database.version}}</span>
+            </h5>
+            <h5>
+              <span>Path</span>&nbsp;<span>{{database.path}}</span>
+            </h5>
+          </div>
+        </mat-card-subtitle>
       </div>
-    </mat-card-subtitle>
-  </div>
-  <mat-card-actions>
-    <button mat-icon-button aria-label="Remove">
-      <mat-icon>delete_outline</mat-icon>
-    </button>
-    <button mat-icon-button aria-label="Rename">
-      <mat-icon>edit</mat-icon>
-    </button>
-    <button mat-icon-button aria-label="Copy">
-      <mat-icon>content_copy</mat-icon>
-    </button>
-    <button mat-icon-button aria-label="Share">
-      <mat-icon>share</mat-icon>
-    </button>
-  </mat-card-actions>
-</mat-card>
+      <mat-card-actions>
+        <button mat-icon-button aria-label="Remove">
+          <mat-icon>delete_outline</mat-icon>
+        </button>
+        <button mat-icon-button aria-label="Rename">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button aria-label="Copy">
+          <mat-icon>content_copy</mat-icon>
+        </button>
+        <button mat-icon-button aria-label="Share">
+          <mat-icon>share</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </li>
+</ul>
