@@ -15,10 +15,13 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.install
 import io.ktor.server.engine.embeddedServer
+import io.ktor.server.http.content.files
+import io.ktor.server.http.content.static
 import io.ktor.server.netty.Netty
 import io.ktor.server.netty.NettyApplicationEngine
 import io.ktor.server.plugins.callloging.CallLogging
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.server.plugins.cors.routing.CORS
 import io.ktor.server.plugins.statuspages.StatusPages
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.routing
@@ -70,23 +73,25 @@ internal class WebServer(
                 install(ContentNegotiation) {
                     json()
                 }
-
-                /*
-            install(CORS) {
-                anyHost()
-                header(HttpHeaders.ContentType)
-                header(HttpHeaders.AcceptLanguage)
-                header(HttpHeaders.Accept)
-                header(HttpHeaders.ContentLanguage)
-                header(HttpHeaders.AcceptCharset)
-                header(HttpHeaders.AcceptEncoding)
-                header(HttpHeaders.AccessControlAllowOrigin)
-            }
-             */
+                install(CORS) {
+                    allowSameOrigin = true
+                    allowNonSimpleContentTypes = true
+                    anyHost()
+//                header(HttpHeaders.ContentType)
+//                header(HttpHeaders.AcceptLanguage)
+//                header(HttpHeaders.Accept)
+//                header(HttpHeaders.ContentLanguage)
+//                header(HttpHeaders.AcceptCharset)
+//                header(HttpHeaders.AcceptEncoding)
+//                header(HttpHeaders.AccessControlAllowOrigin)
+                }
 
                 routing {
                     // TODO: Design a landing page with showcase and call to action to list /databases
-                    root(webDir)
+//                    root(webDir)
+                    static("/") {
+                        files(webDir)
+                    }
                     // TODO: Design a pagination on all routes
                     databases(VERSION, DatabaseController(context))
                     schema(VERSION, SchemaController(context))

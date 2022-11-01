@@ -8,7 +8,7 @@ import {Database} from "./database";
 })
 export class DatabaseService {
 
-  private databasesUrl = 'http://localhost:3700/api/v1/databases';
+  private databasesUrl = '/api/v1/databases';
 
   constructor(
     private http: HttpClient

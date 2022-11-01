@@ -12,8 +12,9 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
+          "proxyConfig": "src/proxy.conf.json",
           "options": {
-            "outputPath": "dist/dbinspector-client",
+            "outputPath": "../dbinspector/src/main/assets/web/",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -71,7 +72,7 @@
               "browserTarget": "dbinspector-client:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
