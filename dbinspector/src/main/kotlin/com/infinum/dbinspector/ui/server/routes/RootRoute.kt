@@ -1,4 +1,4 @@
-package com.infinum.dbinspector.server.routes
+package com.infinum.dbinspector.ui.server.routes
 
 import io.ktor.server.http.content.files
 import io.ktor.server.http.content.static

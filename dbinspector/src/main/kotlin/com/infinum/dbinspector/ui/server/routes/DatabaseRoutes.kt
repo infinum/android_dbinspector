@@ -1,7 +1,7 @@
-package com.infinum.dbinspector.server.routes
+package com.infinum.dbinspector.ui.server.routes
 
 import com.infinum.dbinspector.data.models.remote.DatabaseResponse
-import com.infinum.dbinspector.server.controllers.DatabaseController
+import com.infinum.dbinspector.ui.server.controllers.DatabaseController
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.request.receiveParameters
@@ -14,8 +14,8 @@ import io.ktor.server.routing.patch
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 
-internal fun Route.databases(controller: DatabaseController): Route =
-    route("/databases") {
+internal fun Route.databases(version: Int, controller: DatabaseController): Route =
+    route("/api/v$version/databases") {
         get {
             val query: String? = call.parameters["query"]
             val response: List<DatabaseResponse> = controller.getAll(query)

@@ -1,15 +1,15 @@
-package com.infinum.dbinspector.server
+package com.infinum.dbinspector.ui.server
 
 import android.content.Context
-import com.infinum.dbinspector.server.controllers.ContentController
-import com.infinum.dbinspector.server.controllers.DatabaseController
-import com.infinum.dbinspector.server.controllers.PragmaController
-import com.infinum.dbinspector.server.controllers.SchemaController
-import com.infinum.dbinspector.server.routes.content
-import com.infinum.dbinspector.server.routes.databases
-import com.infinum.dbinspector.server.routes.pragma
-import com.infinum.dbinspector.server.routes.root
-import com.infinum.dbinspector.server.routes.schema
+import com.infinum.dbinspector.ui.server.controllers.ContentController
+import com.infinum.dbinspector.ui.server.controllers.DatabaseController
+import com.infinum.dbinspector.ui.server.controllers.PragmaController
+import com.infinum.dbinspector.ui.server.controllers.SchemaController
+import com.infinum.dbinspector.ui.server.routes.content
+import com.infinum.dbinspector.ui.server.routes.databases
+import com.infinum.dbinspector.ui.server.routes.pragma
+import com.infinum.dbinspector.ui.server.routes.root
+import com.infinum.dbinspector.ui.server.routes.schema
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
@@ -29,9 +29,13 @@ import org.slf4j.event.Level
 
 internal class WebServer(
     private val context: Context,
-    private val port: Int = 8080,
+    private val port: Int = 3700,
     private val autoStart: Boolean = false
 ) {
+
+    internal companion object {
+        private const val VERSION = 1
+    }
 
     private var currentServer: NettyApplicationEngine? = null
 
@@ -84,10 +88,10 @@ internal class WebServer(
                     // TODO: Design a landing page with showcase and call to action to list /databases
                     root(webDir)
                     // TODO: Design a pagination on all routes
-                    databases(DatabaseController(context))
-                    schema(SchemaController(context))
-                    content(ContentController(context))
-                    pragma(PragmaController(context))
+                    databases(VERSION, DatabaseController(context))
+                    schema(VERSION, SchemaController(context))
+                    content(VERSION, ContentController(context))
+                    pragma(VERSION, PragmaController(context))
                 }
             }.start(wait = false)
             currentServer = server

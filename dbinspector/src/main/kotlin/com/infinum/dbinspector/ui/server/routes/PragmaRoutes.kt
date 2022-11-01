@@ -1,6 +1,6 @@
-package com.infinum.dbinspector.server.routes
+package com.infinum.dbinspector.ui.server.routes
 
-import com.infinum.dbinspector.server.controllers.PragmaController
+import com.infinum.dbinspector.ui.server.controllers.PragmaController
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.response.respond
@@ -9,8 +9,8 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.route
 
-internal fun Route.pragma(controller: PragmaController): Route = apply {
-    route("/databases/{database_id?}/tables/{table_id?}/pragma") {
+internal fun Route.pragma(version: Int, controller: PragmaController): Route = apply {
+    route("/api/v$version/databases/{database_id?}/tables/{table_id?}/pragma") {
         get("info") {
             val databaseId = call.parameters["database_id"] ?: return@get call.respondText(
                 "Missing database id", status = HttpStatusCode.BadRequest
@@ -66,7 +66,7 @@ internal fun Route.pragma(controller: PragmaController): Route = apply {
             )
         }
     }
-    route("/databases/{database_id?}/views/{view_id?}/pragma") {
+    route("/api/v$version/databases/{database_id?}/views/{view_id?}/pragma") {
         get("info") {
             val databaseId = call.parameters["database_id"] ?: return@get call.respondText(
                 "Missing database id", status = HttpStatusCode.BadRequest

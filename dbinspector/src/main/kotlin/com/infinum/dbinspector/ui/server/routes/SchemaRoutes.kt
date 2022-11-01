@@ -1,6 +1,6 @@
-package com.infinum.dbinspector.server.routes
+package com.infinum.dbinspector.ui.server.routes
 
-import com.infinum.dbinspector.server.controllers.SchemaController
+import com.infinum.dbinspector.ui.server.controllers.SchemaController
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.response.respond
@@ -9,8 +9,8 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.route
 
-internal fun Route.schema(controller: SchemaController): Route =
-    route("/databases/{database_id?}") {
+internal fun Route.schema(version: Int, controller: SchemaController): Route =
+    route("/api/v$version/databases/{database_id?}") {
         get("tables") {
             val databaseId = call.parameters["database_id"] ?: return@get call.respondText(
                 "Missing database id", status = HttpStatusCode.BadRequest

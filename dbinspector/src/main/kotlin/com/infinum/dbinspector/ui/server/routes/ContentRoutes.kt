@@ -1,7 +1,7 @@
-package com.infinum.dbinspector.server.routes
+package com.infinum.dbinspector.ui.server.routes
 
 import com.infinum.dbinspector.domain.shared.models.Sort
-import com.infinum.dbinspector.server.controllers.ContentController
+import com.infinum.dbinspector.ui.server.controllers.ContentController
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.response.respond
@@ -11,8 +11,8 @@ import io.ktor.server.routing.delete
 import io.ktor.server.routing.get
 import io.ktor.server.routing.route
 
-internal fun Route.content(controller: ContentController): Route = apply {
-    route("/databases/{database_id?}/tables/{table_id?}") {
+internal fun Route.content(version: Int, controller: ContentController): Route = apply {
+    route("/api/v$version/databases/{database_id?}/tables/{table_id?}") {
         get {
             val databaseId = call.parameters["database_id"] ?: return@get call.respondText(
                 "Missing database id", status = HttpStatusCode.BadRequest
@@ -57,7 +57,7 @@ internal fun Route.content(controller: ContentController): Route = apply {
             )
         }
     }
-    route("/databases/{database_id?}/views/{view_id?}") {
+    route("/api/v$version/databases/{database_id?}/views/{view_id?}") {
         get {
             val databaseId = call.parameters["database_id"] ?: return@get call.respondText(
                 "Missing database id", status = HttpStatusCode.BadRequest
@@ -102,7 +102,7 @@ internal fun Route.content(controller: ContentController): Route = apply {
             )
         }
     }
-    route("/databases/{database_id?}/triggers/{trigger_id?}") {
+    route("/api/v$version/databases/{database_id?}/triggers/{trigger_id?}") {
         get {
             val databaseId = call.parameters["database_id"] ?: return@get call.respondText(
                 "Missing database id", status = HttpStatusCode.BadRequest

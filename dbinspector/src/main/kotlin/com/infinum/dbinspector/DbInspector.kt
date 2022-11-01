@@ -2,9 +2,9 @@ package com.infinum.dbinspector
 
 import android.content.Intent
 import com.infinum.dbinspector.logger.Logger
-import com.infinum.dbinspector.server.WebServer
 import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.databases.DatabasesActivity
+import com.infinum.dbinspector.ui.server.WebServer
 
 /**
  * _DbInspector_ provides a simple way to view the contents of the in-app database for debugging purposes.

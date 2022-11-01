@@ -1,8 +1,8 @@
-package com.infinum.dbinspector.server.controllers
+package com.infinum.dbinspector.ui.server.controllers
 
 import android.content.Context
-import com.infinum.dbinspector.data.models.remote.SchemaResponse
 import com.infinum.dbinspector.data.models.remote.SchemaPageResponse
+import com.infinum.dbinspector.data.models.remote.SchemaResponse
 import com.infinum.dbinspector.di.LibraryKoin
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.shared.models.Statements
