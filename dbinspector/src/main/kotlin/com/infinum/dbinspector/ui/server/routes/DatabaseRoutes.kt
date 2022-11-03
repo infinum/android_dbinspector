@@ -5,7 +5,9 @@ import com.infinum.dbinspector.ui.server.controllers.DatabaseController
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.request.receiveParameters
+import io.ktor.server.response.header
 import io.ktor.server.response.respond
+import io.ktor.server.response.respondFile
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.delete
@@ -13,6 +15,7 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.patch
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
+import java.io.File
 
 internal fun Route.databases(version: Int, controller: DatabaseController): Route =
     route("/api/v$version/databases") {
@@ -27,13 +30,21 @@ internal fun Route.databases(version: Int, controller: DatabaseController): Rout
             )
 
             controller.getById(id)?.let {
-                call.respond(it)
+                val file = File(it.path)
+                if (file.exists()) {
+                    call.response.header("Content-Disposition", "attachment; filename=\"${file.name}\"")
+                    call.respondFile(file)
+                } else {
+                    call.respondText(
+                        "No database file found", status = HttpStatusCode.NotFound
+                    )
+                }
             } ?: call.respondText(
                 "No database with id $id", status = HttpStatusCode.NotFound
             )
         }
         post {
-            val id = call.parameters["id"] ?: return@post call.respondText(
+            val id = call.receiveParameters()["id"] ?: return@post call.respondText(
                 "Missing id", status = HttpStatusCode.BadRequest
             )
 

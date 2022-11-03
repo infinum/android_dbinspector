@@ -11,11 +11,13 @@ import com.infinum.dbinspector.ui.server.routes.pragma
 import com.infinum.dbinspector.ui.server.routes.root
 import com.infinum.dbinspector.ui.server.routes.schema
 import io.ktor.http.ContentType
+import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.install
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.http.content.files
+import io.ktor.server.http.content.resource
 import io.ktor.server.http.content.static
 import io.ktor.server.netty.Netty
 import io.ktor.server.netty.NettyApplicationEngine
@@ -74,22 +76,17 @@ internal class WebServer(
                     json()
                 }
                 install(CORS) {
+                    allowMethod(HttpMethod.Patch)
+                    allowMethod(HttpMethod.Delete)
                     allowSameOrigin = true
                     allowNonSimpleContentTypes = true
                     anyHost()
-//                header(HttpHeaders.ContentType)
-//                header(HttpHeaders.AcceptLanguage)
-//                header(HttpHeaders.Accept)
-//                header(HttpHeaders.ContentLanguage)
-//                header(HttpHeaders.AcceptCharset)
-//                header(HttpHeaders.AcceptEncoding)
-//                header(HttpHeaders.AccessControlAllowOrigin)
                 }
 
                 routing {
-                    // TODO: Design a landing page with showcase and call to action to list /databases
 //                    root(webDir)
-                    static("/") {
+                    static {
+                        resource("/", "index.html")
                         files(webDir)
                     }
                     // TODO: Design a pagination on all routes

@@ -37,24 +37,28 @@ internal class DatabaseController(
 
     suspend fun getById(id: String): DatabaseResponse? = getAll(null).find { id == it.id }
 
-    suspend fun copy(id: String): List<DatabaseResponse>? = getDatabases(
-        DatabaseParameters.Get(
-            context = context, argument = null
-        )
-    ).find { id == it.absolutePath.toByteArray().toSha1() }?.let {
-        copyDatabase(
-            DatabaseParameters.Command(
-                context = context, databaseDescriptor = it
+    suspend fun copy(id: String): List<DatabaseResponse>? =
+        getDatabases(
+            DatabaseParameters.Get(
+                context = context, argument = null
             )
         )
-    }?.map { descriptor ->
-        DatabaseResponse(
-            id = descriptor.absolutePath.toByteArray().toSha1(),
-            name = descriptor.name,
-            path = descriptor.absolutePath,
-            version = descriptor.version
-        )
-    }
+            .find { id == it.absolutePath.toByteArray().toSha1() }
+            ?.let {
+                copyDatabase(
+                    DatabaseParameters.Command(
+                        context = context, databaseDescriptor = it
+                    )
+                )
+            }
+            ?.map { descriptor ->
+                DatabaseResponse(
+                    id = descriptor.absolutePath.toByteArray().toSha1(),
+                    name = descriptor.name,
+                    path = descriptor.absolutePath,
+                    version = descriptor.version
+                )
+            }
 
     suspend fun rename(id: String, newName: String): DatabaseResponse? = getDatabases(
         DatabaseParameters.Get(

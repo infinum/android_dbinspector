@@ -1,0 +1,28 @@
+@use "@angular/material" as mat;
+
+@include mat.core();
+
+$dbinspector-primary: mat.define-palette(mat.$light-blue-palette);
+$dbinspector-accent: mat.define-palette(mat.$light-blue-palette, A200, A100, A400);
+$dbinspector-warn: mat.define-palette(mat.$red-palette);
+
+$dbinspector-theme: mat.define-light-theme(
+    (
+      color: (
+        primary: $dbinspector-primary,
+        accent: $dbinspector-accent,
+        warn: $dbinspector-warn,
+      ),
+    )
+);
+
+@include mat.all-component-themes($dbinspector-theme);
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

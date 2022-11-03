@@ -7,38 +7,35 @@
   <button mat-icon-button aria-label="Search">
     <mat-icon>search</mat-icon>
   </button>
-  <button mat-icon-button aria-label="Settings">
-    <mat-icon>settings</mat-icon>
-  </button>
 </mat-toolbar>
 
 <div *ngFor="let database of databases">
   <mat-card role="button" tabindex="0" class="is-focusable">
-    <mat-card-title>{{database.name}}</mat-card-title>
+    <mat-card-title class="multiline">{{database.name}}</mat-card-title>
     <div>
       <mat-card-subtitle>
         <div>
           <h5>
-            <span>Version</span>&nbsp;<span>{{database.version}}</span>
+            <span class="mat-accent">Version</span>&nbsp;<span>{{database.version}}</span>
           </h5>
           <h5>
-            <span>Path</span>&nbsp;<span>{{database.path}}</span>
+            <span class="mat-accent">Path</span>&nbsp;<span class="multiline">{{database.path}}</span>
           </h5>
         </div>
       </mat-card-subtitle>
     </div>
     <mat-card-actions>
-      <button mat-icon-button aria-label="Remove">
+      <button mat-icon-button aria-label="Remove" (click)="showDeleteSheet(database)">
         <mat-icon>delete_outline</mat-icon>
       </button>
       <button mat-icon-button aria-label="Rename">
         <mat-icon>edit</mat-icon>
       </button>
-      <button mat-icon-button aria-label="Copy">
+      <button mat-icon-button aria-label="Copy" (click)="duplicateDatabase(database)">
         <mat-icon>content_copy</mat-icon>
       </button>
-      <button mat-icon-button aria-label="Share">
-        <mat-icon>share</mat-icon>
+      <button mat-icon-button aria-label="Download" (click)="downloadDatabase(database)">
+        <mat-icon>download</mat-icon>
       </button>
     </mat-card-actions>
   </mat-card>

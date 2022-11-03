@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {Database} from "./database";
 
 @Injectable({
@@ -15,8 +15,21 @@ export class DatabaseService {
   ) {
   }
 
-  databases(): Observable<Database[]> {
+  fetchAll(): Observable<Database[]> {
     return this.http.get<Database[]>(this.databasesUrl)
   }
 
+  deleteById(id: string) {
+    return this.http.delete(`${this.databasesUrl}/${id}`)
+  }
+
+  copyById(id: string) {
+    const formData = new FormData();
+    formData.set("id", id)
+    return this.http.post(this.databasesUrl, formData)
+  }
+
+  downloadById(id: string) {
+    return this.http.get<Blob>(`${this.databasesUrl}/${id}`)
+  }
 }

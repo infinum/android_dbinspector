@@ -12,12 +12,14 @@ import {MatIconModule} from "@angular/material/icon";
 import {DatabasesComponent} from './databases/databases.component';
 import {MatCardModule} from "@angular/material/card";
 import {MatRippleModule} from "@angular/material/core";
-import {MatGridListModule} from "@angular/material/grid-list";
+import {DeleteDatabaseSheetComponent} from './delete-database-sheet/delete-database-sheet.component';
+import {MatBottomSheetModule} from "@angular/material/bottom-sheet";
 
 @NgModule({
   declarations: [
     AppComponent,
-    DatabasesComponent
+    DatabasesComponent,
+    DeleteDatabaseSheetComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +32,7 @@ import {MatGridListModule} from "@angular/material/grid-list";
     MatIconModule,
     MatCardModule,
     MatRippleModule,
-    MatGridListModule
+    MatBottomSheetModule
   ],
   providers: [],
   bootstrap: [AppComponent]

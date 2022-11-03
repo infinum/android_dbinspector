@@ -1,0 +1,5 @@
+<mat-toolbar class="sheet-toolbar">
+  <h2 class="mat-typography">Confirm</h2>
+</mat-toolbar>
+<div *ngIf="databaseName" mat-line class="sheet-body">Delete database {{databaseName}}?</div>
+<button mat-stroked-button color="primary" class="sheet-button" (click)="deleteDatabase()">Delete</button>
