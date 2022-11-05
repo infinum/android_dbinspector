@@ -13,12 +13,18 @@ import {MatCardModule} from "@angular/material/card";
 import {DeleteDatabaseSheetComponent} from './delete-database-sheet/delete-database-sheet.component';
 import {MatBottomSheetModule} from "@angular/material/bottom-sheet";
 import {MatListModule} from "@angular/material/list";
+import { RenameDatabaseSheetComponent } from './rename-database-sheet/rename-database-sheet.component';
+import {MatLineModule} from "@angular/material/core";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
     AppComponent,
     DatabasesComponent,
-    DeleteDatabaseSheetComponent
+    DeleteDatabaseSheetComponent,
+    RenameDatabaseSheetComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +36,10 @@ import {MatListModule} from "@angular/material/list";
     MatIconModule,
     MatCardModule,
     MatBottomSheetModule,
-    MatListModule
+    MatLineModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

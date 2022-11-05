@@ -1,0 +1,17 @@
+.sheet-toolbar {
+  background-color:transparent;
+}
+
+.sheet-body {
+  padding: 16px;
+}
+
+.sheet-input {
+  margin: 16px;
+  min-width: 100vw;
+  max-width: calc(100vw - 160px);
+}
+
+.sheet-button {
+  margin: 16px;
+}

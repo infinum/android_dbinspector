@@ -23,6 +23,12 @@ export class DatabaseService {
     return this.http.delete(`${this.databasesUrl}/${id}`)
   }
 
+  renameById(id: string, name: string) {
+    const formData = new FormData();
+    formData.set("name", name)
+    return this.http.patch(`${this.databasesUrl}/${id}`, formData)
+  }
+
   copyById(id: string) {
     const formData = new FormData();
     formData.set("id", id)

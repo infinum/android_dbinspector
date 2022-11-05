@@ -1,0 +1,10 @@
+<mat-toolbar class="sheet-toolbar">
+  <h2 class="mat-typography">Edit</h2>
+</mat-toolbar>
+<div *ngIf="databaseName" mat-line class="sheet-body">Rename database {{databaseName}}?</div>
+<mat-form-field appearance="fill" class="sheet-input">
+  <mat-label>New name</mat-label>
+  <input matInput type="text" [(ngModel)]="newName">
+</mat-form-field>
+<br>
+<button mat-stroked-button color="primary" class="sheet-button" (click)="renameDatabase()">Rename</button>

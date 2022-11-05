@@ -4,6 +4,7 @@ import {Database} from "../database";
 import {MatBottomSheet} from '@angular/material/bottom-sheet';
 import {DeleteDatabaseSheetComponent} from "../delete-database-sheet/delete-database-sheet.component";
 import {saveAs} from 'file-saver';
+import {RenameDatabaseSheetComponent} from "../rename-database-sheet/rename-database-sheet.component";
 
 @Component({
   selector: 'app-databases',
@@ -34,6 +35,14 @@ export class DatabasesComponent implements OnInit {
   showDeleteSheet(database: Database) {
     this.bottomSheet.open(
       DeleteDatabaseSheetComponent,
+      {
+        data: {id: database.id, name: database.name},
+      });
+  }
+
+  showEditSheet(database: Database) {
+    this.bottomSheet.open(
+      RenameDatabaseSheetComponent,
       {
         data: {id: database.id, name: database.name},
       });

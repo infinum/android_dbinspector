@@ -4,27 +4,29 @@ import {MAT_BOTTOM_SHEET_DATA} from '@angular/material/bottom-sheet';
 import {DatabaseService} from "../database.service";
 
 @Component({
-  selector: 'app-delete-database-sheet',
-  templateUrl: './delete-database-sheet.component.html',
-  styleUrls: ['./delete-database-sheet.component.css']
+  selector: 'app-rename-database-sheet',
+  templateUrl: './rename-database-sheet.component.html',
+  styleUrls: ['./rename-database-sheet.component.css']
 })
-export class DeleteDatabaseSheetComponent {
+export class RenameDatabaseSheetComponent {
 
   private readonly databaseId?: string;
   databaseName?: string;
 
+  newName?: string = this.databaseName
+
   constructor(
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: { id: string, name: string },
-    private _bottomSheetRef: MatBottomSheetRef<DeleteDatabaseSheetComponent>,
+    private _bottomSheetRef: MatBottomSheetRef<RenameDatabaseSheetComponent>,
     private databaseService: DatabaseService
   ) {
     this.databaseId = data.id
     this.databaseName = data.name
   }
 
-  deleteDatabase(): void {
-    if (this.databaseId != null) {
-      this.databaseService.deleteById(this.databaseId).subscribe()
+  renameDatabase(): void {
+    if (this.databaseId != null && this.newName != null && this.newName != "") {
+      this.databaseService.renameById(this.databaseId, this.newName).subscribe()
     }
     this._bottomSheetRef.dismiss();
   }
