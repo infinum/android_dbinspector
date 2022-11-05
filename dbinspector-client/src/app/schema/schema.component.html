@@ -1,0 +1,42 @@
+<mat-toolbar class="app-toolbar" color="primary">
+  <button mat-icon-button aria-label="Back" (click)="back()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <div class="mat-typography toolbar-text">
+    <h2>Schema</h2>
+    <p>{{databaseName}}</p>
+  </div>
+  <span class="toolbar-menu-spacer"></span>
+  <button mat-icon-button aria-label="Search">
+    <mat-icon>search</mat-icon>
+  </button>
+</mat-toolbar>
+<mat-tab-group mat-align-tabs="center">
+  <mat-tab label="Tables">
+    <mat-list role="list" *ngFor="let schema of tables">
+      <mat-list-item role="listitem" mat-ripple>
+        <mat-icon mat-list-icon svgIcon="table"></mat-icon>
+        <div mat-line>{{schema.name}}</div>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+    </mat-list>
+  </mat-tab>
+  <mat-tab label="Views">
+    <mat-list role="list" *ngFor="let schema of views">
+      <mat-list-item role="listitem" mat-ripple>
+        <mat-icon mat-list-icon svgIcon="table"></mat-icon>
+        <div mat-line>{{schema.name}}</div>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+    </mat-list>
+  </mat-tab>
+  <mat-tab label="Triggers">
+    <mat-list role="list" *ngFor="let schema of triggers">
+      <mat-list-item role="listitem" mat-ripple>
+        <mat-icon mat-list-icon svgIcon="table"></mat-icon>
+        <div mat-line>{{schema.name}}</div>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+    </mat-list>
+  </mat-tab>
+</mat-tab-group>

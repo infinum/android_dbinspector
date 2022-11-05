@@ -14,33 +14,39 @@ import {DeleteDatabaseSheetComponent} from './delete-database-sheet/delete-datab
 import {MatBottomSheetModule} from "@angular/material/bottom-sheet";
 import {MatListModule} from "@angular/material/list";
 import { RenameDatabaseSheetComponent } from './rename-database-sheet/rename-database-sheet.component';
-import {MatLineModule} from "@angular/material/core";
+import {MatLineModule, MatRippleModule} from "@angular/material/core";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
+import { SchemaComponent } from './schema/schema.component';
+import {MatTabsModule} from "@angular/material/tabs";
 
 @NgModule({
   declarations: [
     AppComponent,
     DatabasesComponent,
     DeleteDatabaseSheetComponent,
-    RenameDatabaseSheetComponent
+    RenameDatabaseSheetComponent,
+    SchemaComponent
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    AppRoutingModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatCardModule,
-    MatBottomSheetModule,
-    MatLineModule,
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        AppRoutingModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatIconModule,
+        MatCardModule,
+        MatBottomSheetModule,
+        MatLineModule,
+        MatFormFieldModule,
+        MatInputModule,
+        FormsModule,
+        MatTabsModule,
+        MatListModule,
+        MatRippleModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

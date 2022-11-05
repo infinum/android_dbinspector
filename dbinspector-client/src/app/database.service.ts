@@ -1,12 +1,14 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable, of} from 'rxjs';
+import {NEVER, Observable, of, tap} from 'rxjs';
 import {Database} from "./database";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DatabaseService {
+
+  private cachedDatabases: Database[] = []
 
   private databasesUrl = '/api/v1/databases';
 
@@ -17,6 +19,9 @@ export class DatabaseService {
 
   fetchAll(): Observable<Database[]> {
     return this.http.get<Database[]>(this.databasesUrl)
+      .pipe(
+        tap(databases => this.cachedDatabases = databases)
+      )
   }
 
   deleteById(id: string) {
@@ -36,6 +41,15 @@ export class DatabaseService {
   }
 
   downloadById(id: string) {
-    return this.http.get(`${this.databasesUrl}/${id}`, { responseType: 'blob'})
+    return this.http.get(`${this.databasesUrl}/${id}`, {responseType: 'blob'})
+  }
+
+  fromCacheById(id: string) {
+    const database = this.cachedDatabases.find(value => value.id == id)
+    if (database != undefined) {
+      return of(database)
+    } else {
+      return NEVER
+    }
   }
 }

@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {DatabaseService} from "../database.service";
-import {Database} from "../database";
 import {MatBottomSheet} from '@angular/material/bottom-sheet';
+import {Router} from '@angular/router';
+import {DatabaseService} from "../database.service";
 import {DeleteDatabaseSheetComponent} from "../delete-database-sheet/delete-database-sheet.component";
-import {saveAs} from 'file-saver';
 import {RenameDatabaseSheetComponent} from "../rename-database-sheet/rename-database-sheet.component";
+import {Database} from "../database";
+import {saveAs} from 'file-saver';
 
 @Component({
   selector: 'app-databases',
@@ -16,6 +17,7 @@ export class DatabasesComponent implements OnInit {
   databases: Database[] = [];
 
   constructor(
+    private router: Router,
     private databaseService: DatabaseService,
     private bottomSheet: MatBottomSheet
   ) {
@@ -25,7 +27,7 @@ export class DatabasesComponent implements OnInit {
     this.fetchAll()
   }
 
-  fetchAll(): void {
+  private fetchAll(): void {
     this.databaseService.fetchAll()
       .subscribe(
         databases => this.databases = databases
@@ -56,5 +58,9 @@ export class DatabasesComponent implements OnInit {
     this.databaseService.downloadById(database.id).subscribe(blob =>
       saveAs(blob, database.path.split(/[\\\/]/).pop())
     )
+  }
+
+  showSchema(database: Database) {
+    this.router.navigateByUrl(`databases/${database.id}/schema`)
   }
 }

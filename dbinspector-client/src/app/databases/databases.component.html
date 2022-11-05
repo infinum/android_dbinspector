@@ -10,7 +10,7 @@
 </mat-toolbar>
 
 <div role="list" *ngFor="let database of databases">
-  <mat-card role="button" tabindex="0" class="is-focusable">
+  <mat-card role="button" tabindex="0" class="is-focusable" (click)="showSchema(database)">
     <mat-card-title class="multiline">{{database.name}}</mat-card-title>
     <mat-card-subtitle class="subtitle">
       <h5 matLine class="centered">VERSION {{database.version}}</h5>
