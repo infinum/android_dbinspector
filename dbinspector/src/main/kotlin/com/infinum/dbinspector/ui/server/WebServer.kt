@@ -8,7 +8,6 @@ import com.infinum.dbinspector.ui.server.controllers.SchemaController
 import com.infinum.dbinspector.ui.server.routes.content
 import com.infinum.dbinspector.ui.server.routes.databases
 import com.infinum.dbinspector.ui.server.routes.pragma
-import com.infinum.dbinspector.ui.server.routes.root
 import com.infinum.dbinspector.ui.server.routes.schema
 import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
@@ -16,9 +15,8 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.install
 import io.ktor.server.engine.embeddedServer
-import io.ktor.server.http.content.files
-import io.ktor.server.http.content.resource
-import io.ktor.server.http.content.static
+import io.ktor.server.http.content.angular
+import io.ktor.server.http.content.singlePageApplication
 import io.ktor.server.netty.Netty
 import io.ktor.server.netty.NettyApplicationEngine
 import io.ktor.server.plugins.callloging.CallLogging
@@ -84,12 +82,9 @@ internal class WebServer(
                 }
 
                 routing {
-//                    root(webDir)
-                    static {
-                        resource("/", "index.html")
-                        files(webDir)
+                    singlePageApplication {
+                        angular(webDir.absolutePath)
                     }
-                    // TODO: Design a pagination on all routes
                     databases(VERSION, DatabaseController(context))
                     schema(VERSION, SchemaController(context))
                     content(VERSION, ContentController(context))

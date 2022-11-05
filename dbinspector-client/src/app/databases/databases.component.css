@@ -32,3 +32,12 @@ mat-card {
 .multiline {
   word-break: break-all;
 }
+
+.subtitle {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.centered {
+  margin-bottom: 0;
+}

@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.title =
             "${supportActionBar?.title?.toString().orEmpty()} (${BuildConfig.BUILD_TYPE})"
-        supportActionBar?.subtitle = address()?.let { "Server: $it:8080" }
+        supportActionBar?.subtitle = address()?.let { "Server: $it:3700" }
 
         ActivityMainBinding.inflate(layoutInflater)
             .also { setContentView(it.root) }

@@ -9,21 +9,13 @@
   </button>
 </mat-toolbar>
 
-<div *ngFor="let database of databases">
+<div role="list" *ngFor="let database of databases">
   <mat-card role="button" tabindex="0" class="is-focusable">
     <mat-card-title class="multiline">{{database.name}}</mat-card-title>
-    <div>
-      <mat-card-subtitle>
-        <div>
-          <h5>
-            <span class="mat-accent">Version</span>&nbsp;<span>{{database.version}}</span>
-          </h5>
-          <h5>
-            <span class="mat-accent">Path</span>&nbsp;<span class="multiline">{{database.path}}</span>
-          </h5>
-        </div>
-      </mat-card-subtitle>
-    </div>
+    <mat-card-subtitle class="subtitle">
+      <h5 matLine class="centered">VERSION {{database.version}}</h5>
+      <h5 matLine class="multiline centered">PATH {{database.path}}</h5>
+    </mat-card-subtitle>
     <mat-card-actions>
       <button mat-icon-button aria-label="Remove" (click)="showDeleteSheet(database)">
         <mat-icon>delete_outline</mat-icon>

@@ -30,6 +30,6 @@ export class DatabaseService {
   }
 
   downloadById(id: string) {
-    return this.http.get<Blob>(`${this.databasesUrl}/${id}`)
+    return this.http.get(`${this.databasesUrl}/${id}`, { responseType: 'blob'})
   }
 }

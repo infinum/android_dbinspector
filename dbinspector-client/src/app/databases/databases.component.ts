@@ -3,7 +3,7 @@ import {DatabaseService} from "../database.service";
 import {Database} from "../database";
 import {MatBottomSheet} from '@angular/material/bottom-sheet';
 import {DeleteDatabaseSheetComponent} from "../delete-database-sheet/delete-database-sheet.component";
-import {HttpResponse} from "@angular/common/http";
+import {saveAs} from 'file-saver';
 
 @Component({
   selector: 'app-databases',
@@ -44,8 +44,8 @@ export class DatabasesComponent implements OnInit {
   }
 
   downloadDatabase(database: Database) {
-    this.databaseService.downloadById(database.id).subscribe(
-
+    this.databaseService.downloadById(database.id).subscribe(blob =>
+      saveAs(blob, database.path.split(/[\\\/]/).pop())
     )
   }
 }
