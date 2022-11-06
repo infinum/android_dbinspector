@@ -6,6 +6,7 @@ import {DeleteDatabaseSheetComponent} from "../delete-database-sheet/delete-data
 import {RenameDatabaseSheetComponent} from "../rename-database-sheet/rename-database-sheet.component";
 import {Database} from "../database";
 import {saveAs} from 'file-saver';
+import {CacheService} from "../cache.service";
 
 @Component({
   selector: 'app-databases',
@@ -19,6 +20,7 @@ export class DatabasesComponent implements OnInit {
   constructor(
     private router: Router,
     private databaseService: DatabaseService,
+    private cacheService: CacheService,
     private bottomSheet: MatBottomSheet
   ) {
   }
@@ -61,6 +63,7 @@ export class DatabasesComponent implements OnInit {
   }
 
   showSchema(database: Database) {
+    this.cacheService.currentDatabase = database
     this.router.navigateByUrl(`databases/${database.id}/schema`)
   }
 }

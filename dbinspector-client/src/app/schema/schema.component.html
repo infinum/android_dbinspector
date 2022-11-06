@@ -14,7 +14,7 @@
 <mat-tab-group mat-align-tabs="center">
   <mat-tab label="Tables">
     <mat-list role="list" *ngFor="let schema of tables">
-      <mat-list-item role="listitem" mat-ripple>
+      <mat-list-item role="listitem" (click)="showTable(schema)">
         <mat-icon mat-list-icon svgIcon="table"></mat-icon>
         <div mat-line>{{schema.name}}</div>
       </mat-list-item>
@@ -23,7 +23,7 @@
   </mat-tab>
   <mat-tab label="Views">
     <mat-list role="list" *ngFor="let schema of views">
-      <mat-list-item role="listitem" mat-ripple>
+      <mat-list-item role="listitem" (click)="showView(schema)">
         <mat-icon mat-list-icon svgIcon="table"></mat-icon>
         <div mat-line>{{schema.name}}</div>
       </mat-list-item>
@@ -32,7 +32,7 @@
   </mat-tab>
   <mat-tab label="Triggers">
     <mat-list role="list" *ngFor="let schema of triggers">
-      <mat-list-item role="listitem" mat-ripple>
+      <mat-list-item role="listitem" (click)="showTrigger(schema)">
         <mat-icon mat-list-icon svgIcon="table"></mat-icon>
         <div mat-line>{{schema.name}}</div>
       </mat-list-item>

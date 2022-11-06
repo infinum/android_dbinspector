@@ -1,0 +1,22 @@
+<mat-toolbar class="app-toolbar" color="primary">
+  <button mat-icon-button aria-label="Back" (click)="back()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <div class="mat-typography toolbar-text">
+    <h2>Table</h2>
+    <p>{{databaseName}} → {{schemaName}}</p>
+  </div>
+  <span class="toolbar-menu-spacer"></span>
+  <button mat-icon-button aria-label="Search">
+    <mat-icon>search</mat-icon>
+  </button>
+</mat-toolbar>
+<table mat-table [dataSource]="pageRows" class="mat-elevation-z8">
+  <ng-container [matColumnDef]="column" *ngFor="let column of pageColumns">
+    <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+    <td mat-cell *matCellDef="let element"> {{element.cells[pageColumns.indexOf(column)]}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="pageColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: pageColumns;"></tr>
+</table>

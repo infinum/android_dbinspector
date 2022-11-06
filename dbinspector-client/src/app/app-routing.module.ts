@@ -2,11 +2,15 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {SchemaComponent} from "./schema/schema.component";
 import {DatabasesComponent} from "./databases/databases.component";
+import {TableComponent} from "./table/table.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/databases', pathMatch: 'full'},
   {path: 'databases', component: DatabasesComponent},
-  {path: 'databases/:id/schema', component: SchemaComponent}
+  {path: 'databases/:database_id/schema', component: SchemaComponent},
+  {path: 'databases/:database_id/tables/:schema_id', component: TableComponent},
+  {path: 'databases/:database_id/views/:schema_id', component: TableComponent},
+  {path: 'databases/:database_id/triggers/:schema_id', component: TableComponent}
 ];
 
 @NgModule({
