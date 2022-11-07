@@ -1,16 +1,16 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import {Row} from "../page";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Location} from "@angular/common";
 import {CacheService} from "../cache.service";
 import {ContentService} from "../content.service";
-import {Row} from "../page";
 
 @Component({
-  selector: 'app-table',
-  templateUrl: './table.component.html',
-  styleUrls: ['./table.component.css']
+  selector: 'app-view',
+  templateUrl: './view.component.html',
+  styleUrls: ['./view.component.css']
 })
-export class TableComponent implements OnInit {
+export class ViewComponent implements OnInit {
 
   databaseName?: string;
   schemaName?: string;
@@ -49,7 +49,7 @@ export class TableComponent implements OnInit {
     const schemaId = String(this.route.snapshot.paramMap.get('schema_id'));
     if (databaseId != null && schemaId != null) {
       this.contentService
-        .tableById(databaseId, schemaId)
+        .viewById(databaseId, schemaId)
         .subscribe(page => {
             if (page?.columns != null) {
               this.pageColumns = page.columns;

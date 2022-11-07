@@ -2,13 +2,14 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Schema} from "./schema";
+import {environment} from "../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SchemaService {
 
-  private schemaUrl = '/api/v1/databases';
+  private apiUrl = `${environment.apiPrefix}/api/v1/databases`;
 
   constructor(
     private http: HttpClient
@@ -16,14 +17,14 @@ export class SchemaService {
   }
 
   tablesById(id: string): Observable<Schema> {
-    return this.http.get<Schema>(`${this.schemaUrl}/${id}/tables`)
+    return this.http.get<Schema>(`${this.apiUrl}/${id}/tables`)
   }
 
   viewsById(id: string): Observable<Schema> {
-    return this.http.get<Schema>(`${this.schemaUrl}/${id}/views`)
+    return this.http.get<Schema>(`${this.apiUrl}/${id}/views`)
   }
 
   triggersById(id: string): Observable<Schema> {
-    return this.http.get<Schema>(`${this.schemaUrl}/${id}/triggers`)
+    return this.http.get<Schema>(`${this.apiUrl}/${id}/triggers`)
   }
 }

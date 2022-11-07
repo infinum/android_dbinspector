@@ -22,6 +22,8 @@ import {SchemaComponent} from './schema/schema.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import {TableComponent} from './table/table.component';
 import {MatTableModule} from "@angular/material/table";
+import { ViewComponent } from './view/view.component';
+import { TriggerComponent } from './trigger/trigger.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import {MatTableModule} from "@angular/material/table";
     DeleteDatabaseSheetComponent,
     RenameDatabaseSheetComponent,
     SchemaComponent,
-    TableComponent
+    TableComponent,
+    ViewComponent,
+    TriggerComponent
   ],
   imports: [
     BrowserModule,
