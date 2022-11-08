@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Edit</h1>
+<div mat-dialog-content>
+  <p>Rename database <b>{{databaseName}}?</b></p>
+  <mat-form-field appearance="fill">
+    <mat-label>New name</mat-label>
+    <input matInput [(ngModel)]="newName">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button color="primary" (click)="onConfirm()" cdkFocusInitial>Edit</button>
+</div>

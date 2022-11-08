@@ -17,6 +17,6 @@
     <td mat-cell *matCellDef="let element" class="cell">{{element.cells[pageColumns.indexOf(column)]}}</td>
   </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="pageColumns; sticky: true"></tr>
-  <tr mat-row *matRowDef="let row; columns: pageColumns;"></tr>
+  <tr mat-header-row *matHeaderRowDef="pageColumns; sticky: true" class="header"></tr>
+  <tr mat-row *matRowDef="let row; let even = even; columns: pageColumns;" [ngClass]="{alternate: even}"></tr>
 </table>

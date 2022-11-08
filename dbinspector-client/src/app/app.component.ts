@@ -8,3 +8,11 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'dbinspector-client';
 }
+
+/*
+TODO: Search everywhere
+TODO: Pagination everywhere
+TODO: Dark theme and toggle and initial getter onInit
+TODO: Pragma components
+TODO: Drop components
+ */

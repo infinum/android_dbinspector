@@ -18,8 +18,14 @@ table {
   width: 100%;
 }
 
+.header {
+  background-color: #bbbbbb
+}
+
 .cell {
-  border-bottom: 1px dashed rgba(0, 0, 0, 0.12);
-  border-right: 1px dashed rgba(0, 0, 0, 0.12);
+  border-bottom: 1px dashed #9F9F9F;
+  border-right: 1px dashed #9F9F9F;
   padding: 16px;
 }
+
+.alternate { background-color: #F2F2F2 }

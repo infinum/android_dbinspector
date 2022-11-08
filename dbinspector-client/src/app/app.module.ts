@@ -10,10 +10,9 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {DatabasesComponent} from './databases/databases.component';
 import {MatCardModule} from "@angular/material/card";
-import {DeleteDatabaseSheetComponent} from './delete-database-sheet/delete-database-sheet.component';
-import {MatBottomSheetModule} from "@angular/material/bottom-sheet";
+import {DeleteDatabaseComponent} from './delete-database/delete-database.component';
 import {MatListModule} from "@angular/material/list";
-import {RenameDatabaseSheetComponent} from './rename-database-sheet/rename-database-sheet.component';
+import {RenameDatabaseComponent} from './rename-database/rename-database.component';
 import {MatLineModule, MatRippleModule} from "@angular/material/core";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
@@ -22,39 +21,40 @@ import {SchemaComponent} from './schema/schema.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import {TableComponent} from './table/table.component';
 import {MatTableModule} from "@angular/material/table";
-import { ViewComponent } from './view/view.component';
-import { TriggerComponent } from './trigger/trigger.component';
+import {ViewComponent} from './view/view.component';
+import {TriggerComponent} from './trigger/trigger.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
     AppComponent,
     DatabasesComponent,
-    DeleteDatabaseSheetComponent,
-    RenameDatabaseSheetComponent,
+    DeleteDatabaseComponent,
+    RenameDatabaseComponent,
     SchemaComponent,
     TableComponent,
     ViewComponent,
     TriggerComponent
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    AppRoutingModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatCardModule,
-    MatBottomSheetModule,
-    MatLineModule,
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    MatTabsModule,
-    MatListModule,
-    MatRippleModule,
-    MatTableModule
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        AppRoutingModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatIconModule,
+        MatCardModule,
+        MatLineModule,
+        MatFormFieldModule,
+        MatInputModule,
+        FormsModule,
+        MatTabsModule,
+        MatListModule,
+        MatRippleModule,
+        MatTableModule,
+        MatDialogModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

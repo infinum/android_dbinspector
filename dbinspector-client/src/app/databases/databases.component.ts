@@ -2,11 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {MatBottomSheet} from '@angular/material/bottom-sheet';
 import {Router} from '@angular/router';
 import {DatabaseService} from "../database.service";
-import {DeleteDatabaseSheetComponent} from "../delete-database-sheet/delete-database-sheet.component";
-import {RenameDatabaseSheetComponent} from "../rename-database-sheet/rename-database-sheet.component";
+import {DeleteDatabaseComponent} from "../delete-database/delete-database.component";
+import {RenameDatabaseComponent} from "../rename-database/rename-database.component";
 import {Database} from "../database";
 import {saveAs} from 'file-saver';
 import {CacheService} from "../cache.service";
+import {MatIconRegistry} from "@angular/material/icon";
+import {DomSanitizer} from "@angular/platform-browser";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-databases',
@@ -21,8 +24,14 @@ export class DatabasesComponent implements OnInit {
     private router: Router,
     private databaseService: DatabaseService,
     private cacheService: CacheService,
-    private bottomSheet: MatBottomSheet
+    public dialog: MatDialog,
+    private matIconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer
   ) {
+    this.matIconRegistry.addSvgIcon(
+      "github",
+      this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/github.svg")
+    );
   }
 
   ngOnInit(): void {
@@ -36,20 +45,34 @@ export class DatabasesComponent implements OnInit {
       )
   }
 
+  github(): void {
+    window.open("https://github.com/infinum/android_dbinspector", "_blank");
+  }
+
   showDeleteSheet(database: Database) {
-    this.bottomSheet.open(
-      DeleteDatabaseSheetComponent,
-      {
-        data: {id: database.id, name: database.name},
-      });
+    const dialogRef = this.dialog.open(DeleteDatabaseComponent, {data: {id: database.id, name: database.name}});
+    dialogRef.afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        this.deleteDatabase(database.id)
+      }
+    });
   }
 
   showEditSheet(database: Database) {
-    this.bottomSheet.open(
-      RenameDatabaseSheetComponent,
-      {
-        data: {id: database.id, name: database.name},
-      });
+    const dialogRef = this.dialog.open(RenameDatabaseComponent, {data: {id: database.id, name: database.name}});
+    dialogRef.afterClosed().subscribe(result => {
+      if (result.confirmed) {
+        this.renameDatabase(database.id, result.newName)
+      }
+    });
+  }
+
+  deleteDatabase(databaseId: string): void {
+    this.databaseService.deleteById(databaseId).subscribe()
+  }
+
+  renameDatabase(databaseId: string, newName: string) {
+    this.databaseService.renameById(databaseId, newName).subscribe()
   }
 
   duplicateDatabase(database: Database) {

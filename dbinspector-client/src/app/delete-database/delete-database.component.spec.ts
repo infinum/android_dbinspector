@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeleteDatabaseSheetComponent } from './delete-database-sheet.component';
+import { DeleteDatabaseComponent } from './delete-database.component';
 
 describe('DeleteDatabaseSheetComponent', () => {
-  let component: DeleteDatabaseSheetComponent;
-  let fixture: ComponentFixture<DeleteDatabaseSheetComponent>;
+  let component: DeleteDatabaseComponent;
+  let fixture: ComponentFixture<DeleteDatabaseComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DeleteDatabaseSheetComponent ]
+      declarations: [ DeleteDatabaseComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DeleteDatabaseSheetComponent);
+    fixture = TestBed.createComponent(DeleteDatabaseComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

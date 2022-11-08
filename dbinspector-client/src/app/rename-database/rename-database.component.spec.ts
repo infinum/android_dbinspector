@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RenameDatabaseSheetComponent } from './rename-database-sheet.component';
+import { RenameDatabaseComponent } from './rename-database.component';
 
 describe('RenameDatabaseSheetComponent', () => {
-  let component: RenameDatabaseSheetComponent;
-  let fixture: ComponentFixture<RenameDatabaseSheetComponent>;
+  let component: RenameDatabaseComponent;
+  let fixture: ComponentFixture<RenameDatabaseComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RenameDatabaseSheetComponent ]
+      declarations: [ RenameDatabaseComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RenameDatabaseSheetComponent);
+    fixture = TestBed.createComponent(RenameDatabaseComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
