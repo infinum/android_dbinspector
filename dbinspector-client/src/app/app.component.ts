@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {AssetService} from "./asset.service";
 
 @Component({
   selector: 'app-root',
@@ -7,6 +8,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'dbinspector-client';
+
+  constructor(
+    private assetService: AssetService
+  ) {
+    assetService.registerIcons()
+  }
 }
 
 /*

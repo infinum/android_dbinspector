@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {MatBottomSheet} from '@angular/material/bottom-sheet';
 import {Router} from '@angular/router';
 import {DatabaseService} from "../database.service";
 import {DeleteDatabaseComponent} from "../delete-database/delete-database.component";
@@ -7,8 +6,6 @@ import {RenameDatabaseComponent} from "../rename-database/rename-database.compon
 import {Database} from "../database";
 import {saveAs} from 'file-saver';
 import {CacheService} from "../cache.service";
-import {MatIconRegistry} from "@angular/material/icon";
-import {DomSanitizer} from "@angular/platform-browser";
 import {MatDialog} from "@angular/material/dialog";
 
 @Component({
@@ -24,14 +21,8 @@ export class DatabasesComponent implements OnInit {
     private router: Router,
     private databaseService: DatabaseService,
     private cacheService: CacheService,
-    public dialog: MatDialog,
-    private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer
+    public dialog: MatDialog
   ) {
-    this.matIconRegistry.addSvgIcon(
-      "github",
-      this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/github.svg")
-    );
   }
 
   ngOnInit(): void {

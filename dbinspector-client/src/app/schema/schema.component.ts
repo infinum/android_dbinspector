@@ -4,8 +4,6 @@ import {Location} from '@angular/common';
 import {SchemaService} from "../schema.service";
 import {SchemaCell} from "../schema_cell";
 import {DatabaseService} from "../database.service";
-import {DomSanitizer} from "@angular/platform-browser";
-import {MatIconRegistry} from "@angular/material/icon";
 import {CacheService} from "../cache.service";
 
 @Component({
@@ -27,14 +25,8 @@ export class SchemaComponent implements OnInit {
     private location: Location,
     private schemaService: SchemaService,
     private databaseService: DatabaseService,
-    private cacheService: CacheService,
-    private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer
+    private cacheService: CacheService
   ) {
-    this.matIconRegistry.addSvgIcon(
-      "table",
-      this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/table.svg")
-    );
   }
 
   ngOnInit(): void {
