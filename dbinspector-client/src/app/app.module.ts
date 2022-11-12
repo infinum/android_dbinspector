@@ -24,7 +24,8 @@ import {MatTableModule} from "@angular/material/table";
 import {ViewComponent} from './view/view.component';
 import {TriggerComponent} from './trigger/trigger.component';
 import {MatDialogModule} from "@angular/material/dialog";
-import { PragmaComponent } from './pragma/pragma.component';
+import {PragmaComponent} from './pragma/pragma.component';
+import {FlexLayoutModule} from "@angular/flex-layout";
 
 @NgModule({
   declarations: [
@@ -38,25 +39,26 @@ import { PragmaComponent } from './pragma/pragma.component';
     TriggerComponent,
     PragmaComponent
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
-        AppRoutingModule,
-        MatToolbarModule,
-        MatButtonModule,
-        MatIconModule,
-        MatCardModule,
-        MatLineModule,
-        MatFormFieldModule,
-        MatInputModule,
-        FormsModule,
-        MatTabsModule,
-        MatListModule,
-        MatRippleModule,
-        MatTableModule,
-        MatDialogModule
-    ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    AppRoutingModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCardModule,
+    MatLineModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatTabsModule,
+    MatListModule,
+    MatRippleModule,
+    MatTableModule,
+    MatDialogModule,
+    FlexLayoutModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

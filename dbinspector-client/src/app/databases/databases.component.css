@@ -18,10 +18,20 @@ mat-card-actions {
   display: flex;
   justify-content: space-evenly;
 }
+.content {
+  padding: 16px;
+}
 
 mat-card {
-  margin: 16px;
   padding: 16px;
+  flex: 100%;
+  display:flex;
+  flex-direction: column;
+}
+
+.layout-row{
+  display: flex;
+  align-items: stretch;
 }
 
 .is-focusable {
@@ -41,6 +51,8 @@ mat-card {
 .subtitle {
   padding-top: 16px;
   padding-bottom: 16px;
+  flex-grow: 1;
+  overflow: auto;
 }
 
 .centered {

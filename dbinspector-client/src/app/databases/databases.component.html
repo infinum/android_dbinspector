@@ -11,27 +11,30 @@
     <mat-icon>search</mat-icon>
   </button>
 </mat-toolbar>
-
-<div role="list" *ngFor="let database of databases">
-  <mat-card role="button" tabindex="0" class="is-focusable" (click)="showSchema(database)">
-    <mat-card-title class="multiline">{{database.name}}</mat-card-title>
-    <mat-card-subtitle class="subtitle">
-      <h5 matLine class="centered">VERSION {{database.version}}</h5>
-      <h5 matLine class="multiline centered">PATH {{database.path}}</h5>
-    </mat-card-subtitle>
-    <mat-card-actions>
-      <button mat-icon-button aria-label="Remove" (click)="showDeleteSheet(database)">
-        <mat-icon>delete_outline</mat-icon>
-      </button>
-      <button mat-icon-button aria-label="Edit" (click)="showEditSheet(database)">
-        <mat-icon>edit</mat-icon>
-      </button>
-      <button mat-icon-button aria-label="Copy" (click)="duplicateDatabase(database)">
-        <mat-icon>content_copy</mat-icon>
-      </button>
-      <button mat-icon-button aria-label="Download" (click)="downloadDatabase(database)">
-        <mat-icon>download</mat-icon>
-      </button>
-    </mat-card-actions>
-  </mat-card>
+<div class="content">
+  <div fxLayout="row wrap" fxLayoutGap="16px grid">
+    <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="50%" class="layout-row" *ngFor="let database of databases">
+      <mat-card role="button" tabindex="0" class="is-focusable" (click)="showSchema(database)">
+        <mat-card-title class="multiline">{{database.name}}</mat-card-title>
+        <mat-card-subtitle class="subtitle">
+          <h5 matLine class="centered">VERSION {{database.version}}</h5>
+          <h5 matLine class="multiline centered">PATH {{database.path}}</h5>
+        </mat-card-subtitle>
+        <mat-card-actions>
+          <button mat-icon-button aria-label="Remove" (click)="showDeleteSheet(database)">
+            <mat-icon>delete_outline</mat-icon>
+          </button>
+          <button mat-icon-button aria-label="Edit" (click)="showEditSheet(database)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button aria-label="Copy" (click)="duplicateDatabase(database)">
+            <mat-icon>content_copy</mat-icon>
+          </button>
+          <button mat-icon-button aria-label="Download" (click)="downloadDatabase(database)">
+            <mat-icon>download</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
 </div>
