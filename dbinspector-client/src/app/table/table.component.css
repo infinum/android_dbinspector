@@ -14,6 +14,10 @@
   flex: 1 1 auto;
 }
 
+.container {
+  overflow-x: auto;
+}
+
 table {
   width: 100%;
 }

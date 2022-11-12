@@ -14,12 +14,14 @@
     <mat-icon svgIcon="pragma"></mat-icon>
   </button>
 </mat-toolbar>
-<table mat-table [dataSource]="pageRows">
-  <ng-container [matColumnDef]="column" *ngFor="let column of pageColumns">
-    <th mat-header-cell *matHeaderCellDef class="cell">{{column}}</th>
-    <td mat-cell *matCellDef="let element" class="cell">{{element.cells[pageColumns.indexOf(column)]}}</td>
-  </ng-container>
+<div class="container">
+  <table mat-table [dataSource]="pageRows">
+    <ng-container [matColumnDef]="column" *ngFor="let column of pageColumns">
+      <th mat-header-cell *matHeaderCellDef class="cell">{{column}}</th>
+      <td mat-cell *matCellDef="let element" class="cell">{{element.cells[pageColumns.indexOf(column)]}}</td>
+    </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="pageColumns; sticky: true" class="header"></tr>
-  <tr mat-row *matRowDef="let row; let even = even; columns: pageColumns;" [ngClass]="{alternate: even}"></tr>
-</table>
+    <tr mat-header-row *matHeaderRowDef="pageColumns; sticky: true" class="header"></tr>
+    <tr mat-row *matRowDef="let row; let even = even; columns: pageColumns;" [ngClass]="{alternate: even}"></tr>
+  </table>
+</div>
