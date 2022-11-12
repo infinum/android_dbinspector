@@ -36,6 +36,14 @@ export class ViewComponent implements OnInit {
     this.location.back();
   }
 
+  showPragma(): void {
+    const databaseId = this.cacheService.currentDatabase?.id
+    const schemaId = this.cacheService.currentSchema?.id
+    if (databaseId != null && schemaId != null) {
+      this.router.navigateByUrl(`databases/${databaseId}/views/${schemaId}/pragma`)
+    }
+  }
+
   private fetchAll() {
     const databaseName = this.cacheService.currentDatabase?.name
     if (databaseName != null) {

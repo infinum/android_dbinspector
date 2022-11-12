@@ -1,0 +1,49 @@
+<mat-toolbar class="app-toolbar" color="primary">
+  <button mat-icon-button aria-label="Back" (click)="back()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <div class="mat-typography toolbar-text">
+    <h2>Pragma</h2>
+    <p>{{databaseName}} → {{schemaName}}</p>
+  </div>
+  <span class="toolbar-menu-spacer"></span>
+</mat-toolbar>
+<mat-tab-group mat-align-tabs="center">
+  <mat-tab label="Table info">
+    <table mat-table [dataSource]="tableInfoPageRows">
+      <ng-container [matColumnDef]="column" *ngFor="let column of tableInfoPageColumns">
+        <th mat-header-cell *matHeaderCellDef class="cell">{{column}}</th>
+        <td mat-cell *matCellDef="let element" class="cell">{{element.cells[tableInfoPageColumns.indexOf(column)]}}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="tableInfoPageColumns; sticky: true" class="header"></tr>
+      <tr mat-row *matRowDef="let row; let even = even; columns: tableInfoPageColumns;"
+          [ngClass]="{alternate: even}"></tr>
+    </table>
+  </mat-tab>
+  <mat-tab label="Foreign keys">
+    <table mat-table [dataSource]="foreignKeysPageRows">
+      <ng-container [matColumnDef]="column" *ngFor="let column of foreignKeysPageColumns">
+        <th mat-header-cell *matHeaderCellDef class="cell">{{column}}</th>
+        <td mat-cell *matCellDef="let element"
+            class="cell">{{element.cells[foreignKeysPageColumns.indexOf(column)]}}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="foreignKeysPageColumns; sticky: true" class="header"></tr>
+      <tr mat-row *matRowDef="let row; let even = even; columns: foreignKeysPageColumns;"
+          [ngClass]="{alternate: even}"></tr>
+    </table>
+  </mat-tab>
+  <mat-tab label="Indexes">
+    <table mat-table [dataSource]="indexesPageRows">
+      <ng-container [matColumnDef]="column" *ngFor="let column of indexesPageColumns">
+        <th mat-header-cell *matHeaderCellDef class="cell">{{column}}</th>
+        <td mat-cell *matCellDef="let element" class="cell">{{element.cells[indexesPageColumns.indexOf(column)]}}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="indexesPageColumns; sticky: true" class="header"></tr>
+      <tr mat-row *matRowDef="let row; let even = even; columns: indexesPageColumns;"
+          [ngClass]="{alternate: even}"></tr>
+    </table>
+  </mat-tab>
+</mat-tab-group>

@@ -24,6 +24,7 @@ import {MatTableModule} from "@angular/material/table";
 import {ViewComponent} from './view/view.component';
 import {TriggerComponent} from './trigger/trigger.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import { PragmaComponent } from './pragma/pragma.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import {MatDialogModule} from "@angular/material/dialog";
     SchemaComponent,
     TableComponent,
     ViewComponent,
-    TriggerComponent
+    TriggerComponent,
+    PragmaComponent
   ],
     imports: [
         BrowserModule,

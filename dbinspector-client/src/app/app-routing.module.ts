@@ -5,6 +5,7 @@ import {DatabasesComponent} from "./databases/databases.component";
 import {TableComponent} from "./table/table.component";
 import {ViewComponent} from "./view/view.component";
 import {TriggerComponent} from "./trigger/trigger.component";
+import {PragmaComponent} from "./pragma/pragma.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/databases', pathMatch: 'full'},
@@ -12,7 +13,9 @@ const routes: Routes = [
   {path: 'databases/:database_id/schema', component: SchemaComponent},
   {path: 'databases/:database_id/tables/:schema_id', component: TableComponent},
   {path: 'databases/:database_id/views/:schema_id', component: ViewComponent},
-  {path: 'databases/:database_id/triggers/:schema_id', component: TriggerComponent}
+  {path: 'databases/:database_id/triggers/:schema_id', component: TriggerComponent},
+  {path: 'databases/:database_id/:schema_type/:schema_id/pragma', component: PragmaComponent},
+  {path: 'databases/:database_id/:schema_type/:schema_id/pragma', component: PragmaComponent}
 ];
 
 @NgModule({
