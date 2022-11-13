@@ -1,5 +1,5 @@
 <h1 mat-dialog-title>Confirm</h1>
-<div mat-dialog-content>Delete database <b>{{databaseName}}</b>?</div>
+<div mat-dialog-content>Delete database <b>{{data.name}}</b>?</div>
 <div mat-dialog-actions>
   <button mat-button (click)="onCancel()">Cancel</button>
   <button mat-button color="primary" (click)="onConfirm()" cdkFocusInitial>Delete</button>

@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Row} from "../page";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Location} from "@angular/common";
 import {CacheService} from "../cache.service";
 import {ContentService} from "../content.service";
+import {ClearTableComponent} from "../clear-table/clear-table.component";
+import {DropViewComponent} from "../drop-view/drop-view.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-view',
@@ -23,7 +26,8 @@ export class ViewComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     private cacheService: CacheService,
-    private contentService: ContentService
+    private contentService: ContentService,
+    private dialog: MatDialog
   ) {
   }
 
@@ -34,6 +38,20 @@ export class ViewComponent implements OnInit {
   back(): void {
     this.cacheService.currentSchema = null
     this.location.back();
+  }
+
+  confirmDrop(): void {
+    const databaseId = this.cacheService.currentDatabase?.id
+    const schemaId = this.cacheService.currentSchema?.id
+    const schemaName = this.cacheService.currentSchema?.name
+    if (databaseId != null && schemaId != null) {
+      const dialogRef = this.dialog.open(DropViewComponent, {data: {name: schemaName}});
+      dialogRef.afterClosed().subscribe(confirmed => {
+        if (confirmed) {
+          this.dropView(databaseId, schemaId)
+        }
+      });
+    }
   }
 
   showPragma(): void {
@@ -68,5 +86,11 @@ export class ViewComponent implements OnInit {
           }
         )
     }
+  }
+
+  private dropView(databaseId: string, schemaId: string) {
+    this.contentService
+      .dropViewById(databaseId, schemaId)
+      .subscribe(_ => this.back())
   }
 }

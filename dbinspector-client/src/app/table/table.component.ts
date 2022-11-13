@@ -4,6 +4,9 @@ import {Location} from "@angular/common";
 import {CacheService} from "../cache.service";
 import {ContentService} from "../content.service";
 import {Row} from "../page";
+import {DeleteDatabaseComponent} from "../delete-database/delete-database.component";
+import {ClearTableComponent} from "../clear-table/clear-table.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-table',
@@ -23,7 +26,8 @@ export class TableComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     private cacheService: CacheService,
-    private contentService: ContentService
+    private contentService: ContentService,
+    private dialog: MatDialog
   ) {
   }
 
@@ -34,6 +38,20 @@ export class TableComponent implements OnInit {
   back(): void {
     this.cacheService.currentSchema = null
     this.location.back();
+  }
+
+  confirmClear(): void {
+    const databaseId = this.cacheService.currentDatabase?.id
+    const schemaId = this.cacheService.currentSchema?.id
+    const schemaName = this.cacheService.currentSchema?.name
+    if (databaseId != null && schemaId != null) {
+      const dialogRef = this.dialog.open(ClearTableComponent, {data: {name: schemaName}});
+      dialogRef.afterClosed().subscribe(confirmed => {
+        if (confirmed) {
+          this.clearTable(databaseId, schemaId)
+        }
+      });
+    }
   }
 
   showPragma(): void {
@@ -68,5 +86,11 @@ export class TableComponent implements OnInit {
           }
         )
     }
+  }
+
+  private clearTable(databaseId: string, schemaId: string) {
+    this.contentService
+      .clearTableById(databaseId, schemaId)
+      .subscribe(_ => this.fetchAll())
   }
 }

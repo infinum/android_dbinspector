@@ -21,7 +21,7 @@ export class DatabasesComponent implements OnInit {
     private router: Router,
     private databaseService: DatabaseService,
     private cacheService: CacheService,
-    public dialog: MatDialog
+    private dialog: MatDialog
   ) {
   }
 
@@ -40,9 +40,9 @@ export class DatabasesComponent implements OnInit {
     window.open("https://github.com/infinum/android_dbinspector", "_blank");
   }
 
-  showDeleteSheet(event: MouseEvent, database: Database) {
+  confirmDelete(event: MouseEvent, database: Database) {
     event.stopPropagation()
-    const dialogRef = this.dialog.open(DeleteDatabaseComponent, {data: {id: database.id, name: database.name}});
+    const dialogRef = this.dialog.open(DeleteDatabaseComponent, {data: {name: database.name}});
     dialogRef.afterClosed().subscribe(confirmed => {
       if (confirmed) {
         this.deleteDatabase(database.id)
@@ -50,9 +50,9 @@ export class DatabasesComponent implements OnInit {
     });
   }
 
-  showEditSheet(event: MouseEvent, database: Database) {
+  confirmEdit(event: MouseEvent, database: Database) {
     event.stopPropagation()
-    const dialogRef = this.dialog.open(RenameDatabaseComponent, {data: {id: database.id, name: database.name}});
+    const dialogRef = this.dialog.open(RenameDatabaseComponent, {data: {name: database.name}});
     dialogRef.afterClosed().subscribe(result => {
       if (result.confirmed) {
         this.renameDatabase(database.id, result.newName)

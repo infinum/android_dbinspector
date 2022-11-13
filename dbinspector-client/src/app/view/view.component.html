@@ -7,7 +7,7 @@
     <p>{{databaseName}} → {{schemaName}}</p>
   </div>
   <span class="toolbar-menu-spacer"></span>
-  <button mat-icon-button aria-label="Drop">
+  <button mat-icon-button aria-label="Drop" (click)="confirmDrop()">
     <mat-icon svgIcon="drop"></mat-icon>
   </button>
   <button mat-icon-button aria-label="Pragma" (click)="showPragma()">

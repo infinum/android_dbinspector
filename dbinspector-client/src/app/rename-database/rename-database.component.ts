@@ -8,17 +8,12 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 })
 export class RenameDatabaseComponent {
 
-  private readonly databaseId?: string;
-  databaseName?: string;
-
   newName?: string
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { id: string, name: string },
+    @Inject(MAT_DIALOG_DATA) public data: { name: string },
     public dialogRef: MatDialogRef<RenameDatabaseComponent>
   ) {
-    this.databaseId = data.id
-    this.databaseName = data.name
     this.newName = data.name
   }
 

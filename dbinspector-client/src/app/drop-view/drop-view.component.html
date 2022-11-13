@@ -1,0 +1,6 @@
+<h1 mat-dialog-title>Confirm</h1>
+<div mat-dialog-content>Drop view <b>{{data.name}}</b>?</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button color="primary" (click)="onConfirm()" cdkFocusInitial>Drop</button>
+</div>

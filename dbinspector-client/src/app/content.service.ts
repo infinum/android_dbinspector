@@ -27,4 +27,16 @@ export class ContentService {
   triggerById(databaseId: string, schemaId: string): Observable<Page> {
     return this.http.get<Page>(`${this.apiUrl}/${databaseId}/triggers/${schemaId}`)
   }
+
+  clearTableById(databaseId: string, schemaId: string) {
+    return this.http.delete(`${this.apiUrl}/${databaseId}/tables/${schemaId}`)
+  }
+
+  dropViewById(databaseId: string, schemaId: string) {
+    return this.http.delete(`${this.apiUrl}/${databaseId}/views/${schemaId}`)
+  }
+
+  dropTriggerById(databaseId: string, schemaId: string) {
+    return this.http.delete(`${this.apiUrl}/${databaseId}/triggers/${schemaId}`)
+  }
 }

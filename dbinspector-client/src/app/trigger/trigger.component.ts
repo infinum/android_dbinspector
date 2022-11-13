@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Row} from "../page";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Location} from "@angular/common";
 import {CacheService} from "../cache.service";
 import {ContentService} from "../content.service";
+import {DropViewComponent} from "../drop-view/drop-view.component";
+import {DropTriggerComponent} from "../drop-trigger/drop-trigger.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-trigger',
@@ -23,7 +26,8 @@ export class TriggerComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     private cacheService: CacheService,
-    private contentService: ContentService
+    private contentService: ContentService,
+    private dialog: MatDialog
   ) {
   }
 
@@ -34,6 +38,20 @@ export class TriggerComponent implements OnInit {
   back(): void {
     this.cacheService.currentSchema = null
     this.location.back();
+  }
+
+  confirmDrop(): void {
+    const databaseId = this.cacheService.currentDatabase?.id
+    const schemaId = this.cacheService.currentSchema?.id
+    const schemaName = this.cacheService.currentSchema?.name
+    if (databaseId != null && schemaId != null) {
+      const dialogRef = this.dialog.open(DropTriggerComponent, {data: {name: schemaName}});
+      dialogRef.afterClosed().subscribe(confirmed => {
+        if (confirmed) {
+          this.dropTrigger(databaseId, schemaId)
+        }
+      });
+    }
   }
 
   private fetchAll() {
@@ -62,4 +80,9 @@ export class TriggerComponent implements OnInit {
     }
   }
 
+  private dropTrigger(databaseId: string, schemaId: string) {
+    this.contentService
+      .dropTriggerById(databaseId, schemaId)
+      .subscribe(_ => this.back())
+  }
 }

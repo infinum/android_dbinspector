@@ -20,5 +20,4 @@ export class AppComponent {
 TODO: Search everywhere
 TODO: Pagination everywhere
 TODO: Dark theme and toggle and initial getter onInit
-TODO: Drop components
  */

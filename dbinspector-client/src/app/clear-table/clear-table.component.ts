@@ -2,15 +2,15 @@ import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
-  selector: 'app-delete-database',
-  templateUrl: './delete-database.component.html',
-  styleUrls: ['./delete-database.component.css']
+  selector: 'app-clear-table',
+  templateUrl: './clear-table.component.html',
+  styleUrls: ['./clear-table.component.css']
 })
-export class DeleteDatabaseComponent {
+export class ClearTableComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { name: string },
-    public dialogRef: MatDialogRef<DeleteDatabaseComponent>
+    public dialogRef: MatDialogRef<ClearTableComponent>
   ) {
   }
 

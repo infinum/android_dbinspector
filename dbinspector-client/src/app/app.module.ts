@@ -26,6 +26,9 @@ import {TriggerComponent} from './trigger/trigger.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {PragmaComponent} from './pragma/pragma.component';
 import {FlexLayoutModule} from "@angular/flex-layout";
+import { ClearTableComponent } from './clear-table/clear-table.component';
+import { DropViewComponent } from './drop-view/drop-view.component';
+import { DropTriggerComponent } from './drop-trigger/drop-trigger.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +40,10 @@ import {FlexLayoutModule} from "@angular/flex-layout";
     TableComponent,
     ViewComponent,
     TriggerComponent,
-    PragmaComponent
+    PragmaComponent,
+    ClearTableComponent,
+    DropViewComponent,
+    DropTriggerComponent
   ],
   imports: [
     BrowserModule,
