@@ -317,12 +317,7 @@ internal class ContentController(
                     .find { triggerId == it.text?.toByteArray()?.toSha1() }
                     ?.text
                     ?.let { name ->
-                        val headers: List<String> = tableInfo(
-                            PragmaParameters.Pragma(
-                                databasePath = database.absolutePath,
-                                statement = Statements.Pragma.tableInfo(name)
-                            )
-                        ).cells.map { it.text.orEmpty() }
+                        val headers: List<String> = listOf("name", "sql")
 
                         val page = dropTrigger(
                             ContentParameters(

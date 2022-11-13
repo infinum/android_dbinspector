@@ -138,7 +138,7 @@ internal fun Route.content(version: Int, controller: ContentController): Route =
                     message = it
                 )
             } ?: call.respondText(
-                "No trigger dropped from database by id $databaseId and view by id $triggerId",
+                "No trigger dropped from database by id $databaseId and trigger by id $triggerId",
                 status = HttpStatusCode.NotFound
             )
         }

@@ -64,7 +64,7 @@ internal class WebServer(
                 install(StatusPages) {
                     exception(Throwable::class) { call, throwable ->
                         call.respondText(
-                            throwable.localizedMessage.orEmpty(),
+                            throwable.stackTraceToString(),
                             ContentType.Text.Plain,
                             HttpStatusCode.InternalServerError
                         )
