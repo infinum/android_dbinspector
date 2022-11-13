@@ -21,16 +21,16 @@
           <h5 matLine class="multiline centered">PATH {{database.path}}</h5>
         </mat-card-subtitle>
         <mat-card-actions>
-          <button mat-icon-button aria-label="Remove" (click)="showDeleteSheet(database)">
+          <button mat-icon-button aria-label="Remove" (click)="showDeleteSheet($event, database)">
             <mat-icon>delete_outline</mat-icon>
           </button>
-          <button mat-icon-button aria-label="Edit" (click)="showEditSheet(database)">
+          <button mat-icon-button aria-label="Edit" (click)="showEditSheet($event, database)">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button aria-label="Copy" (click)="duplicateDatabase(database)">
+          <button mat-icon-button aria-label="Copy" (click)="duplicateDatabase($event, database)">
             <mat-icon>content_copy</mat-icon>
           </button>
-          <button mat-icon-button aria-label="Download" (click)="downloadDatabase(database)">
+          <button mat-icon-button aria-label="Download" (click)="downloadDatabase($event, database)">
             <mat-icon>download</mat-icon>
           </button>
         </mat-card-actions>

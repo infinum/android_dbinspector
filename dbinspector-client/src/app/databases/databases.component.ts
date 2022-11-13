@@ -40,7 +40,8 @@ export class DatabasesComponent implements OnInit {
     window.open("https://github.com/infinum/android_dbinspector", "_blank");
   }
 
-  showDeleteSheet(database: Database) {
+  showDeleteSheet(event: MouseEvent, database: Database) {
+    event.stopPropagation()
     const dialogRef = this.dialog.open(DeleteDatabaseComponent, {data: {id: database.id, name: database.name}});
     dialogRef.afterClosed().subscribe(confirmed => {
       if (confirmed) {
@@ -49,7 +50,8 @@ export class DatabasesComponent implements OnInit {
     });
   }
 
-  showEditSheet(database: Database) {
+  showEditSheet(event: MouseEvent, database: Database) {
+    event.stopPropagation()
     const dialogRef = this.dialog.open(RenameDatabaseComponent, {data: {id: database.id, name: database.name}});
     dialogRef.afterClosed().subscribe(result => {
       if (result.confirmed) {
@@ -58,19 +60,13 @@ export class DatabasesComponent implements OnInit {
     });
   }
 
-  deleteDatabase(databaseId: string): void {
-    this.databaseService.deleteById(databaseId).subscribe()
-  }
-
-  renameDatabase(databaseId: string, newName: string) {
-    this.databaseService.renameById(databaseId, newName).subscribe()
-  }
-
-  duplicateDatabase(database: Database) {
+  duplicateDatabase(event: MouseEvent, database: Database) {
+    event.stopPropagation()
     this.databaseService.copyById(database.id).subscribe(_ => this.fetchAll())
   }
 
-  downloadDatabase(database: Database) {
+  downloadDatabase(event: MouseEvent, database: Database) {
+    event.stopPropagation()
     this.databaseService.downloadById(database.id).subscribe(blob =>
       saveAs(blob, database.path.split(/[\\\/]/).pop())
     )
@@ -79,5 +75,17 @@ export class DatabasesComponent implements OnInit {
   showSchema(database: Database) {
     this.cacheService.currentDatabase = database
     this.router.navigateByUrl(`databases/${database.id}/schema`)
+  }
+
+  private deleteDatabase(databaseId: string): void {
+    this.databaseService.deleteById(databaseId).subscribe( _ =>
+      this.fetchAll()
+    )
+  }
+
+  private renameDatabase(databaseId: string, newName: string) {
+    this.databaseService.renameById(databaseId, newName).subscribe( _ =>
+      this.fetchAll()
+    )
   }
 }
