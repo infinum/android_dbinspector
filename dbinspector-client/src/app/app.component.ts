@@ -17,7 +17,7 @@ export class AppComponent {
 }
 
 /*
-TODO: Search in database and schema only
+TODO: Search in schema
 TODO: Pagination everywhere
 TODO: Dark theme and toggle and initial getter onInit
  */
