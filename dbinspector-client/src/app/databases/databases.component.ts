@@ -16,6 +16,7 @@ import {MatDialog} from "@angular/material/dialog";
 export class DatabasesComponent implements OnInit {
 
   databases: Database[] = [];
+
   searchTerm = '';
   isSearching = false;
 

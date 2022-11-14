@@ -19,6 +19,9 @@ export class SchemaComponent implements OnInit {
   views: SchemaCell[] = []
   triggers: SchemaCell[] = []
 
+  searchTerm = '';
+  isSearching = false;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -36,6 +39,14 @@ export class SchemaComponent implements OnInit {
   back(): void {
     this.cacheService.currentDatabase = null
     this.location.back();
+  }
+
+  startSearch(): void {
+    this.isSearching = true
+  }
+
+  endSearch(): void {
+    this.isSearching = false
   }
 
   showTable(schema: SchemaCell) {

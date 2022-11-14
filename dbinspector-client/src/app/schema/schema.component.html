@@ -7,13 +7,26 @@
     <p>{{databaseName}}</p>
   </div>
   <span class="toolbar-menu-spacer"></span>
-  <button mat-icon-button aria-label="Search">
+  <div *ngIf="isSearching" class="search-bar">
+    <div class="search-bar-icon">
+      <mat-icon class="black-icon">search</mat-icon>
+    </div>
+    <input
+      class="search-bar-input"
+      type="text"
+      placeholder="Enter name..."
+      [(ngModel)]="searchTerm"/>
+    <button mat-icon-button aria-label="Close" (click)="endSearch()">
+      <mat-icon class="black-icon">close</mat-icon>
+    </button>
+  </div>
+  <button mat-icon-button aria-label="Search" *ngIf="!isSearching" (click)="startSearch()">
     <mat-icon>search</mat-icon>
   </button>
 </mat-toolbar>
 <mat-tab-group mat-align-tabs="center">
   <mat-tab label="Tables">
-    <mat-list role="list" *ngFor="let schema of tables">
+    <mat-list role="list" *ngFor="let schema of tables | searchFilter: searchTerm">
       <mat-list-item role="listitem" (click)="showTable(schema)">
         <mat-icon mat-list-icon svgIcon="table"></mat-icon>
         <div mat-line>{{schema.name}}</div>
@@ -22,7 +35,7 @@
     </mat-list>
   </mat-tab>
   <mat-tab label="Views">
-    <mat-list role="list" *ngFor="let schema of views">
+    <mat-list role="list" *ngFor="let schema of views | searchFilter: searchTerm">
       <mat-list-item role="listitem" (click)="showView(schema)">
         <mat-icon mat-list-icon svgIcon="table"></mat-icon>
         <div mat-line>{{schema.name}}</div>
@@ -31,7 +44,7 @@
     </mat-list>
   </mat-tab>
   <mat-tab label="Triggers">
-    <mat-list role="list" *ngFor="let schema of triggers">
+    <mat-list role="list" *ngFor="let schema of triggers | searchFilter: searchTerm">
       <mat-list-item role="listitem" (click)="showTrigger(schema)">
         <mat-icon mat-list-icon svgIcon="table"></mat-icon>
         <div mat-line>{{schema.name}}</div>
