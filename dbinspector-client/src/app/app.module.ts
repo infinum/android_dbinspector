@@ -29,6 +29,7 @@ import {FlexLayoutModule} from "@angular/flex-layout";
 import { ClearTableComponent } from './clear-table/clear-table.component';
 import { DropViewComponent } from './drop-view/drop-view.component';
 import { DropTriggerComponent } from './drop-trigger/drop-trigger.component';
+import { SearchFilterPipe } from './search-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { DropTriggerComponent } from './drop-trigger/drop-trigger.component';
     PragmaComponent,
     ClearTableComponent,
     DropViewComponent,
-    DropTriggerComponent
+    DropTriggerComponent,
+    SearchFilterPipe
   ],
   imports: [
     BrowserModule,

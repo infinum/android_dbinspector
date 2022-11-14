@@ -7,13 +7,27 @@
     <p>Databases</p>
   </div>
   <span class="toolbar-menu-spacer"></span>
-  <button mat-icon-button aria-label="Search">
+  <div *ngIf="isSearching" class="search-bar">
+    <div class="search-bar-icon">
+      <mat-icon class="black-icon">search</mat-icon>
+    </div>
+    <input
+      class="search-bar-input"
+      type="text"
+      placeholder="Search by name..."
+      [(ngModel)]="searchTerm"/>
+    <button mat-icon-button aria-label="Close" (click)="endSearch()">
+      <mat-icon class="black-icon">close</mat-icon>
+    </button>
+  </div>
+  <button mat-icon-button aria-label="Search" *ngIf="!isSearching" (click)="startSearch()">
     <mat-icon>search</mat-icon>
   </button>
 </mat-toolbar>
 <div class="content">
   <div fxLayout="row wrap" fxLayoutGap="16px grid">
-    <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="50%" class="layout-row" *ngFor="let database of databases">
+    <div fxFlex="33%" fxFlex.xs="100%" fxFlex.sm="50%" class="layout-row"
+         *ngFor="let database of databases | searchFilter: searchTerm">
       <mat-card role="button" tabindex="0" class="is-focusable" (click)="showSchema(database)">
         <mat-card-title class="multiline">{{database.name}}</mat-card-title>
         <mat-card-subtitle class="subtitle">

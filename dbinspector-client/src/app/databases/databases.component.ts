@@ -16,6 +16,8 @@ import {MatDialog} from "@angular/material/dialog";
 export class DatabasesComponent implements OnInit {
 
   databases: Database[] = [];
+  searchTerm = '';
+  isSearching = false;
 
   constructor(
     private router: Router,
@@ -38,6 +40,14 @@ export class DatabasesComponent implements OnInit {
 
   github(): void {
     window.open("https://github.com/infinum/android_dbinspector", "_blank");
+  }
+
+  startSearch(): void {
+    this.isSearching = true
+  }
+
+  endSearch(): void {
+    this.isSearching = false
   }
 
   confirmDelete(event: MouseEvent, database: Database) {
@@ -78,13 +88,13 @@ export class DatabasesComponent implements OnInit {
   }
 
   private deleteDatabase(databaseId: string): void {
-    this.databaseService.deleteById(databaseId).subscribe( _ =>
+    this.databaseService.deleteById(databaseId).subscribe(_ =>
       this.fetchAll()
     )
   }
 
   private renameDatabase(databaseId: string, newName: string) {
-    this.databaseService.renameById(databaseId, newName).subscribe( _ =>
+    this.databaseService.renameById(databaseId, newName).subscribe(_ =>
       this.fetchAll()
     )
   }
