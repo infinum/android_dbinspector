@@ -28,6 +28,7 @@ import io.ktor.server.routing.routing
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
+import org.json.JSONObject
 import org.slf4j.event.Level
 
 internal class WebServer(
@@ -103,11 +104,24 @@ internal class WebServer(
             webDir.mkdirs()
             copyWebResources("web", webDir)
         } else {
-            /*
-            1. find build.date.json in /files if it exists goto 2. else copy over in /files
-            2. find build.date.json in /assets
-            3. if assets newer than files - replace complete web dir in /files
-             */
+            val filesJsonFile = File(webDir, "build.date.json")
+            val filesJson: String = filesJsonFile
+                .bufferedReader()
+                .use { it.readText() }
+            if (filesJsonFile.exists()) {
+                val assetsJson: String = context.assets.open("web/build.date.json")
+                    .bufferedReader()
+                    .use { it.readText() }
+
+                val filesTimestamp: Long = JSONObject(filesJson).getLong("timestamp")
+                val assetsTimestamp: Long = JSONObject(assetsJson).getLong("timestamp")
+
+                if (assetsTimestamp > filesTimestamp) {
+                    copyWebResources("web", webDir)
+                }
+            } else {
+                copyWebResources("web", webDir)
+            }
         }
     }
 
