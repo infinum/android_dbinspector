@@ -1,10 +1,11 @@
 {
   "name": "dbinspector-client",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "prebuild": "node createBuildDate.js",
+    "build": "ng build --output-hashing=none",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

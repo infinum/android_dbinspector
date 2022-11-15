@@ -52,10 +52,8 @@ internal class WebServer(
         if (currentServer == null) {
             val webPath = "${context.filesDir.absolutePath}${File.separator}web"
             val webDir = File(webPath)
-            if (webDir.exists().not()) {
-                webDir.mkdirs()
-                copyWebResources("web", webDir)
-            }
+
+            deploy(webDir)
 
             val server = embeddedServer(Netty, port = port) {
                 install(CallLogging) {
@@ -98,6 +96,19 @@ internal class WebServer(
     fun stop() {
         currentServer?.stop(100L, 100L)
         currentServer = null
+    }
+
+    private fun deploy(webDir: File) {
+        if (webDir.exists().not()) {
+            webDir.mkdirs()
+            copyWebResources("web", webDir)
+        } else {
+            /*
+            1. find build.date.json in /files if it exists goto 2. else copy over in /files
+            2. find build.date.json in /assets
+            3. if assets newer than files - replace complete web dir in /files
+             */
+        }
     }
 
     private fun copyWebResources(assetDir: String, outDir: File) {

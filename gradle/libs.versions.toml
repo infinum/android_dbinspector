@@ -1,7 +1,7 @@
 [versions]
 dbinspector = "5.4.9"
 gradle = "7.3.1"
-kotlin = "1.7.20"
+kotlin = "1.7.21"
 coroutines = "1.6.4"
 core = "1.9.0"
 appcompat = "1.5.1"
@@ -18,7 +18,8 @@ dynamicanimation = "1.0.0"
 design = "1.7.0"
 protobuf-core = "3.21.8"
 protobuf-plugin = "0.9.1"
-koin = "3.2.2"
+koinandroid = "3.3.0"
+kointest = "3.2.2"
 detekt = "1.21.0"
 ktlintplugin = "10.3.0"
 ktlint = "0.45.2"
@@ -66,9 +67,9 @@ protobuf-artifact = { module = "com.google.protobuf:protoc", version.ref = "prot
 protobuf-javalite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobuf-core" }
 protobuf-gradle = { module = "com.google.protobuf:protobuf-gradle-plugin", version.ref = "protobuf-plugin" }
 
-koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
-koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
-koin-junit5 = { module = "io.insert-koin:koin-test-junit5", version.ref = "koin" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinandroid" }
+koin-test = { module = "io.insert-koin:koin-test", version.ref = "kointest" }
+koin-junit5 = { module = "io.insert-koin:koin-test-junit5", version.ref = "kointest" }
 
 detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
