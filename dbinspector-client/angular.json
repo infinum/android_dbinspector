@@ -14,7 +14,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "proxyConfig": "src/proxy.conf.json",
           "options": {
-            "outputPath": "../dbinspector/src/main/assets/web/",
+            "outputPath": "../dbinspector-web/src/main/assets/web/",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",

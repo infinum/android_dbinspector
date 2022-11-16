@@ -1,5 +1,5 @@
 [versions]
-dbinspector = "5.4.9"
+dbinspector = "5.5.0"
 gradle = "7.3.1"
 kotlin = "1.7.21"
 coroutines = "1.6.4"
@@ -15,6 +15,7 @@ startup = "1.1.1"
 swiperefresh = "1.1.0"
 datastore = "1.0.0"
 dynamicanimation = "1.0.0"
+ktor = "2.1.2"
 design = "1.7.0"
 protobuf-core = "3.21.8"
 protobuf-plugin = "0.9.1"
@@ -37,6 +38,7 @@ turbine = "0.12.0"
 [libraries]
 library = { module = "com.infinum.dbinspector:dbinspector", version.ref = "dbinspector" }
 librarynoop = { module = "com.infinum.dbinspector:dbinspector-no-op", version.ref = "dbinspector" }
+libraryweb = { module = "com.infinum.dbinspector:dbinspector-web", version.ref = "dbinspector" }
 
 tools-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 
@@ -52,7 +54,7 @@ androidx-activity = { module = "androidx.activity:activity-ktx", version.ref = "
 androidx-fragment = { module = "androidx.fragment:fragment-ktx", version.ref = "fragment" }
 androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
 androidx-lifecycle-livedata = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle" }
-androidx-lifecycle-viewmodel = {module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 androidx-viewpager = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager" }
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
 androidx-paging = { module = "androidx.paging:paging-runtime-ktx", version.ref = "paging" }
@@ -60,6 +62,14 @@ androidx-swiperefresh = { module = "androidx.swiperefreshlayout:swiperefreshlayo
 androidx-startup = { module = "androidx.startup:startup-runtime", version.ref = "startup" }
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
 androidx-dynamicanimation = { module = "androidx.dynamicanimation:dynamicanimation", version.ref = "dynamicanimation" }
+
+ktor-server = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
+ktor-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
+ktor-content = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
+ktor-cors = { module = "io.ktor:ktor-server-cors", version.ref = "ktor" }
+ktor-status = { module = "io.ktor:ktor-server-status-pages", version.ref = "ktor" }
+ktor-logging = { module = "io.ktor:ktor-server-call-logging", version.ref = "ktor" }
+ktor-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 
 material = { module = "com.google.android.material:material", version.ref = "design" }
 
@@ -107,6 +117,15 @@ androidx = [
     "androidx-startup",
     "androidx-datastore",
     "androidx-dynamicanimation"
+]
+
+ktor = [
+    "ktor-server",
+    "ktor-netty",
+    "ktor-content",
+    "ktor-cors",
+    "ktor-status",
+    "ktor-logging"
 ]
 
 test = [

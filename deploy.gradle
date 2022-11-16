@@ -14,9 +14,18 @@ task deployDbInspectorNoOp(dependsOn: [
     description = "Deploy module to repositories"
 }
 
+task deployDbInspectorWeb(dependsOn: [
+        ':dbinspector-web:clean',
+        ':dbinspector-web:publishReleasePublicationToSonatypeRepository'
+]) {
+    group = "Deploy"
+    description = "Deploy module to repositories"
+}
+
 task deployAll(dependsOn: [
         'deployDbInspector',
-        'deployDbInspectorNoOp'
+        'deployDbInspectorNoOp',
+        'deployDbInspectorWeb'
 ]) {
     group = "Deploy"
     description = "Deploy all modules to repositories"
@@ -25,8 +34,10 @@ task deployAll(dependsOn: [
 task deployDebug(dependsOn: [
         ':dbinspector:clean',
         ':dbinspector-no-op:clean',
+        ':dbinspector-web:clean',
         ':dbinspector:publishReleasePublicationToMavenLocal',
-        ':dbinspector-no-op:publishReleasePublicationToMavenLocal'
+        ':dbinspector-no-op:publishReleasePublicationToMavenLocal',
+        ':dbinspector-web:publishReleasePublicationToMavenLocal'
 ]) {
     group = "Deploy"
     description = "Deploy all modules to local Maven repository"

@@ -11,6 +11,7 @@ import io.ktor.server.routing.delete
 import io.ktor.server.routing.get
 import io.ktor.server.routing.route
 
+@Suppress("ComplexMethod", "LongMethod")
 internal fun Route.content(version: Int, controller: ContentController): Route = apply {
     route("/api/v$version/databases/{database_id?}/tables/{table_id?}") {
         get {

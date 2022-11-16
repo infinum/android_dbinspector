@@ -1,0 +1,88 @@
+apply plugin: "maven-publish"
+apply plugin: "signing"
+
+task sourcesJar(type: Jar) {
+    archiveClassifier.set("sources")
+    from android.sourceSets.main.kotlin.srcDirs
+}
+
+task javadocsJar(type: Jar, dependsOn: "dokkaJavadoc") {
+    archiveClassifier.set("javadoc")
+    from dokkaJavadoc.outputDirectory
+}
+
+afterEvaluate {
+    publishing {
+        repositories {
+            maven {
+                name sonatype.name()
+                url sonatype.url()
+                credentials {
+                    username sonatype.username()
+                    password sonatype.password()
+                }
+            }
+            maven {
+                name github.name()
+                url github.url()
+                credentials {
+                    username github.username()
+                    password github.password()
+                }
+            }
+        }
+        publications {
+            release(MavenPublication) {
+                groupId = releaseConfig.group
+                version = releaseConfig.version
+
+                artifactId = "dbinspector-web"
+
+                artifact bundleReleaseAar
+                artifact javadocsJar
+                artifact sourcesJar
+
+                pom {
+                    name = "Android DbInspector Web Interface"
+                    description = "DbInspector library web interface for viewing in app databases remotely."
+                    url = "https://github.com/infinum/android_dbinspector"
+                    licenses {
+                        license {
+                            name = "Apache License 2.0"
+                            url = "https://github.com/infinum/android_dbinspector/blob/master/LICENSE"
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = "reisub"
+                            name = "Dino Kovač"
+                        }
+                        developer {
+                            id = "knobtviker"
+                            name = "Bojan Komljenović"
+                            email = "bojan.komljenovic@infinum.com"
+                        }
+                    }
+                    scm {
+                        url = "scm:git@github.com:infinum/android_dbinspector.git"
+                        connection = "scm:git@github.com:infinum/android_dbinspector.git"
+                        developerConnection = "scm:git@github.com:infinum/android_dbinspector.git"
+                    }
+                }
+                pom.withXml {
+                    def root = asNode()
+                    def dependenciesNode = root.appendNode("dependencies")
+                    configurations.implementation.allDependencies.each {
+                        def dependencyNode = dependenciesNode.appendNode("dependency")
+                        dependencyNode.appendNode("groupId", it.group)
+                        dependencyNode.appendNode("artifactId", it.name)
+                        dependencyNode.appendNode("version", it.version)
+                    }
+                }
+                signing {
+                    sign publishing.publications.release
+                }
+            }
+        }
+    }
+}

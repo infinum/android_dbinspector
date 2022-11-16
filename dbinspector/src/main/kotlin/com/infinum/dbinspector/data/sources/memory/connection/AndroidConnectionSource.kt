@@ -22,8 +22,8 @@ internal class AndroidConnectionSource : Sources.Memory.Connection {
         if (syncPool.containsKey(path)) {
             syncPool[path]?.let {
                 if (it.isOpen) {
-                    // TODO: Fix this multithreading problem
-                    //it.close()
+                    // Fix this multithreading problem
+                    // it.close()
                     syncPool.remove(path)
                 }
             }

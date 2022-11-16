@@ -4,7 +4,8 @@ import android.content.Intent
 import com.infinum.dbinspector.logger.Logger
 import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.databases.DatabasesActivity
-import com.infinum.dbinspector.ui.server.WebServer
+import com.infinum.dbinspector.ui.server.ApiServer
+import com.infinum.dbinspector.ui.server.Server
 
 /**
  * _DbInspector_ provides a simple way to view the contents of the in-app database for debugging purposes.
@@ -23,8 +24,6 @@ import com.infinum.dbinspector.ui.server.WebServer
  * - execute any valid SQL command in editor per database connection
  */
 public object DbInspector {
-
-    private val server = WebServer(Presentation.applicationContext())
 
     /**
      * Show a list of databases.
@@ -47,11 +46,5 @@ public object DbInspector {
         }
     }
 
-    public fun start() {
-        server.start()
-    }
-
-    public fun stop() {
-        server.stop()
-    }
+    public fun server(): Server = lazyOf(ApiServer(Presentation.applicationContext())).value
 }

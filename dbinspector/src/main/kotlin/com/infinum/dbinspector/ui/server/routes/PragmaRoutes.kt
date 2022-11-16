@@ -9,6 +9,7 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.route
 
+@Suppress("ComplexMethod", "LongMethod")
 internal fun Route.pragma(version: Int, controller: PragmaController): Route = apply {
     route("/api/v$version/databases/{database_id?}/tables/{table_id?}/pragma") {
         get("info") {

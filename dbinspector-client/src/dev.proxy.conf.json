@@ -1,6 +1,6 @@
 {
-  "/api": {
-    "target": "http://192.168.86.249:3700",
+  "/api/*": {
+    "target": "http://localhost:3700",
     "secure": false
   }
 }

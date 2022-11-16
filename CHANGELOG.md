@@ -1,6 +1,12 @@
 Changelog
 =========
 
+## Version 5.5.0
+
+_2022-MM-DD_
+
+* Update Kotlin to 1.7.21.
+
 ## Version 5.4.9
 
 _2022-10-21_

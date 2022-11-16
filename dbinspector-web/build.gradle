@@ -1,0 +1,69 @@
+plugins {
+    id "com.android.library"
+    id "kotlin-android"
+}
+
+android {
+    compileSdkVersion buildConfig.compileSdk
+    buildToolsVersion buildConfig.buildTools
+
+    defaultConfig {
+        minSdkVersion buildConfig.minSdk
+        targetSdkVersion buildConfig.targetSdk
+        versionCode releaseConfig.versionCode
+        versionName releaseConfig.version
+    }
+
+    buildTypes {
+        debug {
+            testCoverageEnabled true
+            debuggable true
+            minifyEnabled false
+        }
+        release {
+            debuggable false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt"
+        }
+    }
+
+    namespace releaseConfig.group + ".web"
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        freeCompilerArgs += [
+                '-Xexplicit-api=strict',
+                '-Xjvm-default=all'
+        ]
+    }
+
+    sourceSets.each {
+        it.java.srcDirs += "src/$it.name/kotlin"
+    }
+
+    buildFeatures {
+        viewBinding false
+        buildConfig false
+    }
+
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
+}
+
+dependencies {
+    implementation libs.library
+
+    implementation libs.androidx.startup
+    implementation libs.bundles.ktor
+}
+
+apply from: "publish.gradle"

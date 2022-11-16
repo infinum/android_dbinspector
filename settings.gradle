@@ -5,3 +5,4 @@ rootProject.name="DbInspector"
 include ":dbinspector"
 include ":dbinspector-no-op"
 include ":sample"
+include ':dbinspector-web'

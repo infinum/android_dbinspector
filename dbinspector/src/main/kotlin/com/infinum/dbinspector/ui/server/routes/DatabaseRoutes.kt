@@ -17,6 +17,7 @@ import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import java.io.File
 
+@Suppress("ComplexMethod")
 internal fun Route.databases(version: Int, controller: DatabaseController): Route =
     route("/api/v$version/databases") {
         get {

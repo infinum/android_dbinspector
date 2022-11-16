@@ -1,10 +1,7 @@
 package com.infinum.dbinspector.sample
 
-import android.content.Context
 import android.os.Bundle
-import android.text.format.Formatter
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import com.infinum.dbinspector.DbInspector
 import com.infinum.dbinspector.logger.AndroidLogger
 import com.infinum.dbinspector.sample.databinding.ActivityMainBinding
@@ -31,10 +28,10 @@ class MainActivity : AppCompatActivity() {
                     DbInspector.show(logger = AndroidLogger())
                 }
                 it.start.setOnClickListener {
-                    DbInspector.start()
+                    DbInspector.server().start()
                 }
                 it.stop.setOnClickListener {
-                    DbInspector.stop()
+                    DbInspector.server().stop()
                 }
             }
 

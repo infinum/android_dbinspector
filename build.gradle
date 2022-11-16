@@ -43,7 +43,8 @@ task clean(type: Delete) {
 
 task lintAll(dependsOn: [
         ':dbinspector:lintRelease',
-        ':dbinspector-no-op:lintRelease'
+        ':dbinspector-no-op:lintRelease',
+        ':dbinspector-web:lintRelease'
 ]) {
     group = "Verification"
     description = "Run Lint on all modules"
@@ -51,7 +52,8 @@ task lintAll(dependsOn: [
 
 task detektAll(dependsOn: [
         ':dbinspector:detekt',
-        ':dbinspector-no-op:detekt'
+        ':dbinspector-no-op:detekt',
+        ':dbinspector-web:detekt'
 ]) {
     group = "Verification"
     description = "Run Detekt on all modules"
@@ -59,7 +61,8 @@ task detektAll(dependsOn: [
 
 task ktlintAll(dependsOn: [
         ':dbinspector:ktlintCheck',
-        ':dbinspector-no-op:ktlintCheck'
+        ':dbinspector-no-op:ktlintCheck',
+        ':dbinspector-web:ktlintCheck'
 ]) {
     group = "Verification"
     description = "Run Ktlint on all modules"
@@ -67,7 +70,8 @@ task ktlintAll(dependsOn: [
 
 task cpdAll(dependsOn: [
         ':dbinspector:cpdCheck',
-        ':dbinspector-no-op:cpdCheck'
+        ':dbinspector-no-op:cpdCheck',
+        ':dbinspector-web:cpdCheck'
 ]) {
     group = "Verification"
     description = "Run CPD on all modules"
