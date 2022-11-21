@@ -54,6 +54,106 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
+                        android:text="@string/dbinspector_webserver" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/TextAppearance.Material3.BodySmall"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="@string/dbinspector_webserver_description" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/portInputLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:hint="@string/dbinspector_webserver_address"
+                            app:boxCornerRadiusBottomEnd="8dp"
+                            app:boxCornerRadiusBottomStart="8dp"
+                            app:boxCornerRadiusTopEnd="8dp"
+                            app:boxCornerRadiusTopStart="8dp"
+                            app:boxStrokeWidth="1dp"
+                            app:boxStrokeWidthFocused="@dimen/dbinspector_default_linecount_border"
+                            app:counterEnabled="false"
+                            app:endIconCheckable="true"
+                            app:endIconDrawable="@drawable/dbinspector_ic_save"
+                            app:endIconMode="custom"
+                            app:errorEnabled="true"
+                            app:helperTextEnabled="false"
+                            app:hintAnimationEnabled="true"
+                            app:hintEnabled="true"
+                            app:passwordToggleEnabled="false"
+                            app:startIconCheckable="false">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/portEditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="flagNoExtractUi"
+                                android:inputType="number" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/serverStateView"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginEnd="16dp"
+                                android:text="@string/dbinspector_webserver_disabled"
+                                android:layout_weight="1" />
+
+                            <com.google.android.material.materialswitch.MaterialSwitch
+                                android:id="@+id/serverSwitch"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/TextAppearance.Material3.BodyLarge"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
                         android:text="@string/dbinspector_ignored_table_names" />
 
                     <com.google.android.material.textview.MaterialTextView

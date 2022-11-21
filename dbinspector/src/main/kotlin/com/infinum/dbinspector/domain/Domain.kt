@@ -89,13 +89,19 @@ import com.infinum.dbinspector.domain.settings.interactors.SaveBlobPreviewModeIn
 import com.infinum.dbinspector.domain.settings.interactors.SaveIgnoredTableNameInteractor
 import com.infinum.dbinspector.domain.settings.interactors.SaveLinesCountInteractor
 import com.infinum.dbinspector.domain.settings.interactors.SaveLinesLimitInteractor
+import com.infinum.dbinspector.domain.settings.interactors.SaveServerPortInteractor
 import com.infinum.dbinspector.domain.settings.interactors.SaveTruncateModeInteractor
+import com.infinum.dbinspector.domain.settings.interactors.StartServerInteractor
+import com.infinum.dbinspector.domain.settings.interactors.StopServerInteractor
 import com.infinum.dbinspector.domain.settings.usecases.GetSettingsUseCase
 import com.infinum.dbinspector.domain.settings.usecases.RemoveIgnoredTableNameUseCase
 import com.infinum.dbinspector.domain.settings.usecases.SaveBlobPreviewModeUseCase
 import com.infinum.dbinspector.domain.settings.usecases.SaveIgnoredTableNameUseCase
 import com.infinum.dbinspector.domain.settings.usecases.SaveLinesCountUseCase
+import com.infinum.dbinspector.domain.settings.usecases.SaveServerPortUseCase
 import com.infinum.dbinspector.domain.settings.usecases.SaveTruncateModeUseCase
+import com.infinum.dbinspector.domain.settings.usecases.StartServerUseCase
+import com.infinum.dbinspector.domain.settings.usecases.StopServerUseCase
 import com.infinum.dbinspector.domain.settings.usecases.ToggleLinesLimitUseCase
 import com.infinum.dbinspector.domain.shared.control.ContentControl
 import com.infinum.dbinspector.domain.shared.converters.BlobPreviewConverter
@@ -188,16 +194,34 @@ internal object Domain {
         factory<Interactors.SaveBlobPreviewMode> { SaveBlobPreviewModeInteractor(get()) }
         factory<Interactors.SaveIgnoredTableName> { SaveIgnoredTableNameInteractor(get()) }
         factory<Interactors.RemoveIgnoredTableName> { RemoveIgnoredTableNameInteractor(get()) }
+        factory<Interactors.SaveServerPort> { SaveServerPortInteractor(get()) }
+        factory<Interactors.StartServer> { StartServerInteractor(get(), get()) }
+        factory<Interactors.StopServer> { StopServerInteractor(get(), get()) }
 
         factory<Mappers.Settings> { SettingsMapper(get(), get()) }
         factory<Converters.Settings> { SettingsConverter(get(), get()) }
         factory<Control.Settings> { SettingsControl(get(), get()) }
 
         factory<Repositories.Settings> {
-            SettingsRepository(get(), get(), get(), get(), get(), get(), get(), get())
+            SettingsRepository(
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get()
+            )
         }
 
         factory<UseCases.GetSettings> { GetSettingsUseCase(get()) }
+        factory<UseCases.SaveServerPort> { SaveServerPortUseCase(get()) }
+        factory<UseCases.StartServer> { StartServerUseCase(get()) }
+        factory<UseCases.StopServer> { StopServerUseCase(get()) }
         factory<UseCases.SaveIgnoredTableName> { SaveIgnoredTableNameUseCase(get()) }
         factory<UseCases.RemoveIgnoredTableName> { RemoveIgnoredTableNameUseCase(get()) }
         factory<UseCases.SaveLinesCount> { SaveLinesCountUseCase(get()) }
@@ -229,15 +253,35 @@ internal object Domain {
 
         factory<UseCases.GetTables> { GetTablesUseCase(get(), get(qualifier = Qualifiers.TABLES)) }
         factory<UseCases.GetViews> { GetViewsUseCase(get(), get(qualifier = Qualifiers.VIEWS)) }
-        factory<UseCases.GetTriggers> { GetTriggersUseCase(get(), get(qualifier = Qualifiers.TRIGGERS)) }
+        factory<UseCases.GetTriggers> {
+            GetTriggersUseCase(
+                get(),
+                get(qualifier = Qualifiers.TRIGGERS)
+            )
+        }
         factory<UseCases.GetTableInfo> { GetTableInfoUseCase(get(), get()) }
         factory<UseCases.GetTriggerInfo> { GetTriggerInfoUseCase(get()) }
         factory<UseCases.GetTable> { GetTableUseCase(get(), get(qualifier = Qualifiers.TABLES)) }
         factory<UseCases.GetView> { GetViewUseCase(get(), get(qualifier = Qualifiers.VIEWS)) }
-        factory<UseCases.GetTrigger> { GetTriggerUseCase(get(), get(qualifier = Qualifiers.TRIGGERS)) }
-        factory<UseCases.DropTableContent> { DropTableContentUseCase(get(), get(qualifier = Qualifiers.TABLES)) }
+        factory<UseCases.GetTrigger> {
+            GetTriggerUseCase(
+                get(),
+                get(qualifier = Qualifiers.TRIGGERS)
+            )
+        }
+        factory<UseCases.DropTableContent> {
+            DropTableContentUseCase(
+                get(),
+                get(qualifier = Qualifiers.TABLES)
+            )
+        }
         factory<UseCases.DropView> { DropViewUseCase(get(), get(qualifier = Qualifiers.VIEWS)) }
-        factory<UseCases.DropTrigger> { DropTriggerUseCase(get(), get(qualifier = Qualifiers.TRIGGERS)) }
+        factory<UseCases.DropTrigger> {
+            DropTriggerUseCase(
+                get(),
+                get(qualifier = Qualifiers.TRIGGERS)
+            )
+        }
     }
 
     private fun pragma() = module {

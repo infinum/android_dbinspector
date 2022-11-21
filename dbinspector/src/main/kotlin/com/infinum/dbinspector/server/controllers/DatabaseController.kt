@@ -1,4 +1,4 @@
-package com.infinum.dbinspector.ui.server.controllers
+package com.infinum.dbinspector.server.controllers
 
 import android.content.Context
 import com.infinum.dbinspector.data.models.remote.DatabaseResponse

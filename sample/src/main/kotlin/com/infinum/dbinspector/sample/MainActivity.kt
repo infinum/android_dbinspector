@@ -27,12 +27,6 @@ class MainActivity : AppCompatActivity() {
                 it.show.setOnClickListener {
                     DbInspector.show(logger = AndroidLogger())
                 }
-                it.start.setOnClickListener {
-                    DbInspector.server().start()
-                }
-                it.stop.setOnClickListener {
-                    DbInspector.server().stop()
-                }
             }
 
         viewModel.copy()

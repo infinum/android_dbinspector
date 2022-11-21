@@ -1,7 +1,7 @@
-package com.infinum.dbinspector.ui.server.routes
+package com.infinum.dbinspector.server.routes
 
 import com.infinum.dbinspector.domain.shared.models.Sort
-import com.infinum.dbinspector.ui.server.controllers.ContentController
+import com.infinum.dbinspector.server.controllers.ContentController
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.response.respond

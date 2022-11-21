@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {environment} from "../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Page} from "./page";
@@ -9,7 +8,7 @@ import {Page} from "./page";
 })
 export class PragmaService {
 
-  private apiUrl = `${environment.apiPrefix}/api/v1/databases`;
+  private apiUrl = `/api/v1/databases`;
 
   constructor(
     private http: HttpClient

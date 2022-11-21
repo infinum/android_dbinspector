@@ -3,11 +3,13 @@
 
     <style name="DbInspector.BaseTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/dbinspector_color_primary</item>
+        <item name="colorOnPrimary">@color/dbinspector_color_on_primary</item>
         <item name="colorPrimaryContainer">@color/dbinspector_color_primary_container</item>
         <item name="colorSecondary">@color/dbinspector_color_secondary</item>
         <item name="colorOnPrimaryContainer">@color/dbinspector_color_primary_on_container</item>
         <item name="colorSecondaryContainer">@color/dbinspector_color_secondary_container</item>
         <item name="colorOnSecondaryContainer">@color/dbinspector_color_secondary_on_container</item>
+        <item name="colorSurfaceVariant">@color/dbinspector_color_surface_variant</item>
         <item name="bottomSheetDialogTheme">@style/DbInspector.Theme.BottomSheetDialog</item>
     </style>
 

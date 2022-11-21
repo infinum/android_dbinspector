@@ -2,14 +2,13 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Database} from "./database";
-import {environment} from "../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DatabaseService {
 
-  private apiUrl = `${environment.apiPrefix}/api/v1/databases`;
+  private apiUrl = `/api/v1/databases`;
 
   constructor(
     private http: HttpClient

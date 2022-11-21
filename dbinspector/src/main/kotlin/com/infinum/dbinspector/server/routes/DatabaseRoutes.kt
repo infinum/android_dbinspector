@@ -1,7 +1,7 @@
-package com.infinum.dbinspector.ui.server.routes
+package com.infinum.dbinspector.server.routes
 
 import com.infinum.dbinspector.data.models.remote.DatabaseResponse
-import com.infinum.dbinspector.ui.server.controllers.DatabaseController
+import com.infinum.dbinspector.server.controllers.DatabaseController
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.request.receiveParameters

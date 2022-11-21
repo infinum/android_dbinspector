@@ -29,4 +29,6 @@ message SettingsEntity {
   TruncateMode truncate_mode = 3;
   BlobPreviewMode blob_preview = 4;
   repeated IgnoredTableName ignored_table_names = 5;
+  bool server_running = 6;
+  string server_port = 7;
 }

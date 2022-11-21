@@ -7,7 +7,7 @@ internal class DbInspectorWebInitializer : Initializer<Class<DbInspectorWebIniti
 
     override fun create(context: Context): Class<DbInspectorWebInitializer> {
 
-        DbInspectorWeb.serve(context)
+        DbInspectorWeb.deploy(context)
 
         return DbInspectorWebInitializer::class.java
     }

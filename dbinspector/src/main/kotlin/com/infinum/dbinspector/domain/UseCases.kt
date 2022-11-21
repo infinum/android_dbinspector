@@ -4,6 +4,7 @@ import com.infinum.dbinspector.domain.database.models.DatabaseDescriptor
 import com.infinum.dbinspector.domain.history.models.History
 import com.infinum.dbinspector.domain.settings.models.Settings
 import com.infinum.dbinspector.domain.shared.base.BaseFlowUseCase
+import com.infinum.dbinspector.domain.shared.base.BaseParameters
 import com.infinum.dbinspector.domain.shared.base.BaseUseCase
 import com.infinum.dbinspector.domain.shared.models.Page
 import com.infinum.dbinspector.domain.shared.models.parameters.ConnectionParameters
@@ -36,6 +37,12 @@ internal interface UseCases {
 
     // region Settings
     interface GetSettings : BaseUseCase<SettingsParameters.Get, Settings>
+
+    interface SaveServerPort : BaseUseCase<SettingsParameters.ServerPort, Unit>
+
+    interface StartServer : BaseUseCase<SettingsParameters.ServerPort, Boolean>
+
+    interface StopServer : BaseUseCase<BaseParameters, Boolean>
 
     interface SaveIgnoredTableName : BaseUseCase<SettingsParameters.IgnoredTableName, Unit>
 

@@ -5,6 +5,7 @@ import android.widget.LinearLayout
 import androidx.core.view.children
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import com.infinum.dbinspector.R
 import com.infinum.dbinspector.databinding.DbinspectorActivitySettingsBinding
 import com.infinum.dbinspector.databinding.DbinspectorItemIgnoredTableNameBinding
@@ -14,6 +15,8 @@ import com.infinum.dbinspector.domain.shared.models.TruncateMode
 import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
+import java.net.Inet4Address
+import java.net.NetworkInterface
 import kotlin.math.roundToInt
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -41,6 +44,8 @@ internal class SettingsActivity : BaseActivity<SettingsState, SettingsEvent>() {
         when (event) {
             is SettingsEvent.AddIgnoredTable -> addNewIgnoredTableNameView(event.name)
             is SettingsEvent.RemoveIgnoredTable -> removeIgnoredTableNameView(event.name)
+            is SettingsEvent.ServerStarted -> {}
+            is SettingsEvent.ServerStopped -> {}
         }
     }
 
@@ -62,17 +67,94 @@ internal class SettingsActivity : BaseActivity<SettingsState, SettingsEvent>() {
         }
 
     private fun setupUi(settings: Settings) {
+        setupServer(settings)
         setupIgnoredTableNames(settings)
         setupLinesLimit(settings)
         setupBlobPreview(settings)
     }
 
+    private fun setupServer(settings: Settings) {
+        with(binding) {
+            portInputLayout.prefixText = address() + ":"
+            portEditText.setText(settings.serverPort)
+            serverSwitch.isEnabled = settings.serverPort.isNotBlank()
+            if (serverSwitch.isEnabled) {
+                serverStateView.text = getString(
+                    if (settings.serverRunning) {
+                        R.string.dbinspector_webserver_running
+                    } else {
+                        R.string.dbinspector_webserver_not_running
+                    }
+                )
+            } else {
+                serverStateView.text = getString(R.string.dbinspector_webserver_disabled)
+            }
+
+            portEditText.doOnTextChanged { text, _, _, _ ->
+                serverSwitch.setOnCheckedChangeListener(null)
+                portInputLayout.setEndIconOnClickListener(null)
+
+                val port = text?.toString().orEmpty()
+                if (port.isNotBlank()) {
+                    when (port.toInt()) {
+                        in 0..1023 -> {
+                            serverSwitch.isEnabled = false
+                            portInputLayout.error =
+                                getString(R.string.dbinspector_webserver_system_ports)
+                            serverStateView.text = getString(R.string.dbinspector_webserver_disabled)
+                            serverSwitch.isChecked = false
+                        }
+                        in 1024..49151 -> {
+                            serverSwitch.isEnabled = true
+                            portInputLayout.error = null
+                            portInputLayout.setEndIconOnClickListener {
+                                viewModel.changeServerPort(port)
+                            }
+                            serverStateView.text = getString(R.string.dbinspector_webserver_not_running)
+                            serverSwitch.isChecked = false
+                            serverSwitch.setOnCheckedChangeListener { _, isChecked ->
+                                viewModel.toggleServer(isChecked, port)
+                                serverStateView.text = getString(
+                                    if (isChecked) {
+                                        R.string.dbinspector_webserver_running
+                                    } else {
+                                        R.string.dbinspector_webserver_not_running
+                                    }
+                                )
+                            }
+                        }
+                        in 49152..65535 -> {
+                            serverSwitch.isEnabled = false
+                            portInputLayout.error =
+                                getString(R.string.dbinspector_webserver_dynamic_ports)
+                            serverStateView.text = getString(R.string.dbinspector_webserver_disabled)
+                            serverSwitch.isChecked = false
+                        }
+                        else -> {
+                            serverSwitch.isEnabled = false
+                            portInputLayout.error =
+                                getString(R.string.dbinspector_webserver_unsupported_port)
+                            serverStateView.text = getString(R.string.dbinspector_webserver_disabled)
+                            serverSwitch.isChecked = false
+                        }
+                    }
+                } else {
+                    serverSwitch.isEnabled = false
+                    portInputLayout.error = getString(R.string.dbinspector_webserver_empty_port)
+                    serverStateView.text = getString(R.string.dbinspector_webserver_disabled)
+                    serverSwitch.isChecked = false
+                }
+            }
+        }
+    }
+
     private fun setupIgnoredTableNames(settings: Settings) =
         with(binding) {
             tableNameInputLayout.setEndIconOnClickListener {
-                tableNameInputLayout.editText?.text?.toString().orEmpty().trim().split(",").forEach { newName ->
-                    addIgnoredTableNameView(newName.trim())
-                }
+                tableNameInputLayout.editText?.text?.toString().orEmpty().trim().split(",")
+                    .forEach { newName ->
+                        addIgnoredTableNameView(newName.trim())
+                    }
             }
             settings.ignoredTableNames.forEach {
                 namesLayout.addView(
@@ -156,7 +238,11 @@ internal class SettingsActivity : BaseActivity<SettingsState, SettingsEvent>() {
         }
 
     private fun createIgnoredTableNameView(name: String): LinearLayout {
-        val binding = DbinspectorItemIgnoredTableNameBinding.inflate(layoutInflater, binding.namesLayout, false)
+        val binding = DbinspectorItemIgnoredTableNameBinding.inflate(
+            layoutInflater,
+            binding.namesLayout,
+            false
+        )
         binding.nameView.text = name
         binding.removeButton.setOnClickListener {
             viewModel.removeIgnoredTableName(binding.nameView.text.toString())
@@ -194,4 +280,17 @@ internal class SettingsActivity : BaseActivity<SettingsState, SettingsEvent>() {
                 .find { it.tag == name }
                 ?.let { namesLayout.removeView(it) }
         }
+
+    private fun address(): String? =
+        NetworkInterface
+            .getNetworkInterfaces()
+            ?.toList()
+            ?.map { networkInterface ->
+                networkInterface
+                    .inetAddresses
+                    ?.toList()
+                    ?.find { !it.isLoopbackAddress && it is Inet4Address }
+                    ?.hostAddress
+            }
+            ?.firstOrNull()
 }

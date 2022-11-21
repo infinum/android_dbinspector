@@ -5,6 +5,8 @@ import android.content.Context
 import com.infinum.dbinspector.di.LibraryKoin
 import com.infinum.dbinspector.domain.Domain
 import com.infinum.dbinspector.logger.Logger
+import com.infinum.dbinspector.server.Server
+import com.infinum.dbinspector.server.WebServer
 import com.infinum.dbinspector.ui.content.table.TableViewModel
 import com.infinum.dbinspector.ui.content.trigger.TriggerViewModel
 import com.infinum.dbinspector.ui.content.view.ViewViewModel
@@ -81,7 +83,8 @@ internal object Presentation {
     fun modules(): List<Module> =
         Domain.modules().plus(
             listOf(
-                viewModels()
+                viewModels(),
+                server()
             )
         )
 
@@ -90,7 +93,7 @@ internal object Presentation {
         viewModel { RenameDatabaseViewModel(get()) }
         viewModel { RemoveDatabaseViewModel(get()) }
 
-        viewModel { SettingsViewModel(get(), get(), get(), get(), get(), get(), get()) }
+        viewModel { SettingsViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
 
         viewModel { SchemaViewModel(get(), get()) }
 
@@ -108,7 +111,24 @@ internal object Presentation {
         viewModel { ForeignKeysViewModel(get(), get(), get()) }
         viewModel { IndexViewModel(get(), get(), get()) }
 
-        viewModel { EditViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+        viewModel {
+            EditViewModel(
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get()
+            )
+        }
         viewModel { HistoryViewModel(get(), get(), get()) }
+    }
+
+    private fun server() = module {
+        single<Server> { WebServer(get()) }
     }
 }

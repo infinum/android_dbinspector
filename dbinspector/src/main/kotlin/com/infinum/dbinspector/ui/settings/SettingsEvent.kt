@@ -9,4 +9,8 @@ internal sealed class SettingsEvent {
     data class RemoveIgnoredTable(
         val name: String
     ) : SettingsEvent()
+
+    class ServerStarted : SettingsEvent()
+
+    class ServerStopped : SettingsEvent()
 }

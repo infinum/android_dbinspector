@@ -14,7 +14,7 @@
 -keep public class com.infinum.dbinspector.logger.AndroidLogger {
   public protected *;
 }
--keep public class com.infinum.dbinspector.ui.server.Server {
+-keep public class com.infinum.dbinspector.server.Server {
   public protected *;
 }
 -keep class androidx.datastore.*.* {*;}

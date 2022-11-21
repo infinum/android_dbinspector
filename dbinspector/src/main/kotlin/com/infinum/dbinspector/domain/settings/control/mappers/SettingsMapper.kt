@@ -20,6 +20,8 @@ internal class SettingsMapper(
             },
             truncateMode = truncateModeMapper(model.truncateMode),
             blobPreviewMode = blobPreviewModeMapper(model.blobPreview),
-            ignoredTableNames = model.ignoredTableNamesList.map { it.name }
+            ignoredTableNames = model.ignoredTableNamesList.map { it.name },
+            serverRunning = model.serverRunning,
+            serverPort = model.serverPort
         )
 }

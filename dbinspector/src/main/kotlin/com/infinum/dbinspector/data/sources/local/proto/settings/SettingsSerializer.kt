@@ -14,6 +14,7 @@ internal class SettingsSerializer : Serializer<SettingsEntity> {
 
     companion object {
         private const val DEFAULT_LINES_COUNT = 100
+        private const val DEFAULT_SERVER_PORT = "3700"
     }
 
     override val defaultValue: SettingsEntity =
@@ -25,6 +26,8 @@ internal class SettingsSerializer : Serializer<SettingsEntity> {
                     .setTruncateMode(SettingsEntity.TruncateMode.END)
                     .setBlobPreview(SettingsEntity.BlobPreviewMode.PLACEHOLDER)
                     .addAllIgnoredTableNames(listOf())
+                    .setServerRunning(false)
+                    .setServerPort(DEFAULT_SERVER_PORT)
                     .build()
             }
 

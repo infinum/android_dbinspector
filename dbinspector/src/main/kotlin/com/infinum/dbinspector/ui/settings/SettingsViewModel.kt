@@ -1,7 +1,7 @@
 package com.infinum.dbinspector.ui.settings
 
 import com.infinum.dbinspector.domain.UseCases
-import com.infinum.dbinspector.domain.settings.models.Settings
+import com.infinum.dbinspector.domain.shared.base.BaseParameters
 import com.infinum.dbinspector.domain.shared.models.BlobPreviewMode
 import com.infinum.dbinspector.domain.shared.models.TruncateMode
 import com.infinum.dbinspector.domain.shared.models.parameters.SettingsParameters
@@ -10,6 +10,9 @@ import com.infinum.dbinspector.ui.shared.base.BaseViewModel
 @Suppress("LongParameterList")
 internal class SettingsViewModel(
     private val getSettings: UseCases.GetSettings,
+    private val saveServerPort: UseCases.SaveServerPort,
+    private val startServer: UseCases.StartServer,
+    private val stopServer: UseCases.StopServer,
     private val saveIgnoredTableName: UseCases.SaveIgnoredTableName,
     private val removeIgnoredTableName: UseCases.RemoveIgnoredTableName,
     private val linesLimit: UseCases.ToggleLinesLimit,
@@ -25,6 +28,32 @@ internal class SettingsViewModel(
             }
             setState(SettingsState.Settings(settings = result))
         }
+
+    fun changeServerPort(port: String) =
+        launch {
+            io {
+                saveServerPort(SettingsParameters.ServerPort(port = port))
+            }
+        }
+
+    fun toggleServer(checked: Boolean, port: String) {
+        launch {
+            val result = io {
+                if (checked) {
+                    startServer(SettingsParameters.ServerPort(port = port))
+                } else {
+                    stopServer(object : BaseParameters {})
+                }
+            }
+            if (result) {
+                if (checked) {
+                    emitEvent(SettingsEvent.ServerStarted())
+                } else {
+                    emitEvent(SettingsEvent.ServerStopped())
+                }
+            }
+        }
+    }
 
     fun saveIgnoredTableName(newName: String) =
         launch {

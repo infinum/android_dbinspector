@@ -12,7 +12,6 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
-          "proxyConfig": "src/proxy.conf.json",
           "options": {
             "outputPath": "../dbinspector-web/src/main/assets/web/",
             "index": "src/index.html",
@@ -64,7 +63,6 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "proxyConfig": "src/dev.proxy.conf.json",
           "configurations": {
             "production": {
               "browserTarget": "dbinspector-client:build:production"

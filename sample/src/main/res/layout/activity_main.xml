@@ -31,20 +31,6 @@
             android:text="Show"
             tools:ignore="HardcodedText" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/start"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Start server"
-            tools:ignore="HardcodedText" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/stop"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Stop server"
-            tools:ignore="HardcodedText" />
-
     </LinearLayout>
 
 </FrameLayout>

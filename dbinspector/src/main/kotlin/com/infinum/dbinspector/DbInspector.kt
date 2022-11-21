@@ -4,8 +4,6 @@ import android.content.Intent
 import com.infinum.dbinspector.logger.Logger
 import com.infinum.dbinspector.ui.Presentation
 import com.infinum.dbinspector.ui.databases.DatabasesActivity
-import com.infinum.dbinspector.ui.server.ApiServer
-import com.infinum.dbinspector.ui.server.Server
 
 /**
  * _DbInspector_ provides a simple way to view the contents of the in-app database for debugging purposes.
@@ -45,6 +43,4 @@ public object DbInspector {
             )
         }
     }
-
-    public fun server(): Server = lazyOf(ApiServer(Presentation.applicationContext())).value
 }

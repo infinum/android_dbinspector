@@ -27,4 +27,8 @@ internal sealed class SettingsParameters : BaseParameters {
     data class IgnoredTableName(
         val name: String
     ) : SettingsParameters()
+
+    data class ServerPort(
+        val port: String
+    ) : SettingsParameters()
 }

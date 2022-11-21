@@ -63,7 +63,6 @@ dependencies {
     implementation libs.library
 
     implementation libs.androidx.startup
-    implementation libs.bundles.ktor
 }
 
 apply from: "publish.gradle"

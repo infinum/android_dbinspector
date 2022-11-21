@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="dbinspector_color_primary">#0f80cc</color>
+    <color name="dbinspector_color_on_primary">#cfe5ff</color>
     <color name="dbinspector_color_primary_container">#cfe5ff</color>
     <color name="dbinspector_color_primary_on_container">#001d36</color>
     <color name="dbinspector_color_secondary">#006491</color>
     <color name="dbinspector_color_secondary_container">#C7E6FF</color>
     <color name="dbinspector_color_secondary_on_container">#001E30</color>
+    <color name="dbinspector_color_surface_variant">#cfe5ff</color>
     <color name="dbinspector_header_background">#bbbbbb</color>
     <color name="dbinspector_alternate_row_background">#F2F2F2</color>
     <color name="dbinspector_splitter_background">#e1e1e1</color>
