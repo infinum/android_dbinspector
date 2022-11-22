@@ -75,10 +75,23 @@ internal class SettingsActivity : BaseActivity<SettingsState, SettingsEvent>() {
 
     private fun setupServer(settings: Settings) {
         with(binding) {
+            serverSwitch.setOnCheckedChangeListener(null)
+            portInputLayout.setEndIconOnClickListener(null)
             portInputLayout.prefixText = address() + ":"
             portEditText.setText(settings.serverPort)
             serverSwitch.isEnabled = settings.serverPort.isNotBlank()
             if (serverSwitch.isEnabled) {
+                serverSwitch.isChecked = settings.serverRunning
+                serverSwitch.setOnCheckedChangeListener { _, isChecked ->
+                    viewModel.toggleServer(isChecked, settings.serverPort)
+                    serverStateView.text = getString(
+                        if (isChecked) {
+                            R.string.dbinspector_webserver_running
+                        } else {
+                            R.string.dbinspector_webserver_not_running
+                        }
+                    )
+                }
                 serverStateView.text = getString(
                     if (settings.serverRunning) {
                         R.string.dbinspector_webserver_running
@@ -103,6 +116,7 @@ internal class SettingsActivity : BaseActivity<SettingsState, SettingsEvent>() {
                                 getString(R.string.dbinspector_webserver_system_ports)
                             serverStateView.text = getString(R.string.dbinspector_webserver_disabled)
                             serverSwitch.isChecked = false
+                            viewModel.toggleServer(false, port)
                         }
                         in 1024..49151 -> {
                             serverSwitch.isEnabled = true
@@ -112,6 +126,7 @@ internal class SettingsActivity : BaseActivity<SettingsState, SettingsEvent>() {
                             }
                             serverStateView.text = getString(R.string.dbinspector_webserver_not_running)
                             serverSwitch.isChecked = false
+                            viewModel.toggleServer(false, port)
                             serverSwitch.setOnCheckedChangeListener { _, isChecked ->
                                 viewModel.toggleServer(isChecked, port)
                                 serverStateView.text = getString(
@@ -129,6 +144,7 @@ internal class SettingsActivity : BaseActivity<SettingsState, SettingsEvent>() {
                                 getString(R.string.dbinspector_webserver_dynamic_ports)
                             serverStateView.text = getString(R.string.dbinspector_webserver_disabled)
                             serverSwitch.isChecked = false
+                            viewModel.toggleServer(false, port)
                         }
                         else -> {
                             serverSwitch.isEnabled = false
@@ -136,6 +152,7 @@ internal class SettingsActivity : BaseActivity<SettingsState, SettingsEvent>() {
                                 getString(R.string.dbinspector_webserver_unsupported_port)
                             serverStateView.text = getString(R.string.dbinspector_webserver_disabled)
                             serverSwitch.isChecked = false
+                            viewModel.toggleServer(false, port)
                         }
                     }
                 } else {
@@ -143,6 +160,7 @@ internal class SettingsActivity : BaseActivity<SettingsState, SettingsEvent>() {
                     portInputLayout.error = getString(R.string.dbinspector_webserver_empty_port)
                     serverStateView.text = getString(R.string.dbinspector_webserver_disabled)
                     serverSwitch.isChecked = false
+                    viewModel.toggleServer(false, port)
                 }
             }
         }

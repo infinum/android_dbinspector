@@ -66,7 +66,7 @@
 
     <string name="dbinspector_webserver">Web server</string>
     <string name="dbinspector_webserver_description">Run an API and web server for remote access.</string>
-    <string name="dbinspector_webserver_address">Address</string>
+    <string name="dbinspector_webserver_address">Address and port</string>
     <string name="dbinspector_webserver_running">Running</string>
     <string name="dbinspector_webserver_not_running">Not running</string>
     <string name="dbinspector_webserver_disabled">Disabled</string>
