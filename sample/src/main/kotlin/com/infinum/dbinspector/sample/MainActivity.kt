@@ -9,7 +9,6 @@ import java.net.Inet4Address
 import java.net.NetworkInterface
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModel()
@@ -19,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.title =
             "${supportActionBar?.title?.toString().orEmpty()} (${BuildConfig.BUILD_TYPE})"
-        supportActionBar?.subtitle = address()?.let { "Server: $it:3700" }
+        supportActionBar?.subtitle = address()?.let { "IPv4 address: $it" }
 
         ActivityMainBinding.inflate(layoutInflater)
             .also { setContentView(it.root) }

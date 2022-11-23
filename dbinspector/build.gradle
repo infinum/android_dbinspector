@@ -116,7 +116,6 @@ dependencies {
     implementation libs.material
     implementation libs.koin.android
     implementation libs.bundles.ktor
-    implementation libs.ktor.json
 
     testImplementation libs.bundles.test
 }
