@@ -4,7 +4,6 @@ import com.infinum.dbinspector.domain.Control
 import com.infinum.dbinspector.domain.Interactors
 import com.infinum.dbinspector.domain.Repositories
 import com.infinum.dbinspector.domain.settings.models.Settings
-import com.infinum.dbinspector.domain.shared.base.BaseParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.SettingsParameters
 
 @Suppress("LongParameterList")
@@ -47,7 +46,7 @@ internal class SettingsRepository(
         saveServerPort(control.converter serverPort input).let { control.mapper(it) }
 
     override suspend fun startServer(input: SettingsParameters.StartServer): Settings =
-       startWebServer(control.converter startServer input).let { control.mapper(it) }
+        startWebServer(control.converter startServer input).let { control.mapper(it) }
 
     override suspend fun stopServer(input: SettingsParameters.StopServer): Settings =
         stopWebServer(control.converter stopServer input).let { control.mapper(it) }

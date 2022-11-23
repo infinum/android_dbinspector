@@ -5,9 +5,7 @@ import android.content.Context
 import com.infinum.dbinspector.di.LibraryKoin
 import com.infinum.dbinspector.domain.Domain
 import com.infinum.dbinspector.domain.UseCases
-import com.infinum.dbinspector.domain.settings.models.Settings
 import com.infinum.dbinspector.domain.shared.base.BaseParameters
-import com.infinum.dbinspector.domain.shared.models.parameters.SettingsParameters
 import com.infinum.dbinspector.logger.Logger
 import com.infinum.dbinspector.server.Server
 import com.infinum.dbinspector.server.WebServer
@@ -67,6 +65,13 @@ internal object Presentation {
             const val LINES_LIMIT_MINIMUM = 1
             const val LINES_LIMIT_MAXIMUM = 100
             const val BLOB_DATA_PLACEHOLDER = "[ DATA ]"
+
+            @Suppress("MagicNumber")
+            object Ports {
+                val PORT_SYSTEM_RANGE = IntRange(0, 1023)
+                val PORT_ALLOWED_RANGE = IntRange(1024, 49151)
+                val PORT_DYNAMIC_RANGE = IntRange(49152, 65535)
+            }
         }
     }
 

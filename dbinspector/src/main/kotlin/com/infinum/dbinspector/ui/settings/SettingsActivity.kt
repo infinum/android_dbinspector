@@ -1,6 +1,7 @@
 package com.infinum.dbinspector.ui.settings
 
 import android.os.Bundle
+import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.children
@@ -14,6 +15,9 @@ import com.infinum.dbinspector.domain.settings.models.Settings
 import com.infinum.dbinspector.domain.shared.models.BlobPreviewMode
 import com.infinum.dbinspector.domain.shared.models.TruncateMode
 import com.infinum.dbinspector.ui.Presentation
+import com.infinum.dbinspector.ui.Presentation.Constants.Settings.Ports.PORT_ALLOWED_RANGE
+import com.infinum.dbinspector.ui.Presentation.Constants.Settings.Ports.PORT_DYNAMIC_RANGE
+import com.infinum.dbinspector.ui.Presentation.Constants.Settings.Ports.PORT_SYSTEM_RANGE
 import com.infinum.dbinspector.ui.shared.base.BaseActivity
 import com.infinum.dbinspector.ui.shared.delegates.viewBinding
 import java.net.Inet4Address
@@ -107,31 +111,25 @@ internal class SettingsActivity : BaseActivity<SettingsState, SettingsEvent>() {
                 val port = text?.toString().orEmpty()
                 if (port.isNotBlank()) {
                     when (port.toInt()) {
-                        in 0..1023 -> {
-                            portInputLayout.setEndIconOnClickListener(null)
-                            portInputLayout.error =
-                                getString(R.string.dbinspector_webserver_system_ports)
-                        }
-                        in 1024..49151 -> {
-                            portInputLayout.setEndIconOnClickListener {
+                        in PORT_SYSTEM_RANGE ->
+                            setPortInputLayout(
+                                errorMessage = getString(R.string.dbinspector_webserver_system_ports)
+                            )
+                        in PORT_ALLOWED_RANGE ->
+                            setPortInputLayout(endIconOnClickListener = {
                                 viewModel.changeServerPort(port)
-                            }
-                            portInputLayout.error = null
-                        }
-                        in 49152..65535 -> {
-                            portInputLayout.setEndIconOnClickListener(null)
-                            portInputLayout.error =
-                                getString(R.string.dbinspector_webserver_dynamic_ports)
-                        }
-                        else -> {
-                            portInputLayout.setEndIconOnClickListener(null)
-                            portInputLayout.error =
-                                getString(R.string.dbinspector_webserver_unsupported_port)
-                        }
+                            })
+                        in PORT_DYNAMIC_RANGE ->
+                            setPortInputLayout(
+                                errorMessage = getString(R.string.dbinspector_webserver_dynamic_ports)
+                            )
+                        else ->
+                            setPortInputLayout(
+                                errorMessage = getString(R.string.dbinspector_webserver_unsupported_port)
+                            )
                     }
                 } else {
-                    portInputLayout.setEndIconOnClickListener(null)
-                    portInputLayout.error = getString(R.string.dbinspector_webserver_empty_port)
+                    setPortInputLayout(errorMessage = getString(R.string.dbinspector_webserver_empty_port))
                 }
             }
         }
@@ -270,6 +268,16 @@ internal class SettingsActivity : BaseActivity<SettingsState, SettingsEvent>() {
                 .find { it.tag == name }
                 ?.let { namesLayout.removeView(it) }
         }
+
+    private fun setPortInputLayout(
+        endIconOnClickListener: View.OnClickListener? = null,
+        errorMessage: String? = null
+    ) {
+        with(binding.portInputLayout) {
+            setEndIconOnClickListener(endIconOnClickListener)
+            error = errorMessage
+        }
+    }
 
     private fun address(): String? =
         NetworkInterface

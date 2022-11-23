@@ -3,7 +3,6 @@ package com.infinum.dbinspector.domain.settings.control.converters
 import com.infinum.dbinspector.data.models.local.proto.input.SettingsTask
 import com.infinum.dbinspector.domain.Converters
 import com.infinum.dbinspector.domain.Domain
-import com.infinum.dbinspector.domain.shared.base.BaseParameters
 import com.infinum.dbinspector.domain.shared.models.parameters.SettingsParameters
 
 internal class SettingsConverter(

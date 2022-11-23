@@ -9,7 +9,7 @@ import org.json.JSONObject
 
 internal object DbInspectorWeb {
 
-    //randomize and anonymize (application packagename to sha1?
+    // randomize and anonymize (application package name to sha1?
     private const val rootDir: String = "web"
 
     private const val buildDate: String = "build.date.json"

@@ -39,7 +39,8 @@ internal class SchemaController(
                 )
             )
         }?.let { page ->
-            SchemaPageResponse(nextPage = page.nextPage,
+            SchemaPageResponse(
+                nextPage = page.nextPage,
                 beforeCount = page.beforeCount,
                 afterCount = page.afterCount,
                 cells = page.cells.map { cell ->
@@ -47,7 +48,8 @@ internal class SchemaController(
                         id = cell.text?.toByteArray()?.toSha1(),
                         name = cell.text
                     )
-                })
+                }
+            )
         }
 
     suspend fun getViewsById(id: String, query: String?): SchemaPageResponse? =
@@ -63,7 +65,8 @@ internal class SchemaController(
                 )
             )
         }?.let { page ->
-            SchemaPageResponse(nextPage = page.nextPage,
+            SchemaPageResponse(
+                nextPage = page.nextPage,
                 beforeCount = page.beforeCount,
                 afterCount = page.afterCount,
                 cells = page.cells.map { cell ->
@@ -71,7 +74,8 @@ internal class SchemaController(
                         id = cell.text?.toByteArray()?.toSha1(),
                         name = cell.text
                     )
-                })
+                }
+            )
         }
 
     suspend fun getTriggersById(id: String, query: String?): SchemaPageResponse? =
@@ -96,6 +100,7 @@ internal class SchemaController(
                         id = cell.text?.toByteArray()?.toSha1(),
                         name = cell.text
                     )
-                })
+                }
+            )
         }
 }

@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.ui.settings
 
 import com.infinum.dbinspector.domain.UseCases
-import com.infinum.dbinspector.domain.shared.base.BaseParameters
 import com.infinum.dbinspector.domain.shared.models.BlobPreviewMode
 import com.infinum.dbinspector.domain.shared.models.TruncateMode
 import com.infinum.dbinspector.domain.shared.models.parameters.SettingsParameters
