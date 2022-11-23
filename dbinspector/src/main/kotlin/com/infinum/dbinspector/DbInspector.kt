@@ -42,5 +42,6 @@ public object DbInspector {
                 }
             )
         }
+        Presentation.autoStartServer()
     }
 }

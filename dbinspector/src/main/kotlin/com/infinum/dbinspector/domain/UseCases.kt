@@ -55,6 +55,8 @@ internal interface UseCases {
     interface SaveTruncateMode : BaseUseCase<SettingsParameters.Truncate, Unit>
 
     interface SaveBlobPreviewMode : BaseUseCase<SettingsParameters.BlobPreview, Unit>
+
+    interface AutoStartServer : BaseUseCase<BaseParameters, Unit>
     // endregion
 
     // region Schema

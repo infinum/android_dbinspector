@@ -93,6 +93,7 @@ import com.infinum.dbinspector.domain.settings.interactors.SaveServerPortInterac
 import com.infinum.dbinspector.domain.settings.interactors.SaveTruncateModeInteractor
 import com.infinum.dbinspector.domain.settings.interactors.StartServerInteractor
 import com.infinum.dbinspector.domain.settings.interactors.StopServerInteractor
+import com.infinum.dbinspector.domain.settings.usecases.AutoStartServerUseCase
 import com.infinum.dbinspector.domain.settings.usecases.GetSettingsUseCase
 import com.infinum.dbinspector.domain.settings.usecases.RemoveIgnoredTableNameUseCase
 import com.infinum.dbinspector.domain.settings.usecases.SaveBlobPreviewModeUseCase
@@ -228,6 +229,7 @@ internal object Domain {
         factory<UseCases.ToggleLinesLimit> { ToggleLinesLimitUseCase(get()) }
         factory<UseCases.SaveTruncateMode> { SaveTruncateModeUseCase(get()) }
         factory<UseCases.SaveBlobPreviewMode> { SaveBlobPreviewModeUseCase(get()) }
+        factory<UseCases.AutoStartServer> { AutoStartServerUseCase(get()) }
     }
 
     private fun schema() = module {

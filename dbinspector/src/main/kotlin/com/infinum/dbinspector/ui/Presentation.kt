@@ -4,6 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import com.infinum.dbinspector.di.LibraryKoin
 import com.infinum.dbinspector.domain.Domain
+import com.infinum.dbinspector.domain.UseCases
+import com.infinum.dbinspector.domain.settings.models.Settings
+import com.infinum.dbinspector.domain.shared.base.BaseParameters
+import com.infinum.dbinspector.domain.shared.models.parameters.SettingsParameters
 import com.infinum.dbinspector.logger.Logger
 import com.infinum.dbinspector.server.Server
 import com.infinum.dbinspector.server.WebServer
@@ -24,6 +28,10 @@ import com.infinum.dbinspector.ui.schema.tables.TablesViewModel
 import com.infinum.dbinspector.ui.schema.triggers.TriggersViewModel
 import com.infinum.dbinspector.ui.schema.views.ViewsViewModel
 import com.infinum.dbinspector.ui.settings.SettingsViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -72,6 +80,13 @@ internal object Presentation {
         logger?.let { LibraryKoin.setLibraryLogger(it) }
     }
 
+    fun autoStartServer() {
+        CoroutineScope(SupervisorJob() + Dispatchers.IO)
+            .launch {
+                LibraryKoin.koin().get<UseCases.AutoStartServer>()(object : BaseParameters {})
+            }
+    }
+
     fun applicationContext(): Context {
         if (this::context.isInitialized) {
             return context.applicationContext
@@ -93,7 +108,20 @@ internal object Presentation {
         viewModel { RenameDatabaseViewModel(get()) }
         viewModel { RemoveDatabaseViewModel(get()) }
 
-        viewModel { SettingsViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+        viewModel {
+            SettingsViewModel(
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get()
+            )
+        }
 
         viewModel { SchemaViewModel(get(), get()) }
 
