@@ -31,4 +31,13 @@ internal sealed class SettingsParameters : BaseParameters {
     data class ServerPort(
         val port: String
     ) : SettingsParameters()
+
+    data class StartServer(
+        val port: String,
+        val state: Boolean
+    ) : SettingsParameters()
+
+    data class StopServer(
+        val state: Boolean
+    ) : SettingsParameters()
 }

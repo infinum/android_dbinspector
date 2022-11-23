@@ -194,7 +194,7 @@ internal object Domain {
         factory<Interactors.SaveBlobPreviewMode> { SaveBlobPreviewModeInteractor(get()) }
         factory<Interactors.SaveIgnoredTableName> { SaveIgnoredTableNameInteractor(get()) }
         factory<Interactors.RemoveIgnoredTableName> { RemoveIgnoredTableNameInteractor(get()) }
-        factory<Interactors.SaveServerPort> { SaveServerPortInteractor(get()) }
+        factory<Interactors.SaveServerPort> { SaveServerPortInteractor(get(), get()) }
         factory<Interactors.StartServer> { StartServerInteractor(get(), get()) }
         factory<Interactors.StopServer> { StopServerInteractor(get(), get()) }
 

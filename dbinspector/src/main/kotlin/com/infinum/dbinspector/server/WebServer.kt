@@ -98,6 +98,6 @@ internal class WebServer(
             currentServer = null
             currentServer == null
         } else {
-            false
+            true
         }
 }

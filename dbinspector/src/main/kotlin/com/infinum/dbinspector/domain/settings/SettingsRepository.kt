@@ -43,12 +43,12 @@ internal class SettingsRepository(
     override suspend fun removeIgnoredTableName(input: SettingsParameters.IgnoredTableName) =
         removeIgnoredTableName(control.converter ignoredTableName input)
 
-    override suspend fun saveServerPort(input: SettingsParameters.ServerPort) =
-        saveServerPort(control.converter serverPort input)
+    override suspend fun saveServerPort(input: SettingsParameters.ServerPort): Settings =
+        saveServerPort(control.converter serverPort input).let { control.mapper(it) }
 
-    override suspend fun startServer(input: SettingsParameters.ServerPort): Boolean =
-       startWebServer(control.converter startServer input)
+    override suspend fun startServer(input: SettingsParameters.StartServer): Settings =
+       startWebServer(control.converter startServer input).let { control.mapper(it) }
 
-    override suspend fun stopServer(input: BaseParameters): Boolean =
-        stopWebServer(control.converter stopServer input)
+    override suspend fun stopServer(input: SettingsParameters.StopServer): Settings =
+        stopWebServer(control.converter stopServer input).let { control.mapper(it) }
 }

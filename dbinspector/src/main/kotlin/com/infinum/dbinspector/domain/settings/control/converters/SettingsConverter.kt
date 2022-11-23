@@ -38,9 +38,9 @@ internal class SettingsConverter(
     override suspend fun serverPort(parameters: SettingsParameters.ServerPort): SettingsTask =
         SettingsTask(serverPort = parameters.port)
 
-    override suspend fun startServer(parameters: SettingsParameters.ServerPort): SettingsTask =
-        SettingsTask(serverPort = parameters.port)
+    override suspend fun startServer(parameters: SettingsParameters.StartServer): SettingsTask =
+        SettingsTask(serverPort = parameters.port, serverState = parameters.state)
 
-    override suspend fun stopServer(parameters: BaseParameters): SettingsTask =
-        SettingsTask()
+    override suspend fun stopServer(parameters: SettingsParameters.StopServer): SettingsTask =
+        SettingsTask(serverState = parameters.state)
 }

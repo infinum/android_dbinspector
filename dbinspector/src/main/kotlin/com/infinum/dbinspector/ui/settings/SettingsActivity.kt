@@ -2,6 +2,7 @@ package com.infinum.dbinspector.ui.settings
 
 import android.os.Bundle
 import android.widget.LinearLayout
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.children
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -44,8 +45,6 @@ internal class SettingsActivity : BaseActivity<SettingsState, SettingsEvent>() {
         when (event) {
             is SettingsEvent.AddIgnoredTable -> addNewIgnoredTableNameView(event.name)
             is SettingsEvent.RemoveIgnoredTable -> removeIgnoredTableNameView(event.name)
-            is SettingsEvent.ServerStarted -> {}
-            is SettingsEvent.ServerStopped -> {}
         }
     }
 
@@ -75,92 +74,64 @@ internal class SettingsActivity : BaseActivity<SettingsState, SettingsEvent>() {
 
     private fun setupServer(settings: Settings) {
         with(binding) {
-            serverSwitch.setOnCheckedChangeListener(null)
+            serverButton.setOnClickListener(null)
             portInputLayout.setEndIconOnClickListener(null)
             portInputLayout.prefixText = address() + ":"
             portEditText.setText(settings.serverPort)
-            serverSwitch.isEnabled = settings.serverPort.isNotBlank()
-            if (serverSwitch.isEnabled) {
-                serverSwitch.isChecked = settings.serverRunning
-                serverSwitch.setOnCheckedChangeListener { _, isChecked ->
-                    viewModel.toggleServer(isChecked, settings.serverPort)
-                    serverStateView.text = getString(
-                        if (isChecked) {
-                            R.string.dbinspector_webserver_running
-                        } else {
-                            R.string.dbinspector_webserver_not_running
-                        }
+
+            serverButton.isEnabled = settings.serverPort.isNotBlank()
+            if (serverButton.isEnabled) {
+                if (settings.serverRunning) {
+                    serverButton.text = getString(R.string.dbinspector_webserver_stop)
+                    serverButton.icon = AppCompatResources.getDrawable(
+                        this@SettingsActivity,
+                        R.drawable.dbinspector_ic_stop
+                    )
+                } else {
+                    serverButton.text = getString(R.string.dbinspector_webserver_start)
+                    serverButton.icon = AppCompatResources.getDrawable(
+                        this@SettingsActivity,
+                        R.drawable.dbinspector_ic_start
                     )
                 }
-                serverStateView.text = getString(
-                    if (settings.serverRunning) {
-                        R.string.dbinspector_webserver_running
-                    } else {
-                        R.string.dbinspector_webserver_not_running
-                    }
-                )
+                serverButton.setOnClickListener {
+                    viewModel.toggleServer(settings.serverRunning.not(), settings.serverPort)
+                }
             } else {
-                serverStateView.text = getString(R.string.dbinspector_webserver_disabled)
+                serverButton.text = getString(R.string.dbinspector_webserver_disabled)
+                serverButton.icon = null
+                serverButton.setOnClickListener(null)
             }
 
             portEditText.doOnTextChanged { text, _, _, _ ->
-                serverSwitch.setOnCheckedChangeListener(null)
-                portInputLayout.setEndIconOnClickListener(null)
-
                 val port = text?.toString().orEmpty()
                 if (port.isNotBlank()) {
                     when (port.toInt()) {
                         in 0..1023 -> {
-                            serverSwitch.isEnabled = false
+                            portInputLayout.setEndIconOnClickListener(null)
                             portInputLayout.error =
                                 getString(R.string.dbinspector_webserver_system_ports)
-                            serverStateView.text = getString(R.string.dbinspector_webserver_disabled)
-                            serverSwitch.isChecked = false
-                            viewModel.toggleServer(false, port)
                         }
                         in 1024..49151 -> {
-                            serverSwitch.isEnabled = true
-                            portInputLayout.error = null
                             portInputLayout.setEndIconOnClickListener {
                                 viewModel.changeServerPort(port)
                             }
-                            serverStateView.text = getString(R.string.dbinspector_webserver_not_running)
-                            serverSwitch.isChecked = false
-                            viewModel.toggleServer(false, port)
-                            serverSwitch.setOnCheckedChangeListener { _, isChecked ->
-                                viewModel.toggleServer(isChecked, port)
-                                serverStateView.text = getString(
-                                    if (isChecked) {
-                                        R.string.dbinspector_webserver_running
-                                    } else {
-                                        R.string.dbinspector_webserver_not_running
-                                    }
-                                )
-                            }
+                            portInputLayout.error = null
                         }
                         in 49152..65535 -> {
-                            serverSwitch.isEnabled = false
+                            portInputLayout.setEndIconOnClickListener(null)
                             portInputLayout.error =
                                 getString(R.string.dbinspector_webserver_dynamic_ports)
-                            serverStateView.text = getString(R.string.dbinspector_webserver_disabled)
-                            serverSwitch.isChecked = false
-                            viewModel.toggleServer(false, port)
                         }
                         else -> {
-                            serverSwitch.isEnabled = false
+                            portInputLayout.setEndIconOnClickListener(null)
                             portInputLayout.error =
                                 getString(R.string.dbinspector_webserver_unsupported_port)
-                            serverStateView.text = getString(R.string.dbinspector_webserver_disabled)
-                            serverSwitch.isChecked = false
-                            viewModel.toggleServer(false, port)
                         }
                     }
                 } else {
-                    serverSwitch.isEnabled = false
+                    portInputLayout.setEndIconOnClickListener(null)
                     portInputLayout.error = getString(R.string.dbinspector_webserver_empty_port)
-                    serverStateView.text = getString(R.string.dbinspector_webserver_disabled)
-                    serverSwitch.isChecked = false
-                    viewModel.toggleServer(false, port)
                 }
             }
         }
@@ -175,6 +146,7 @@ internal class SettingsActivity : BaseActivity<SettingsState, SettingsEvent>() {
                     }
             }
             settings.ignoredTableNames.forEach {
+                namesLayout.removeAllViews()
                 namesLayout.addView(
                     createIgnoredTableNameView(it)
                 )

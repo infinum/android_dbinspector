@@ -62,9 +62,9 @@ internal interface Converters {
 
         suspend infix fun serverPort(parameters: SettingsParameters.ServerPort): SettingsTask
 
-        suspend infix fun startServer(parameters: SettingsParameters.ServerPort): SettingsTask
+        suspend infix fun startServer(parameters: SettingsParameters.StartServer): SettingsTask
 
-        suspend infix fun stopServer(parameters: BaseParameters): SettingsTask
+        suspend infix fun stopServer(parameters: SettingsParameters.StopServer): SettingsTask
     }
 
     interface History : BaseConverter<HistoryParameters, HistoryTask> {

@@ -31,27 +31,22 @@ internal class SettingsViewModel(
 
     fun changeServerPort(port: String) =
         launch {
-            io {
+            val result = io {
                 saveServerPort(SettingsParameters.ServerPort(port = port))
             }
+            setState(SettingsState.Settings(settings = result))
         }
 
-    fun toggleServer(checked: Boolean, port: String) {
+    fun toggleServer(action: Boolean, port: String) {
         launch {
             val result = io {
-                if (checked) {
-                    startServer(SettingsParameters.ServerPort(port = port))
+                if (action) {
+                    startServer(SettingsParameters.StartServer(port = port, state = true))
                 } else {
-                    stopServer(object : BaseParameters {})
+                    stopServer(SettingsParameters.StopServer(state = false))
                 }
             }
-            if (result) {
-                if (checked) {
-                    emitEvent(SettingsEvent.ServerStarted())
-                } else {
-                    emitEvent(SettingsEvent.ServerStopped())
-                }
-            }
+            setState(SettingsState.Settings(settings = result))
         }
     }
 

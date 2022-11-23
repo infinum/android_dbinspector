@@ -49,11 +49,11 @@ internal interface Repositories {
 
         suspend fun removeIgnoredTableName(input: SettingsParameters.IgnoredTableName)
 
-        suspend fun saveServerPort(input: SettingsParameters.ServerPort)
+        suspend fun saveServerPort(input: SettingsParameters.ServerPort): SettingsModel
 
-        suspend fun startServer(input: SettingsParameters.ServerPort): Boolean
+        suspend fun startServer(input: SettingsParameters.StartServer): SettingsModel
 
-        suspend fun stopServer(input: BaseParameters): Boolean
+        suspend fun stopServer(input: SettingsParameters.StopServer): SettingsModel
     }
 
     interface History {

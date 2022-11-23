@@ -67,9 +67,9 @@
     <string name="dbinspector_webserver">Web server</string>
     <string name="dbinspector_webserver_description">Run an API and web server for remote access.</string>
     <string name="dbinspector_webserver_address">Address and port</string>
-    <string name="dbinspector_webserver_running">Running</string>
-    <string name="dbinspector_webserver_not_running">Not running</string>
-    <string name="dbinspector_webserver_disabled">Disabled</string>
+    <string name="dbinspector_webserver_start">Start server</string>
+    <string name="dbinspector_webserver_stop">Stop server</string>
+    <string name="dbinspector_webserver_disabled">Disabled server</string>
     <string name="dbinspector_webserver_system_ports">Cannot use system or well-known ports</string>
     <string name="dbinspector_webserver_dynamic_ports">Cannot use dynamic, private or ephemeral ports</string>
     <string name="dbinspector_webserver_unsupported_port">Cannot use this port</string>

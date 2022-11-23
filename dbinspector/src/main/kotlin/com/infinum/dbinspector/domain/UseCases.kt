@@ -38,11 +38,11 @@ internal interface UseCases {
     // region Settings
     interface GetSettings : BaseUseCase<SettingsParameters.Get, Settings>
 
-    interface SaveServerPort : BaseUseCase<SettingsParameters.ServerPort, Unit>
+    interface SaveServerPort : BaseUseCase<SettingsParameters.ServerPort, Settings>
 
-    interface StartServer : BaseUseCase<SettingsParameters.ServerPort, Boolean>
+    interface StartServer : BaseUseCase<SettingsParameters.StartServer, Settings>
 
-    interface StopServer : BaseUseCase<BaseParameters, Boolean>
+    interface StopServer : BaseUseCase<SettingsParameters.StopServer, Settings>
 
     interface SaveIgnoredTableName : BaseUseCase<SettingsParameters.IgnoredTableName, Unit>
 

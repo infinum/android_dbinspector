@@ -48,11 +48,11 @@ internal interface Interactors {
 
     interface RemoveIgnoredTableName : BaseInteractor<SettingsTask, Unit>
 
-    interface SaveServerPort : BaseInteractor<SettingsTask, Unit>
+    interface SaveServerPort : BaseInteractor<SettingsTask, SettingsEntity>
 
-    interface StartServer : BaseInteractor<SettingsTask, Boolean>
+    interface StartServer : BaseInteractor<SettingsTask, SettingsEntity>
 
-    interface StopServer : BaseInteractor<SettingsTask, Boolean>
+    interface StopServer : BaseInteractor<SettingsTask, SettingsEntity>
     // endregion
 
     // region Schema

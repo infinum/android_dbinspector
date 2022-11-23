@@ -9,5 +9,6 @@ internal data class SettingsTask(
     val truncateMode: SettingsEntity.TruncateMode = SettingsEntity.TruncateMode.END,
     val blobPreviewMode: SettingsEntity.BlobPreviewMode = SettingsEntity.BlobPreviewMode.UTF8,
     val ignoredTableName: String = "",
-    val serverPort: String = ""
+    val serverPort: String = "",
+    val serverState: Boolean = false
 )
