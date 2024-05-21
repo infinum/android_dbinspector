@@ -42,6 +42,11 @@ android {
         ]
     }
 
+    packagingOptions {
+        exclude 'META-INF/INDEX.LIST'
+        exclude 'META-INF/io.netty.versions.properties'
+    }
+
     sourceSets.each {
         it.java.srcDirs += "src/$it.name/kotlin"
     }

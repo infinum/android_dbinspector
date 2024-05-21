@@ -1,12 +1,14 @@
 apply plugin: "maven-publish"
 apply plugin: "signing"
 
-task sourcesJar(type: Jar) {
+tasks.register('sourcesJar', Jar) {
     archiveClassifier.set("sources")
     from android.sourceSets.main.kotlin.srcDirs
 }
 
-task javadocsJar(type: Jar, dependsOn: "dokkaJavadoc") {
+tasks.register('javadocsJar', Jar) {
+    dependsOn "dokkaJavadoc"
+    mustRunAfter ":dbinspector:dokkaJavadoc"
     archiveClassifier.set("javadoc")
     from dokkaJavadoc.outputDirectory
 }

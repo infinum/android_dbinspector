@@ -37,57 +37,62 @@ subprojects {
 
 apply from: "deploy.gradle"
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+tasks.register('clean', Delete) {
+    delete rootProject.layout.buildDirectory
 }
 
-task lintAll(dependsOn: [
-        ':dbinspector:lintRelease',
-        ':dbinspector-no-op:lintRelease',
-        ':dbinspector-web:lintRelease'
-]) {
+tasks.register('lintAll') {
+    dependsOn(
+            ':dbinspector:lintRelease',
+            ':dbinspector-no-op:lintRelease',
+            ':dbinspector-web:lintRelease'
+    )
     group = "Verification"
     description = "Run Lint on all modules"
 }
 
-task detektAll(dependsOn: [
-        ':dbinspector:detekt',
-        ':dbinspector-no-op:detekt',
-        ':dbinspector-web:detekt'
-]) {
+tasks.register('detektAll') {
+    dependsOn(
+            ':dbinspector:detekt',
+            ':dbinspector-no-op:detekt',
+            ':dbinspector-web:detekt'
+    )
     group = "Verification"
     description = "Run Detekt on all modules"
 }
 
-task ktlintAll(dependsOn: [
-        ':dbinspector:ktlintCheck',
-        ':dbinspector-no-op:ktlintCheck',
-        ':dbinspector-web:ktlintCheck'
-]) {
+tasks.register('ktlintAll') {
+    dependsOn(
+            ':dbinspector:ktlintCheck',
+            ':dbinspector-no-op:ktlintCheck',
+            ':dbinspector-web:ktlintCheck'
+    )
     group = "Verification"
     description = "Run Ktlint on all modules"
 }
 
-task cpdAll(dependsOn: [
-        ':dbinspector:cpdCheck',
-        ':dbinspector-no-op:cpdCheck',
-        ':dbinspector-web:cpdCheck'
-]) {
+tasks.register('cpdAll') {
+    dependsOn(
+            ':dbinspector:cpdCheck',
+            ':dbinspector-no-op:cpdCheck',
+            ':dbinspector-web:cpdCheck'
+    )
     group = "Verification"
     description = "Run CPD on all modules"
 }
 
-task runStaticChecks(dependsOn: [
-        ':lintAll',
-        ':detektAll',
-        ':ktlintAll',
-        ':cpdAll'
-]) {
+tasks.register('runStaticChecks') {
+    dependsOn(
+            ':lintAll',
+            ':detektAll',
+            ':ktlintAll',
+            ':cpdAll'
+    )
     group = "Verification"
     description = "Run static checks on all modules"
 }
 
-task cleanMavenLocal {
+tasks.register('cleanMavenLocal') {
     doLast {
         new File('~/.m2/repository/example').deleteDir()
     }

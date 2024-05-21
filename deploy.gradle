@@ -1,44 +1,49 @@
-task deployDbInspector(dependsOn: [
-        ':dbinspector:clean',
-        ':dbinspector:publishReleasePublicationToSonatypeRepository'
-]) {
+tasks.register('deployDbInspector') {
+    dependsOn(
+            ':dbinspector:clean',
+            ':dbinspector:publishReleasePublicationToSonatypeRepository'
+    )
     group = "Deploy"
     description = "Deploy module to repositories"
 }
 
-task deployDbInspectorNoOp(dependsOn: [
-        ':dbinspector-no-op:clean',
-        ':dbinspector-no-op:publishReleasePublicationToSonatypeRepository'
-]) {
+tasks.register('deployDbInspectorNoOp') {
+    dependsOn(
+            ':dbinspector-no-op:clean',
+            ':dbinspector-no-op:publishReleasePublicationToSonatypeRepository'
+    )
     group = "Deploy"
     description = "Deploy module to repositories"
 }
 
-task deployDbInspectorWeb(dependsOn: [
-        ':dbinspector-web:clean',
-        ':dbinspector-web:publishReleasePublicationToSonatypeRepository'
-]) {
+tasks.register('deployDbInspectorWeb') {
+    dependsOn(
+            ':dbinspector-web:clean',
+            ':dbinspector-web:publishReleasePublicationToSonatypeRepository'
+    )
     group = "Deploy"
     description = "Deploy module to repositories"
 }
 
-task deployAll(dependsOn: [
-        'deployDbInspector',
-        'deployDbInspectorNoOp',
-        'deployDbInspectorWeb'
-]) {
+tasks.register('deployAll') {
+    dependsOn(
+            'deployDbInspector',
+            'deployDbInspectorNoOp',
+            'deployDbInspectorWeb'
+    )
     group = "Deploy"
     description = "Deploy all modules to repositories"
 }
 
-task deployDebug(dependsOn: [
-        ':dbinspector:clean',
-        ':dbinspector-no-op:clean',
-        ':dbinspector-web:clean',
-        ':dbinspector:publishReleasePublicationToMavenLocal',
-        ':dbinspector-no-op:publishReleasePublicationToMavenLocal',
-        ':dbinspector-web:publishReleasePublicationToMavenLocal'
-]) {
+tasks.register('deployDebug') {
+    dependsOn(
+            ':dbinspector:clean',
+            ':dbinspector-no-op:clean',
+            ':dbinspector-web:clean',
+            ':dbinspector:publishReleasePublicationToMavenLocal',
+            ':dbinspector-no-op:publishReleasePublicationToMavenLocal',
+            ':dbinspector-web:publishReleasePublicationToMavenLocal'
+    )
     group = "Deploy"
     description = "Deploy all modules to local Maven repository"
 }

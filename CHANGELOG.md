@@ -3,9 +3,12 @@ Changelog
 
 ## Version 5.5.0
 
-_2022-MM-DD_
+_2024-MM-DD_
 
-* Update Kotlin to 1.7.21.
+* Update Kotlin to 1.9.22.
+* Add remote API server.
+* Add default remote web interface.
+* Update to latest stable dependencies.
 
 ## Version 5.4.9
 

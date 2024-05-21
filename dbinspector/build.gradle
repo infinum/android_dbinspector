@@ -4,7 +4,7 @@ plugins {
     id "kotlin-parcelize"
     id "com.google.protobuf"
     id "kover"
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.7.20"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.24"
 
 }
 
@@ -55,6 +55,7 @@ android {
 
     packagingOptions {
         exclude 'META-INF/INDEX.LIST'
+        exclude 'META-INF/io.netty.versions.properties'
     }
 
     testOptions {
@@ -97,6 +98,7 @@ android {
     }
 
     buildFeatures {
+        buildConfig true
         viewBinding true
     }
 
@@ -144,7 +146,7 @@ kover {
     generateReportOnCheck = true
 }
 
-tasks.withType(Test) {
+tasks.withType(Test).configureEach {
     useJUnitPlatform()
 }
 

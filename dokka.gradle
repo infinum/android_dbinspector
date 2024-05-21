@@ -1,7 +1,12 @@
 apply plugin: "org.jetbrains.dokka"
 
 tasks.named("dokkaJavadoc") {
-    outputDirectory.set(file("$buildDir/javadoc"))
+    dependsOn(
+            ':dbinspector:generateReleaseRFile',
+            ':dbinspector-no-op:generateReleaseRFile',
+            ':dbinspector-web:generateReleaseRFile'
+    )
+    outputDirectory.set(file(rootProject.layout.buildDirectory.dir("javadoc").get()))
 
     dokkaSourceSets {
         named("main") {
@@ -44,7 +49,7 @@ tasks.named("dokkaJavadoc") {
 }
 
 tasks.named("dokkaHtml") {
-    outputDirectory.set(file("$buildDir/html"))
+    outputDirectory.set(file("$rootProject.layout.buildDirectory/html"))
 
     dokkaSourceSets {
         named("main") {
