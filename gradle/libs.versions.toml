@@ -28,10 +28,10 @@ kover = "0.6.1"
 jacoco = "0.8.8"
 intellij = "1.0.647"
 junit5 = "5.9.1"
-mockk = "1.13.2"
+mockk = "1.13.4"
 mockito = "4.8.1"
 mockitokotlin = "4.0.0"
-turbine = "0.12.0"
+turbine = "1.0.0"
 
 [libraries]
 library = { module = "com.infinum.dbinspector:dbinspector", version.ref = "dbinspector" }

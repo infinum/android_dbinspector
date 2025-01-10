@@ -1,6 +1,7 @@
 package com.infinum.dbinspector.ui.settings
 
 import app.cash.turbine.test
+import app.cash.turbine.turbineScope
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.domain.shared.models.BlobPreviewMode
 import com.infinum.dbinspector.domain.shared.models.TruncateMode
@@ -13,6 +14,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import kotlinx.coroutines.awaitCancellation
+import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -39,7 +41,7 @@ internal class SettingsViewModelTest : BaseTest() {
     )
 
     @Test
-    fun `Get current default settings`() {
+    fun `Get current default settings`() = test {
         val useCase: UseCases.GetSettings = get()
         val viewModel = SettingsViewModel(
             useCase,
@@ -60,9 +62,9 @@ internal class SettingsViewModelTest : BaseTest() {
         }
 
         viewModel.load()
+        advanceUntilIdle()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        test {
             viewModel.stateFlow.test {
                 val item: SettingsState? = awaitItem()
                 assertTrue(item is SettingsState.Settings)
@@ -79,11 +81,10 @@ internal class SettingsViewModelTest : BaseTest() {
             viewModel.errorFlow.test {
                 expectNoEvents()
             }
-        }
     }
 
     @Test
-    fun `Save ignored table name`() {
+    fun `Save ignored table name`() = test {
         val useCase: UseCases.SaveIgnoredTableName = get()
         val viewModel = SettingsViewModel(
             get(),
@@ -98,26 +99,25 @@ internal class SettingsViewModelTest : BaseTest() {
         coEvery { useCase.invoke(any()) } returns Unit
 
         viewModel.saveIgnoredTableName("android_metadata")
+        advanceUntilIdle()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        test {
-            viewModel.stateFlow.test {
-                assertNull(awaitItem())
-            }
-            viewModel.eventFlow.test {
-                val item: SettingsEvent? = awaitItem()
-                assertTrue(item is SettingsEvent.AddIgnoredTable)
-                assertTrue(item.name == "android_metadata")
-                awaitCancellation()
-            }
-            viewModel.errorFlow.test {
-                expectNoEvents()
-            }
+        viewModel.stateFlow.test {
+            assertNull(awaitItem())
+        }
+        viewModel.eventFlow.test {
+            val item: SettingsEvent? = awaitItem()
+            assertTrue(item is SettingsEvent.AddIgnoredTable)
+            assertTrue(item.name == "android_metadata")
+            awaitCancellation()
+        }
+        viewModel.errorFlow.test {
+            expectNoEvents()
         }
     }
 
     @Test
-    fun `Remove ignored table name`() {
+    fun `Remove ignored table name`() = test {
         val useCase: UseCases.RemoveIgnoredTableName = get()
         val viewModel = SettingsViewModel(
             get(),
@@ -132,26 +132,25 @@ internal class SettingsViewModelTest : BaseTest() {
         coEvery { useCase.invoke(any()) } returns Unit
 
         viewModel.removeIgnoredTableName("android_metadata")
+        advanceUntilIdle()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        test {
-            viewModel.stateFlow.test {
-                assertNull(awaitItem())
-            }
-            viewModel.eventFlow.test {
-                val item: SettingsEvent? = awaitItem()
-                assertTrue(item is SettingsEvent.RemoveIgnoredTable)
-                assertTrue(item.name == "android_metadata")
-                awaitCancellation()
-            }
-            viewModel.errorFlow.test {
-                expectNoEvents()
-            }
+        viewModel.stateFlow.test {
+            assertNull(awaitItem())
+        }
+        viewModel.eventFlow.test {
+            val item: SettingsEvent? = awaitItem()
+            assertTrue(item is SettingsEvent.RemoveIgnoredTable)
+            assertTrue(item.name == "android_metadata")
+            awaitCancellation()
+        }
+        viewModel.errorFlow.test {
+            expectNoEvents()
         }
     }
 
     @Test
-    fun `Toggle ON lines limit`() {
+    fun `Toggle ON lines limit`() = test {
         val useCase: UseCases.ToggleLinesLimit = get()
         val viewModel = SettingsViewModel(
             get(),
@@ -166,23 +165,22 @@ internal class SettingsViewModelTest : BaseTest() {
         coEvery { useCase.invoke(any()) } returns Unit
 
         viewModel.toggleLinesLimit(true)
+        advanceUntilIdle()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        test {
-            viewModel.stateFlow.test {
-                assertNull(awaitItem())
-            }
-            viewModel.eventFlow.test {
-                expectNoEvents()
-            }
-            viewModel.errorFlow.test {
-                assertNull(awaitItem())
-            }
+        viewModel.stateFlow.test {
+            assertNull(awaitItem())
+        }
+        viewModel.eventFlow.test {
+            expectNoEvents()
+        }
+        viewModel.errorFlow.test {
+            assertNull(awaitItem())
         }
     }
 
     @Test
-    fun `Toggle OFF lines limit`() {
+    fun `Toggle OFF lines limit`() = test {
         val useCase: UseCases.ToggleLinesLimit = get()
         val viewModel = SettingsViewModel(
             get(),
@@ -197,23 +195,22 @@ internal class SettingsViewModelTest : BaseTest() {
         coEvery { useCase.invoke(any()) } returns Unit
 
         viewModel.toggleLinesLimit(false)
+        advanceUntilIdle()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        test {
-            viewModel.stateFlow.test {
-                assertNull(awaitItem())
-            }
-            viewModel.eventFlow.test {
-                expectNoEvents()
-            }
-            viewModel.errorFlow.test {
-                assertNull(awaitItem())
-            }
+        viewModel.stateFlow.test {
+            assertNull(awaitItem())
+        }
+        viewModel.eventFlow.test {
+            expectNoEvents()
+        }
+        viewModel.errorFlow.test {
+            assertNull(awaitItem())
         }
     }
 
     @Test
-    fun `Save lines limit count`() {
+    fun `Save lines limit count`() = test {
         val useCase: UseCases.SaveLinesCount = get()
         val viewModel = SettingsViewModel(
             get(),
@@ -228,56 +225,55 @@ internal class SettingsViewModelTest : BaseTest() {
         coEvery { useCase.invoke(any()) } returns Unit
 
         viewModel.saveLinesCount(any())
+        advanceUntilIdle()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        test {
-            viewModel.stateFlow.test {
-                assertNull(awaitItem())
-            }
-            viewModel.eventFlow.test {
-                expectNoEvents()
-            }
-            viewModel.errorFlow.test {
-                assertNull(awaitItem())
-            }
+
+        viewModel.stateFlow.test {
+            assertNull(awaitItem())
+        }
+        viewModel.eventFlow.test {
+            expectNoEvents()
+        }
+        viewModel.errorFlow.test {
+            assertNull(awaitItem())
         }
     }
 
     @ParameterizedTest
     @EnumSource(TruncateMode::class)
-    fun `Save truncate per mode`(truncateMode: TruncateMode) {
-        test {
-            val useCase: UseCases.SaveTruncateMode = get()
-            val viewModel = SettingsViewModel(
-                get(),
-                get(),
-                get(),
-                get(),
-                get(),
-                useCase,
-                get()
-            )
+    fun `Save truncate per mode`(truncateMode: TruncateMode) = test {
+        val useCase: UseCases.SaveTruncateMode = get()
+        val viewModel = SettingsViewModel(
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            useCase,
+            get()
+        )
 
-            coEvery { useCase.invoke(any()) } returns Unit
+        coEvery { useCase.invoke(any()) } returns Unit
 
-            viewModel.saveTruncateMode(truncateMode)
+        viewModel.saveTruncateMode(truncateMode)
+        advanceUntilIdle()
 
-            coVerify(exactly = 1) { useCase.invoke(any()) }
-            viewModel.stateFlow.test {
-                assertNull(awaitItem())
-            }
-            viewModel.eventFlow.test {
-                expectNoEvents()
-            }
-            viewModel.errorFlow.test {
-                assertNull(awaitItem())
-            }
+        coVerify(exactly = 1) { useCase.invoke(any()) }
+        viewModel.stateFlow.test {
+            assertNull(awaitItem())
+        }
+        viewModel.eventFlow.test {
+            expectNoEvents()
+        }
+        viewModel.errorFlow.test {
+            assertNull(awaitItem())
         }
     }
 
     @ParameterizedTest
     @EnumSource(BlobPreviewMode::class)
-    fun `Save blob preview per mode`(blobPreviewMode: BlobPreviewMode) {
+    fun `Save blob preview per mode`(blobPreviewMode: BlobPreviewMode) = test {
         val useCase: UseCases.SaveBlobPreviewMode = get()
         val viewModel = SettingsViewModel(
             get(),
@@ -292,6 +288,7 @@ internal class SettingsViewModelTest : BaseTest() {
         coEvery { useCase.invoke(any()) } returns Unit
 
         viewModel.saveBlobPreviewType(blobPreviewMode)
+        advanceUntilIdle()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
         test {

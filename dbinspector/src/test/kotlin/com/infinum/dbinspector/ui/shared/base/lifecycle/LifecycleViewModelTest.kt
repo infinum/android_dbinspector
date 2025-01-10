@@ -5,6 +5,7 @@ import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -51,6 +52,7 @@ internal class LifecycleViewModelTest : BaseTest() {
             }
 
             viewModel.open()
+            advanceUntilIdle()
 
             coVerify(exactly = 1) { useCase.invoke(any()) }
         }
@@ -71,6 +73,7 @@ internal class LifecycleViewModelTest : BaseTest() {
             }
 
             viewModel.close()
+            advanceUntilIdle()
 
             coVerify(exactly = 1) { useCase.invoke(any()) }
         }
