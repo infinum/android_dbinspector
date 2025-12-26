@@ -21,9 +21,9 @@ about: Create a report to help us improve
 <!-- If applicable, add screenshots to help explain your problem. -->
 
 ## :iphone: Tech info
- - Device: <!-- e.g. Pixel 5 -->
- - OS: <!-- e.g. 9.0.0 -->
- - Sentinel version: <!-- e.g. 1.0.1 -->
+ - Device: <!-- e.g. Pixel 9 -->
+ - OS: <!-- e.g. Android 15 -->
+ - DbInspector version: <!-- e.g. 5.4.9 -->
 
 ## :page_facing_up: Additional context
 <!-- Add any other context about the problem here. -->
