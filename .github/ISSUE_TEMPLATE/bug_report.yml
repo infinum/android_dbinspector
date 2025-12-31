@@ -1,0 +1,54 @@
+name: Bug report
+description: Create a report to help us improve
+labels: bug
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label:  📖 Description
+      description: A clear and concise description of what the bug is.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: ℹ️ Environment
+      description: |
+        An environment information where issue occurred. Try to provide as much information as possible, including:
+          - device name, model and manufacturer (e.g. Google Pixel 9)
+          - operating system version (e.g. Android 12)
+          - software name, version and build number (e.g The Library 4.2.1)
+          - additional information (e.g. dependencies, IDE, etc.)
+      value: |
+        - Device: 
+        - Operating system: 
+        - Software information: 
+        - Additional information: 
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: 💣 Steps to reproduce
+      description: Steps to reproduce the behavior.
+      value: |
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: 🔧 Expected behavior
+      description: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: additional-information
+    attributes:
+      label: 📄 Additional information
+      description: Any additional information that might be helpful in solving the issue. Including screenshots, logs, etc.
+    validations:
+      required: false
