@@ -5,6 +5,8 @@
 
 ![UI](ui.png)
 
+## Description
+
 _DbInspector_ provides a simple way to view the contents of the in-app database for debugging purposes.
 There is no need to pull the database from a connected device.
 This library also supports inspecting of the SQLite databases created by CouchBase Lite out of the box.
@@ -19,6 +21,20 @@ With this library you can:
 * search table, view or trigger
 * sort table, view or trigger per column
 * execute any valid SQL command in editor per database connection
+
+## Table of contents
+
+* [Requirements](#requirements)
+* [Getting started](#getting-started)
+* [Usage](#usage)
+* [Contributing](#contributing)
+* [License](#license)
+* [Credits](#credits)
+
+## Requirements
+Minimum required API level to use _DbInspector_ is **21** known as [Android 5.0, Lollipop](https://www.android.com/versions/lollipop-5-0/).
+As of 4.0.0 version, AndroidX is required. If you cannot unfortunately migrate your project, keep the previous version until you get the opportunity to migrate to AndroidX.
+_DbInspector_ is written entirely in Kotlin, but also works with Java only projects and all combinations of both.
 
 ## Getting started
 To include _DbInspector_ in your project, you have to add buildscript dependencies in your project level `build.gradle` or `build.gradle.kts`:
@@ -53,7 +69,7 @@ debugImplementation("com.infinum.dbinspector:dbinspector:5.4.9")
 releaseImplementation("com.infinum.dbinspector:dbinspector-no-op:5.4.9")
 ```
 
-### Usage
+## Usage
 _DbInspector_ can be invoked **explicitly** or **implicitly**.
 * explicitly - call _DbInspector.show()_ anywhere and anytime that you see fit, like _onClick_ methods, lambdas or similar.
 * implicitly - when you add the _dbinspector_ package an Activity alias is automatically merged into your application manifest that in return creates a launcher icon for _DbInspector_,
@@ -79,7 +95,7 @@ If you use _DbInspector_ for a specific flavor and need to override merged in la
 Please do mind and copy over the suppression comment line too, if you need it.
 Further modification can be done according to rules of [manifest merging](https://developer.android.com/studio/build/manifest-merge) and attributes of [activity-alias](https://developer.android.com/guide/topics/manifest/activity-alias-element) XML node.
 
-## Editor
+### Editor
 
 ![Editor](editor.png)
 
@@ -90,7 +106,7 @@ History of statements is persisted between sessions and can be cleared on demand
 Panes between editors' input and result are scalable and can be adjusted by dragging the splitter between them.  
 Landscape mode is supported too for better result preview of large datasets.  
 
-## Logging
+### Logging
 _DbInspector_ provides a independent and built in logger mechanism. Per default logger is initiated as an `EmptyLogger` omitting any output whatsoever.  
 In case logs output is required, `AndroidLogger` should be used as shown below:
 ```kotlin
@@ -98,10 +114,14 @@ DbInspector.show(logger = AndroidLogger())
 ```
 Additionally, `AndroidLogger` uses `Level` to filter out between info, debug, error or no messages at all.
 
-## Requirements
-Minimum required API level to use _DbInspector_ is **21** known as [Android 5.0, Lollipop](https://www.android.com/versions/lollipop-5-0/).
-As of 4.0.0 version, AndroidX is required. If you cannot unfortunately migrate your project, keep the previous version until you get the opportunity to migrate to AndroidX.
-_DbInspector_ is written entirely in Kotlin, but also works with Java only projects and all combinations of both.
+## Contributing
+
+We believe that the community can help us improve and build better a product.
+Please refer to our [contributing guide](CONTRIBUTING.md) to learn about the types of contributions we accept and the process for submitting them.
+
+To ensure that our community remains respectful and professional, we defined a [code of conduct](CODE_OF_CONDUCT.md) <!-- and [coding standards](<link>) --> that we expect all contributors to follow.
+
+We appreciate your interest and look forward to your contributions.
 
 ## License
 
@@ -122,13 +142,14 @@ limitations under the License.
 ```
 
 ## Credits
-Maintained and sponsored by [Infinum](http://www.infinum.com).
 
-<p align="center">
-  <a href='https://infinum.com'>
+Maintained and sponsored by [Infinum](https://infinum.com).
+
+<div align="center">
+    <a href='https://infinum.com'>
     <picture>
         <source srcset="https://assets.infinum.com/brand/logo/static/white.svg" media="(prefers-color-scheme: dark)">
         <img src="https://assets.infinum.com/brand/logo/static/default.svg">
     </picture>
-  </a>
-</p>
+    </a>
+</div>

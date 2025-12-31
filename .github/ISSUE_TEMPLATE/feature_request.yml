@@ -1,0 +1,25 @@
+name: Feature request
+description: Propose a new feature or an idea for this project
+labels: enhancement
+body:
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: 💡 Feature description
+      description: A clear and concise description of the feature request, including what problem it solves.
+    validations:
+      required: true
+  - type: textarea
+    id: additional-information
+    attributes:
+      label: ℹ️ Additional information
+      description: An additional information or screenshots about the feature request.
+    validations:
+      required: false
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 🤔 Describe alternatives you've considered
+      description: Can you think of alternative approaches to achieve same goal?
+    validations:
+      required: false
