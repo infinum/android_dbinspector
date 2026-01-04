@@ -169,12 +169,14 @@ internal class SettingsViewModelTest : BaseTest() {
         coVerify(exactly = 1) { useCase.invoke(any()) }
         viewModel.stateFlow.test {
             assertNull(awaitItem())
+            cancelAndIgnoreRemainingEvents()
         }
         viewModel.eventFlow.test {
             expectNoEvents()
         }
         viewModel.errorFlow.test {
             assertNull(awaitItem())
+            cancelAndIgnoreRemainingEvents()
         }
     }
 
@@ -199,12 +201,14 @@ internal class SettingsViewModelTest : BaseTest() {
         coVerify(exactly = 1) { useCase.invoke(any()) }
         viewModel.stateFlow.test {
             assertNull(awaitItem())
+            cancelAndIgnoreRemainingEvents()
         }
         viewModel.eventFlow.test {
             expectNoEvents()
         }
         viewModel.errorFlow.test {
             assertNull(awaitItem())
+            cancelAndIgnoreRemainingEvents()
         }
     }
 
@@ -229,12 +233,14 @@ internal class SettingsViewModelTest : BaseTest() {
         coVerify(exactly = 1) { useCase.invoke(any()) }
         viewModel.stateFlow.test {
             assertNull(awaitItem())
+            cancelAndIgnoreRemainingEvents()
         }
         viewModel.eventFlow.test {
             expectNoEvents()
         }
         viewModel.errorFlow.test {
             assertNull(awaitItem())
+            cancelAndIgnoreRemainingEvents()
         }
     }
 
@@ -260,12 +266,14 @@ internal class SettingsViewModelTest : BaseTest() {
         coVerify(exactly = 1) { useCase.invoke(any()) }
         viewModel.stateFlow.test {
             assertNull(awaitItem())
+            cancelAndIgnoreRemainingEvents()
         }
         viewModel.eventFlow.test {
             expectNoEvents()
         }
         viewModel.errorFlow.test {
             assertNull(awaitItem())
+            cancelAndIgnoreRemainingEvents()
         }
     }
 
@@ -291,12 +299,14 @@ internal class SettingsViewModelTest : BaseTest() {
         coVerify(exactly = 1) { useCase.invoke(any()) }
         viewModel.stateFlow.test {
             assertNull(awaitItem())
+            cancelAndIgnoreRemainingEvents()
         }
         viewModel.eventFlow.test {
             expectNoEvents()
         }
         viewModel.errorFlow.test {
             assertNull(awaitItem())
+            cancelAndIgnoreRemainingEvents()
         }
     }
 }
