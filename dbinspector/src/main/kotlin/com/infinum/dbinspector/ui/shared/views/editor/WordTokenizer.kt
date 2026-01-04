@@ -83,9 +83,9 @@ internal class WordTokenizer(
         spans: List<ParcelableSpan>,
         chopLastChar: Boolean = false
     ) = SpannableString(text).apply {
-        spans.forEach {
+        for (span in spans) {
             setSpan(
-                it,
+                span,
                 0,
                 text.length - (if (chopLastChar) 1 else 0),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE

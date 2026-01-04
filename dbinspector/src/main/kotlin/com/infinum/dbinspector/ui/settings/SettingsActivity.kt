@@ -70,13 +70,13 @@ internal class SettingsActivity : BaseActivity<SettingsState, SettingsEvent>() {
     private fun setupIgnoredTableNames(settings: Settings) =
         with(binding) {
             tableNameInputLayout.setEndIconOnClickListener {
-                tableNameInputLayout.editText?.text?.toString().orEmpty().trim().split(",").forEach { newName ->
+                for (newName in tableNameInputLayout.editText?.text?.toString().orEmpty().trim().split(",")) {
                     addIgnoredTableNameView(newName.trim())
                 }
             }
-            settings.ignoredTableNames.forEach {
+            for (tableName in settings.ignoredTableNames) {
                 namesLayout.addView(
-                    createIgnoredTableNameView(it)
+                    createIgnoredTableNameView(tableName)
                 )
             }
         }
