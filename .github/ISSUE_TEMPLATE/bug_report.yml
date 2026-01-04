@@ -15,9 +15,9 @@ body:
       label: ℹ️ Environment
       description: |
         An environment information where issue occurred. Try to provide as much information as possible, including:
-          - device name, model and manufacturer (e.g. Google Pixel 9)
-          - operating system version (e.g. Android 12)
-          - software name, version and build number (e.g The Library 4.2.1)
+          - device name, model and manufacturer (e.g. Google Pixel 10)
+          - operating system version (e.g. Android 16)
+          - software name, version and build number (e.g android_dbinspector 5.4.9)
           - additional information (e.g. dependencies, IDE, etc.)
       value: |
         - Device: 
