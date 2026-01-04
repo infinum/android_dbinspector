@@ -12,8 +12,8 @@ import io.mockk.mockk
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.DisplayName
@@ -65,7 +65,7 @@ internal class SettingsViewModelTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        
+
         val state = viewModel.stateFlow.filterNotNull().first()
         assertTrue(state is SettingsState.Settings)
         assertFalse(state.settings.linesLimitEnabled)
@@ -73,7 +73,7 @@ internal class SettingsViewModelTest : BaseTest() {
         assertEquals(state.settings.truncateMode, TruncateMode.END)
         assertEquals(state.settings.blobPreviewMode, BlobPreviewMode.PLACEHOLDER)
         assertTrue(state.settings.ignoredTableNames.isEmpty())
-        
+
         // Event flow and error flow should have no events
         assertNull(viewModel.errorFlow.value)
     }

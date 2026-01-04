@@ -11,8 +11,8 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
@@ -113,11 +113,11 @@ internal class EditViewModelTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        
+
         val state = viewModel.stateFlow.filterNotNull().first()
         assertTrue(state is EditState.Headers)
         assertTrue(state.headers.isNotEmpty())
-        
+
         assertNull(viewModel.errorFlow.value)
     }
 
@@ -145,7 +145,7 @@ internal class EditViewModelTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify(exactly = 0) { useCase.invoke(any()) }
-        
+
         viewModel.stateFlow.test {
             val item: EditState? = awaitItem()
             assertTrue(item is EditState.Content)
@@ -185,7 +185,7 @@ internal class EditViewModelTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify(exactly = 0) { useCase.invoke(any()) }
-        
+
         viewModel.stateFlow.test {
             val item: EditState? = awaitItem()
             assertTrue(item is EditState.Content)
@@ -240,16 +240,16 @@ internal class EditViewModelTest : BaseTest() {
 
 //        coVerify(exactly = 3) { getTablesUseCase.invoke(any()) }
 //        coVerify(exactly = 1) { getTableInfoUseCase.invoke(any()) }
-        
+
         assertNull(viewModel.stateFlow.value)
-        
+
         viewModel.eventFlow.test {
             val item: EditEvent? = awaitItem()
             assertTrue(item is EditEvent.Keywords)
             assertNotNull(item.keywords)
             cancelAndIgnoreRemainingEvents()
         }
-        
+
         assertNull(viewModel.errorFlow.value)
     }
 

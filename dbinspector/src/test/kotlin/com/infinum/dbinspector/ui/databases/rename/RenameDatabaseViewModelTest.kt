@@ -10,9 +10,9 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -49,11 +49,11 @@ internal class RenameDatabaseViewModelTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        
+
         val state = viewModel.stateFlow.filterNotNull().first()
         assertTrue(state is RenameDatabaseState.Renamed)
         assertTrue(state.success)
-        
+
         assertNull(viewModel.errorFlow.value)
     }
 
@@ -74,9 +74,9 @@ internal class RenameDatabaseViewModelTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        
+
         assertNull(viewModel.stateFlow.value)
-        
+
         val error = viewModel.errorFlow.filterNotNull().first()
         assertNotNull(error.message)
         assertTrue(error.stackTrace.isNotEmpty())

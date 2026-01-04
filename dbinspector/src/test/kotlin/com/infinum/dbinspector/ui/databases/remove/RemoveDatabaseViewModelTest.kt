@@ -11,9 +11,9 @@ import io.mockk.mockk
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
@@ -48,11 +48,11 @@ internal class RemoveDatabaseViewModelTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        
+
         val state = viewModel.stateFlow.filterNotNull().first()
         assertTrue(state is RemoveDatabaseState.Removed)
         assertTrue(state.success)
-        
+
         assertNull(viewModel.errorFlow.value)
     }
 
@@ -72,11 +72,11 @@ internal class RemoveDatabaseViewModelTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        
+
         val state = viewModel.stateFlow.filterNotNull().first()
         assertTrue(state is RemoveDatabaseState.Removed)
         assertFalse(state.success)
-        
+
         assertNull(viewModel.errorFlow.value)
     }
 }

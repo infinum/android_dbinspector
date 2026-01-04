@@ -10,10 +10,8 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.test.advanceUntilIdle
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
@@ -59,7 +57,7 @@ internal class HistoryViewModelTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        
+
         viewModel.stateFlow.test {
             assertNull(awaitItem())
             val item: HistoryState? = awaitItem()
@@ -91,7 +89,7 @@ internal class HistoryViewModelTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        
+
         assertNull(viewModel.stateFlow.value)
         assertNull(viewModel.errorFlow.value)
     }
@@ -118,7 +116,7 @@ internal class HistoryViewModelTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        
+
         assertNull(viewModel.stateFlow.value)
         assertNull(viewModel.errorFlow.value)
     }

@@ -121,7 +121,7 @@ internal class ContentViewModelTest : BaseTest() {
         val state = viewModel.stateFlow.filterNotNull().first()
         assertTrue(state is ContentState.Headers)
         assertTrue(state.headers.isNotEmpty())
-        
+
         assertNull(viewModel.errorFlow.value)
     }
 
@@ -239,7 +239,7 @@ internal class ContentViewModelTest : BaseTest() {
         coVerify(exactly = 1) { useCase.invoke(any()) }
 
         assertNull(viewModel.stateFlow.value)
-        
+
         val error = viewModel.errorFlow.filterNotNull().first()
         assertTrue(error is DropException)
         assertNotNull(error.message)

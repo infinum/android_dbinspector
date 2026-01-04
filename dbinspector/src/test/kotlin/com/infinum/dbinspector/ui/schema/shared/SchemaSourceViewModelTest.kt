@@ -12,8 +12,6 @@ import io.mockk.mockk
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import kotlinx.coroutines.test.advanceUntilIdle
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.first
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -85,7 +83,7 @@ internal class SchemaSourceViewModelTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify(exactly = 0) { useCase.invoke(any()) }
-        
+
         viewModel.stateFlow.test {
             val item: SchemaState? = awaitItem()
             assertTrue(item is SchemaState.Schema)
