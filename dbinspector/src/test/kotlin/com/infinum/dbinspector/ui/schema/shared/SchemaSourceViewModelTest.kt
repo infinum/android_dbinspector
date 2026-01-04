@@ -9,8 +9,11 @@ import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.awaitCancellation
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -64,7 +67,7 @@ internal class SchemaSourceViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `Schema query successful`() {
+    fun `Schema query successful`() = test {
         val useCase: BaseUseCase<ContentParameters, Page> = get()
         val viewModel = object : SchemaSourceViewModel(
             get(),
@@ -79,21 +82,22 @@ internal class SchemaSourceViewModelTest : BaseTest() {
         coEvery { useCase.invoke(any()) } returns mockk()
 
         viewModel.query(viewModel.databasePath, "my_statement")
+        advanceUntilIdle()
 
         coVerify(exactly = 0) { useCase.invoke(any()) }
-        test {
-            viewModel.stateFlow.test {
-                val item: SchemaState? = awaitItem()
-                assertTrue(item is SchemaState.Schema)
-                assertNotNull(item.schema)
-                awaitCancellation()
-            }
-            viewModel.eventFlow.test {
-                expectNoEvents()
-            }
-            viewModel.errorFlow.test {
-                expectNoEvents()
-            }
+        
+        viewModel.stateFlow.test {
+            val item: SchemaState? = awaitItem()
+            assertTrue(item is SchemaState.Schema)
+            assertNotNull(item.schema)
+            expectNoEvents()
+        }
+        viewModel.eventFlow.test {
+            expectNoEvents()
+        }
+        viewModel.errorFlow.test {
+            assertNull(awaitItem())
+            expectNoEvents()
         }
     }
 }

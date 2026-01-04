@@ -5,6 +5,7 @@ import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -23,56 +24,52 @@ internal class LifecycleViewModelTest : BaseTest() {
     )
 
     @Test
-    fun `Can be instantiated`() {
-        test {
-            val viewModel = object : LifecycleViewModel<Any, Any>(
-                get(),
-                get()
-            ) {}.apply {
-                databasePath = "test.db"
-            }
-
-            assertNotNull(viewModel)
+    fun `Can be instantiated`() = test {
+        val viewModel = object : LifecycleViewModel<Any, Any>(
+            get(),
+            get()
+        ) {}.apply {
+            databasePath = "test.db"
         }
+
+        assertNotNull(viewModel)
     }
 
     @Test
-    fun `Open connection invoked`() {
-        test {
-            val useCase: UseCases.OpenConnection = get()
+    fun `Open connection invoked`() = test {
+        val useCase: UseCases.OpenConnection = get()
 
-            coEvery { useCase.invoke(any()) } returns Unit
+        coEvery { useCase.invoke(any()) } returns Unit
 
-            val viewModel = object : LifecycleViewModel<Any, Any>(
-                useCase,
-                get()
-            ) {}.apply {
-                databasePath = "test.db"
-            }
-
-            viewModel.open()
-
-            coVerify(exactly = 1) { useCase.invoke(any()) }
+        val viewModel = object : LifecycleViewModel<Any, Any>(
+            useCase,
+            get()
+        ) {}.apply {
+            databasePath = "test.db"
         }
+
+        viewModel.open()
+        advanceUntilIdle()
+
+        coVerify(exactly = 1) { useCase.invoke(any()) }
     }
 
     @Test
-    fun `Close connection invoked`() {
-        test {
-            val useCase: UseCases.CloseConnection = get()
+    fun `Close connection invoked`() = test {
+        val useCase: UseCases.CloseConnection = get()
 
-            coEvery { useCase.invoke(any()) } returns Unit
+        coEvery { useCase.invoke(any()) } returns Unit
 
-            val viewModel = object : LifecycleViewModel<Any, Any>(
-                get(),
-                useCase
-            ) {}.apply {
-                databasePath = "test.db"
-            }
-
-            viewModel.close()
-
-            coVerify(exactly = 1) { useCase.invoke(any()) }
+        val viewModel = object : LifecycleViewModel<Any, Any>(
+            get(),
+            useCase
+        ) {}.apply {
+            databasePath = "test.db"
         }
+
+        viewModel.close()
+        advanceUntilIdle()
+
+        coVerify(exactly = 1) { useCase.invoke(any()) }
     }
 }
