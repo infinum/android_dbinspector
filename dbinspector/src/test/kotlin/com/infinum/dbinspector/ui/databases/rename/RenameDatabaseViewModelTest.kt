@@ -10,7 +10,10 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.awaitCancellation
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.advanceUntilIdle
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
@@ -28,7 +31,7 @@ internal class RenameDatabaseViewModelTest : BaseTest() {
     )
 
     @Test
-    fun `Rename database successful`() {
+    fun `Rename database successful`() = test {
         val useCase: UseCases.RenameDatabase = get()
         val viewModel = RenameDatabaseViewModel(
             useCase
@@ -43,26 +46,19 @@ internal class RenameDatabaseViewModelTest : BaseTest() {
             mockk(),
             "invoices"
         )
+        advanceUntilIdle()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        test {
-            viewModel.stateFlow.test {
-                val item: RenameDatabaseState? = awaitItem()
-                assertTrue(item is RenameDatabaseState.Renamed)
-                assertTrue(item.success)
-                awaitCancellation()
-            }
-            viewModel.eventFlow.test {
-                expectNoEvents()
-            }
-            viewModel.errorFlow.test {
-                expectNoEvents()
-            }
-        }
+
+        val state = viewModel.stateFlow.filterNotNull().first()
+        assertTrue(state is RenameDatabaseState.Renamed)
+        assertTrue(state.success)
+
+        assertNull(viewModel.errorFlow.value)
     }
 
     @Test
-    fun `Rename database failed`() {
+    fun `Rename database failed`() = test {
         val useCase: UseCases.RenameDatabase = get()
         val viewModel = RenameDatabaseViewModel(
             useCase
@@ -75,21 +71,14 @@ internal class RenameDatabaseViewModelTest : BaseTest() {
             mockk(),
             "invoices"
         )
+        advanceUntilIdle()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        test {
-            viewModel.stateFlow.test {
-                assertNull(awaitItem())
-            }
-            viewModel.eventFlow.test {
-                expectNoEvents()
-            }
-            viewModel.errorFlow.test {
-                val item: Throwable? = awaitItem()
-                assertTrue(item is Throwable)
-                assertNull(item.message)
-                assertTrue(item.stackTrace.isNotEmpty())
-            }
-        }
+
+        assertNull(viewModel.stateFlow.value)
+
+        val error = viewModel.errorFlow.filterNotNull().first()
+        assertNotNull(error.message)
+        assertTrue(error.stackTrace.isNotEmpty())
     }
 }

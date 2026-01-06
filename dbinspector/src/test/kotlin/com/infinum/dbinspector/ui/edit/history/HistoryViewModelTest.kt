@@ -10,8 +10,8 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
@@ -33,7 +33,7 @@ internal class HistoryViewModelTest : BaseTest() {
 
     @Test
     @Disabled("Unfinished coroutines during teardown.")
-    fun `Load history for database path`() {
+    fun `Load history for database path`() = test {
         val useCase: UseCases.GetHistory = get()
         val viewModel = HistoryViewModel(
             useCase,
@@ -54,27 +54,28 @@ internal class HistoryViewModelTest : BaseTest() {
         }
 
         viewModel.history("test.db")
+        advanceUntilIdle()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        test {
-            viewModel.stateFlow.test {
-                assertNull(awaitItem())
-                val item: HistoryState? = awaitItem()
-                assertTrue(item is HistoryState.History)
-                assertNotNull(item.history)
-                awaitCancellation()
-            }
-            viewModel.eventFlow.test {
-                expectNoEvents()
-            }
-            viewModel.errorFlow.test {
-                expectNoEvents()
-            }
+
+        viewModel.stateFlow.test {
+            assertNull(awaitItem())
+            val item: HistoryState? = awaitItem()
+            assertTrue(item is HistoryState.History)
+            assertNotNull(item.history)
+            cancelAndIgnoreRemainingEvents()
+        }
+        viewModel.eventFlow.test {
+            expectNoEvents()
+        }
+        viewModel.errorFlow.test {
+            assertNull(awaitItem())
+            cancelAndIgnoreRemainingEvents()
         }
     }
 
     @Test
-    fun `Clear history for database path`() {
+    fun `Clear history for database path`() = test {
         val useCase: UseCases.ClearHistory = get()
         val viewModel = HistoryViewModel(
             get(),
@@ -85,23 +86,16 @@ internal class HistoryViewModelTest : BaseTest() {
         coEvery { useCase.invoke(any()) } returns Unit
 
         viewModel.clearHistory("test.db")
+        advanceUntilIdle()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        test {
-            viewModel.stateFlow.test {
-                assertNull(awaitItem())
-            }
-            viewModel.eventFlow.test {
-                expectNoEvents()
-            }
-            viewModel.errorFlow.test {
-                assertNull(awaitItem())
-            }
-        }
+
+        assertNull(viewModel.stateFlow.value)
+        assertNull(viewModel.errorFlow.value)
     }
 
     @Test
-    fun `Remove execution from history`() {
+    fun `Remove execution from history`() = test {
         val useCase: UseCases.RemoveExecution = get()
         val viewModel = HistoryViewModel(
             get(),
@@ -119,18 +113,11 @@ internal class HistoryViewModelTest : BaseTest() {
                 every { isSuccessful } returns true
             }
         )
+        advanceUntilIdle()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        test {
-            viewModel.stateFlow.test {
-                assertNull(awaitItem())
-            }
-            viewModel.eventFlow.test {
-                expectNoEvents()
-            }
-            viewModel.errorFlow.test {
-                assertNull(awaitItem())
-            }
-        }
+
+        assertNull(viewModel.stateFlow.value)
+        assertNull(viewModel.errorFlow.value)
     }
 }

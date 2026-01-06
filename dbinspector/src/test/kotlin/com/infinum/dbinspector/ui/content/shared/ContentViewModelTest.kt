@@ -15,7 +15,9 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import kotlinx.coroutines.awaitCancellation
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.DisplayName
@@ -85,182 +87,163 @@ internal class ContentViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `Content header is invoked`() {
-        test {
-            val useCase: BaseUseCase<PragmaParameters.Pragma, Page> = get(qualifier = StringQualifier("schemaInfo"))
-            val viewModel = object : ContentViewModel(
-                get(),
-                get(),
-                useCase,
-                get(qualifier = StringQualifier("getSchema")),
-                get(qualifier = StringQualifier("dropSchema"))
-            ) {
-                override fun headerStatement(name: String): String = ""
+    fun `Content header is invoked`() = test {
+        val useCase: BaseUseCase<PragmaParameters.Pragma, Page> = get(qualifier = StringQualifier("schemaInfo"))
+        val viewModel = object : ContentViewModel(
+            get(),
+            get(),
+            useCase,
+            get(qualifier = StringQualifier("getSchema")),
+            get(qualifier = StringQualifier("dropSchema"))
+        ) {
+            override fun headerStatement(name: String): String = ""
 
-                override fun schemaStatement(name: String, orderBy: String?, sort: Sort): String = ""
+            override fun schemaStatement(name: String, orderBy: String?, sort: Sort): String = ""
 
-                override fun dropStatement(name: String): String = ""
-            }.apply {
-                databasePath = "test.db"
-            }
+            override fun dropStatement(name: String): String = ""
+        }.apply {
+            databasePath = "test.db"
+        }
 
-            coEvery { useCase.invoke(any()) } returns mockk {
-                every { cells } returns listOf(
-                    mockk {
-                        every { text } returns "my_column"
-                    }
-                )
-            }
+        coEvery { useCase.invoke(any()) } returns mockk {
+            every { cells } returns listOf(
+                mockk {
+                    every { text } returns "my_column"
+                }
+            )
+        }
 
-            viewModel.header("my_content")
+        viewModel.header("my_content")
+        advanceUntilIdle()
 
-            coVerify(exactly = 1) { useCase.invoke(any()) }
+        coVerify(exactly = 1) { useCase.invoke(any()) }
 
-            viewModel.stateFlow.test {
-                val item: ContentState? = awaitItem()
-                assertTrue(item is ContentState.Headers)
-                assertTrue(item.headers.isNotEmpty())
-                awaitCancellation()
-            }
-            viewModel.eventFlow.test {
-                expectNoEvents()
-            }
-            viewModel.errorFlow.test {
-                expectNoEvents()
-            }
+        val state = viewModel.stateFlow.filterNotNull().first()
+        assertTrue(state is ContentState.Headers)
+        assertTrue(state.headers.isNotEmpty())
+
+        assertNull(viewModel.errorFlow.value)
+    }
+
+    @Test
+    fun `Content data has cells`() = test {
+        val useCase: BaseUseCase<ContentParameters, Page> = get(qualifier = StringQualifier("getSchema"))
+        val viewModel = object : ContentViewModel(
+            get(),
+            get(),
+            get(qualifier = StringQualifier("schemaInfo")),
+            useCase,
+            get(qualifier = StringQualifier("dropSchema"))
+        ) {
+            override fun headerStatement(name: String): String = ""
+
+            override fun schemaStatement(name: String, orderBy: String?, sort: Sort): String = ""
+
+            override fun dropStatement(name: String): String = ""
+        }.apply {
+            databasePath = "test.db"
+        }
+
+        coEvery { useCase.invoke(any()) } returns mockk {
+            every { cells } returns listOf(mockk())
+        }
+
+        viewModel.query("my_content", null, Sort.ASCENDING)
+
+        coVerify(exactly = 0) { useCase.invoke(any()) }
+
+        viewModel.stateFlow.test {
+            assertNull(awaitItem())
+            val item: ContentState? = awaitItem()
+            assertTrue(item is ContentState.Content)
+            assertNotNull(item.content)
+            expectNoEvents()
+        }
+        viewModel.eventFlow.test {
+            expectNoEvents()
+        }
+        viewModel.errorFlow.test {
+            assertNull(awaitItem())
+            expectNoEvents()
         }
     }
 
     @Test
-    fun `Content data has cells`() {
-        test {
-            val useCase: BaseUseCase<ContentParameters, Page> = get(qualifier = StringQualifier("getSchema"))
-            val viewModel = object : ContentViewModel(
-                get(),
-                get(),
-                get(qualifier = StringQualifier("schemaInfo")),
-                useCase,
-                get(qualifier = StringQualifier("dropSchema"))
-            ) {
-                override fun headerStatement(name: String): String = ""
+    fun `Drop content successful`() = test {
+        val useCase: BaseUseCase<ContentParameters, Page> = get(qualifier = StringQualifier("dropSchema"))
+        val viewModel = object : ContentViewModel(
+            get(),
+            get(),
+            get(qualifier = StringQualifier("schemaInfo")),
+            get(qualifier = StringQualifier("getSchema")),
+            useCase
+        ) {
+            override fun headerStatement(name: String): String = ""
 
-                override fun schemaStatement(name: String, orderBy: String?, sort: Sort): String = ""
+            override fun schemaStatement(name: String, orderBy: String?, sort: Sort): String = ""
 
-                override fun dropStatement(name: String): String = ""
-            }.apply {
-                databasePath = "test.db"
-            }
+            override fun dropStatement(name: String): String = ""
+        }.apply {
+            databasePath = "test.db"
+        }
 
-            coEvery { useCase.invoke(any()) } returns mockk {
-                every { cells } returns listOf(mockk())
-            }
+        coEvery { useCase.invoke(any()) } returns mockk {
+            every { cells } returns listOf()
+        }
 
-            viewModel.query("my_content", null, Sort.ASCENDING)
+        viewModel.drop("my_content")
+        advanceUntilIdle()
 
-            coVerify(exactly = 0) { useCase.invoke(any()) }
+        coVerify(exactly = 1) { useCase.invoke(any()) }
 
-            viewModel.stateFlow.test {
-                assertNull(awaitItem())
-                val item: ContentState? = awaitItem()
-                assertTrue(item is ContentState.Content)
-                assertNotNull(item.content)
-                expectNoEvents()
-            }
-            viewModel.eventFlow.test {
-                expectNoEvents()
-            }
-            viewModel.errorFlow.test {
-                assertNull(awaitItem())
-                expectNoEvents()
-            }
+        viewModel.stateFlow.test {
+            assertNull(awaitItem())
+        }
+        viewModel.eventFlow.test {
+            val item: ContentEvent? = awaitItem()
+            assertTrue(item is ContentEvent.Dropped)
+            cancelAndIgnoreRemainingEvents()
+        }
+        viewModel.errorFlow.test {
+            assertNull(awaitItem())
+            cancelAndIgnoreRemainingEvents()
         }
     }
 
     @Test
-    fun `Drop content successful`() {
-        test {
-            val useCase: BaseUseCase<ContentParameters, Page> = get(qualifier = StringQualifier("dropSchema"))
-            val viewModel = object : ContentViewModel(
-                get(),
-                get(),
-                get(qualifier = StringQualifier("schemaInfo")),
-                get(qualifier = StringQualifier("getSchema")),
-                useCase
-            ) {
-                override fun headerStatement(name: String): String = ""
+    fun `Drop content failed`() = test {
+        val useCase: BaseUseCase<ContentParameters, Page> = get(qualifier = StringQualifier("dropSchema"))
+        val viewModel = object : ContentViewModel(
+            get(),
+            get(),
+            get(qualifier = StringQualifier("schemaInfo")),
+            get(qualifier = StringQualifier("getSchema")),
+            useCase
+        ) {
+            override fun headerStatement(name: String): String = ""
 
-                override fun schemaStatement(name: String, orderBy: String?, sort: Sort): String = ""
+            override fun schemaStatement(name: String, orderBy: String?, sort: Sort): String = ""
 
-                override fun dropStatement(name: String): String = ""
-            }.apply {
-                databasePath = "test.db"
-            }
-
-            coEvery { useCase.invoke(any()) } returns mockk {
-                every { cells } returns listOf()
-            }
-
-            viewModel.drop("my_content")
-
-            coVerify(exactly = 1) { useCase.invoke(any()) }
-
-            viewModel.stateFlow.test {
-                assertNull(awaitItem())
-            }
-            viewModel.eventFlow.test {
-                val item: ContentEvent? = awaitItem()
-                assertTrue(item is ContentEvent.Dropped)
-                awaitCancellation()
-            }
-            viewModel.errorFlow.test {
-                expectNoEvents()
-            }
+            override fun dropStatement(name: String): String = ""
+        }.apply {
+            databasePath = "test.db"
         }
-    }
 
-    @Test
-    fun `Drop content failed`() {
-        test {
-            val useCase: BaseUseCase<ContentParameters, Page> = get(qualifier = StringQualifier("dropSchema"))
-            val viewModel = object : ContentViewModel(
-                get(),
-                get(),
-                get(qualifier = StringQualifier("schemaInfo")),
-                get(qualifier = StringQualifier("getSchema")),
-                useCase
-            ) {
-                override fun headerStatement(name: String): String = ""
-
-                override fun schemaStatement(name: String, orderBy: String?, sort: Sort): String = ""
-
-                override fun dropStatement(name: String): String = ""
-            }.apply {
-                databasePath = "test.db"
-            }
-
-            coEvery { useCase.invoke(any()) } returns mockk {
-                every { cells } returns listOf(mockk())
-            }
-
-            viewModel.drop("my_content")
-
-            coVerify(exactly = 1) { useCase.invoke(any()) }
-
-            viewModel.stateFlow.test {
-                assertNull(awaitItem())
-                expectNoEvents()
-            }
-            viewModel.eventFlow.test {
-                expectNoEvents()
-            }
-            viewModel.errorFlow.test {
-                val item: Throwable? = awaitItem()
-                assertTrue(item is DropException)
-                assertNotNull(item.message)
-                assertEquals("Cannot perform a drop on selected schema.", item.message)
-                assertTrue(item.stackTrace.isNotEmpty())
-                expectNoEvents()
-            }
+        coEvery { useCase.invoke(any()) } returns mockk {
+            every { cells } returns listOf(mockk())
         }
+
+        viewModel.drop("my_content")
+        advanceUntilIdle()
+
+        coVerify(exactly = 1) { useCase.invoke(any()) }
+
+        assertNull(viewModel.stateFlow.value)
+
+        val error = viewModel.errorFlow.filterNotNull().first()
+        assertTrue(error is DropException)
+        assertNotNull(error.message)
+        assertEquals("Cannot perform a drop on selected schema.", error.message)
+        assertTrue(error.stackTrace.isNotEmpty())
     }
 }

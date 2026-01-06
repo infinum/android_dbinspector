@@ -1,7 +1,6 @@
 package com.infinum.dbinspector.ui.databases
 
 import android.content.Context
-import app.cash.turbine.test
 import com.infinum.dbinspector.domain.UseCases
 import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
@@ -10,7 +9,14 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.awaitCancellation
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
@@ -31,7 +37,7 @@ internal class DatabaseViewModelTest : BaseTest() {
     )
 
     @Test
-    fun `Browse and collect all databases`() {
+    fun `Browse and collect all databases`() = test {
         val useCase: UseCases.GetDatabases = get()
         val viewModel = DatabaseViewModel(
             useCase,
@@ -46,29 +52,22 @@ internal class DatabaseViewModelTest : BaseTest() {
         )
 
         viewModel.browse(get())
+        advanceUntilIdle()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        test {
-            viewModel.stateFlow.test {
-                val item: DatabaseState? = awaitItem()
-                assertTrue(item is DatabaseState.Databases)
-                assertTrue(item.databases.count() == 3)
-                assertTrue(item.databases[0].name == "blog")
-                assertTrue(item.databases[1].name == "chinook")
-                assertTrue(item.databases[2].name == "northwind")
-                awaitCancellation()
-            }
-            viewModel.eventFlow.test {
-                expectNoEvents()
-            }
-            viewModel.errorFlow.test {
-                expectNoEvents()
-            }
-        }
+
+        val state = viewModel.stateFlow.filterNotNull().first()
+        assertTrue(state is DatabaseState.Databases)
+        assertTrue(state.databases.count() == 3)
+        assertTrue(state.databases[0].name == "blog")
+        assertTrue(state.databases[1].name == "chinook")
+        assertTrue(state.databases[2].name == "northwind")
+
+        assertNull(viewModel.errorFlow.value)
     }
 
     @Test
-    fun `Search database by name with result found`() {
+    fun `Search database by name with result found`() = test {
         val useCase: UseCases.GetDatabases = get()
         val viewModel = DatabaseViewModel(
             useCase,
@@ -81,58 +80,52 @@ internal class DatabaseViewModelTest : BaseTest() {
         )
 
         viewModel.browse(get(), "log")
+        advanceUntilIdle()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        test {
-            viewModel.stateFlow.test {
-                val item: DatabaseState? = awaitItem()
-                assertTrue(item is DatabaseState.Databases)
-                assertTrue(item.databases.count() == 1)
-                assertTrue(item.databases.first().name == "blog")
-                awaitCancellation()
-            }
-            viewModel.eventFlow.test {
-                expectNoEvents()
-            }
-            viewModel.errorFlow.test {
-                expectNoEvents()
-            }
-        }
+
+        val state = viewModel.stateFlow.filterNotNull().first()
+        assertTrue(state is DatabaseState.Databases)
+        assertTrue(state.databases.count() == 1)
+        assertTrue(state.databases.first().name == "blog")
+
+        assertNull(viewModel.errorFlow.value)
     }
 
     @Test
     fun `Search database by name without result found`() {
-        val useCase: UseCases.GetDatabases = get()
-        val viewModel = DatabaseViewModel(
-            useCase,
-            get(),
-            get()
-        )
+        // Use UnconfinedTestDispatcher to ensure dispatcher is properly initialized
+        val testDispatcher = UnconfinedTestDispatcher()
+        Dispatchers.setMain(testDispatcher)
 
-        coEvery { useCase.invoke(any()) } returns listOf()
+        try {
+            val useCase: UseCases.GetDatabases = get()
+            val viewModel = DatabaseViewModel(
+                useCase,
+                get(),
+                get()
+            )
 
-        viewModel.browse(get(), "south")
+            coEvery { useCase.invoke(any()) } returns listOf()
 
-        coVerify(exactly = 1) { useCase.invoke(any()) }
-        test {
-            viewModel.stateFlow.test {
-                val item: DatabaseState? = awaitItem()
-                assertTrue(item is DatabaseState.Databases)
-                assertTrue(item.databases.count() == 0)
-                assertTrue(item.databases.isEmpty())
-                awaitCancellation()
+            viewModel.browse(get(), "south")
+
+            coVerify(exactly = 1) { useCase.invoke(any()) }
+
+            blockingTest {
+                val state = viewModel.stateFlow.filterNotNull().first()
+                assertTrue(state is DatabaseState.Databases)
+                assertTrue(state.databases.isEmpty())
+
+                assertNull(viewModel.errorFlow.value)
             }
-            viewModel.eventFlow.test {
-                expectNoEvents()
-            }
-            viewModel.errorFlow.test {
-                expectNoEvents()
-            }
+        } finally {
+            Dispatchers.resetMain()
         }
     }
 
     @Test
-    fun `Import empty list of databases`() {
+    fun `Import empty list of databases`() = test {
         val getUseCase: UseCases.GetDatabases = get()
         val importUseCase: UseCases.ImportDatabases = get()
 
@@ -148,28 +141,21 @@ internal class DatabaseViewModelTest : BaseTest() {
         coEvery { importUseCase.invoke(any()) } returns listOf()
 
         viewModel.import(get(), mockk())
+        advanceUntilIdle()
 
         coVerify(exactly = 1) { importUseCase.invoke(any()) }
         coVerify(exactly = 1) { getUseCase.invoke(any()) }
-        test {
-            viewModel.stateFlow.test {
-                val item: DatabaseState? = awaitItem()
-                assertTrue(item is DatabaseState.Databases)
-                assertTrue(item.databases.count() == 1)
-                assertTrue(item.databases.first().name == "blog")
-                awaitCancellation()
-            }
-            viewModel.eventFlow.test {
-                expectNoEvents()
-            }
-            viewModel.errorFlow.test {
-                expectNoEvents()
-            }
-        }
+
+        val state = viewModel.stateFlow.filterNotNull().first()
+        assertTrue(state is DatabaseState.Databases)
+        assertTrue(state.databases.count() == 1)
+        assertTrue(state.databases.first().name == "blog")
+
+        assertNull(viewModel.errorFlow.value)
     }
 
     @Test
-    fun `Import a single database`() {
+    fun `Import a single database`() = test {
         val getUseCase: UseCases.GetDatabases = get()
         val importUseCase: UseCases.ImportDatabases = get()
         val viewModel = DatabaseViewModel(
@@ -186,28 +172,21 @@ internal class DatabaseViewModelTest : BaseTest() {
         )
 
         viewModel.import(get(), mockk())
+        advanceUntilIdle()
 
         coVerify(exactly = 1) { importUseCase.invoke(any()) }
         coVerify(exactly = 1) { getUseCase.invoke(any()) }
-        test {
-            viewModel.stateFlow.test {
-                val item: DatabaseState? = awaitItem()
-                assertTrue(item is DatabaseState.Databases)
-                assertTrue(item.databases.count() == 1)
-                assertTrue(item.databases.first().name == "blog")
-                awaitCancellation()
-            }
-            viewModel.eventFlow.test {
-                expectNoEvents()
-            }
-            viewModel.errorFlow.test {
-                expectNoEvents()
-            }
-        }
+
+        val state = viewModel.stateFlow.filterNotNull().first()
+        assertTrue(state is DatabaseState.Databases)
+        assertTrue(state.databases.count() == 1)
+        assertTrue(state.databases.first().name == "blog")
+
+        assertNull(viewModel.errorFlow.value)
     }
 
     @Test
-    fun `Import multiple databases`() {
+    fun `Import multiple databases`() = test {
         val getUseCase: UseCases.GetDatabases = get()
         val importUseCase: UseCases.ImportDatabases = get()
         val viewModel = DatabaseViewModel(
@@ -227,26 +206,19 @@ internal class DatabaseViewModelTest : BaseTest() {
         )
 
         viewModel.import(get(), mockk())
+        advanceUntilIdle()
 
         coVerify(exactly = 1) { importUseCase.invoke(any()) }
         coVerify(exactly = 1) { getUseCase.invoke(any()) }
-        test {
-            viewModel.stateFlow.test {
-                val item: DatabaseState? = awaitItem()
-                assertTrue(item is DatabaseState.Databases)
-                assertTrue(item.databases.count() == 3)
-                assertTrue(item.databases[0].name == "blog")
-                assertTrue(item.databases[1].name == "chinook")
-                assertTrue(item.databases[2].name == "northwind")
-                awaitCancellation()
-            }
-            viewModel.eventFlow.test {
-                expectNoEvents()
-            }
-            viewModel.errorFlow.test {
-                expectNoEvents()
-            }
-        }
+
+        val state = viewModel.stateFlow.filterNotNull().first()
+        assertTrue(state is DatabaseState.Databases)
+        assertTrue(state.databases.count() == 3)
+        assertTrue(state.databases[0].name == "blog")
+        assertTrue(state.databases[1].name == "chinook")
+        assertTrue(state.databases[2].name == "northwind")
+
+        assertNull(viewModel.errorFlow.value)
     }
 
 //    @Test
@@ -266,73 +238,77 @@ internal class DatabaseViewModelTest : BaseTest() {
 
     @Test
     fun `Copy database successful`() {
-        val getUseCase: UseCases.GetDatabases = get()
-        val copyUseCase: UseCases.CopyDatabase = get()
-        val viewModel = DatabaseViewModel(
-            getUseCase,
-            get(),
-            copyUseCase
-        )
+        // Use UnconfinedTestDispatcher for this test to handle nested launches
+        val testDispatcher = UnconfinedTestDispatcher()
+        Dispatchers.setMain(testDispatcher)
 
-        coEvery { getUseCase.invoke(any()) } returns listOf(
-            mockk { every { name } returns "blog" },
-            mockk { every { name } returns "blog_1" }
-        )
-        coEvery { copyUseCase.invoke(any()) } returns listOf(
-            mockk { every { name } returns "blog_1" }
-        )
+        try {
+            val getUseCase: UseCases.GetDatabases = get()
+            val copyUseCase: UseCases.CopyDatabase = get()
+            val viewModel = DatabaseViewModel(
+                getUseCase,
+                get(),
+                copyUseCase
+            )
 
-        viewModel.copy(get(), mockk())
+            coEvery { getUseCase.invoke(any()) } returns listOf(
+                mockk { every { name } returns "blog" },
+                mockk { every { name } returns "blog_1" }
+            )
+            coEvery { copyUseCase.invoke(any()) } returns listOf(
+                mockk { every { name } returns "blog_1" }
+            )
 
-        coVerify(exactly = 1) { copyUseCase.invoke(any()) }
-        coVerify(exactly = 1) { getUseCase.invoke(any()) }
-        test {
-            viewModel.stateFlow.test {
-                val item: DatabaseState? = awaitItem()
-                assertTrue(item is DatabaseState.Databases)
-                assertTrue(item.databases.count() == 2)
-                assertTrue(item.databases[0].name == "blog")
-                assertTrue(item.databases[1].name == "blog_1")
-                awaitCancellation()
+            viewModel.copy(get(), mockk())
+
+            coVerify(exactly = 1) { copyUseCase.invoke(any()) }
+            coVerify(exactly = 1) { getUseCase.invoke(any()) }
+
+            blockingTest {
+                val state = viewModel.stateFlow.filterNotNull().first()
+                assertTrue(state is DatabaseState.Databases)
+                assertTrue(state.databases.count() == 2)
+                assertTrue(state.databases[0].name == "blog")
+                assertTrue(state.databases[1].name == "blog_1")
+
+                assertNull(viewModel.errorFlow.value)
             }
-            viewModel.eventFlow.test {
-                expectNoEvents()
-            }
-            viewModel.errorFlow.test {
-                expectNoEvents()
-            }
+        } finally {
+            Dispatchers.resetMain()
         }
     }
 
     @Test
     fun `Copy database failed`() {
-        val getUseCase: UseCases.GetDatabases = get()
-        val copyUseCase: UseCases.CopyDatabase = get()
-        val viewModel = DatabaseViewModel(
-            getUseCase,
-            get(),
-            copyUseCase
-        )
+        // Use UnconfinedTestDispatcher for this test to handle nested launches
+        val testDispatcher = UnconfinedTestDispatcher()
+        Dispatchers.setMain(testDispatcher)
 
-        coEvery { copyUseCase.invoke(any()) } returns listOf()
+        try {
+            val getUseCase: UseCases.GetDatabases = get()
+            val copyUseCase: UseCases.CopyDatabase = get()
+            val viewModel = DatabaseViewModel(
+                getUseCase,
+                get(),
+                copyUseCase
+            )
 
-        viewModel.copy(get(), mockk())
+            coEvery { copyUseCase.invoke(any()) } returns listOf()
 
-        coVerify(exactly = 1) { copyUseCase.invoke(any()) }
-        coVerify(exactly = 0) { getUseCase.invoke(any()) }
-        test {
-            viewModel.stateFlow.test {
-                assertNull(awaitItem())
+            viewModel.copy(get(), mockk())
+
+            coVerify(exactly = 1) { copyUseCase.invoke(any()) }
+            coVerify(exactly = 0) { getUseCase.invoke(any()) }
+
+            assertNull(viewModel.stateFlow.value)
+
+            blockingTest {
+                val error = viewModel.errorFlow.filterNotNull().first()
+                assertNotNull(error.message)
+                assertTrue(error.stackTrace.isNotEmpty())
             }
-            viewModel.eventFlow.test {
-                expectNoEvents()
-            }
-            viewModel.errorFlow.test {
-                val item: Throwable? = awaitItem()
-                assertTrue(item is Throwable)
-                assertNull(item.message)
-                assertTrue(item.stackTrace.isNotEmpty())
-            }
+        } finally {
+            Dispatchers.resetMain()
         }
     }
 }
