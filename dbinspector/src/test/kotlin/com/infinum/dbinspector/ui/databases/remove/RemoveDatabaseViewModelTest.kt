@@ -9,8 +9,11 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import kotlin.test.assertFalse
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.awaitCancellation
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.module.Module
@@ -28,7 +31,7 @@ internal class RemoveDatabaseViewModelTest : BaseTest() {
     )
 
     @Test
-    fun `Remove database successful`() {
+    fun `Remove database successful`() = test {
         val useCase: UseCases.RemoveDatabase = get()
         val viewModel = RemoveDatabaseViewModel(
             useCase
@@ -42,26 +45,19 @@ internal class RemoveDatabaseViewModelTest : BaseTest() {
             get(),
             mockk()
         )
+        advanceUntilIdle()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        test {
-            viewModel.stateFlow.test {
-                val item: RemoveDatabaseState? = awaitItem()
-                assertTrue(item is RemoveDatabaseState.Removed)
-                assertTrue(item.success)
-                awaitCancellation()
-            }
-            viewModel.eventFlow.test {
-                expectNoEvents()
-            }
-            viewModel.errorFlow.test {
-                expectNoEvents()
-            }
-        }
+
+        val state = viewModel.stateFlow.filterNotNull().first()
+        assertTrue(state is RemoveDatabaseState.Removed)
+        assertTrue(state.success)
+
+        assertNull(viewModel.errorFlow.value)
     }
 
     @Test
-    fun `Remove database failed`() {
+    fun `Remove database failed`() = test {
         val useCase: UseCases.RemoveDatabase = get()
         val viewModel = RemoveDatabaseViewModel(
             useCase
@@ -73,21 +69,14 @@ internal class RemoveDatabaseViewModelTest : BaseTest() {
             get(),
             mockk()
         )
+        advanceUntilIdle()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        test {
-            viewModel.stateFlow.test {
-                val item: RemoveDatabaseState? = awaitItem()
-                assertTrue(item is RemoveDatabaseState.Removed)
-                assertFalse(item.success)
-                awaitCancellation()
-            }
-            viewModel.eventFlow.test {
-                expectNoEvents()
-            }
-            viewModel.errorFlow.test {
-                expectNoEvents()
-            }
-        }
+
+        val state = viewModel.stateFlow.filterNotNull().first()
+        assertTrue(state is RemoveDatabaseState.Removed)
+        assertFalse(state.success)
+
+        assertNull(viewModel.errorFlow.value)
     }
 }

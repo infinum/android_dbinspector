@@ -50,7 +50,7 @@ internal class AndroidDatabasesSource : Sources.Raw {
             try {
                 val importedDatabases: MutableSet<File> = mutableSetOf()
 
-                operation.importUris.forEach { uri ->
+                for (uri in operation.importUris) {
                     uri.lastPathSegment?.split("/")?.last()?.let { filename ->
                         operation.context.contentResolver.openInputStream(uri)?.use { inputStream ->
                             val file = File(operation.context.databaseDir, filename)

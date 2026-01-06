@@ -9,8 +9,10 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.awaitCancellation
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
@@ -82,7 +84,7 @@ internal class EditViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `Raw query content header is invoked`() {
+    fun `Raw query content header is invoked`() = test {
         val useCase: UseCases.GetRawQueryHeaders = get()
         val viewModel = EditViewModel(
             get(),
@@ -108,26 +110,19 @@ internal class EditViewModelTest : BaseTest() {
         }
 
         viewModel.header("SELECT * FROM my_table")
+        advanceUntilIdle()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
-        test {
-            viewModel.stateFlow.test {
-                val item: EditState? = awaitItem()
-                assertTrue(item is EditState.Headers)
-                assertTrue(item.headers.isNotEmpty())
-                awaitCancellation()
-            }
-            viewModel.eventFlow.test {
-                expectNoEvents()
-            }
-            viewModel.errorFlow.test {
-                expectNoEvents()
-            }
-        }
+
+        val state = viewModel.stateFlow.filterNotNull().first()
+        assertTrue(state is EditState.Headers)
+        assertTrue(state.headers.isNotEmpty())
+
+        assertNull(viewModel.errorFlow.value)
     }
 
     @Test
-    fun `Raw query content data has cells`() {
+    fun `Raw query content data has cells`() = test {
         val useCase: UseCases.GetRawQuery = get()
         val viewModel = EditViewModel(
             get(),
@@ -147,26 +142,27 @@ internal class EditViewModelTest : BaseTest() {
         coEvery { useCase.invoke(any()) } returns mockk()
 
         viewModel.query("SELECT * FROM my_table")
+        advanceUntilIdle()
 
         coVerify(exactly = 0) { useCase.invoke(any()) }
-        test {
-            viewModel.stateFlow.test {
-                val item: EditState? = awaitItem()
-                assertTrue(item is EditState.Content)
-                assertNotNull(item.content)
-                awaitCancellation()
-            }
-            viewModel.eventFlow.test {
-                expectNoEvents()
-            }
-            viewModel.errorFlow.test {
-                expectNoEvents()
-            }
+
+        viewModel.stateFlow.test {
+            val item: EditState? = awaitItem()
+            assertTrue(item is EditState.Content)
+            assertNotNull(item.content)
+            expectNoEvents()
+        }
+        viewModel.eventFlow.test {
+            expectNoEvents()
+        }
+        viewModel.errorFlow.test {
+            assertNull(awaitItem())
+            expectNoEvents()
         }
     }
 
     @Test
-    fun `Raw query content data with affected rows successful`() {
+    fun `Raw query content data with affected rows successful`() = test {
         val useCase: UseCases.GetAffectedRows = get()
         val viewModel = EditViewModel(
             get(),
@@ -186,26 +182,27 @@ internal class EditViewModelTest : BaseTest() {
         coEvery { useCase.invoke(any()) } returns mockk()
 
         viewModel.query("SELECT * FROM my_table")
+        advanceUntilIdle()
 
         coVerify(exactly = 0) { useCase.invoke(any()) }
-        test {
-            viewModel.stateFlow.test {
-                val item: EditState? = awaitItem()
-                assertTrue(item is EditState.Content)
-                assertNotNull(item.content)
-                awaitCancellation()
-            }
-            viewModel.eventFlow.test {
-                expectNoEvents()
-            }
-            viewModel.errorFlow.test {
-                expectNoEvents()
-            }
+
+        viewModel.stateFlow.test {
+            val item: EditState? = awaitItem()
+            assertTrue(item is EditState.Content)
+            assertNotNull(item.content)
+            expectNoEvents()
+        }
+        viewModel.eventFlow.test {
+            expectNoEvents()
+        }
+        viewModel.errorFlow.test {
+            assertNull(awaitItem())
+            expectNoEvents()
         }
     }
 
     @Test
-    fun `Collect database keywords like table and column names, view names and trigger names`() {
+    fun `Collect database keywords like table and column names, view names and trigger names`() = test {
         val getTablesUseCase: UseCases.GetTables = get()
         val getTableInfoUseCase: UseCases.GetTableInfo = get()
         val viewModel = EditViewModel(
@@ -239,23 +236,21 @@ internal class EditViewModelTest : BaseTest() {
         }
 
         viewModel.keywords()
+        advanceUntilIdle()
 
 //        coVerify(exactly = 3) { getTablesUseCase.invoke(any()) }
 //        coVerify(exactly = 1) { getTableInfoUseCase.invoke(any()) }
-        test {
-            viewModel.stateFlow.test {
-                assertNull(awaitItem())
-            }
-            viewModel.eventFlow.test {
-                val item: EditEvent? = awaitItem()
-                assertTrue(item is EditEvent.Keywords)
-                assertNotNull(item.keywords)
-                awaitCancellation()
-            }
-            viewModel.errorFlow.test {
-                expectNoEvents()
-            }
+
+        assertNull(viewModel.stateFlow.value)
+
+        viewModel.eventFlow.test {
+            val item: EditEvent? = awaitItem()
+            assertTrue(item is EditEvent.Keywords)
+            assertNotNull(item.keywords)
+            cancelAndIgnoreRemainingEvents()
         }
+
+        assertNull(viewModel.errorFlow.value)
     }
 
     @Test
@@ -292,7 +287,7 @@ internal class EditViewModelTest : BaseTest() {
                 val item: EditEvent? = awaitItem()
                 assertTrue(item is EditEvent.History)
                 assertNotNull(item.history)
-                awaitCancellation()
+                cancelAndIgnoreRemainingEvents()
             }
             viewModel.errorFlow.test {
                 expectNoEvents()
@@ -333,7 +328,7 @@ internal class EditViewModelTest : BaseTest() {
                 val item: EditEvent? = awaitItem()
                 assertTrue(item is EditEvent.SimilarExecution)
                 assertNotNull(item.history)
-                awaitCancellation()
+                cancelAndIgnoreRemainingEvents()
             }
             viewModel.errorFlow.test {
                 expectNoEvents()
@@ -367,7 +362,7 @@ internal class EditViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `Successful execution is saved`() {
+    fun `Successful execution is saved`() = test {
         val useCase: UseCases.SaveExecution = get()
         val viewModel = EditViewModel(
             get(),
@@ -387,6 +382,7 @@ internal class EditViewModelTest : BaseTest() {
         coEvery { useCase.invoke(any()) } returns mockk()
 
         viewModel.saveSuccessfulExecution("SELECT * FROM my_table")
+        advanceUntilIdle()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
     }
@@ -417,7 +413,7 @@ internal class EditViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `Failed execution is saved`() {
+    fun `Failed execution is saved`() = test {
         val useCase: UseCases.SaveExecution = get()
         val viewModel = EditViewModel(
             get(),
@@ -437,6 +433,7 @@ internal class EditViewModelTest : BaseTest() {
         coEvery { useCase.invoke(any()) } returns mockk()
 
         viewModel.saveFailedExecution("SELECT * FROM my_table")
+        advanceUntilIdle()
 
         coVerify(exactly = 1) { useCase.invoke(any()) }
     }

@@ -44,9 +44,9 @@ internal class KeywordAdapter(
 
     private fun createSpannable(keyword: Keyword) =
         SpannableString(keyword.value).apply {
-            spanFactory.findSpans(keyword.type).forEach {
+            for (span in spanFactory.findSpans(keyword.type)) {
                 setSpan(
-                    it,
+                    span,
                     0,
                     keyword.value.length,
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE

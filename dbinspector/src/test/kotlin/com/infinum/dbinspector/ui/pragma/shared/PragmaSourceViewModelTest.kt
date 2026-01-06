@@ -9,8 +9,9 @@ import com.infinum.dbinspector.shared.BaseTest
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.awaitCancellation
+import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -64,7 +65,7 @@ internal class PragmaSourceViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `Pragma query successful`() {
+    fun `Pragma query successful`() = test {
         val useCase: BaseUseCase<PragmaParameters.Pragma, Page> = get()
         val viewModel = object : PragmaSourceViewModel(
             get(),
@@ -79,21 +80,22 @@ internal class PragmaSourceViewModelTest : BaseTest() {
         coEvery { useCase.invoke(any()) } returns mockk()
 
         viewModel.query("my_statement")
+        advanceUntilIdle()
 
         coVerify(exactly = 0) { useCase.invoke(any()) }
-        test {
-            viewModel.stateFlow.test {
-                val item: PragmaState? = awaitItem()
-                assertTrue(item is PragmaState.Pragma)
-                assertNotNull(item.pragma)
-                awaitCancellation()
-            }
-            viewModel.eventFlow.test {
-                expectNoEvents()
-            }
-            viewModel.errorFlow.test {
-                expectNoEvents()
-            }
+
+        viewModel.stateFlow.test {
+            val item: PragmaState? = awaitItem()
+            assertTrue(item is PragmaState.Pragma)
+            assertNotNull(item.pragma)
+            expectNoEvents()
+        }
+        viewModel.eventFlow.test {
+            expectNoEvents()
+        }
+        viewModel.errorFlow.test {
+            assertNull(awaitItem())
+            expectNoEvents()
         }
     }
 }
