@@ -22,7 +22,7 @@ import com.infinum.dbinspector.ui.schema.tables.TablesViewModel
 import com.infinum.dbinspector.ui.schema.triggers.TriggersViewModel
 import com.infinum.dbinspector.ui.schema.views.ViewsViewModel
 import com.infinum.dbinspector.ui.settings.SettingsViewModel
-import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
