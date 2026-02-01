@@ -20,8 +20,6 @@ protobuf-core = "3.21.8"
 protobuf-plugin = "0.9.1"
 koin = "3.2.2"
 detekt = "1.21.0"
-ktlintplugin = "10.3.0"
-ktlint = "0.45.2"
 dokka = "1.7.20"
 kover = "0.6.1"
 jacoco = "0.8.8"
@@ -71,8 +69,6 @@ koin-junit5 = { module = "io.insert-koin:koin-test-junit5", version.ref = "koin"
 
 detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
-
-ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlintplugin" }
 
 dokka = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
 
