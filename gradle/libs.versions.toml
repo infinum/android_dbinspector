@@ -1,6 +1,6 @@
 [versions]
 dbinspector = "5.4.9"
-gradle = "7.3.1"
+gradle = "8.13.2"
 kotlin = "1.7.20"
 coroutines = "1.7.3"
 core = "1.9.0"
@@ -22,7 +22,6 @@ koin = "3.2.2"
 detekt = "1.21.0"
 ktlintplugin = "10.3.0"
 ktlint = "0.45.2"
-cpd = "3.2"
 dokka = "1.7.20"
 kover = "0.6.1"
 jacoco = "0.8.8"
@@ -74,8 +73,6 @@ detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", v
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 
 ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlintplugin" }
-
-cpd = { module = "de.aaschmid:gradle-cpd-plugin", version.ref = "cpd" }
 
 dokka = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
 
