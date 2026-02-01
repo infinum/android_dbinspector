@@ -44,7 +44,8 @@ android {
         freeCompilerArgs += [
                 '-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi',
                 '-Xexplicit-api=strict',
-                '-Xjvm-default=all'
+                '-Xjvm-default=all',
+                '-Xannotation-default-target=param-property'
         ]
     }
 

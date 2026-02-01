@@ -36,7 +36,8 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
         freeCompilerArgs += [
                 '-Xexplicit-api=strict',
-                '-Xjvm-default=all'
+                '-Xjvm-default=all',
+                '-Xannotation-default-target=param-property'
         ]
     }
 
