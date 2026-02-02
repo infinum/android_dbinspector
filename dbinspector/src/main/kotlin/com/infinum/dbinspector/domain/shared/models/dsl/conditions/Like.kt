@@ -8,10 +8,8 @@ internal class Like(
 ) : Condition() {
 
     init {
-        val isNotNumber = value !is Number
-        val isNotString = value !is String
-        if (isNotNumber && isNotString) {
-            throw IllegalArgumentException("Only number and string values can be used in the 'LIKE' condition")
+        require(value is Number || value is String) {
+            "Only number and string values can be used in the 'LIKE' condition"
         }
     }
 

@@ -35,9 +35,7 @@ internal class Select {
     fun orderBy(sort: Sort, vararg columns: String?) {
         this.orderByDirection = sort
 
-        if (columns.isEmpty()) {
-            throw IllegalArgumentException("At least one column should be defined")
-        }
+        require(columns.isNotEmpty()) { "At least one column should be defined" }
         if (this.orderByColumns.isNotEmpty()) {
             error("Detected an attempt to re-define ORDER BY columns.")
         }
