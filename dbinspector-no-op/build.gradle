@@ -10,18 +10,15 @@ android {
     defaultConfig {
         minSdkVersion buildConfig.minSdk
         targetSdkVersion buildConfig.targetSdk
-        versionCode releaseConfig.versionCode
-        versionName releaseConfig.version
     }
 
     buildTypes {
         debug {
-            testCoverageEnabled true
-            debuggable true
             minifyEnabled false
+            enableUnitTestCoverage true
+            enableAndroidTestCoverage true
         }
         release {
-            debuggable false
             minifyEnabled true
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt"
         }
@@ -31,15 +28,16 @@ android {
     resourcePrefix "dbinspector_"
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
         freeCompilerArgs += [
                 '-Xexplicit-api=strict',
-                '-Xjvm-default=all'
+                '-Xjvm-default=all',
+                '-Xannotation-default-target=param-property'
         ]
     }
 

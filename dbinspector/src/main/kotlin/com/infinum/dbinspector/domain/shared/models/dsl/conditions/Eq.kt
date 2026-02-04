@@ -8,8 +8,8 @@ internal class Eq(
 ) : Condition() {
 
     init {
-        if (value != null && value !is Number && value !is String) {
-            throw IllegalArgumentException("Only null, number and string values can be used in the 'WHERE' clause")
+        require(value == null || value is Number || value is String) {
+            "Only null, number and string values can be used in the 'WHERE' clause"
         }
     }
 

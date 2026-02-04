@@ -1,6 +1,7 @@
 package com.infinum.dbinspector.ui.shared.base
 
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.annotation.CallSuper
 import androidx.annotation.RestrictTo
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +17,7 @@ internal abstract class BaseActivity<State, Event> : AppCompatActivity(), BaseVi
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
         WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false

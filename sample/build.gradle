@@ -28,8 +28,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     buildTypes {
@@ -47,15 +47,13 @@ android {
     }
 
     buildFeatures {
+        buildConfig = true
         viewBinding = true
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
+        freeCompilerArgs += '-Xannotation-default-target=param-property'
     }
 
     sourceSets.forEach {
@@ -71,6 +69,8 @@ dependencies {
     implementation libs.material
     implementation libs.koin.android
 
-    debugImplementation libs.library
-    releaseImplementation libs.librarynoop
+    debugImplementation project(":dbinspector")
+    releaseImplementation project(":dbinspector-no-op")
+    //debugImplementation libs.library
+    //releaseImplementation libs.librarynoop
 }
