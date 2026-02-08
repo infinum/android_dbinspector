@@ -56,6 +56,14 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
         unitTests.all {
+            testLogging {
+                events "passed", "skipped", "failed", "standardOut", "standardError"
+                exceptionFormat "full"
+                showExceptions true
+                showCauses true
+                showStackTraces true
+            }
+            
             kover {
                 enabled = name == "testDebugUnitTest"
                 includes = [
