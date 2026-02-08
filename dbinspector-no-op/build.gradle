@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     id "com.android.library"
     id "kotlin-android"
@@ -32,13 +34,15 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-        freeCompilerArgs += [
-                '-Xexplicit-api=strict',
-                '-Xjvm-default=all',
-                '-Xannotation-default-target=param-property'
-        ]
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+            freeCompilerArgs.addAll([
+                    '-Xexplicit-api=strict',
+                    '-Xjvm-default=all',
+                    '-Xannotation-default-target=param-property'
+            ])
+        }
     }
 
     sourceSets.each {
