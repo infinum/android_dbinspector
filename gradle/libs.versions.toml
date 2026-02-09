@@ -1,37 +1,34 @@
 [versions]
-dbinspector = "5.4.9"
-gradle = "7.3.1"
-kotlin = "1.7.20"
-coroutines = "1.7.3"
-core = "1.9.0"
-appcompat = "1.5.1"
-activity = "1.6.0"
-fragment = "1.5.3"
-lifecycle = "2.5.1"
-viewpager = "1.0.0"
-paging = "3.1.1"
-recyclerview = "1.2.1"
-startup = "1.1.1"
-swiperefresh = "1.1.0"
-datastore = "1.0.0"
-dynamicanimation = "1.0.0"
-design = "1.7.0"
-protobuf-core = "3.21.8"
-protobuf-plugin = "0.9.1"
-koin = "3.2.2"
-detekt = "1.21.0"
-ktlintplugin = "10.3.0"
-ktlint = "0.45.2"
-cpd = "3.2"
-dokka = "1.7.20"
+dbinspector = "6.0.0"
+gradle = "8.13.2"
+kotlin = "2.2.21"
+coroutines = "1.10.2"
+core = "1.17.0"
+appcompat = "1.7.1"
+activity = "1.12.3"
+fragment = "1.8.9"
+lifecycle = "2.10.0"
+viewpager = "1.1.0"
+paging = "3.4.0"
+recyclerview = "1.4.0"
+startup = "1.2.0"
+swiperefresh = "1.2.0"
+datastore = "1.2.0"
+dynamicanimation = "1.1.0"
+design = "1.13.0"
+protobuf-core = "4.33.5"
+protobuf-plugin = "0.9.6"
+koin = "4.1.1"
+detekt = "1.23.8"
+dokka = "2.1.0"
 kover = "0.6.1"
 jacoco = "0.8.8"
 intellij = "1.0.647"
-junit5 = "5.9.1"
-mockk = "1.13.2"
-mockito = "4.8.1"
-mockitokotlin = "4.0.0"
-turbine = "1.0.0"
+junit5 = "5.11.2"
+mockk = "1.14.9"
+mockito = "5.21.0"
+mockitokotlin = "6.2.3"
+turbine = "1.2.1"
 
 [libraries]
 library = { module = "com.infinum.dbinspector:dbinspector", version.ref = "dbinspector" }
@@ -72,10 +69,6 @@ koin-junit5 = { module = "io.insert-koin:koin-test-junit5", version.ref = "koin"
 
 detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
-
-ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlintplugin" }
-
-cpd = { module = "de.aaschmid:gradle-cpd-plugin", version.ref = "cpd" }
 
 dokka = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
 

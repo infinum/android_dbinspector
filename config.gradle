@@ -1,13 +1,13 @@
 ext {
-    def major = 5
-    def minor = 4
-    def patch = 9
+    def major = 6
+    def minor = 0
+    def patch = 0
 
     buildConfig = [
-            "minSdk"    : 21,
-            "compileSdk": 33,
-            "targetSdk" : 33,
-            "buildTools": "33.0.0"
+            "minSdk"    : 24,
+            "compileSdk": 36,
+            "targetSdk" : 36,
+            "buildTools": "35.0.0"
     ]
     releaseConfig = [
             "group"      : "com.infinum.dbinspector",

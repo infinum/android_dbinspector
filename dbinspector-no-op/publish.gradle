@@ -6,9 +6,9 @@ task sourcesJar(type: Jar) {
     from android.sourceSets.main.kotlin.srcDirs
 }
 
-task javadocsJar(type: Jar, dependsOn: "dokkaJavadoc") {
-    archiveClassifier.set("javadoc")
-    from dokkaJavadoc.outputDirectory
+task javadocsJar(type: Jar, dependsOn: "dokkaGenerate") {
+    getArchiveClassifier().set("javadoc")
+    from layout.buildDirectory.dir("javadoc")
 }
 
 afterEvaluate {
@@ -20,14 +20,6 @@ afterEvaluate {
                 credentials {
                     username sonatype.username()
                     password sonatype.password()
-                }
-            }
-            maven {
-                name github.name()
-                url github.url()
-                credentials {
-                    username github.username()
-                    password github.password()
                 }
             }
         }
@@ -52,15 +44,15 @@ afterEvaluate {
                             url = "https://github.com/infinum/android_dbinspector/blob/master/LICENSE"
                         }
                     }
+                    organization {
+                        name = 'Infinum Inc.'
+                        url = 'https://infinum.com'
+                    }
                     developers {
                         developer {
-                            id = "reisub"
-                            name = "Dino Kovač"
-                        }
-                        developer {
-                            id = "knobtviker"
-                            name = "Bojan Komljenović"
-                            email = "bojan.komljenovic@infinum.com"
+                            id = 'Infinum'
+                            name = 'Infinum Inc.'
+                            url = 'https://infinum.com'
                         }
                     }
                     scm {

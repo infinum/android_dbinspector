@@ -1,6 +1,17 @@
 Changelog
 =========
 
+## Version 6.0.0
+
+_2026-02-09_
+
+* minSdk bumped to 24
+* Compile with SDK 36
+* Update Kotlin to 2.2.21.
+* Update dependencies to stable version.
+* Fix edge-to-edge
+* Fix edge case no-op DatabasesActivity crash
+
 ## Version 5.4.9
 
 _2022-10-21_

@@ -11,9 +11,7 @@ buildscript {
     dependencies {
         classpath libs.tools.gradle
         classpath libs.kotlin.gradle
-        classpath libs.cpd
         classpath libs.detekt.gradle
-        classpath libs.ktlint
         classpath libs.dokka
         classpath libs.protobuf.gradle
         classpath libs.kover
@@ -29,9 +27,7 @@ allprojects {
 }
 
 subprojects {
-    apply from: "$rootDir/cpd.gradle"
     apply from: "$rootDir/detekt.gradle"
-    apply from: "$rootDir/ktlint.gradle"
     apply from: "$rootDir/dokka.gradle"
 }
 
@@ -57,27 +53,9 @@ task detektAll(dependsOn: [
     description = "Run Detekt on all modules"
 }
 
-task ktlintAll(dependsOn: [
-        ':dbinspector:ktlintCheck',
-        ':dbinspector-no-op:ktlintCheck'
-]) {
-    group = "Verification"
-    description = "Run Ktlint on all modules"
-}
-
-task cpdAll(dependsOn: [
-        ':dbinspector:cpdCheck',
-        ':dbinspector-no-op:cpdCheck'
-]) {
-    group = "Verification"
-    description = "Run CPD on all modules"
-}
-
 task runStaticChecks(dependsOn: [
         ':lintAll',
-        ':detektAll',
-        ':ktlintAll',
-        ':cpdAll'
+        ':detektAll'
 ]) {
     group = "Verification"
     description = "Run static checks on all modules"

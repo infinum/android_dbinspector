@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     id "com.android.library"
     id "kotlin-android"
@@ -13,18 +15,15 @@ android {
     defaultConfig {
         minSdkVersion buildConfig.minSdk
         targetSdkVersion buildConfig.targetSdk
-        versionCode releaseConfig.versionCode
-        versionName releaseConfig.version
     }
 
     buildTypes {
         debug {
-            testCoverageEnabled true
-            debuggable true
             minifyEnabled false
+            enableUnitTestCoverage true
+            enableAndroidTestCoverage true
         }
         release {
-            debuggable false
             minifyEnabled true
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt"
         }
@@ -38,22 +37,33 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-        freeCompilerArgs += [
-                '-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi',
-                '-Xexplicit-api=strict',
-                '-Xjvm-default=all'
-        ]
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+            freeCompilerArgs.addAll([
+                    '-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi',
+                    '-Xexplicit-api=strict',
+                    '-Xjvm-default=all',
+                    '-Xannotation-default-target=param-property'
+            ])
+        }
     }
 
     testOptions {
         unitTests.returnDefaultValues = true
         unitTests.all {
+            testLogging {
+                events "passed", "skipped", "failed", "standardOut", "standardError"
+                exceptionFormat "full"
+                showExceptions true
+                showCauses true
+                showStackTraces true
+            }
+            
             kover {
                 enabled = name == "testDebugUnitTest"
                 includes = [
@@ -91,6 +101,7 @@ android {
     }
 
     buildFeatures {
+        buildConfig = true
         viewBinding true
     }
 

@@ -1,6 +1,7 @@
 package com.infinum.dbinspector.sample
 
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.infinum.dbinspector.logger.AndroidLogger
 import com.infinum.dbinspector.DbInspector
@@ -12,6 +13,7 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
         supportActionBar?.title =
