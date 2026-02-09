@@ -3,7 +3,7 @@ Changelog
 
 ## Version 6.0.0
 
-_2026-02-10_
+_2026-02-09_
 
 * minSdk bumped to 24
 * Compile with SDK 36
