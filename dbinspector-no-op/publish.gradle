@@ -22,14 +22,6 @@ afterEvaluate {
                     password sonatype.password()
                 }
             }
-            maven {
-                name github.name()
-                url github.url()
-                credentials {
-                    username github.username()
-                    password github.password()
-                }
-            }
         }
         publications {
             release(MavenPublication) {
@@ -52,15 +44,15 @@ afterEvaluate {
                             url = "https://github.com/infinum/android_dbinspector/blob/master/LICENSE"
                         }
                     }
+                    organization {
+                        name = 'Infinum Inc.'
+                        url = 'https://infinum.com'
+                    }
                     developers {
                         developer {
-                            id = "reisub"
-                            name = "Dino Kovač"
-                        }
-                        developer {
-                            id = "knobtviker"
-                            name = "Bojan Komljenović"
-                            email = "bojan.komljenovic@infinum.com"
+                            id = 'Infinum'
+                            name = 'Infinum Inc.'
+                            url = 'https://infinum.com'
                         }
                     }
                     scm {
