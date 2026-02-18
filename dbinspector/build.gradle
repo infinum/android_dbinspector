@@ -5,7 +5,7 @@ plugins {
     id "kotlin-android"
     id "kotlin-parcelize"
     id "com.google.protobuf"
-    id "kover"
+    id "org.jetbrains.kotlinx.kover"
 }
 
 android {
@@ -63,35 +63,6 @@ android {
                 showCauses true
                 showStackTraces true
             }
-            
-            kover {
-                enabled = name == "testDebugUnitTest"
-                includes = [
-                        "com.infinum.dbinspector.data.sources.*",
-                        "com.infinum.dbinspector.domain.*.*UseCase*.*",
-                        "com.infinum.dbinspector.domain.*.*Repository*.*",
-                        "com.infinum.dbinspector.domain.*.*Control*.*",
-                        "com.infinum.dbinspector.domain.*.*Converter*.*",
-                        "com.infinum.dbinspector.domain.*.*Mapper*.*",
-                        "com.infinum.dbinspector.domain.*.*Interactor*.*",
-                        "com.infinum.dbinspector.ui.*.*ViewModel*.*"
-                ]
-                excludes = [
-                        "com.infinum.dbinspector.di.*",
-                        "com.infinum.dbinspector.data.shared.base.*",
-                        "com.infinum.dbinspector.domain.schema.shared.models.*",
-                        "com.infinum.dbinspector.domain.shared.base.*",
-                        "com.infinum.dbinspector.domain.shared.models.dsl.*",
-                        "com.infinum.dbinspector.ui.shared.base.*",
-                        "com.infinum.dbinspector.ui.shared.delegates.*",
-                        "com.infinum.dbinspector.ui.shared.edgefactories.*",
-                        "com.infinum.dbinspector.ui.shared.listeners.*",
-                        "com.infinum.dbinspector.ui.shared.searchable.*",
-                        "com.infinum.dbinspector.ui.shared.views.*",
-                        "com.infinum.dbinspector.extensions.*",
-                        "com.infinum.dbinspector.databinding.*"
-                ]
-            }
         }
     }
 
@@ -142,10 +113,39 @@ protobuf {
 }
 
 kover {
-    coverageEngine.set(kotlinx.kover.api.CoverageEngine.INTELLIJ)
-    intellijEngineVersion.set(libs.versions.intellij.get())
-    jacocoEngineVersion.set(libs.versions.jacoco.get())
-    generateReportOnCheck = true
+    reports {
+        filters {
+            includes {
+                classes(
+                    "com.infinum.dbinspector.data.sources.*",
+                    "com.infinum.dbinspector.domain.*.*UseCase*",
+                    "com.infinum.dbinspector.domain.*.*Repository*",
+                    "com.infinum.dbinspector.domain.*.*Control*",
+                    "com.infinum.dbinspector.domain.*.*Converter*",
+                    "com.infinum.dbinspector.domain.*.*Mapper*",
+                    "com.infinum.dbinspector.domain.*.*Interactor*",
+                    "com.infinum.dbinspector.ui.*.*ViewModel*"
+                )
+            }
+            excludes {
+                classes(
+                    "com.infinum.dbinspector.di.*",
+                    "com.infinum.dbinspector.data.shared.base.*",
+                    "com.infinum.dbinspector.domain.schema.shared.models.*",
+                    "com.infinum.dbinspector.domain.shared.base.*",
+                    "com.infinum.dbinspector.domain.shared.models.dsl.*",
+                    "com.infinum.dbinspector.ui.shared.base.*",
+                    "com.infinum.dbinspector.ui.shared.delegates.*",
+                    "com.infinum.dbinspector.ui.shared.edgefactories.*",
+                    "com.infinum.dbinspector.ui.shared.listeners.*",
+                    "com.infinum.dbinspector.ui.shared.searchable.*",
+                    "com.infinum.dbinspector.ui.shared.views.*",
+                    "com.infinum.dbinspector.extensions.*",
+                    "com.infinum.dbinspector.databinding.*"
+                )
+            }
+        }
+    }
 }
 
 tasks.withType(Test) {
