@@ -148,6 +148,20 @@ kover {
     }
 }
 
+afterEvaluate {
+    tasks.matching { it.name.startsWith("kover") && it.name.contains("Release") }.configureEach {
+        enabled = false
+    }
+
+    tasks.named("check") {
+        dependsOn("koverXmlReportDebug")
+    }
+    
+    tasks.named("testDebugUnitTest") {
+        finalizedBy("koverXmlReportDebug")
+    }
+}
+
 tasks.withType(Test) {
     useJUnitPlatform()
 }
