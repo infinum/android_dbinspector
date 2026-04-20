@@ -1,29 +1,30 @@
 [versions]
 dbinspector = "6.0.0"
-gradle = "8.13.2"
+gradle = "9.1.1"
 kotlin = "2.2.21"
 coroutines = "1.10.2"
-core = "1.17.0"
+core = "1.18.0"
 appcompat = "1.7.1"
-activity = "1.12.3"
+activity = "1.13.0"
 fragment = "1.8.9"
 lifecycle = "2.10.0"
 viewpager = "1.1.0"
-paging = "3.4.0"
+paging = "3.4.2"
 recyclerview = "1.4.0"
 startup = "1.2.0"
 swiperefresh = "1.2.0"
-datastore = "1.2.0"
+datastore = "1.2.1"
 dynamicanimation = "1.1.0"
 design = "1.13.0"
 protobuf-core = "4.33.5"
 protobuf-plugin = "0.9.6"
-koin = "4.1.1"
+koin = "4.2.1"
 detekt = "1.23.8"
-dokka = "2.1.0"
-kover = "0.9.7"
+dokka = "2.2.0"
+kover = "0.9.8"
 jacoco = "0.8.8"
 junit5 = "5.11.2"
+junit-platform = "1.11.2"
 mockk = "1.14.9"
 mockito = "5.21.0"
 mockitokotlin = "6.2.3"
@@ -37,6 +38,9 @@ tools-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradl
 
 kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-core = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
+
+junit5 = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit5" }
+junit-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit-platform" }
 
 coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
@@ -73,8 +77,6 @@ dokka = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dok
 
 kover = { module = "org.jetbrains.kotlinx:kover-gradle-plugin", version.ref = "kover" }
 
-junit5 = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit5" }
-
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
@@ -102,6 +104,7 @@ androidx = [
 
 test = [
     "junit5",
+    "junit-launcher",
     "koin-test",
     "koin-junit5",
     "mockk",

@@ -2,12 +2,10 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id "com.android.application"
-    id "kotlin-android"
 }
 
 android {
     compileSdkVersion buildConfig.compileSdk
-    buildToolsVersion buildConfig.buildTools
 
     defaultConfig {
         applicationId releaseConfig.group
