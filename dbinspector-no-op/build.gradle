@@ -2,12 +2,10 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id "com.android.library"
-    id "kotlin-android"
 }
 
 android {
     compileSdkVersion buildConfig.compileSdk
-    buildToolsVersion buildConfig.buildTools
 
     defaultConfig {
         minSdkVersion buildConfig.minSdk
@@ -22,7 +20,7 @@ android {
         }
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt"
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.txt"
         }
     }
 
