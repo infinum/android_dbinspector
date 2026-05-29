@@ -1,0 +1,34 @@
+name: Renovate
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 1,15 * *"
+
+concurrency:
+  group: renovate
+  cancel-in-progress: false
+
+permissions: {}
+
+jobs:
+  renovate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get GitHub App token
+        id: app_token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ vars.RENOVATE_APP_ID }}
+          private-key: ${{ secrets.RENOVATE_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: |
+            ${{ github.event.repository.name }}
+            android-renovate-config
+
+      - name: Run Renovate
+        uses: renovatebot/github-action@eaf12548c13069dcc28bb75c4ee4610cdbe400c5 # v44.2.6
+        with:
+          token: ${{ steps.app_token.outputs.token }}
+        env:
+          RENOVATE_REPOSITORIES: ${{ github.repository }}
