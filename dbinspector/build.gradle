@@ -65,7 +65,6 @@ android {
     }
 
     sourceSets.each {
-        it.proto.srcDirs += "src/$it.name/proto"
         it.java.srcDirs += "src/$it.name/kotlin"
     }
 
