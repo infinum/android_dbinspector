@@ -1,0 +1,22 @@
+name: Dismiss Dependabot alerts for dependencies not used in production
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"  # Monday 06:00 UTC
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        type: boolean
+        default: true
+        description: "When true, decisions are logged to the job summary but no alerts are dismissed."
+
+jobs:
+  dismiss:
+    permissions:
+      contents: read
+    uses: infinum/android-github-actions-workflows/.github/workflows/dismiss-dev-only-dependabot-alerts.yml@main
+    with:
+      dry-run: ${{ inputs.dry-run || false }}
+      client-id: ${{ vars.DEPENDABOT_DISMISSER_BOT_APP_ID }}
+    secrets:
+      app-private-key: ${{ secrets.DEPENDABOT_DISMISSER_BOT_PRIVATE_KEY }}
