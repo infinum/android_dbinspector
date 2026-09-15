@@ -27,7 +27,7 @@ jobs:
             android-renovate-config
 
       - name: Run Renovate
-        uses: renovatebot/github-action@eaf12548c13069dcc28bb75c4ee4610cdbe400c5 # v44.2.6
+        uses: renovatebot/github-action@dcfba84a42d1b5d5e49bf131b1bf53511851a123 # v46.3.1
         with:
           token: ${{ steps.app_token.outputs.token }}
         env:
