@@ -1,10 +1,12 @@
 package com.infinum.dbinspector.ui.shared.base
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.infinum.dbinspector.di.LibraryKoin
 import com.infinum.dbinspector.di.LibraryKoinComponent
 import com.infinum.dbinspector.logger.Logger
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,12 +23,21 @@ import kotlinx.coroutines.withContext
 
 internal abstract class BaseViewModel<State, Event> : ViewModel(), LibraryKoinComponent {
 
+    companion object {
+        /**
+         * Dispatcher used by [io] blocks. Tests replace it with a TestDispatcher so that
+         * IO work runs on the test scheduler instead of a real thread pool.
+         */
+        @VisibleForTesting
+        internal var ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    }
+
     private val logger: Logger? = LibraryKoin.koin().getOrNull()
 
     private val supervisorJob = SupervisorJob()
 
     protected val runningScope = viewModelScope
-    protected val runningDispatchers = Dispatchers.IO
+    protected val runningDispatchers = ioDispatcher
     private var mainDispatchers = Dispatchers.Main
 
     private val mutableStateFlow: MutableStateFlow<State?> = MutableStateFlow(value = null)
