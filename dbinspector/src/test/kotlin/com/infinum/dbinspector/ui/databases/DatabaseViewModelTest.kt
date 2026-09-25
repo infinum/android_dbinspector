@@ -9,13 +9,9 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -93,35 +89,26 @@ internal class DatabaseViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `Search database by name without result found`() {
-        // Use UnconfinedTestDispatcher to ensure dispatcher is properly initialized
-        val testDispatcher = UnconfinedTestDispatcher()
-        Dispatchers.setMain(testDispatcher)
+    fun `Search database by name without result found`() = test {
+        val useCase: UseCases.GetDatabases = get()
+        val viewModel = DatabaseViewModel(
+            useCase,
+            get(),
+            get()
+        )
 
-        try {
-            val useCase: UseCases.GetDatabases = get()
-            val viewModel = DatabaseViewModel(
-                useCase,
-                get(),
-                get()
-            )
+        coEvery { useCase.invoke(any()) } returns listOf()
 
-            coEvery { useCase.invoke(any()) } returns listOf()
+        viewModel.browse(get(), "south")
+        advanceUntilIdle()
 
-            viewModel.browse(get(), "south")
+        coVerify(exactly = 1) { useCase.invoke(any()) }
 
-            coVerify(exactly = 1) { useCase.invoke(any()) }
+        val state = viewModel.stateFlow.filterNotNull().first()
+        assertTrue(state is DatabaseState.Databases)
+        assertTrue(state.databases.isEmpty())
 
-            blockingTest {
-                val state = viewModel.stateFlow.filterNotNull().first()
-                assertTrue(state is DatabaseState.Databases)
-                assertTrue(state.databases.isEmpty())
-
-                assertNull(viewModel.errorFlow.value)
-            }
-        } finally {
-            Dispatchers.resetMain()
-        }
+        assertNull(viewModel.errorFlow.value)
     }
 
     @Test
@@ -237,78 +224,60 @@ internal class DatabaseViewModelTest : BaseTest() {
 //    }
 
     @Test
-    fun `Copy database successful`() {
-        // Use UnconfinedTestDispatcher for this test to handle nested launches
-        val testDispatcher = UnconfinedTestDispatcher()
-        Dispatchers.setMain(testDispatcher)
+    fun `Copy database successful`() = test {
+        val getUseCase: UseCases.GetDatabases = get()
+        val copyUseCase: UseCases.CopyDatabase = get()
+        val viewModel = DatabaseViewModel(
+            getUseCase,
+            get(),
+            copyUseCase
+        )
 
-        try {
-            val getUseCase: UseCases.GetDatabases = get()
-            val copyUseCase: UseCases.CopyDatabase = get()
-            val viewModel = DatabaseViewModel(
-                getUseCase,
-                get(),
-                copyUseCase
-            )
+        coEvery { getUseCase.invoke(any()) } returns listOf(
+            mockk { every { name } returns "blog" },
+            mockk { every { name } returns "blog_1" }
+        )
+        coEvery { copyUseCase.invoke(any()) } returns listOf(
+            mockk { every { name } returns "blog_1" }
+        )
 
-            coEvery { getUseCase.invoke(any()) } returns listOf(
-                mockk { every { name } returns "blog" },
-                mockk { every { name } returns "blog_1" }
-            )
-            coEvery { copyUseCase.invoke(any()) } returns listOf(
-                mockk { every { name } returns "blog_1" }
-            )
+        viewModel.copy(get(), mockk())
+        advanceUntilIdle()
 
-            viewModel.copy(get(), mockk())
+        coVerify(exactly = 1) { copyUseCase.invoke(any()) }
+        coVerify(exactly = 1) { getUseCase.invoke(any()) }
 
-            coVerify(exactly = 1) { copyUseCase.invoke(any()) }
-            coVerify(exactly = 1) { getUseCase.invoke(any()) }
+        val state = viewModel.stateFlow.filterNotNull().first()
+        assertTrue(state is DatabaseState.Databases)
+        assertTrue(state.databases.count() == 2)
+        assertTrue(state.databases[0].name == "blog")
+        assertTrue(state.databases[1].name == "blog_1")
 
-            blockingTest {
-                val state = viewModel.stateFlow.filterNotNull().first()
-                assertTrue(state is DatabaseState.Databases)
-                assertTrue(state.databases.count() == 2)
-                assertTrue(state.databases[0].name == "blog")
-                assertTrue(state.databases[1].name == "blog_1")
-
-                assertNull(viewModel.errorFlow.value)
-            }
-        } finally {
-            Dispatchers.resetMain()
-        }
+        assertNull(viewModel.errorFlow.value)
     }
 
     @Test
-    fun `Copy database failed`() {
-        // Use UnconfinedTestDispatcher for this test to handle nested launches
-        val testDispatcher = UnconfinedTestDispatcher()
-        Dispatchers.setMain(testDispatcher)
+    fun `Copy database failed`() = test {
+        val getUseCase: UseCases.GetDatabases = get()
+        val copyUseCase: UseCases.CopyDatabase = get()
+        val viewModel = DatabaseViewModel(
+            getUseCase,
+            get(),
+            copyUseCase
+        )
 
-        try {
-            val getUseCase: UseCases.GetDatabases = get()
-            val copyUseCase: UseCases.CopyDatabase = get()
-            val viewModel = DatabaseViewModel(
-                getUseCase,
-                get(),
-                copyUseCase
-            )
+        coEvery { copyUseCase.invoke(any()) } returns listOf()
 
-            coEvery { copyUseCase.invoke(any()) } returns listOf()
+        viewModel.copy(get(), mockk())
+        advanceUntilIdle()
 
-            viewModel.copy(get(), mockk())
+        coVerify(exactly = 1) { copyUseCase.invoke(any()) }
+        coVerify(exactly = 0) { getUseCase.invoke(any()) }
 
-            coVerify(exactly = 1) { copyUseCase.invoke(any()) }
-            coVerify(exactly = 0) { getUseCase.invoke(any()) }
+        assertNull(viewModel.stateFlow.value)
 
-            assertNull(viewModel.stateFlow.value)
-
-            blockingTest {
-                val error = viewModel.errorFlow.filterNotNull().first()
-                assertNotNull(error.message)
-                assertTrue(error.stackTrace.isNotEmpty())
-            }
-        } finally {
-            Dispatchers.resetMain()
-        }
+        val error = viewModel.errorFlow.filterNotNull().first()
+        assertNotNull(error.message)
+        assertTrue(error.stackTrace.isNotEmpty())
     }
 }
